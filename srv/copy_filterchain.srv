@@ -1,0 +1,11 @@
+# Create a new filtechain in a list, copied from a another one
+string filterchain_to_copy
+
+string filterchain_new_name
+
+---
+
+uint8 SUCCESS = 1
+uint8 FAIL = 0
+# boolean, 1 success, 0 fail.
+uint8 success

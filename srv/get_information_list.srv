@@ -1,0 +1,19 @@
+# Provide an interface to list different object of the server
+
+#return the execution list
+uint8 EXEC = 1
+
+#return the media list
+uint8 MEDIA = 2
+
+#return the filterchain list
+uint8 FILTERCHAIN = 3
+
+#return the filter list
+uint8 FILTERS = 4
+
+uint8 cmd
+
+---
+
+string list

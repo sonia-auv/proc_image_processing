@@ -1,0 +1,18 @@
+#Command to start/stop DetectionTask
+
+uint8 START = 1
+uint8 STOP = 2
+
+
+string node_name
+
+string filterchain_name
+
+string media_name
+
+#the defined up there.
+uint8 cmd
+
+---
+
+string response

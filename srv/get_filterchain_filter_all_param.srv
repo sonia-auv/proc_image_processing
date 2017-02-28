@@ -1,0 +1,15 @@
+# Returns a list of parameter for a filter
+
+# Exec to get params from (might be different from those in xml)
+string exec_name
+
+# Filterchain, if exec null, to get params from
+string filterchain
+
+# Filter which hold those parameters
+string filter
+
+---
+
+# form: paramName1,type,val;paramNam2...
+string list

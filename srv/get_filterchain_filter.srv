@@ -1,0 +1,11 @@
+# Provide the list of filter on an execution or a filterchain
+# Give list for an execution
+string exec_name
+
+# Give list for a register filterchain if
+# no exec provided
+string filterchain
+
+---
+
+string list

@@ -1,0 +1,16 @@
+# Tells the filter which filter output to show.
+# Concerned execution
+string execution
+
+# Filterchain, if exec null, to get params from
+string filterchain
+
+# Filter to see
+string filter
+
+---
+
+uint8 result
+
+uint8 SUCCESS = 1
+uint8 FAIL = 0

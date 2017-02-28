@@ -1,0 +1,16 @@
+# Service to add/remove filterchain
+# Delete will fail if exec running on it.
+
+uint8 ADD = 1
+uint8 DELETE = 2
+
+string filterchain
+
+uint8 cmd
+
+---
+
+uint8 SUCCESS = 1
+uint8 FAIL = 0
+# boolean, 1 success, 0 fail.
+uint8 success

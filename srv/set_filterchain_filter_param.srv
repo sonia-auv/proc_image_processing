@@ -1,0 +1,23 @@
+# set the value of a parameter
+
+# DetectionTask to get value from
+string exec_name
+
+# Fitlerchain to get value from if no exec_name
+string filterchain
+
+# filter in which the param wanted is.
+string filter
+
+# the parameter concerned
+string parameter
+
+#the value to set
+string value
+
+--- 
+
+uint8 SUCCESS = 1
+uint8 FAIL = 0
+# boolean, 1 success, 0 fail.
+uint8 success

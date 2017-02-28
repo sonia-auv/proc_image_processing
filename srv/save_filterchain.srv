@@ -1,0 +1,20 @@
+# service to order saving or restoring of the filterchain param
+# and it's filters' param
+
+uint8 SAVE = 1
+uint8 RESTORE = 2
+
+string exec_name
+
+# if exec_name does not exist
+string filterchain
+
+uint8 cmd
+
+---
+
+uint8 SUCCESS = 1
+uint8 FAIL = 0
+# boolean, 1 success, 0 fail.
+uint8 success
+

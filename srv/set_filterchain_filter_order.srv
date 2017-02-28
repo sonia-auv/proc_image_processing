@@ -1,0 +1,22 @@
+# Enables moving filter up or down in a filterchain
+
+uint8 UP = 1
+uint8 DOWN = 2
+
+string exec_name
+
+# if no exec_name
+string filterchain
+
+# Index of the filter chain to move
+uint8 filter_index
+
+# Send int to define up or down movement
+uint8 cmd
+
+---
+
+uint8 SUCCESS = 1
+uint8 FAIL = 0
+# boolean, 1 success, 0 fail.
+uint8 success
