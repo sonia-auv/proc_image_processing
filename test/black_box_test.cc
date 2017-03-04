@@ -8,6 +8,10 @@
 #include <ros/ros.h>
 #include <thread>
 #include "lib_atlas/ros/image_publisher.h"
+#include "lib_atlas/ros/service_client_manager.h"
+#include "proc_image_processing/server/vision_server.h"
+#include "proc_image_processing/config.h"
+
 ros::NodeHandle *nhp;
 
 class ImagePulishingThread
@@ -56,27 +60,87 @@ private:
     image_transport::ImageTransport it_;
 };
 
+
+void VisionServerThread()
+{
+    proc_image_processing::VisionServer visionServer(*nhp);
+
+    while (ros::ok()) {
+        usleep(20000);
+        ros::spinOnce();
+    }
+
+}
+
+
 TEST(BlackBoxTest, test) {
 
+    std::thread vsthd (&VisionServerThread);
+
+    std::string base_node_name = proc_image_processing::kRosNodeName;
+    std::string exec_cmd_name = base_node_name + std::string("execute_cmd");
+    std::string list_name = base_node_name + std::string("get_information_list");
+    std::string media_exec_name = base_node_name + std::string("get_media_from_execution");
+    ros::ServiceClient execute_service = nhp->serviceClient<proc_image_processing::execute_cmd>(exec_cmd_name);
+    ros::ServiceClient list_service = nhp->serviceClient<proc_image_processing::get_information_list>(list_name);
+    ros::ServiceClient media_service = nhp->serviceClient<proc_image_processing::get_media_from_execution>(media_exec_name);
+
     ImagePulishingThread thread_1("/provider_camera/test1"), thread_2("/provider_camera/test2");
-    ros::master::V_TopicInfo info;
-    ros::master::getTopics(info);
-    std::vector<std::string> image_topic;
 
-    for(auto i : info)
-    {
-        std::cout << i.name << " " << i.datatype << std::endl;
-        if( i.datatype.find("sensor_msgs/Image") != -1)
-        {
-            image_topic.push_back(i.name);
-        }
-    }
+    // Make sure the feed are seen by the system
+    proc_image_processing::get_information_listRequest informationListRequest;
+    proc_image_processing::get_information_listResponse informationListResponse;
+    informationListRequest.cmd = informationListRequest.MEDIA;
+    list_service.call(informationListRequest, informationListResponse);
 
-    for( auto tmp : image_topic)
-    {
-        std::cout << tmp << std::endl;
-    }
-    while(1);
+    ASSERT_NE(informationListResponse.list.find("/provider_camera/test1"), -1);
+    ASSERT_NE(informationListResponse.list.find("/provider_camera/test2"), -1);
+
+    // Start an execution
+    proc_image_processing::execute_cmdRequest executeCmdRequest;
+    proc_image_processing::execute_cmdResponse executeCmdResponse;
+    executeCmdRequest.cmd = executeCmdRequest.START;
+    executeCmdRequest.media_name = "/provider_camera/test1";
+    executeCmdRequest.node_name = "Testouille1";
+    executeCmdRequest.filterchain_name = "simple_buoy_green";
+    execute_service.call(executeCmdRequest, executeCmdResponse);
+    ASSERT_NE(executeCmdResponse.response.find("Testouille1"), -1);
+
+    // Try to start an exceution with same name
+    execute_service.call(executeCmdRequest, executeCmdResponse);
+    ASSERT_EQ(executeCmdResponse.response.find("Testouille1"), -1);
+
+
+    // Start another execution
+    executeCmdRequest.media_name = "/provider_camera/test2";
+    executeCmdRequest.node_name = "Testouille2";
+    execute_service.call(executeCmdRequest, executeCmdResponse);
+    ASSERT_NE(executeCmdResponse.response.find("Testouille2"), -1);
+
+    informationListRequest.cmd = informationListRequest.EXEC;
+    list_service.call(informationListRequest, informationListResponse);
+
+    ASSERT_NE(informationListResponse.list.find("Testouille1"), -1);
+    ASSERT_NE(informationListResponse.list.find("Testouille2"), -1);
+
+    // end an execution
+    executeCmdRequest.cmd = executeCmdRequest.STOP;
+    executeCmdRequest.media_name = "/provider_camera/test";
+    executeCmdRequest.node_name = "Testouille1";
+    execute_service.call(executeCmdRequest, executeCmdResponse);
+
+    informationListRequest.cmd = informationListRequest.EXEC;
+    list_service.call(informationListRequest, informationListResponse);
+
+    ASSERT_EQ(informationListResponse.list.find("Testouille1"), -1);
+    ASSERT_NE(informationListResponse.list.find("Testouille2"), -1);
+
+    // Try to end it again
+    execute_service.call(executeCmdRequest, executeCmdResponse);
+
+    // test as much as you want here...
+    sleep(3600);
+
 }
 
 int main(int argc, char **argv) {

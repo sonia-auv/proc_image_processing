@@ -1,0 +1,36 @@
+name: auv6_mission_test_filterchain
+filters:
+  - name: TestFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: X
+        value: 0
+      - name: Y
+        value: 0
+      - name: Width
+        value: 197
+      - name: Height
+        value: 200
+      - name: Angle
+        value: 0
+      - name: Header
+        value: test
+      - name: SpecialField_1
+        value: sf1
+      - name: SpecialField_2
+        value: sf2
+  - name: Scharr
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Convert_to_uchar
+        value: 1
+      - name: use_pixel_intensity_correction
+        value: 0
+      - name: Delta
+        value: 0.000000
+      - name: Scale
+        value: 1.000000
+      - name: pixel_correction_power
+        value: 1.000000

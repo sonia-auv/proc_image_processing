@@ -148,14 +148,19 @@ namespace proc_image_processing {
 //
     std::vector<std::string> DetectionTaskManager::GetAllMediasName() const
     {
-        ros::master::V_TopicInfo master_topics;
-        ros::master::getTopics(master_topics);
 
-        for (ros::master::V_TopicInfo::iterator it = master_topics.begin() ; it != master_topics.end(); it++) {
-            const ros::master::TopicInfo& info = *it;
-            std::cout << "topic_" << it - master_topics.begin() << ": " << info.name << "\t" << info.datatype << std::endl;
+        ros::master::V_TopicInfo info;
+        ros::master::getTopics(info);
+        std::vector<std::string> image_topic;
+
+        for(auto i : info)
+        {
+            if( i.datatype.find("sensor_msgs/Image") != -1)
+            {
+                image_topic.push_back(i.name);
+            }
         }
-    return std::vector<std::string>();
+    return image_topic;
     }
 
 

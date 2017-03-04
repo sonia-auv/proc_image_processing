@@ -112,7 +112,11 @@ bool VisionServer::CallbackExecutionCMD(execute_cmd::Request &rqst,
     } catch (const std::exception &e) {
       ROS_ERROR("Starting execution error: %s", e.what());
       rep.response = "";
-      return false;
+      // WHAAATTT IT FAILED BUT YOU RETURN TRUE!?!?!?
+      // If we return false, ROS consider the call failed and do not update the response field,
+      // so if you reuse the same variable (like in black_box_test.cc, it does not get updated.
+      // Here the call did not fail, we simply deny the service.
+      return true;
     }
   } else if (rqst.cmd == rqst.STOP) {
     try {
