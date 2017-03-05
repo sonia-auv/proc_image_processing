@@ -7,11 +7,12 @@ class LabelMeObjectAnnotation:
     def __init__(self, object):
         self.name = object.find('name').text
         self.occluded = object.find('occluded').text.find('yes') != -1
-        self.type = object.find('type').text
+        #self.type = object.find('type').text
         self.polygon_points = []
         for pt in object.find('polygon').findall('pt'):
             self.polygon_points.append([int(pt.find('x').text),
                                        int(pt.find('y').text)])
+
 
 class LabelMeImageAnnotation:
     def __init__(self, root):
