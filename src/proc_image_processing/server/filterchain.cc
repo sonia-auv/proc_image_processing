@@ -154,7 +154,7 @@ void Filterchain::ExecuteFilterChain(cv::Mat &image) {
       }
     } catch (cv::Exception &e)
     {
-      ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s",name_, e.what());
+      ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s",name_.c_str(), e.what());
     };
   }
 }

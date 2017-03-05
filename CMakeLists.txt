@@ -21,10 +21,10 @@ endif (NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -Wall -Wno-unknown-pragmas")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3 -s -Wno-unknown-pragmas")
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+#list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+#list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 
 set(proc_image_processing_SRC_DIR "src")
 
@@ -47,7 +47,7 @@ file(GLOB srv_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/srv/"
     "${CMAKE_CURRENT_SOURCE_DIR}/srv/*.srv")
 add_service_files(DIRECTORY srv FILES ${srv_files})
 
-file(GLOB msg_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/srv/" 
+file(GLOB msg_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/srv/"
     "${CMAKE_CURRENT_SOURCE_DIR}/msg/*.msg")
 add_message_files(DIRECTORY msg FILES ${msg_files})
 
@@ -77,7 +77,6 @@ file(GLOB_RECURSE proc_image_processing_FILES
 
 list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc)
 
-message("${proc_image_processing_FILES}")
 include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_image_processing_SRC_DIR}
@@ -94,6 +93,8 @@ target_link_libraries(proc_image_processing_node
     ${OpenCV_LIBRARIES}
     yaml-cpp
 )
+add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_generate_messages_cpp)
+
 
 #============================================================================
 # U N I T   T E S T S

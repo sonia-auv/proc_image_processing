@@ -155,7 +155,7 @@ namespace proc_image_processing {
 
         for(auto i : info)
         {
-            if( i.datatype.find("sensor_msgs/Image") != -1)
+            if( i.datatype.find("sensor_msgs/Image") != std::string::npos)
             {
                 image_topic.push_back(i.name);
             }
