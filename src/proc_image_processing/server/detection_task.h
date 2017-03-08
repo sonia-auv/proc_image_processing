@@ -101,16 +101,9 @@ namespace proc_image_processing {
 
         std::string detection_task_name_;
         std::string topic_name_;
-        /**
-         * The publisher we use to send the filtered images on the ROS pipeline.
-         *
-         * We don't use the image transport provided publisher because we
-         * extended the functionnalities of this one to be able to use the observer
-         * pattern on the pubisher. The publisher is an observer and can be
-         * attached to, for exemple, a subject that stream the content of a video
-         * file.
-         */
-        atlas::ImagePublisher image_publisher_;
+
+      image_transport::Publisher image_publisher_;
+        image_transport::ImageTransport it_;
 
         /**
          * This publisher will send the result of the image processing of the
@@ -135,7 +128,7 @@ namespace proc_image_processing {
 
         cv::Mat image_being_processed_;
 
-        bool returning_orinal_image_;
+        bool returning_original_image_;
     };
 
 //==============================================================================
