@@ -1,0 +1,6 @@
+<launch>
+	<node name="proc_image_processing" pkg="proc_image_processing" type="proc_image_processing_node" output="screen">
+
+  </node>
+
+</launch>
