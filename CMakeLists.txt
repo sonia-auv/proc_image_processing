@@ -39,6 +39,7 @@ find_package(catkin REQUIRED COMPONENTS
     cv_bridge
     roslaunch
     lib_atlas
+    pcl_ros
     )
 
 # CMake does not detect new file when globbing.
@@ -66,6 +67,7 @@ catkin_package(
     cv_bridge
     roslaunch
     lib_atlas
+    pcl_ros
 )
 
 #===============================================================================
@@ -81,6 +83,7 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_image_processing_SRC_DIR}
     ${lib_atlas_INCLUDE_DIRS}
+    ${pcl_ros_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
 )
 #===============================================================================
@@ -90,6 +93,7 @@ add_executable(${PROJECT_NAME}_node ${proc_image_processing_SRC_DIR}/${PROJECT_N
 target_link_libraries(proc_image_processing_node
     ${catkin_LIBRARIES}
     ${lib_atlas_LIBRARIES}
+    ${pcl_ros_LIBRARIES}
     ${OpenCV_LIBRARIES}
     yaml-cpp
 )

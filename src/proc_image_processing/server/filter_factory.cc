@@ -100,6 +100,8 @@ Filter *FilterFactory::createInstance(const std::string &name,
     return new ImageCropper(globalParams);
   } else if (name == "GateFinder") {
     return new GateFinder(globalParams);
+  } else if (name == "RemoveMask") {
+    return new RemoveMask(globalParams);
   } else {
     return nullptr;
   }
@@ -114,7 +116,7 @@ std::string FilterFactory::GetFilterList() {
          "DeloreanDetector;SubmarineFrameMasker;InRange;ConvexHull;"
          "TorpedoesDetector;Laplacian;Canny;HoughLine;AdaptiveThreshold;"
          "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
-         "BackgroundSubstract;ImageCropper;GateFinder";
+         "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask";
 }
 
 }  // namespace proc_image_processing

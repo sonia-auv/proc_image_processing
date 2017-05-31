@@ -15,15 +15,15 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 1
+        value: 10
   - name: Blurr
     parameters:
       - name: Enable
         value: 1
       - name: Type
-        value: 1
+        value: 2
       - name: Kernel_size
-        value: 3
+        value: 5
   - name: Threshold
     parameters:
       - name: Enable
@@ -41,17 +41,9 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Iteration
-        value: 1
+        value: 2
       - name: Kernel_size
-        value: 5
-  - name: ConvexHull
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Mode
-        value: 0
-      - name: Method
-        value: 0
+        value: 3
   - name: Morphology
     parameters:
       - name: Enable
@@ -61,23 +53,9 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Iteration
-        value: 1
+        value: 6
       - name: Kernel_size
         value: 5
-  - name: Dilate
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 5
-      - name: Height
-        value: 5
-      - name: Iteration
-        value: 1
   - name: Threshold
     parameters:
       - name: Enable
