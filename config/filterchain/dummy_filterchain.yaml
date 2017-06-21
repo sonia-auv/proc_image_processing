@@ -1,4 +1,4 @@
-name: camera_feed
+name: dummy_filterchain
 filters:
   - name: Rotate
     parameters:
@@ -7,16 +7,16 @@ filters:
       - name: transpose
         value: 0
       - name: Rotation_type
-        value: 3
+        value: 1
   - name: ImageCropper
     parameters:
       - name: Enable
         value: 1
       - name: X Offset
-        value: 321
+        value: 381
       - name: Y Offset
-        value: 0
+        value: 60
       - name: X Reduction
-        value: 281
+        value: 400
       - name: Y Reduction
-        value: 0
+        value: 80
