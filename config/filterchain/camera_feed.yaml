@@ -3,7 +3,7 @@ filters:
   - name: Rotate
     parameters:
       - name: enable
-        value: 1
+        value: 0
       - name: transpose
         value: 0
       - name: Rotation_type
@@ -20,3 +20,5 @@ filters:
         value: 281
       - name: Y Reduction
         value: 0
+      - name: Kernel_size
+        value: 3
