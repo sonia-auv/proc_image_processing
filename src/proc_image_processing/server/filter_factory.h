@@ -46,6 +46,7 @@
 #include <proc_image_processing/filters/pipe_detector.h>
 #include <proc_image_processing/filters/rotate.h>
 #include <proc_image_processing/filters/remove_mask.h>
+#include <proc_image_processing/filters/hsv_threshold.h>
 #include <proc_image_processing/filters/schar_adding.h>
 #include <proc_image_processing/filters/scharr.h>
 #include <proc_image_processing/filters/sobel.h>

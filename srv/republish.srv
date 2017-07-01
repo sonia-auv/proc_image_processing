@@ -1,0 +1,12 @@
+#Command to start/stop DetectionTask
+
+uint8 START = 1
+uint8 STOP = 2
+
+
+string topic_name
+
+#the defined up there.
+uint8 cmd
+
+---

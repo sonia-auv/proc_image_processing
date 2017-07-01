@@ -78,6 +78,7 @@ file(GLOB_RECURSE proc_image_processing_FILES
     "${proc_image_processing_SRC_DIR}/*.h")
 
 list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc)
+list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc)
 
 include_directories(
     ${catkin_INCLUDE_DIRS}
@@ -91,13 +92,24 @@ include_directories(
 
 add_executable(${PROJECT_NAME}_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_image_processing_FILES})
 target_link_libraries(proc_image_processing_node
-    ${catkin_LIBRARIES}
-    ${lib_atlas_LIBRARIES}
-    ${pcl_ros_LIBRARIES}
-    ${OpenCV_LIBRARIES}
-    yaml-cpp
-)
+        ${catkin_LIBRARIES}
+        ${lib_atlas_LIBRARIES}
+        ${pcl_ros_LIBRARIES}
+        ${OpenCV_LIBRARIES}
+        yaml-cpp
+        )
 add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_generate_messages_cpp)
+
+
+add_executable(republisher_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc ${proc_image_processing_FILES})
+target_link_libraries(republisher_node
+        ${catkin_LIBRARIES}
+        ${lib_atlas_LIBRARIES}
+        ${pcl_ros_LIBRARIES}
+        ${OpenCV_LIBRARIES}
+        yaml-cpp
+        )
+add_dependencies(republisher_node ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_generate_messages_cpp)
 
 
 #============================================================================
