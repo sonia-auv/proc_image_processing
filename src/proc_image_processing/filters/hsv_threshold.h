@@ -41,17 +41,17 @@ class HSVThreshold : public Filter {
   explicit HSVThreshold(const GlobalParamHandler &globalParams)
       : Filter(globalParams),
         enable_("enable", false, &parameters_),
-        hue_min_("Hue Min", 0, 0, 255, &parameters_,
+        hue_min_("Hue Min", 0, 0, 256, &parameters_,
                  "Minimum Hue to threshold. Keep values higher or equal to this value."),
-        hue_max_("Hue Max", 255, 0, 255, &parameters_,
+        hue_max_("Hue Max", 255, 0, 256, &parameters_,
                  "Maximum Hue to threshold. Keep values lower or equal to this value."),
-        saturation_min_("saturation Min", 0, 0, 255, &parameters_,
+        saturation_min_("saturation Min", 0, 0, 256, &parameters_,
                  "Minimum saturation to threshold. Keep values higher or equal to this value."),
-        saturation_max_("saturation Max", 255, 0, 255, &parameters_,
+        saturation_max_("saturation Max", 255, 0, 256, &parameters_,
                  "Maximum saturation to threshold. Keep values lower or equal to this value."),
-        value_min_("value Min", 0, 0, 255, &parameters_,
+        value_min_("value Min", 0, 0, 256, &parameters_,
                  "Minimum value to threshold. Keep values higher or equal to this value."),
-        value_max_("value Max", 255, 0, 255, &parameters_,
+        value_max_("value Max", 255, 0, 256, &parameters_,
                  "Maximum value to threshold. Keep values lower or equal to this value."),
         rows_(0),
         cols_(0) {
@@ -88,10 +88,10 @@ class HSVThreshold : public Filter {
         set_image(H_INDEX, hue);
         set_image(S_INDEX, saturation);
         set_image(V_INDEX, value);
-
-      cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
-      cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
-      cv::bitwise_and(hue_res1, hue_res2, hue_res);
+      cv::inRange(hue,cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
+      //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
+      //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
+      //cv::bitwise_and(hue_res1, hue_res2, hue_res);
       cv::inRange(saturation,cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
       cv::inRange(value,cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
 

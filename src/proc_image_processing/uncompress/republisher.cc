@@ -38,52 +38,68 @@
 #include <proc_image_processing/republish.h>
 #include <cstdlib>
 
-
-image_transport::Subscriber sub;
-typedef image_transport::PublisherPlugin Plugin;
-boost::shared_ptr<Plugin> pub;
-bool republish(proc_image_processing::republish::Request &req,
-               proc_image_processing::republish::Response &res)
+class Images
 {
-  if(sub != NULL)
-    sub.shutdown();
+  public:
 
-  ros::NodeHandle nh_;
-  image_transport::ImageTransport it(nh_);
+      ros::ServiceServer service;
+      ros::NodeHandle nh_;
+      image_transport::ImageTransport it_;
+      image_transport::Subscriber sub;
+      image_transport::Publisher pub;
+      uint last_seq;
 
-  // Load transport plugin
-  pluginlib::ClassLoader<Plugin> loader("image_transport", "image_transport::PublisherPlugin");
-  std::string in_transport = "compressed";
-  std::string lookup_name = Plugin::getLookupName("raw");
-  char * val;
-  val = std::getenv("ROS_IP");
-  std::string ip_address = "";
-  if(val == NULL){
-    ip_address = "127.0.0.1";
+    void imageCallback(const sensor_msgs::ImageConstPtr& msg)
+    {
+      if(last_seq < msg->header.seq)
+      {
+        last_seq = msg->header.seq;
+        pub.publish(msg);
+      }
+    }
+      Images(ros::NodeHandle nh):nh_(), it_(nh_)
+      {
+        service = nh_.advertiseService("image_republisher_node/republish", &Images::republish, this);
+      }
+
+
+
+
+  bool republish(proc_image_processing::republish::Request &req,
+                 proc_image_processing::republish::Response &res)
+  {
+    if(sub != NULL)
+    {
+      sub.shutdown();
+      pub.shutdown();
+    }
+
+    // Load transport plugin
+    std::string in_transport = "compressed";
+    char * val;
+    val = std::getenv("ROS_IP");
+    std::string ip_address = "";
+    if(val == NULL){
+      ip_address = "127.0.0.1";
+    }
+    else {
+      ip_address = std::string(val);
+    }
+    boost::replace_all(ip_address, ".", "");
+    pub = it_.advertise(req.topic_name + "_" + ip_address, 1);
+
+    // Use PublisherPlugin::publish as the subscriber callback
+    sub = it_.subscribe(req.topic_name, 1, &Images::imageCallback, this, in_transport);
+    return true;
   }
-  else {
-    ip_address = std::string(val);
-  }
-  boost::replace_all(ip_address, ".", "");
-  pub = boost::shared_ptr<Plugin>( loader.createInstance(lookup_name) );
-  pub->advertise(nh_, req.topic_name +"_"+ ip_address, 1, image_transport::SubscriberStatusCallback(),
-                 image_transport::SubscriberStatusCallback(), ros::VoidPtr(), false);
 
-  // Use PublisherPlugin::publish as the subscriber callback
-  typedef void (Plugin::*PublishMemFn)(const sensor_msgs::ImageConstPtr&) const;
-  PublishMemFn pub_mem_fn = &Plugin::publish;
-  sub = it.subscribe(req.topic_name, 1, boost::bind(pub_mem_fn, pub.get(), _1), pub,in_transport);
-  return true;
-}
+};
 
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "image_republisher_node");
-    ros::NodeHandle nh_;
-    ros::ServiceServer service;
-    image_transport::ImageTransport it(nh_);
-    nh_ = ros::NodeHandle();
-    service = nh_.advertiseService("image_republisher_node/republish", republish);
+    ros::NodeHandle nh;
+    Images image(nh);
     ros::spin();
 
     return 0;
