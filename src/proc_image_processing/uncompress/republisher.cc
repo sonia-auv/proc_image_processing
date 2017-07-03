@@ -97,7 +97,17 @@ class Images
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "image_republisher_node");
+    char * val;
+    val = std::getenv("ROS_IP");
+    std::string ip_address = "";
+    if(val == NULL){
+      ip_address = "127.0.0.1";
+    }
+    else {
+      ip_address = std::string(val);
+    }
+    boost::replace_all(ip_address, ".", "");
+    ros::init(argc, argv, "image_republisher_node_" + ip_address);
     ros::NodeHandle nh;
     Images image(nh);
     ros::spin();
