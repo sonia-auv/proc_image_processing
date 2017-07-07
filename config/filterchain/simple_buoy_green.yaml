@@ -3,11 +3,19 @@ filters:
   - name: Rotate
     parameters:
       - name: enable
-        value: 1
+        value: 0
       - name: transpose
         value: 0
       - name: Rotation_type
         value: 3
+  - name: ContrastBrightness
+    parameters:
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 5.000000
+      - name: Brightness
+        value: -60.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -25,11 +33,15 @@ filters:
       - name: Invert_plane_3
         value: 0
       - name: Weight_Plane_1
-        value: 1.000000
+        value: 1.100000
       - name: Weight_Plane_2
         value: 1.200000
       - name: Weight_Plane_3
         value: 1.000000
+  - name: Equalize
+    parameters:
+      - name: enable
+        value: 0
   - name: Blurr
     parameters:
       - name: Enable
@@ -56,6 +68,18 @@ filters:
         value: 0
       - name: Max_value
         value: 26
+  - name: Morphology
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Morphology_type
+        value: 3
+      - name: Kernel_type
+        value: 0
+      - name: Iteration
+        value: 2
+      - name: Kernel_size
+        value: 3
   - name: Erode
     parameters:
       - name: Enable

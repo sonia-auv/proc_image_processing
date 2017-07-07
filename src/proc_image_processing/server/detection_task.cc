@@ -193,6 +193,8 @@ bool DetectionTask::PrepareImageForPublishing(cv::Mat &image)
   if (image.channels() == 1) {
     cv::cvtColor(image, image,CV_GRAY2BGR);
   }
+
+  cv::resize(image,image,cv::Size(600,400));
   return true;
 }
 
