@@ -3,7 +3,7 @@ filters:
   - name: Rotate
     parameters:
       - name: enable
-        value: 1
+        value: 0
       - name: transpose
         value: 0
       - name: Rotation_type
@@ -21,31 +21,55 @@ filters:
       - name: Enable
         value: 1
       - name: NB_of_images
-        value: 5
+        value: 3
       - name: Method_to_use
         value: 0
+  - name: ContrastBrightness
+    parameters:
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 4.000000
+      - name: Brightness
+        value: -76.000000
+  - name: HSVThreshold
+    parameters:
+      - name: enable
+        value: 1
+      - name: Hue Min
+        value: 80
+      - name: Hue Max
+        value: 185
+      - name: saturation Min
+        value: 41
+      - name: saturation Max
+        value: 195
+      - name: value Min
+        value: 39
+      - name: value Max
+        value: 96
   - name: SubtractAllPlanes
     parameters:
       - name: enable
         value: 1
       - name: Plane_1
-        value: 2
+        value: 4
       - name: Plane_2
         value: 1
       - name: Plane_3
-        value: 1
+        value: 5
       - name: Invert_plane_1
-        value: 0
+        value: 1
       - name: Invert_plane_2
         value: 0
       - name: Invert_plane_3
         value: 0
       - name: Weight_Plane_1
-        value: 1.000000
+        value: 2.000000
       - name: Weight_Plane_2
         value: 1.000000
       - name: Weight_Plane_3
-        value: 1.000000
+        value: 2.000000
   - name: Threshold
     parameters:
       - name: Enable
@@ -54,6 +78,18 @@ filters:
         value: 0
       - name: Max_value
         value: 39
+  - name: Morphology
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Morphology_type
+        value: 3
+      - name: Kernel_type
+        value: 0
+      - name: Iteration
+        value: 2
+      - name: Kernel_size
+        value: 3
   - name: Erode
     parameters:
       - name: Enable
