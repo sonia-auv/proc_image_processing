@@ -22,7 +22,17 @@ public:
        it_(ros::NodeHandle("~")),
        image_id_(0)
   {
-    subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::ImageCallback, this);
+    std::string compressed = "/compressed";
+
+    if(topic_name.compare(topic_name.length() - compressed.length(), compressed.length(),compressed) == 0){
+      image_transport::TransportHints hint("compressed");
+      subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()),50, &ImageProvider::ImageCallback, this,hint);
+    }
+    else{
+      subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::ImageCallback, this);
+
+    }
+
   }
 
   void ImageCallback(const sensor_msgs::ImageConstPtr& msg)
