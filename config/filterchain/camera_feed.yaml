@@ -20,5 +20,3 @@ filters:
         value: 281
       - name: Y Reduction
         value: 0
-      - name: Kernel_size
-        value: 3

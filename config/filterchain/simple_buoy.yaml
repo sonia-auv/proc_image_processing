@@ -3,7 +3,7 @@ filters:
   - name: Rotate
     parameters:
       - name: enable
-        value: 1
+        value: 0
       - name: transpose
         value: 0
       - name: Rotation_type
@@ -11,7 +11,7 @@ filters:
   - name: ImageCropper
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: X Offset
         value: 231
       - name: Y Offset
@@ -67,7 +67,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 10
+        value: 50
   - name: Erode
     parameters:
       - name: Enable
@@ -109,9 +109,9 @@ filters:
       - name: Offset Y for fence fraction
         value: 0.300000
       - name: 0. Check max y
-        value: 0
+        value: 1
       - name: 0. Maximum y coordinate
-        value: 410.000000
+        value: 210.000000
       - name: "1. Min_area : red"
         value: 40.000000
       - name: "2. disable_ratio_check : blue"

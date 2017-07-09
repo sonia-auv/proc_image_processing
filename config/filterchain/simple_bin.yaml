@@ -1,4 +1,4 @@
-name: simple_pipe
+name: simple_bin
 filters:
   - name: Rotate
     parameters:

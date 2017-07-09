@@ -8,3 +8,19 @@ filters:
         value: 0
       - name: Rotation_type
         value: 0
+  - name: HSVThreshold
+    parameters:
+      - name: enable
+        value: 1
+      - name: Hue Min
+        value: 90
+      - name: Hue Max
+        value: 145
+      - name: saturation Min
+        value: 10
+      - name: saturation Max
+        value: 57
+      - name: value Min
+        value: 0
+      - name: value Max
+        value: 36

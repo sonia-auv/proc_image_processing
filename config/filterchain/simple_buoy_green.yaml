@@ -13,7 +13,7 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 5.000000
+        value: 4.000000
       - name: Brightness
         value: -60.000000
   - name: SubtractAllPlanes
@@ -33,11 +33,11 @@ filters:
       - name: Invert_plane_3
         value: 0
       - name: Weight_Plane_1
-        value: 1.100000
+        value: 2.100000
       - name: Weight_Plane_2
         value: 1.200000
       - name: Weight_Plane_3
-        value: 1.000000
+        value: 2.300000
   - name: Equalize
     parameters:
       - name: enable
@@ -121,7 +121,7 @@ filters:
       - name: Offset Y for fence fraction
         value: 0.300000
       - name: 0. Check max y
-        value: 1
+        value: 0
       - name: 0. Maximum y coordinate
         value: 200.000000
       - name: "1. Min_area : red"
@@ -161,8 +161,8 @@ filters:
       - name: ID
         value: buoy
       - name: spec1
-        value: red
+        value: green
       - name: spec2
-        value: blue
+        value: green
       - name: Contour_retreval
         value: 0
