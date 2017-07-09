@@ -73,6 +73,11 @@ class ObjectFinder : public Filter {
         eliminate_same_x_targets_("5. Eliminate_same_x", false, &parameters_),
         max_x_difference_for_elimination_("5. Min_x_difference", 50.0f, 0.0f,
                                           1000.0f, &parameters_),
+        check_min_size_("6. check_min_size_", false, &parameters_),
+        min_height_("6.1 min_height", 50.0f, 0.0f,
+                    10000.0f, &parameters_),
+        min_width_("6.2 min_width", 50.0f, 0.0f,
+                    10000.0f, &parameters_),
         vote_most_centered_("Vote_most_centered", false, &parameters_),
         vote_most_upright_("Vote_most_upright", false, &parameters_),
         vote_less_difference_from_targeted_ratio_(
@@ -145,6 +150,11 @@ class ObjectFinder : public Filter {
         //
 
         if (object->GetCenter().y < max_y_() && check_max_y_()) {
+          continue;
+        }
+
+        if(check_min_size_() && (object->GetRotatedRect().size.width < min_width_() || object->GetRotatedRect().size.height < min_height_()))
+        {
           continue;
         }
 
@@ -366,9 +376,12 @@ class ObjectFinder : public Filter {
 
   RangedParameter<double> targeted_angle_, difference_from_target_angle_;
 
-  Parameter<bool> eliminate_same_x_targets_;
+    Parameter<bool> eliminate_same_x_targets_;
 
-  RangedParameter<double> max_x_difference_for_elimination_;
+    RangedParameter<double> max_x_difference_for_elimination_;
+    Parameter<bool> check_min_size_;
+
+    RangedParameter<double> min_height_, min_width_;
 
   Parameter<bool> vote_most_centered_, vote_most_upright_,
       vote_less_difference_from_targeted_ratio_, vote_length_, vote_higher_,
