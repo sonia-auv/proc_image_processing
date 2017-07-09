@@ -101,7 +101,7 @@ Filter *FilterFactory::createInstance(const std::string &name,
   } else if (name == "GateFinder") {
     return new GateFinder(globalParams);
   } else if (name == "RemoveMask") {
-    return new GateFinder(globalParams);
+    return new RemoveMask(globalParams);
   } else if (name == "Equalize") {
     return new Equalize(globalParams);
   } else if (name == "HSVThreshold") {
