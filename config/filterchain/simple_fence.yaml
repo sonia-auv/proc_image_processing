@@ -25,33 +25,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 4.000000
+        value: 2.100000
       - name: Brightness
-        value: -100.000000
-  - name: ContrastBrightness
-    parameters:
-      - name: enable
-        value: 1
-      - name: Contrast
-        value: 1.000000
-      - name: Brightness
-        value: -15.000000
-  - name: Blurr
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Type
-        value: 2
-      - name: Kernel_size
-        value: 3
-  - name: ImageAccumulator
-    parameters:
-      - name: Enable
-        value: 0
-      - name: NB_of_images
-        value: 2
-      - name: Method_to_use
-        value: 0
+        value: -20.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -71,69 +47,31 @@ filters:
       - name: Weight_Plane_1
         value: 2.100000
       - name: Weight_Plane_2
-        value: 2.200000
-      - name: Weight_Plane_3
         value: 2.000000
-  - name: Threshold
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Threshold_type
-        value: 0
-      - name: Max_value
-        value: 55
-  - name: RemoveMask
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Type
-        value: 2
-      - name: Kernel_size
-        value: 1
-  - name: SubtractAllPlanes
-    parameters:
-      - name: enable
-        value: 0
-      - name: Plane_1
-        value: 3
-      - name: Plane_2
-        value: 1
-      - name: Plane_3
-        value: 0
-      - name: Invert_plane_1
-        value: 1
-      - name: Invert_plane_2
-        value: 0
-      - name: Invert_plane_3
-        value: 0
-      - name: Weight_Plane_1
-        value: 1.000000
-      - name: Weight_Plane_2
-        value: 3.100000
       - name: Weight_Plane_3
         value: 1.000000
   - name: Threshold
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 6
+        value: 66
   - name: Dilate
     parameters:
       - name: Enable
         value: 1
       - name: Square_kernel
-        value: 0
+        value: 1
       - name: Kernel_type
-        value: 2
+        value: 0
       - name: Width
         value: 4
       - name: Height
         value: 6
       - name: Iteration
-        value: 2
+        value: 1
   - name: Morphology
     parameters:
       - name: Enable
@@ -179,7 +117,7 @@ filters:
       - name: Debug_contour
         value: 1
       - name: Use_convex_hull
-        value: 1
+        value: 0
       - name: Offset Y for fence
         value: 1
       - name: Offset Y for fence fraction
@@ -189,15 +127,15 @@ filters:
       - name: 0. Maximum y coordinate
         value: 100.000000
       - name: "1. Min_area : red"
-        value: 100.000000
+        value: 200.000000
       - name: "2. disable_ratio_check : blue"
         value: 0
       - name: 2. Ratio_target
-        value: 0.200000
+        value: 0.100000
       - name: 2. Diff_from_ratio_target
-        value: 0.300000
+        value: 0.200000
       - name: "3. Min_percent_filled : yellow"
-        value: 6.000000
+        value: 20.000000
       - name: "4.1 Look_for_Rectangle : green"
         value: 0
       - name: "4.2 disable_angle_check : green"
@@ -207,9 +145,15 @@ filters:
       - name: 4.2 Diff_from_angle_target
         value: 20.000000
       - name: 5. Eliminate_same_x
-        value: 0
+        value: 1
       - name: 5. Min_x_difference
-        value: 50.000000
+        value: 10.000000
+      - name: 6. check_min_size_
+        value: 1
+      - name: 6.1 min_height
+        value: 400.000000
+      - name: 6.2 min_width
+        value: 0.000000
       - name: Vote_most_centered
         value: 1
       - name: Vote_most_upright
@@ -217,16 +161,16 @@ filters:
       - name: Vote_less_diff_from_target_ratio
         value: 1
       - name: Vote_length
-        value: 1
+        value: 0
       - name: Vote_higher
-        value: 1
+        value: 0
       - name: Vote most horizontal
         value: 1
       - name: ID
         value: fence
       - name: spec1
-        value: yellow
+        value: fence
       - name: spec2
-        value: yellow
+        value: fence
       - name: Contour_retreval
         value: 0
