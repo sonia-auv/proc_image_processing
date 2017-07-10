@@ -1,5 +1,17 @@
 name: simple_fence
 filters:
+  - name: ImageCropper
+    parameters:
+      - name: Enable
+        value: 1
+      - name: X Offset
+        value: 0
+      - name: Y Offset
+        value: 0
+      - name: X Reduction
+        value: 0
+      - name: Y Reduction
+        value: 0
   - name: Rotate
     parameters:
       - name: enable
@@ -117,9 +129,9 @@ filters:
       - name: Kernel_type
         value: 2
       - name: Width
-        value: 5
+        value: 4
       - name: Height
-        value: 9
+        value: 6
       - name: Iteration
         value: 2
   - name: Morphology
@@ -145,7 +157,7 @@ filters:
       - name: Iteration
         value: 2
       - name: Kernel_size
-        value: 7
+        value: 3
   - name: Erode
     parameters:
       - name: Enable
@@ -171,11 +183,11 @@ filters:
       - name: Offset Y for fence
         value: 1
       - name: Offset Y for fence fraction
-        value: 0.300000
+        value: 0.400000
       - name: 0. Check max y
-        value: 0
+        value: 1
       - name: 0. Maximum y coordinate
-        value: 95.000000
+        value: 100.000000
       - name: "1. Min_area : red"
         value: 100.000000
       - name: "2. disable_ratio_check : blue"
