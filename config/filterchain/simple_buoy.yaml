@@ -20,26 +20,50 @@ filters:
         value: 245
       - name: Y Reduction
         value: 17
-  - name: SubtractAllPlanes
+  - name: ContrastBrightness
     parameters:
       - name: enable
         value: 1
-      - name: Plane_1
-        value: 3
-      - name: Plane_2
-        value: 5
-      - name: Plane_3
-        value: 4
-      - name: Invert_plane_1
-        value: 0
-      - name: Invert_plane_2
+      - name: Contrast
+        value: 3.000000
+      - name: Brightness
+        value: -69.000000
+  - name: HSVThreshold
+    parameters:
+      - name: enable
         value: 1
+      - name: Hue Min
+        value: 10
+      - name: Hue Max
+        value: 196
+      - name: saturation Min
+        value: 40
+      - name: saturation Max
+        value: 145
+      - name: value Min
+        value: 60
+      - name: value Max
+        value: 165
+  - name: SubtractAllPlanes
+    parameters:
+      - name: enable
+        value: 0
+      - name: Plane_1
+        value: 5
+      - name: Plane_2
+        value: 0
+      - name: Plane_3
+        value: 0
+      - name: Invert_plane_1
+        value: 1
+      - name: Invert_plane_2
+        value: 0
       - name: Invert_plane_3
         value: 0
       - name: Weight_Plane_1
-        value: 8.000000
-      - name: Weight_Plane_2
         value: 2.000000
+      - name: Weight_Plane_2
+        value: 1.000000
       - name: Weight_Plane_3
         value: 1.000000
   - name: Blurr
@@ -47,9 +71,9 @@ filters:
       - name: Enable
         value: 1
       - name: Type
-        value: 2
+        value: 3
       - name: Kernel_size
-        value: 1
+        value: 3
   - name: StatsThreshold
     parameters:
       - name: Enable
@@ -111,15 +135,15 @@ filters:
       - name: 0. Check max y
         value: 1
       - name: 0. Maximum y coordinate
-        value: 210.000000
+        value: 160.000000
       - name: "1. Min_area : red"
-        value: 40.000000
+        value: 130.000000
       - name: "2. disable_ratio_check : blue"
         value: 0
       - name: 2. Ratio_target
         value: 1.000000
       - name: 2. Diff_from_ratio_target
-        value: 1.000000
+        value: 0.200000
       - name: "3. Min_percent_filled : yellow"
         value: 40.000000
       - name: "4.1 Look_for_Rectangle : green"
@@ -134,6 +158,12 @@ filters:
         value: 0
       - name: 5. Min_x_difference
         value: 51.000000
+      - name: 6. check_min_size_
+        value: 0
+      - name: 6.1 min_height
+        value: 50.000000
+      - name: 6.2 min_width
+        value: 50.000000
       - name: Vote_most_centered
         value: 1
       - name: Vote_most_upright
