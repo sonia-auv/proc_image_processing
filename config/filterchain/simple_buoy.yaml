@@ -115,9 +115,9 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 3
+        value: 7
       - name: Height
-        value: 3
+        value: 7
       - name: Iteration
         value: 1
   - name: ObjectFinder
@@ -137,15 +137,15 @@ filters:
       - name: 0. Maximum y coordinate
         value: 160.000000
       - name: "1. Min_area : red"
-        value: 130.000000
+        value: 350.000000
       - name: "2. disable_ratio_check : blue"
         value: 0
       - name: 2. Ratio_target
         value: 1.000000
       - name: 2. Diff_from_ratio_target
-        value: 0.200000
+        value: 0.400000
       - name: "3. Min_percent_filled : yellow"
-        value: 40.000000
+        value: 20.000000
       - name: "4.1 Look_for_Rectangle : green"
         value: 0
       - name: "4.2 disable_angle_check : green"
