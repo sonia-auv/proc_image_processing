@@ -137,9 +137,9 @@ filters:
       - name: 2. Ratio_target
         value: 0.100000
       - name: 2. Diff_from_ratio_target
-        value: 0.200000
+        value: 0.300000
       - name: "3. Min_percent_filled : yellow"
-        value: 51.000000
+        value: 10.000000
       - name: "4.1 Look_for_Rectangle : green"
         value: 0
       - name: "4.2 disable_angle_check : green"
@@ -147,7 +147,7 @@ filters:
       - name: 4.2 angle_target
         value: 0.000000
       - name: 4.2 Diff_from_angle_target
-        value: 50.000000
+        value: 70.000000
       - name: 5. Eliminate_same_x
         value: 0
       - name: 5. Min_x_difference

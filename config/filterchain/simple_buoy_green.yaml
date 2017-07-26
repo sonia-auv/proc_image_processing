@@ -13,9 +13,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 4.000000
+        value: 2.000000
       - name: Brightness
-        value: -60.000000
+        value: -90.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -145,6 +145,12 @@ filters:
       - name: 5. Eliminate_same_x
         value: 1
       - name: 5. Min_x_difference
+        value: 50.000000
+      - name: 6. check_min_size_
+        value: 0
+      - name: 6.1 min_height
+        value: 50.000000
+      - name: 6.2 min_width
         value: 50.000000
       - name: Vote_most_centered
         value: 0
