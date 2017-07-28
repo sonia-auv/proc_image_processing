@@ -64,6 +64,8 @@ class ObjectFinder : public Filter {
                                       1.0f, &parameters_),
         min_percent_filled_("3. Min_percent_filled : yellow", 50, 0, 100,
                             &parameters_),
+        max_percent_filled_("3.1 Max_percent_filled : yellow", 100, 0, 100,
+                            &parameters_),
         look_for_rectangle_("4.1 Look_for_Rectangle : green", false,
                             &parameters_),
         disable_angle_("4.2 disable_angle_check : green", false, &parameters_),
@@ -73,6 +75,7 @@ class ObjectFinder : public Filter {
         eliminate_same_x_targets_("5. Eliminate_same_x", false, &parameters_),
         max_x_difference_for_elimination_("5. Min_x_difference", 50.0f, 0.0f,
                                           1000.0f, &parameters_),
+        check_center_is_black_("6. check_center_is_black_", false, &parameters_),
         check_min_size_("6. check_min_size_", false, &parameters_),
         min_height_("6.1 min_height", 50.0f, 0.0f,
                     10000.0f, &parameters_),
@@ -174,6 +177,10 @@ class ObjectFinder : public Filter {
                                   fabs(difference_from_target_ratio_()))) {
           continue;
         }
+        if(check_center_is_black_() && object->GetOriginalImage().at<uchar>(object->GetCenter().y, object->GetCenter().x) != (uchar)0)
+        {
+          continue;
+        }
         if (debug_contour_()) {
           cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
         }
@@ -187,6 +194,10 @@ class ObjectFinder : public Filter {
         if ((percent_filled) < min_percent_filled_()) {
           continue;
         }
+        if ((percent_filled) > max_percent_filled_()) {
+          continue;
+        }
+
         if (debug_contour_()) {
           cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 2);
         }
@@ -362,7 +373,7 @@ class ObjectFinder : public Filter {
 
   RangedParameter<double> offset_y_for_fence_fraction;
 
-  Parameter<bool> check_max_y_;
+  Parameter<bool> check_max_y_,check_center_is_black_;
 
   RangedParameter<double> max_y_,
   min_area_;
@@ -370,7 +381,7 @@ class ObjectFinder : public Filter {
   Parameter<bool> disable_ratio_;
 
   RangedParameter<double> targeted_ratio_,
-      difference_from_target_ratio_, min_percent_filled_;
+      difference_from_target_ratio_, min_percent_filled_, max_percent_filled_;
 
   Parameter<bool> look_for_rectangle_, disable_angle_;
 
