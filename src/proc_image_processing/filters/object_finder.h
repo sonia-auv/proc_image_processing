@@ -76,6 +76,7 @@ class ObjectFinder : public Filter {
         max_x_difference_for_elimination_("5. Min_x_difference", 50.0f, 0.0f,
                                           1000.0f, &parameters_),
         check_center_is_black_("6. check_center_is_black_", false, &parameters_),
+        check_center_is_white_("6. check_center_is_white_", false, &parameters_),
         check_min_size_("6. check_min_size_", false, &parameters_),
         min_height_("6.1 min_height", 50.0f, 0.0f,
                     10000.0f, &parameters_),
@@ -178,6 +179,10 @@ class ObjectFinder : public Filter {
           continue;
         }
         if(check_center_is_black_() && object->GetOriginalImage().at<uchar>(object->GetCenter().y, object->GetCenter().x) != (uchar)0)
+        {
+          continue;
+        }
+        if(check_center_is_white_() && object->GetOriginalImage().at<uchar>(object->GetCenter().y, object->GetCenter().x) != (uchar)255)
         {
           continue;
         }
@@ -373,7 +378,7 @@ class ObjectFinder : public Filter {
 
   RangedParameter<double> offset_y_for_fence_fraction;
 
-  Parameter<bool> check_max_y_,check_center_is_black_;
+  Parameter<bool> check_max_y_,check_center_is_black_,check_center_is_white_;
 
   RangedParameter<double> max_y_,
   min_area_;
