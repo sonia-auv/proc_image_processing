@@ -8,6 +8,14 @@ filters:
         value: 0
       - name: Rotation_type
         value: 3
+  - name: ContrastBrightness
+    parameters:
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 1.200000
+      - name: Brightness
+        value: -100.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -25,7 +33,7 @@ filters:
       - name: Invert_plane_3
         value: 0
       - name: Weight_Plane_1
-        value: 1.200000
+        value: 4.000000
       - name: Weight_Plane_2
         value: 1.500000
       - name: Weight_Plane_3
@@ -133,13 +141,13 @@ filters:
       - name: "2. disable_ratio_check : blue"
         value: 0
       - name: 2. Ratio_target
-        value: 0.500000
+        value: 1.000000
       - name: 2. Diff_from_ratio_target
         value: 0.300000
       - name: "3. Min_percent_filled : yellow"
         value: 11.000000
       - name: "3.1 Max_percent_filled : yellow"
-        value: 65.000000
+        value: 100.000000
       - name: "4.1 Look_for_Rectangle : green"
         value: 0
       - name: "4.2 disable_angle_check : green"
@@ -155,11 +163,11 @@ filters:
       - name: 6. check_min_size_
         value: 1
       - name: 6.1 min_height
-        value: 90.000000
+        value: 150.000000
       - name: 6.2 min_width
-        value: 90.000000
+        value: 150.000000
       - name: Vote_most_centered
-        value: 0
+        value: 1
       - name: Vote_most_upright
         value: 1
       - name: Vote_less_diff_from_target_ratio

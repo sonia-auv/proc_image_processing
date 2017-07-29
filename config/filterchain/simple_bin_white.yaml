@@ -8,14 +8,22 @@ filters:
         value: 0
       - name: Rotation_type
         value: 3
+  - name: ContrastBrightness
+    parameters:
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 1.500000
+      - name: Brightness
+        value: -180.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
         value: 1
       - name: Plane_1
-        value: 3
+        value: 1
       - name: Plane_2
-        value: 5
+        value: 3
       - name: Plane_3
         value: 0
       - name: Invert_plane_1
@@ -25,9 +33,9 @@ filters:
       - name: Invert_plane_3
         value: 0
       - name: Weight_Plane_1
-        value: 1.200000
+        value: 4.000000
       - name: Weight_Plane_2
-        value: 1.500000
+        value: 0.400000
       - name: Weight_Plane_3
         value: 1.000000
   - name: Blurr
@@ -55,13 +63,13 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 163
+        value: 130
   - name: Morphology
     parameters:
       - name: Enable
         value: 1
       - name: Morphology_type
-        value: 3
+        value: 4
       - name: Kernel_type
         value: 0
       - name: Iteration
@@ -73,7 +81,7 @@ filters:
       - name: Enable
         value: 1
       - name: Morphology_type
-        value: 4
+        value: 3
       - name: Kernel_type
         value: 0
       - name: Iteration
@@ -97,7 +105,7 @@ filters:
   - name: Dilate
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -124,14 +132,16 @@ filters:
         value: 0
       - name: 6. check_center_is_black_
         value: 1
+      - name: 6. check_center_is_white_
+        value: 0
       - name: 0. Maximum y coordinate
         value: 0.000000
       - name: "1. Min_area : red"
-        value: 1110.000000
+        value: 4030.000000
       - name: "2. disable_ratio_check : blue"
         value: 0
       - name: 2. Ratio_target
-        value: 0.500000
+        value: 0.600000
       - name: 2. Diff_from_ratio_target
         value: 0.300000
       - name: "3. Min_percent_filled : yellow"
@@ -153,13 +163,13 @@ filters:
       - name: 6. check_min_size_
         value: 1
       - name: 6.1 min_height
-        value: 90.000000
+        value: 80.000000
       - name: 6.2 min_width
-        value: 90.000000
+        value: 60.000000
       - name: Vote_most_centered
-        value: 0
-      - name: Vote_most_upright
         value: 1
+      - name: Vote_most_upright
+        value: 0
       - name: Vote_less_diff_from_target_ratio
         value: 1
       - name: Vote_length
