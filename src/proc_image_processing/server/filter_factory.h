@@ -63,6 +63,8 @@
 #include <proc_image_processing/filters/white_noise_takedown.h>
 #include <proc_image_processing/filters/image_cropper.h>
 #include <proc_image_processing/filters/gate_finder.h>
+#include <proc_image_processing/filters/square_detection.h>
+#include <proc_image_processing/filters/white_filter.h>
 #include <memory>
 #include <string>
 
