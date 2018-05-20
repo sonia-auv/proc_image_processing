@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <memory>
 #include <opencv2/imgproc.hpp>
+#include <eigen3/Eigen/Eigen>
 
 namespace proc_image_processing {
 
@@ -48,12 +49,16 @@ class Line {
   // Debug
   void Draw(cv::Mat &img, cv::Scalar color);
 
-  // Getters
+  cv::Point PerpendicularLine();
+
+    // Getters
   cv::Point GetCenter();
 
   cv::Point GetStart();
 
   cv::Point GetEnd();
+
+  std::vector<cv::Point> GenerateLine(cv::Mat &img);
 
   float GetAngle();
 
@@ -74,6 +79,7 @@ class Line {
   float angle_;
 
   float length_;
+  bool  isSwap_;
 };
 
 bool lengthSort(Line a, Line b);

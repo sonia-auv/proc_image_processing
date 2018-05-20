@@ -23,6 +23,7 @@
 #include <proc_image_processing/algorithm/general_function.h>
 #include <proc_image_processing/algorithm/object_full_data.h>
 #include <proc_image_processing/algorithm/performance_evaluator.h>
+#include <proc_image_processing/algorithm/line.h>
 #include <proc_image_processing/filters/filter.h>
 #include <proc_image_processing/server/target.h>
 #include <memory>
@@ -55,6 +56,7 @@ class PipeDetector : public Filter {
 
   virtual void Execute(cv::Mat &image) {
     if (enable_()) {
+      intersectionPoint_.clear();
       if (debug_contour_()) {
         image.copyTo(output_image_);
         if (output_image_.channels() == 1) {
@@ -84,7 +86,82 @@ class PipeDetector : public Filter {
           continue;
         }
         if (debug_contour_()) {
-          cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+          cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+          cv::Vec4d line;
+          int cols =  output_image_.cols;
+          //int rows =  output_image_.rows;
+          cv::fitLine(contours[i], line, cv::DIST_L2, 0, 0.01 , 0.01);
+
+          int lefty = int((-line[2] * line[1] / line[0]) + line[3]);
+          int righty = int(((cols - line[2]) * line[1] / line[0]) + line[3]);
+
+          cv::Point p1;
+          cv::Point p2;
+
+          p1.x = cols-1;
+          p1.y = righty;
+          p2.x = 0;
+          p2.y = lefty;
+
+          Line line1(p1, p2);
+
+          cv::Point2f vector = line1.PerpendicularLine();
+
+          p1 = object->GetCenter();
+          p2 = vector + object->GetCenter();
+
+          cv::Point2f doubleVector = -(p2 - p1);
+
+          cv::Point start = doubleVector + object->GetCenter();
+          cv::Point end   = vector + object->GetCenter();
+
+          Line line2(start, end);
+
+          std::vector<cv::Point> perpendicularLine = line2.GenerateLine(output_image_);
+
+          std::vector<std::tuple<cv::Point, int>> intersectionPoint;
+
+          for (cv::Point &linePoint : perpendicularLine)
+          {
+            for (int id = 0; id < contours[i].size(); id++)
+            {
+              if (std::abs(cv::norm(linePoint - contours[i][id])) < 20)
+              {
+                std::tuple<cv::Point, int> data = std::make_tuple(contours[i][id], id);
+                intersectionPoint.push_back(data);
+              }
+            }
+          }
+              bool oneTime = false;
+              for (std::tuple<cv::Point, int> &pointAndId1 : intersectionPoint)
+              {
+                  for (std::tuple<cv::Point, int> &pointAndId2 : intersectionPoint) {
+                      int id1 = std::get<1>(pointAndId1);
+                      int id2 = std::get<1>(pointAndId2);
+                      if (std::abs(id2 - id1) >= 10 && !oneTime)
+                      {
+                          intersectionPoint_.push_back(pointAndId2);
+                          intersectionPoint_.push_back(pointAndId1);
+                          oneTime = true;
+                      }
+
+                  }
+              }
+
+            for (std::tuple<cv::Point, int> &point : intersectionPoint_)
+            {
+                cv::circle(output_image_, std::get<0>(point), 3,
+                           CV_RGB(255, 0, 0), 3);
+            }
+
+
+//          std::vector<std::vector<cv::Point>> realLine;
+//          realLine.push_back(perpendicularLine);
+//
+//          line2.Draw(output_image_, CV_RGB(0, 255, 0));
+//          cv::drawContours(output_image_, realLine, 0, CV_RGB(255, 0, 0), 2);
+//          line1.Draw(output_image_, cv::Scalar(255, 0, 0));
+
         }
 
         //
@@ -92,9 +169,6 @@ class PipeDetector : public Filter {
         //
         if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
           continue;
-        }
-        if (debug_contour_()) {
-          cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
         }
 
         objVec.push_back(object);
@@ -117,8 +191,11 @@ class PipeDetector : public Filter {
         if (debug_contour_()) {
           cv::circle(output_image_, objVec[0]->GetCenter(), 3,
                      CV_RGB(0, 255, 0), 3);
+
         }
+
       }
+
       if (debug_contour_()) {
         output_image_.copyTo(image);
       }
@@ -132,6 +209,8 @@ class PipeDetector : public Filter {
   cv::Mat output_image_;
 
   Parameter<bool> enable_, debug_contour_, look_for_rectangle_;
+
+  std::vector<std::tuple<cv::Point, int>> intersectionPoint_;
 
   RangedParameter<double> min_area_;
 };
