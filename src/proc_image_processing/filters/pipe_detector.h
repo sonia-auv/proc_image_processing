@@ -148,11 +148,68 @@ class PipeDetector : public Filter {
                   }
               }
 
-            for (std::tuple<cv::Point, int> &point : intersectionPoint_)
-            {
-                cv::circle(output_image_, std::get<0>(point), 3,
-                           CV_RGB(255, 0, 0), 3);
-            }
+          std::vector<int> firstContourId;
+          std::vector<int> lastContourId;
+
+          int idMax = std::max(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
+          int idMin = std::min(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
+
+
+           for (int idLastContour = idMin; idLastContour <= idMax; idLastContour++)
+           {
+               lastContourId.push_back(idLastContour);
+           }
+
+          int contourSize = (int)contours[i].size();
+          while (idMax != idMin)
+          {
+              if (idMax > (contourSize - 1))
+              {
+                  idMax = idMax - contourSize;
+              } else
+              {
+                  firstContourId.push_back(idMax);
+                  idMax++;
+              }
+          }
+
+
+          std::vector<cv::Point> firstContour;
+          std::vector<cv::Point> lastContour;
+
+          for (int &id : firstContourId)
+          {
+              firstContour.push_back(contours[i][id]);
+          }
+
+          for (int &id : lastContourId)
+          {
+              lastContour.push_back(contours[i][id]);
+          }
+
+            ObjectFullData::Ptr firstObject =
+                    std::make_shared<ObjectFullData>(originalImage, image, firstContour);
+
+            ObjectFullData::Ptr lastObject =
+                    std::make_shared<ObjectFullData>(originalImage, image, lastContour);
+
+            cv::circle(output_image_, lastObject->GetCenter(), 3,
+                       CV_RGB(255, 0, 0), 3);
+
+            cv::circle(output_image_, firstObject->GetCenter(), 3,
+                       CV_RGB(0, 0, 255), 3);
+
+
+
+          std::vector<std::vector<cv::Point>> coooooo;
+            coooooo.push_back(firstContour);
+            cv::drawContours(output_image_, coooooo, 0, CV_RGB(0, 0, 255), 2);
+
+//            for (std::tuple<cv::Point, int> &point : intersectionPoint_)
+//            {
+//                cv::circle(output_image_, std::get<0>(point), 3,
+//                           CV_RGB(255, 0, 0), 3);
+//            }
 
 
 //          std::vector<std::vector<cv::Point>> realLine;
