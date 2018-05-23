@@ -119,7 +119,7 @@ class PipeDetector : public Filter {
             for (std::tuple<cv::Point, int> &pointAndId2 : intersectionPoint) {
                 int id1 = std::get<1>(pointAndId1);
                 int id2 = std::get<1>(pointAndId2);
-                if (std::abs(id2 - id1) >= realContour.size() / 2 && !oneTime)
+                if (std::abs(id2 - id1) >= (float)realContour.size() / 2 && !oneTime)
                 {
                     intersectionPoint_.push_back(pointAndId2);
                     intersectionPoint_.push_back(pointAndId1);
