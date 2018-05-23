@@ -42,10 +42,12 @@ class PipeDetector : public Filter {
 
   explicit PipeDetector(const GlobalParamHandler &globalParams)
       : Filter(globalParams),
+        angle_(0.0f),
         enable_("Enable", false, &parameters_),
         debug_contour_("Debug_contour", false, &parameters_),
         look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-        min_area_("Min_area", 200, 0, 10000, &parameters_) {
+        min_area_("Min_area", 200, 0, 10000, &parameters_),
+        min_pixel_("Min_pixel", 0, 20, 100, &parameters_){
     SetName("PipeDetector");
   }
 
@@ -73,9 +75,14 @@ class PipeDetector : public Filter {
       contourList_t contours;
       RetrieveOuterContours(image, contours);
       ObjectFullData::FullObjectPtrVec objVec;
+      ObjectFullData::Ptr firstObject = nullptr;
+      ObjectFullData::Ptr lastObject  = nullptr;
       for (int i = 0, size = contours.size(); i < size; i++) {
         ObjectFullData::Ptr object =
             std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+
+        std::vector<cv::Point> realContour = contours[i];
+
         if (object.get() == nullptr) {
           continue;
         }
@@ -85,140 +92,92 @@ class PipeDetector : public Filter {
         if (object->GetArea() < min_area_()) {
           continue;
         }
-        if (debug_contour_()) {
-          cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-          cv::Vec4d line;
-          int cols =  output_image_.cols;
-          //int rows =  output_image_.rows;
-          cv::fitLine(contours[i], line, cv::DIST_L2, 0, 0.01 , 0.01);
 
-          int lefty = int((-line[2] * line[1] / line[0]) + line[3]);
-          int righty = int(((cols - line[2]) * line[1] / line[0]) + line[3]);
+        Line lineFit = FitLineOnPolygone(contours[i], output_image_.cols);
 
-          cv::Point p1;
-          cv::Point p2;
+        Line linePer = GetPerpendicularLine(lineFit, object->GetCenter());
 
-          p1.x = cols-1;
-          p1.y = righty;
-          p2.x = 0;
-          p2.y = lefty;
+        std::vector<cv::Point> perpendicularLine = linePer.GenerateLine(output_image_);
 
-          Line line1(p1, p2);
+        std::vector<std::tuple<cv::Point, int>> intersectionPoint;
 
-          cv::Point2f vector = line1.PerpendicularLine();
-
-          p1 = object->GetCenter();
-          p2 = vector + object->GetCenter();
-
-          cv::Point2f doubleVector = -(p2 - p1);
-
-          cv::Point start = doubleVector + object->GetCenter();
-          cv::Point end   = vector + object->GetCenter();
-
-          Line line2(start, end);
-
-          std::vector<cv::Point> perpendicularLine = line2.GenerateLine(output_image_);
-
-          std::vector<std::tuple<cv::Point, int>> intersectionPoint;
-
-          for (cv::Point &linePoint : perpendicularLine)
-          {
-            for (int id = 0; id < contours[i].size(); id++)
+        for (cv::Point &linePoint : perpendicularLine)
+        {
+            for (size_t id = 0; id < realContour.size(); id++)
             {
-              if (std::abs(cv::norm(linePoint - contours[i][id])) < 20)
-              {
-                std::tuple<cv::Point, int> data = std::make_tuple(contours[i][id], id);
-                intersectionPoint.push_back(data);
-              }
+                if (std::abs(cv::norm(linePoint - realContour[id])) < min_pixel_())
+                {
+                    std::tuple<cv::Point, int> data = std::make_tuple(realContour[id], id);
+                    intersectionPoint.push_back(data);
+                }
             }
-          }
-              bool oneTime = false;
-              for (std::tuple<cv::Point, int> &pointAndId1 : intersectionPoint)
-              {
-                  for (std::tuple<cv::Point, int> &pointAndId2 : intersectionPoint) {
-                      int id1 = std::get<1>(pointAndId1);
-                      int id2 = std::get<1>(pointAndId2);
-                      if (std::abs(id2 - id1) >= 10 && !oneTime)
-                      {
-                          intersectionPoint_.push_back(pointAndId2);
-                          intersectionPoint_.push_back(pointAndId1);
-                          oneTime = true;
-                      }
+        }
 
-                  }
-              }
+        bool oneTime = false;
+        for (std::tuple<cv::Point, int> &pointAndId1 : intersectionPoint)
+        {
+            for (std::tuple<cv::Point, int> &pointAndId2 : intersectionPoint) {
+                int id1 = std::get<1>(pointAndId1);
+                int id2 = std::get<1>(pointAndId2);
+                if (std::abs(id2 - id1) >= realContour.size() / 2 && !oneTime)
+                {
+                    intersectionPoint_.push_back(pointAndId2);
+                    intersectionPoint_.push_back(pointAndId1);
+                    oneTime = true;
+                }
 
-          std::vector<int> firstContourId;
-          std::vector<int> lastContourId;
+            }
+        }
 
-          int idMax = std::max(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
-          int idMin = std::min(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
+        std::vector<int> firstContourId;
+        std::vector<int> lastContourId;
 
-
-           for (int idLastContour = idMin; idLastContour <= idMax; idLastContour++)
-           {
-               lastContourId.push_back(idLastContour);
-           }
-
-          int contourSize = (int)contours[i].size();
-          while (idMax != idMin)
-          {
-              if (idMax > (contourSize - 1))
-              {
-                  idMax = idMax - contourSize;
-              } else
-              {
-                  firstContourId.push_back(idMax);
-                  idMax++;
-              }
-          }
+        if (intersectionPoint_.size() == 2)
+        {
+            int idMax = std::max(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
+            int idMin = std::min(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
 
 
-          std::vector<cv::Point> firstContour;
-          std::vector<cv::Point> lastContour;
+            for (int idLastContour = idMin; idLastContour <= idMax; idLastContour++)
+            {
+                lastContourId.push_back(idLastContour);
+            }
 
-          for (int &id : firstContourId)
-          {
-              firstContour.push_back(contours[i][id]);
-          }
-
-          for (int &id : lastContourId)
-          {
-              lastContour.push_back(contours[i][id]);
-          }
-
-            ObjectFullData::Ptr firstObject =
-                    std::make_shared<ObjectFullData>(originalImage, image, firstContour);
-
-            ObjectFullData::Ptr lastObject =
-                    std::make_shared<ObjectFullData>(originalImage, image, lastContour);
-
-            cv::circle(output_image_, lastObject->GetCenter(), 3,
-                       CV_RGB(255, 0, 0), 3);
-
-            cv::circle(output_image_, firstObject->GetCenter(), 3,
-                       CV_RGB(0, 0, 255), 3);
+            int contourSize = (int)contours[i].size();
+            while (idMax != idMin)
+            {
+                if (idMax > (contourSize - 1))
+                {
+                    idMax = idMax - contourSize;
+                } else
+                {
+                    firstContourId.push_back(idMax);
+                    idMax++;
+                }
+            }
 
 
+            std::vector<cv::Point> firstContour;
+            std::vector<cv::Point> lastContour;
 
-          std::vector<std::vector<cv::Point>> coooooo;
-            coooooo.push_back(firstContour);
-            cv::drawContours(output_image_, coooooo, 0, CV_RGB(0, 0, 255), 2);
+            for (int &id : firstContourId)
+            {
+                firstContour.push_back(realContour[id]);
+            }
 
-//            for (std::tuple<cv::Point, int> &point : intersectionPoint_)
-//            {
-//                cv::circle(output_image_, std::get<0>(point), 3,
-//                           CV_RGB(255, 0, 0), 3);
-//            }
+            for (int &id : lastContourId)
+            {
+                lastContour.push_back(realContour[id]);
+            }
 
+            firstObject = std::make_shared<ObjectFullData>(originalImage, image, firstContour);
+            lastObject  = std::make_shared<ObjectFullData>(originalImage, image, lastContour);
 
-//          std::vector<std::vector<cv::Point>> realLine;
-//          realLine.push_back(perpendicularLine);
-//
-//          line2.Draw(output_image_, CV_RGB(0, 255, 0));
-//          cv::drawContours(output_image_, realLine, 0, CV_RGB(255, 0, 0), 2);
-//          line1.Draw(output_image_, cv::Scalar(255, 0, 0));
+        }
 
+        if (debug_contour_())
+        {
+          cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
         }
 
         //
@@ -236,13 +195,32 @@ class PipeDetector : public Filter {
                   return a->GetArea() > b->GetArea();
                 });
 
+
       // Since we search only one buoy, get the biggest from sort function
-      if (objVec.size() > 0) {
+      if (objVec.size() > 0)
+      {
+        if (firstObject != nullptr && lastObject != nullptr)
+        {
+            angle_ = firstObject->GetCenter().y > lastObject->GetCenter().y ? lastObject->GetRotatedRect().angle : firstObject->GetRotatedRect().angle;
+
+            if (debug_contour_())
+            {
+                if (firstObject->GetCenter().y > lastObject->GetCenter().y)
+                {
+                    cv::circle(output_image_, lastObject->GetCenter(), 3, CV_RGB(0, 0, 255), 3);
+
+                } else
+                {
+                    cv::circle(output_image_, firstObject->GetCenter(), 3, CV_RGB(0, 0, 255), 3);
+                }
+            }
+        }
+          
         Target target;
         ObjectFullData::Ptr object = objVec[0];
         cv::Point center = object->GetCenter();
         target.SetTarget("pipe", center.x, center.y, object->GetLength(),
-                         object->GetLength(), object->GetRotatedRect().angle,
+                         object->GetLength(), angle_,
                          image.rows, image.cols);
         NotifyTarget(target);
         if (debug_contour_()) {
@@ -265,11 +243,13 @@ class PipeDetector : public Filter {
 
   cv::Mat output_image_;
 
+  float angle_;
+
   Parameter<bool> enable_, debug_contour_, look_for_rectangle_;
 
   std::vector<std::tuple<cv::Point, int>> intersectionPoint_;
 
-  RangedParameter<double> min_area_;
+  RangedParameter<double> min_area_, min_pixel_;
 };
 
 }  // namespace proc_image_processing

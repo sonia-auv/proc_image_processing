@@ -126,6 +126,8 @@ filters:
         value: 0
       - name: Min_area
         value: 2110.000000
+      - name: Min_pixel
+        value: 22.000000
   - name: ObjectFinder
     parameters:
       - name: Enable
