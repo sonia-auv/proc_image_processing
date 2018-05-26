@@ -66,7 +66,7 @@ public:
                 objects_.push_back(target);
             }
 
-            for (int i = 0; i < objects_.size(); ++i) {
+            for (int i = 0; i < (int)objects_.size(); ++i) {
                 NotifyTarget(objects_.back());
                 objects_.pop_back();
             }
