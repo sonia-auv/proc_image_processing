@@ -66,8 +66,9 @@ public:
                 objects_.push_back(target);
             }
 
-            for (auto &target: objects_){
-                NotifyTarget(target);
+            for (int i = 0; i < objects_.size(); ++i) {
+                NotifyTarget(objects_.back());
+                objects_.pop_back();
             }
         }
     };
