@@ -22,6 +22,7 @@
 
 #include <proc_image_processing/algorithm/rot_rect.h>
 #include <proc_image_processing/algorithm/type_and_const.h>
+#include <proc_image_processing/algorithm/line.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
 
@@ -66,6 +67,10 @@ void RetrieveHiearchyContours(cv::Mat image, contourList_t &contours,
 void RetrieveOutNoChildContours(cv::Mat image, contourList_t &contours);
 
 void RetrieveContourRotRect(cv::RotatedRect rect, contour_t &contour);
+
+Line FitLineOnPolygone(contour_t contour, int cols);
+
+Line GetPerpendicularLine(Line line, cv::Point2f center);
 
 void RetrieveContourRotRect(RotRect rect, contour_t &contour);
 

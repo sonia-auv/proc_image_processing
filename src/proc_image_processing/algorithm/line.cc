@@ -27,8 +27,12 @@ namespace proc_image_processing {
 //------------------------------------------------------------------------------
 //
 Line::Line(const cv::Point &start, const cv::Point &end)
-    : start_(start), end_(end), angle_(0) {
-  if (start_.x > end_.x) std::swap(start_, end_);
+    : start_(start), end_(end), angle_(0), isSwap_(false) {
+  if (start_.x > end_.x)
+  {
+      isSwap_ = true;
+      std::swap(start_, end_);
+  }
 
   int yDiff = abs(start_.y - end_.y);
   int xDiff = abs(start_.x - end_.x);
@@ -59,6 +63,48 @@ Line::Line(const cv::Point &start, const cv::Point &end)
 //
 void Line::Draw(cv::Mat &img, cv::Scalar color) {
   cv::line(img, start_, end_, color, 4, 8);
+}
+
+//------------------------------------------------------------------------------
+//
+cv::Point Line::PerpendicularLine()
+{
+  std::vector<cv::Point> secondLine;
+
+  cv::Point vector1;
+  Eigen::Vector3d vector2;
+  vector1 = end_ - start_;
+
+  Eigen::Vector3d vector(vector1.x, vector1.y, 1);
+
+  double min = fabs(vector.x());
+  Eigen::Vector3d cardinalAxis;
+  cardinalAxis << 1, 0, 1;
+
+  if (fabs(vector.y()) < min)
+  {
+    cardinalAxis << 0, 1, 1;
+  }
+
+  vector2 = vector.cross(cardinalAxis);
+
+  return cv::Point(vector2.x(), vector2.y());
+}
+
+//------------------------------------------------------------------------------
+//
+std::vector<cv::Point> Line::GenerateLine(cv::Mat &img)
+{
+    std::vector<cv::Point> line;
+    cv::LineIterator it(img, start_, end_);
+
+    for (int i = 0; i < it.count; i++, ++it)
+    {
+        cv::Point p = it.pos();
+        line.push_back(p);
+    }
+
+    return line;
 }
 
 //------------------------------------------------------------------------------
