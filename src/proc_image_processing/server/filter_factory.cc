@@ -114,6 +114,8 @@ Filter *FilterFactory::createInstance(const std::string &name,
     return new WhiteFilter(globalParams);
   } else if (name == "DeepDice") {
     return new DeepDice(globalParams);
+  } else if (name == "PipeDetectorAngle") {
+      return new PipeDetectorAngle(globalParams);
   } else {
     return nullptr;
   }
@@ -129,8 +131,8 @@ std::string FilterFactory::GetFilterList() {
          "TorpedoesDetector;Laplacian;Canny;HoughLine;AdaptiveThreshold;"
          "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
          "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask;"
-          "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
-          "DeepDice;";
+         "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
+         "DeepDice;PipeDetectorAngle";
 }
 
 }  // namespace proc_image_processing

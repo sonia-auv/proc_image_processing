@@ -66,6 +66,7 @@
 #include <proc_image_processing/filters/square_detection.h>
 #include <proc_image_processing/filters/white_filter.h>
 #include <proc_image_processing/filters/deep_dice.h>
+#include <proc_image_processing/filters/pipe_detector_angle.h>
 #include <memory>
 #include <string>
 

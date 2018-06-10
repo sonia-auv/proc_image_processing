@@ -97,13 +97,13 @@ filters:
       - name: Square_kernel
         value: 1
       - name: Kernel_type
-        value: 0
+        value: 1
       - name: Width
-        value: 0
+        value: 20
       - name: Height
-        value: 0
+        value: 16
       - name: Iteration
-        value: 0
+        value: 2
   - name: Threshold
     parameters:
       - name: Enable
@@ -112,6 +112,30 @@ filters:
         value: 0
       - name: Max_value
         value: 40
+  - name: BuoySingle
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug_contour
+        value: 1
+      - name: Eliminate_same_x
+        value: 0
+      - name: Detect_red
+        value: 1
+      - name: Buoy
+        value: red
+      - name: Min_area
+        value: 135.000000
+      - name: Max_ratio
+        value: 51.000000
+      - name: Min_percent
+        value: 50.000000
+      - name: Min_x_difference
+        value: 0.000000
+      - name: Ratio_for_angle_check
+        value: 1.000000
+      - name: horizontal_max_angle
+        value: 50.000000
   - name: ObjectFinder
     parameters:
       - name: Enable
@@ -123,13 +147,13 @@ filters:
       - name: Offset Y for fence
         value: 0
       - name: Offset Y for fence fraction
-        value: 0.300000
+        value: 0.000000
       - name: 0. Check max y
         value: 0
       - name: 6. check_center_is_black_
         value: 0
       - name: 6. check_center_is_white_
-        value: 0
+        value: 1
       - name: 0. Maximum y coordinate
         value: 0.000000
       - name: "1. Min_area : red"
@@ -231,7 +255,7 @@ filters:
       - name: 6.1 min_height
         value: 50.000000
       - name: 6.2 min_width
-        value: 50.000000
+        value: 57.000000
       - name: Vote_most_centered
         value: 1
       - name: Vote_most_upright
@@ -252,3 +276,11 @@ filters:
         value: blue
       - name: Contour_retreval
         value: 0
+  - name: Blurr
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel_size
+        value: 2
