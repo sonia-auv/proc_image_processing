@@ -15,7 +15,7 @@ filters:
       - name: Contrast
         value: 1.200000
       - name: Brightness
-        value: -90.000000
+        value: -89.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -59,7 +59,7 @@ filters:
   - name: Threshold
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Threshold_type
         value: 0
       - name: Max_value
@@ -67,7 +67,7 @@ filters:
   - name: Morphology
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Morphology_type
         value: 3
       - name: Kernel_type
@@ -107,7 +107,7 @@ filters:
   - name: PipeDetector
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Debug_contour
         value: 1
       - name: Look_for_Rectangle
@@ -128,6 +128,10 @@ filters:
         value: 0.300000
       - name: 0. Check max y
         value: 0
+      - name: 6. check_center_is_black_
+        value: 0
+      - name: 6. check_center_is_white_
+        value: 0
       - name: 0. Maximum y coordinate
         value: 0.000000
       - name: "1. Min_area : red"
@@ -140,6 +144,8 @@ filters:
         value: 0.300000
       - name: "3. Min_percent_filled : yellow"
         value: 10.000000
+      - name: "3.1 Max_percent_filled : yellow"
+        value: 100.000000
       - name: "4.1 Look_for_Rectangle : green"
         value: 0
       - name: "4.2 disable_angle_check : green"
