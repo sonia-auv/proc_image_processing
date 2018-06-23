@@ -294,7 +294,7 @@ filters:
         value: 0
       - name: Min_area
         value: 177.000000
-  - name: PipeDetectorAngle
+  - name: PipeDetector45
     parameters:
       - name: Enable
         value: 1
