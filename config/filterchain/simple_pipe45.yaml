@@ -25,9 +25,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 3.000000
+        value: 4.000000
       - name: Brightness
-        value: -98.000000
+        value: -178.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -35,7 +35,7 @@ filters:
       - name: Plane_1
         value: 3
       - name: Plane_2
-        value: 7
+        value: 1
       - name: Plane_3
         value: 7
       - name: Invert_plane_1
@@ -79,13 +79,13 @@ filters:
   - name: Erode
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 3
+        value: 0
       - name: Height
         value: 3
       - name: Iteration
@@ -93,7 +93,7 @@ filters:
   - name: Dilate
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -111,7 +111,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 40
+        value: 51
   - name: BuoySingle
     parameters:
       - name: Enable
@@ -139,9 +139,9 @@ filters:
   - name: ObjectFinder
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Debug_contour
-        value: 1
+        value: 0
       - name: Use_convex_hull
         value: 0
       - name: Offset Y for fence
@@ -209,7 +209,7 @@ filters:
   - name: ObjectFinder
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Debug_contour
         value: 1
       - name: Use_convex_hull
@@ -284,3 +284,25 @@ filters:
         value: 2
       - name: Kernel_size
         value: 2
+  - name: PipeDetector
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Rectangle
+        value: 0
+      - name: Min_area
+        value: 177.000000
+  - name: PipeDetectorAngle
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Rectangle
+        value: 0
+      - name: Min_area
+        value: 200.000000
+      - name: Min_pixel
+        value: 56.000000

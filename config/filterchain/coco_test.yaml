@@ -1,0 +1,8 @@
+name: coco_test
+filters:
+  - name: DeepDice
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug contour
+        value: 1

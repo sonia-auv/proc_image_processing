@@ -25,9 +25,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 3.000000
+        value: 4.000000
       - name: Brightness
-        value: -98.000000
+        value: -23.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -50,6 +50,14 @@ filters:
         value: 0.000000
       - name: Weight_Plane_3
         value: 2.000000
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 5
+      - name: Max_value
+        value: 172
   - name: Sobel
     parameters:
       - name: Enable
@@ -79,7 +87,7 @@ filters:
   - name: Erode
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -93,7 +101,7 @@ filters:
   - name: Dilate
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -107,7 +115,7 @@ filters:
   - name: Threshold
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Threshold_type
         value: 0
       - name: Max_value
@@ -139,7 +147,7 @@ filters:
   - name: ObjectFinder
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Debug_contour
         value: 1
       - name: Use_convex_hull
@@ -279,8 +287,8 @@ filters:
   - name: Blurr
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Type
-        value: 2
+        value: 1
       - name: Kernel_size
-        value: 2
+        value: 3
