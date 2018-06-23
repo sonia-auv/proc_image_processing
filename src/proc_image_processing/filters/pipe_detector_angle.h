@@ -48,7 +48,7 @@ namespace proc_image_processing {
                   look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
                   min_area_("Min_area", 200, 0, 10000, &parameters_),
                   min_pixel_("Min_pixel", 0, 20, 100, &parameters_){
-            SetName("PipeDetector");
+            SetName("PipeDetector45");
         }
 
         virtual ~PipeDetectorAngle() {}
