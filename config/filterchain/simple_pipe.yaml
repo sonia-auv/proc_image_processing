@@ -25,9 +25,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 2.000000
+        value: 4.000000
       - name: Brightness
-        value: -138.000000
+        value: -178.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -35,7 +35,7 @@ filters:
       - name: Plane_1
         value: 3
       - name: Plane_2
-        value: 3
+        value: 1
       - name: Plane_3
         value: 7
       - name: Invert_plane_1
@@ -50,48 +50,6 @@ filters:
         value: 0.000000
       - name: Weight_Plane_3
         value: 2.000000
-  - name: Threshold
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Threshold_type
-        value: 5
-      - name: Max_value
-        value: 80
-  - name: Blurr
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Type
-        value: 2
-      - name: Kernel_size
-        value: 10
-  - name: Equalize
-    parameters:
-      - name: enable
-        value: 1
-  - name: Threshold
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Threshold_type
-        value: 0
-      - name: Max_value
-        value: 51
-  - name: Dilate
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 3
-      - name: Height
-        value: 1
-      - name: Iteration
-        value: 1
   - name: Sobel
     parameters:
       - name: Enable
@@ -113,7 +71,7 @@ filters:
       - name: Enable
         value: 0
       - name: Min_thresh
-        value: 12
+        value: 0
       - name: Mean_multiplier
         value: -10.000000
       - name: Standard_deviation_multiplier
@@ -121,7 +79,7 @@ filters:
   - name: Erode
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -146,6 +104,14 @@ filters:
         value: 16
       - name: Iteration
         value: 2
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 51
   - name: BuoySingle
     parameters:
       - name: Enable
@@ -310,3 +276,21 @@ filters:
         value: blue
       - name: Contour_retreval
         value: 0
+  - name: Blurr
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel_size
+        value: 2
+  - name: PipeDetector
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Rectangle
+        value: 0
+      - name: Min_area
+        value: 177.000000
