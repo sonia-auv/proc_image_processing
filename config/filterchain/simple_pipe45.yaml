@@ -25,9 +25,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 4.000000
+        value: 5.000000
       - name: Brightness
-        value: -178.000000
+        value: -195.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -35,9 +35,9 @@ filters:
       - name: Plane_1
         value: 3
       - name: Plane_2
-        value: 1
+        value: 3
       - name: Plane_3
-        value: 7
+        value: 4
       - name: Invert_plane_1
         value: 0
       - name: Invert_plane_2
@@ -50,98 +50,28 @@ filters:
         value: 0.000000
       - name: Weight_Plane_3
         value: 2.000000
-  - name: Sobel
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Convert_to_uchar
-        value: 1
-      - name: use_pixel_intensity_correction
-        value: 0
-      - name: Delta
-        value: 0.000000
-      - name: Scale
-        value: 54.000000
-      - name: pixel_correction_power
-        value: 3.000000
-      - name: Size
-        value: 1
-  - name: StatsThreshold
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Min_thresh
-        value: 0
-      - name: Mean_multiplier
-        value: -10.000000
-      - name: Standard_deviation_multiplier
-        value: 1.000000
-  - name: Erode
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 0
-      - name: Height
-        value: 3
-      - name: Iteration
-        value: 1
-  - name: Dilate
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 1
-      - name: Width
-        value: 20
-      - name: Height
-        value: 16
-      - name: Iteration
-        value: 2
   - name: Threshold
     parameters:
       - name: Enable
         value: 1
       - name: Threshold_type
-        value: 0
+        value: 5
       - name: Max_value
-        value: 51
-  - name: BuoySingle
+        value: 80
+  - name: Blurr
     parameters:
       - name: Enable
-        value: 0
-      - name: Debug_contour
         value: 1
-      - name: Eliminate_same_x
-        value: 0
-      - name: Detect_red
-        value: 1
-      - name: Buoy
-        value: red
-      - name: Min_area
-        value: 135.000000
-      - name: Max_ratio
-        value: 51.000000
-      - name: Min_percent
-        value: 50.000000
-      - name: Min_x_difference
-        value: 0.000000
-      - name: Ratio_for_angle_check
-        value: 1.000000
-      - name: horizontal_max_angle
-        value: 50.000000
+      - name: Type
+        value: 2
+      - name: Kernel_size
+        value: 3
   - name: ObjectFinder
     parameters:
       - name: Enable
         value: 0
       - name: Debug_contour
-        value: 0
+        value: 1
       - name: Use_convex_hull
         value: 0
       - name: Offset Y for fence
@@ -206,6 +136,108 @@ filters:
         value: blue
       - name: Contour_retreval
         value: 0
+  - name: Equalize
+    parameters:
+      - name: enable
+        value: 0
+  - name: PipeDetectorAngle
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Rectangle
+        value: 0
+      - name: Min_area
+        value: 200.000000
+      - name: Min_pixel
+        value: 56.000000
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 51
+  - name: Sobel
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Convert_to_uchar
+        value: 1
+      - name: use_pixel_intensity_correction
+        value: 0
+      - name: Delta
+        value: 0.000000
+      - name: Scale
+        value: 54.000000
+      - name: pixel_correction_power
+        value: 3.000000
+      - name: Size
+        value: 1
+  - name: StatsThreshold
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Min_thresh
+        value: 12
+      - name: Mean_multiplier
+        value: -10.000000
+      - name: Standard_deviation_multiplier
+        value: 1.000000
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 0
+      - name: Height
+        value: 3
+      - name: Iteration
+        value: 1
+  - name: Dilate
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 1
+      - name: Width
+        value: 20
+      - name: Height
+        value: 16
+      - name: Iteration
+        value: 2
+  - name: BuoySingle
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug_contour
+        value: 1
+      - name: Eliminate_same_x
+        value: 0
+      - name: Detect_red
+        value: 1
+      - name: Buoy
+        value: red
+      - name: Min_area
+        value: 135.000000
+      - name: Max_ratio
+        value: 51.000000
+      - name: Min_percent
+        value: 50.000000
+      - name: Min_x_difference
+        value: 0.000000
+      - name: Ratio_for_angle_check
+        value: 1.000000
+      - name: horizontal_max_angle
+        value: 50.000000
   - name: ObjectFinder
     parameters:
       - name: Enable
@@ -276,33 +308,3 @@ filters:
         value: blue
       - name: Contour_retreval
         value: 0
-  - name: Blurr
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Type
-        value: 2
-      - name: Kernel_size
-        value: 2
-  - name: PipeDetector
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Debug_contour
-        value: 1
-      - name: Look_for_Rectangle
-        value: 0
-      - name: Min_area
-        value: 177.000000
-  - name: PipeDetectorAngle
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Debug_contour
-        value: 1
-      - name: Look_for_Rectangle
-        value: 0
-      - name: Min_area
-        value: 200.000000
-      - name: Min_pixel
-        value: 56.000000

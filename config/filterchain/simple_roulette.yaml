@@ -25,19 +25,19 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 4.000000
+        value: 3.000000
       - name: Brightness
-        value: -23.000000
+        value: -130.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
         value: 1
       - name: Plane_1
-        value: 3
+        value: 4
       - name: Plane_2
-        value: 7
+        value: 3
       - name: Plane_3
-        value: 7
+        value: 6
       - name: Invert_plane_1
         value: 0
       - name: Invert_plane_2
@@ -50,6 +50,14 @@ filters:
         value: 0.000000
       - name: Weight_Plane_3
         value: 2.000000
+  - name: Blurr
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 1
+      - name: Kernel_size
+        value: 6
   - name: Threshold
     parameters:
       - name: Enable
@@ -84,20 +92,6 @@ filters:
         value: -10.000000
       - name: Standard_deviation_multiplier
         value: 1.000000
-  - name: Erode
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 3
-      - name: Height
-        value: 3
-      - name: Iteration
-        value: 1
   - name: Dilate
     parameters:
       - name: Enable
@@ -112,6 +106,20 @@ filters:
         value: 16
       - name: Iteration
         value: 2
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 3
+      - name: Height
+        value: 3
+      - name: Iteration
+        value: 1
   - name: Threshold
     parameters:
       - name: Enable
@@ -284,11 +292,3 @@ filters:
         value: blue
       - name: Contour_retreval
         value: 0
-  - name: Blurr
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Type
-        value: 1
-      - name: Kernel_size
-        value: 3
