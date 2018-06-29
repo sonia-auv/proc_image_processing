@@ -45,10 +45,9 @@ namespace proc_image_processing {
                   angle_(0.0f),
                   enable_("Enable", false, &parameters_),
                   debug_contour_("Debug_contour", false, &parameters_),
-                  look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
                   min_area_("Min_area", 200, 0, 10000, &parameters_),
                   min_pixel_("Min_pixel", 0, 20, 100, &parameters_){
-            SetName("PipeDetector");
+            SetName("PipeDetectorAngle");
         }
 
         virtual ~PipeDetectorAngle() {}
@@ -180,13 +179,6 @@ namespace proc_image_processing {
                         cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                     }
 
-                    //
-                    // RECTANGLE
-                    //
-                    if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
-                        continue;
-                    }
-
                     objVec.push_back(object);
                 }
 
@@ -245,7 +237,7 @@ namespace proc_image_processing {
 
         float angle_;
 
-        Parameter<bool> enable_, debug_contour_, look_for_rectangle_;
+        Parameter<bool> enable_, debug_contour_;
 
         std::vector<std::tuple<cv::Point, int>> intersectionPoint_;
 

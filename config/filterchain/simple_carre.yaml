@@ -1,0 +1,246 @@
+name: simple_carre
+filters:
+  - name: Rotate
+    parameters:
+      - name: enable
+        value: 0
+      - name: transpose
+        value: 0
+      - name: Rotation_type
+        value: 3
+  - name: ImageCropper
+    parameters:
+      - name: Enable
+        value: 1
+      - name: X Offset
+        value: 281
+      - name: Y Offset
+        value: 0
+      - name: X Reduction
+        value: 245
+      - name: Y Reduction
+        value: 17
+  - name: ContrastBrightness
+    parameters:
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 3.000000
+      - name: Brightness
+        value: -135.000000
+  - name: SubtractAllPlanes
+    parameters:
+      - name: enable
+        value: 1
+      - name: Plane_1
+        value: 3
+      - name: Plane_2
+        value: 7
+      - name: Plane_3
+        value: 7
+      - name: Invert_plane_1
+        value: 0
+      - name: Invert_plane_2
+        value: 0
+      - name: Invert_plane_3
+        value: 0
+      - name: Weight_Plane_1
+        value: 2.000000
+      - name: Weight_Plane_2
+        value: 0.000000
+      - name: Weight_Plane_3
+        value: 2.000000
+  - name: Blurr
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 3
+      - name: Kernel_size
+        value: 8
+  - name: SubtractAllPlanes
+    parameters:
+      - name: enable
+        value: 1
+      - name: Plane_1
+        value: 7
+      - name: Plane_2
+        value: 7
+      - name: Plane_3
+        value: 7
+      - name: Invert_plane_1
+        value: 0
+      - name: Invert_plane_2
+        value: 0
+      - name: Invert_plane_3
+        value: 0
+      - name: Weight_Plane_1
+        value: 0.000000
+      - name: Weight_Plane_2
+        value: 10.000000
+      - name: Weight_Plane_3
+        value: 10.000000
+  - name: Sobel
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Convert_to_uchar
+        value: 1
+      - name: use_pixel_intensity_correction
+        value: 0
+      - name: Delta
+        value: 0.000000
+      - name: Scale
+        value: 54.000000
+      - name: pixel_correction_power
+        value: 3.000000
+      - name: Size
+        value: 1
+  - name: StatsThreshold
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Min_thresh
+        value: 0
+      - name: Mean_multiplier
+        value: -10.000000
+      - name: Standard_deviation_multiplier
+        value: 1.000000
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 3
+      - name: Height
+        value: 3
+      - name: Iteration
+        value: 1
+  - name: Dilate
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 1
+      - name: Width
+        value: 20
+      - name: Height
+        value: 16
+      - name: Iteration
+        value: 2
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 40
+  - name: BuoySingle
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug_contour
+        value: 1
+      - name: Eliminate_same_x
+        value: 0
+      - name: Detect_red
+        value: 1
+      - name: Buoy
+        value: red
+      - name: Min_area
+        value: 135.000000
+      - name: Max_ratio
+        value: 51.000000
+      - name: Min_percent
+        value: 50.000000
+      - name: Min_x_difference
+        value: 0.000000
+      - name: Ratio_for_angle_check
+        value: 1.000000
+      - name: horizontal_max_angle
+        value: 50.000000
+  - name: ObjectFinder
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug_contour
+        value: 1
+      - name: Use_convex_hull
+        value: 0
+      - name: Offset Y for fence
+        value: 0
+      - name: Offset Y for fence fraction
+        value: 0.000000
+      - name: 0. Check max y
+        value: 1
+      - name: 6. check_center_is_black_
+        value: 0
+      - name: 6. check_center_is_white_
+        value: 1
+      - name: 0. Maximum y coordinate
+        value: 80.000000
+      - name: "1. Min_area : red"
+        value: 350.000000
+      - name: "2. disable_ratio_check : blue"
+        value: 1
+      - name: 2. Ratio_target
+        value: 1.000000
+      - name: 2. Diff_from_ratio_target
+        value: 0.700000
+      - name: "3. Min_percent_filled : yellow"
+        value: 20.000000
+      - name: "3.1 Max_percent_filled : yellow"
+        value: 100.000000
+      - name: "4.1 Look_for_Rectangle : green"
+        value: 0
+      - name: "4.2 disable_angle_check : green"
+        value: 1
+      - name: 4.2 angle_target
+        value: 0.000000
+      - name: 4.2 Diff_from_angle_target
+        value: 50.000000
+      - name: 5. Eliminate_same_x
+        value: 0
+      - name: 5. Min_x_difference
+        value: 51.000000
+      - name: 6. check_min_size_
+        value: 0
+      - name: 6.1 min_height
+        value: 50.000000
+      - name: 6.2 min_width
+        value: 57.000000
+      - name: Vote_most_centered
+        value: 1
+      - name: Vote_most_upright
+        value: 0
+      - name: Vote_less_diff_from_target_ratio
+        value: 0
+      - name: Vote_length
+        value: 0
+      - name: Vote_higher
+        value: 1
+      - name: Vote most horizontal
+        value: 1
+      - name: ID
+        value: buoy
+      - name: spec1
+        value: red
+      - name: spec2
+        value: blue
+      - name: Contour_retreval
+        value: 0
+  - name: Blurr
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel_size
+        value: 2

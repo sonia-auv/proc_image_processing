@@ -116,25 +116,13 @@ filters:
         value: 1
       - name: Iteration
         value: 1
-  - name: PipeDetector
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Debug_contour
-        value: 1
-      - name: Look_for_Rectangle
-        value: 0
-      - name: Min_area
-        value: 2110.000000
-  - name: PipeDetector
+  - name: PipeDetectorAngle
     parameters:
       - name: Enable
         value: 1
       - name: Debug_contour
         value: 1
-      - name: Look_for_Rectangle
-        value: 0
       - name: Min_area
         value: 200.000000
       - name: Min_pixel
-        value: 26.000000
+        value: 39.000000
