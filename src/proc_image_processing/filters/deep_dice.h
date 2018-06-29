@@ -91,6 +91,8 @@ private:
     std::vector<Detection> bounding_box_;
     std::vector<Target> objects_;
     Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_;
+    int image_width_;
+    int image_height_;
 
     void boundingBoxCallback(const DetectionArrayConstPtr &msg){
         if (bounding_box_.empty())
@@ -108,7 +110,26 @@ private:
     }
 
     inline void constructTarget(Target &target, const Detection &object){
-        target.SetCenter((int)object.bbox.center.x, (int)object.bbox.center.y);
+        int image_central_x;
+        int image_central_y;
+
+        int bounding_box_center_x;
+        int bounding_box_center_y;
+
+        int vision_bounding_box_center_x;
+        int vision_bounding_box_center_y;
+
+        image_central_x = (int)(image_width_ / 2);
+        image_central_y = (int)(image_height_ / 2);
+
+        bounding_box_center_x = (int)object.bbox.center.x;
+        bounding_box_center_y = (int)object.bbox.center.y;
+
+        vision_bounding_box_center_x = bounding_box_center_x - image_central_x;
+        vision_bounding_box_center_y = image_central_y - bounding_box_center_y;
+
+        target.SetCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
+        //target.SetCenter((int)object.bbox.center.x, (int)object.bbox.center.y);
         target.SetSize((int)object.bbox.size_x, (int)object.bbox.size_y);
         target.SetSpecField_1(object.class_name.data);
         target.SetSpecField_2(convertFloatToString(object.confidence));
