@@ -58,6 +58,9 @@ public:
     virtual void Execute(cv::Mat &image){
         if(enable_()){
             Target target;
+            image_height_=image.size().height;
+            image_width_=image.size().width;
+
             for (auto &object: bounding_box_) {
                 constructTarget(target, object);
                 if (debug_contour_()){
@@ -79,6 +82,10 @@ private:
     ros::NodeHandle nh_;
     std::vector<Detection> bounding_box_;
     std::vector<Target> objects_;
+    int::image_width_;
+    int::image_height_;
+
+
     Parameter<bool> enable_, debug_contour_;
 
     void boundingBoxCallback(const DetectionArrayConstPtr &msg){
@@ -95,7 +102,26 @@ private:
     }
 
     void constructTarget(Target &target, const Detection &object){
-        target.SetCenter((int)object.bbox.center.x, (int)object.bbox.center.y);
+
+        int::image_central_x;
+        int::image_central_y;
+
+        int::bounding_box_center_x;
+        int::bounding_box_center_y;
+
+        int::vision_bounding_box_center_x;
+        int::vision_bounding_box_center_y;
+
+        image_central_x = (int)(image_width_ / 2);
+        image_central_y = (int)(image_height_ / 2);
+
+        bounding_box_center_x = (int)object.bbox.center.x;
+        bounding_box_center_y = (int)object.bbox.center.y;
+
+        vision_bounding_box_center_x = bounding_box_center_x - image_central_x;
+        vision_bounding_box_center_y = image_central_y - bounding_box_center_y;
+
+        target.SetCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
         target.SetSize((int)object.bbox.size_x, (int)object.bbox.size_y);
         target.SetSpecField_1(object.class_name.data);
         target.SetSpecField_2(convertFloatToString(object.confidence));
@@ -107,6 +133,8 @@ private:
         cv::Rect rect(origin_x, origin_y, (int)object.bbox.size_x, (int)object.bbox.size_y);
         cv::rectangle(image, rect, color_box, thickness);
     }
+
+
 };
 
 } //proc_image_processing
