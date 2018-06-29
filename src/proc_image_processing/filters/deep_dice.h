@@ -82,8 +82,8 @@ private:
     ros::NodeHandle nh_;
     std::vector<Detection> bounding_box_;
     std::vector<Target> objects_;
-    int::image_width_;
-    int::image_height_;
+    int image_width_;
+    int image_height_;
 
 
     Parameter<bool> enable_, debug_contour_;
@@ -103,14 +103,14 @@ private:
 
     void constructTarget(Target &target, const Detection &object){
 
-        int::image_central_x;
-        int::image_central_y;
+        int image_central_x;
+        int image_central_y;
 
-        int::bounding_box_center_x;
-        int::bounding_box_center_y;
+        int bounding_box_center_x;
+        int bounding_box_center_y;
 
-        int::vision_bounding_box_center_x;
-        int::vision_bounding_box_center_y;
+        int vision_bounding_box_center_x;
+        int vision_bounding_box_center_y;
 
         image_central_x = (int)(image_width_ / 2);
         image_central_y = (int)(image_height_ / 2);
