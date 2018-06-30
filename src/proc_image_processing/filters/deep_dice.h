@@ -62,6 +62,8 @@ public:
     virtual void Execute(cv::Mat &image){
         if(enable_()){
             Target target;
+            image_width_ = image.size().width;
+            image_height_ = image.size().height;
             for (auto &object: bounding_box_) {
                 if(dice1_.GetValue() && object.class_name.data == dice1_.GetName())  {
                     handleObject(target, object, image);
@@ -112,10 +114,8 @@ private:
     inline void constructTarget(Target &target, const Detection &object){
         int image_central_x;
         int image_central_y;
-
         int bounding_box_center_x;
         int bounding_box_center_y;
-
         int vision_bounding_box_center_x;
         int vision_bounding_box_center_y;
 
@@ -128,6 +128,13 @@ private:
         vision_bounding_box_center_x = bounding_box_center_x - image_central_x;
         vision_bounding_box_center_y = image_central_y - bounding_box_center_y;
 
+        ROS_INFO_STREAM("image_central_x:" << image_central_x);
+        ROS_INFO_STREAM("image_central_y:" << image_central_y);
+        ROS_INFO_STREAM("bbox_central_x:" << bounding_box_center_x);
+        ROS_INFO_STREAM("bbox_central_y:" << bounding_box_center_y);
+        ROS_INFO_STREAM("Final x:" << vision_bounding_box_center_x);
+        ROS_INFO_STREAM("Final y:" << vision_bounding_box_center_y);
+        
         target.SetCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
         //target.SetCenter((int)object.bbox.center.x, (int)object.bbox.center.y);
         target.SetSize((int)object.bbox.size_x, (int)object.bbox.size_y);
@@ -164,3 +171,4 @@ private:
 
 #endif //PROC_IMAGE_PROCESSING_DEEP_DICE_H
 ;
+
