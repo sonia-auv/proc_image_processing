@@ -1,4 +1,4 @@
-name: simple_roulette
+name: simple_carre
 filters:
   - name: Rotate
     parameters:
