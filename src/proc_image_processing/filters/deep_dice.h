@@ -127,16 +127,8 @@ private:
 
         vision_bounding_box_center_x = bounding_box_center_x - image_central_x;
         vision_bounding_box_center_y = image_central_y - bounding_box_center_y;
-
-        ROS_INFO_STREAM("image_central_x:" << image_central_x);
-        ROS_INFO_STREAM("image_central_y:" << image_central_y);
-        ROS_INFO_STREAM("bbox_central_x:" << bounding_box_center_x);
-        ROS_INFO_STREAM("bbox_central_y:" << bounding_box_center_y);
-        ROS_INFO_STREAM("Final x:" << vision_bounding_box_center_x);
-        ROS_INFO_STREAM("Final y:" << vision_bounding_box_center_y);
         
         target.SetCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
-        //target.SetCenter((int)object.bbox.center.x, (int)object.bbox.center.y);
         target.SetSize((int)object.bbox.size_x, (int)object.bbox.size_y);
         target.SetSpecField_1(object.class_name.data);
         target.SetSpecField_2(convertFloatToString(object.confidence));
