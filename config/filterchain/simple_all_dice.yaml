@@ -1,0 +1,16 @@
+name: simple_all_dice
+filters:
+  - name: DeepDice
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug contour
+        value: 1
+      - name: dice1
+        value: 1
+      - name: dice2
+        value: 1
+      - name: dice5
+        value: 1
+      - name: dice6
+        value: 1
