@@ -46,7 +46,8 @@ public:
             dice1_("dice1", true, &parameters_),
             dice2_("dice2", true, &parameters_),
             dice5_("dice5", true, &parameters_),
-            dice6_("dice6", true, &parameters_)
+            dice6_("dice6", true, &parameters_),
+            color_(0,0,0)
     {
         image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepDice::boundingBoxCallback, this);
         SetName("DeepDice");
@@ -66,16 +67,20 @@ public:
             image_height_ = image.size().height;
             for (auto &object: bounding_box_) {
                 if(dice1_.GetValue() && object.class_name.data == dice1_.GetName())  {
-                    handleObject(target, object, image);
+                    color_ = cv::Scalar(0,0,255);
+                    handleObject(target, object, image, color_);
                 }
                 if(dice2_.GetValue() && object.class_name.data == dice2_.GetName())  {
-                    handleObject(target, object, image);
+                    color_ = cv::Scalar(0,255,0);
+                    handleObject(target, object, image, color_);
                 }
                 if(dice5_.GetValue() && object.class_name.data == dice5_.GetName())  {
-                    handleObject(target, object, image);
+                    color_ = cv::Scalar(255,0,0);
+                    handleObject(target, object, image, color_);
                 }
                 if(dice6_.GetValue() && object.class_name.data == dice6_.GetName())  {
-                    handleObject(target, object, image);
+                    color_ = cv::Scalar(255,255,255);
+                    handleObject(target, object, image, color_);
                 }
             }
 
@@ -95,6 +100,7 @@ private:
     Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_;
     int image_width_;
     int image_height_;
+    cv::Scalar color_;
 
     void boundingBoxCallback(const DetectionArrayConstPtr &msg){
         if (bounding_box_.empty())
@@ -140,7 +146,7 @@ private:
         cv::Rect rect(origin_x, origin_y, (int)object.bbox.size_x, (int)object.bbox.size_y);
         cv::rectangle(image, rect, color_box, thickness);
         std::string text = creatTextBoundingBox(object);
-        cv::putText(image, text, cv::Point(origin_x,origin_y - 20), cv::FONT_HERSHEY_SIMPLEX, 2, cv::Scalar(0,0,255), 2, CV_AA);
+        cv::putText(image, text, cv::Point(origin_x,origin_y - 20), cv::FONT_HERSHEY_SIMPLEX, 1, color_box, 2, CV_AA);
     }
 
     inline std::string creatTextBoundingBox(const Detection &object){
@@ -149,10 +155,10 @@ private:
         return ss.str();
     }
 
-    inline void handleObject(Target &target, const Detection &object, cv::Mat &image){
+    inline void handleObject(Target &target, const Detection &object, cv::Mat &image, const cv::Scalar &color){
         constructTarget(target, object);
         if (debug_contour_()){
-            drawTarget(image, object, 3, cv::Scalar(0, 0, 255));
+            drawTarget(image, object, 10, color);
         }
         objects_.push_back(target);
     }
