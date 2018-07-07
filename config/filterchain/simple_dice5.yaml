@@ -34,3 +34,11 @@ filters:
         value: 1
       - name: dice6
         value: 0
+      - name: roulette
+        value: 0
+      - name: path
+        value: 0
+      - name: cashinred
+        value: 0
+      - name: cashingreend
+        value: 0

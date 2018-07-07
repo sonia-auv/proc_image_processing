@@ -47,6 +47,10 @@ namespace proc_image_processing {
                 dice2_("dice2", true, &parameters_),
                 dice5_("dice5", true, &parameters_),
                 dice6_("dice6", true, &parameters_),
+                roulette_("roulette", true, &parameters_),
+                path_("path", true, &parameters_),
+                cashinred_("cashinred", true, &parameters_),
+                cashingreend_("cashingreend", true, &parameters_),
                 color_(0,0,0)
         {
             image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepDice::boundingBoxCallback, this);
@@ -83,6 +87,22 @@ namespace proc_image_processing {
                         color_ = cv::Scalar(244,185,66);
                         handleObject(target, object, image, color_);
                     }
+                    if(roulette_.GetValue() && object.class_name.data == roulette_.GetName())  {
+                        color_ = cv::Scalar(200,185,66);
+                        handleObject(target, object, image, color_);
+                    }
+                    if(path_.GetValue() && object.class_name.data == path_.GetName())  {
+                        color_ = cv::Scalar(244,185,100);
+                        handleObject(target, object, image, color_);
+                    }
+                    if(cashinred_.GetValue() && object.class_name.data == cashinred_.GetName())  {
+                        color_ = cv::Scalar(244,185,200);
+                        handleObject(target, object, image, color_);
+                    }
+                    if(cashingreend_.GetValue() && object.class_name.data == cashingreend_.GetName())  {
+                        color_ = cv::Scalar(244,200,66);
+                        handleObject(target, object, image, color_);
+                    }
                 }
 
                 for (int i = 0; i < (int)objects_.size(); ++i) {
@@ -104,7 +124,7 @@ namespace proc_image_processing {
         ros::NodeHandle nh_;
         std::vector<Detection> bounding_box_;
         std::vector<Target> objects_;
-        Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_;
+        Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_, roulette_, path_, cashinred_, cashingreend_;
         int image_width_;
         int image_height_;
         cv::Scalar color_;

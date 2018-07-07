@@ -1,4 +1,4 @@
-name: simple_dice6
+name: simple_deep_cashgreen
 filters:
   - name: Rotate
     parameters:
@@ -33,7 +33,7 @@ filters:
       - name: dice5
         value: 0
       - name: dice6
-        value: 1
+        value: 0
       - name: roulette
         value: 0
       - name: path
@@ -41,4 +41,4 @@ filters:
       - name: cashinred
         value: 0
       - name: cashingreend
-        value: 0
+        value: 1
