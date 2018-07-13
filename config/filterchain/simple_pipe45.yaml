@@ -125,4 +125,4 @@ filters:
       - name: Min_area
         value: 200.000000
       - name: Min_pixel
-        value: 49.000000
+        value: 72.000000

@@ -115,7 +115,7 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 3
+        value: 4
       - name: Height
         value: 3
       - name: Iteration
@@ -145,7 +145,7 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 13
+        value: 9
       - name: Height
         value: 1
       - name: Iteration
