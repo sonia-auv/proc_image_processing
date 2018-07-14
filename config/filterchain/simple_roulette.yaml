@@ -27,7 +27,7 @@ filters:
       - name: Contrast
         value: 3.000000
       - name: Brightness
-        value: -135.000000
+        value: -142.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -80,26 +80,10 @@ filters:
         value: 10.000000
       - name: Weight_Plane_3
         value: 10.000000
-  - name: Sobel
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Convert_to_uchar
-        value: 1
-      - name: use_pixel_intensity_correction
-        value: 0
-      - name: Delta
-        value: 0.000000
-      - name: Scale
-        value: 54.000000
-      - name: pixel_correction_power
-        value: 3.000000
-      - name: Size
-        value: 1
   - name: StatsThreshold
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Min_thresh
         value: 0
       - name: Mean_multiplier
@@ -115,7 +99,7 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 4
+        value: 18
       - name: Height
         value: 3
       - name: Iteration
@@ -136,20 +120,6 @@ filters:
         value: 0
       - name: Max_value
         value: 40
-  - name: Erode
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 9
-      - name: Height
-        value: 1
-      - name: Iteration
-        value: 1
   - name: PipeDetector
     parameters:
       - name: Enable
