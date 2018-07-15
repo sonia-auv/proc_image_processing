@@ -79,7 +79,7 @@ filters:
   - name: Blurr
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Type
         value: 3
       - name: Kernel_size
@@ -87,7 +87,7 @@ filters:
   - name: ObjectFinder
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Debug_contour
         value: 1
       - name: Use_convex_hull
@@ -162,6 +162,24 @@ filters:
         value: 3
       - name: Kernel_size
         value: 35
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 5
+      - name: Max_value
+        value: 100
+  - name: PipeDetector
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Rectangle
+        value: 1
+      - name: Min_area
+        value: 200.000000
   - name: SquareDetection
     parameters:
       - name: Enable
