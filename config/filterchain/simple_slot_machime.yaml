@@ -1,4 +1,4 @@
-name: simple_deep_roulette
+name: simple_deep_cashgreen
 filters:
   - name: Rotate
     parameters:
@@ -35,7 +35,7 @@ filters:
       - name: dice6
         value: 0
       - name: roulette
-        value: 1
+        value: 0
       - name: path
         value: 0
       - name: cashinred
@@ -43,4 +43,4 @@ filters:
       - name: cashingreend
         value: 0
       - name: slot_machine
-        value: 0
+        value: 1

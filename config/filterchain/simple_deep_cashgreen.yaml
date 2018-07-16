@@ -42,3 +42,5 @@ filters:
         value: 0
       - name: cashingreend
         value: 1
+      - name: slot_machine
+        value: 0
