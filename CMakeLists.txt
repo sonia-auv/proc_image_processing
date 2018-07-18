@@ -1,4 +1,4 @@
-# \file     CMakeLists.txt
+  # \file     CMakeLists.txt
 # \author   Thibaut Mattio <thibaut.mattio@gmail.com>
 # \date     08/05/2015
 # \copyright    2015 Club SONIA AUV, ETS. All rights reserved.
@@ -7,6 +7,7 @@
 
 #===============================================================================
 # G L O B A L   P R O J E C T   C O N F I G U R A T I O N
+
 
 cmake_minimum_required(VERSION 2.8.3)
 

@@ -25,9 +25,9 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 2.000000
+        value: 3.000000
       - name: Brightness
-        value: -98.000000
+        value: -229.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -60,6 +60,20 @@ filters:
         value: -10.000000
       - name: Standard_deviation_multiplier
         value: 1.000000
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 1
+      - name: Height
+        value: 1
+      - name: Iteration
+        value: 1
   - name: Blurr
     parameters:
       - name: Enable
