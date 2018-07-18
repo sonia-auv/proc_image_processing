@@ -22,6 +22,7 @@
 #include <dirent.h>
 #include <yaml-cpp/yaml.h>
 #include <fstream>
+#include "proc_image_processing/ChangeNetwork.h"
 
 namespace proc_image_processing {
 
@@ -33,7 +34,9 @@ const std::string FilterchainManager::FILTERCHAIN_MANAGER_TAG =
 
 //------------------------------------------------------------------------------
 //
-FilterchainManager::FilterchainManager(){};
+FilterchainManager::FilterchainManager(){
+  deep_network_service = ros::NodeHandle("~").serviceClient<ChangeNetwork>("/deep_detector/change_network");
+};
 
 //------------------------------------------------------------------------------
 //
@@ -99,6 +102,9 @@ bool FilterchainManager::FilterchainExists(const std::string &filterchain) {
 Filterchain::Ptr FilterchainManager::InstanciateFilterchain(
     const std::string &filterchainName) {
   if (FilterchainExists(filterchainName)) {
+    ChangeNetwork network;
+    network.request.task = filterchainName;
+    deep_network_service.call(network);
     auto filterchain = std::make_shared<Filterchain>(filterchainName);
     running_filterchains_.push_back(filterchain);
     ROS_INFO("Filterchain is ready.");

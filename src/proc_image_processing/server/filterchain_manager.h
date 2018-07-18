@@ -137,6 +137,8 @@ class FilterchainManager {
    * List of current instances of filterchains
    */
   std::vector<Filterchain::Ptr> running_filterchains_;
+
+  ros::ServiceClient deep_network_service;
 };
 
 }  // namespace proc_image_processing

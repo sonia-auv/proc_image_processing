@@ -1,4 +1,4 @@
-name: simple_deep_cashgreen
+name: simple_slot_machine
 filters:
   - name: Rotate
     parameters:
