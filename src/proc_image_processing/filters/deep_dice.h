@@ -50,7 +50,7 @@ namespace proc_image_processing {
                 roulette_("roulette", true, &parameters_),
                 path_("path", true, &parameters_),
                 cashinred_("cashinred", true, &parameters_),
-                cashingreend_("cashingreend", true, &parameters_),
+                cashingreend_("cashingreen", true, &parameters_),
                 slot_machine_("slot_machine", true, &parameters_),
                 color_(0,0,0)
         {

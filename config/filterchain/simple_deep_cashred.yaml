@@ -40,7 +40,7 @@ filters:
         value: 0
       - name: cashinred
         value: 1
-      - name: cashingreend
-        value: 0
+      - name: cashingreen
+        value: 1
       - name: slot_machine
         value: 0

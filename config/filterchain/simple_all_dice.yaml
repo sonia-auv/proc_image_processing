@@ -15,12 +15,12 @@ filters:
       - name: dice6
         value: 1
       - name: roulette
-        value: 0
+        value: 1
       - name: path
-        value: 0
+        value: 1
       - name: cashinred
-        value: 0
-      - name: cashingreend
-        value: 0
+        value: 1
+      - name: cashingreen
+        value: 1
       - name: slot_machine
-        value: 0
+        value: 1
