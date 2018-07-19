@@ -1,4 +1,4 @@
-name: simple_dice6
+name: simple_dollar_sign
 filters:
   - name: Rotate
     parameters:
@@ -33,7 +33,7 @@ filters:
       - name: dice5
         value: 0
       - name: dice6
-        value: 1
+        value: 0
       - name: roulette
         value: 0
       - name: path
@@ -45,4 +45,4 @@ filters:
       - name: slot_machine
         value: 0
       - name: dollar_sign
-        value: 0
+        value: 1
