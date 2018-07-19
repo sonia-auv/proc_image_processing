@@ -138,7 +138,6 @@ class FilterchainManager {
    */
   std::vector<Filterchain::Ptr> running_filterchains_;
 
-  ros::ServiceClient deep_network_service;
 };
 
 }  // namespace proc_image_processing

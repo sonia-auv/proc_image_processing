@@ -20,6 +20,8 @@
 
 #include <fstream>
 #include "proc_image_processing/server/vision_server.h"
+#include "proc_image_processing/ChangeNetwork.h"
+
 
 namespace proc_image_processing {
 
@@ -85,7 +87,9 @@ VisionServer::VisionServer(const ros::NodeHandle &nh)
   RegisterService<set_filterchain_filter_observer>(
       base_node_name + "set_filterchain_filter_observer",
       &VisionServer::CallbackSetObserver, *this);
-    }
+
+  deep_network_service = ros::NodeHandle("~").serviceClient<ChangeNetwork>("/deep_detector/change_network");
+  }
 
 //------------------------------------------------------------------------------
 //
@@ -108,6 +112,9 @@ bool VisionServer::CallbackExecutionCMD(execute_cmd::Request &rqst,
 
       rep.response = detection_task_mgr_.StartDetectionTask(rqst.media_name, filterchain,
                                                             rqst.node_name);
+      ChangeNetwork network;
+      network.request.task = rqst.filterchain_name;
+      deep_network_service.call(network);
       ROS_INFO("Starting topic: %s", rep.response.c_str());
     } catch (const std::exception &e) {
       ROS_ERROR("Starting execution error: %s", e.what());
