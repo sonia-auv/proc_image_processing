@@ -59,7 +59,7 @@ namespace proc_image_processing {
             SetName("DeepDice");
         };
 
-        virtual ~DeepDice() {}
+        virtual ~DeepDice() {image_subscriber_.shutdown();}
 
         //============================================================================
         // P U B L I C   M E T H O D S
