@@ -44,3 +44,5 @@ filters:
         value: 1
       - name: slot_machine
         value: 0
+      - name: dollar_sign
+        value: 0
