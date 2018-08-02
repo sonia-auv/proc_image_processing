@@ -38,7 +38,7 @@ filters:
         value: 1
       - name: path
         value: 0
-      - name: cashinred
+      - name: cashingred
         value: 0
       - name: cashingreen
         value: 0
