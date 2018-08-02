@@ -69,7 +69,7 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 1
+        value: 14
       - name: Height
         value: 1
       - name: Iteration
