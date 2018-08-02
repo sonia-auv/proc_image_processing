@@ -38,9 +38,9 @@ filters:
         value: 0
       - name: path
         value: 0
-      - name: cashinred
+      - name: cashingred
         value: 0
-      - name: cashingreend
+      - name: cashingreen
         value: 1
       - name: slot_machine
         value: 0
