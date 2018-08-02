@@ -49,8 +49,8 @@ namespace proc_image_processing {
                 dice6_("dice6", true, &parameters_),
                 roulette_("roulette", true, &parameters_),
                 path_("path", true, &parameters_),
-                cashinred_("cashingred", true, &parameters_),
-                cashingreend_("cashingreen", true, &parameters_),
+                cashinred_("cashinred", true, &parameters_),
+                cashingreend_("cashinreen", true, &parameters_),
                 slot_machine_("slot_machine", true, &parameters_),
                 dollar_sign_("dollar_sign", true, &parameters_),
                 color_(0,0,0)
