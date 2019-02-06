@@ -45,6 +45,10 @@
 #include <proc_image_processing/filters/original_image.h>
 #include <proc_image_processing/filters/pipe_detector.h>
 #include <proc_image_processing/filters/rotate.h>
+#include <proc_image_processing/filters/remove_mask.h>
+#include <proc_image_processing/filters/hsv_threshold.h>
+#include <proc_image_processing/filters/contrast_brightness.h>
+#include <proc_image_processing/filters/equalize.h>
 #include <proc_image_processing/filters/schar_adding.h>
 #include <proc_image_processing/filters/scharr.h>
 #include <proc_image_processing/filters/sobel.h>
@@ -59,6 +63,10 @@
 #include <proc_image_processing/filters/white_noise_takedown.h>
 #include <proc_image_processing/filters/image_cropper.h>
 #include <proc_image_processing/filters/gate_finder.h>
+#include <proc_image_processing/filters/square_detection.h>
+#include <proc_image_processing/filters/white_filter.h>
+#include <proc_image_processing/filters/deep_dice.h>
+#include <proc_image_processing/filters/pipe_detector_angle.h>
 #include <memory>
 #include <string>
 

@@ -3,8 +3,20 @@ filters:
   - name: Rotate
     parameters:
       - name: enable
-        value: 1
+        value: 0
       - name: transpose
         value: 0
       - name: Rotation_type
         value: 3
+  - name: ImageCropper
+    parameters:
+      - name: Enable
+        value: 1
+      - name: X Offset
+        value: 321
+      - name: Y Offset
+        value: 0
+      - name: X Reduction
+        value: 281
+      - name: Y Reduction
+        value: 0

@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/walle/Workspaces/ros_sonia_ws/devel/include",
+                "/opt/ros/kinetic/include",
+                "/home/walle/Workspaces/ros_sonia_ws/src/imu_tools/imu_complementary_filter/include",
+                "/home/walle/Workspaces/ros_sonia_ws/src/imu_tools/imu_filter_madgwick/include",
+                "/home/walle/Workspaces/ros_sonia_ws/src/usb_cam/include",
+                "/usr/include"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

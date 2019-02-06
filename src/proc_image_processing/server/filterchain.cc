@@ -138,12 +138,11 @@ void Filterchain::ExecuteFilterChain(cv::Mat &image) {
   if (!imageToProcess.empty()) {
     param_handler_.setOriginalImage(imageToProcess);
 
-    auto it = filters_.begin();
     try {
       size_t index = 0;
-      for (; it != filters_.end(); ++it) {
+      for (size_t i = 0; i < filters_.size(); i++) {
         if (!imageToProcess.empty()) {
-          (*it)->Execute(imageToProcess);
+          (filters_.at(i))->Execute(imageToProcess);
         }
 
         if (index == observer_index_) {

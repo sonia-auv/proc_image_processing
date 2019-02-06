@@ -100,6 +100,22 @@ Filter *FilterFactory::createInstance(const std::string &name,
     return new ImageCropper(globalParams);
   } else if (name == "GateFinder") {
     return new GateFinder(globalParams);
+  } else if (name == "RemoveMask") {
+    return new RemoveMask(globalParams);
+  } else if (name == "Equalize") {
+    return new Equalize(globalParams);
+  } else if (name == "HSVThreshold") {
+    return new HSVThreshold(globalParams);
+  } else if (name == "ContrastBrightness") {
+    return new ContrastBrightness(globalParams);
+  } else if (name == "SquareDetection") {
+      return new SquareDetection(globalParams);
+  } else if (name == "WhiteFilter") {
+    return new WhiteFilter(globalParams);
+  } else if (name == "DeepDice") {
+    return new DeepDice(globalParams);
+  } else if (name == "PipeDetectorAngle") {
+      return new PipeDetectorAngle(globalParams);
   } else {
     return nullptr;
   }
@@ -114,7 +130,9 @@ std::string FilterFactory::GetFilterList() {
          "DeloreanDetector;SubmarineFrameMasker;InRange;ConvexHull;"
          "TorpedoesDetector;Laplacian;Canny;HoughLine;AdaptiveThreshold;"
          "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
-         "BackgroundSubstract;ImageCropper;GateFinder";
+         "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask;"
+         "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
+         "DeepDice;PipeDetectorAngle";
 }
 
 }  // namespace proc_image_processing

@@ -33,7 +33,8 @@ const std::string FilterchainManager::FILTERCHAIN_MANAGER_TAG =
 
 //------------------------------------------------------------------------------
 //
-FilterchainManager::FilterchainManager(){};
+FilterchainManager::FilterchainManager(){
+};
 
 //------------------------------------------------------------------------------
 //

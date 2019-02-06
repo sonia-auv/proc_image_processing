@@ -188,6 +188,56 @@ void RetrieveContourRotRect(cv::RotatedRect rect, contour_t &contour) {
   }
 }
 
+////------------------------------------------------------------------------------
+////
+//float StandardizeAngle()
+
+//------------------------------------------------------------------------------
+//
+Line FitLineOnPolygone(contour_t contour, int cols)
+{
+    cv::Vec4d line;
+    cv::fitLine(contour, line, cv::DIST_L2, 0, 0.01 , 0.01);
+
+    int lefty = int((-line[2] * line[1] / line[0]) + line[3]);
+    int righty = int(((cols - line[2]) * line[1] / line[0]) + line[3]);
+
+    cv::Point p1;
+    cv::Point p2;
+
+    p1.x = cols-1;
+    p1.y = righty;
+    p2.x = 0;
+    p2.y = lefty;
+
+    Line lineFit(p1, p2);
+
+    return lineFit;
+}
+
+//------------------------------------------------------------------------------
+//
+Line GetPerpendicularLine(Line line, cv::Point2f center)
+{
+    cv::Point p1;
+    cv::Point p2;
+
+    cv::Point2f vector = line.PerpendicularLine();
+
+    p1 = center;
+    p2 = vector + center;
+
+    cv::Point2f doubleVector = -(p2 - p1);
+
+    cv::Point start = doubleVector + center;
+    cv::Point end   = vector + center;
+
+    Line perpendicularLine(start, end);
+    return perpendicularLine;
+
+}
+
+
 //------------------------------------------------------------------------------
 //
 float CalculateRatio(float width, float height) {

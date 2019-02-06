@@ -43,6 +43,7 @@
 #include "proc_image_processing/server/detection_task_manager.h"
 #include "proc_image_processing/server/filterchain_manager.h"
 
+
 namespace proc_image_processing {
 
 using namespace proc_image_processing;
@@ -368,6 +369,8 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
   FilterchainManager filterchain_mgr_;
 
   DetectionTaskManager detection_task_mgr_;
+
+  ros::ServiceClient deep_network_service;
 };
 
 //==============================================================================

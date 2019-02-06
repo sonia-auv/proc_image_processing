@@ -137,6 +137,7 @@ class FilterchainManager {
    * List of current instances of filterchains
    */
   std::vector<Filterchain::Ptr> running_filterchains_;
+
 };
 
 }  // namespace proc_image_processing

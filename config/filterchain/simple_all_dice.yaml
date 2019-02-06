@@ -1,0 +1,28 @@
+name: simple_all_dice
+filters:
+  - name: DeepDice
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug contour
+        value: 1
+      - name: dice1
+        value: 1
+      - name: dice2
+        value: 1
+      - name: dice5
+        value: 1
+      - name: dice6
+        value: 1
+      - name: roulette
+        value: 1
+      - name: path
+        value: 1
+      - name: cashinred
+        value: 1
+      - name: cashingreen
+        value: 1
+      - name: slot_machine
+        value: 1
+      - name: dollar_sign
+        value: 0

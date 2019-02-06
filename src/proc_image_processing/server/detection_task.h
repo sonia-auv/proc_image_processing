@@ -103,7 +103,7 @@ namespace proc_image_processing {
         std::string topic_name_;
 
       image_transport::Publisher image_publisher_;
-        image_transport::ImageTransport it_;
+      image_transport::ImageTransport it_;
 
         /**
          * This publisher will send the result of the image processing of the

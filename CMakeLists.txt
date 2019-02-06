@@ -1,4 +1,4 @@
-# \file     CMakeLists.txt
+     # \file     CMakeLists.txt
 # \author   Thibaut Mattio <thibaut.mattio@gmail.com>
 # \date     08/05/2015
 # \copyright    2015 Club SONIA AUV, ETS. All rights reserved.
@@ -7,6 +7,7 @@
 
 #===============================================================================
 # G L O B A L   P R O J E C T   C O N F I G U R A T I O N
+
 
 cmake_minimum_required(VERSION 2.8.3)
 
@@ -39,6 +40,7 @@ find_package(catkin REQUIRED COMPONENTS
     cv_bridge
     roslaunch
     lib_atlas
+    pcl_ros
     )
 
 # CMake does not detect new file when globbing.
@@ -66,6 +68,7 @@ catkin_package(
     cv_bridge
     roslaunch
     lib_atlas
+    pcl_ros
 )
 
 #===============================================================================
@@ -76,24 +79,38 @@ file(GLOB_RECURSE proc_image_processing_FILES
     "${proc_image_processing_SRC_DIR}/*.h")
 
 list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc)
+list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc)
 
 include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_image_processing_SRC_DIR}
     ${lib_atlas_INCLUDE_DIRS}
+    ${pcl_ros_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
 )
 #===============================================================================
 # C R E A T E   E X E C U T A B L E
 
-add_executable(${PROJECT_NAME}_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_image_processing_FILES})
+add_executable(${PROJECT_NAME}_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_image_processing_FILES} src/proc_image_processing/filters/square_detection.h src/proc_image_processing/filters/white_filter.h)
 target_link_libraries(proc_image_processing_node
-    ${catkin_LIBRARIES}
-    ${lib_atlas_LIBRARIES}
-    ${OpenCV_LIBRARIES}
-    yaml-cpp
-)
+        ${catkin_LIBRARIES}
+        ${lib_atlas_LIBRARIES}
+        ${pcl_ros_LIBRARIES}
+        ${OpenCV_LIBRARIES}
+        yaml-cpp
+        )
 add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_generate_messages_cpp)
+
+
+add_executable(republisher_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc ${proc_image_processing_FILES})
+target_link_libraries(republisher_node
+        ${catkin_LIBRARIES}
+        ${lib_atlas_LIBRARIES}
+        ${pcl_ros_LIBRARIES}
+        ${OpenCV_LIBRARIES}
+        yaml-cpp
+        )
+add_dependencies(republisher_node ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_generate_messages_cpp)
 
 
 #============================================================================

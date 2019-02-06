@@ -1,61 +1,29 @@
-name: simple_buoy
+name: hsv_buoy_red
 filters:
   - name: Rotate
     parameters:
       - name: enable
-        value: 1
+        value: 0
       - name: transpose
         value: 0
       - name: Rotation_type
-        value: 3
-  - name: SubtractAllPlanes
+        value: 0
+  - name: HSVThreshold
     parameters:
       - name: enable
         value: 1
-      - name: Plane_1
-        value: 3
-      - name: Plane_2
-        value: 2
-      - name: Plane_3
-        value: 1
-      - name: Invert_plane_1
+      - name: Hue Min
         value: 0
-      - name: Invert_plane_2
-        value: 0
-      - name: Invert_plane_3
-        value: 0
-      - name: Weight_Plane_1
-        value: 1.000000
-      - name: Weight_Plane_2
-        value: 1.000000
-      - name: Weight_Plane_3
-        value: 1.000000
-  - name: Blurr
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Type
-        value: 2
-      - name: Kernel_size
-        value: 1
-  - name: StatsThreshold
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Min_thresh
-        value: 0
-      - name: Mean_multiplier
-        value: 1.000000
-      - name: Standard_deviation_multiplier
-        value: 1.000000
-  - name: Threshold
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Threshold_type
-        value: 0
-      - name: Max_value
-        value: 62
+      - name: Hue Max
+        value: 85
+      - name: saturation Min
+        value: 30
+      - name: saturation Max
+        value: 85
+      - name: value Min
+        value: 20
+      - name: value Max
+        value: 65
   - name: Erode
     parameters:
       - name: Enable
@@ -65,9 +33,9 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 1
+        value: 5
       - name: Height
-        value: 1
+        value: 5
       - name: Iteration
         value: 1
   - name: Dilate
@@ -79,9 +47,9 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 1
+        value: 5
       - name: Height
-        value: 1
+        value: 5
       - name: Iteration
         value: 1
   - name: ObjectFinder
@@ -91,7 +59,7 @@ filters:
       - name: Debug_contour
         value: 1
       - name: Use_convex_hull
-        value: 1
+        value: 0
       - name: Offset Y for fence
         value: 0
       - name: Offset Y for fence fraction
@@ -99,41 +67,41 @@ filters:
       - name: 0. Check max y
         value: 1
       - name: 0. Maximum y coordinate
-        value: 200.000000
+        value: 109.000000
       - name: "1. Min_area : red"
-        value: 50.000000
+        value: 201.000000
       - name: "2. disable_ratio_check : blue"
-        value: 1
+        value: 0
       - name: 2. Ratio_target
         value: 1.000000
       - name: 2. Diff_from_ratio_target
-        value: 0.300000
+        value: 0.100000
       - name: "3. Min_percent_filled : yellow"
-        value: 40.000000
+        value: 50.000000
       - name: "4.1 Look_for_Rectangle : green"
         value: 0
       - name: "4.2 disable_angle_check : green"
-        value: 1
+        value: 0
       - name: 4.2 angle_target
         value: 0.000000
       - name: 4.2 Diff_from_angle_target
         value: 30.000000
       - name: 5. Eliminate_same_x
-        value: 1
+        value: 0
       - name: 5. Min_x_difference
         value: 50.000000
       - name: Vote_most_centered
-        value: 0
+        value: 1
       - name: Vote_most_upright
         value: 0
       - name: Vote_less_diff_from_target_ratio
-        value: 1
+        value: 0
       - name: Vote_length
         value: 0
       - name: Vote_higher
-        value: 1
-      - name: Vote most horizontal
         value: 0
+      - name: Vote most horizontal
+        value: 1
       - name: ID
         value: buoy
       - name: spec1

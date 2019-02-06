@@ -1,0 +1,82 @@
+name: camera_feed
+filters:
+  - name: Rotate
+    parameters:
+      - name: enable
+        value: 0
+      - name: transpose
+        value: 0
+      - name: Rotation_type
+        value: 3
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 10
+  - name: Blurr
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel_size
+        value: 5
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 1
+  - name: Morphology
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Morphology_type
+        value: 3
+      - name: Kernel_type
+        value: 0
+      - name: Iteration
+        value: 2
+      - name: Kernel_size
+        value: 3
+  - name: Morphology
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Morphology_type
+        value: 4
+      - name: Kernel_type
+        value: 0
+      - name: Iteration
+        value: 6
+      - name: Kernel_size
+        value: 5
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 1
+      - name: Max_value
+        value: 100
+  - name: RemoveMask
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel_size
+        value: 1
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 1

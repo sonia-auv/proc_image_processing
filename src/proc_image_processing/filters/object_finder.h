@@ -56,6 +56,8 @@ class ObjectFinder : public Filter {
         offset_y_for_fence_fraction("Offset Y for fence fraction", 0.3f, 0.0f,
                                     1.0f, &parameters_),
         check_max_y_("0. Check max y", false, &parameters_),
+        check_center_is_black_("6. check_center_is_black_", false, &parameters_),
+        check_center_is_white_("6. check_center_is_white_", false, &parameters_),
         max_y_("0. Maximum y coordinate", 0.0f, 0.0f, 2000.0f, &parameters_),
         min_area_("1. Min_area : red", 200, 0, 10000, &parameters_),
         disable_ratio_("2. disable_ratio_check : blue", false, &parameters_),
@@ -63,6 +65,8 @@ class ObjectFinder : public Filter {
         difference_from_target_ratio_("2. Diff_from_ratio_target", 0.10f, 0.0f,
                                       1.0f, &parameters_),
         min_percent_filled_("3. Min_percent_filled : yellow", 50, 0, 100,
+                            &parameters_),
+        max_percent_filled_("3.1 Max_percent_filled : yellow", 100, 0, 100,
                             &parameters_),
         look_for_rectangle_("4.1 Look_for_Rectangle : green", false,
                             &parameters_),
@@ -73,6 +77,11 @@ class ObjectFinder : public Filter {
         eliminate_same_x_targets_("5. Eliminate_same_x", false, &parameters_),
         max_x_difference_for_elimination_("5. Min_x_difference", 50.0f, 0.0f,
                                           1000.0f, &parameters_),
+        check_min_size_("6. check_min_size_", false, &parameters_),
+        min_height_("6.1 min_height", 50.0f, 0.0f,
+                    10000.0f, &parameters_),
+        min_width_("6.2 min_width", 50.0f, 0.0f,
+                    10000.0f, &parameters_),
         vote_most_centered_("Vote_most_centered", false, &parameters_),
         vote_most_upright_("Vote_most_upright", false, &parameters_),
         vote_less_difference_from_targeted_ratio_(
@@ -148,6 +157,11 @@ class ObjectFinder : public Filter {
           continue;
         }
 
+        if(check_min_size_() && (object->GetRotatedRect().size.width < min_width_() || object->GetRotatedRect().size.height < min_height_()))
+        {
+          continue;
+        }
+
         if (object->GetArea() < min_area_()) {
           continue;
         }
@@ -164,6 +178,14 @@ class ObjectFinder : public Filter {
                                   fabs(difference_from_target_ratio_()))) {
           continue;
         }
+        if(check_center_is_black_() && object->GetOriginalImage().at<uchar>(object->GetCenter().y, object->GetCenter().x) != (uchar)0)
+        {
+          continue;
+        }
+        if(check_center_is_white_() && object->GetOriginalImage().at<uchar>(object->GetCenter().y, object->GetCenter().x) != (uchar)255)
+        {
+          continue;
+        }
         if (debug_contour_()) {
           cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
         }
@@ -177,6 +199,10 @@ class ObjectFinder : public Filter {
         if ((percent_filled) < min_percent_filled_()) {
           continue;
         }
+        if ((percent_filled) > max_percent_filled_()) {
+          continue;
+        }
+
         if (debug_contour_()) {
           cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 2);
         }
@@ -352,7 +378,7 @@ class ObjectFinder : public Filter {
 
   RangedParameter<double> offset_y_for_fence_fraction;
 
-  Parameter<bool> check_max_y_;
+  Parameter<bool> check_max_y_,check_center_is_black_,check_center_is_white_;
 
   RangedParameter<double> max_y_,
   min_area_;
@@ -360,15 +386,18 @@ class ObjectFinder : public Filter {
   Parameter<bool> disable_ratio_;
 
   RangedParameter<double> targeted_ratio_,
-      difference_from_target_ratio_, min_percent_filled_;
+      difference_from_target_ratio_, min_percent_filled_, max_percent_filled_;
 
   Parameter<bool> look_for_rectangle_, disable_angle_;
 
   RangedParameter<double> targeted_angle_, difference_from_target_angle_;
 
-  Parameter<bool> eliminate_same_x_targets_;
+    Parameter<bool> eliminate_same_x_targets_;
 
-  RangedParameter<double> max_x_difference_for_elimination_;
+    RangedParameter<double> max_x_difference_for_elimination_;
+    Parameter<bool> check_min_size_;
+
+    RangedParameter<double> min_height_, min_width_;
 
   Parameter<bool> vote_most_centered_, vote_most_upright_,
       vote_less_difference_from_targeted_ratio_, vote_length_, vote_higher_,
