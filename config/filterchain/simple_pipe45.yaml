@@ -11,7 +11,7 @@ filters:
   - name: ImageCropper
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: X Offset
         value: 281
       - name: Y Offset
@@ -50,16 +50,6 @@ filters:
         value: 0.000000
       - name: Weight_Plane_3
         value: 2.000000
-  - name: StatsThreshold
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Min_thresh
-        value: 0
-      - name: Mean_multiplier
-        value: -10.000000
-      - name: Standard_deviation_multiplier
-        value: 1.000000
   - name: Erode
     parameters:
       - name: Enable
@@ -73,11 +63,21 @@ filters:
       - name: Height
         value: 1
       - name: Iteration
+        value: 4
+  - name: StatsThreshold
+    parameters:
+      - name: Enable
         value: 1
+      - name: Min_thresh
+        value: 81
+      - name: Mean_multiplier
+        value: -10.000000
+      - name: Standard_deviation_multiplier
+        value: 1.000000
   - name: Blurr
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Type
         value: 2
       - name: Kernel_size
@@ -89,7 +89,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 40
+        value: 100
   - name: PipeDetectorAngle
     parameters:
       - name: Enable
@@ -99,4 +99,4 @@ filters:
       - name: Min_area
         value: 200.000000
       - name: Min_pixel
-        value: 27.000000
+        value: 74.000000
