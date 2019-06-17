@@ -1,0 +1,12 @@
+name: simple_bat_wolf
+filters:
+  - name: BatWolf
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug contour
+        value: 1
+      - name: bat
+        value: 1
+      - name: wolf
+        value: 1
