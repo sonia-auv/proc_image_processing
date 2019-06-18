@@ -53,6 +53,8 @@ namespace proc_image_processing {
                 cashingreend_("cashinreen", true, &parameters_),
                 slot_machine_("slot_machine", true, &parameters_),
                 dollar_sign_("dollar_sign", true, &parameters_),
+		bat_("bat", true, &parameters_),
+		wolf_("wolf", true, &parameters_),
                 color_(0,0,0)
         {
             image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepDice::boundingBoxCallback, this);
@@ -111,6 +113,12 @@ namespace proc_image_processing {
                     }if(dollar_sign_.GetValue() && object.class_name.data == dollar_sign_.GetName())  {
                         color_ = cv::Scalar(147, 145, 0);
                         handleObject(target, object, image, color_);
+                    }if(bat_.GetValue() && object.class_name.data == bat_.GetName())  {
+                        color_ = cv::Scalar(217, 244, 66);
+                        handleObject(target, object, image, color_);
+                    }if(wolf_.GetValue() && object.class_name.data == wolf_.GetName())  {
+                        color_ = cv::Scalar(66, 244, 223);
+                        handleObject(target, object, image, color_);
                     }
                 }
 
@@ -133,7 +141,7 @@ namespace proc_image_processing {
         ros::NodeHandle nh_;
         std::vector<Detection> bounding_box_;
         std::vector<Target> objects_;
-        Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_, roulette_, path_, cashinred_, cashingreend_, slot_machine_, dollar_sign_;
+        Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_, roulette_, path_, cashinred_, cashingreend_, slot_machine_, dollar_sign_, bat_,wolf_;
         int image_width_;
         int image_height_;
         cv::Scalar color_;

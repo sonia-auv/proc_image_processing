@@ -1,6 +1,6 @@
 name: simple_bat_wolf
 filters:
-  - name: BatWolf
+  - name: DeepDice
     parameters:
       - name: Enable
         value: 1
