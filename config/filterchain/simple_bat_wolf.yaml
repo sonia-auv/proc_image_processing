@@ -1,6 +1,6 @@
 name: simple_bat_wolf
 filters:
-  - name: DeepDice
+  - name: Deep2019
     parameters:
       - name: Enable
         value: 1
@@ -9,4 +9,14 @@ filters:
       - name: bat
         value: 1
       - name: wolf
+        value: 1
+      - name: vetalas
+        value: 1
+      - name: draugr
+        value: 1
+      - name: jiangshi
+        value : 1
+      - name: answag
+        value: 1
+      - name: vampire
         value: 1
