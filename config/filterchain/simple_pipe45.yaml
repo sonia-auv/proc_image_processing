@@ -25,7 +25,7 @@ filters:
       - name: enable
         value: 1
       - name: Contrast
-        value: 2.000000
+        value: 1.500000
       - name: Brightness
         value: -105.000000
   - name: SubtractAllPlanes
@@ -63,7 +63,7 @@ filters:
       - name: Height
         value: 1
       - name: Iteration
-        value: 4
+        value: 3
   - name: StatsThreshold
     parameters:
       - name: Enable

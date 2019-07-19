@@ -52,7 +52,7 @@ namespace proc_image_processing {
 		wolf_("wolf", true, &parameters_),
                 color_(0,0,0)
         {
-            image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepDice::boundingBoxCallback, this);
+            image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &Deep2019::boundingBoxCallback, this);
             SetName("Deep2019");
         };
 

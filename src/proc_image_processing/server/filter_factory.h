@@ -67,6 +67,7 @@
 #include <proc_image_processing/filters/white_filter.h>
 #include <proc_image_processing/filters/deep_dice.h>
 #include <proc_image_processing/filters/pipe_detector_angle.h>
+#include <proc_image_processing/filters/deep_2019.h>
 #include <memory>
 #include <string>
 
