@@ -55,7 +55,7 @@ namespace proc_image_processing {
                 timer.UpdateStartTime();
 
                 contourList_t contours;
-                RetrieveOuterContours(image, contours);
+                RetrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 for (int i = 0, size = contours.size(); i < size; i++) {
                     ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
