@@ -71,9 +71,9 @@ namespace proc_image_processing {
                     }
 
                     if (look_for_ellipse_()) {
-                        //cv::Mat pointfs;
-                        //cv::Mat(contours[i]).convertTo(pointfs,CV_32F);
-                        //cv::RotatedRect box = cv::fitEllipse(pointfs);
+                        cv::Mat pointfs;
+                        cv::Mat(contours[i]).convertTo(pointfs,CV_32F);
+                        cv::RotatedRect box = cv::fitEllipse(pointfs);
 
                         //cv::drawContours(output_image_, contours, (int)i, cv::Scalar::all(255), 1, 8);
 
@@ -102,6 +102,11 @@ namespace proc_image_processing {
                         if (circleIndex < 0.9){
                             continue;
                         }
+
+                        float pourcentageFilled;
+                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
+
+                        std::cout << pourcentageFilled << std::endl;
 
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
