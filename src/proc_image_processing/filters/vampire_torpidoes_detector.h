@@ -33,7 +33,7 @@ namespace proc_image_processing {
                 look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
                 look_for_heart_("Look_for_Heart", false, &parameters_),
                 min_area_("Min_area", 5000, 1, 50000, &parameters_),
-                max_area_("Max_area", 100000, 1, 100000, &parameters_) {
+                max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
             SetName("VampireTorpidoesDetector");}
 
         virtual ~VampireTorpidoesDetector() {}
