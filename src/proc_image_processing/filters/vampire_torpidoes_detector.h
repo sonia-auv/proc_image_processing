@@ -83,7 +83,7 @@ namespace proc_image_processing {
 
                         circleIndex = CalculateCircleIndex(contours[i]);
 
-                        if (circleIndex < 0.9) {
+                        if (circleIndex < 0.7) {
                             continue;
                         }
 
