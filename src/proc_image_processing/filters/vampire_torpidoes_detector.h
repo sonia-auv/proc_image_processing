@@ -31,8 +31,8 @@ namespace proc_image_processing {
                 debug_contour_("Debug_contour", false, &parameters_),
                 look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
                 look_for_heart_("Look_for_Heart", false, &parameters_),
-                min_area_("Min_area", 500, 1, 50000, &parameters_),
-                max_area_("Max_area", 10000, 1, 50000, &parameters_) {
+                min_area_("Min_area", 5000, 1, 50000, &parameters_),
+                max_area_("Max_area", 50000, 1, 50000, &parameters_) {
             SetName("VampireTorpidoesDetection");}
 
         virtual ~VampireTorpidoesDetector() {}
@@ -98,7 +98,7 @@ namespace proc_image_processing {
                         float circleIndex;
                         circleIndex = CalculateCircleIndex(contours[i]);
 
-                        if (circleIndex > 0.9){
+                        if (circleIndex < 0.9){
                             continue;
                         }
 

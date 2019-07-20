@@ -68,6 +68,8 @@
 #include <proc_image_processing/filters/deep_dice.h>
 #include <proc_image_processing/filters/pipe_detector_angle.h>
 #include <proc_image_processing/filters/deep_2019.h>
+#include <proc_image_processing/filters/vampire_torpidoes_detector.h>
+#include <proc_image_processing/filters/vampire_body_detector.h>
 #include <memory>
 #include <string>
 
