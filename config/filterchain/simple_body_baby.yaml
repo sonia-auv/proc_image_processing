@@ -1,15 +1,15 @@
-name: simple_vampire
+name: simple_body_baby
 filters:
   - name: ImageCropper
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: X Offset
-        value: 0
+        value: 200
       - name: Y Offset
-        value: 0
+        value: 150
       - name: X Reduction
-        value: 0
+        value: 200
       - name: Y Reduction
         value: 0
   - name: SubtractAllPlanes
@@ -17,9 +17,9 @@ filters:
       - name: enable
         value: 1
       - name: Plane_1
-        value: 2
+        value: 3
       - name: Plane_2
-        value: 1
+        value: 2
       - name: Plane_3
         value: 0
       - name: Invert_plane_1
@@ -42,51 +42,35 @@ filters:
         value: 0
       - name: Max_value
         value: 9
-  - name: Dilate
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 2
-      - name: Height
-        value: 2
-      - name: Iteration
-        value: 2
-  - name: Erode
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 3
-      - name: Height
-        value: 3
-      - name: Iteration
-        value: 2
-  - name: AdaptiveThreshold
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Method
-        value: 1
-      - name: Threshold_type
-        value: 0
-      - name: Size
-        value: 40
-      - name: C_param
-        value: 0.000000
-  - name: RemoveMask
+  - name: Blurr
     parameters:
       - name: Enable
         value: 0
       - name: Type
-        value: 2
+        value: 3
       - name: Kernel_size
+        value: 9
+  - name: VampireBodyDetector
+    parameters:
+      - name: Enable
         value: 1
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Rectangle
+        value: 1
+      - name: Min_area
+        value: 1.000000
+      - name: Max_area
+        value: 50000.000000
+  - name: Canny
+    parameters:
+      - name: Enable
+        value: 1
+      - name: l2_gradient
+        value: 0
+      - name: thres_one
+        value: 100
+      - name: thres_two
+        value: 200
+      - name: Aperture_size
+        value: 3

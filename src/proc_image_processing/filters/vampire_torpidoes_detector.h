@@ -32,8 +32,8 @@ namespace proc_image_processing {
                 look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
                 look_for_heart_("Look_for_Heart", false, &parameters_),
                 min_area_("Min_area", 5000, 1, 50000, &parameters_),
-                max_area_("Max_area", 50000, 1, 50000, &parameters_) {
-            SetName("VampireTorpidoesDetection");}
+                max_area_("Max_area", 100000, 1, 100000, &parameters_) {
+            SetName("VampireTorpidoesDetector");}
 
         virtual ~VampireTorpidoesDetector() {}
 
@@ -67,6 +67,7 @@ namespace proc_image_processing {
 
                     if (debug_contour_()) {
                         cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+
                     }
 
                     if (look_for_ellipse_()) {
@@ -106,13 +107,24 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        std::cout << circleIndex << std::endl;
-
                     }
 
                     //cv::SimpleBlobDetector();
 
                     objVec.push_back(object);
+                }
+
+                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool { return a->GetArea() > b->GetArea();});
+
+                if (objVec.size() > 0) {
+                    Target target;
+                    ObjectFullData::Ptr object = objVec[0];
+                    cv::Point center = object->GetCenter();
+                    target.SetTarget("vampire_torpidoes", center.x, center.y, object->GetLength(), object->GetLength(), object->GetRotatedRect().angle, image.rows, image.cols);
+                    NotifyTarget(target);
+                    if (debug_contour_()) {
+                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0,255,0),3);
+                    }
                 }
 
 

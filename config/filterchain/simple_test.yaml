@@ -1,0 +1,10 @@
+name: simple_test
+filters:
+  - name: ContrastBrightness
+    parameters:
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 0.000000
+      - name: Brightness
+        value: 0.000000

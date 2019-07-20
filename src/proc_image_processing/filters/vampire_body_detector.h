@@ -28,8 +28,9 @@ namespace proc_image_processing {
                 enable_("Enable", false, &parameters_),
                 debug_contour_("Debug_contour", false, &parameters_),
                 look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-                min_area_("Min_area", 1, 1, 10000, &parameters_) {
-            SetName("VampireBodyDetection");}
+                min_area_("Min_area", 100, 1, 10000, &parameters_),
+                max_area_("Max_area", 1000, 1, 50000, &parameters_) {
+            SetName("VampireBodyDetector");}
 
         virtual ~VampireBodyDetector() {}
 
@@ -58,13 +59,41 @@ namespace proc_image_processing {
                     continue;
                 }
                 //AREA
-                ROS_DEBUG_STREAM("Area : " << object->GetArea());
+                //ROS_DEBUG_STREAM("Area : " << object->GetArea());
+                if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
+                    continue;
+                }
+
+                if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
+                    continue;
+                }
 
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                 }
 
                 objVec.push_back(object);
+            }
+
+            std::sort(objVec.begin(), objVec.end(),
+                      [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                          return a->GetArea() > b->GetArea();
+                      });
+
+            // Since we search only one buoy, get the biggest from sort function
+            if (objVec.size() > 0) {
+                Target target;
+                ObjectFullData::Ptr object = objVec[0];
+                cv::Point center = object->GetCenter();
+
+                target.SetTarget("grab_vampire", center.x, center.y, object->GetLength(),
+                                 object->GetLength(), object->GetRotatedRect().angle,
+                                 image.rows, image.cols);
+                NotifyTarget(target);
+                if (debug_contour_()) {
+                    cv::circle(output_image_, objVec[0]->GetCenter(), 3,
+                               CV_RGB(0, 255, 0), 3);
+                }
             }
 
 
@@ -87,7 +116,7 @@ namespace proc_image_processing {
 
         Parameter<bool> enable_, debug_contour_, look_for_rectangle_;
 
-        RangedParameter<double> min_area_;
+        RangedParameter<double> min_area_, max_area_;
     };
 
 }  // namespace proc_image_processing
