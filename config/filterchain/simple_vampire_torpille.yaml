@@ -41,8 +41,22 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 9
+        value: 0
   - name: Erode
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 1
+      - name: Height
+        value: 1
+      - name: Iteration
+        value: 3
+  - name: Dilate
     parameters:
       - name: Enable
         value: 1
@@ -59,7 +73,7 @@ filters:
   - name: Blurr
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Type
         value: 3
       - name: Kernel_size
@@ -75,6 +89,6 @@ filters:
       - name: Look_for_Heart
         value: 0
       - name: Min_area
-        value: 10000.000000
+        value: 1000.000000
       - name: Max_area
-        value: 50000.000000
+        value: 100000.000000
