@@ -63,6 +63,9 @@ namespace proc_image_processing {
                         continue;
                     }
                     //AREA
+
+                    std::cout << object->GetArea();
+
                     if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
                         continue;
                     }
