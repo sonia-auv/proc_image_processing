@@ -1,5 +1,6 @@
 //
-// Created by olavoie on 11/29/17.
+// Created by csauvain on 20/07/19.
+// Il y a des repetitions de code a ameliorer
 //
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
@@ -41,6 +42,7 @@ namespace proc_image_processing {
         // P U B L I C   M E T H O D S
         virtual void Execute(cv::Mat &image){
             if (enable_()) {
+                std::string objectif;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
                     cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -70,51 +72,56 @@ namespace proc_image_processing {
 
                     }
 
+                    cv::Mat pointfs;
+                    cv::Mat(contours[i]).convertTo(pointfs,CV_32F);
+                    cv::RotatedRect box = cv::fitEllipse(pointfs);
+
+                    float circleIndex;
+                    float pourcentageFilled;
+
                     if (look_for_ellipse_()) {
-                        cv::Mat pointfs;
-                        cv::Mat(contours[i]).convertTo(pointfs,CV_32F);
-                        cv::RotatedRect box = cv::fitEllipse(pointfs);
 
-                        //cv::drawContours(output_image_, contours, (int)i, cv::Scalar::all(255), 1, 8);
-
-                        //cv::ellipse(output_image_, box, cv::Scalar(0,0,255), 1, CV_AA);
-                        //cv::ellipse(output_image_, box.center, box.size*0.5f, box.angle, 0, 360, cv::Scalar(0,255,255), 1, CV_AA);
-
-                        //cv::Point2f vtx[4];
-                        //box.points(vtx);
-                        //cv::Point2f center = box.center;
-                        //cv::Size2f size_ellipse = box.size;
-
-                        //Target current_ellipse_target;
-                        //current_ellipse_target.SetTarget("vampire_torpidoes", center.x, center.y, size.);
-                        //current_ellipse_target.SetTarget("vampire_torpidoes", object->GetCenter().x, object->GetCenter().y, size_ellipse.width, size_ellipse.height, object->GetAngle(), object->GetImageSize().height, object->GetImageSize().width, "test1", "test2");
-
-                        //NotifyTarget(current_ellipse_target)
-
-
-
-
-                        //for(int j = 0; j < 4; j++)
-                        //    cv::line(output_image_, vtx[j], vtx[(j+1)%4], cv::Scalar(0,255,0), 1, CV_AA);
-                        float circleIndex;
                         circleIndex = CalculateCircleIndex(contours[i]);
 
-                        if (circleIndex < 0.9){
+                        if (circleIndex < 0.9) {
                             continue;
                         }
 
-                        float pourcentageFilled;
                         pourcentageFilled = CalculatePourcentFilled(output_image_, box);
 
-                        std::cout << pourcentageFilled << std::endl;
+                        if (pourcentageFilled > 50) {
+                            continue;
+                        }
 
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
+                        objectif = "vampire_torpedoes";
+
                     }
 
-                    //cv::SimpleBlobDetector();
+                    if (look_for_heart_()) {
+
+                        circleIndex = CalculateCircleIndex(contours[i]);
+
+                        if (circleIndex > 0.9) {
+                            continue;
+                        }
+
+                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
+
+                        if (pourcentageFilled > 50) {
+                            continue;
+                        }
+
+                        if (debug_contour_()) {
+                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                        }
+
+                        objectif = "heart_torpedoes";
+
+                    }
 
                     objVec.push_back(object);
                 }
@@ -125,7 +132,7 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->GetCenter();
-                    target.SetTarget("vampire_torpidoes", center.x, center.y, object->GetLength(), object->GetLength(), object->GetRotatedRect().angle, image.rows, image.cols);
+                    target.SetTarget(objectif, center.x, center.y, object->GetLength(), object->GetLength(), object->GetRotatedRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0,255,0),3);
@@ -158,6 +165,7 @@ namespace proc_image_processing {
         Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
 
         RangedParameter<double> min_area_, max_area_;
+
     };
 
 }  // namespace proc_image_processing
