@@ -56,15 +56,15 @@ namespace proc_image_processing {
 
                 contourList_t contours;
 
-                RetrieveContours(image, contours);
-                std::cout << "Contours : " << contours.size() << std::endl;
+                RetrieveOuterContours(image, contours);
+                //std::cout << "Contours : " << contours.size() << std::endl;
 
                 //RetrieveOuterContours(image, contours);
                 //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
-                RetrieveAllContours(image, contours);
+                //RetrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
-                std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
+                //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
                 for (int i = 0, size = contours.size(); i < size; i++) {
                     ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
                     if (object.get() == nullptr) {
