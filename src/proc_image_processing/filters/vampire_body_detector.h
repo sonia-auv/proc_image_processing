@@ -1,5 +1,5 @@
 //
-// Created by olavoie on 11/29/17.
+// Created by csauvain on 20/07/19.
 //
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_BODY_DETECTOR_H

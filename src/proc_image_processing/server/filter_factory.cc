@@ -122,6 +122,8 @@ Filter *FilterFactory::createInstance(const std::string &name,
       return new VampireTorpidoesDetector(globalParams);
   }else if (name == "VampireBodyDetector") {
       return new VampireBodyDetector(globalParams);
+  }else if (name == "VampireTorpidoesDetectorClose") {
+      return new VampireTorpidoesDetectorClose(globalParams);
   }else {
     return nullptr;
   }
@@ -138,7 +140,7 @@ std::string FilterFactory::GetFilterList() {
          "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
          "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask;"
          "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
-         "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector";
+         "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector;VampireTorpidoesDetector";
 }
 
 }  // namespace proc_image_processing

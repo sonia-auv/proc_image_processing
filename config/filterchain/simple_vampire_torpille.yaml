@@ -75,9 +75,17 @@ filters:
       - name: Enable
         value: 1
       - name: Type
-        value: 3
+        value: 2
       - name: Kernel_size
-        value: 5
+        value: 35
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 100
   - name: VampireTorpidoesDetector
     parameters:
       - name: Enable
@@ -89,6 +97,6 @@ filters:
       - name: Look_for_Heart
         value: 0
       - name: Min_area
-        value: 1000.000000
+        value: 10000.000000
       - name: Max_area
         value: 100000.000000
