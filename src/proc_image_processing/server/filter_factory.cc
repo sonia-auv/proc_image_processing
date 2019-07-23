@@ -140,7 +140,7 @@ std::string FilterFactory::GetFilterList() {
          "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
          "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask;"
          "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
-         "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector;VampireTorpidoesDetector";
+         "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector;VampireTorpidoesDetectorClose";
 }
 
 }  // namespace proc_image_processing
