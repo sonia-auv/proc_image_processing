@@ -41,7 +41,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 31
+        value: 0
   - name: Erode
     parameters:
       - name: Enable
@@ -55,7 +55,21 @@ filters:
       - name: Height
         value: 1
       - name: Iteration
-        value: 3
+        value: 1
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 1
+      - name: Height
+        value: 1
+      - name: Iteration
+        value: 1
   - name: Dilate
     parameters:
       - name: Enable
@@ -69,7 +83,7 @@ filters:
       - name: Height
         value: 1
       - name: Iteration
-        value: 9
+        value: 4
   - name: Blurr
     parameters:
       - name: Enable
@@ -77,17 +91,30 @@ filters:
       - name: Type
         value: 2
       - name: Kernel_size
-        value: 35
+        value: 15
   - name: Threshold
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Threshold_type
         value: 0
       - name: Max_value
         value: 100
-        value: 11
   - name: VampireTorpidoesDetector
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug_contour
+        value: 1
+      - name: Look_for_Ellipse
+        value: 1
+      - name: Look_for_Heart
+        value: 0
+      - name: Min_area
+        value: 10000.000000
+      - name: Max_area
+        value: 500000.000000
+  - name: VampireTorpidoesDetectorClose
     parameters:
       - name: Enable
         value: 1
@@ -100,4 +127,4 @@ filters:
       - name: Min_area
         value: 10000.000000
       - name: Max_area
-        value: 100000.000000
+        value: 500000.000000
