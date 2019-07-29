@@ -45,9 +45,9 @@ filters:
   - name: Blurr
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Type
-        value: 3
+        value: 0
       - name: Kernel_size
         value: 9
   - name: VampireBodyDetector
@@ -59,18 +59,6 @@ filters:
       - name: Look_for_Rectangle
         value: 1
       - name: Min_area
-        value: 1.000000
+        value: 100.000000
       - name: Max_area
-        value: 50000.000000
-  - name: Canny
-    parameters:
-      - name: Enable
-        value: 1
-      - name: l2_gradient
-        value: 0
-      - name: thres_one
-        value: 100
-      - name: thres_two
-        value: 200
-      - name: Aperture_size
-        value: 3
+        value: 12000.000000

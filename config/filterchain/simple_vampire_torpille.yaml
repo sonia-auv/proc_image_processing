@@ -41,7 +41,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 0
+        value: 15
   - name: Erode
     parameters:
       - name: Enable
@@ -95,9 +95,9 @@ filters:
   - name: Threshold
     parameters:
       - name: Enable
-        value: 1
-      - name: Threshold_type
         value: 0
+      - name: Threshold_type
+        value: 1
       - name: Max_value
         value: 100
   - name: VampireTorpidoesDetector

@@ -101,7 +101,7 @@ namespace proc_image_processing {
 
                         pourcentageFilled = CalculatePourcentFilled(output_image_, box);
 
-                        if (pourcentageFilled > 50) {
+                        if (pourcentageFilled > 25) {
                             continue;
                         }
 
