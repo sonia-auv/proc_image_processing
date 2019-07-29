@@ -78,7 +78,7 @@ namespace proc_image_processing {
                         cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                     }
 
-                    std::cout << "Is rectangle : " << IsRectangle(contours[i],20) << std::endl;
+                    //std::cout << "Is rectangle : " << IsRectangle(contours[i],20) << std::endl;
 
                     if (look_for_rectangle_() && IsRectangle(contours[i],20)) {
 
