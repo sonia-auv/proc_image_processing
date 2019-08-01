@@ -41,7 +41,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 29
+        value: 27
   - name: Erode
     parameters:
       - name: Enable
@@ -125,6 +125,6 @@ filters:
       - name: Look_for_Heart
         value: 0
       - name: Min_area
-        value: 10000.000000
+        value: 25000.000000
       - name: Max_area
-        value: 50000.000000
+        value: 1000000.000000

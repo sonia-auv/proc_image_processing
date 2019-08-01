@@ -97,6 +97,6 @@ filters:
       - name: Debug_contour
         value: 1
       - name: Min_area
-        value: 200.000000
+        value: 1000.000000
       - name: Min_pixel
-        value: 74.000000
+        value: 100.000000
