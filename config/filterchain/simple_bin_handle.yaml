@@ -41,7 +41,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 14
+        value: 5
   - name: Canny
     parameters:
       - name: Enable
@@ -71,7 +71,7 @@ filters:
   - name: Blurr
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Type
         value: 3
       - name: Kernel_size
@@ -83,8 +83,8 @@ filters:
       - name: Debug_contour
         value: 1
       - name: Look_for_Rectangle
-        value: 0
+        value: 1
       - name: Min_area
         value: 250.000000
       - name: Max_area
-        value: 7000.000000
+        value: 30000.000000
