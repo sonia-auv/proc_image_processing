@@ -61,7 +61,7 @@ filters:
       - name: Enable
         value: 1
       - name: Type
-        value: 0
+        value: 3
       - name: Kernel_size
         value: 8
   - name: VampireBodyDetector
@@ -71,8 +71,8 @@ filters:
       - name: Debug_contour
         value: 1
       - name: Look_for_Rectangle
-        value: 1
+        value: 0
       - name: Min_area
-        value: 1000.000000
+        value: 5000.000000
       - name: Max_area
-        value: 20000.000000
+        value: 15000.000000
