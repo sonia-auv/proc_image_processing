@@ -3,7 +3,7 @@ filters:
   - name: ImageCropper
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: X Offset
         value: 264
       - name: Y Offset

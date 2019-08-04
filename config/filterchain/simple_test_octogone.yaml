@@ -1,17 +1,13 @@
-name: simple_body_baby
+name: simple_test_octogone
 filters:
-  - name: ImageCropper
+  - name: ContrastBrightness
     parameters:
-      - name: Enable
-        value: 0
-      - name: X Offset
-        value: 200
-      - name: Y Offset
-        value: 150
-      - name: X Reduction
-        value: 200
-      - name: Y Reduction
-        value: 0
+      - name: enable
+        value: 1
+      - name: Contrast
+        value: 1.000000
+      - name: Brightness
+        value: 39.000000
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -19,7 +15,7 @@ filters:
       - name: Plane_1
         value: 3
       - name: Plane_2
-        value: 2
+        value: 0
       - name: Plane_3
         value: 0
       - name: Invert_plane_1
@@ -39,26 +35,46 @@ filters:
       - name: Enable
         value: 1
       - name: Threshold_type
-        value: 0
+        value: 1
       - name: Max_value
-        value: 9
-  - name: Blurr
+        value: 50
+  - name: Dilate
     parameters:
       - name: Enable
         value: 1
-      - name: Type
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
         value: 0
-      - name: Kernel_size
-        value: 9
-  - name: VampireBodyDetector
+      - name: Width
+        value: 1
+      - name: Height
+        value: 1
+      - name: Iteration
+        value: 0
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 2
+      - name: Height
+        value: 2
+      - name: Iteration
+        value: 1
+  - name: CenterCoffinDetector
     parameters:
       - name: Enable
         value: 1
       - name: Debug_contour
         value: 1
       - name: Look_for_Rectangle
-        value: 1
+        value: 0
       - name: Min_area
         value: 100.000000
       - name: Max_area
-        value: 12000.000000
+        value: 50000.000000
