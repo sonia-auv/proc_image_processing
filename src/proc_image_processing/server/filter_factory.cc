@@ -126,6 +126,8 @@ Filter *FilterFactory::createInstance(const std::string &name,
       return new VampireTorpidoesDetectorClose(globalParams);
   }else if (name == "ThresholdBetween") {
       return new ThresholdBetween(globalParams);
+  }else if (name == "CenterCoffinDetector") {
+      return new CenterCoffinDetector(globalParams);
   }else {
     return nullptr;
   }
@@ -143,7 +145,7 @@ std::string FilterFactory::GetFilterList() {
          "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask;"
          "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
          "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector;"
-         "VampireTorpidoesDetectorClose;ThresholdBetween";
+         "VampireTorpidoesDetectorClose;ThresholdBetween;CenterCoffinDetector";
 }
 
 }  // namespace proc_image_processing

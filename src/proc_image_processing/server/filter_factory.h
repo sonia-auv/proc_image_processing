@@ -72,6 +72,7 @@
 #include <proc_image_processing/filters/vampire_body_detector.h>
 #include <proc_image_processing/filters/vampire_torpidoes_detector_close.h>
 #include <proc_image_processing/filters/threshold_between.h>
+#include <proc_image_processing/filters/center_coffin_detector.h>
 #include <memory>
 #include <string>
 
