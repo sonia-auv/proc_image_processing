@@ -85,6 +85,6 @@ filters:
       - name: Look_for_Rectangle
         value: 1
       - name: Min_area
-        value: 250.000000
+        value: 1000.000000
       - name: Max_area
-        value: 30000.000000
+        value: 20000.000000

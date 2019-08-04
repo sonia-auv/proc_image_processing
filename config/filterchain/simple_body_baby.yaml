@@ -19,7 +19,7 @@ filters:
       - name: Plane_1
         value: 3
       - name: Plane_2
-        value: 2
+        value: 0
       - name: Plane_3
         value: 0
       - name: Invert_plane_1
@@ -41,7 +41,21 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 9
+        value: 96
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 20
+      - name: Height
+        value: 20
+      - name: Iteration
+        value: 3
   - name: Blurr
     parameters:
       - name: Enable
@@ -61,4 +75,4 @@ filters:
       - name: Min_area
         value: 100.000000
       - name: Max_area
-        value: 12000.000000
+        value: 50000.000000

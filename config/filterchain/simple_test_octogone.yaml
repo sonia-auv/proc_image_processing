@@ -41,7 +41,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 9
+        value: 13
   - name: Erode
     parameters:
       - name: Enable
@@ -59,7 +59,7 @@ filters:
   - name: Dilate
     parameters:
       - name: Enable
-        value: 1
+        value: 0
       - name: Square_kernel
         value: 1
       - name: Kernel_type
