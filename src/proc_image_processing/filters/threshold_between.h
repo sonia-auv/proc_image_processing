@@ -38,10 +38,10 @@ class ThresholdBetween : public Filter {
   explicit ThresholdBetween(const GlobalParamHandler &globalParams)
       : Filter(globalParams),
         enable_("Enable", false, &parameters_),
-        type_("Threshold_type", 1, 0, 5, &parameters_,
+        type_("Threshold_type_", 1, 0, 5, &parameters_,
               "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
-        min_("Min_value", 100, 0, 255, &parameters_),
-        max_("Max_value", 100, 0, 255, &parameters_) {
+        min_1("Min_value_1", 100, 0, 255, &parameters_),
+        min_2("Min_value_2", 100, 0, 255, &parameters_) {
     SetName("ThresholdBetween");
   }
 
@@ -83,16 +83,19 @@ class ThresholdBetween : public Filter {
           threshold_type = CV_THRESH_BINARY;
           break;
       }
-      cv::threshold(image, image, min_(), max_(), threshold_type);
+        cv::threshold(image, image_1, min_1(), 255, threshold_type);
+        cv::threshold(image, image_2, min_2(), 255, threshold_type);
+        image = image_2-image_1;
     }
   }
 
  private:
   //============================================================================
   // P R I V A T E   M E M B E R S
+  cv::Mat image_1, image_2, image_out;
 
   Parameter<bool> enable_;
-  RangedParameter<int> type_, min_, max_;
+  RangedParameter<int> type_, min_1, min_2;
 };
 
 }  // namespace proc_image_processing
