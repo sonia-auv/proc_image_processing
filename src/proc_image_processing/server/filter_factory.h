@@ -67,6 +67,12 @@
 #include <proc_image_processing/filters/white_filter.h>
 #include <proc_image_processing/filters/deep_dice.h>
 #include <proc_image_processing/filters/pipe_detector_angle.h>
+#include <proc_image_processing/filters/deep_2019.h>
+#include <proc_image_processing/filters/vampire_torpidoes_detector.h>
+#include <proc_image_processing/filters/vampire_body_detector.h>
+#include <proc_image_processing/filters/vampire_torpidoes_detector_close.h>
+#include <proc_image_processing/filters/threshold_between.h>
+#include <proc_image_processing/filters/center_coffin_detector.h>
 #include <memory>
 #include <string>
 

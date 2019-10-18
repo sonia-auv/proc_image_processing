@@ -1,0 +1,22 @@
+name: deep_bottom
+filters:
+  - name: Deep2019
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Debug contour
+        value: 1
+      - name: bat
+        value: 1
+      - name: wolf
+        value: 1
+      - name: vetalas
+        value: 0
+      - name: draugr
+        value: 0
+      - name: jiangshi
+        value : 0
+      - name: answag
+        value: 0
+      - name: vampire
+        value: 0

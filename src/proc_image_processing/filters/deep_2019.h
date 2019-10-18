@@ -16,8 +16,8 @@
 /// You should have received a copy of the GNU General Public License
 /// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PROC_IMAGE_PROCESSING_DEEP_DICE_H
-#define PROC_IMAGE_PROCESSING_DEEP_DICE_H
+#ifndef PROC_IMAGE_PROCESSING_DEEP_2019_H
+#define PROC_IMAGE_PROCESSING_DEEP_2019_H
 
 #include <proc_image_processing/filters/filter.h>
 #include <proc_image_processing/server/target.h>
@@ -31,37 +31,32 @@
 
 
 namespace proc_image_processing {
-    class DeepDice : public Filter{
+    class Deep2019 : public Filter{
 
     public:
 
         //============================================================================
         // P U B L I C   C / D T O R S
 
-        explicit DeepDice(const GlobalParamHandler &globalParams):
+        explicit Deep2019(const GlobalParamHandler &globalParams):
                 Filter(globalParams),
                 nh_(ros::NodeHandle("proc_image_processing")),
                 enable_("Enable", false, &parameters_),
                 debug_contour_("Debug contour", false, &parameters_),
-                dice1_("dice1", true, &parameters_),
-                dice2_("dice2", true, &parameters_),
-                dice5_("dice5", true, &parameters_),
-                dice6_("dice6", true, &parameters_),
-                roulette_("roulette", true, &parameters_),
-                path_("path", true, &parameters_),
-                cashinred_("cashinred", true, &parameters_),
-                cashingreend_("cashinreen", true, &parameters_),
-                slot_machine_("slot_machine", true, &parameters_),
-                dollar_sign_("dollar_sign", true, &parameters_),
+                vetalas_("vetalas", true, &parameters_),
+                draugr_("draugr", true, &parameters_),
+                jiangshi_("jiangshi", true, &parameters_),
+                answag_("answag", true, &parameters_),
+                vampire_("vampire", true, &parameters_),
 		bat_("bat", true, &parameters_),
 		wolf_("wolf", true, &parameters_),
                 color_(0,0,0)
         {
-            image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepDice::boundingBoxCallback, this);
-            SetName("DeepDice");
+            image_subscriber_= ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &Deep2019::boundingBoxCallback, this);
+            SetName("Deep2019");
         };
 
-        virtual ~DeepDice() {image_subscriber_.shutdown();}
+        virtual ~Deep2019() {image_subscriber_.shutdown();}
 
         //============================================================================
         // P U B L I C   M E T H O D S
@@ -75,48 +70,31 @@ namespace proc_image_processing {
                 image_height_ = image.size().height;
 
                 for (auto &object: bounding_box_) {
-                    if(dice1_.GetValue() && object.class_name.data == dice1_.GetName())  {
+                    if(vetalas_.GetValue() && object.class_name.data == vetalas_.GetName())  {
                         color_ = cv::Scalar(0,0,255);
                         handleObject(target, object, image, color_);
                     }
-                    if(dice2_.GetValue() && object.class_name.data == dice2_.GetName())  {
+                    if(draugr_.GetValue() && object.class_name.data == draugr_.GetName())  {
                         color_ = cv::Scalar(0,255,0);
                         handleObject(target, object, image, color_);
                     }
-                    if(dice5_.GetValue() && object.class_name.data == dice5_.GetName())  {
+                    if(jiangshi_.GetValue() && object.class_name.data == jiangshi_.GetName())  {
                         color_ = cv::Scalar(255,0,0);
                         handleObject(target, object, image, color_);
                     }
-                    if(dice6_.GetValue() && object.class_name.data == dice6_.GetName())  {
+                    if(answag_.GetValue() && object.class_name.data == answag_.GetName())  {
                         color_ = cv::Scalar(244,185,66);
                         handleObject(target, object, image, color_);
                     }
-                    if(roulette_.GetValue() && object.class_name.data == roulette_.GetName())  {
+                    if(vampire_.GetValue() && object.class_name.data == vampire_.GetName())  {
                         color_ = cv::Scalar(200,185,66);
                         handleObject(target, object, image, color_);
                     }
-                    if(path_.GetValue() && object.class_name.data == path_.GetName())  {
-                        color_ = cv::Scalar(244,185,100);
-                        handleObject(target, object, image, color_);
-                    }
-                    if(cashinred_.GetValue() && object.class_name.data == cashinred_.GetName())  {
-                        color_ = cv::Scalar(244,185,200);
-                        handleObject(target, object, image, color_);
-                    }
-                    if(cashingreend_.GetValue() && object.class_name.data == cashingreend_.GetName())  {
-                        color_ = cv::Scalar(244,200,66);
-                        handleObject(target, object, image, color_);
-                    }
-                    if(slot_machine_.GetValue() && object.class_name.data == slot_machine_.GetName())  {
-                        color_ = cv::Scalar(244,200,66);
-                        handleObject(target, object, image, color_);
-                    }if(dollar_sign_.GetValue() && object.class_name.data == dollar_sign_.GetName())  {
-                        color_ = cv::Scalar(147, 145, 0);
-                        handleObject(target, object, image, color_);
-                    }if(bat_.GetValue() && object.class_name.data == bat_.GetName())  {
+                    if(bat_.GetValue() && object.class_name.data == bat_.GetName())  {
                         color_ = cv::Scalar(217, 244, 66);
                         handleObject(target, object, image, color_);
-                    }if(wolf_.GetValue() && object.class_name.data == wolf_.GetName())  {
+                    }
+		    if(wolf_.GetValue() && object.class_name.data == wolf_.GetName())  {
                         color_ = cv::Scalar(66, 244, 223);
                         handleObject(target, object, image, color_);
                     }
@@ -141,7 +119,7 @@ namespace proc_image_processing {
         ros::NodeHandle nh_;
         std::vector<Detection> bounding_box_;
         std::vector<Target> objects_;
-        Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_, roulette_, path_, cashinred_, cashingreend_, slot_machine_, dollar_sign_, bat_,wolf_;
+        Parameter<bool> enable_, debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
         int image_width_;
         int image_height_;
         cv::Scalar color_;
