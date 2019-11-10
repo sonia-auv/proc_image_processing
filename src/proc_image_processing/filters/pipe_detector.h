@@ -110,8 +110,8 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->GetCenter();
-                    target.SetTarget("pipe", center.x, center.y, object->GetLength(),
-                                     object->GetLength(), object->GetRotatedRect().angle,
+                    target.SetTarget("pipe", center.x, center.y, object->GetHeight(),
+                                     object->GetHeight(), object->GetRotatedRect().angle,
                                      image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {

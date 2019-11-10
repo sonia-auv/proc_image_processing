@@ -207,7 +207,7 @@ class GateFinder : public Filter {
         if (vote_length_()) {
           std::sort(objVec.begin(), objVec.end(),
                     [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                      return fabs(a->GetLength()) > fabs(b->GetLength());
+                      return fabs(a->GetHeight()) > fabs(b->GetHeight());
                     });
           objVec[0]->IncrementVote();
           if (num_of_objects > 2) {

@@ -249,7 +249,7 @@ class ObjectFinder : public Filter {
         if (vote_length_()) {
           std::sort(objVec.begin(), objVec.end(),
                     [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                      return fabs(a->GetLength()) > fabs(b->GetLength());
+                      return fabs(a->GetHeight()) > fabs(b->GetHeight());
                     });
           objVec[0]->IncrementVote();
           cv::circle(output_image_, cv::Point(objVec[0]->GetCenter().x,
@@ -337,7 +337,7 @@ class ObjectFinder : public Filter {
         int y = 0;
         if (offset_y_for_fence_()) {
           y = (int)round(center.y -
-                         object->GetLength() * offset_y_for_fence_fraction());
+                                 object->GetHeight() * offset_y_for_fence_fraction());
         } else
           y = center.y;
         target.SetTarget(

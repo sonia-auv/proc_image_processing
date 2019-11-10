@@ -147,8 +147,8 @@ class ObjectFinder : public Filter {
         ObjectFullData::Ptr object = objVec[0];
         cv::Point center = object->GetCenter();
         setCameraOffset(&center, image.rows, image.cols);
-        target.SetTarget(center.x, center.y, object->GetLength(),
-                         object->GetLength(),
+        target.SetTarget(center.x, center.y, object->GetHeight(),
+                         object->GetHeight(),
                          abs(object->GetRotatedRect().angle - 90));
         std::stringstream ss;
         ss << "train:" << target.OutputString();
