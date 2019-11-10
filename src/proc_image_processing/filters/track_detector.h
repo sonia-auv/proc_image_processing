@@ -154,7 +154,7 @@ class TrackDetector : public Filter {
         Target target;
         ObjectFullData::Ptr object = contour_vote[0].first;
         cv::Point center = object->GetCenter();
-        target.SetTarget("track", center.x, center.y, object->GetHeight(),
+        target.SetTarget("track", center.x, center.y, object->GetWidth(),
                          object->GetHeight(), object->GetRotatedRect().angle,
                          image.rows, image.cols);
         NotifyTarget(target);

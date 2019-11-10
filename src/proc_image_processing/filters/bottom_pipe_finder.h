@@ -147,7 +147,7 @@ class ObjectFinder : public Filter {
         ObjectFullData::Ptr object = objVec[0];
         cv::Point center = object->GetCenter();
         setCameraOffset(&center, image.rows, image.cols);
-        target.SetTarget(center.x, center.y, object->GetHeight(),
+        target.SetTarget(center.x, center.y, object->GetWidth(),
                          object->GetHeight(),
                          abs(object->GetRotatedRect().angle - 90));
         std::stringstream ss;

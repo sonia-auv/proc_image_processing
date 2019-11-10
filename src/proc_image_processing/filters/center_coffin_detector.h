@@ -94,7 +94,7 @@ namespace proc_image_processing {
                     target_center.x = (center_1.x+center_2.x)/2;
                     target_center.y = (center_1.y+center_2.y)/2;
 
-                    target.SetTarget(objectif, target_center.x, target_center.y, object_1->GetHeight(),
+                    target.SetTarget(objectif, target_center.x, target_center.y, object_1->GetWidth(),
                                      object_1->GetHeight(), object_1->GetRotatedRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
