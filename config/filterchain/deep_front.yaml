@@ -1,25 +1,33 @@
-name: simple_bin_handle
+name: deep_front
 filters:
-  - name: ImageCropper
+  - name: Deep2019
     parameters:
       - name: Enable
         value: 0
-      - name: X Offset
-        value: 244
-      - name: Y Offset
+      - name: Debug contour
+        value: 1
+      - name: vetalas
         value: 0
-      - name: X Reduction
-        value: 234
-      - name: Y Reduction
+      - name: draugr
+        value: 0
+      - name: jiangshi
+        value: 1
+      - name: answag
+        value: 0
+      - name: vampire
+        value: 0
+      - name: bat
+        value: 0
+      - name: wolf
         value: 0
   - name: SubtractAllPlanes
     parameters:
       - name: enable
         value: 1
       - name: Plane_1
-        value: 4
+        value: 5
       - name: Plane_2
-        value: 0
+        value: 4
       - name: Plane_3
         value: 0
       - name: Invert_plane_1
@@ -39,21 +47,23 @@ filters:
       - name: Enable
         value: 1
       - name: Threshold_type
-        value: 1
+        value: 0
       - name: Max_value
-        value: 42
-  - name: Canny
+        value: 196
+  - name: Dilate
     parameters:
       - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
         value: 0
-      - name: l2_gradient
-        value: 0
-      - name: thres_one
-        value: 100
-      - name: thres_two
-        value: 200
-      - name: Aperture_size
+      - name: Width
         value: 3
+      - name: Height
+        value: 3
+      - name: Iteration
+        value: 2
   - name: Erode
     parameters:
       - name: Enable
@@ -63,42 +73,38 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 1
-      - name: Height
-        value: 1
-      - name: Iteration
-        value: 1
-  - name: Dilate
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 2
-      - name: Width
-        value: 2
-      - name: Height
-        value: 2
-      - name: Iteration
         value: 5
+      - name: Height
+        value: 5
+      - name: Iteration
+        value: 2
   - name: Blurr
     parameters:
       - name: Enable
         value: 1
       - name: Type
-        value: 3
+        value: 2
       - name: Kernel_size
-        value: 6
-  - name: VampireBodyDetector
+        value: 3
+  - name: Threshold
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold_type
+        value: 0
+      - name: Max_value
+        value: 100
+  - name: VampireTorpidoesDetectorClose
     parameters:
       - name: Enable
         value: 1
       - name: Debug_contour
         value: 1
-      - name: Look_for_Rectangle
-        value: 1
+      - name: Look_for_Ellipse
+        value: 0
+      - name: Look_for_Heart
+        value: 0
       - name: Min_area
-        value: 1000.000000
+        value: 5000.000000
       - name: Max_area
-        value: 20000.000000
+        value: 999999.000000
