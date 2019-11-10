@@ -1,5 +1,25 @@
-name: simple_align_test
+name: deep_front
 filters:
+  - name: Deep2019
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Debug contour
+        value: 1
+      - name: vetalas
+        value: 0
+      - name: draugr
+        value: 0
+      - name: jiangshi
+        value: 1
+      - name: answag
+        value: 0
+      - name: vampire
+        value: 0
+      - name: bat
+        value: 0
+      - name: wolf
+        value: 0
   - name: SubtractAllPlanes
     parameters:
       - name: enable
@@ -29,7 +49,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 201
+        value: 196
   - name: Dilate
     parameters:
       - name: Enable
@@ -39,11 +59,11 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 2
+        value: 3
       - name: Height
-        value: 2
+        value: 3
       - name: Iteration
-        value: 4
+        value: 2
   - name: Erode
     parameters:
       - name: Enable
@@ -53,11 +73,11 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 10
+        value: 5
       - name: Height
-        value: 10
+        value: 5
       - name: Iteration
-        value: 1
+        value: 2
   - name: Blurr
     parameters:
       - name: Enable
@@ -65,29 +85,7 @@ filters:
       - name: Type
         value: 2
       - name: Kernel_size
-        value: 8
-  - name: Dilate
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Square_kernel
-        value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 7
-      - name: Height
-        value: 7
-      - name: Iteration
-        value: 4
-  - name: Blurr
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Type
         value: 3
-      - name: Kernel_size
-        value: 17
   - name: Threshold
     parameters:
       - name: Enable
@@ -107,6 +105,6 @@ filters:
       - name: Look_for_Heart
         value: 0
       - name: Min_area
-        value: 500.000000
+        value: 5000.000000
       - name: Max_area
-        value: 100000.000000
+        value: 999999.000000
