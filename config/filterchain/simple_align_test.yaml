@@ -29,7 +29,7 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 201
+        value: 150
   - name: Dilate
     parameters:
       - name: Enable

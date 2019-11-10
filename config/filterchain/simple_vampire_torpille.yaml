@@ -69,7 +69,7 @@ filters:
       - name: Height
         value: 2
       - name: Iteration
-        value: 2
+        value: 3
   - name: Erode
     parameters:
       - name: Enable
@@ -103,7 +103,7 @@ filters:
   - name: VampireTorpidoesDetector
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Debug_contour
         value: 1
       - name: Look_for_Ellipse
@@ -113,7 +113,7 @@ filters:
       - name: Min_area
         value: 10000.000000
       - name: Max_area
-        value: 500000.000000
+        value: 900007.000000
   - name: VampireTorpidoesDetectorClose
     parameters:
       - name: Enable
@@ -123,7 +123,7 @@ filters:
       - name: Look_for_Ellipse
         value: 1
       - name: Look_for_Heart
-        value: 0
+        value: 1
       - name: Min_area
         value: 20000.000000
       - name: Max_area
