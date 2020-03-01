@@ -135,7 +135,7 @@ filters:
       - name: Text_size
         value: 2.000000
       - name: Real_object_height (mm)
-        value: 100.000000
+        value: 200.000000
       - name: Text_thickness
         value: 3
       - name: Text_pos_x

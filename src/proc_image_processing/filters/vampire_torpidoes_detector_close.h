@@ -149,8 +149,8 @@ namespace proc_image_processing {
                             center.y = text_pos_y_();
                         }
                         
-                        distance = TargetDistance(real_object_height_(), object->GetHeight(), 1000);
-                        std::string str_distance = "Dist : " + std::to_string(distance) + " m";
+                        distance = TargetDistance(real_object_height_(), object->GetHeight(), image.rows);
+                        std::string str_distance = objectif + " : " + std::to_string(distance) + " m";
 
                         cv::putText(output_image_,str_distance, center,cv::FONT_HERSHEY_SIMPLEX, text_size_(),CV_RGB(0,255,0),text_thickness_(),cv::FILLED,false);
                     }
