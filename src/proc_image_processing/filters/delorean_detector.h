@@ -154,6 +154,7 @@ class DeloreanDetector : public Filter {
         ObjectFullData::Ptr object_big = objVec_big[0];
         cv::Point center_big = object_big->GetCenter();
         double angle = 181;
+        float distance = 0.0;
         if (objVec_small.size() > 0) {
           ObjectFullData::Ptr object_small = objVec_small[0];
           cv::Point center_small = object_small->GetCenter();
@@ -170,11 +171,11 @@ class DeloreanDetector : public Filter {
         if (output_train_()) {
           target.SetTarget("train", center_big.x, center_big.y,
                            object_big->GetHeight(), object_big->GetHeight(),
-                           float(angle), image.rows, image.cols);
+                           float(angle), distance, image.rows, image.cols);
         } else {
           target.SetTarget("delorean", center_big.x, center_big.y,
                            object_big->GetHeight(), object_big->GetHeight(),
-                           float(angle), image.rows, image.cols);
+                           float(angle), distance, image.rows, image.cols);
         }
         NotifyTarget(target);
         if (debug_contour_()) {

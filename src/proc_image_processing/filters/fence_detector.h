@@ -178,10 +178,11 @@ class FenceDetector : public Filter {
 
       Target fence;
       cv::Point center = (rect_from_hori_bar.center);
+      float distance = 0.0;
       fence.SetTarget("fence", center.x, center.y,
                       rect_from_hori_bar.size.width,
                       rect_from_hori_bar.size.height, rect_from_hori_bar.angle,
-                      image.rows, image.cols);
+                      distance, image.rows, image.cols);
 
       int y_coord_from_bottom = CalculateYFromBottomBar(
           rect_from_hori_bar.size.height, rect_from_hori_bar.center.y);

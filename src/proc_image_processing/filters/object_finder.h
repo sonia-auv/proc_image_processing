@@ -334,6 +334,7 @@ class ObjectFinder : public Filter {
         Target target;
         ObjectFullData::Ptr object = objVec[0];
         cv::Point center = object->GetCenter();
+        float distance = 0.0;
         int y = 0;
         if (offset_y_for_fence_()) {
           y = (int)round(center.y -
@@ -343,7 +344,7 @@ class ObjectFinder : public Filter {
         target.SetTarget(
             id_(), center.x, y, object->GetRotatedRect().size.width,
             object->GetRotatedRect().size.height,
-            object->GetRotatedRect().angle, image.rows, image.cols);
+            object->GetRotatedRect().angle, distance, image.rows, image.cols);
         target.SetSpecField_1(spec_1_());
         target.SetSpecField_2(spec_2_());
         NotifyTarget(target);

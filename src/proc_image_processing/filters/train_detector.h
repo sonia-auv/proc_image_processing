@@ -158,10 +158,11 @@ class TrainDetector : public Filter {
         ObjectFullData::Ptr object =
             std::make_shared<ObjectFullData>(originalImage, image, obj1);
         cv::Point center = object->GetCenter();
+        float distance = 0.0;
         target.SetTarget("train", center.x, center.y, object->GetWidth(),
                          object->GetHeight(),
                          std::abs(object->GetRotatedRect().angle - 90),
-                         image.rows, image.cols);
+                         distance, image.rows, image.cols);
         NotifyTarget(target);
         if (debug_contour_()) {
           contourList_t tmp;

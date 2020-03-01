@@ -669,5 +669,13 @@ float Median(std::vector<float> values) {
 
   return median;
 };
+//------------------------------------------------------------------------------
+//
+float TargetDistance(float real_height, float object_height, int image_height){
+  float focal_size = 4.5;
+  float sensor_height = 5.3;
+  //float sensor_width = 7.1;
+  return ((focal_size * real_height * image_height)/(object_height * sensor_height)) / 1000;
+}
 
 }  // namespace proc_image_processing

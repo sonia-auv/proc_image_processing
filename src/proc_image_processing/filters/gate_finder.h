@@ -336,8 +336,9 @@ class GateFinder : public Filter {
         y = y/y_count;
 
         cv::Point center((int)round(x), (int)round(y));
+        float distance = 0.0;
         target.SetTarget(
-            id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
+            id_(), center.x, center.y, 0, 0, 0, distance, image.rows, image.cols);
         target.SetSpecField_1(spec_1_());
         target.SetSpecField_2(spec_2_());
         NotifyTarget(target);

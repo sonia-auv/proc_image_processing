@@ -25,6 +25,7 @@
 #include <proc_image_processing/algorithm/line.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
+#include <iostream>
 
 namespace proc_image_processing {
 
@@ -124,6 +125,8 @@ void DrawSquares(cv::Mat &image,
 bool CompareYX(const cv::Point &p1, const cv::Point &p2);
 
 float Median(std::vector<float> values);
+
+float TargetDistance(float real_height, float object_height, int image_height);
 
 //==============================================================================
 // I N L I N E   F U N C T I O N S   D E F I N I T I O N S

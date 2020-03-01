@@ -43,7 +43,7 @@ class Target {
 
   Target();
   Target(const std::string &header, int x, int y, float width, float height,
-         float angle, int image_height, int image_width,
+         float angle, float distance, int image_height, int image_width,
          const std::string &spec_field_1 = "",
          const std::string &spec_field_2 = "");
 
@@ -54,7 +54,7 @@ class Target {
 
   // Setting target will use offseted center.
   void SetTarget(const std::string &header, int x, int y, float width,
-                 float height, float angle, int image_height, int image_width,
+                 float height, float angle, float distance, int image_height, int image_width,
                  const std::string &spec_field_1 = "",
                  const std::string &spec_field_2 = "");
 
@@ -73,6 +73,8 @@ class Target {
   void SetSize(const cv::Size &sz);
 
   void SetAngle(float angle);
+
+  void SetDistance(float distance);
 
   void SetSpecField_1(const std::string &field);
 
@@ -93,7 +95,7 @@ class Target {
 
   cv::Size_<float> dimension_;
 
-  float angle_;
+  float angle_, distance_;
 
   // Bins name, buoy colors, etc.
   std::string header_;
@@ -110,7 +112,7 @@ typedef std::queue<Target> TargetQueue;
 //
 inline void Target::SetTarget(const std::string &header, int x, int y,
                               float width, float height, float angle,
-                              int image_height, int image_width,
+                              float distance, int image_height, int image_width,
                               const std::string &spec_field_1,
                               const std::string &spec_field_2) {
   header_ = header;
@@ -119,6 +121,7 @@ inline void Target::SetTarget(const std::string &header, int x, int y,
   dimension_.width = width;
   dimension_.height = height;
   angle_ = angle;
+  distance_ = distance;
   special_field_1_ = spec_field_1;
   special_field_2_ = spec_field_2;
   SetCameraOffset(center_, image_height, image_width);
@@ -172,6 +175,10 @@ inline void Target::SetAngle(float angle) { angle_ = angle; }
 
 //------------------------------------------------------------------------------
 //
+inline void Target::SetDistance(float distance) { distance_ = distance; }
+
+//------------------------------------------------------------------------------
+//
 inline void Target::SetSpecField_1(const std::string &field) {
   special_field_1_ = field;
 }
@@ -207,6 +214,7 @@ inline void Target::SetMessage(proc_image_processing::VisionTarget &msg) {
   msg.width = dimension_.width;
   msg.height = dimension_.height;
   msg.angle = angle_;
+  msg.distance = distance_;
   msg.desc_1 = special_field_1_;
   msg.desc_2 = special_field_2_;
 }

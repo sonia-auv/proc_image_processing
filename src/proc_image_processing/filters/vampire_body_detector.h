@@ -96,10 +96,11 @@ namespace proc_image_processing {
                 std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool { return a->GetArea() > b->GetArea();});
 
                 if (objVec.size() > 0) {
+                    float distance = 0.0;
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->GetCenter();
-                    target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, image.rows, image.cols);
+                    target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, distance, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0,255,0),3);

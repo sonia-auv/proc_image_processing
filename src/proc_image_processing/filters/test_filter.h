@@ -61,7 +61,7 @@ class TestFilter : public Filter {
     if (enable_()) {
       target_.SetTarget("test_filter", x_.GetValue() - 1000 / 2, y_.GetValue(),
                         w_.GetValue(), h_.GetValue(), angle_.GetValue(), 1000,
-                        -1000 - (1000 / 2), specField1_.GetValue(),
+                        -1000 - (1000 / 2), 0.0, specField1_.GetValue(),
                         specField2_.GetValue());
 
       NotifyTarget(target_);

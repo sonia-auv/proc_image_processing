@@ -151,12 +151,13 @@ class TrackDetector : public Filter {
 
       // Since we search only one buoy, get the biggest from sort function
       if (contour_vote.size() > 0) {
+        float distance = 0.0;
         Target target;
         ObjectFullData::Ptr object = contour_vote[0].first;
         cv::Point center = object->GetCenter();
         target.SetTarget("track", center.x, center.y, object->GetWidth(),
                          object->GetHeight(), object->GetRotatedRect().angle,
-                         image.rows, image.cols);
+                         distance, image.rows, image.cols);
         NotifyTarget(target);
         if (debug_contour_()) {
           cv::circle(output_image_, objVec[0]->GetCenter(), 3,

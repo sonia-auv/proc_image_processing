@@ -11,8 +11,8 @@
 #include <math.h>
 #include <memory>
 #include <proc_image_processing/algorithm/performance_evaluator.h>
-//#include "opencv2/highgui/highgui.hpp"
-//#include "opencv2/imgproc/imgproc.hpp"
+#include <proc_image_processing/algorithm/general_function.h>
+#include <iostream>
 
 namespace proc_image_processing {
 
@@ -30,10 +30,17 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                 enable_("Enable", false, &parameters_),
                 debug_contour_("Debug_contour", false, &parameters_),
+                distance_detection_("Distance_detection", false, &parameters_),
                 look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
                 look_for_heart_("Look_for_Heart", false, &parameters_),
+                text_on_target_("Text_on_target", false, & parameters_),
                 min_area_("Min_area", 5000, 1, 50000, &parameters_),
-                max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+                max_area_("Max_area", 100000, 1, 1000000, &parameters_),
+                text_size_("Text_size", 1, 0, 15, & parameters_),
+                real_object_height_("Real_object_height (mm)", 50, 0, 2000, & parameters_),
+                text_thickness_("Text_thickness", 1, 0, 15, & parameters_),
+                text_pos_x_("Text_pos_x", 500, 0, 2000, & parameters_),
+                text_pos_y_("Text_pos_y", 500, 0, 2000, & parameters_) {
             SetName("VampireTorpidoesDetectorClose");}
 
         virtual ~VampireTorpidoesDetectorClose() {}
@@ -56,24 +63,15 @@ namespace proc_image_processing {
 
                 contourList_t contours;
 
-                //RetrieveContours(image, contours);
-                //std::cout << "Contours : " << contours.size() << std::endl;
-
-                //RetrieveOuterContours(image, contours);
-                //std::cout << "Outer Contours : " << contours.size() << std::endl;
-
                 RetrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
-                //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
+                
                 for (int i = 0, size = contours.size(); i < size; i++) {
                     ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
                     if (object.get() == nullptr) {
                         continue;
                     }
-                    //AREA
-
-                   // std::cout << object->GetArea();
-
+                    
                     if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
                         continue;
                     }
@@ -89,12 +87,9 @@ namespace proc_image_processing {
                     float circleIndex;
                     float pourcentageFilled;
 
+                    circleIndex = CalculateCircleIndex(contours[i]);
+
                     if (look_for_ellipse_()) {
-
-                        circleIndex = CalculateCircleIndex(contours[i]);
-
-                        //std::cout << circleIndex << std::endl;
-
                         if (circleIndex < 0.7) {
                             continue;
                         }
@@ -114,9 +109,6 @@ namespace proc_image_processing {
                     }
 
                     if (look_for_heart_()) {
-
-                        circleIndex = CalculateCircleIndex(contours[i]);
-
                         if (circleIndex > 0.9) {
                             continue;
                         }
@@ -144,39 +136,51 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->GetCenter();
-                    target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, image.rows, image.cols);
+                    float distance = 0.0;
+
+                    if (distance_detection_()){
+                        //std::string distance;
+                        if (text_on_target_()) {
+                            center = object->GetCenter();
+                        }
+                        else
+                        {
+                            center.x = text_pos_x_();
+                            center.y = text_pos_y_();
+                        }
+                        
+                        distance = TargetDistance(real_object_height_(), object->GetHeight(), 1000);
+                        std::string str_distance = "Dist : " + std::to_string(distance) + " m";
+
+                        cv::putText(output_image_,str_distance, center,cv::FONT_HERSHEY_SIMPLEX, text_size_(),CV_RGB(0,255,0),text_thickness_(),cv::FILLED,false);
+                    }
+
+                    target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, distance, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0,255,0),3);
                     }
+                    
                 }
-
-
-
 
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
 
-
             }
 
-
-
-
     }
-
-
-
 
     private:
         //============================================================================
         // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
 
-        Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
+        Parameter<bool> enable_, debug_contour_, distance_detection_, look_for_ellipse_, look_for_heart_, text_on_target_;
 
-        RangedParameter<double> min_area_, max_area_;
+        RangedParameter<double> min_area_, max_area_, text_size_, real_object_height_;
+
+        RangedParameter<int> text_thickness_, text_pos_x_, text_pos_y_;
 
     };
 

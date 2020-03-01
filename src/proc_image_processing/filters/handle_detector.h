@@ -143,12 +143,13 @@ class HandleDetector : public Filter {
 
       // Since we search only one buoy, get the biggest from sort function
       if (objVec.size() > 0) {
+        float distance = 0.0;
         Target target;
         ObjectFullData::Ptr object = objVec[0];
         cv::Point center = object->GetCenter();
         target.SetTarget(id_(), center.x, center.y, object->GetWidth(),
                          object->GetHeight(), object->GetRotatedRect().angle,
-                         image.rows, image.cols);
+                         distance, image.rows, image.cols);
         target.SetSpecField_1(spec_1_());
         target.SetSpecField_2(spec_2_());
         NotifyTarget(target);
