@@ -4,6 +4,7 @@ float32 y
 float32 width
 float32 height
 float32 angle
+float32 distance
 string desc_1
 string desc_2
 
