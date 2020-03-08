@@ -1,11 +1,11 @@
-name: simple_vampire_torpille
+name: simple_new_cam
 filters:
   - name: Rotate
     parameters:
       - name: enable
         value: 1
       - name: transpose
-        value: 0
+        value: 1
       - name: Rotation_type
         value: 3
   - name: ImageCropper
@@ -13,11 +13,11 @@ filters:
       - name: Enable
         value: 0
       - name: X Offset
-        value: 0
+        value: 500
       - name: Y Offset
         value: 0
       - name: X Reduction
-        value: 0
+        value: 500
       - name: Y Reduction
         value: 0
   - name: SubtractAllPlanes
@@ -49,11 +49,25 @@ filters:
       - name: Threshold_type
         value: 0
       - name: Max_value
-        value: 34
+        value: 39
+  - name: Erode
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 1
+      - name: Height
+        value: 1
+      - name: Iteration
+        value: 3
   - name: Dilate
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -63,25 +77,11 @@ filters:
       - name: Height
         value: 2
       - name: Iteration
-        value: 2
-  - name: Erode
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Square_kernel
         value: 1
-      - name: Kernel_type
-        value: 0
-      - name: Width
-        value: 3
-      - name: Height
-        value: 3
-      - name: Iteration
-        value: 2
   - name: Erode
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Square_kernel
         value: 1
       - name: Kernel_type
@@ -99,7 +99,7 @@ filters:
       - name: Type
         value: 2
       - name: Kernel_size
-        value: 21
+        value: 2
   - name: Threshold
     parameters:
       - name: Enable
@@ -111,7 +111,7 @@ filters:
   - name: VampireTorpidoesDetector
     parameters:
       - name: Enable
-        value: 0
+        value: 1
       - name: Debug_contour
         value: 1
       - name: Look_for_Ellipse
@@ -119,7 +119,7 @@ filters:
       - name: Look_for_Heart
         value: 0
       - name: Min_area
-        value: 10000.000000
+        value: 5000.000000
       - name: Max_area
         value: 900007.000000
   - name: VampireTorpidoesDetectorClose
@@ -128,33 +128,11 @@ filters:
         value: 1
       - name: Debug_contour
         value: 1
-      - name: Distance_detection
-        value: 1
       - name: Look_for_Ellipse
         value: 1
       - name: Look_for_Heart
-        value: 0
-      - name: Text_on_target
         value: 0
       - name: Min_area
         value: 1000.000000
       - name: Max_area
         value: 1000000.000000
-      - name: Text_size
-        value: 2.000000
-      - name: Real_object_height (mm)
-        value: 200.000000
-      - name: Text_thickness
-        value: 3
-      - name: Text_pos_x
-        value: 50
-      - name: Text_pos_y
-        value: 100
-  - name: RemoveMask
-    parameters:
-      - name: Enable
-        value: 0
-      - name: Type
-        value: 2
-      - name: Kernel_size
-        value: 1
