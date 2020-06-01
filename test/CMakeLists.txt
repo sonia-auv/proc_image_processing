@@ -10,4 +10,4 @@ target_link_libraries(black_box_test
     pthread ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} ${proc_image_processing_LIBRARIES}
     ${OpenCV_LIBRARIES} yaml-cpp )
 
-add_dependencies(black_box_test ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(black_box_test ${PROJECT_NAME}_node)

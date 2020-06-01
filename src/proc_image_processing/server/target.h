@@ -27,7 +27,7 @@
 #include <memory>
 #include <opencv2/opencv.hpp>
 #include <queue>
-#include "proc_image_processing/VisionTarget.h"
+#include <sonia_msgs/VisionTarget.h>
 
 namespace proc_image_processing {
 
@@ -84,7 +84,7 @@ class Target {
 
   std::string GetSpecField_2();
 
-  void SetMessage(proc_image_processing::VisionTarget &msg);
+  void SetMessage(sonia_msgs::VisionTarget &msg);
 
  private:
   //============================================================================
@@ -200,7 +200,7 @@ inline std::string Target::GetSpecField_2() { return special_field_2_; }
 
 //------------------------------------------------------------------------------
 //
-inline void Target::SetMessage(proc_image_processing::VisionTarget &msg) {
+inline void Target::SetMessage(sonia_msgs::VisionTarget &msg) {
   msg.header = header_;
   msg.x = center_.x;
   msg.y = center_.y;

@@ -21,20 +21,20 @@
 #ifndef PROVIDER_VISION_SERVER_VISION_SERVER_H_
 #define PROVIDER_VISION_SERVER_VISION_SERVER_H_
 
-#include <proc_image_processing/copy_filterchain.h>
-#include <proc_image_processing/execute_cmd.h>
-#include <proc_image_processing/get_filterchain_filter.h>
-#include <proc_image_processing/get_filterchain_filter_all_param.h>
-#include <proc_image_processing/get_filterchain_filter_param.h>
-#include <proc_image_processing/get_filterchain_from_execution.h>
-#include <proc_image_processing/get_information_list.h>
-#include <proc_image_processing/get_media_from_execution.h>
-#include <proc_image_processing/manage_filterchain.h>
-#include <proc_image_processing/manage_filterchain_filter.h>
-#include <proc_image_processing/save_filterchain.h>
-#include <proc_image_processing/set_filterchain_filter_observer.h>
-#include <proc_image_processing/set_filterchain_filter_order.h>
-#include <proc_image_processing/set_filterchain_filter_param.h>
+#include <sonia_msgs/CopyFilterchain.h>
+#include <sonia_msgs/ExecuteCmd.h>
+#include <sonia_msgs/GetFilterchainFilter.h>
+#include <sonia_msgs/GetFilterchainFilterAllParam.h>
+#include <sonia_msgs/GetFilterchainFilterParam.h>
+#include <sonia_msgs/GetFilterchainFromExecution.h>
+#include <sonia_msgs/GetInformationList.h>
+#include <sonia_msgs/GetMediaFromExecution.h>
+#include <sonia_msgs/ManageFilterchain.h>
+#include <sonia_msgs/ManageFilterchainFilter.h>
+#include <sonia_msgs/SaveFilterchain.h>
+#include <sonia_msgs/SetFilterchainFilterObserver.h>
+#include <sonia_msgs/SetFilterchainFilterOrder.h>
+#include <sonia_msgs/SetFilterchainFilterParam.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -102,7 +102,7 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
   /**
    * \brief Copies a filterchain which is not used by a running execution.
    *
-   * Manages the ROS service copy_filterchain.
+   * Manages the ROS service sonia_msgs::CopyFilterchain.
    *
    * Here are the parameters of the service:
    *  * filter_chain_name_to_copy	The name of the filterchain to copy.
@@ -114,13 +114,13 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackCopyFc(copy_filterchain::Request &rqst,
-                      copy_filterchain::Response &rep);
+  bool CallbackCopyFc(sonia_msgs::CopyFilterchain::Request &rqst,
+                      sonia_msgs::CopyFilterchain::Response &rep);
 
   /**
    * \brief Gets the parameters for a filter.
    *
-   * Manages the ROS service get_filterchain_filter_param.
+   * Manages the ROS service sonia_msgs::GetFilterchainFilterParam.
    *
    * Here are the parameters of the service:
    *  * filter_name Name of the filter contained in the filterchain.
@@ -133,8 +133,8 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackGetFilterParam(get_filterchain_filter_param::Request &rqst,
-                              get_filterchain_filter_param::Response &rep);
+  bool CallbackGetFilterParam(sonia_msgs::GetFilterchainFilterParam::Request &rqst,
+                              sonia_msgs::GetFilterchainFilterParam::Response &rep);
 
   /**
    * TODO Thibaut Mattio: Check this method, this is exacly the same
@@ -142,7 +142,7 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *
    * \brief Gets the parameters for a filter.
    *
-   * Manages the ROS service get_filterchain_filter_param.
+   * Manages the ROS service sonia_msgs::GetFilterchainFilterParam.
    *
    * Here are the parameters of the service:
    *  * filter_name Name of the filter contained in the filterchain.
@@ -156,14 +156,14 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    * \return True if the callback has succesfully processed the service call.
    */
   bool CallbackGetFilterAllParam(
-      get_filterchain_filter_all_param::Request &rqst,
-      get_filterchain_filter_all_param::Response &rep);
+      sonia_msgs::GetFilterchainFilterAllParam::Request &rqst,
+      sonia_msgs::GetFilterchainFilterAllParam::Response &rep);
 
   /**
    * \brief Set the value of a parameter of a filter contained in a filterchain
    * used by a running execution.
    *
-   * Manages the ROS service set_filterchain_filter_param.
+   * Manages the ROS service sonia_msgs::SetFilterchainFilterParam.
    *
    * Here are the parameters of the service:
    *  * filter_chain_name Name of the filterchain which contain the filter.
@@ -178,13 +178,13 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackSetFilterParam(set_filterchain_filter_param::Request &rqst,
-                              set_filterchain_filter_param::Response &rep);
+  bool CallbackSetFilterParam(sonia_msgs::SetFilterchainFilterParam::Request &rqst,
+                              sonia_msgs::SetFilterchainFilterParam::Response &rep);
 
   /**
    * \brief Gets the filters contained in a filterchain.
    *
-   * Manages the ROS service get_filterchain_filter_param.
+   * Manages the ROS service sonia_msgs::GetFilterchainFilterParam.
    *
    * Here are the parameters of the service:
    *  *	filter_chain_name Name of the filterchain.
@@ -197,13 +197,13 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackGetFilter(get_filterchain_filter::Request &rqst,
-                         get_filterchain_filter::Response &rep);
+  bool CallbackGetFilter(sonia_msgs::GetFilterchainFilter::Request &rqst,
+                         sonia_msgs::GetFilterchainFilter::Response &rep);
 
   /**
    * \brief Adds/Deletes a filter in a filterchain used by a running execution.
    *
-   * Manages the ROS service manage_filterchain_filter.
+   * Manages the ROS service sonia_msgs::ManageFilterchainFilter.
    *
    * Here are the parameters of the service:
    *  * filter_chain_name	Name of the filterchain.
@@ -217,13 +217,13 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackManageFilter(manage_filterchain_filter::Request &rqst,
-                            manage_filterchain_filter::Response &rep);
+  bool CallbackManageFilter(sonia_msgs::ManageFilterchainFilter::Request &rqst,
+                            sonia_msgs::ManageFilterchainFilter::Response &rep);
 
   /**
    * \brief Creates/Deletes a filterchain (the .fc fils in config directory).
    *
-   * Manages the ROS service manage_filterchain.
+   * Manages the ROS service sonia_msgs::ManageFilterchain.
    *
    * Here are the parameters of the service:
    *  * filter_chain_name	Name of the filterchain.
@@ -235,8 +235,8 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackManageFc(manage_filterchain::Request &rqst,
-                        manage_filterchain::Response &rep);
+  bool CallbackManageFc(sonia_msgs::ManageFilterchain::Request &rqst,
+                        sonia_msgs::ManageFilterchain::Response &rep);
 
   /**
    * \brief Saves a filterchain.
@@ -251,7 +251,7 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    * If the filterchain is not used by a running execution, this call will
    * fail.
    *
-   * Manages the ROS service save_filterchain.
+   * Manages the ROS service sonia_msgs::SaveFilterchain.
    *
    * Here are the parameters of the service:
    *  * filter_chain_name Name of the filterchain to save.
@@ -264,13 +264,13 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackSaveFc(save_filterchain::Request &rqst,
-                      save_filterchain::Response &rep);
+  bool CallbackSaveFc(sonia_msgs::SaveFilterchain::Request &rqst,
+                      sonia_msgs::SaveFilterchain::Response &rep);
 
   /**
    * \brief Change the order of a filter in a filterchain.
    *
-   * Manages the ROS service set_filterchain_filter_order.
+   * Manages the ROS service sonia_msgs::SetFilterchainFilterOrder.
    *
    * Here are the parameters of the service:
    *  * execution_name Name of the execution which use the filterchain.
@@ -285,14 +285,14 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackSetFcOrder(set_filterchain_filter_order::Request &rqst,
-                          set_filterchain_filter_order::Response &rep);
+  bool CallbackSetFcOrder(sonia_msgs::SetFilterchainFilterOrder::Request &rqst,
+                          sonia_msgs::SetFilterchainFilterOrder::Response &rep);
 
   /**
    * \brief Get the filterchain used by the running execution given as
    *parameter.
    *
-   * Manages the ROS service get_filterchain_from_execution.
+   * Manages the ROS service sonia_msgs::GetFilterchainFromExecution.
    *
    * Here are the parameters of the service:
    *  * execution_name Name of the running execution.
@@ -303,13 +303,13 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackGetFcFromExec(get_filterchain_from_execution::Request &rqst,
-                             get_filterchain_from_execution::Response &rep);
+  bool CallbackGetFcFromExec(sonia_msgs::GetFilterchainFromExecution::Request &rqst,
+                             sonia_msgs::GetFilterchainFromExecution::Response &rep);
 
   /**
    * \brief Get the media used by the running execution given as parameter.
    *
-   * Manages the ROS service get_media_from_execution.
+   * Manages the ROS service sonia_msgs::GetMediaFromExecution.
    *
    * Here are the parameters of the service:
    *  * execution_name Name of the running execution.
@@ -320,8 +320,8 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackGetMediaFromExec(get_media_from_execution::Request &rqst,
-                                get_media_from_execution::Response &rep);
+  bool CallbackGetMediaFromExec(sonia_msgs::GetMediaFromExecution::Request &rqst,
+                                sonia_msgs::GetMediaFromExecution::Response &rep);
 
   /**
    * \brief Sets the observer to the filter given as parameter.
@@ -344,15 +344,15 @@ class VisionServer : public atlas::ServiceServerManager<VisionServer> {
    *            It set values such as success for the service return state.
    * \return True if the callback has succesfully processed the service call.
    */
-  bool CallbackSetObserver(set_filterchain_filter_observer::Request &rqst,
-                           set_filterchain_filter_observer::Response &rep);
+  bool CallbackSetObserver(sonia_msgs::SetFilterchainFilterObserver::Request &rqst,
+                           sonia_msgs::SetFilterchainFilterObserver::Response &rep);
 
-  bool CallbackExecutionCMD(proc_image_processing::execute_cmd::Request &rqst,
-                            proc_image_processing::execute_cmd::Response &rep);
+  bool CallbackExecutionCMD(sonia_msgs::ExecuteCmd::Request &rqst,
+                            sonia_msgs::ExecuteCmd::Response &rep);
 
   bool CallbackInfoListCMD(
-      proc_image_processing::get_information_list::Request &rqst,
-      proc_image_processing::get_information_list::Response &rep);
+      sonia_msgs::GetInformationList::Request &rqst,
+      sonia_msgs::GetInformationList::Response &rep);
 
 
   //==========================================================================
