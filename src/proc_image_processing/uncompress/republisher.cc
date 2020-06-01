@@ -35,7 +35,7 @@
 #include "image_transport/image_transport.h"
 #include "image_transport/publisher_plugin.h"
 #include <pluginlib/class_loader.h>
-#include <proc_image_processing/republish.h>
+#include <sonia_msgs/Republish.h>
 #include <cstdlib>
 
 class Images
@@ -65,8 +65,8 @@ class Images
 
 
 
-  bool republish(proc_image_processing::republish::Request &req,
-                 proc_image_processing::republish::Response &res)
+  bool republish(sonia_msgs::Republish::Request &req,
+                 sonia_msgs::Republish::Response &res)
   {
     if(sub != NULL)
     {
