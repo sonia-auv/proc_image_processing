@@ -9,7 +9,7 @@ jobs:
     name: "Build ROS perception X86/64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_messages/sonia_messages:x86-perception-latest"
+      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: feature
@@ -36,7 +36,7 @@ jobs:
     name: "Build ROS perception AMR64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_messages/sonia_messages:arm64-perception-latest"
+      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
       ARCH: arm64
       TARGET_TYPE: perception
       TARGET_VERSION: feature

@@ -25,8 +25,8 @@
 #include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include <sonia_msgs/Detection.h>
-#include <sonia_msgs/DetectionArray.h>
+#include <sonia_common/Detection.h>
+#include <sonia_common/DetectionArray.h>
 
 
 
@@ -139,7 +139,7 @@ namespace proc_image_processing {
 
         ros::Subscriber image_subscriber_;
         ros::NodeHandle nh_;
-        std::vector<sonia_msgs::Detection> bounding_box_;
+        std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
         Parameter<bool> enable_, debug_contour_, dice1_, dice2_, dice5_, dice6_, roulette_, path_, cashinred_, cashingreend_, slot_machine_, dollar_sign_, bat_,wolf_;
         int image_width_;
@@ -147,7 +147,7 @@ namespace proc_image_processing {
         cv::Scalar color_;
 
 
-        void boundingBoxCallback(const sonia_msgs::DetectionArrayConstPtr &msg){
+        void boundingBoxCallback(const sonia_common::DetectionArrayConstPtr &msg){
             if (bounding_box_.empty())
                 bounding_box_.clear();
             bounding_box_ = msg->detected_object;
@@ -164,7 +164,7 @@ namespace proc_image_processing {
 
 
 
-        inline void constructTarget(Target &target, const sonia_msgs::Detection &object){
+        inline void constructTarget(Target &target, const sonia_common::Detection &object){
             int image_central_x;
             int image_central_y;
             int bounding_box_center_x;
@@ -187,7 +187,7 @@ namespace proc_image_processing {
             target.SetSpecField_2(convertFloatToString(object.confidence));
         }
 
-        inline void drawTarget(cv::Mat &image, const sonia_msgs::Detection &object, int thickness=3, const cv::Scalar &color_box=cv::Scalar(0, 255, 0)){
+        inline void drawTarget(cv::Mat &image, const sonia_common::Detection &object, int thickness=3, const cv::Scalar &color_box=cv::Scalar(0, 255, 0)){
             int origin_x = (int)(object.bbox.center.x - (object.bbox.size_x/2));
             int origin_y = (int)(object.bbox.center.y - (int)(object.bbox.size_y/2));
 
@@ -206,13 +206,13 @@ namespace proc_image_processing {
             cv::putText(image, text, cv::Point(origin_x,origin_y), BBOX_INFO_FONT, 1, BBOX_INFO_TEXT_COLOR, 2, CV_AA);
         }
 
-        inline std::string creatTextBoundingBox(const sonia_msgs::Detection &object){
+        inline std::string creatTextBoundingBox(const sonia_common::Detection &object){
             std::stringstream ss;
             ss << object.class_name.data << ":" << convertFloatToString(object.confidence) << "%";
             return ss.str();
         }
 
-        inline void handleObject(Target &target, const sonia_msgs::Detection &object, cv::Mat &image, const cv::Scalar &color){
+        inline void handleObject(Target &target, const sonia_common::Detection &object, cv::Mat &image, const cv::Scalar &color){
             constructTarget(target, object);
             if (debug_contour_()){
                 drawTarget(image, object, 10, color);

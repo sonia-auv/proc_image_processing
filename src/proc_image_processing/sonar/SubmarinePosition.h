@@ -26,7 +26,7 @@
 #ifndef PROC_IMAGE_PROCESSING_SUBMARINEPOSITION_H
 #define PROC_IMAGE_PROCESSING_SUBMARINEPOSITION_H
 
-#include <lib_atlas/maths.h>
+#include <sonia_common/maths.h>
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
 #include <eigen3/Eigen/Eigen>
@@ -77,12 +77,12 @@ SubmarinePosition::OdometryCallback(const nav_msgs::Odometry::ConstPtr &odo_in) 
   orientation_rpy_[PITCH] = odo_in->pose.pose.orientation.y;
   orientation_rpy_[YAW] = odo_in->pose.pose.orientation.z;
 
-  orientation_quaternion_ = atlas::EulerToQuat(orientation_rpy_);
+  orientation_quaternion_ = sonia_common::EulerToQuat(orientation_rpy_);
 
 }
 
 inline Eigen::Matrix3d SubmarinePosition::GetRotationMatrix() const {
-  return atlas::QuatToRot(orientation_quaternion_);
+  return sonia_common::QuatToRot(orientation_quaternion_);
 }
 
 inline Eigen::Quaterniond SubmarinePosition::GetQuaternion() const

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>proc_image_processing</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <description>
     The vision_server package is responsible for acquiring the images from
     the cameras and applying filter and return information on those image.
@@ -26,10 +26,10 @@
   <build_depend>image_transport</build_depend>
   <build_depend>cv_bridge</build_depend>
   <build_depend>libdc1394-dev</build_depend>
-  <build_depend>lib_atlas</build_depend>
+  <build_depend>sonia_common</build_depend>
   <build_depend>yaml-cpp</build_depend>
   <build_depend>dynamic_reconfigure</build_depend>
-  <build_depend>sonia_msgs</build_depend>
+  <build_depend>sonia_common</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>pcl_ros</run_depend>
@@ -38,8 +38,8 @@
   <run_depend>image_transport</run_depend>
   <run_depend>cv_bridge</run_depend>
   <run_depend>libdc1394-dev</run_depend>
-  <run_depend>lib_atlas</run_depend>
+  <run_depend>sonia_common</run_depend>
   <run_depend>yaml-cpp</run_depend>
   <run_depend>dynamic_reconfigure</run_depend>
-  <run_depend>sonia_msgs</run_depend>
+  <run_depend>sonia_common</run_depend>
 </package>

@@ -18,7 +18,7 @@
 /// You should have received a copy of the GNU General Public License
 /// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
-#include <lib_atlas/ros/service_server_manager.h>
+#include <sonia_common/ros/service_server_manager.h>
 #include <ros/ros.h>
 #include <proc_image_processing/sonar/SubmarinePosition.h>
 #include <proc_image_processing/sonar/SonarMapper.h>

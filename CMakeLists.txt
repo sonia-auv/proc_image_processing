@@ -38,9 +38,8 @@ find_package(catkin REQUIRED COMPONENTS
     image_transport
     cv_bridge
     roslaunch
-    lib_atlas
     pcl_ros
-    sonia_msgs
+    sonia_common
     )
 
 find_package(OpenCV REQUIRED)
@@ -54,9 +53,8 @@ catkin_package(
     image_transport
     cv_bridge
     roslaunch
-    lib_atlas
     pcl_ros
-    sonia_msgs
+    sonia_common
 )
 
 #===============================================================================
@@ -72,7 +70,7 @@ list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_
 include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_image_processing_SRC_DIR}
-    ${lib_atlas_INCLUDE_DIRS}
+    ${sonia_common_INCLUDE_DIRS}
     ${pcl_ros_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
 )
@@ -82,7 +80,7 @@ include_directories(
 add_executable(${PROJECT_NAME}_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_image_processing_FILES} src/proc_image_processing/filters/square_detection.h src/proc_image_processing/filters/white_filter.h)
 target_link_libraries(proc_image_processing_node
         ${catkin_LIBRARIES}
-        ${lib_atlas_LIBRARIES}
+        ${sonia_common_LIBRARIES}
         ${pcl_ros_LIBRARIES}
         ${OpenCV_LIBRARIES}
         yaml-cpp
@@ -93,7 +91,7 @@ add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 add_executable(republisher_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc ${proc_image_processing_FILES})
 target_link_libraries(republisher_node
         ${catkin_LIBRARIES}
-        ${lib_atlas_LIBRARIES}
+        ${sonia_common_LIBRARIES}
         ${pcl_ros_LIBRARIES}
         ${OpenCV_LIBRARIES}
         yaml-cpp

@@ -21,11 +21,11 @@
 #ifndef PROVIDER_VISION_PROC_DETECTION_TASK_H_
 #define PROVIDER_VISION_PROC_DETECTION_TASK_H_
 
-#include <lib_atlas/ros/image_publisher.h>
+#include <sonia_common/ros/image_publisher.h>
 #include <mutex>
 #include "proc_image_processing/config.h"
 #include "proc_image_processing/server/filterchain.h"
-#include "lib_atlas/pattern/runnable.h"
+#include "sonia_common/pattern/runnable.h"
 #include "proc_image_processing/server/ImageProvider.h"
 
 namespace proc_image_processing {
@@ -35,7 +35,7 @@ namespace proc_image_processing {
  * loop,
  * broadcast it on topic and apply the given filterchain.
  */
-    class DetectionTask : private atlas::Runnable{
+    class DetectionTask : private sonia_common::Runnable{
     public:
         //==========================================================================
         // T Y P E D E F   A N D   E N U M
