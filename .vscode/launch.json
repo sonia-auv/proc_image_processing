@@ -1,0 +1,18 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ROS: Launch",
+            "type": "ros",
+            "request": "launch",
+            "preLaunchTask": {
+                "task": "build",
+                "type": "catkin_make"
+            },
+            "target": "/home/sonia/ros_sonia_ws/src/proc_image_processing/launch/proc_image_processing.launch",
+        }
+    ]
+}

@@ -21,7 +21,7 @@
 #ifndef PROVIDER_VISION_FILTER_PARAMETER_H_
 #define PROVIDER_VISION_FILTER_PARAMETER_H_
 
-#include <lib_atlas/macros.h>
+#include <sonia_common/macros.h>
 #include <proc_image_processing/server/parameter_interface.h>
 #include <cstdlib>
 #include <memory>

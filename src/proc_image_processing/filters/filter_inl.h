@@ -21,7 +21,7 @@
 #error This file may only be included from filter.h
 #endif
 
-#include <lib_atlas/macros.h>
+#include <sonia_common/macros.h>
 #include <proc_image_processing/server/target.h>
 
 namespace proc_image_processing {

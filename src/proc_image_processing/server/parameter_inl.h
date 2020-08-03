@@ -23,7 +23,7 @@
 #endif
 
 #include <cxxabi.h>
-#include <lib_atlas/macros.h>
+#include <sonia_common/macros.h>
 #include <opencv/cv.h>
 #include <cstdlib>
 #include <string>

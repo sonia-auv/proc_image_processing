@@ -21,7 +21,7 @@
 #ifndef PROVIDER_VISION_PARAMETER_INTERFACE_H_
 #define PROVIDER_VISION_PARAMETER_INTERFACE_H_
 
-#include <lib_atlas/macros.h>
+#include <sonia_common/macros.h>
 #include <cstdlib>
 #include <memory>
 #include <sstream>

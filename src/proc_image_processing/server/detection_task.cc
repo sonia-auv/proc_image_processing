@@ -20,7 +20,7 @@
 
 #include "proc_image_processing/server/detection_task.h"
 #include <ros/ros.h>
-#include <sonia_msgs/VisionTarget.h>
+#include <sonia_common/VisionTarget.h>
 #include <std_msgs/String.h>
 #include "proc_image_processing/server/target.h"
 
@@ -48,7 +48,7 @@ DetectionTask::DetectionTask(const std::string &topic_name,
       filterchain_(filterchain),
       param_handler_(filterchain_->GetParameterHandler()),
       returning_original_image_(false) {
-  result_publisher_ = ros::NodeHandle().advertise<sonia_msgs::VisionTarget>(
+  result_publisher_ = ros::NodeHandle().advertise<sonia_common::VisionTarget>(
       kRosNodeName + detection_task_name_ + "_result", 50);
 
   image_publisher_ = it_.advertise(detection_task_name_ + "_image", 100);
@@ -147,7 +147,7 @@ void DetectionTask::PublishAllTarget()
 {
   // All the target are in the param_handler's queue
   proc_image_processing::TargetQueue targetQueue = param_handler_.getTargetQueue();
-  sonia_msgs::VisionTarget msg;
+  sonia_common::VisionTarget msg;
   while (!targetQueue.empty()) {
     // Set the message and delete the element
     targetQueue.front().SetMessage(msg);
