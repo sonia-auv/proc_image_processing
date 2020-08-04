@@ -17,9 +17,9 @@ filters:
       - name: enable
         value: 1
       - name: Plane_1
-        value: 3
+        value: 6
       - name: Plane_2
-        value: 0
+        value: 4
       - name: Plane_3
         value: 0
       - name: Invert_plane_1
@@ -39,9 +39,9 @@ filters:
       - name: Enable
         value: 1
       - name: Threshold_type
-        value: 0
+        value: 1
       - name: Max_value
-        value: 96
+        value: 20
   - name: Erode
     parameters:
       - name: Enable
@@ -51,19 +51,33 @@ filters:
       - name: Kernel_type
         value: 0
       - name: Width
-        value: 20
+        value: 2
       - name: Height
-        value: 20
+        value: 2
       - name: Iteration
         value: 3
+  - name: Dilate
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Square_kernel
+        value: 1
+      - name: Kernel_type
+        value: 0
+      - name: Width
+        value: 1
+      - name: Height
+        value: 1
+      - name: Iteration
+        value: 1
   - name: Blurr
     parameters:
       - name: Enable
         value: 1
       - name: Type
-        value: 0
+        value: 3
       - name: Kernel_size
-        value: 9
+        value: 10
   - name: VampireBodyDetector
     parameters:
       - name: Enable
@@ -73,6 +87,6 @@ filters:
       - name: Look_for_Rectangle
         value: 1
       - name: Min_area
-        value: 100.000000
+        value: 4000.000000
       - name: Max_area
-        value: 50000.000000
+        value: 10000.000000

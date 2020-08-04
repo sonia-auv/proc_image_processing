@@ -21,14 +21,14 @@
 #ifndef PROVIDER_VISION_UTILS_CONFIG_H_
 #define PROVIDER_VISION_UTILS_CONFIG_H_
 
-#include <lib_atlas/config.h>
+#include <sonia_common/config.h>
 #include <string>
 
 namespace proc_image_processing {
 
 const std::string kRosNodeName = "/proc_image_processing/";
 
-const std::string kProjectPath = atlas::kWorkspaceRoot + "/src/proc_image_processing/";
+const std::string kProjectPath = sonia_common::kWorkspaceRoot + "/src/proc_image_processing/";
 
     const std::string kConfigPath = kProjectPath + "/config/";
 

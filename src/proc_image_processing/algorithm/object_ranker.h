@@ -58,7 +58,7 @@ inline bool ObjectRanker::AreaSortFunction(ObjectFullData::Ptr a,
 inline bool ObjectRanker::LengthSortFunction(ObjectFullData::Ptr a,
                                              ObjectFullData::Ptr b) {
   if (a.get() != nullptr && b.get() != nullptr) {
-    return a->GetLength() > b->GetLength();
+    return a->GetHeight() > b->GetHeight();
   }
   return false;
 }

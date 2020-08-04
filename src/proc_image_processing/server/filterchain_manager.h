@@ -21,7 +21,7 @@
 #ifndef PROVIDER_VISION_SERVER_FILTERCHAIN_MANAGER_H_
 #define PROVIDER_VISION_SERVER_FILTERCHAIN_MANAGER_H_
 
-#include <lib_atlas/ros/service_server_manager.h>
+#include <sonia_common/ros/service_server_manager.h>
 #include <proc_image_processing/filters/filter.h>
 #include <functional>
 #include <string>

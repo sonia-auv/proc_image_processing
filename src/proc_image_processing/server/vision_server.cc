@@ -20,7 +20,7 @@
 
 #include <fstream>
 #include "proc_image_processing/server/vision_server.h"
-#include "proc_image_processing/ChangeNetwork.h"
+#include <sonia_common/ChangeNetwork.h>
 
 
 namespace proc_image_processing {
@@ -31,64 +31,64 @@ namespace proc_image_processing {
 //------------------------------------------------------------------------------
 //
 VisionServer::VisionServer(const ros::NodeHandle &nh)
-    : atlas::ServiceServerManager<VisionServer>(),
+    : sonia_common::ServiceServerManager<VisionServer>(),
       nh_(nh),
       filterchain_mgr_() {
   auto base_node_name = std::string{kRosNodeName};
 
-  RegisterService<execute_cmd>(base_node_name + "execute_cmd",
+  RegisterService<sonia_common::ExecuteCmd>(base_node_name + "execute_cmd",
                                &VisionServer::CallbackExecutionCMD, *this);
 
-  RegisterService<get_information_list>(base_node_name + "get_information_list",
+  RegisterService<sonia_common::GetInformationList>(base_node_name + "get_information_list",
                                         &VisionServer::CallbackInfoListCMD,
                                         *this);
 
-  RegisterService<copy_filterchain>(base_node_name + "copy_filterchain",
+  RegisterService<sonia_common::CopyFilterchain>(base_node_name + "copy_filterchain",
                                     &VisionServer::CallbackCopyFc, *this);
 
-  RegisterService<get_filterchain_filter_all_param>(
+  RegisterService<sonia_common::GetFilterchainFilterAllParam>(
       base_node_name + "get_filterchain_filter_all_param",
       &VisionServer::CallbackGetFilterAllParam, *this);
 
-  RegisterService<get_filterchain_filter_param>(
+  RegisterService<sonia_common::GetFilterchainFilterParam>(
       base_node_name + "get_filterchain_filter_param",
       &VisionServer::CallbackGetFilterParam, *this);
 
-  RegisterService<set_filterchain_filter_param>(
+  RegisterService<sonia_common::SetFilterchainFilterParam>(
       base_node_name + "set_filterchain_filter_param",
       &VisionServer::CallbackSetFilterParam, *this);
 
-  RegisterService<get_filterchain_filter>(
+  RegisterService<sonia_common::GetFilterchainFilter>(
       base_node_name + "get_filterchain_filter",
       &VisionServer::CallbackGetFilter, *this);
 
-  RegisterService<manage_filterchain_filter>(
+  RegisterService<sonia_common::ManageFilterchainFilter>(
       base_node_name + "manage_filterchain_filter",
       &VisionServer::CallbackManageFilter, *this);
 
-  RegisterService<manage_filterchain>(base_node_name + "manage_filterchain",
+  RegisterService<sonia_common::ManageFilterchain>(base_node_name + "manage_filterchain",
                                       &VisionServer::CallbackManageFc, *this);
 
-  RegisterService<save_filterchain>(base_node_name + "save_filterchain",
+  RegisterService<sonia_common::SaveFilterchain>(base_node_name + "save_filterchain",
                                     &VisionServer::CallbackSaveFc, *this);
 
-  RegisterService<set_filterchain_filter_order>(
+  RegisterService<sonia_common::SetFilterchainFilterOrder>(
       base_node_name + "set_filterchain_filter_order",
       &VisionServer::CallbackSetFcOrder, *this);
 
-  RegisterService<get_filterchain_from_execution>(
+  RegisterService<sonia_common::GetFilterchainFromExecution>(
       base_node_name + "get_filterchain_from_execution",
       &VisionServer::CallbackGetFcFromExec, *this);
 
-  RegisterService<get_media_from_execution>(
+  RegisterService<sonia_common::GetMediaFromExecution>(
       base_node_name + "get_media_from_execution",
       &VisionServer::CallbackGetMediaFromExec, *this);
 
-  RegisterService<set_filterchain_filter_observer>(
+  RegisterService<sonia_common::SetFilterchainFilterObserver>(
       base_node_name + "set_filterchain_filter_observer",
       &VisionServer::CallbackSetObserver, *this);
 
-  deep_network_service = ros::NodeHandle("~").serviceClient<ChangeNetwork>("/deep_detector/change_network");
+  deep_network_service = ros::NodeHandle("~").serviceClient<sonia_common::ChangeNetwork>("/deep_detector/change_network");
   }
 
 //------------------------------------------------------------------------------
@@ -100,8 +100,8 @@ VisionServer::~VisionServer() {}
 
 //------------------------------------------------------------------------------
 //
-bool VisionServer::CallbackExecutionCMD(execute_cmd::Request &rqst,
-                                        execute_cmd::Response &rep) {
+bool VisionServer::CallbackExecutionCMD(sonia_common::ExecuteCmd::Request &rqst,
+                                        sonia_common::ExecuteCmd::Response &rep) {
   if (rqst.cmd == rqst.START) {
     try {
       ROS_INFO("--- Starting Execution ---");
@@ -112,7 +112,7 @@ bool VisionServer::CallbackExecutionCMD(execute_cmd::Request &rqst,
 
       rep.response = detection_task_mgr_.StartDetectionTask(rqst.media_name, filterchain,
                                                             rqst.node_name);
-      ChangeNetwork network;
+      sonia_common::ChangeNetwork network;
       network.request.task = rqst.filterchain_name;
       deep_network_service.call(network);
       ROS_INFO("Starting topic: %s", rep.response.c_str());
@@ -154,7 +154,7 @@ bool VisionServer::CallbackExecutionCMD(execute_cmd::Request &rqst,
 //------------------------------------------------------------------------------
 //
 bool proc_image_processing::VisionServer::CallbackInfoListCMD(
-    get_information_list::Request &rqst, get_information_list::Response &rep) {
+    sonia_common::GetInformationList::Request &rqst, sonia_common::GetInformationList::Response &rep) {
   if (rqst.cmd == rqst.EXEC) {
     rep.list = BuildRosMessage(detection_task_mgr_.GetAllDetectionTasksName());
   } else if (rqst.cmd == rqst.FILTERCHAIN) {
@@ -170,8 +170,8 @@ bool proc_image_processing::VisionServer::CallbackInfoListCMD(
 
 //------------------------------------------------------------------------------
 //
-bool VisionServer::CallbackCopyFc(copy_filterchain::Request &rqst,
-                                  copy_filterchain::Response &rep) {
+bool VisionServer::CallbackCopyFc(sonia_common::CopyFilterchain::Request &rqst,
+                                  sonia_common::CopyFilterchain::Response &rep) {
   std::ifstream src(
       filterchain_mgr_.GetFilterchainPath(rqst.filterchain_to_copy).c_str(),
       std::ios::binary);
@@ -187,8 +187,8 @@ bool VisionServer::CallbackCopyFc(copy_filterchain::Request &rqst,
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackGetFilterParam(
-    get_filterchain_filter_param::Request &rqst,
-    get_filterchain_filter_param::Response &rep) {
+    sonia_common::GetFilterchainFilterParam::Request &rqst,
+    sonia_common::GetFilterchainFilterParam::Response &rep) {
   rep.list = "";
 
   std::string execution_name(rqst.exec_name),
@@ -211,8 +211,8 @@ bool VisionServer::CallbackGetFilterParam(
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackGetFilterAllParam(
-    get_filterchain_filter_all_param::Request &rqst,
-    get_filterchain_filter_all_param::Response &rep) {
+    sonia_common::GetFilterchainFilterAllParam::Request &rqst,
+    sonia_common::GetFilterchainFilterAllParam::Response &rep) {
   rep.list = "";
 
   std::string execution_name(rqst.exec_name),
@@ -240,8 +240,8 @@ bool VisionServer::CallbackGetFilterAllParam(
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackSetFilterParam(
-    set_filterchain_filter_param::Request &rqst,
-    set_filterchain_filter_param::Response &rep) {
+    sonia_common::SetFilterchainFilterParam::Request &rqst,
+    sonia_common::SetFilterchainFilterParam::Response &rep) {
   rep.success = rep.FAIL;
 
   std::string execution_name(rqst.exec_name),
@@ -264,8 +264,8 @@ bool VisionServer::CallbackSetFilterParam(
 
 //------------------------------------------------------------------------------
 //
-bool VisionServer::CallbackGetFilter(get_filterchain_filter::Request &rqst,
-                                     get_filterchain_filter::Response &rep) {
+bool VisionServer::CallbackGetFilter(sonia_common::GetFilterchainFilter::Request &rqst,
+                                     sonia_common::GetFilterchainFilter::Response &rep) {
   rep.list = "";
 
   std::string execution_name(rqst.exec_name),
@@ -297,8 +297,8 @@ bool VisionServer::CallbackGetFilter(get_filterchain_filter::Request &rqst,
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackSetObserver(
-    set_filterchain_filter_observer::Request &rqst,
-    set_filterchain_filter_observer::Response &rep) {
+    sonia_common::SetFilterchainFilterObserver::Request &rqst,
+    sonia_common::SetFilterchainFilterObserver::Response &rep) {
   // For now ignoring filterchain name, but when we will have multiple,
   // we will have to check the name and find the good filterchain
   Filterchain::Ptr filterchain =
@@ -321,8 +321,8 @@ bool VisionServer::CallbackSetObserver(
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackManageFilter(
-    manage_filterchain_filter::Request &rqst,
-    manage_filterchain_filter::Response &rep) {
+    sonia_common::ManageFilterchainFilter::Request &rqst,
+    sonia_common::ManageFilterchainFilter::Response &rep) {
   const auto &filterchain =
       detection_task_mgr_.GetFilterchainFromDetectionTask(rqst.exec_name);
   rep.success = 1;
@@ -341,8 +341,8 @@ bool VisionServer::CallbackManageFilter(
 
 //------------------------------------------------------------------------------
 //
-bool VisionServer::CallbackManageFc(manage_filterchain::Request &rqst,
-                                    manage_filterchain::Response &rep) {
+bool VisionServer::CallbackManageFc(sonia_common::ManageFilterchain::Request &rqst,
+                                    sonia_common::ManageFilterchain::Response &rep) {
   std::string filterchain_name(rqst.filterchain);
   bool response = true;
   if (rqst.cmd == rqst.ADD) {
@@ -356,8 +356,8 @@ bool VisionServer::CallbackManageFc(manage_filterchain::Request &rqst,
 
 //------------------------------------------------------------------------------
 //
-bool VisionServer::CallbackSaveFc(save_filterchain::Request &rqst,
-                                  save_filterchain::Response &rep) {
+bool VisionServer::CallbackSaveFc(sonia_common::SaveFilterchain::Request &rqst,
+                                  sonia_common::SaveFilterchain::Response &rep) {
   std::string execution_name(rqst.exec_name);
   std::string filterchain_name(rqst.filterchain);
   if (rqst.cmd == rqst.SAVE) {
@@ -371,8 +371,8 @@ bool VisionServer::CallbackSaveFc(save_filterchain::Request &rqst,
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackSetFcOrder(
-    set_filterchain_filter_order::Request &rqst,
-    set_filterchain_filter_order::Response &rep) {
+    sonia_common::SetFilterchainFilterOrder::Request &rqst,
+    sonia_common::SetFilterchainFilterOrder::Response &rep) {
   ROS_INFO("Call to set_filterchain_filter_order.");
 
   rep.success = rep.SUCCESS;
@@ -393,8 +393,8 @@ bool VisionServer::CallbackSetFcOrder(
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackGetFcFromExec(
-    get_filterchain_from_execution::Request &rqst,
-    get_filterchain_from_execution::Response &rep) {
+    sonia_common::GetFilterchainFromExecution::Request &rqst,
+    sonia_common::GetFilterchainFromExecution::Response &rep) {
   ROS_INFO("Call to get_filterchain_from_execution.");
   std::string execution_name(rqst.exec_name);
   Filterchain::Ptr filterchain =
@@ -414,8 +414,8 @@ bool VisionServer::CallbackGetFcFromExec(
 //------------------------------------------------------------------------------
 //
 bool VisionServer::CallbackGetMediaFromExec(
-    get_media_from_execution::Request &rqst,
-    get_media_from_execution::Response &rep) {
+    sonia_common::GetMediaFromExecution::Request &rqst,
+    sonia_common::GetMediaFromExecution::Response &rep) {
   ROS_INFO("Call to get_media_from_execution.");
   auto response = "media_" + rqst.exec_name;
   rep.list = response;

@@ -7,8 +7,8 @@
 #include <fstream>
 #include <ros/ros.h>
 #include <thread>
-#include "lib_atlas/ros/image_publisher.h"
-#include "lib_atlas/ros/service_client_manager.h"
+#include "sonia_common/ros/image_publisher.h"
+#include "sonia_common/ros/service_client_manager.h"
 #include "proc_image_processing/server/vision_server.h"
 #include "proc_image_processing/config.h"
 
@@ -81,15 +81,15 @@ TEST(BlackBoxTest, test) {
     std::string exec_cmd_name = base_node_name + std::string("execute_cmd");
     std::string list_name = base_node_name + std::string("get_information_list");
     std::string media_exec_name = base_node_name + std::string("get_media_from_execution");
-    ros::ServiceClient execute_service = nhp->serviceClient<proc_image_processing::execute_cmd>(exec_cmd_name);
-    ros::ServiceClient list_service = nhp->serviceClient<proc_image_processing::get_information_list>(list_name);
-    ros::ServiceClient media_service = nhp->serviceClient<proc_image_processing::get_media_from_execution>(media_exec_name);
+    ros::ServiceClient execute_service = nhp->serviceClient<sonia_common::ExecuteCmd>(exec_cmd_name);
+    ros::ServiceClient list_service = nhp->serviceClient<sonia_common::GetInformationList>(list_name);
+    ros::ServiceClient media_service = nhp->serviceClient<sonia_common::GetMediaFromExecution>(media_exec_name);
 
     ImagePulishingThread thread_1("/provider_camera/test1"), thread_2("/provider_camera/test2");
 
     // Make sure the feed are seen by the system
-    proc_image_processing::get_information_listRequest informationListRequest;
-    proc_image_processing::get_information_listResponse informationListResponse;
+    sonia_common::GetInformationListRequest informationListRequest;
+    sonia_common::GetInformationListResponse informationListResponse;
     informationListRequest.cmd = informationListRequest.MEDIA;
     list_service.call(informationListRequest, informationListResponse);
 
@@ -97,8 +97,8 @@ TEST(BlackBoxTest, test) {
     ASSERT_NE(informationListResponse.list.find("/provider_camera/test2"), -1);
 
     // Start an execution
-    proc_image_processing::execute_cmdRequest executeCmdRequest;
-    proc_image_processing::execute_cmdResponse executeCmdResponse;
+    sonia_common::ExecuteCmdRequest executeCmdRequest;
+    sonia_common::ExecuteCmdResponse executeCmdResponse;
     executeCmdRequest.cmd = executeCmdRequest.START;
     executeCmdRequest.media_name = "/provider_camera/test1";
     executeCmdRequest.node_name = "Testouille1";

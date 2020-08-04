@@ -77,7 +77,9 @@ class ObjectBasicData {
   // If they are, simply return them.
   float GetArea();
 
-  float GetLength();
+  float GetHeight();
+
+  float GetWidth();
 
   float GetConvexHullArea();
 
@@ -151,12 +153,22 @@ inline float ObjectBasicData::GetArea() {
 
 //------------------------------------------------------------------------------
 //
-inline float ObjectBasicData::GetLength() {
+inline float ObjectBasicData::GetHeight() {
   if (!is_calculated_map_[ROTATED_RECT]) {
     rect_ = RotRect(contour_.GetContour());
     is_calculated_map_[ROTATED_RECT] = true;
   }
   return rect_.size.height;
+}
+
+//------------------------------------------------------------------------------
+//
+inline float ObjectBasicData::GetWidth() {
+  if (!is_calculated_map_[ROTATED_RECT]) {
+    rect_ = RotRect(contour_.GetContour());
+    is_calculated_map_[ROTATED_RECT] = true;
+  }
+  return rect_.size.width;
 }
 
 //------------------------------------------------------------------------------

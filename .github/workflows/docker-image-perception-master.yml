@@ -1,0 +1,146 @@
+name: Docker Image CI - Master Branch
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-ros-perception-x86-64:
+    name: "Build ROS perception X86/64"
+    runs-on: ubuntu-latest
+    env:
+      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
+      ARCH: x86
+      TARGET_TYPE: perception
+      IMAGE_NAME: proc_image_processing
+      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Github Package Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: Set Target version
+        run: echo '::set-env name=TARGET_VERSION::release-'$(sed -n -e 's/.*<version>\(.*\)<\/version>.*/\1/p' package.xml)
+
+      - name: Build the docker image (perception based)
+        run: |
+          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+
+      - name: Run Module Unit Test
+        run: |
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make run_tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make tests
+      - name: Create Docker Image Tag
+        run: |
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-latest
+
+      - name: Push Image to Github Packages Registry
+        run: |
+          docker push ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+
+  build-ros-perception-arm64:
+    name: "Build ROS perception AMR64"
+    runs-on: ubuntu-latest
+    env:
+      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
+      ARCH: arm64
+      TARGET_TYPE: perception
+      IMAGE_NAME: proc_image_processing
+      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Github Package Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: Set Target version
+        run: echo '::set-env name=TARGET_VERSION::release-'$(sed -n -e 's/.*<version>\(.*\)<\/version>.*/\1/p' package.xml)
+
+      - name: Enable Docker Daemon Experimental Features
+        run: |
+          sudo rm /etc/docker/daemon.json
+          echo '{"experimental": true , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
+          sudo service docker restart
+          docker version
+
+      - name: Install QEMU to be able to compile on X86 into ARM64
+        run: |
+          sudo apt-get update
+          sudo apt-get install qemu binfmt-support qemu-user-static
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      - name: Build the docker image (perception based)
+        run: |
+          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+
+      - name: Run Module Unit Test
+        run: |
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make run_tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make tests
+
+      - name: Create Docker Image Tag
+        run: |
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-latest
+
+      - name: Push Image to Github Packages Registry
+        run: |
+          docker push ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+
+  create-release:
+    name: "Create Github Release"
+    runs-on: ubuntu-latest
+    needs: [build-ros-perception-x86-64, build-ros-perception-arm64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set Target version
+        run: echo '::set-env name=TARGET_VERSION::'$(sed -n -e 's/.*<version>\(.*\)<\/version>.*/\1/p' package.xml)
+
+      - name: Create Git Tag
+        run: |
+          git tag ${TARGET_VERSION}
+          git push origin --tags
+
+      - name: Create Github Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.TARGET_VERSION }}
+          release_name: Release ${{ env.TARGET_VERSION }}
+          body: |
+            A new release for this package has been created
+          draft: false
+          prerelease: false
+
+  notify-success:
+    name: "Notify Slack - Success"
+    runs-on: ubuntu-latest
+    needs:
+      [build-ros-perception-x86-64, build-ros-perception-arm64, create-release]
+    if: success()
+    steps:
+      - name: Notify Slack Success
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: github-ci-notifications
+          status: SUCCESS
+          color: good
+
+  notify-fail:
+    name: "Notify Slack - Failure"
+    runs-on: ubuntu-latest
+    needs:
+      [build-ros-perception-x86-64, build-ros-perception-arm64, create-release]
+    if: failure()
+    steps:
+      - name: Notify Slack Fail
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: github-ci-notifications
+          status: FAILED
+          color: danger

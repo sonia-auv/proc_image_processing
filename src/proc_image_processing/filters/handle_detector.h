@@ -146,8 +146,8 @@ class HandleDetector : public Filter {
         Target target;
         ObjectFullData::Ptr object = objVec[0];
         cv::Point center = object->GetCenter();
-        target.SetTarget(id_(), center.x, center.y, object->GetLength(),
-                         object->GetLength(), object->GetRotatedRect().angle,
+        target.SetTarget(id_(), center.x, center.y, object->GetWidth(),
+                         object->GetHeight(), object->GetRotatedRect().angle,
                          image.rows, image.cols);
         target.SetSpecField_1(spec_1_());
         target.SetSpecField_2(spec_2_());
