@@ -5,8 +5,9 @@
     "tasks": [
         {
             "type": "catkin_make",
-            "problemMatcher": [
-                "$catkin-gcc"
+            "args": [
+                "--directory",
+                "/home/sonia/ros_sonia_ws"
             ],
             "group": {
                 "kind": "build",
