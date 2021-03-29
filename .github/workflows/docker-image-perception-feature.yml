@@ -26,6 +26,8 @@ jobs:
       
       - name: Run Module Unit Test
         run: |
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} export ROS_MASTER_URI=http://localhost:11311
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} export ROS_HOSTNAME=localhost
           docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make run_tests
           docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make tests
       
@@ -71,6 +73,8 @@ jobs:
     
       - name: Run Module Unit Test
         run: |
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} export ROS_MASTER_URI=http://localhost:11311
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} export ROS_HOSTNAME=localhost
           docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make run_tests
           docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make tests
       
