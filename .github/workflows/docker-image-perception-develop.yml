@@ -35,7 +35,7 @@ jobs:
 
       - name: Push Image to Github Packages Registry
         run: |
-          docker push ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+          docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   build-ros-perception-arm64:
     name: "Build ROS perception AMR64"
@@ -80,7 +80,7 @@ jobs:
 
       - name: Push Image to Github Packages Registry
         run: |
-          docker push ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+          docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   notify-success:
     name: "Notify Slack - Success"
