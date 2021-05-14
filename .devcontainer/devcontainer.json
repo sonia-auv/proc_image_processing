@@ -20,7 +20,8 @@
 		"seccomp=unconfined",
 		"--rm",
 		"--network",
-		"host"
+		"host",
+		"--gpus=all"
 	],
 	"mounts": [
 		"source=vscode-server-extension,target=/home/sonia/.vscode-server/extensions,type=volume"

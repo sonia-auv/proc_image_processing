@@ -22,24 +22,32 @@
 #include <ros/ros.h>
 #include <proc_image_processing/sonar/SubmarinePosition.h>
 #include <proc_image_processing/sonar/SonarMapper.h>
-#include "proc_image_processing/server/vision_server.h"
+#include <proc_image_processing/server/vision_server.h>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
 
 //------------------------------------------------------------------------------
 //
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "proc_image_processing");
-  ros::NodeHandle nh("~");
+    cv::cuda::printCudaDeviceInfo(cv::cuda::getDevice());
+    cout << "OpenCV: " << CV_VERSION << endl;
+    cout << "OpenCV Major version: " << CV_MAJOR_VERSION << endl;
+    cout << "OpenCV Minor version: " << CV_MINOR_VERSION << endl;
+    cout << "OpenCV Subminor version: " << CV_SUBMINOR_VERSION << endl;
+    ros::init(argc, argv, "proc_image_processing");
+    ros::NodeHandle nh("~");
 
-  proc_image_processing::VisionServer pv(nh);
+    proc_image_processing::VisionServer pv(nh);
 
-  ros::NodeHandlePtr nhp(&nh);
-  proc_image_processing::SubmarinePosition sp(nhp);
-  proc_image_processing::SonarMapper sonarMapper(sp,nhp);
+    ros::NodeHandlePtr nhp(&nh);
+    proc_image_processing::SubmarinePosition sp(nhp);
+    proc_image_processing::SonarMapper sonarMapper(sp, nhp);
 
-  while (ros::ok()) {
-    usleep(20000);
-    ros::spinOnce();
-  }
+    while (ros::ok()) {
+        usleep(20000);
+        ros::spinOnce();
+    }
 
-  return 0;
+    return 0;
 }
