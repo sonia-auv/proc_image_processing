@@ -24,18 +24,38 @@
 #include <proc_image_processing/sonar/SonarMapper.h>
 #include <proc_image_processing/server/vision_server.h>
 #include <opencv2/opencv.hpp>
+#include <unistd.h>
+
+void run();
+void runCUDA();
 
 using namespace std;
 
 //------------------------------------------------------------------------------
 //
 int main(int argc, char **argv) {
-    cv::cuda::printCudaDeviceInfo(cv::cuda::getDevice());
     cout << "OpenCV: " << CV_VERSION << endl;
     cout << "OpenCV Major version: " << CV_MAJOR_VERSION << endl;
     cout << "OpenCV Minor version: " << CV_MINOR_VERSION << endl;
     cout << "OpenCV Subminor version: " << CV_SUBMINOR_VERSION << endl;
+
     ros::init(argc, argv, "proc_image_processing");
+    int gpuCount = cv::cuda::getCudaEnabledDeviceCount();
+    if (gpuCount == 0){
+        cout << "OpenCV is not compiled with cuda support" << endl;
+        run();
+    }else if (gpuCount == -1){
+        cout << "The CUDA driver is not installed, or is incompatible" << endl;
+        run();
+    }else{
+        cout << "CUDA is fully supported";
+        runCUDA();
+    }
+
+    return 0;
+}
+
+void run() {
     ros::NodeHandle nh("~");
 
     proc_image_processing::VisionServer pv(nh);
@@ -48,6 +68,8 @@ int main(int argc, char **argv) {
         usleep(20000);
         ros::spinOnce();
     }
+}
 
-    return 0;
+void runCUDA(){
+    // TODO Start CUDA enabled vision server with future implementation of CUDA image filters
 }
