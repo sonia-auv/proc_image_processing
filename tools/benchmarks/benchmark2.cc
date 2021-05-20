@@ -9,6 +9,10 @@
 #include <string>
 #include <opencv2/cudaimgproc.hpp>
 
+/**
+ * Benchmark without GPU streams (1:1 comparison)
+ */
+
 using namespace std;
 
 vector<cv::String> listFiles(const string &directory) {
@@ -40,18 +44,18 @@ void run(const vector<cv::String> &images) {
     // Benchmark
     chrono::steady_clock::time_point now = chrono::steady_clock::now();
     for (const auto &loadedImage : loadedImages) {
-        cv::Mat resized, blured, edges, dest;
+        cv::Mat resized, blurred, edges, dest;
 
         chrono::steady_clock::time_point resizeNow = chrono::steady_clock::now();
         resize(loadedImage, resized, cv::Size(1280, 720), 0, 0, cv::INTER_CUBIC);
         chrono::steady_clock::time_point resizeEnd = chrono::steady_clock::now();
 
         chrono::steady_clock::time_point blurNow = chrono::steady_clock::now();
-        blur(resized, blured, cv::Size(3, 3));
+        blur(resized, blurred, cv::Size(3, 3));
         chrono::steady_clock::time_point blurEnd = chrono::steady_clock::now();
 
         chrono::steady_clock::time_point cannyNow = chrono::steady_clock::now();
-        Canny(blured, edges, 100, 100 * 3);
+        Canny(blurred, edges, 100, 100 * 3);
         chrono::steady_clock::time_point cannyEnd = chrono::steady_clock::now();
 
         dest = cv::Scalar::all(0);

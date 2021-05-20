@@ -10,8 +10,11 @@
 #include <opencv2/cudaimgproc.hpp>
 #include <map>
 
-using namespace std;
+/**
+ * Benchmark using GPU streams (Async calls with callbacks)
+ */
 
+using namespace std;
 
 map<cv::String, cv::Mat> loadImages(const string &directory) {
     DIR *dir;
@@ -54,6 +57,7 @@ void run(const string &directory) {
 }
 
 void runCUDA(const string &directory) {
+    // See https://developer.ridgerun.com/wiki/index.php?title=How_to_use_OpenCV_CUDA_Streams
     shared_ptr<vector<cv::cuda::Stream>> cudaStreams = make_shared<vector<cv::cuda::Stream>>();
     shared_ptr<vector<cv::cuda::HostMem >> srcMemArray = make_shared<vector<cv::cuda::HostMem >>();
     shared_ptr<vector<cv::cuda::HostMem >> dstMemArray = make_shared<vector<cv::cuda::HostMem >>();
