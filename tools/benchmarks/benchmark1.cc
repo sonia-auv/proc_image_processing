@@ -100,7 +100,7 @@ void runCUDA(const string &directory) {
         (*outArray)[i]= (*dstMemArray)[i].createMatHeader();
     }
     for (int i = 0; i < cudaStreams->size(); i++){
-        (*cudaStreams)[i]..waitForCompletion();
+        (*cudaStreams)[i].waitForCompletion();
     }
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     cout << "OpenCV runtime (GPU): " << chrono::duration_cast<chrono::milliseconds>(end - now).count()
