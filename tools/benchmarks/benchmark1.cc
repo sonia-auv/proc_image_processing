@@ -67,7 +67,6 @@ void runCUDA(const string &directory) {
         cv::Mat img = imread(directory + "/" + image.first, cv::IMREAD_GRAYSCALE);
         if (img.data != nullptr) {
             cv::cuda::Stream s;
-            s.enqueueHostCallback()
             cudaStreams->emplace_back(s);
             cv::cuda::GpuMat srcMat;
             cv::cuda::GpuMat dstMat;
