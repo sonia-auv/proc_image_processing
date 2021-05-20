@@ -9,34 +9,8 @@ set(CMAKE_FIND_PACKAGE_RESOLVE_SYMLINKS TRUE)
 set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc")
 set(CUDA_CUDART_LIBRARY "/usr/local/cuda/lib64/libcudart.so")
-find_package(CUDA)
-if(CUDA_FOUND)
-  try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
-          ${CMAKE_BINARY_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/tools/detect_gpu.c
-          CMAKE_FLAGS
-          -DINCLUDE_DIRECTORIES:STRING=${CUDA_TOOLKIT_INCLUDE}
-          -DLINK_LIBRARIES:STRING=${CUDA_CUDART_LIBRARY}
-          COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR
-          RUN_OUTPUT_VARIABLE RUN_OUTPUT_VAR)
-  message("${RUN_OUTPUT_VAR}") # Display number of GPUs found
-  # COMPILE_RESULT_VAR is TRUE when compile succeeds
-  # RUN_RESULT_VAR is zero when a GPU is found
-  if(COMPILE_RESULT_VAR AND NOT RUN_RESULT_VAR)
-    set(CUDA_HAVE_GPU TRUE CACHE BOOL "Whether CUDA-capable GPU is present")
-    message(INFO " - CUDA GPU found, using GPU image filters library")
-    include_directories(${CUDA_TOOLKIT_INCLUDE_DIRS})
-    # TODO LINK CUDA LIBRARY OF FILTERS
-  else()
-    set(CUDA_HAVE_GPU FALSE CACHE BOOL "Whether CUDA-capable GPU is present")
-    # TODO LINK STANDARD LIBRARY OF FILTERS
-    message(INFO " - CUDA GPU not found, using standard image filters library")
-    unset(CUDA_TOOLKIT_ROOT_DIR)
-    unset(CUDA_NVCC_EXECUTABLE)
-    unset(CUDA_CUDART_LIBRARY)
-  endif()
-endif(CUDA_FOUND)
-
+find_package(CUDA REQUIRED)
+include_directories(${CUDA_TOOLKIT_INCLUDE_DIRS})
 set(OpenCV_DIR /usr/local)
 find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
 include_directories(${OpenCV_INCLUDE_DIRS})

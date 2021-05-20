@@ -27,7 +27,6 @@
 #include <unistd.h>
 
 void run();
-void runCUDA();
 
 using namespace std;
 
@@ -43,13 +42,11 @@ int main(int argc, char **argv) {
     int gpuCount = cv::cuda::getCudaEnabledDeviceCount();
     if (gpuCount == 0){
         cout << "OpenCV is not compiled with cuda support" << endl;
-        run();
     }else if (gpuCount == -1){
         cout << "The CUDA driver is not installed, or is incompatible" << endl;
-        run();
     }else{
-        cout << "CUDA is fully supported";
-        runCUDA();
+        cout << "CUDA is fully supported" << endl;
+        run();
     }
 
     return 0;
@@ -68,8 +65,4 @@ void run() {
         usleep(20000);
         ros::spinOnce();
     }
-}
-
-void runCUDA(){
-    // TODO Start CUDA enabled vision server with future implementation of CUDA image filters
 }
