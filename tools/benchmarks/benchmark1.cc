@@ -107,13 +107,14 @@ void runCUDA(const string &directory) {
          << " milliseconds" << endl;
     cout << "OpenCV runtime (GPU): " << chrono::duration_cast<chrono::nanoseconds>(end - now).count() << " nanoseconds"
          << endl;
-    for (int i =0; i < outArray->size();i++){
-        imwrite("/tmp/cuda/" + to_string(i) + ".png",(*outArray)[i]);
-    }
+    //for (int i =0; i < outArray->size();i++){
+    //    imwrite("/tmp/cuda/" + to_string(i) + ".png",(*outArray)[i]);
+    //}
     loadedImages.clear();
 }
 
-int start(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
+    cv::cuda::printCudaDeviceInfo(cv::cuda::getDevice());
     run("/home/sonia/ros_sonia_ws/src/proc_image_processing/imgs");
     runCUDA("/home/sonia/ros_sonia_ws/src/proc_image_processing/imgs");
     return 0;

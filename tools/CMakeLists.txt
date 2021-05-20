@@ -18,4 +18,6 @@ file(GLOB_RECURSE proc_image_processing_benchmark_FILES
         "${proc_image_processing_SRC_DIR}/*.cc"
         "${proc_image_processing_SRC_DIR}/*.h")
 add_executable(proc_image_processing_benchmark1 benchmarks/benchmark1.cc)
+target_link_libraries(proc_image_processing_benchmark1 ${OpenCV_LIBRARIES})
 add_executable(proc_image_processing_benchmark2 benchmarks/benchmark2.cc)
+target_link_libraries(proc_image_processing_benchmark2 ${OpenCV_LIBRARIES})

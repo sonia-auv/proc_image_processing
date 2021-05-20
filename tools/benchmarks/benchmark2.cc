@@ -121,6 +121,7 @@ void runCUDA(const vector<cv::String> &images) {
 
 int main(int argc, char *argv[]) {
     cv::cuda::printCudaDeviceInfo(cv::cuda::getDevice());
+    vector<cv::String> images = listFiles("/home/sonia/ros_sonia_ws/src/proc_image_processing/imgs");
     run(images);
     runCUDA(images);
     return 0;
