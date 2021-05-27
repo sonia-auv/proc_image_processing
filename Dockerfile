@@ -1,5 +1,5 @@
 ###### C R E A T E   A   B A S E   I M A G E ######
-ARG CUDA="11.3.0"
+ARG CUDA="10.2"
 ARG UBUNTU="18.04"
 FROM nvidia/cuda:${CUDA}-devel-ubuntu${UBUNTU}
 ARG OPENCV="3.4.14"
@@ -56,6 +56,7 @@ RUN mkdir opencv-${OPENCV}/build && \
         -DENABLE_FAST_MATH=ON \
         -DCUDA_FAST_MATH=ON \
         -DWITH_CUBLAS=ON \
+        -DOPENCV_ENABLE_NONFREE=ON \
         -DWITH_GSTREAMER=OFF \
         -DWITH_V4L=OFF \
         -DWITH_GTK=OFF \
