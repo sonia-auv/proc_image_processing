@@ -14,6 +14,7 @@ include_directories(${CUDA_TOOLKIT_INCLUDE_DIRS})
 set(OpenCV_DIR /usr/local)
 find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
 include_directories(${OpenCV_INCLUDE_DIRS})
+add_subdirectory(tools/)
 
 find_package(catkin REQUIRED COMPONENTS
         roscpp
