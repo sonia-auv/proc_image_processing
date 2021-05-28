@@ -1,6 +1,8 @@
 # Tools
+
 ## Benchmarks
 
 - `cmake .`
 - `make`
-- `./proc_image_processing_benchmark1` or `./proc_image_processing_benchmark2`
+- `./proc_image_processing_benchmark1 --in /home/sonia/ros_sonia_ws/src/proc_image_processing/imgs/ --cpu-out /home/sonia/ros_sonia_ws/src/proc_image_processing/imgs/out/cpu/ --gpu-out /home/sonia/ros_sonia_ws/src/proc_image_processing/imgs/out/gpu`
+- `./proc_image_processing_benchmark2 --in /home/sonia/ros_sonia_ws/src/proc_image_processing/imgs/ --cpu-out /home/sonia/ros_sonia_ws/src/proc_image_processing/imgs/out/cpu/ --gpu-out /home/sonia/ros_sonia_ws/src/proc_image_processing/imgs/out/gpu`
