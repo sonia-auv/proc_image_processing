@@ -103,4 +103,4 @@ add_dependencies(republisher_node ${catkin_EXPORTED_TARGETS})
 # U N I T   T E S T S
 
 # Uncomment this line to compile UT.
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
