@@ -18,11 +18,11 @@ set(OpenCV_DIR /usr/local)
 find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-file(GLOB_RECURSE proc_image_processing_benchmark_FILES
-        "${proc_image_processing_SRC_DIR}/*.cc"
-        "${proc_image_processing_SRC_DIR}/*.h")
+add_executable(benchmark1 benchmarks/benchmark1.cc benchmarks/tools.h benchmarks/tools.cc)
+target_link_libraries(benchmark1 ${OpenCV_LIBRARIES} ${Boost_LIBRARIES})
 
-add_executable(proc_image_processing_benchmark1 benchmarks/benchmark1.cc)
-target_link_libraries(proc_image_processing_benchmark1 ${OpenCV_LIBRARIES} ${Boost_LIBRARIES})
-add_executable(proc_image_processing_benchmark2 benchmarks/benchmark2.cc)
-target_link_libraries(proc_image_processing_benchmark2 ${OpenCV_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(benchmark2 benchmarks/benchmark2.cc benchmarks/tools.h benchmarks/tools.cc)
+target_link_libraries(benchmark2 ${OpenCV_LIBRARIES} ${Boost_LIBRARIES})
+
+add_executable(benchmark3 benchmarks/benchmark3.cc benchmarks/tools.h benchmarks/tools.cc)
+target_link_libraries(benchmark3 ${OpenCV_LIBRARIES} ${Boost_LIBRARIES})

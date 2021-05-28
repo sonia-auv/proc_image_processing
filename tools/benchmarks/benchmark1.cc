@@ -1,17 +1,11 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <iostream>
-#include <dirent.h>
-#include <vector>
 #include <thread>
-#include <chrono>
 #include <opencv2/imgproc.hpp>
-#include <string>
 #include <opencv2/cudaimgproc.hpp>
-#include <map>
 #include <boost/program_options.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
+#include "tools.h"
 
 using namespace std;
 namespace gpu = cv::cuda;
@@ -22,44 +16,17 @@ namespace fs = boost::filesystem;
  * Benchmark using GPU streams (Async calls with callbacks)
  */
 
-void addTrailingSlash(fs::path &path){
-    path.remove_trailing_separator();
-    path.append("/");
-}
-
-vector<pair<cv::String, cv::Mat>> loadImages(const string &directory) {
-    DIR *dir;
-    vector<pair<cv::String, cv::Mat>> images;
-    struct dirent *file;
-    if ((dir = opendir(directory.c_str())) != nullptr) {
-        while ((file = readdir(dir)) != nullptr) {
-            cv::Mat m = imread(directory + "/" + file->d_name, cv::IMREAD_GRAYSCALE);
-            cv::String path = file->d_name;
-            if (file->d_type != DT_DIR && m.data != nullptr) {
-                images.emplace_back(make_pair(path, m));
-            }
-        }
-        closedir(dir);
-    }
-    return images;
-}
-
-void writeImages(const string &outputDirectory, vector<pair<cv::String, cv::Mat>> &images) {
-    for (const auto &out : images) {
-        imwrite(outputDirectory + out.first, out.second);
-    }
-}
-
-void run(const string &inputDirectory, const string &cpuOutputDirectory) {
+void benchmarkCPU(const string &inputDirectory, const string &cpuOutputDirectory) {
     // Load all in memory to simulate receiving messages from the ROS provider
-    vector<pair<cv::String, cv::Mat>> loadedImages = loadImages(inputDirectory);
+    vector<pair<cv::String, cv::Mat>> loadedImages = tools::loadImages(inputDirectory);
+
     // Benchmark
     chrono::steady_clock::time_point now = chrono::steady_clock::now();
     for (auto &loadedImage : loadedImages) {
         cv::Mat resized, blurred, edges, dest;
-        resize(loadedImage.second, resized, cv::Size(1280, 720), 0, 0, cv::INTER_CUBIC);
-        blur(resized, blurred, cv::Size(3, 3));
-        Canny(blurred, edges, 100.0, 300.0);
+        cv::resize(loadedImage.second, resized, cv::Size(1280, 720), 0, 0, cv::INTER_CUBIC);
+        cv::blur(resized, blurred, cv::Size(3, 3));
+        cv::Canny(blurred, edges, 100.0, 300.0);
         dest = cv::Scalar::all(0);
         resized.copyTo(dest, edges);
         loadedImage.second = dest;
@@ -69,11 +36,11 @@ void run(const string &inputDirectory, const string &cpuOutputDirectory) {
          << " milliseconds" << endl;
     cout << "OpenCV runtime (CPU): " << chrono::duration_cast<chrono::nanoseconds>(end - now).count() << " nanoseconds"
          << endl;
-    writeImages(cpuOutputDirectory, loadedImages);
+    tools::writeImages(cpuOutputDirectory, loadedImages);
     loadedImages.clear();
 }
 
-void runCUDA(const string &directory, const string &gpuOutputDirectory) {
+void benchmarkGPU(const string &directory, const string &gpuOutputDirectory) {
     // See https://developer.ridgerun.com/wiki/index.php?title=How_to_use_OpenCV_CUDA_Streams
     shared_ptr<vector<gpu::Stream>> cudaStreams = make_shared<vector<gpu::Stream>>();
     shared_ptr<vector<gpu::HostMem>> srcMemArray = make_shared<vector<gpu::HostMem>>();
@@ -81,8 +48,9 @@ void runCUDA(const string &directory, const string &gpuOutputDirectory) {
     shared_ptr<vector<gpu::GpuMat>> gpuSrcArray = make_shared<vector<gpu::GpuMat>>();
     shared_ptr<vector<gpu::GpuMat>> gpuDstArray = make_shared<vector<gpu::GpuMat>>();
     shared_ptr<vector<pair<cv::String, cv::Mat>>> out = make_shared<vector<pair<cv::String, cv::Mat>>>();
+
     // Load all in memory to simulate receiving messages from the ROS provider
-    vector<pair<cv::String, cv::Mat>> loadedImages = loadImages(directory);
+    vector<pair<cv::String, cv::Mat>> loadedImages = tools::loadImages(directory);
     for (auto &image : loadedImages) {
         gpu::Stream s;
         cudaStreams->emplace_back(s);
@@ -127,7 +95,7 @@ void runCUDA(const string &directory, const string &gpuOutputDirectory) {
          << " milliseconds" << endl;
     cout << "OpenCV runtime (GPU): " << chrono::duration_cast<chrono::nanoseconds>(end - now).count() << " nanoseconds"
          << endl;
-    writeImages(gpuOutputDirectory, (*out));
+    tools::writeImages(gpuOutputDirectory, (*out));
     loadedImages.clear();
 }
 
@@ -154,21 +122,21 @@ int main(int argc, char *argv[]) {
         if (variables.count("in") && variables.count("cpu-out") && variables.count("gpu-out")) {
             bool quit = false;
             fs::path inputDirectory(variables["in"].as<string>());
-            addTrailingSlash(inputDirectory);
+            tools::addTrailingSlash(inputDirectory);
             if (!fs::is_directory(inputDirectory) || !fs::exists(inputDirectory)) {
                 cout << "Input directory does not exist" << endl;
                 quit = true;
             }
 
             fs::path cpuOutputDirectory(variables["cpu-out"].as<string>());
-            addTrailingSlash(cpuOutputDirectory);
+            tools::addTrailingSlash(cpuOutputDirectory);
             if (!fs::is_directory(cpuOutputDirectory) || !fs::exists(cpuOutputDirectory)) {
                 cout << "CPU output directory does not exist" << endl;
                 quit = true;
             }
 
             fs::path gpuOutputDirectory(variables["gpu-out"].as<string>());
-            addTrailingSlash(gpuOutputDirectory);
+            tools::addTrailingSlash(gpuOutputDirectory);
             if (!fs::is_directory(gpuOutputDirectory) || !fs::exists(gpuOutputDirectory)) {
                 cout << "GPU output directory does not exist" << endl;
                 quit = true;
@@ -177,8 +145,8 @@ int main(int argc, char *argv[]) {
                 return 1;
             }
             gpu::printCudaDeviceInfo(gpu::getDevice());
-            run(inputDirectory.generic_string(), cpuOutputDirectory.generic_string());
-            runCUDA(inputDirectory.generic_string(), gpuOutputDirectory.generic_string());
+            benchmarkCPU(inputDirectory.generic_string(), cpuOutputDirectory.generic_string());
+            benchmarkGPU(inputDirectory.generic_string(), gpuOutputDirectory.generic_string());
         } else {
             cout << "Invalid parameters." << endl;
             cout << description << endl;
