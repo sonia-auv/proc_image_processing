@@ -91,7 +91,9 @@ set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc")
 set(CUDA_CUDART_LIBRARY "/usr/local/cuda/lib64/libcudart.so")
 find_package(CUDA)
+message("AFTER CUDA FIND")
 if (CUDA_FOUND)
+    message("CUDA_FOUND TRUE")
     include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
     try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
@@ -110,6 +112,7 @@ if (CUDA_FOUND)
         cpu_mode()
     endif ()
 else()
+    message("ELSE CUDA_FOUND CPU")
     cpu_mode()
 endif (CUDA_FOUND)
 
