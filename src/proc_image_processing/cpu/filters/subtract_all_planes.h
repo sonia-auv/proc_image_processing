@@ -20,8 +20,8 @@
 #ifndef PROVIDER_VISION_FILTERS_SUBTRACT_ALL_PLANES_H_
 #define PROVIDER_VISION_FILTERS_SUBTRACT_ALL_PLANES_H_
 
-#include <proc_image_processing/algorithm/general_function.h>
-#include <proc_image_processing/filters/filter.h>
+#include <algorithm/general_function.h>
+#include <filters/filter.h>
 #include <memory>
 
 namespace proc_image_processing {

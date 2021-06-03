@@ -17,7 +17,7 @@
 /// You should have received a copy of the GNU General Public License
 /// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
-#include <proc_image_processing/cpu/algorithm/object_full_data.h>
+#include <cpu/algorithm/object_full_data.h>
 
 namespace proc_image_processing {
 

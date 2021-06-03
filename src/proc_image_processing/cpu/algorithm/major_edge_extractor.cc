@@ -17,7 +17,7 @@
 /// You should have received a copy of the GNU General Public License
 /// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
-#include <proc_image_processing/algorithm/major_edge_extractor.h>
+#include <algorithm/major_edge_extractor.h>
 
 namespace proc_image_processing {
 

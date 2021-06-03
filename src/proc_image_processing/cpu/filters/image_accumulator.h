@@ -20,9 +20,9 @@
 #ifndef PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
 #define PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
 
-#include <proc_image_processing/algorithm/image_accumulator_buffer.h>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
-#include <proc_image_processing/filters/filter.h>
+#include <algorithm/image_accumulator_buffer.h>
+#include <algorithm/performance_evaluator.h>
+#include <filters/filter.h>
 #include <memory>
 
 namespace proc_image_processing {

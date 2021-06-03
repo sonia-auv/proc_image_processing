@@ -25,9 +25,9 @@
 #include <opencv2/opencv.hpp>
 #include <queue>
 
-#include <proc_image_processing/filters/filter.h>
-#include <proc_image_processing/server/filter_factory.h>
-#include <proc_image_processing/server/global_param_handler.h>
+#include <filters/filter.h>
+#include <server/filter_factory.h>
+#include <server/global_param_handler.h>
 #include "proc_image_processing/server/target.h"
 
 namespace proc_image_processing {

@@ -5,12 +5,12 @@
 #ifndef PROVIDER_VISION_GATE_FINDER_H
 #define PROVIDER_VISION_GATE_FINDER_H
 
-#include <proc_image_processing/algorithm/general_function.h>
-#include <proc_image_processing/algorithm/object_feature_factory.h>
-#include <proc_image_processing/algorithm/object_full_data.h>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
-#include <proc_image_processing/filters/filter.h>
-#include <proc_image_processing/server/target.h>
+#include <algorithm/general_function.h>
+#include <algorithm/object_feature_factory.h>
+#include <algorithm/object_full_data.h>
+#include <algorithm/performance_evaluator.h>
+#include <filters/filter.h>
+#include <server/target.h>
 #include <memory>
 #include <ros/ros.h>
 

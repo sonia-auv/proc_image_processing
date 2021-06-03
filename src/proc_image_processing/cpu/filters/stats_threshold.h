@@ -20,7 +20,7 @@
 #ifndef PROVIDER_VISION_FILTERS_STATS_THRESHOLD_H_
 #define PROVIDER_VISION_FILTERS_STATS_THRESHOLD_H_
 
-#include <proc_image_processing/filters/filter.h>
+#include <filters/filter.h>
 #include <memory>
 
 namespace proc_image_processing {

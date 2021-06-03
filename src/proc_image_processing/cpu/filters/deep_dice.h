@@ -19,8 +19,8 @@
 #ifndef PROC_IMAGE_PROCESSING_DEEP_DICE_H
 #define PROC_IMAGE_PROCESSING_DEEP_DICE_H
 
-#include <proc_image_processing/filters/filter.h>
-#include <proc_image_processing/server/target.h>
+#include <filters/filter.h>
+#include <server/target.h>
 #include <memory>
 #include <string>
 #include <ros/ros.h>

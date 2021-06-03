@@ -6,10 +6,10 @@
 #define PROC_IMAGE_PROCESSING_VAMPIRE_BODY_DETECTOR_H
 
 
-#include <proc_image_processing/filters/filter.h>
+#include <filters/filter.h>
 #include <math.h>
 #include <memory>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
+#include <algorithm/performance_evaluator.h>
 
 namespace proc_image_processing {
 

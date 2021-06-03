@@ -21,12 +21,12 @@
 #define PROVIDER_VISION_FILTERS_BUOY_SINGLE_H_
 
 #include <math.h>
-#include <proc_image_processing/algorithm/contour_list.h>
-#include <proc_image_processing/algorithm/general_function.h>
-#include <proc_image_processing/algorithm/object_feature_factory.h>
-#include <proc_image_processing/algorithm/object_full_data.h>
-#include <proc_image_processing/filters/filter.h>
-#include <proc_image_processing/server/target.h>
+#include <algorithm/contour_list.h>
+#include <algorithm/general_function.h>
+#include <algorithm/object_feature_factory.h>
+#include <algorithm/object_full_data.h>
+#include <filters/filter.h>
+#include <server/target.h>
 #include <memory>
 
 namespace proc_image_processing {

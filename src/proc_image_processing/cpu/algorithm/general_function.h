@@ -20,9 +20,9 @@
 #ifndef PROVIDER_VISION_ALGORITHM_GENERAL_FUNCTION_H_
 #define PROVIDER_VISION_ALGORITHM_GENERAL_FUNCTION_H_
 
-#include <proc_image_processing/algorithm/rot_rect.h>
-#include <proc_image_processing/algorithm/type_and_const.h>
-#include <proc_image_processing/algorithm/line.h>
+#include <algorithm/rot_rect.h>
+#include <algorithm/type_and_const.h>
+#include <algorithm/line.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
 

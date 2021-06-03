@@ -20,11 +20,11 @@
 #ifndef PROVIDER_VISION_FILTERS_TORPEDOES_DETECTOR_H_
 #define PROVIDER_VISION_FILTERS_TORPEDOES_DETECTOR_H_
 
-#include <proc_image_processing/algorithm/general_function.h>
-#include <proc_image_processing/algorithm/object_full_data.h>
-#include <proc_image_processing/algorithm/object_ranker.h>
-#include <proc_image_processing/filters/filter.h>
-#include <proc_image_processing/server/target.h>
+#include <algorithm/general_function.h>
+#include <algorithm/object_full_data.h>
+#include <algorithm/object_ranker.h>
+#include <filters/filter.h>
+#include <server/target.h>
 #include <memory>
 #include <string>
 

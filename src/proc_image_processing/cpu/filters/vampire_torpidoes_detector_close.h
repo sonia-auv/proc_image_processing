@@ -7,10 +7,10 @@
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_CLOSE_H
 
 
-#include <proc_image_processing/filters/filter.h>
+#include <filters/filter.h>
 #include <math.h>
 #include <memory>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
+#include <algorithm/performance_evaluator.h>
 //#include "opencv2/highgui/highgui.hpp"
 //#include "opencv2/imgproc/imgproc.hpp"
 
