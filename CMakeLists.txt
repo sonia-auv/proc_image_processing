@@ -41,17 +41,6 @@ function(cpu_mode)
             ${proc_image_processing_CPU_SRC_DIR}/main.cc
             ${proc_image_processing_CPU_FILES}
     )
-
-    target_link_libraries(
-            ${PROJECT_NAME}_node
-            ${catkin_LIBRARIES}
-            ${sonia_common_LIBRARIES}
-            ${pcl_ros_LIBRARIES}
-            ${OpenCV_LIBRARIES}
-            yaml-cpp
-    )
-
-    add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 endfunction()
 
 function(gpu_mode)
@@ -92,17 +81,6 @@ function(gpu_mode)
             ${proc_image_processing_GPU_FILES}
             ${proc_image_processing_CPU_FILES}
     )
-
-    target_link_libraries(
-            ${PROJECT_NAME}_node
-            ${catkin_LIBRARIES}
-            ${sonia_common_LIBRARIES}
-            ${pcl_ros_LIBRARIES}
-            ${OpenCV_LIBRARIES}
-            yaml-cpp
-    )
-
-    add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 endfunction()
 
 find_package(catkin REQUIRED COMPONENTS roscpp std_msgs image_transport cv_bridge roslaunch pcl_ros sonia_common)
@@ -131,6 +109,16 @@ else ()
     cpu_mode()
 endif (CUDA_FOUND)
 
+target_link_libraries(
+        ${PROJECT_NAME}_node
+        ${catkin_LIBRARIES}
+        ${sonia_common_LIBRARIES}
+        ${pcl_ros_LIBRARIES}
+        ${OpenCV_LIBRARIES}
+        yaml-cpp
+)
+
+add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 
 add_executable(republisher_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/republisher.cc)
 target_link_libraries(republisher_node ${catkin_LIBRARIES} ${sonia_common_LIBRARIES} ${pcl_ros_LIBRARIES} ${OpenCV_LIBRARIES} yaml-cpp)
