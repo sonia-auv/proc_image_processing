@@ -1,11 +1,11 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.128.0/containers/docker-existing-dockerfile
 {
-	"name": "proc_image_processing",
+	"name": "proc_image_processing_gpu",
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile.cuda' filename.
-	"dockerFile": "../Dockerfile",
+	"dockerFile": "../../../Dockerfile.cuda",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"terminal.integrated.shell.linux": "bash"
