@@ -8,7 +8,8 @@ set(proc_image_processing_CPU_SRC_DIR "src/proc_image_processing/cpu")
 set(proc_image_processing_GPU_SRC_DIR "src/proc_image_processing/gpu")
 
 function(cpu_mode)
-    catkin_package(
+    find_package(OpenCV REQUIRED)
+            catkin_package(
             INCLUDE_DIRS ${proc_image_processing_CPU_SRC_DIR}
             LIBRARIES
             CATKIN_DEPENDS
@@ -44,6 +45,9 @@ function(cpu_mode)
 endfunction()
 
 function(gpu_mode)
+    set(OpenCV_DIR /usr/local)
+    find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
+    include_directories(${OpenCV_INCLUDE_DIRS})
     add_subdirectory(tools/)
     catkin_package(
             INCLUDE_DIRS ${proc_image_processing_GPU_SRC_DIR}
@@ -79,10 +83,6 @@ function(gpu_mode)
             )
     add_dependencies(${PROJECT_NAME}_gpu_node ${catkin_EXPORTED_TARGETS})
 endfunction()
-
-set(OpenCV_DIR /usr/local)
-find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
-include_directories(${OpenCV_INCLUDE_DIRS})
 
 find_package(catkin REQUIRED COMPONENTS roscpp std_msgs image_transport cv_bridge roslaunch pcl_ros sonia_common)
 
