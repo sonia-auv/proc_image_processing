@@ -77,6 +77,8 @@ function(gpu_mode)
 
     list(REMOVE_ITEM proc_image_processing_GPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
 
     include_directories(
             ${catkin_INCLUDE_DIRS}
