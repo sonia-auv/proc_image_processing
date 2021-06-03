@@ -33,7 +33,7 @@ jobs:
           docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   build-ros-perception-arm64:
-    name: "Build ROS perception AMR64"
+    name: "Build ROS perception ARM64"
     runs-on: ubuntu-latest
     env:
       BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"

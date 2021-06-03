@@ -1,80 +1,120 @@
 cmake_minimum_required(VERSION 3.10)
 project(proc_image_processing)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
-set(proc_image_processing_SRC_DIR "src")
+set(proc_image_processing_SRC_DIR "src/proc_image_processing")
+set(proc_image_processing_CPU_SRC_DIR "src/proc_image_processing/cpu")
+set(proc_image_processing_GPU_SRC_DIR "src/proc_image_processing/gpu")
+
+function(cpu_mode)
+    catkin_package(
+            INCLUDE_DIRS ${proc_image_processing_CPU_SRC_DIR}
+            LIBRARIES
+            CATKIN_DEPENDS
+            roscpp
+            std_msgs
+            image_transport
+            cv_bridge
+            roslaunch
+            pcl_ros
+            sonia_common
+    )
+
+
+    file(GLOB_RECURSE proc_image_processing_CPU_FILES "${proc_image_processing_CPU_SRC_DIR}/cpu/*.cc" "${proc_image_processing_CPU_SRC_DIR}/*.h")
+
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
+
+    include_directories(${catkin_INCLUDE_DIRS} ${proc_image_processing_CPU_SRC_DIR} ${sonia_common_INCLUDE_DIRS} ${pcl_ros_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
+
+
+    add_executable(${PROJECT_NAME}_cpu_node
+            ${proc_image_processing_CPU_SRC_DIR}/main.cc
+            ${proc_image_processing_CPU_FILES}
+            )
+    target_link_libraries(${PROJECT_NAME}_cpu_node
+            ${catkin_LIBRARIES}
+            ${sonia_common_LIBRARIES}
+            ${pcl_ros_LIBRARIES}
+            ${OpenCV_LIBRARIES}
+            yaml-cpp
+            )
+    add_dependencies(${PROJECT_NAME}_cpu_node ${catkin_EXPORTED_TARGETS})
+endfunction()
+
+function(gpu_mode)
+    add_subdirectory(tools/)
+    catkin_package(
+            INCLUDE_DIRS ${proc_image_processing_GPU_SRC_DIR}
+            LIBRARIES
+            CATKIN_DEPENDS
+            roscpp
+            std_msgs
+            image_transport
+            cv_bridge
+            roslaunch
+            pcl_ros
+            sonia_common
+    )
+
+
+    file(GLOB_RECURSE proc_image_processing_GPU_FILES "${proc_image_processing_GPU_SRC_DIR}/cpu/*.cc" "${proc_image_processing_GPU_SRC_DIR}/*.h")
+
+    list(REMOVE_ITEM proc_image_processing_GPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
+
+    include_directories(${catkin_INCLUDE_DIRS} ${proc_image_processing_GPU_SRC_DIR} ${sonia_common_INCLUDE_DIRS} ${pcl_ros_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
+
+
+    add_executable(${PROJECT_NAME}_gpu_node
+            ${proc_image_processing_GPU_SRC_DIR}/main.cc
+            ${proc_image_processing_GPU_FILES}
+            )
+    target_link_libraries(${PROJECT_NAME}_gpu_node
+            ${catkin_LIBRARIES}
+            ${sonia_common_LIBRARIES}
+            ${pcl_ros_LIBRARIES}
+            ${OpenCV_LIBRARIES}
+            yaml-cpp
+            )
+    add_dependencies(${PROJECT_NAME}_gpu_node ${catkin_EXPORTED_TARGETS})
+endfunction()
+
+set(OpenCV_DIR /usr/local)
+find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs image_transport cv_bridge roslaunch pcl_ros sonia_common)
 
 set(CMAKE_FIND_PACKAGE_RESOLVE_SYMLINKS TRUE)
 set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc")
 set(CUDA_CUDART_LIBRARY "/usr/local/cuda/lib64/libcudart.so")
-find_package(CUDA REQUIRED)
-include_directories(${CUDA_TOOLKIT_INCLUDE_DIRS})
-set(OpenCV_DIR /usr/local)
-find_package(OpenCV REQUIRED NO_MODULE PATHS /usr/local NO_DEFAULT_PATH)
-include_directories(${OpenCV_INCLUDE_DIRS})
-add_subdirectory(tools/)
+find_package(CUDA)
 
-find_package(catkin REQUIRED COMPONENTS
-        roscpp
-        std_msgs
-        image_transport
-        cv_bridge
-        roslaunch
-        pcl_ros
-        sonia_common
-        )
+if (CUDA_FOUND)
+    include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
-catkin_package(
-        INCLUDE_DIRS ${proc_image_processing_SRC_DIR}
-        LIBRARIES
-        CATKIN_DEPENDS
-        roscpp
-        std_msgs
-        image_transport
-        cv_bridge
-        roslaunch
-        pcl_ros
-        sonia_common
-)
+    try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
+            ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tools/detect_gpu.c
+            CMAKE_FLAGS
+            -DINCLUDE_DIRECTORIES:STRING=${CUDA_TOOLKIT_INCLUDE}
+            -DLINK_LIBRARIES:STRING=${CUDA_CUDART_LIBRARY}
+            COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR
+            RUN_OUTPUT_VARIABLE RUN_OUTPUT_VAR
+    )
+    message("${RUN_OUTPUT_VAR}")
 
-file(GLOB_RECURSE proc_image_processing_FILES
-        "${proc_image_processing_SRC_DIR}/*.cc"
-        "${proc_image_processing_SRC_DIR}/*.h")
-
-list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc)
-list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc)
-list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/algorithm/major_edge_extractor.cc)
-
-include_directories(
-        ${catkin_INCLUDE_DIRS}
-        ${proc_image_processing_SRC_DIR}
-        ${sonia_common_INCLUDE_DIRS}
-        ${pcl_ros_INCLUDE_DIRS}
-        ${OpenCV_INCLUDE_DIRS}
-)
+    if (COMPILE_RESULT_VAR AND NOT RUN_RESULT_VAR)
+        gpu_mode()
+    else ()
+        cpu_mode()
+    endif ()
+else()
+    cpu_mode()
+endif (CUDA_FOUND)
 
 
-add_executable(${PROJECT_NAME}_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_image_processing_FILES} src/proc_image_processing/filters/square_detection.h src/proc_image_processing/filters/white_filter.h)
-target_link_libraries(proc_image_processing_node
-        ${catkin_LIBRARIES}
-        ${sonia_common_LIBRARIES}
-        ${pcl_ros_LIBRARIES}
-        ${OpenCV_LIBRARIES}
-        yaml-cpp
-        )
-add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
-
-add_executable(republisher_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc ${proc_image_processing_FILES})
-target_link_libraries(republisher_node
-        ${catkin_LIBRARIES}
-        ${sonia_common_LIBRARIES}
-        ${pcl_ros_LIBRARIES}
-        ${OpenCV_LIBRARIES}
-        yaml-cpp
-        )
+add_executable(republisher_node ${proc_image_processing_SRC_DIR}/republisher.cc)
+target_link_libraries(republisher_node ${catkin_LIBRARIES} ${sonia_common_LIBRARIES} ${pcl_ros_LIBRARIES} ${OpenCV_LIBRARIES} yaml-cpp)
 add_dependencies(republisher_node ${catkin_EXPORTED_TARGETS})
-
-#add_executable(proc_image_processing ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc)
-#target_link_libraries(proc_image_processing ${OpenCV_LIBS})

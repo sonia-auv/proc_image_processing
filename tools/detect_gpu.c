@@ -25,6 +25,5 @@ int main() {
        errors can also yield non-zero return values */
     if (gpuDeviceCount > 0)
         return 0; /* success */
-    else
-        return 1; /* failure */
+    return 1; /* failure */
 }
