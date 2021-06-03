@@ -37,7 +37,7 @@ function(cpu_mode)
     )
 
     add_executable(
-            ${PROJECT_NAME}_cpu_node
+            ${PROJECT_NAME}_node
             ${proc_image_processing_CPU_SRC_DIR}/main.cc
             ${proc_image_processing_CPU_FILES}
     )
