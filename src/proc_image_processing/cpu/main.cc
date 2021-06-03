@@ -20,9 +20,9 @@
 
 #include <sonia_common/ros/service_server_manager.h>
 #include <ros/ros.h>
-#include <cpu/sonar/SubmarinePosition.h>
-#include <cpu/sonar/SonarMapper.h>
-#include <cpu/server/vision_server.h>
+#include <proc_image_processing/cpu/sonar/SubmarinePosition.h>
+#include <proc_image_processing/cpu/sonar/SonarMapper.h>
+#include <proc_image_processing/cpu/server/vision_server.h>
 #include <opencv2/opencv.hpp>
 #include <unistd.h>
 

@@ -22,8 +22,7 @@ function(cpu_mode)
             sonia_common
     )
 
-
-    file(GLOB_RECURSE proc_image_processing_CPU_FILES "${proc_image_processing_CPU_SRC_DIR}/cpu/*.cc" "${proc_image_processing_CPU_SRC_DIR}/*.h")
+    file(GLOB_RECURSE proc_image_processing_CPU_FILES "${proc_image_processing_CPU_SRC_DIR}/*.cc" "${proc_image_processing_CPU_SRC_DIR}/*.h")
 
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
 
@@ -34,7 +33,6 @@ function(cpu_mode)
             ${pcl_ros_INCLUDE_DIRS}
             ${OpenCV_INCLUDE_DIRS}
     )
-
 
     add_executable(
             ${PROJECT_NAME}_cpu_node
@@ -71,7 +69,7 @@ function(gpu_mode)
     )
 
 
-    file(GLOB_RECURSE proc_image_processing_GPU_FILES "${proc_image_processing_GPU_SRC_DIR}/cpu/*.cc" "${proc_image_processing_GPU_SRC_DIR}/*.h")
+    file(GLOB_RECURSE proc_image_processing_GPU_FILES "${proc_image_processing_GPU_SRC_DIR}/*.cc" "${proc_image_processing_GPU_SRC_DIR}/*.h")
 
     list(REMOVE_ITEM proc_image_processing_GPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
 
