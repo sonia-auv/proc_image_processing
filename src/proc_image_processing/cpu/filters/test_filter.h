@@ -20,8 +20,8 @@
 #ifndef PROVIDER_VISION_FILTERS_TEST_FILTER_H_
 #define PROVIDER_VISION_FILTERS_TEST_FILTER_H_
 
-#include <filters/filter.h>
-#include <server/target.h>
+#include "filter.h"
+#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
 
 namespace proc_image_processing {

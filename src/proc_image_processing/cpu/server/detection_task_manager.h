@@ -25,8 +25,8 @@
 #include <mutex>
 #include <string>
 #include <vector>
-#include "proc_image_processing/server/detection_task.h"
-#include "proc_image_processing/server/filterchain.h"
+#include <proc_image_processing/cpu/server/detection_task.h>
+#include <proc_image_processing/cpu/server/filterchain.h>
 
 namespace proc_image_processing {
 

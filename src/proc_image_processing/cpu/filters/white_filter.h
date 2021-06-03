@@ -6,7 +6,7 @@
 #define PROC_IMAGE_PROCESSING_WHITE_FILTER_H
 
 
-#include <filters/filter.h>
+#include "filter.h"
 #include <math.h>
 #include <memory>
 

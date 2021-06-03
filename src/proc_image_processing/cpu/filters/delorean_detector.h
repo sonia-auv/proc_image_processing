@@ -20,11 +20,11 @@
 #ifndef PROVIDER_VISION_FILTERS_DELOREAN_DETECTOR_H_
 #define PROVIDER_VISION_FILTERS_DELOREAN_DETECTOR_H_
 
-#include <algorithm/general_function.h>
-#include <algorithm/object_feature_factory.h>
-#include <algorithm/object_full_data.h>
-#include <filters/filter.h>
-#include <server/target.h>
+#include <proc_image_processing/cpu/algorithm/general_function.h>
+#include <proc_image_processing/cpu/algorithm/object_feature_factory.h>
+#include <proc_image_processing/cpu/algorithm/object_full_data.h>
+#include "filter.h"
+#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
 
 namespace proc_image_processing {

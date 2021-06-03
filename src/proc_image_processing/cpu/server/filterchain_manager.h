@@ -22,12 +22,12 @@
 #define PROVIDER_VISION_SERVER_FILTERCHAIN_MANAGER_H_
 
 #include <sonia_common/ros/service_server_manager.h>
-#include <filters/filter.h>
+#include <proc_image_processing/cpu/filters/filter.h>
 #include <functional>
 #include <string>
 #include <vector>
-#include "proc_image_processing/config.h"
-#include "proc_image_processing/server/filterchain.h"
+#include "proc_image_processing/cpu/config.h"
+#include "filterchain.h"
 
 namespace proc_image_processing {
 

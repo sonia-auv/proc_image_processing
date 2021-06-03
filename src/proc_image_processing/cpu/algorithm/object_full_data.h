@@ -23,9 +23,9 @@
 #include "object_basic_data.h"
 #include "object_ranking_data.h"
 #include "object_tracking_data.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/memory"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/local/include/opencv2/opencv.hpp"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/vector"
+#include <memory>
+#include <opencv2/opencv.hpp>
+#include <vector>
 #include "object_feature.h"
 #include "general_function.h"
 

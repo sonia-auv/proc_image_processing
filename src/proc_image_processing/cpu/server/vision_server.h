@@ -38,10 +38,10 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "proc_image_processing/config.h"
-#include "proc_image_processing/server/detection_task.h"
-#include "proc_image_processing/server/detection_task_manager.h"
-#include "proc_image_processing/server/filterchain_manager.h"
+#include "proc_image_processing/cpu/config.h"
+#include "detection_task.h"
+#include "detection_task_manager.h"
+#include "filterchain_manager.h"
 
 
 namespace proc_image_processing {

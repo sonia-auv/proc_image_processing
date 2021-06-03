@@ -20,6 +20,7 @@
 
 #include <sonia_common/ros/service_server_manager.h>
 #include <opencv2/opencv.hpp>
+#include <proc_image_processing/cpu/config.h>
 
 void run();
 

@@ -21,8 +21,8 @@
 #error This file may only be included from filter.h
 #endif
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/home/sonia/base_lib_ws/src/sonia_common/src/sonia_common/macros.h"
-#include "../server/target.h"
+#include <sonia_common/macros.h>
+#include <proc_image_processing/cpu/server/target.h>
 
 namespace proc_image_processing {
 

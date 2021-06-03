@@ -19,8 +19,8 @@
 #ifndef PROC_IMAGE_PROCESSING_DEEP_2019_H
 #define PROC_IMAGE_PROCESSING_DEEP_2019_H
 
-#include <filters/filter.h>
-#include <server/target.h>
+#include "filter.h"
+#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
 #include <string>
 #include <ros/ros.h>

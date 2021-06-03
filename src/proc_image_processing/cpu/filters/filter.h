@@ -20,10 +20,10 @@
 #ifndef PROVIDER_VISION_FILTER_H_
 #define PROVIDER_VISION_FILTER_H_
 
-#include <server/global_param_handler.h>
-#include <server/parameter.h>
-#include <server/ranged_parameter.h>
-#include <server/target.h>
+#include <proc_image_processing/cpu/server/global_param_handler.h>
+#include <proc_image_processing/cpu/server/parameter.h>
+#include <proc_image_processing/cpu/server/ranged_parameter.h>
+#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
 #include <string>
@@ -89,6 +89,6 @@ class Filter {
 
 }  // namespace proc_image_processing
 
-#include <filters/filter_inl.h>
+#include "filter_inl.h"
 
 #endif  // PROVIDER_VISION_FILTER_H_

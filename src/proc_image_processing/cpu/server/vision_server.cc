@@ -19,7 +19,7 @@
 /// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
 #include <fstream>
-#include "vision_server.h"
+#include <proc_image_processing/cpu/server/vision_server.h>
 #include <sonia_common/ChangeNetwork.h>
 
 

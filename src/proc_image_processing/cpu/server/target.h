@@ -21,13 +21,13 @@
 #ifndef PROVIDER_VISION_ALGORITHM_TARGET_H_
 #define PROVIDER_VISION_ALGORITHM_TARGET_H_
 
-#include "../algorithm/general_function.h"
-#include "../algorithm/object_full_data.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/stdlib.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/memory"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/local/include/opencv2/opencv.hpp"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/queue"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/home/sonia/base_lib_ws/devel/include/sonia_common/VisionTarget.h"
+#include <proc_image_processing/cpu/algorithm/general_function.h>
+#include <proc_image_processing/cpu/algorithm/object_full_data.h>
+#include <stdlib.h>
+#include <memory>
+#include <opencv2/opencv.hpp>
+#include <queue>
+#include <sonia_common/VisionTarget.h>
 
 namespace proc_image_processing {
 

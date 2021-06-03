@@ -26,8 +26,8 @@
 #ifndef PROC_IMAGE_PROCESSING_MAPOBJECT_H
 #define PROC_IMAGE_PROCESSING_MAPOBJECT_H
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/array"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/vector"
+#include <array>
+#include <vector>
 
 
 class MapObject {

@@ -20,12 +20,12 @@
 #ifndef PROVIDER_VISION_FILTERS_PIPE_DETECTOR_ANGLE_H_
 #define PROVIDER_VISION_FILTERS_PIPE_DETECTOR_ANGLE_H_
 
-#include <algorithm/general_function.h>
-#include <algorithm/object_full_data.h>
-#include <algorithm/performance_evaluator.h>
-#include <algorithm/line.h>
-#include <filters/filter.h>
-#include <server/target.h>
+#include <proc_image_processing/cpu/algorithm/general_function.h>
+#include <proc_image_processing/cpu/algorithm/object_full_data.h>
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
+#include <proc_image_processing/cpu/algorithm/line.h>
+#include "filter.h"
+#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
 
 namespace proc_image_processing {

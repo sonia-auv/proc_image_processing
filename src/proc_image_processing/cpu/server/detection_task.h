@@ -23,10 +23,10 @@
 
 #include <sonia_common/ros/image_publisher.h>
 #include <mutex>
-#include "proc_image_processing/config.h"
-#include "proc_image_processing/server/filterchain.h"
+#include "proc_image_processing/cpu/config.h"
+#include "filterchain.h"
 #include "sonia_common/pattern/runnable.h"
-#include "proc_image_processing/server/ImageProvider.h"
+#include "ImageProvider.h"
 
 namespace proc_image_processing {
 

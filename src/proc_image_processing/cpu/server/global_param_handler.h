@@ -21,9 +21,9 @@
 #ifndef PROVIDER_VISION_FILTER_GLOBAL_PARAM_HANDLER_H_
 #define PROVIDER_VISION_FILTER_GLOBAL_PARAM_HANDLER_H_
 
-#include <server/parameter.h>
-#include <server/ranged_parameter.h>
-#include <server/target.h>
+#include "parameter.h"
+#include "ranged_parameter.h"
+#include "target.h"
 #include <memory>
 #include <queue>
 #include <sstream>

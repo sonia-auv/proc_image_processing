@@ -6,7 +6,7 @@
 #define PROC_IMAGE_PROCESSING_SQUARE_DETECTION_H
 
 
-#include <filters/filter.h>
+#include "filter.h"
 #include <math.h>
 #include <memory>
 

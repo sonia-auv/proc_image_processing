@@ -6,10 +6,10 @@
 #define PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
 
 
-#include <filters/filter.h>
+#include "filter.h"
 #include <math.h>
 #include <memory>
-#include <algorithm/performance_evaluator.h>
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 
 namespace proc_image_processing {
 

@@ -25,10 +25,10 @@
 #include <opencv2/opencv.hpp>
 #include <queue>
 
-#include <filters/filter.h>
-#include <server/filter_factory.h>
-#include <server/global_param_handler.h>
-#include "proc_image_processing/server/target.h"
+#include <proc_image_processing/cpu/filters/filter.h>
+#include "filter_factory.h"
+#include "global_param_handler.h"
+#include "target.h"
 
 namespace proc_image_processing {
 

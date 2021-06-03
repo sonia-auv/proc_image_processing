@@ -26,13 +26,13 @@
 #ifndef PROC_IMAGE_PROCESSING_RAW_MAP_H_
 #define PROC_IMAGE_PROCESSING_RAW_MAP_H_
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/local/include/opencv/cv.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/eigen3/Eigen/Geometry"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/pcl-1.8/pcl/point_cloud.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/pcl-1.8/pcl/point_types.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/opt/ros/melodic/include/pcl_conversions/pcl_conversions.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/home/sonia/base_lib_ws/src/image_common/image_transport/include/image_transport/image_transport.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/opt/ros/melodic/include/sensor_msgs/PointCloud2.h"
+#include <opencv/cv.h>
+#include <eigen3/Eigen/Geometry>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
+#include <image_transport/image_transport.h>
+#include <sensor_msgs/PointCloud2.h>
 #include "AsyncImagePublisher.h"
 #include "BaseObjectMapperInterface.h"
 #include "SubmarinePosition.h"

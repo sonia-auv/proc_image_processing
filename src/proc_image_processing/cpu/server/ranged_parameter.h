@@ -21,11 +21,11 @@
 #ifndef PROVIDER_VISION_RANGED_PARAMETER_H_
 #define PROVIDER_VISION_RANGED_PARAMETER_H_
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/home/sonia/base_lib_ws/src/sonia_common/src/sonia_common/macros.h"
+#include <sonia_common/macros.h>
 #include "parameter.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/iostream"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/string"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/vector"
+#include <iostream>
+#include <string>
+#include <vector>
 
 namespace proc_image_processing {
 

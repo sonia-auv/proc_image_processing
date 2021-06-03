@@ -20,10 +20,10 @@
 #ifndef PROVIDER_VISION_ALGORITHM_ROT_RECT_H_
 #define PROVIDER_VISION_ALGORITHM_ROT_RECT_H_
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/math.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/memory"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/local/include/opencv2/core/core.hpp"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/local/include/opencv2/opencv.hpp"
+#include <math.h>
+#include <memory>
+#include <opencv2/core/core.hpp>
+#include <opencv2/opencv.hpp>
 
 namespace proc_image_processing {
 

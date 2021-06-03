@@ -3,14 +3,14 @@ project(proc_image_processing)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(proc_image_processing_SRC_DIR "src/proc_image_processing")
+set(proc_image_processing_SRC_DIR "src")
 set(proc_image_processing_CPU_SRC_DIR "src/proc_image_processing/cpu")
 set(proc_image_processing_GPU_SRC_DIR "src/proc_image_processing/gpu")
 
 function(cpu_mode)
     find_package(OpenCV REQUIRED)
     catkin_package(
-            INCLUDE_DIRS ${proc_image_processing_CPU_SRC_DIR}
+            INCLUDE_DIRS ${proc_image_processing_SRC_DIR}
             LIBRARIES
             CATKIN_DEPENDS
             roscpp
@@ -25,10 +25,12 @@ function(cpu_mode)
     file(GLOB_RECURSE proc_image_processing_CPU_FILES "${proc_image_processing_CPU_SRC_DIR}/*.cc" "${proc_image_processing_CPU_SRC_DIR}/*.h")
 
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
 
     include_directories(
             ${catkin_INCLUDE_DIRS}
-            ${proc_image_processing_CPU_SRC_DIR}
+            ${proc_image_processing_SRC_DIR}
             ${sonia_common_INCLUDE_DIRS}
             ${pcl_ros_INCLUDE_DIRS}
             ${OpenCV_INCLUDE_DIRS}
@@ -56,7 +58,7 @@ function(gpu_mode)
     include_directories(${OpenCV_INCLUDE_DIRS})
     add_subdirectory(tools/)
     catkin_package(
-            INCLUDE_DIRS ${proc_image_processing_GPU_SRC_DIR}
+            INCLUDE_DIRS ${proc_image_processing_SRC_DIR}
             LIBRARIES
             CATKIN_DEPENDS
             roscpp
@@ -70,23 +72,34 @@ function(gpu_mode)
 
 
     file(GLOB_RECURSE proc_image_processing_GPU_FILES "${proc_image_processing_GPU_SRC_DIR}/*.cc" "${proc_image_processing_GPU_SRC_DIR}/*.h")
+    file(GLOB_RECURSE proc_image_processing_CPU_FILES "${proc_image_processing_CPU_SRC_DIR}/*.cc" "${proc_image_processing_CPU_SRC_DIR}/*.h")
 
     list(REMOVE_ITEM proc_image_processing_GPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
 
-    include_directories(${catkin_INCLUDE_DIRS} ${proc_image_processing_GPU_SRC_DIR} ${sonia_common_INCLUDE_DIRS} ${pcl_ros_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
+    include_directories(
+            ${catkin_INCLUDE_DIRS}
+            ${proc_image_processing_SRC_DIR}
+            ${sonia_common_INCLUDE_DIRS}
+            ${pcl_ros_INCLUDE_DIRS}
+            ${OpenCV_INCLUDE_DIRS}
+    )
 
 
-    add_executable(${PROJECT_NAME}_gpu_node
+    add_executable(
+            ${PROJECT_NAME}_gpu_node
             ${proc_image_processing_GPU_SRC_DIR}/main.cc
             ${proc_image_processing_GPU_FILES}
-            )
-    target_link_libraries(${PROJECT_NAME}_gpu_node
+            ${proc_image_processing_CPU_FILES}
+    )
+    target_link_libraries(
+            ${PROJECT_NAME}_gpu_node
             ${catkin_LIBRARIES}
             ${sonia_common_LIBRARIES}
             ${pcl_ros_LIBRARIES}
             ${OpenCV_LIBRARIES}
             yaml-cpp
-            )
+    )
     add_dependencies(${PROJECT_NAME}_gpu_node ${catkin_EXPORTED_TARGETS})
 endfunction()
 
@@ -121,6 +134,6 @@ else ()
 endif (CUDA_FOUND)
 
 
-add_executable(republisher_node ${proc_image_processing_SRC_DIR}/republisher.cc)
+add_executable(republisher_node ${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/republisher.cc)
 target_link_libraries(republisher_node ${catkin_LIBRARIES} ${sonia_common_LIBRARIES} ${pcl_ros_LIBRARIES} ${OpenCV_LIBRARIES} yaml-cpp)
 add_dependencies(republisher_node ${catkin_EXPORTED_TARGETS})

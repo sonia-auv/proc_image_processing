@@ -20,7 +20,7 @@
 #ifndef PROVIDER_VISION_FILTERS_MISSION_TEST_FAKE_STRING_H_
 #define PROVIDER_VISION_FILTERS_MISSION_TEST_FAKE_STRING_H_
 
-#include <filters/filter.h>
+#include "filter.h"
 #include <memory>
 
 namespace proc_image_processing {

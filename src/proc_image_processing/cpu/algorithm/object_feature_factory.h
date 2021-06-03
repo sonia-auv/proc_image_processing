@@ -20,9 +20,9 @@
 #ifndef PROVIDER_VISION_ALGORITHM_OBJECT_FEATURE_FACTORY_H_
 #define PROVIDER_VISION_ALGORITHM_OBJECT_FEATURE_FACTORY_H_
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/map"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/memory"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/vector"
+#include <map>
+#include <memory>
+#include <vector>
 #include "object_feature.h"
 #include "object_frame_memory.h"
 #include "object_full_data.h"

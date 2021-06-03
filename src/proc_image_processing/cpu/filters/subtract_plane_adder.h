@@ -20,8 +20,8 @@
 #ifndef PROVIDER_VISION_FILTERS_SUBTRACT_PLANES_ADDER_H_
 #define PROVIDER_VISION_FILTERS_SUBTRACT_PLANES_ADDER_H_
 
-#include <algorithm/general_function.h>
-#include <filters/filter.h>
+#include <proc_image_processing/cpu/algorithm/general_function.h>
+#include "filter.h"
 #include <memory>
 
 namespace proc_image_processing {

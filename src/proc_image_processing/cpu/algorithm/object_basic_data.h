@@ -19,10 +19,10 @@
 #ifndef PROVIDER_VISION_ALGORITHM_OBJECT_BASIC_DATA_H_
 #define PROVIDER_VISION_ALGORITHM_OBJECT_BASIC_DATA_H_
 
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/assert.h"
+#include <assert.h>
 #include "rot_rect.h"
 #include "type_and_const.h"
-#include "../../../../../../.cache/JetBrains/CLion2021.1/.remote/127.0.0.1_2222/9683959d-c64a-40ab-a3b2-ad89a608eb90/usr/include/c++/7/memory"
+#include <memory>
 #include "contour.h"
 
 namespace proc_image_processing {
