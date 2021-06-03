@@ -41,15 +41,6 @@ function(cpu_mode)
             ${proc_image_processing_CPU_SRC_DIR}/main.cc
             ${proc_image_processing_CPU_FILES}
     )
-    target_link_libraries(
-            ${PROJECT_NAME}_cpu_node
-            ${catkin_LIBRARIES}
-            ${sonia_common_LIBRARIES}
-            ${pcl_ros_LIBRARIES}
-            ${OpenCV_LIBRARIES}
-            yaml-cpp
-    )
-    add_dependencies(${PROJECT_NAME}_cpu_node ${catkin_EXPORTED_TARGETS})
 endfunction()
 
 function(gpu_mode)
@@ -85,30 +76,16 @@ function(gpu_mode)
             ${OpenCV_INCLUDE_DIRS}
     )
 
-
     add_executable(
-            ${PROJECT_NAME}_gpu_node
+            ${PROJECT_NAME}_node
             ${proc_image_processing_GPU_SRC_DIR}/main.cc
             ${proc_image_processing_GPU_FILES}
             ${proc_image_processing_CPU_FILES}
     )
-    target_link_libraries(
-            ${PROJECT_NAME}_gpu_node
-            ${catkin_LIBRARIES}
-            ${sonia_common_LIBRARIES}
-            ${pcl_ros_LIBRARIES}
-            ${OpenCV_LIBRARIES}
-            yaml-cpp
-    )
-    add_dependencies(${PROJECT_NAME}_gpu_node ${catkin_EXPORTED_TARGETS})
 endfunction()
 
 find_package(catkin REQUIRED COMPONENTS roscpp std_msgs image_transport cv_bridge roslaunch pcl_ros sonia_common)
 
-#set(CMAKE_FIND_PACKAGE_RESOLVE_SYMLINKS TRUE)
-#set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
-#set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc")
-#set(CUDA_CUDART_LIBRARY "/usr/local/cuda/lib64/libcudart.so")
 find_package(CUDA)
 if (CUDA_FOUND)
     include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
@@ -128,6 +105,16 @@ if (CUDA_FOUND)
         message("##### - Using CPU mode, ${RUN_OUTPUT_VAR} - #####")
         cpu_mode()
     endif ()
+
+    target_link_libraries(
+            ${PROJECT_NAME}_node
+            ${catkin_LIBRARIES}
+            ${sonia_common_LIBRARIES}
+            ${pcl_ros_LIBRARIES}
+            ${OpenCV_LIBRARIES}
+            yaml-cpp
+    )
+    add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
 else ()
     message("##### - Using CPU mode, CUDA not found - #####")
     cpu_mode()
