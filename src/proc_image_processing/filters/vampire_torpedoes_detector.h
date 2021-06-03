@@ -3,8 +3,8 @@
 // Il y a des repetitions de code a ameliorer
 //
 
-#ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
-#define PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
+#ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 
 
 #include <proc_image_processing/filters/filter.h>
@@ -16,17 +16,17 @@
 
 namespace proc_image_processing {
 
-    class VampireTorpidoesDetector : public Filter {
+    class VampireTorpedoesDetector : public Filter {
     public:
         //==========================================================================
         // T Y P E D E F   A N D   E N U M
 
-        using Ptr = std::shared_ptr<VampireTorpidoesDetector>;
+        using Ptr = std::shared_ptr<VampireTorpedoesDetector>;
 
         //============================================================================
         // P U B L I C   C / D T O R S
 
-        explicit VampireTorpidoesDetector(const GlobalParamHandler &globalParams)
+        explicit VampireTorpedoesDetector(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                 enable_("Enable", false, &parameters_),
                 debug_contour_("Debug_contour", false, &parameters_),
@@ -34,9 +34,9 @@ namespace proc_image_processing {
                 look_for_heart_("Look_for_Heart", false, &parameters_),
                 min_area_("Min_area", 5000, 1, 100000, &parameters_),
                 max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
-            SetName("VampireTorpidoesDetector");}
+            SetName("VampireTorpedoesDetector");}
 
-        virtual ~VampireTorpidoesDetector() {}
+        virtual ~VampireTorpedoesDetector() {}
 
         //============================================================================
         // P U B L I C   M E T H O D S
@@ -151,22 +151,11 @@ namespace proc_image_processing {
                     }
                 }
 
-
-
-
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-
-
             }
-
-
-
-
-    }
-
-
+        }
 
 
     private:
@@ -182,4 +171,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
+#endif  // PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H

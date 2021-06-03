@@ -34,8 +34,6 @@ Filter *FilterFactory::createInstance(const std::string &name,
     return new MissionTestFakeString(globalParams);
   } else if (name == "TestFilter") {
     return new TestFilter(globalParams);
-  } else if (name == "BuoySingle") {
-    return new BuoySingle(globalParams);
   } else if (name == "Morphology") {
     return new Morphology(globalParams);
   } else if (name == "OriginalImage") {
@@ -50,36 +48,20 @@ Filter *FilterFactory::createInstance(const std::string &name,
     return new SubtractAllPlanes(globalParams);
   } else if (name == "Threshold") {
     return new Threshold(globalParams);
-  } else if (name == "BuoySingle") {
-    return new BuoySingle(globalParams);
   } else if (name == "Rotate") {
     return new Rotate(globalParams);
   } else if (name == "FenceDetector") {
     return new FenceDetector(globalParams);
   } else if (name == "ImageAccumulator") {
     return new ImageAccumulator(globalParams);
-  } else if (name == "ObjectFeatureCalculator") {
-    return new ObjectFeatureCalculator(globalParams);
-  } else if (name == "TrainDetector") {
-    return new TrainDetector(globalParams);
-  } else if (name == "ObjectFinder") {
-    return new ObjectFinder(globalParams);
-  } else if (name == "PipeDetector") {
-    return new PipeDetector(globalParams);
-  } else if (name == "TrackDetector") {
-    return new TrackDetector(globalParams);
   } else if (name == "Sobel") {
     return new Sobel(globalParams);
-  } else if (name == "DeloreanDetector") {
-    return new DeloreanDetector(globalParams);
   } else if (name == "SubmarineFrameMasker") {
     return new SubmarineFrameMasker(globalParams);
   } else if (name == "InRange") {
     return new InRange(globalParams);
   } else if (name == "ConvexHull") {
     return new ConvexHull(globalParams);
-  } else if (name == "TorpedoesDetector") {
-    return new TorpedoesDetector(globalParams);
   } else if (name == "Laplacian") {
     return new Laplacian(globalParams);
   } else if (name == "Canny") {
@@ -112,18 +94,16 @@ Filter *FilterFactory::createInstance(const std::string &name,
       return new SquareDetection(globalParams);
   } else if (name == "WhiteFilter") {
     return new WhiteFilter(globalParams);
-  } else if (name == "DeepDice") {
-    return new DeepDice(globalParams);
   } else if (name == "PipeDetectorAngle") {
       return new PipeDetectorAngle(globalParams);
   }else if (name == "Deep2019") {
     return new Deep2019(globalParams);
-  }else if (name == "VampireTorpidoesDetector") {
-      return new VampireTorpidoesDetector(globalParams);
+  }else if (name == "VampireTorpedoesDetector") {
+      return new VampireTorpedoesDetector(globalParams);
   }else if (name == "VampireBodyDetector") {
       return new VampireBodyDetector(globalParams);
-  }else if (name == "VampireTorpidoesDetectorClose") {
-      return new VampireTorpidoesDetectorClose(globalParams);
+  }else if (name == "VampireTorpedoesDetectorClose") {
+      return new VampireTorpedoesDetectorClose(globalParams);
   }else if (name == "ThresholdBetween") {
       return new ThresholdBetween(globalParams);
   }else if (name == "CenterCoffinDetector") {
@@ -135,17 +115,16 @@ Filter *FilterFactory::createInstance(const std::string &name,
 
 std::string FilterFactory::GetFilterList() {
   return "Blurr;Dilate;Erode;MissionTestFakeString;TestFilter;"
-         "BuoySingle;Morphology;OriginalImage;Scharr;ScharrAdding;"
-         "StatsThreshold;SubtractAllPlanes;Threshold;BuoySingle;Rotate;"
-         "FenceDetector;ImageAccumulator;ObjectFeatureCalculator;"
-         "TrainDetector;ObjectFinder;PipeDetector;TrackDetector;Sobel;"
-         "DeloreanDetector;SubmarineFrameMasker;InRange;ConvexHull;"
-         "TorpedoesDetector;Laplacian;Canny;HoughLine;AdaptiveThreshold;"
+         "Morphology;OriginalImage;Scharr;ScharrAdding;"
+         "StatsThreshold;SubtractAllPlanes;Threshold;Rotate;"
+         "FenceDetector;ImageAccumulator;"
+         "Sobel;SubmarineFrameMasker;InRange;ConvexHull;"
+         "Laplacian;Canny;HoughLine;AdaptiveThreshold;"
          "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
          "BackgroundSubstract;ImageCropper;GateFinder;RemoveMask;"
          "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
-         "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector;"
-         "VampireTorpidoesDetectorClose;ThresholdBetween;CenterCoffinDetector";
+         "PipeDetectorAngle;Deep2019;VampireTorpedoesDetector;VampireBodyDetector;"
+         "VampireTorpedoesDetectorClose;ThresholdBetween;CenterCoffinDetector";
 }
 
 }  // namespace proc_image_processing
