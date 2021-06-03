@@ -91,7 +91,6 @@ set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc")
 set(CUDA_CUDART_LIBRARY "/usr/local/cuda/lib64/libcudart.so")
 find_package(CUDA)
-
 if (CUDA_FOUND)
     include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
