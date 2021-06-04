@@ -1,6 +1,6 @@
-//
-// Created by jeremie on 2/22/17.
-//
+/// \author	Jeremie 
+/// \date 2/22/17
+
 
 #ifndef PROC_IMAGE_PROCESSING_IMAGEPROVIDER_H
 #define PROC_IMAGE_PROCESSING_IMAGEPROVIDER_H
@@ -17,41 +17,36 @@
 
 class ImageProvider {
 public:
-  ImageProvider(const std::string &topic_name)
-      :topic_name_(topic_name),
-       it_(ros::NodeHandle("~")),
-       image_id_(0)
-  {
+  ImageProvider(const std::string& topic_name)
+    :topic_name_(topic_name),
+    it_(ros::NodeHandle("~")),
+    image_id_(0) {
     std::string compressed = "/compressed";
 
-    if(topic_name.compare(topic_name.length() - compressed.length(), compressed.length(),compressed) == 0){
+    if (topic_name.compare(topic_name.length() - compressed.length(), compressed.length(), compressed) == 0) {
       image_transport::TransportHints hint("compressed");
-      subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()),50, &ImageProvider::ImageCallback, this,hint);
+      subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()), 50, &ImageProvider::ImageCallback, this, hint);
     }
-    else{
+    else {
       subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::ImageCallback, this);
 
     }
 
   }
 
-  void ImageCallback(const sensor_msgs::ImageConstPtr& msg)
-  {
+  void ImageCallback(const sensor_msgs::ImageConstPtr& msg) {
     image_mutex_.lock();
-    try
-    {
+    try {
       cv_bridge::toCvShare(msg, "bgr8")->image.copyTo(image_);
       image_id_++;
     }
-    catch (cv_bridge::Exception& e)
-    {
+    catch (cv_bridge::Exception& e) {
       ROS_ERROR("%s Could not convert from '%s' to 'bgr8'.", topic_name_.c_str(), msg->encoding.c_str());
     }
     image_mutex_.unlock();
   }
 
-  inline void GetImage(cv::Mat &image, unsigned int &image_id)
-  {
+  inline void GetImage(cv::Mat& image, unsigned int& image_id) {
     image_mutex_.lock();
     image_.copyTo(image);
     image_id = image_id_;

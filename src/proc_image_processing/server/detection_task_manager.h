@@ -1,22 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-/// \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
-/// \section LICENSE
-/// This file is part of S.O.N.I.A. software.
-///
-/// S.O.N.I.A. software is free software: you can redistribute it and/or modify
-/// it under the terms of the GNU General Public License as published by
-/// the Free Software Foundation, either version 3 of the License, or
-/// (at your option) any later version.
-///
-/// S.O.N.I.A. software is distributed in the hope that it will be useful,
-/// but WITHOUT ANY WARRANTY; without even the implied warranty of
-/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-/// GNU General Public License for more details.
-///
-/// You should have received a copy of the GNU General Public License
-/// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
+
 
 #ifndef PROVIDER_VISION_SERVER_DETECTION_TASK_MANAGER_H_
 #define PROVIDER_VISION_SERVER_DETECTION_TASK_MANAGER_H_
@@ -47,11 +32,11 @@ namespace proc_image_processing {
         //==========================================================================
         // P U B L I C   M E T H O D S
 
-        std::string StartDetectionTask(const std::string &topic_name,
-                                       Filterchain::Ptr filterchain,
-                                       const std::string &execution_name);
+        std::string StartDetectionTask(const std::string& topic_name,
+            Filterchain::Ptr filterchain,
+            const std::string& execution_name);
 
-        void StopDetectionTask(const std::string &execution_name);
+        void StopDetectionTask(const std::string& execution_name);
 
         /**
          * Get the name of all existing detection tasks in the system.
@@ -69,7 +54,7 @@ namespace proc_image_processing {
          * This behavior is being handled by the filterchain so this method is
          * a wrapper around the filterchain method that set the observed filter.
          */
-        void ChangeReturnImageToFilter(const std::string &name, const size_t &index);
+        void ChangeReturnImageToFilter(const std::string& name, const size_t& index);
 
         /**
          * Change the image returned by the detection task to the filterchain returned
@@ -77,7 +62,7 @@ namespace proc_image_processing {
          * This is the default behavior, the image returned is the result of the
          * whole pipeline of filters.
          */
-        void ChangeReturnImageToFilterchain(const std::string &name);
+        void ChangeReturnImageToFilterchain(const std::string& name);
 
         /**
          * Change the image returned by the detection task to the original image.
@@ -85,7 +70,7 @@ namespace proc_image_processing {
          * the image that is being sent on the network is the original image
          * from the media.
          */
-        void ChangeReturnImageToOrigin(const std::string &name);
+        void ChangeReturnImageToOrigin(const std::string& name);
 
         /**
          * Get the number of all detection tasks in the system.
@@ -103,13 +88,13 @@ namespace proc_image_processing {
          * Get the filter chain object from the detection task.
          */
         Filterchain::Ptr GetFilterchainFromDetectionTask(
-                const std::string &name) const;
+            const std::string& name) const;
 
     private:
         //==========================================================================
         // P R I V A T E   M E T H O D S
 
-        DetectionTask::Ptr GetDetectionTask(const std::string &execution_name) const;
+        DetectionTask::Ptr GetDetectionTask(const std::string& execution_name) const;
 
         //==========================================================================
         // P R I V A T E   M E M B E R S

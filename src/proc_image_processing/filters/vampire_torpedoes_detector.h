@@ -1,7 +1,7 @@
-//
-// Created by csauvain on 20/07/19.
-// Il y a des repetitions de code a ameliorer
-//
+/// \author csauvain
+/// \date 20/07/19
+/// TODO: Refactor code repetition
+
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
@@ -26,21 +26,22 @@ namespace proc_image_processing {
         //============================================================================
         // P U B L I C   C / D T O R S
 
-        explicit VampireTorpedoesDetector(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                enable_("Enable", false, &parameters_),
-                debug_contour_("Debug_contour", false, &parameters_),
-                look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
-                look_for_heart_("Look_for_Heart", false, &parameters_),
-                min_area_("Min_area", 5000, 1, 100000, &parameters_),
-                max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
-            SetName("VampireTorpedoesDetector");}
+        explicit VampireTorpedoesDetector(const GlobalParamHandler& globalParams)
+            : Filter(globalParams),
+            enable_("Enable", false, &parameters_),
+            debug_contour_("Debug_contour", false, &parameters_),
+            look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
+            look_for_heart_("Look_for_Heart", false, &parameters_),
+            min_area_("Min_area", 5000, 1, 100000, &parameters_),
+            max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+            SetName("VampireTorpedoesDetector");
+        }
 
         virtual ~VampireTorpedoesDetector() {}
 
         //============================================================================
         // P U B L I C   M E T H O D S
-        virtual void Execute(cv::Mat &image){
+        virtual void Execute(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);
@@ -83,7 +84,7 @@ namespace proc_image_processing {
                     }
 
                     cv::Mat pointfs;
-                    cv::Mat(contours[i]).convertTo(pointfs,CV_32F);
+                    cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
 
                     float circleIndex;
@@ -147,7 +148,7 @@ namespace proc_image_processing {
                     target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0,255,0),3);
+                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0, 255, 0), 3);
                     }
                 }
 
