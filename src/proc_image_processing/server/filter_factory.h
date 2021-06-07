@@ -20,7 +20,7 @@
 #include <proc_image_processing/filters/erode.h>
 #include <proc_image_processing/filters/fence_detector.h>
 #include <proc_image_processing/filters/filter.h>
-#include <proc_image_processing/filters/gate_finder.h>
+#include <proc_image_processing/filters/gate_detector.h>
 #include <proc_image_processing/filters/handle_detector.h>
 #include <proc_image_processing/filters/hough_line.h>
 #include <proc_image_processing/filters/hsv_threshold.h>
@@ -31,7 +31,7 @@
 #include <proc_image_processing/filters/mission_test_fake_string.h>
 #include <proc_image_processing/filters/morphology.h>
 #include <proc_image_processing/filters/original_image.h>
-#include <proc_image_processing/filters/pipe_detector_angle.h>
+#include <proc_image_processing/filters/pipe_angle_detector.h>
 #include <proc_image_processing/filters/rotate.h>
 #include <proc_image_processing/filters/remove_mask.h>
 #include <proc_image_processing/filters/schar_adding.h>
@@ -44,9 +44,9 @@
 #include <proc_image_processing/filters/test_filter.h>
 #include <proc_image_processing/filters/threshold.h>
 #include <proc_image_processing/filters/threshold_between.h>
-#include <proc_image_processing/filters/vampire_torpedoes_detector.h>
 #include <proc_image_processing/filters/vampire_body_detector.h>
-#include <proc_image_processing/filters/vampire_torpedoes_detector_close.h>
+#include <proc_image_processing/filters/vampire_torpedoes_detector.h>
+#include <proc_image_processing/filters/vampire_torpedoes_close_detector.h>
 #include <proc_image_processing/filters/white_filter.h>
 #include <proc_image_processing/filters/white_noise_takedown.h>
 #include <memory>
