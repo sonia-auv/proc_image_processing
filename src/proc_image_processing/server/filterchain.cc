@@ -10,11 +10,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   Filterchain::Filterchain(const std::string& name)
     : filepath_(kFilterchainPath + name + kFilterchainExt),
     name_(name),
@@ -24,25 +19,16 @@ namespace proc_image_processing {
     observer_index_ = filters_.size() - 1;
   }
 
-  //------------------------------------------------------------------------------
-  //
   Filterchain::Filterchain(const Filterchain& filterchain)
     : filepath_(kFilterchainPath + filterchain.name_ + "_copy" +
       kFilterchainExt),
     name_(filterchain.name_ + "_copy"),
     param_handler_(filterchain.param_handler_),
-    observer_index_(filterchain.observer_index_) {  
-}
+    observer_index_(filterchain.observer_index_) {
+  }
 
-  //------------------------------------------------------------------------------
-  //
   Filterchain::~Filterchain() {}
 
-  //==============================================================================
-  // M E T H O D   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   bool Filterchain::Serialize() {
     YAML::Emitter out;
     out << YAML::BeginMap;
@@ -83,8 +69,6 @@ namespace proc_image_processing {
     return true;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool Filterchain::Deserialize() {
     YAML::Node node = YAML::LoadFile(filepath_);
 
@@ -117,8 +101,6 @@ namespace proc_image_processing {
     return true;
   }
 
-  //------------------------------------------------------------------------------
-  //
   void Filterchain::ExecuteFilterChain(cv::Mat& image) {
     cv::Mat imageToProcess = image.clone();
     if (!imageToProcess.empty()) {
@@ -138,14 +120,12 @@ namespace proc_image_processing {
           index++;
         }
       }
-      catch (cv::Exception& e)     {
+      catch (cv::Exception& e) {
         ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s", name_.c_str(), e.what());
       };
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   void Filterchain::RemoveFilter(const size_t& index) {
     if (index <= filters_.size()) {
       auto it = filters_.begin() + index;
@@ -153,8 +133,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   void Filterchain::MoveFilterDown(const size_t& index) {
     if (index < (filters_.size() - 1)) {
       auto itFilter = filters_.begin();
@@ -171,8 +149,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   void Filterchain::MoveFilterUp(const size_t& index) {
     if ((index > 0) && (index <= (filters_.size() - 1))) {
       auto itFilter = filters_.begin();
@@ -189,30 +165,22 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   std::string Filterchain::GetFilterParameterValue(
     const size_t& index, const std::string& param_name) {
     return GetFilter(index)->GetParameterValue(param_name);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void Filterchain::SetFilterParameterValue(const size_t& index,
     const std::string& param_name,
     const std::string& param_value) {
     GetFilter(index)->SetParameterValue(param_name, param_value);
   }
 
-  //------------------------------------------------------------------------------
-  //
   std::vector<proc_image_processing::ParameterInterface*>
     Filterchain::GetFilterAllParameters(const size_t& index) {
     return GetFilter(index)->GetParameters();
   }
 
-  //------------------------------------------------------------------------------
-  //
   void Filterchain::AddFilter(const std::string& filter_name) {
     auto filter = proc_image_processing::Filter::Ptr(
       proc_image_processing::FilterFactory::createInstance(filter_name,

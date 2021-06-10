@@ -23,20 +23,11 @@ namespace proc_image_processing {
    */
   class ParameterInterface {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ParameterInterface>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     ParameterInterface() = default;
 
     virtual ~ParameterInterface() = default;
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void SetDescription(const std::string& description) = 0;
 

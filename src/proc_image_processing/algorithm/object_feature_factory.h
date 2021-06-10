@@ -16,9 +16,6 @@ namespace proc_image_processing {
 
   class ObjectFeatureFactory {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ObjectFeatureFactory>;
 
     /**
@@ -28,15 +25,9 @@ namespace proc_image_processing {
      */
     typedef std::function<void(ObjectFullData::Ptr)> FeatureFunction;
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
     ObjectFeatureFactory(unsigned int memorySize);
 
     ~ObjectFeatureFactory() {};
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void ComputeAllFeature(ObjectFullData::FullObjectPtrVec objects);
     void ComputeAllFeature(ObjectFullData::Ptr object);
@@ -64,13 +55,7 @@ namespace proc_image_processing {
     void GrayMeanFeature(ObjectFullData::Ptr object);
 
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     float CalculatePlaneMean(ObjectFullData::Ptr object, int plane);
-
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     // the vector of function enables iterating through the function that needs
     // to be call in odrer to compute the good feature.
@@ -79,11 +64,6 @@ namespace proc_image_processing {
     ObjectFrameMemory frame_memory_;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::ComputeAllFeature(
     ObjectFullData::FullObjectPtrVec objects) {
     for (auto& object : objects) {
@@ -91,8 +71,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::ComputeAllFeature(
     ObjectFullData::Ptr object) {
     for (auto& fct : feature_fct_map_) {
@@ -101,8 +79,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::ComputeSelectedFeature(
     ObjectFullData::FullObjectPtrVec objects,
     const std::vector<ObjectFeatureData::Feature>& feature) {
@@ -111,8 +87,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::ComputeSelectedFeature(
     ObjectFullData::Ptr object,
     const std::vector<ObjectFeatureData::Feature>& feature) {
@@ -121,8 +95,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::RatioFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetRatio() == -1.0f)) {
       RotRect rect = object->GetRotatedRect();
@@ -130,8 +102,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::ConvexityFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetConvexity() == -1.0f)) {
       // safety, should not happen
@@ -142,8 +112,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::CircularityFeature(
     ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetCircularity() == -1.0f)) {
@@ -159,8 +127,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::PresenceConsistencyFeature(
     ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) &&
@@ -177,16 +143,12 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::HueMeanFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetHueMean() == -1.0f)) {
       object->SetHueMean(CalculatePlaneMean(object, ObjectBasicData::HUE_PLANE));
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::SatMeanFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetSatMean() == -1.0f)) {
       object->SetSatMean(
@@ -194,8 +156,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::IntensityMeanFeature(
     std::shared_ptr<ObjectFullData> object) {
     if ((object.get() != nullptr) && (object->GetIntensityMean() == -1.0f)) {
@@ -204,16 +164,12 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::RedMeanFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetRedMean() == -1.0f)) {
       object->SetRedMean(CalculatePlaneMean(object, ObjectBasicData::RED_PLANE));
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::GreenMeanFeature(
     std::shared_ptr<ObjectFullData> object) {
     if ((object.get() != nullptr) && (object->GetGreenMean() == -1.0f)) {
@@ -222,8 +178,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::BlueMeanFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetBlueMean() == -1.0f)) {
       object->SetBlueMean(
@@ -231,8 +185,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectFeatureFactory::GrayMeanFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetGrayMean() == -1.0f)) {
       object->SetGrayMean(

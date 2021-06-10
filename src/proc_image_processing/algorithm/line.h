@@ -18,18 +18,15 @@ namespace proc_image_processing {
    */
   class Line {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
+
 
     using Ptr = std::shared_ptr<Line>;
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
+
 
     Line(const cv::Point& start, const cv::Point& end);
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
+
 
     // Debug
     void Draw(cv::Mat& img, cv::Scalar color);
@@ -50,9 +47,6 @@ namespace proc_image_processing {
     float GetLength();
 
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     // start point is leftmosst point, end id farrigth point
     cv::Point center_;
 

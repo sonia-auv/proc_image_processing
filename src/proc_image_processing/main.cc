@@ -9,8 +9,6 @@
 #include <proc_image_processing/sonar/SonarMapper.h>
 #include "proc_image_processing/server/vision_server.h"
 
-//------------------------------------------------------------------------------
-//
 int main(int argc, char** argv) {
   ros::init(argc, argv, "proc_image_processing");
   ros::NodeHandle nh("~");

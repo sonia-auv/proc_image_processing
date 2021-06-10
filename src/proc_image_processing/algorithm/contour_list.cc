@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   ContourList::ContourList(const cv::Mat& image, const METHOD method) {
     switch (method) {
     default:
@@ -38,26 +33,17 @@ namespace proc_image_processing {
     }
   }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void ContourList::RetrieveAllContours(const cv::Mat& image) {
     // Clone because find contour modifies the image.
     cv::findContours(image.clone(), contour_list_point_, CV_RETR_LIST,
       CV_CHAIN_APPROX_SIMPLE);
   }
 
-  //-----------------------------------------------------------------------------
-  //
   void ContourList::RetrieveHiearchyContours(const cv::Mat& image) {
     cv::findContours(image.clone(), contour_list_point_, hierarchy_, CV_RETR_TREE,
       CV_CHAIN_APPROX_SIMPLE);
   }
 
-  //-----------------------------------------------------------------------------
-  //
   void ContourList::RetrieveInnerContours(const cv::Mat& image) {
     cv::findContours(image.clone(), contour_list_point_, hierarchy_, CV_RETR_TREE,
       CV_CHAIN_APPROX_SIMPLE);
@@ -73,8 +59,6 @@ namespace proc_image_processing {
     std::swap(contour_list_point_, new_contour_list);
   }
 
-  //-----------------------------------------------------------------------------
-  //
   void ContourList::RetrieveInnerMostContours(const cv::Mat& image) {
     cv::findContours(image.clone(), contour_list_point_, hierarchy_, CV_RETR_TREE,
       CV_CHAIN_APPROX_SIMPLE);
@@ -90,8 +74,6 @@ namespace proc_image_processing {
     std::swap(contour_list_point_, new_contour_list);
   }
 
-  //-----------------------------------------------------------------------------
-  //
   void ContourList::RetrieveOuterContours(const cv::Mat& image) {
     cv::findContours(image.clone(), contour_list_point_, hierarchy_, CV_RETR_TREE,
       CV_CHAIN_APPROX_SIMPLE);
@@ -107,8 +89,6 @@ namespace proc_image_processing {
     std::swap(contour_list_point_, new_contour_list);
   }
 
-  //-----------------------------------------------------------------------------
-  //
   void ContourList::RetrieveOutNoChildContours(const cv::Mat& image) {
     cv::findContours(image.clone(), contour_list_point_, hierarchy_, CV_RETR_TREE,
       CV_CHAIN_APPROX_SIMPLE);

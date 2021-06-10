@@ -14,13 +14,7 @@ namespace proc_image_processing {
 
     class CenterCoffinDetector : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
-
         using Ptr = std::shared_ptr<CenterCoffinDetector>;
-
-        //============================================================================
-        // P U B L I C   C / D T O R S
 
         explicit CenterCoffinDetector(const GlobalParamHandler& globalParams)
             : Filter(globalParams),
@@ -34,8 +28,6 @@ namespace proc_image_processing {
 
         virtual ~CenterCoffinDetector() {}
 
-        //============================================================================
-        // P U B L I C   M E T H O D S
         virtual void Execute(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
@@ -108,10 +100,7 @@ namespace proc_image_processing {
             }
         }
 
-
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
 
         Parameter<bool> enable_, debug_contour_, look_for_rectangle_;

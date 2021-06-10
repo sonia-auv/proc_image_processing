@@ -16,9 +16,6 @@ namespace proc_image_processing {
 
   class ObjectFeatureData {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ObjectFeatureData>;
 
     enum class Feature {
@@ -38,9 +35,6 @@ namespace proc_image_processing {
 
     typedef std::vector<ObjectFeatureData::Ptr> ObjectFeatureVector;
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
     ObjectFeatureData()
       : ratio_(-1.0f),
       convexity_(-1.0f),
@@ -57,9 +51,6 @@ namespace proc_image_processing {
     };
 
     virtual ~ObjectFeatureData() {};
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     inline float GetRatio() const { return ratio_; }
     inline float GetConvexity() const { return convexity_; }
@@ -91,9 +82,6 @@ namespace proc_image_processing {
 
 
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     float ratio_, convexity_, percent_filled_, circularity_,
       presence_consistency_, hue_mean_, sat_mean_, intensity_mean_, red_mean_,
       green_mean_, blue_mean_, gray_mean_;

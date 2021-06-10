@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   ImageAccumulatorBuffer::ImageAccumulatorBuffer(int bufferLength,
     cv::Size imgSize, int type,
     METHOD method)
@@ -27,11 +22,6 @@ namespace proc_image_processing {
     SetAverageMethod(method);
   }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::GetImage(cv::Mat& image) {
     // We do not want to access blank...&
     if (buffer_size_ == 0) return;
@@ -41,8 +31,6 @@ namespace proc_image_processing {
     image.convertTo(image, image_type_);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::AddImage(const cv::Mat& image) {
     if (image_size_ != image.size() || image_type_ != image.type()) {
       printf(
@@ -61,12 +49,8 @@ namespace proc_image_processing {
     buffer_current_index_++;
   }
 
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::ResetBuffer() { FillWithBlank(); }
 
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::ResetBuffer(int bufferLength, cv::Size imgSize,
     int type) {
     buffer_size_ = bufferLength;
@@ -78,8 +62,6 @@ namespace proc_image_processing {
     FillWithBlank();
   }
 
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::AverageAllSameWeight(cv::Mat& resultImage) {
     if (buffer_size_ == 0) {
       printf("Image accumulator size is 0\n");
@@ -97,8 +79,6 @@ namespace proc_image_processing {
       resultImage);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::AverageIncrease50Percent(cv::Mat& resultImage) {
     resultImage = image_vec_[GetIndexFromOldest(0)].clone();
     for (size_t i = 1; i < buffer_size_; i++) {
@@ -107,8 +87,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   void ImageAccumulatorBuffer::AverageAccumulateWithResultingWeight(
     cv::Mat& resultImage) {
     // Fill resultImage

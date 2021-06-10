@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class Canny : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Canny>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Canny(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -32,9 +26,6 @@ namespace proc_image_processing {
 
     virtual ~Canny() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         if (image.channels() > 1) {
@@ -45,11 +36,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_, l2_gradiant_;
     RangedParameter<int> thresh_one_, thresh_two_, aperture_size_;
   };

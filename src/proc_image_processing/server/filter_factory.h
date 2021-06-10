@@ -60,9 +60,6 @@ namespace proc_image_processing {
   // and holds the list of all the filters.
   class FilterFactory {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<FilterFactory>;
 
     // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT

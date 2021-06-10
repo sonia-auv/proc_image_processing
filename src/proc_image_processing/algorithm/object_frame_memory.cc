@@ -12,27 +12,15 @@ namespace proc_image_processing {
   // A difference of 10% of ratio is big enough to discard an object.
   const float ObjectFrameMemory::RATIO_MAX_DIFFERENCE = 0.1;
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   ObjectFrameMemory::ObjectFrameMemory(unsigned int memorySize)
-    : previous_frames_(memorySize), memory_size_(memorySize) {  
-}
+    : previous_frames_(memorySize), memory_size_(memorySize) {
+  }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void ObjectFrameMemory::AddFrameObjects(
     ObjectFullData::FullObjectPtrVec& objectVector) {
     previous_frames_.push_back(objectVector);
   }
 
-  //------------------------------------------------------------------------------
-  //
   ObjectFullData::FullObjectPtrVec ObjectFrameMemory::GetPastObjectsViaCenter(
     const cv::Point& center, const float objectRatio) {
     ObjectFullData::FullObjectPtrVec objVec;

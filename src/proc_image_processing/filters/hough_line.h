@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class HoughLine : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<HoughLine>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit HoughLine(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -32,9 +26,6 @@ namespace proc_image_processing {
     }
 
     virtual ~HoughLine() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -56,11 +47,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
     RangedParameter<double> rho_, theta_, min_length_, max_gap_;
     RangedParameter<int> threshold_;

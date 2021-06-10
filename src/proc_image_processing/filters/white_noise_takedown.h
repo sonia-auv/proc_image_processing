@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class WhiteNoiseTakedown : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<WhiteNoiseTakedown>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit WhiteNoiseTakedown(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -35,9 +29,6 @@ namespace proc_image_processing {
     }
 
     virtual ~WhiteNoiseTakedown() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -64,7 +55,6 @@ namespace proc_image_processing {
           else {
             cv::bitwise_and(image, result, image);
           }
-
           break;
         case 1:
           channels[0].copyTo(image);
@@ -79,11 +69,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
     RangedParameter<int> low_b_, high_b_, low_g_, high_g_, low_r_, high_r_;
     RangedParameter<int> view_channel_;

@@ -6,14 +6,9 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   Line::Line(const cv::Point& start, const cv::Point& end)
     : start_(start), end_(end), angle_(0), isSwap_(false) {
-    if (start_.x > end_.x)   {
+    if (start_.x > end_.x) {
       isSwap_ = true;
       std::swap(start_, end_);
     }
@@ -40,17 +35,10 @@ namespace proc_image_processing {
     length_ = sqrt(pow((start_.y - end_.y), 2) + pow((start_.y - end_.y), 2));
   }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void Line::Draw(cv::Mat& img, cv::Scalar color) {
     cv::line(img, start_, end_, color, 4, 8);
   }
 
-  //------------------------------------------------------------------------------
-  //
   cv::Point Line::PerpendicularLine() {
     std::vector<cv::Point> secondLine;
 
@@ -64,7 +52,7 @@ namespace proc_image_processing {
     Eigen::Vector3d cardinalAxis;
     cardinalAxis << 1, 0, 1;
 
-    if (fabs(vector.y()) < min)   {
+    if (fabs(vector.y()) < min) {
       cardinalAxis << 0, 1, 1;
     }
 
@@ -73,13 +61,11 @@ namespace proc_image_processing {
     return cv::Point(vector2.x(), vector2.y());
   }
 
-  //------------------------------------------------------------------------------
-  //
   std::vector<cv::Point> Line::GenerateLine(cv::Mat& img) {
     std::vector<cv::Point> line;
     cv::LineIterator it(img, start_, end_);
 
-    for (int i = 0; i < it.count; i++, ++it)     {
+    for (int i = 0; i < it.count; i++, ++it) {
       cv::Point p = it.pos();
       line.push_back(p);
     }
@@ -87,36 +73,20 @@ namespace proc_image_processing {
     return line;
   }
 
-  //------------------------------------------------------------------------------
-  //
   cv::Point Line::GetCenter() { return center_; }
 
-  //------------------------------------------------------------------------------
-  //
   cv::Point Line::GetStart() { return start_; }
 
-  //------------------------------------------------------------------------------
-  //
   cv::Point Line::GetEnd() { return end_; }
 
-  //------------------------------------------------------------------------------
-  //
   float Line::GetAngle() { return angle_; }
 
-  //------------------------------------------------------------------------------
-  //
   float Line::GetLength() { return length_; }
 
-  //------------------------------------------------------------------------------
-  //
   bool lengthSort(Line a, Line b) { return a.GetLength() > b.GetLength(); }
 
-  //------------------------------------------------------------------------------
-  //
   bool centerXSort(Line a, Line b) { return a.GetCenter().x > b.GetCenter().x; }
 
-  //------------------------------------------------------------------------------
-  //
   bool centerYSort(Line a, Line b) { return a.GetCenter().y > b.GetCenter().y; }
 
 }  // namespace proc_image_processing

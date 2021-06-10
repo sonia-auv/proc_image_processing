@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class OriginalImage : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<OriginalImage>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit OriginalImage(const GlobalParamHandler& globalParams)
       : Filter(globalParams), enable_("Enable", false, &parameters_) {
@@ -27,20 +21,13 @@ namespace proc_image_processing {
 
     virtual ~OriginalImage() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         image = global_params_.getOriginalImage();
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
   };
 

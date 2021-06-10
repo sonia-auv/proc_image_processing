@@ -8,22 +8,10 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   DetectionTaskManager::DetectionTaskManager() {}
 
-  //------------------------------------------------------------------------------
-  //
   DetectionTaskManager::~DetectionTaskManager() {}
 
-  //==============================================================================
-  // M E T H O D   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   std::string DetectionTaskManager::StartDetectionTask(
     const std::string& topic_name, Filterchain::Ptr filterchain,
     const std::string& execution_name) {
@@ -52,8 +40,6 @@ namespace proc_image_processing {
     return task->GetDetectionTaskName();
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTaskManager::StopDetectionTask(
     const std::string& execution_name) {
     auto detection_task = GetDetectionTask(execution_name);
@@ -70,8 +56,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   std::vector<std::string> DetectionTaskManager::GetAllDetectionTasksName()
     const {
     std::vector<std::string> names;
@@ -81,34 +65,24 @@ namespace proc_image_processing {
     return names;
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTaskManager::ChangeReturnImageToFilter(const std::string& name,
     const size_t& index) {
     GetDetectionTask(name)->ChangeReturnImageToFilter(index);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTaskManager::ChangeReturnImageToFilterchain(
     const std::string& name) {
     GetDetectionTask(name)->ChangeReturnImageToFilterchain();
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTaskManager::ChangeReturnImageToOrigin(const std::string& name) {
     GetDetectionTask(name)->ChangeReturnImageToOrigin();
   }
 
-  //------------------------------------------------------------------------------
-  //
   size_t DetectionTaskManager::GetAllDetectionTasksCount() const {
     return detection_tasks_.size();
   }
 
-  //------------------------------------------------------------------------------
-  //
   Filterchain::Ptr DetectionTaskManager::GetFilterchainFromDetectionTask(
     const std::string& name) const {
     auto detectTsk = GetDetectionTask(name);
@@ -118,8 +92,6 @@ namespace proc_image_processing {
     return detectTsk->GetFilterchain();
   }
 
-  //------------------------------------------------------------------------------
-  //
   DetectionTask::Ptr DetectionTaskManager::GetDetectionTask(
     const std::string& execution_name) const {
     for (const auto& task : detection_tasks_) {
@@ -130,8 +102,6 @@ namespace proc_image_processing {
     return nullptr;
   }
 
-  //------------------------------------------------------------------------------
-  //
   std::vector<std::string> DetectionTaskManager::GetAllMediasName() const {
 
     ros::master::V_TopicInfo info;
@@ -145,6 +115,5 @@ namespace proc_image_processing {
     }
     return image_topic;
   }
-
 
 }  // namespace proc_image_processing

@@ -14,7 +14,6 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 
-
 class ImageProvider {
 public:
   ImageProvider(const std::string& topic_name)
@@ -29,9 +28,7 @@ public:
     }
     else {
       subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::ImageCallback, this);
-
     }
-
   }
 
   void ImageCallback(const sensor_msgs::ImageConstPtr& msg) {
@@ -52,6 +49,7 @@ public:
     image_id = image_id_;
     image_mutex_.unlock();
   }
+
 private:
   std::string topic_name_;
   image_transport::ImageTransport it_;

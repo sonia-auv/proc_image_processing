@@ -13,13 +13,7 @@ namespace proc_image_processing {
 
   class ScharrAdding : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ScharrAdding>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit ScharrAdding(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -41,9 +35,6 @@ namespace proc_image_processing {
     }
 
     virtual ~ScharrAdding() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -74,11 +65,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     cv::Mat calcScharr(const cv::Mat& img) {
       cv::Mat abs_x, scharrX, abs_y, scharrY, diff;
 
@@ -97,9 +84,6 @@ namespace proc_image_processing {
 
       return diff;
     }
-
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     // _run_small_image accelerate the pipeline by
     // reducing the image size by two (in each direction)

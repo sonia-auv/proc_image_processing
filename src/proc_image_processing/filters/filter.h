@@ -18,20 +18,11 @@ namespace proc_image_processing {
 
   class Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Filter>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Filter(const GlobalParamHandler& globalParams);
 
     virtual ~Filter() = default;
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) = 0;
 
@@ -61,9 +52,6 @@ namespace proc_image_processing {
     void GlobalParamString(const std::string& name, const std::string& value);
 
   protected:
-    //============================================================================
-    // P R O T E C T E D   M E M B E R S
-
     GlobalParamHandler& global_params_;
 
     std::vector<ParameterInterface*> parameters_;

@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class Scharr : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Scharr>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Scharr(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -34,9 +28,6 @@ namespace proc_image_processing {
     }
 
     virtual ~Scharr() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -68,11 +59,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_, convert_to_uchar_, use_pixel_intensity_correction_;
     RangedParameter<double> delta_, scale_, power_pixel_correction_;
   };

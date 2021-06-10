@@ -15,29 +15,17 @@ namespace proc_image_processing {
   // in the past frames?
   class ObjectTrackingData {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ObjectTrackingData>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     ObjectTrackingData() : presence_count_(0.0f) {};
 
     virtual ~ObjectTrackingData() {};
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void SetPresenceCount(float presenceCount);
 
     float GetPresenceCount();
 
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     // In percent, nb of presence/ nb of frame in memory
     float presence_count_;
 
@@ -45,17 +33,10 @@ namespace proc_image_processing {
     // float _ratio_variation;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectTrackingData::SetPresenceCount(float presenceCount) {
     presence_count_ = presenceCount;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectTrackingData::GetPresenceCount() { return presence_count_; }
 
 }  // namespace proc_image_processing

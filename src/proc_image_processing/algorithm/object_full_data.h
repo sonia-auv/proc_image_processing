@@ -30,15 +30,9 @@ namespace proc_image_processing {
     public ObjectRankingData,
     public ObjectFeatureData {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ObjectFullData>;
 
     typedef std::vector<ObjectFullData::Ptr> FullObjectPtrVec;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     ObjectFullData(const cv::Mat& originalImage, const cv::Mat& binaryImage,
       const Contour& contour);
@@ -46,17 +40,10 @@ namespace proc_image_processing {
     virtual ~ObjectFullData() {};
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline bool AreaSorts(ObjectFullData::Ptr a, ObjectFullData::Ptr b) {
     return a->GetArea() < b->GetArea();
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline bool RatioSorts(ObjectFullData::Ptr a, ObjectFullData::Ptr b) {
     return a->GetRatio() < b->GetRatio();
   }

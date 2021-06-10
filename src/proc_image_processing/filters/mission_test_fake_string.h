@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class MissionTestFakeString : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<MissionTestFakeString>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit MissionTestFakeString(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -29,20 +23,13 @@ namespace proc_image_processing {
 
     virtual ~MissionTestFakeString() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         NotifyTarget(Target());
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
     Parameter<std::string> _string;
   };

@@ -15,9 +15,6 @@ namespace proc_image_processing {
 
   class ObjectBasicData {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ObjectBasicData>;
 
     static const int BLUE_PLANE = 0;
@@ -39,16 +36,10 @@ namespace proc_image_processing {
       PLANES
     };
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
     ObjectBasicData(const cv::Mat& originalImage, const cv::Mat& binaryImage,
       const Contour& contour);
 
     virtual ~ObjectBasicData() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void SetPlaneInRange(int& planeID);
 
@@ -95,9 +86,6 @@ namespace proc_image_processing {
     const cv::Mat& GetOriginalImage();
 
   private:
-    // P R I V A T E   M E M B E R S
-
-    //============================================================================
     std::map<OBJECT_DATA, bool> is_calculated_map_;
 
     float area_, convex_hull_area_, circumference_;
@@ -112,23 +100,12 @@ namespace proc_image_processing {
     Contour contour_;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectBasicData::IncrementVote() { vote_count_++; }
 
-  //------------------------------------------------------------------------------
-  //
   inline int ObjectBasicData::GetVoteCount() { return vote_count_; }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectBasicData::ResetVote() { vote_count_ = 0; }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectBasicData::GetArea() {
     if (!is_calculated_map_[AREA]) {
       area_ = cv::contourArea(contour_.GetContour(), false);
@@ -137,8 +114,6 @@ namespace proc_image_processing {
     return area_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectBasicData::GetHeight() {
     if (!is_calculated_map_[ROTATED_RECT]) {
       rect_ = RotRect(contour_.GetContour());
@@ -147,8 +122,6 @@ namespace proc_image_processing {
     return rect_.size.height;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectBasicData::GetWidth() {
     if (!is_calculated_map_[ROTATED_RECT]) {
       rect_ = RotRect(contour_.GetContour());
@@ -157,16 +130,12 @@ namespace proc_image_processing {
     return rect_.size.width;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ObjectBasicData::SetPlaneInRange(int& planeID) {
     // Clamping the planeID in [0; NB_OF_PLANE - 1]
     planeID =
       planeID < 0 ? 0 : (planeID > NB_OF_PLANE - 1 ? NB_OF_PLANE - 1 : planeID);
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectBasicData::GetConvexHullArea() {
     if (!is_calculated_map_[CONVEX_HULL]) {
       contour_t convexHull;
@@ -177,8 +146,6 @@ namespace proc_image_processing {
     return convex_hull_area_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectBasicData::GetCircumference() {
     if (!is_calculated_map_[CIRCUMFERENCE]) {
       circumference_ = cv::arcLength(contour_.GetContour(), true);
@@ -187,8 +154,6 @@ namespace proc_image_processing {
     return circumference_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const RotRect& ObjectBasicData::GetRotatedRect() {
     if (!is_calculated_map_[ROTATED_RECT]) {
       rect_ = RotRect(contour_.GetContour());
@@ -197,22 +162,16 @@ namespace proc_image_processing {
     return rect_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float ObjectBasicData::GetAngle() {
     GetRotatedRect();
     return rect_.angle;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline cv::Point2f& ObjectBasicData::GetCenter() {
     GetRotatedRect();
     return rect_.center;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const cv::Rect& ObjectBasicData::GetUprightRect() {
     if (!is_calculated_map_[UP_RIGHT_RECT]) {
       up_right_rect_ = cv::boundingRect(contour_.GetContour());
@@ -221,8 +180,6 @@ namespace proc_image_processing {
     return up_right_rect_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline cv::Mat ObjectBasicData::GetBinaryImageAtUprightRect() {
     // Making sure we have calculated the rectangle.
     cv::Rect uprightRect = GetUprightRect();
@@ -231,24 +188,16 @@ namespace proc_image_processing {
     return cv::Mat(binary_image_, uprightRect);
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline Contour ObjectBasicData::GetContourCopy() { return contour_; }
 
-  //------------------------------------------------------------------------------
-  //
   inline cv::Size ObjectBasicData::GetImageSize() {
     return original_image_.size();
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const cv::Mat& ObjectBasicData::GetBinaryImage() {
     return original_image_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const cv::Mat& ObjectBasicData::GetOriginalImage() {
     return binary_image_;
   }

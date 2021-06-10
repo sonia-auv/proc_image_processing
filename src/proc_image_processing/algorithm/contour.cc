@@ -6,15 +6,8 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   Contour::Contour(const std::vector<cv::Point>& ctr) : contour_(ctr) {}
 
-  //------------------------------------------------------------------------------
-  //
   Contour::Contour(const cv::RotatedRect& rect) {
     cv::Point2f pts[4];
     rect.points(pts);

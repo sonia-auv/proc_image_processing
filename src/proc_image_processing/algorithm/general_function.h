@@ -110,31 +110,20 @@ namespace proc_image_processing {
 
   float Median(std::vector<float> values);
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline bool SortVerticesLength(const std::pair<unsigned int, cv::Vec3f>& a,
     const std::pair<unsigned int, cv::Vec3f>& b) {
     return norm(a.second) > norm(b.second);
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline bool SortVerticesIndex(const std::pair<unsigned int, cv::Vec3f>& a,
     const std::pair<unsigned int, cv::Vec3f>& b) {
     return a.first < b.first;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline float EucledianPointDistance(const cv::Point2f& pt1,
     const cv::Point2f& pt2) {
     return sqrt(pow((pt1.x - pt2.x), 2) + pow((pt1.y - pt2.y), 2));
   }
-  //------------------------------------------------------------------------------
-  //
 
 }  // namespace proc_image_processing
 

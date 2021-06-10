@@ -19,22 +19,13 @@ namespace proc_image_processing {
 
   class Filterchain {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Filterchain>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Filterchain(const std::string& name);
 
     explicit Filterchain(const Filterchain& filterchain);
 
     ~Filterchain();
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     /**
      * Get the name of the filterchain.
@@ -94,9 +85,6 @@ namespace proc_image_processing {
     proc_image_processing::GlobalParamHandler& GetParameterHandler();
 
   private:
-    //==========================================================================
-    // P R I V A T E   M E M B E R S
-
     std::string filepath_;
 
     std::string name_;
@@ -108,18 +96,11 @@ namespace proc_image_processing {
     size_t observer_index_;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline proc_image_processing::Filter::Ptr Filterchain::GetFilter(
     const size_t& index) const {
     return filters_.at(index);
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline std::vector<proc_image_processing::Filter::Ptr>
     Filterchain::GetFiltersWithName(const std::string& filter_name) const {
     std::vector<proc_image_processing::Filter::Ptr> filters;
@@ -131,15 +112,11 @@ namespace proc_image_processing {
     return filters;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline std::vector<proc_image_processing::Filter::Ptr> Filterchain::GetAllFilters()
     const {
     return filters_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline bool Filterchain::ContainsFilter(const std::string& filter_name) const {
     for (const auto& filter : filters_) {
       if (filter->GetName() == filter_name) {
@@ -149,24 +126,16 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void Filterchain::SetObserver(const size_t& index) {
     observer_index_ = index;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline proc_image_processing::GlobalParamHandler& Filterchain::GetParameterHandler() {
     return param_handler_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const std::string& Filterchain::GetName() const { return name_; }
 
-  //------------------------------------------------------------------------------
-  //
   inline void Filterchain::SetName(const std::string& name) { name_ = name; }
 
 }  // namespace proc_image_processing

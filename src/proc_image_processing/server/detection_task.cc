@@ -11,16 +11,8 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C O N S T A N T S   S E C T I O N
-
   const std::string DetectionTask::EXEC_TAG = "[EXECUTION]";
 
-  //==============================================================================
-  // C / D T O R S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   DetectionTask::DetectionTask(const std::string& topic_name,
     Filterchain::Ptr filterchain,
     const std::string& execution_name)
@@ -37,11 +29,8 @@ namespace proc_image_processing {
       kRosNodeName + detection_task_name_ + "_result", 50);
 
     image_publisher_ = it_.advertise(detection_task_name_ + "_image", 100);
-
   }
 
-  //------------------------------------------------------------------------------
-  //
   DetectionTask::~DetectionTask() {
     if (IsRunning()) {
       StopDetectionTask();
@@ -49,11 +38,6 @@ namespace proc_image_processing {
     ROS_INFO("%s Destroying execution", EXEC_TAG.c_str());
   }
 
-  //==============================================================================
-  // M E T H O D   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void DetectionTask::StartDetectionTask() {
     if (IsRunning()) {
       throw std::logic_error("This detection task is already running.");
@@ -62,8 +46,6 @@ namespace proc_image_processing {
     ROS_INFO("Starting detection task %s", this->detection_task_name_.c_str());
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTask::StopDetectionTask() {
     if (!IsRunning()) {
       throw std::logic_error("This detection task is not running.");
@@ -73,30 +55,21 @@ namespace proc_image_processing {
     image_publisher_.shutdown();
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTask::ChangeReturnImageToFilter(const size_t& index) {
     returning_original_image_ = false;
     filterchain_->SetObserver(index);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTask::ChangeReturnImageToFilterchain() {
     returning_original_image_ = false;
     auto last_index = filterchain_->GetAllFilters().size() - 1;
     ChangeReturnImageToFilter(last_index);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void DetectionTask::ChangeReturnImageToOrigin() {
     returning_original_image_ = true;
   }
 
-
-  //------------------------------------------------------------------------------
-  //
   void DetectionTask::Run() {
     unsigned int image_id_old, image_id_new;
     while (!MustStop()) {
@@ -104,11 +77,11 @@ namespace proc_image_processing {
         // Fetch the image.
         image_provider_.GetImage(image_being_processed_, image_id_new);
         // if same ID as previous image, do not reprocess it.
-        if (image_id_old == image_id_new)       {
+        if (image_id_old == image_id_new) {
           usleep(1000);
           continue;
-        }        
-else       {
+        }
+        else {
           image_id_old = image_id_new;
         }
         // Process the image
@@ -119,8 +92,6 @@ else       {
         PublishAllTarget();
         // Clear them to have fresh one on next execution
         param_handler_.clearTarget();
-
-
       }
       catch (std::exception& e) {
         ROS_ERROR("Catched error in detection task %s, %s", detection_task_name_.c_str(), e.what());
@@ -140,6 +111,7 @@ else       {
       result_publisher_.publish(msg);
     }
   }
+
   void DetectionTask::PublishClientImage() {
     cv::Mat image_to_pubish;
     cv_bridge::CvImage ros_image;
@@ -151,7 +123,7 @@ else       {
       image_to_pubish = image_being_processed_;
     }
     // Prepare it to be always the same format
-    if (!PrepareImageForPublishing(image_to_pubish))   {
+    if (!PrepareImageForPublishing(image_to_pubish)) {
       ROS_ERROR("Detection task %s could not format image for client", detection_task_name_.c_str());
     }
     // Publish it

@@ -20,24 +20,15 @@ namespace proc_image_processing {
   template <typename Tp_>
   class Parameter : public ParameterInterface {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Parameter<Tp_>>;
 
     static const char SEPARATOR = '|';
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Parameter(const std::string& name, const Tp_& value,
       std::vector<ParameterInterface*>* vector = nullptr,
       const std::string& description = "");
 
     virtual ~Parameter() = default;
-
-    //============================================================================
-    // P U B L I C   O P E R A T O R S
 
     template <class Ut_>
     bool operator>(const Ut_& rhs) {
@@ -116,9 +107,6 @@ namespace proc_image_processing {
 
     Tp_ operator()() { return GetValue(); }
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     void SetValue(const Tp_& value);
 
     const Tp_& GetValue() const;
@@ -140,13 +128,8 @@ namespace proc_image_processing {
     void SetStringValue(const std::string& value) override;
 
   protected:
-    //============================================================================
-    // P R O T E C T E D   M E M B E R S
-
     std::string name_;
-
     Tp_ value_;
-
     std::string description_;
   };
 

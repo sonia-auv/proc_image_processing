@@ -15,13 +15,7 @@ namespace proc_image_processing {
   // No threshold
   class HSVThreshold : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<HSVThreshold>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit HSVThreshold(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -45,9 +39,6 @@ namespace proc_image_processing {
 
     virtual ~HSVThreshold() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         if (CV_MAT_CN(image.type()) != 3) {
@@ -68,7 +59,6 @@ namespace proc_image_processing {
         cv::Mat final = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
         // Replace with new images
-
         channel_vec_ = GetColorPlanes(image);
         set_image(H_INDEX, hue);
         set_image(S_INDEX, saturation);
@@ -83,26 +73,17 @@ namespace proc_image_processing {
         cv::bitwise_and(hue_res, saturation_res, final);
         cv::bitwise_and(final, value_res, final);
 
-
-
         final.copyTo(image);
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     void set_image(const int choice, cv::Mat& out) {
       // Thightly couple with parameter, but putting safety...
       int index = choice < 0 ? 0 : (choice > 6 ? 6 : choice);
       channel_vec_[index].copyTo(out);
 
     }
-
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     Parameter<bool> enable_;
     RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;

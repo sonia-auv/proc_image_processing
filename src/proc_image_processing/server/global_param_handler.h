@@ -18,17 +18,11 @@ namespace proc_image_processing {
 
   class GlobalParamHandler {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<GlobalParamHandler>;
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
     explicit GlobalParamHandler()
-      : _vision_target(), _params_vec(), _original_image() {    
-}
+      : _vision_target(), _params_vec(), _original_image() {
+    }
 
     // Since we erase everything, it is easier to delete objet first
     // then calling clear method, since erase invalidate pointer AND
@@ -37,9 +31,6 @@ namespace proc_image_processing {
     // is "very" long to do. To prevent that, we can use reverse
     // iterator, but erase does not take it...
     ~GlobalParamHandler() { _params_vec.clear(); }
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     // Original image handling
     // WE WANT TO RETURN A COPY, ELSE THE IMAGE WILL BE ALTERATE

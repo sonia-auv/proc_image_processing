@@ -22,15 +22,8 @@ namespace proc_image_processing {
   // it also contains usefull method to play with rotated rectangle
   class RotRect : public cv::RotatedRect {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<RotRect>;
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
-    // Constructor/destructor
     RotRect(const std::vector<cv::Point>& edges);
 
     RotRect(const cv::RotatedRect& rotRect);
@@ -41,17 +34,11 @@ namespace proc_image_processing {
 
     ~RotRect();
 
-    //============================================================================
-    // P U B L I C   O P E R A T O R S
-
     RotRect& operator=(RotRect rotRect);
 
     RotRect& operator=(cv::RotatedRect rotRect);
 
     bool operator==(const RotRect& rotRect);
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void drawRect(cv::Mat& out, cv::Scalar color, int thickness = 1);
 
@@ -61,14 +48,8 @@ namespace proc_image_processing {
     cv::Point2f* getCorners();
 
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     // Set height to the longest side of the rectangle and
     void setValues();
-
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     cv::Point2f pts_[4];
   };

@@ -25,11 +25,6 @@ namespace proc_image_processing {
     static bool LengthSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline bool ObjectRanker::AreaSortFunction(ObjectFullData::Ptr a,
     ObjectFullData::Ptr b) {
     if (a.get() != nullptr && b.get() != nullptr) {
@@ -38,8 +33,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline bool ObjectRanker::LengthSortFunction(ObjectFullData::Ptr a,
     ObjectFullData::Ptr b) {
     if (a.get() != nullptr && b.get() != nullptr) {

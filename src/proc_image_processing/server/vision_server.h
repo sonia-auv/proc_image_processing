@@ -28,7 +28,6 @@
 #include "proc_image_processing/server/detection_task_manager.h"
 #include "proc_image_processing/server/filterchain_manager.h"
 
-
 namespace proc_image_processing {
 
   using namespace proc_image_processing;
@@ -46,22 +45,13 @@ namespace proc_image_processing {
    */
   class VisionServer : public sonia_common::ServiceServerManager<VisionServer> {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<VisionServer>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit VisionServer(const ros::NodeHandle& nh);
 
     ~VisionServer();
 
   private:
-    //==========================================================================
-    // P R I V A T E   M E T H O D S
-
     /**
      * Return a string of each execution separated by the current
      * COMPONENT_SEPARATOR given a list of the executions.
@@ -339,10 +329,6 @@ namespace proc_image_processing {
       sonia_common::GetInformationList::Request& rqst,
       sonia_common::GetInformationList::Response& rep);
 
-
-    //==========================================================================
-    // P R I V A T E   M E M B E R S
-
     /**
      * We must keep a reference to the initial node_handle for creating the
      * different topics and services outside the constructor.
@@ -358,11 +344,6 @@ namespace proc_image_processing {
     ros::ServiceClient deep_network_service;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline std::string VisionServer::BuildRosMessage(
     const std::vector<std::string>& name_vec) const {
     std::string msg("");
@@ -372,8 +353,6 @@ namespace proc_image_processing {
     return msg;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline size_t VisionServer::ExtractFilterIndexFromUIName(
     const std::string& name) const {
     size_t pos = name.find("_");
@@ -384,8 +363,6 @@ namespace proc_image_processing {
     return size_t(atoi(position.c_str()));
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline std::string VisionServer::ConstructFilterUIName(
     const std::string& name, const size_t& index) const {
     return name + "_" + std::to_string(index);
