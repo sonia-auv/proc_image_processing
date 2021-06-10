@@ -21,20 +21,11 @@ namespace proc_image_processing {
    */
   class PerformanceEvaluator {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<PerformanceEvaluator>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     PerformanceEvaluator();
 
     ~PerformanceEvaluator() {};
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     // Return the time in second since construction or call to UpdateStartTime
     double GetExecTimeSec();
@@ -43,25 +34,14 @@ namespace proc_image_processing {
     void UpdateStartTime();
 
   private:
-    // P R I V A T E   M E M B E R S
-
-    //============================================================================
     double tick_frequency_;
-
     double start_tick_count_;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline double PerformanceEvaluator::GetExecTimeSec() {
     return (cv::getTickCount() - start_tick_count_) / tick_frequency_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void PerformanceEvaluator::UpdateStartTime() {
     start_tick_count_ = cv::getTickCount();
   }

@@ -22,23 +22,14 @@ namespace proc_image_processing {
    */
   class DetectionTask : private sonia_common::Runnable {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<DetectionTask>;
 
     static const std::string EXEC_TAG;
-
-    //==========================================================================
-    // P U B L I C   C / D T O R S
 
     explicit DetectionTask(const std::string& topic_name, Filterchain::Ptr filterchain,
       const std::string& execution_name);
 
     virtual ~DetectionTask();
-
-    //==========================================================================
-    // P U B L I C   M E T H O D S
 
     void StartDetectionTask();
 
@@ -81,9 +72,6 @@ namespace proc_image_processing {
     void Run() override;
 
   private:
-    //==========================================================================
-    // P R I V A T E   M E M B E R S
-
     std::string detection_task_name_;
     std::string topic_name_;
 
@@ -116,23 +104,14 @@ namespace proc_image_processing {
     bool returning_original_image_;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline Filterchain::Ptr DetectionTask::GetFilterchain() const {
     return filterchain_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const std::string& DetectionTask::GetDetectionTaskName() const {
     return detection_task_name_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline const std::string& DetectionTask::GetMediaName() const {
     return topic_name_;
   }

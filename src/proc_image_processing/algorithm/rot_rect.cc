@@ -6,43 +6,25 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   RotRect::RotRect(const std::vector<cv::Point>& edges)
     : cv::RotatedRect(cv::minAreaRect(edges)) {
     setValues();
     points(pts_);
   }
 
-  //------------------------------------------------------------------------------
-  //
   RotRect::RotRect() : cv::RotatedRect() {}
 
-  //------------------------------------------------------------------------------
-  //
   RotRect::RotRect(const cv::RotatedRect& rotRect) : cv::RotatedRect(rotRect) {
     setValues();
     points(pts_);
   }
 
-  //------------------------------------------------------------------------------
-  //
   RotRect::RotRect(const RotRect& a) : cv::RotatedRect(a) {
     for (int i = 0; i < 4; i++) pts_[i] = a.pts_[i];
   }
 
-  //------------------------------------------------------------------------------
-  //
   RotRect::~RotRect() {}
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void RotRect::drawRect(cv::Mat& out, cv::Scalar color, int thickness) {
     cv::line(out, pts_[0], pts_[1], color, thickness);
     cv::line(out, pts_[1], pts_[2], color, thickness);
@@ -50,8 +32,6 @@ namespace proc_image_processing {
     cv::line(out, pts_[3], pts_[0], color, thickness);
   }
 
-  //------------------------------------------------------------------------------
-  //
   void RotRect::setValues() {
     float in_angle = angle;
     float out_angle = in_angle;
@@ -69,8 +49,6 @@ namespace proc_image_processing {
     angle = out_angle;
   }
 
-  //------------------------------------------------------------------------------
-  //
   void RotRect::swap(RotRect& a) {
     std::swap(a.angle, angle);
     std::swap(a.center, center);
@@ -78,23 +56,17 @@ namespace proc_image_processing {
     std::swap(a.size, size);
   }
 
-  //------------------------------------------------------------------------------
-  //
   RotRect& RotRect::operator=(RotRect rotRect) {
     swap(rotRect);
     return *this;
   }
 
-  //------------------------------------------------------------------------------
-  //
   RotRect& RotRect::operator=(cv::RotatedRect rotRect) {
     RotRect slRotRect(rotRect);
     swap(slRotRect);
     return *this;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool RotRect::operator==(const RotRect& rotRect) {
     bool result = true;
     if (rotRect.center != center) {
@@ -109,8 +81,6 @@ namespace proc_image_processing {
     return result;
   }
 
-  //------------------------------------------------------------------------------
-  //
   cv::Point2f* RotRect::getCorners() { return pts_; }
 
 }  // namespace proc_image_processing

@@ -14,9 +14,6 @@ namespace proc_image_processing {
 
   class ObjectFrameMemory {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ObjectFrameMemory>;
 
     // When getting object in the past, we compare the center
@@ -26,15 +23,9 @@ namespace proc_image_processing {
     static const float DISTANCE_MAX_DIFFERENCE;
     static const float RATIO_MAX_DIFFERENCE;
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
     ObjectFrameMemory(unsigned int memorySize);
 
     ~ObjectFrameMemory() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void AddFrameObjects(ObjectFullData::FullObjectPtrVec& objectVector);
 
@@ -45,18 +36,10 @@ namespace proc_image_processing {
       const cv::Point& center, const float objectRatio);
 
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     std::vector<ObjectFullData::FullObjectPtrVec> previous_frames_;
     unsigned int memory_size_;
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline unsigned int ObjectFrameMemory::GetMemorySize() { return memory_size_; }
 
 }  // namespace proc_image_processing

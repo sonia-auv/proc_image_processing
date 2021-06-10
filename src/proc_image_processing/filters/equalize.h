@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class Equalize : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Equalize>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Equalize(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -28,20 +22,13 @@ namespace proc_image_processing {
 
     virtual ~Equalize() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         cv::equalizeHist(image, image);
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
   };
 

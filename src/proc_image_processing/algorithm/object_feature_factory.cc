@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   ObjectFeatureFactory::ObjectFeatureFactory(unsigned int memorySize)
     : frame_memory_(memorySize) {
     using namespace std::placeholders;
@@ -52,11 +47,6 @@ namespace proc_image_processing {
       std::bind(&ObjectFeatureFactory::GrayMeanFeature, this, _1));
   }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void ObjectFeatureFactory::PercentFilledFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetPercentFilled() == -1.0f)) {
       float percentFilled = 0.0f;
@@ -89,8 +79,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   float ObjectFeatureFactory::CalculatePlaneMean(ObjectFullData::Ptr object,
     int plane) {
     float mean = 0.0f;

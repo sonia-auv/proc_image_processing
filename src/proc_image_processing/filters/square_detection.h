@@ -14,13 +14,7 @@ namespace proc_image_processing {
 
     class SquareDetection : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
-
         using Ptr = std::shared_ptr<SquareDetection>;
-
-        //============================================================================
-        // P U B L I C   C / D T O R S
 
         explicit SquareDetection(const GlobalParamHandler& globalParams)
             : Filter(globalParams), enable_("Enable", false, &parameters_),
@@ -31,12 +25,8 @@ namespace proc_image_processing {
 
         virtual ~SquareDetection() {}
 
-        //============================================================================
-        // P U B L I C   M E T H O D S
         virtual void Execute(cv::Mat& image) {
-
             std::vector<std::vector<cv::Point> > squares;
-
 
             squares.clear();
 
@@ -107,7 +97,6 @@ namespace proc_image_processing {
                     }
                 }
             }
-
             for (size_t i = 0; i < squares.size(); i++) {
                 const cv::Point* p = &squares[i][0];
 
@@ -116,9 +105,6 @@ namespace proc_image_processing {
                 if (p->x > 3 && p->y > 3)
                     cv::polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 3, cv::LINE_AA);
             }
-
-
-
         }
 
         static double angle(cv::Point pt1, cv::Point pt2, cv::Point pt0) {
@@ -129,12 +115,8 @@ namespace proc_image_processing {
             return (dx1 * dx2 + dy1 * dy2) / sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10);
         }
 
-
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
-
 
         Parameter<bool> enable_;
         RangedParameter<int> N, thresh;

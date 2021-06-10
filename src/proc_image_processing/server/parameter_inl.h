@@ -18,8 +18,6 @@ namespace proc_image_processing {
 
   namespace details {
 
-    //------------------------------------------------------------------------------
-    //
     template <typename Tp_>
     struct StringConvertor {
       static std::string TypeName() {
@@ -43,8 +41,6 @@ namespace proc_image_processing {
       }
     };
 
-    //------------------------------------------------------------------------------
-    //
     template <>
     struct StringConvertor<int> {
       static std::string TypeName() { return "Integer"; }
@@ -56,8 +52,6 @@ namespace proc_image_processing {
       static int GetValue(const std::string& value) { return atoi(value.c_str()); }
     };
 
-    //------------------------------------------------------------------------------
-    //
     template <>
     struct StringConvertor<bool> {
       static std::string TypeName() { return "Boolean"; }
@@ -85,8 +79,6 @@ namespace proc_image_processing {
       }
     };
 
-    //------------------------------------------------------------------------------
-    //
     template <>
     struct StringConvertor<double> {
       static std::string TypeName() { return "Double"; }
@@ -100,8 +92,6 @@ namespace proc_image_processing {
       }
     };
 
-    //------------------------------------------------------------------------------
-    //
     template <>
     struct StringConvertor<std::string> {
       static std::string TypeName() { return "String"; }
@@ -113,11 +103,6 @@ namespace proc_image_processing {
 
   }  // namespace details
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE Parameter<Tp_>::Parameter(
     const std::string& name, const Tp_& value,
@@ -128,40 +113,27 @@ namespace proc_image_processing {
     }
   }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE void Parameter<Tp_>::SetDescription(
     const std::string& description) {
     description_ = description;
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE std::string Parameter<Tp_>::GetDescription() const {
     return description_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE void Parameter<Tp_>::SetName(const std::string& name) {
     name_ = name;
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE std::string Parameter<Tp_>::GetName() const {
     return name_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE std::string Parameter<Tp_>::ToString() const {
     std::stringstream ss;
@@ -173,36 +145,26 @@ namespace proc_image_processing {
     return ss.str();
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE void Parameter<Tp_>::SetValue(const Tp_& value) {
     value_ = value;
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE const Tp_& Parameter<Tp_>::GetValue() const {
     return value_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE std::string Parameter<Tp_>::GetType() const {
     return details::StringConvertor<Tp_>::TypeName();
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE std::string Parameter<Tp_>::GetStringValue() const {
     return details::StringConvertor<Tp_>::GetString(value_);
   }
 
-  //------------------------------------------------------------------------------
-  //
   template <class Tp_>
   ATLAS_INLINE void Parameter<Tp_>::SetStringValue(const std::string& value) {
     value_ = details::StringConvertor<Tp_>::GetValue(value);

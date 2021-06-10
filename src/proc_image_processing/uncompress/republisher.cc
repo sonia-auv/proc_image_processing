@@ -6,7 +6,6 @@
 
 class Images {
 public:
-
   ros::ServiceServer service;
   ros::NodeHandle nh_;
   image_transport::ImageTransport it_;
@@ -23,9 +22,6 @@ public:
   Images(ros::NodeHandle nh) :nh_(), it_(nh_) {
     service = nh_.advertiseService("image_republisher_node/republish", &Images::republish, this);
   }
-
-
-
 
   bool republish(sonia_common::Republish::Request& req,
     sonia_common::Republish::Response& res) {

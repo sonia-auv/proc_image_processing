@@ -6,7 +6,6 @@
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 
-
 #include <proc_image_processing/filters/filter.h>
 #include <math.h>
 #include <memory>
@@ -18,13 +17,7 @@ namespace proc_image_processing {
 
     class VampireTorpedoesDetector : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
-
         using Ptr = std::shared_ptr<VampireTorpedoesDetector>;
-
-        //============================================================================
-        // P U B L I C   C / D T O R S
 
         explicit VampireTorpedoesDetector(const GlobalParamHandler& globalParams)
             : Filter(globalParams),
@@ -39,8 +32,6 @@ namespace proc_image_processing {
 
         virtual ~VampireTorpedoesDetector() {}
 
-        //============================================================================
-        // P U B L I C   M E T H O D S
         virtual void Execute(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
@@ -71,8 +62,8 @@ namespace proc_image_processing {
                     if (object.get() == nullptr) {
                         continue;
                     }
-                    //AREA
 
+                    //AREA
                    //std::cout << object->GetArea();
 
                     if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
@@ -111,7 +102,6 @@ namespace proc_image_processing {
                         }
 
                         objectif = "vampire_torpedoes";
-
                     }
 
                     if (look_for_heart_()) {
@@ -133,9 +123,7 @@ namespace proc_image_processing {
                         }
 
                         objectif = "heart_torpedoes";
-
                     }
-
                     objVec.push_back(object);
                 }
 
@@ -158,16 +146,12 @@ namespace proc_image_processing {
             }
         }
 
-
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
 
         Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
 
         RangedParameter<double> min_area_, max_area_;
-
     };
 
 }  // namespace proc_image_processing

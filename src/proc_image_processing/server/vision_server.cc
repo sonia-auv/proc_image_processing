@@ -7,14 +7,8 @@
 #include "proc_image_processing/server/vision_server.h"
 #include <sonia_common/ChangeNetwork.h>
 
-
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   VisionServer::VisionServer(const ros::NodeHandle& nh)
     : sonia_common::ServiceServerManager<VisionServer>(),
     nh_(nh),
@@ -76,15 +70,8 @@ namespace proc_image_processing {
     deep_network_service = ros::NodeHandle("~").serviceClient<sonia_common::ChangeNetwork>("/deep_detector/change_network");
   }
 
-  //------------------------------------------------------------------------------
-  //
   VisionServer::~VisionServer() {}
 
-  //==============================================================================
-  // M E T H O D   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackExecutionCMD(sonia_common::ExecuteCmd::Request& rqst,
     sonia_common::ExecuteCmd::Response& rep) {
     if (rqst.cmd == rqst.START) {
@@ -139,8 +126,6 @@ namespace proc_image_processing {
     return true;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool proc_image_processing::VisionServer::CallbackInfoListCMD(
     sonia_common::GetInformationList::Request& rqst, sonia_common::GetInformationList::Response& rep) {
     if (rqst.cmd == rqst.EXEC) {
@@ -159,8 +144,6 @@ namespace proc_image_processing {
     return true;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackCopyFc(sonia_common::CopyFilterchain::Request& rqst,
     sonia_common::CopyFilterchain::Response& rep) {
     std::ifstream src(
@@ -175,8 +158,6 @@ namespace proc_image_processing {
     return rep.success;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackGetFilterParam(
     sonia_common::GetFilterchainFilterParam::Request& rqst,
     sonia_common::GetFilterchainFilterParam::Response& rep) {
@@ -199,8 +180,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackGetFilterAllParam(
     sonia_common::GetFilterchainFilterAllParam::Request& rqst,
     sonia_common::GetFilterchainFilterAllParam::Response& rep) {
@@ -228,8 +207,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackSetFilterParam(
     sonia_common::SetFilterchainFilterParam::Request& rqst,
     sonia_common::SetFilterchainFilterParam::Response& rep) {
@@ -253,8 +230,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackGetFilter(sonia_common::GetFilterchainFilter::Request& rqst,
     sonia_common::GetFilterchainFilter::Response& rep) {
     rep.list = "";
@@ -285,8 +260,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackSetObserver(
     sonia_common::SetFilterchainFilterObserver::Request& rqst,
     sonia_common::SetFilterchainFilterObserver::Response& rep) {
@@ -309,8 +282,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackManageFilter(
     sonia_common::ManageFilterchainFilter::Request& rqst,
     sonia_common::ManageFilterchainFilter::Response& rep) {
@@ -332,8 +303,6 @@ namespace proc_image_processing {
     return rep.success;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackManageFc(sonia_common::ManageFilterchain::Request& rqst,
     sonia_common::ManageFilterchain::Response& rep) {
     std::string filterchain_name(rqst.filterchain);
@@ -348,8 +317,6 @@ namespace proc_image_processing {
     return response;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackSaveFc(sonia_common::SaveFilterchain::Request& rqst,
     sonia_common::SaveFilterchain::Response& rep) {
     std::string execution_name(rqst.exec_name);
@@ -362,8 +329,6 @@ namespace proc_image_processing {
     return true;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackSetFcOrder(
     sonia_common::SetFilterchainFilterOrder::Request& rqst,
     sonia_common::SetFilterchainFilterOrder::Response& rep) {
@@ -386,8 +351,6 @@ namespace proc_image_processing {
     return rep.success;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackGetFcFromExec(
     sonia_common::GetFilterchainFromExecution::Request& rqst,
     sonia_common::GetFilterchainFromExecution::Response& rep) {
@@ -407,8 +370,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool VisionServer::CallbackGetMediaFromExec(
     sonia_common::GetMediaFromExecution::Request& rqst,
     sonia_common::GetMediaFromExecution::Response& rep) {

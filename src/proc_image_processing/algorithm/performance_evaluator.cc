@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   PerformanceEvaluator::PerformanceEvaluator()
     : tick_frequency_(cv::getTickFrequency()),
     start_tick_count_(cv::getTickCount()) {

@@ -16,13 +16,7 @@ namespace proc_image_processing {
 
   class FenceDetector : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<FenceDetector>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit FenceDetector(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -47,9 +41,6 @@ namespace proc_image_processing {
     }
 
     virtual ~FenceDetector() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (!enable_()) {
@@ -90,9 +81,7 @@ namespace proc_image_processing {
           continue;
         }
 
-        //
         // AREA
-        //
         if (object->GetArea() < min_area_()) {
           continue;
         }
@@ -100,9 +89,7 @@ namespace proc_image_processing {
           cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
         }
 
-        //
         // LENGTH
-        //
         if (object->GetRotatedRect().size.height < min_length_()) continue;
         if (debug_contour_()) {
           cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
@@ -151,7 +138,6 @@ namespace proc_image_processing {
         }
       }
 
-      //
       // the easiest to find... if you did not find this one...
       // you probably didn't find any other... by experience.
       // Also, you need to return a size to AUV6 so...
@@ -254,11 +240,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     inline int CalculateYFromBottomBar(float bar_size, int bar_y) {
       int offset = static_cast<int>((bar_size) / 5.0f);
       return bar_y - offset;
@@ -301,9 +283,6 @@ namespace proc_image_processing {
       bool y_diff_ok = y_diff < 0.1;
       return ratio_ok && y_diff_ok;
     }
-
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     Parameter<bool> enable_, debug_contour_, search_only_bottom_;
     // tbca = To Be Consider As

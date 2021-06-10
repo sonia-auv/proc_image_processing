@@ -19,13 +19,7 @@ namespace proc_image_processing {
    */
   class InRange : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<InRange>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R
 
     explicit InRange(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -46,9 +40,6 @@ namespace proc_image_processing {
     }
 
     virtual ~InRange() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     /**
      * Overrides the execute function from the Filter class.
@@ -80,11 +71,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     /**
      * State if the filter is enabled or not.
      * This is being used by the vision server for calling the filter in the

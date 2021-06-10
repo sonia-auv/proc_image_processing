@@ -13,22 +13,11 @@ namespace proc_image_processing {
   const std::string FilterchainManager::FILTERCHAIN_MANAGER_TAG =
     "FILTERCHAIN_MANAGER";
 
-  //==============================================================================
-  // C / D T O R S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   FilterchainManager::FilterchainManager() {
   };
 
-  //------------------------------------------------------------------------------
-  //
   FilterchainManager::~FilterchainManager() {}
 
-  //==============================================================================
-  // M E T H O D   S E C T I O N
-  //------------------------------------------------------------------------------
-  //
   std::vector<std::string> FilterchainManager::GetAllFilterchainName() const {
     auto availableFilterchains = std::vector<std::string>{};
     std::stringstream ss;
@@ -50,8 +39,6 @@ namespace proc_image_processing {
     return availableFilterchains;
   }
 
-  //------------------------------------------------------------------------------
-  //
   void FilterchainManager::CreateFilterchain(const std::string& filterchain) {
     if (!FilterchainExists(filterchain)) {
       YAML::Node node;
@@ -63,14 +50,10 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   void FilterchainManager::EraseFilterchain(const std::string& filterchain) {
     remove(GetFilterchainPath(filterchain).c_str());
   }
 
-  //------------------------------------------------------------------------------
-  //
   bool FilterchainManager::FilterchainExists(const std::string& filterchain) {
     for (const auto& existing_filterchain : GetAllFilterchainName()) {
       if (filterchain == existing_filterchain) {
@@ -80,8 +63,6 @@ namespace proc_image_processing {
     return false;
   }
 
-  //------------------------------------------------------------------------------
-  //
   Filterchain::Ptr FilterchainManager::InstanciateFilterchain(
     const std::string& filterchainName) {
     if (FilterchainExists(filterchainName)) {
@@ -93,8 +74,6 @@ namespace proc_image_processing {
     throw std::invalid_argument("Could not find the given filterchain");
   }
 
-  //------------------------------------------------------------------------------
-  //
   const std::vector<Filterchain::Ptr>
     & FilterchainManager::InstanciateAllFilterchains() {
     for (const auto& filterchain : GetAllFilterchainName()) {
@@ -103,8 +82,6 @@ namespace proc_image_processing {
     return GetRunningFilterchains();
   }
 
-  //------------------------------------------------------------------------------
-  //
   void FilterchainManager::StopFilterchain(const Filterchain::Ptr& filterchain) {
     auto instance = std::find(running_filterchains_.begin(),
       running_filterchains_.end(), filterchain);
@@ -112,15 +89,11 @@ namespace proc_image_processing {
     ROS_INFO("Filterchain is stopped.");
   }
 
-  //------------------------------------------------------------------------------
-  //
   std::string FilterchainManager::GetFilterchainPath(
     const std::string& filterchain) const {
     return kConfigPath + filterchain + kFilterchainExt;
   }
 
-  //------------------------------------------------------------------------------
-  //
   const std::vector<Filterchain::Ptr>
     & FilterchainManager::GetRunningFilterchains() const {
     return running_filterchains_;

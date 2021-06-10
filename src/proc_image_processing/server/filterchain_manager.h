@@ -24,22 +24,13 @@ namespace proc_image_processing {
    */
   class FilterchainManager {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<FilterchainManager>;
 
     static const std::string FILTERCHAIN_MANAGER_TAG;
 
-    //==========================================================================
-    // P U B L I C   C / D T O R S
-
     FilterchainManager();
 
     ~FilterchainManager();
-
-    //==========================================================================
-    // P U B L I C   M E T H O D S
 
     /**
      * Get all available filterchains on the system.
@@ -115,9 +106,6 @@ namespace proc_image_processing {
     std::string GetFilterchainPath(const std::string& filterchain) const;
 
   private:
-    //==========================================================================
-    // P R I V A T E   M E M B E R S
-
     /**
      * List of current instances of filterchains
      */

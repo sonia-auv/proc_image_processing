@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   ObjectBasicData::ObjectBasicData(const cv::Mat& originalImage,
     const cv::Mat& binaryImage,
     const Contour& contour)
@@ -34,11 +29,6 @@ namespace proc_image_processing {
     assert(!binaryImage.empty());
   }
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   const cv::Mat& ObjectBasicData::GetPlanes(int planesID) {
     if (!is_calculated_map_[PLANES]) {
       cv::Mat gray, hsi;
@@ -61,8 +51,6 @@ namespace proc_image_processing {
     return planes_[planesID];
   }
 
-  //------------------------------------------------------------------------------
-  //
   const cv::Moments& ObjectBasicData::GetMoments(bool useBinary) {
     if (!is_calculated_map_[MOMENTS]) {
       if (useBinary)

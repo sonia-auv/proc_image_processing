@@ -13,9 +13,6 @@ namespace proc_image_processing {
 
   class ContourList {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ContourList>;
 
     typedef std::vector<Contour::ContourVec> ContourListVector;
@@ -35,18 +32,9 @@ namespace proc_image_processing {
       HIERARCHY        // All the contours, fills the hierarchy member
     };
 
-    //============================================================================
-    // P U B L I C   C / D T O R S
-
     ContourList(const cv::Mat& image, const METHOD method);
 
-    //============================================================================
-    // P U B L I C   O P E R A T O R S
-
     Contour operator[](size_t index);
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void DrawContours(cv::Mat& img, const cv::Scalar& color, int thickness = 2);
 
@@ -59,9 +47,6 @@ namespace proc_image_processing {
 
     std::vector<cv::Vec4i> GetHierachy();
 
-    //============================================================================
-    // P U B L I C   M E M B E R S
-
     ContourListVector contour_list_point_;
 
     std::vector<Contour> contour_vec_;
@@ -71,9 +56,6 @@ namespace proc_image_processing {
 
 
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     bool HasChild(const cv::Vec4i& hierarchy_def);
 
     bool HasParent(const cv::Vec4i& hierarchy_def);
@@ -97,47 +79,28 @@ namespace proc_image_processing {
     void RetrieveOutNoChildContours(const cv::Mat& image);
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //------------------------------------------------------------------------------
-  //
   inline size_t ContourList::GetSize() { return contour_vec_.size(); }
 
-  //------------------------------------------------------------------------------
-  //
   inline std::vector<std::vector<cv::Point>> ContourList::GetAsPoint() {
     return contour_list_point_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline std::vector<Contour> ContourList::GetAsContour() { return contour_vec_; }
 
-  //------------------------------------------------------------------------------
-  //
   inline std::vector<cv::Vec4i> ContourList::GetHierachy() { return hierarchy_; }
 
-  //------------------------------------------------------------------------------
-  //
   inline Contour ContourList::operator[](size_t index) {
     return contour_vec_[index];
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline bool ContourList::HasChild(const cv::Vec4i& hierarchy_def) {
     return hierarchy_def[FIRST_CHILD] != -1;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline bool ContourList::HasParent(const cv::Vec4i& hierarchy_def) {
     return hierarchy_def[PARENT] != -1;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ContourList::DrawContours(cv::Mat& img, const cv::Scalar& color,
     int thickness) {
     cv::drawContours(img, contour_list_point_, -1, color, thickness);

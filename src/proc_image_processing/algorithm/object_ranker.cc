@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void ObjectRanker::RankByArea(ObjectFullData::FullObjectPtrVec objects) {
     std::sort(objects.begin(), objects.end(), ObjectRanker::AreaSortFunction);
     for (int i = 0, size = objects.size(); i < size; i++) {
@@ -20,8 +15,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   void ObjectRanker::RankByLength(ObjectFullData::FullObjectPtrVec objects) {
     std::sort(objects.begin(), objects.end(), ObjectRanker::LengthSortFunction);
     for (int i = 0, size = objects.size(); i < size; i++) {

@@ -12,13 +12,7 @@ namespace proc_image_processing {
 
   class AdaptiveThreshold : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<AdaptiveThreshold>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit AdaptiveThreshold(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -32,9 +26,6 @@ namespace proc_image_processing {
     }
 
     virtual ~AdaptiveThreshold() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -50,11 +41,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
 
     RangedParameter<int> method_, threshold_type_, _block_size;

@@ -6,11 +6,6 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   Moments::Moments(cv::Mat image, bool binary) {
     if (image.channels() != 1) {
       cv::Mat image2;
@@ -33,8 +28,6 @@ namespace proc_image_processing {
     y_distance_from_center_ = mass_center_.y - real_center_.y;
   }
 
-  //------------------------------------------------------------------------------
-  //
   Moments::Moments() {
     cv_moments_ = cv::Moments();
     mass_center_ = cv::Point(-1, -1);
@@ -43,15 +36,8 @@ namespace proc_image_processing {
     y_distance_from_center_ = 0.0f;
   }
 
-  //------------------------------------------------------------------------------
-  //
   Moments::~Moments() {}
 
-  //==============================================================================
-  // M E T H O D S   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   void Moments::operator=(Moments moments) {
     cv_moments_ = moments.cv_moments_;
     mass_center_ = moments.mass_center_;

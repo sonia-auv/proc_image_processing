@@ -6,8 +6,6 @@
 #include <proc_image_processing/server/target.h>
 namespace proc_image_processing {
 
-//------------------------------------------------------------------------------
-//
 Target::Target()
     : center_(0, 0),
       dimension_(0, 0),
@@ -16,8 +14,6 @@ Target::Target()
       special_field_1_(""),
       special_field_2_("") {}
 
-//------------------------------------------------------------------------------
-//
 Target::Target(const std::string &header, int x, int y, float width,
                float height, float angle, int image_height, int image_width,
                const std::string &spec_field_1,

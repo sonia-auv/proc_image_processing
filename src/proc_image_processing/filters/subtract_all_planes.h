@@ -15,13 +15,7 @@ namespace proc_image_processing {
   // No threshold
   class SubtractAllPlanes : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<SubtractAllPlanes>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit SubtractAllPlanes(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -48,9 +42,6 @@ namespace proc_image_processing {
 
     virtual ~SubtractAllPlanes() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         if (CV_MAT_CN(image.type()) != 3) {
@@ -67,7 +58,6 @@ namespace proc_image_processing {
         cv::Mat final = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
         // Replace with new images
-
         channel_vec_ = GetColorPlanes(image);
 
         // Set subtraction
@@ -87,11 +77,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     void set_image(const int choice, cv::Mat& out, const double weight,
       const bool inverse) {
       cv::Mat two_five_five(rows_, cols_, CV_16SC1, cv::Scalar(255));
@@ -106,9 +92,6 @@ namespace proc_image_processing {
       }
       cv::multiply(out, one, out, weight, CV_8UC1);
     }
-
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     Parameter<bool> enable_;
     RangedParameter<int> plane_one_, plane_two_, plane_three_;

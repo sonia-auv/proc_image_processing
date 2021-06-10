@@ -18,13 +18,7 @@ namespace proc_image_processing {
   // settings are for the differents type of filters, and does not apply to all
   class Blurr : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Blurr>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit Blurr(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -37,9 +31,6 @@ namespace proc_image_processing {
     }
 
     virtual ~Blurr() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -62,11 +53,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
     RangedParameter<int> type_, kernel_size_;
 

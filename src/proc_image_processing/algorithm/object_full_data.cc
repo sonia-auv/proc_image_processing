@@ -6,17 +6,11 @@
 
 namespace proc_image_processing {
 
-  //==============================================================================
-  // C / D T O R   S E C T I O N
-
-  //------------------------------------------------------------------------------
-  //
   ObjectFullData::ObjectFullData(const cv::Mat& originalImage,
     const cv::Mat& binaryImage,
     const Contour& contour)
-    : ObjectBasicData(originalImage, binaryImage, contour) {  
-}
-
+    : ObjectBasicData(originalImage, binaryImage, contour) {
+  }
 
   cv::Point ObjectVecMedian(ObjectFullData::FullObjectPtrVec objVec) {
     std::vector<float> xVec;

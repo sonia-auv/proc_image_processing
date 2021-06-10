@@ -16,13 +16,7 @@ namespace proc_image_processing {
 
   class HandleDetector : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<HandleDetector>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit HandleDetector(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -49,9 +43,6 @@ namespace proc_image_processing {
 
     virtual ~HandleDetector() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
         if (debug_contour_()) {
@@ -76,9 +67,8 @@ namespace proc_image_processing {
           if (object.get() == nullptr) {
             continue;
           }
-          //
+
           // AREA
-          //
           if (object->GetArea() < min_area_()) {
             continue;
           }
@@ -86,9 +76,7 @@ namespace proc_image_processing {
             cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
           }
 
-          //
           // RATIO
-          //
           feature_factory_.RatioFeature(object);
           if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
             fabs(difference_from_target_ratio_()))) {
@@ -98,18 +86,14 @@ namespace proc_image_processing {
             cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
           }
 
-          //
           // ANGLE
-          //
           if (!disable_angle_() &&
             (fabs(object->GetRotatedRect().angle - targeted_angle_()) >
               fabs(difference_from_target_angle_()))) {
             continue;
           }
 
-          //
           // RECTANGLE
-          //
           if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
             continue;
           }
@@ -148,11 +132,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     cv::Mat output_image_;
     // Params
     Parameter<bool> enable_, debug_contour_, look_for_rectangle_, disable_ratio_,

@@ -15,13 +15,7 @@ namespace proc_image_processing {
   // No threshold
   class ContrastBrightness : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ContrastBrightness>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit ContrastBrightness(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -36,9 +30,6 @@ namespace proc_image_processing {
     }
 
     virtual ~ContrastBrightness() {}
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
@@ -64,14 +55,9 @@ namespace proc_image_processing {
 
 
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
-
     Parameter<bool> enable_;
     RangedParameter<double> contrast_, brightness_;
     // Color matrices
-
     int rows_;
     int cols_;
   };

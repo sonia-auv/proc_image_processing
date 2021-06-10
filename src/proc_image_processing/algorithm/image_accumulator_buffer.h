@@ -18,15 +18,9 @@ namespace proc_image_processing {
    */
   class ImageAccumulatorBuffer {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<ImageAccumulatorBuffer>;
 
     enum METHOD { ACC_ALL_SAME_WEIGHT, ACC_50_PERCENT, ACC_ADJUST_WEIGHT };
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     /**
      * Creates a circular buffer of bufferLength,
@@ -41,9 +35,6 @@ namespace proc_image_processing {
       METHOD method = ACC_ALL_SAME_WEIGHT);
 
     ~ImageAccumulatorBuffer() {};
-
-    //============================================================================
-    // P U B L I C   M E T H O D S
 
     void AddImage(const cv::Mat& image);
 
@@ -94,9 +85,6 @@ namespace proc_image_processing {
     void GetImage(size_t index, cv::Mat& image);
 
   private:
-    //============================================================================
-    // P R I V A T E   M E T H O D S
-
     /**
      * Averaging methods
      * They all keep the image in CV_32FCN
@@ -125,8 +113,6 @@ namespace proc_image_processing {
      */
     void FillWithBlank();
 
-    //============================================================================
-    // P R I V A T E   M E M B E R S
 
     size_t buffer_size_;
 
@@ -146,23 +132,14 @@ namespace proc_image_processing {
     void (ImageAccumulatorBuffer::* average_method_)(cv::Mat&);
   };
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-  //-----------------------------------------------------------------------------
-  //
   inline int ImageAccumulatorBuffer::GetBufferLength() { return buffer_size_; }
 
-  //-----------------------------------------------------------------------------
-  //
   inline void ImageAccumulatorBuffer::GetImage(size_t index, cv::Mat& image) {
     if (index < buffer_size_) {
       image_vec_[index].copyTo(image);
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline int ImageAccumulatorBuffer::GetIndexFromMostRecent(int elementNumber) {
     // Newest frame
     int index = buffer_current_index_ % buffer_size_;
@@ -176,16 +153,12 @@ namespace proc_image_processing {
     return index;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline int ImageAccumulatorBuffer::GetIndexFromOldest(int elementNumber) {
     // Newest frame
     int index = buffer_current_index_ % buffer_size_;
     return (index + 1 + elementNumber) % buffer_size_;
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ImageAccumulatorBuffer::FillWithBlank() {
     cv::Mat zero = cv::Mat::zeros(image_size_, image_type_);
     // It is possible to call fillWithBlank when the buffer is active,
@@ -196,8 +169,6 @@ namespace proc_image_processing {
     }
   }
 
-  //------------------------------------------------------------------------------
-  //
   inline void ImageAccumulatorBuffer::SetAverageMethod(METHOD method) {
     switch (method) {
     case ACC_ALL_SAME_WEIGHT:

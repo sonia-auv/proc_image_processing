@@ -13,13 +13,7 @@ namespace proc_image_processing {
 
   class TestFilter : public Filter {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<TestFilter>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     explicit TestFilter(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -37,9 +31,6 @@ namespace proc_image_processing {
 
     virtual ~TestFilter() {}
 
-    //============================================================================
-    // P U B L I C   M E T H O D S
-
     virtual void init() {}
 
     virtual void Execute(cv::Mat& image) {
@@ -53,11 +44,7 @@ namespace proc_image_processing {
       }
     }
 
-
   private:
-    //============================================================================
-    // P R I V A T E   M E M B E R S
-
     Parameter<bool> enable_;
     RangedParameter<int> x_, y_, w_, h_, angle_;
     Parameter<std::string> header_, specField1_, specField2_;

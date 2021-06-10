@@ -13,16 +13,10 @@
 #include <sonia_common/Detection.h>
 #include <sonia_common/DetectionArray.h>
 
-
-
 namespace proc_image_processing {
     class Deep2019 : public Filter {
 
     public:
-
-        //============================================================================
-        // P U B L I C   C / D T O R S
-
         explicit Deep2019(const GlobalParamHandler& globalParams) :
             Filter(globalParams),
             nh_(ros::NodeHandle("proc_image_processing")),
@@ -41,11 +35,6 @@ namespace proc_image_processing {
         };
 
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
-
-        //============================================================================
-        // P U B L I C   M E T H O D S
-        //----------------------------------------------------------------------------
-        //
 
         virtual void Execute(cv::Mat& image) {
             if (enable_()) {
@@ -91,7 +80,6 @@ namespace proc_image_processing {
             }
         };
 
-
     private:
         const int BBOX_INFO_RECT_HEIGHT = 30;
         const int BBOX_X_TOP_LEFT_CORRECTION = 5;
@@ -108,7 +96,6 @@ namespace proc_image_processing {
         int image_height_;
         cv::Scalar color_;
 
-
         void boundingBoxCallback(const sonia_common::DetectionArrayConstPtr& msg) {
             if (bounding_box_.empty())
                 bounding_box_.clear();
@@ -123,8 +110,6 @@ namespace proc_image_processing {
             ss << value;
             return ss.str();
         }
-
-
 
         inline void constructTarget(Target& target, const sonia_common::Detection& object) {
             int image_central_x;

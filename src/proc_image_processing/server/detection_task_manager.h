@@ -17,20 +17,11 @@ namespace proc_image_processing {
 
     class DetectionTaskManager {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
-
         using Ptr = std::shared_ptr<DetectionTaskManager>;
-
-        //==========================================================================
-        // P U B L I C   C / D T O R S
 
         DetectionTaskManager();
 
         ~DetectionTaskManager();
-
-        //==========================================================================
-        // P U B L I C   M E T H O D S
 
         std::string StartDetectionTask(const std::string& topic_name,
             Filterchain::Ptr filterchain,
@@ -91,13 +82,7 @@ namespace proc_image_processing {
             const std::string& name) const;
 
     private:
-        //==========================================================================
-        // P R I V A T E   M E T H O D S
-
         DetectionTask::Ptr GetDetectionTask(const std::string& execution_name) const;
-
-        //==========================================================================
-        // P R I V A T E   M E M B E R S
 
         std::vector<DetectionTask::Ptr> detection_tasks_;
     };

@@ -5,7 +5,6 @@
 #ifndef PROC_IMAGE_PROCESSING_WHITE_FILTER_H
 #define PROC_IMAGE_PROCESSING_WHITE_FILTER_H
 
-
 #include <proc_image_processing/filters/filter.h>
 #include <math.h>
 #include <memory>
@@ -14,13 +13,7 @@ namespace proc_image_processing {
 
     class WhiteFilter : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
-
         using Ptr = std::shared_ptr<WhiteFilter>;
-
-        //============================================================================
-        // P U B L I C   C / D T O R S
 
         explicit WhiteFilter(const GlobalParamHandler& globalParams)
             : Filter(globalParams), enable_("Enable", false, &parameters_),
@@ -35,8 +28,6 @@ namespace proc_image_processing {
 
         virtual ~WhiteFilter() {}
 
-        //============================================================================
-        // P U B L I C   M E T H O D S
         virtual void Execute(cv::Mat& image) {
 
             cv::Mat mask;
@@ -50,10 +41,7 @@ namespace proc_image_processing {
 
         }
 
-
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
 
         Parameter<bool> enable_;

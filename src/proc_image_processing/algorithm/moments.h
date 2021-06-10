@@ -14,13 +14,7 @@ namespace proc_image_processing {
 
   class Moments {
   public:
-    //==========================================================================
-    // T Y P E D E F   A N D   E N U M
-
     using Ptr = std::shared_ptr<Moments>;
-
-    //============================================================================
-    // P U B L I C   C / D T O R S
 
     Moments(cv::Mat image, bool binary);
 
@@ -28,13 +22,7 @@ namespace proc_image_processing {
 
     ~Moments();
 
-    //============================================================================
-    // P U B L I C   O P E R A T O R S
-
     void operator=(Moments moments);
-
-    //============================================================================
-    // P U B L I C   M E M B E R S
 
     // Points are in local coordinate, meaning that if the image was taken
     // from a rotated rectangle, the x and y a rotated too!
