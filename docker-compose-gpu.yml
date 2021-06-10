@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  proc_image_processing_gpu:
+    container_name: proc_image_processing
+    restart: unless-stopped
+    image: sonia-auv/proc_image_processing:gpu-latest
+    build:
+      context: .
+      dockerfile: Dockerfile.cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    cap_add:
+      - SYS_PTRACE
+
+  clion_gpu_remote_env:
+    container_name: clion_gpu_remote_env
+    restart: unless-stopped
+    image: sonia-auv/proc_image_processing:clion-gpu
+    build:
+      context: .
+      dockerfile: Dockerfile.clion
+      args:
+        - MODE=gpu
+    ports:
+      - 127.0.0.1:2222:22
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    cap_add:
+      - SYS_PTRACE
+    depends_on:
+      - proc_image_processing_gpu
