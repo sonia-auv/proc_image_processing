@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Filter Generator</title>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="" width="40" height="34"
+                 class="d-inline-block align-text-top">
+            Filter Generator
+        </a>
+    </div>
+</nav>
+<br>
+<div id="content" class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="true" href="#">Filters</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Config</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Generate</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <table class="table table-light table-striped">
+                <thead>
+                <tr class="table-dark">
+                    <th scope="col">File path</th>
+                    <th scope="col">File name</th>
+                    <th scope="col">Object name</th>
+                    <th scope="col">Included</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for filename, filepath in filters %}
+                    <tr>
+                        <td>{{ filepath }}</td>
+                        <td>{{ filename }}</td>
+                        <td>TODO</td>
+                        <td>TODO</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+
+
+    {% block content %}{% endblock %}
+</div>
+
+
+</body>
+</html>

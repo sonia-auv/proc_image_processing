@@ -1,0 +1,10 @@
+{
+  "filters-path": {
+    "type": "string",
+    "minLength": 1
+  },
+  "factory-path": {
+    "type": "string",
+    "minLength": 1
+  }
+}

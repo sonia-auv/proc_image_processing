@@ -1,0 +1,4 @@
+Flask
+jsonschema
+PyYAML
+pytest
