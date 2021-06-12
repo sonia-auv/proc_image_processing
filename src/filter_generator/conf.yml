@@ -1,2 +1,4 @@
 filters-path: ../proc_image_processing/filters/
 factory-path: ../proc_image_processing/server/
+factory-name: filter_factory.cc
+factory-header-name: filter_factory.h

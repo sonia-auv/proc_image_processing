@@ -6,5 +6,13 @@
   "factory-path": {
     "type": "string",
     "minLength": 1
+  },
+  "factory-name": {
+    "type": "string",
+    "minLength": 1
+  },
+  "factory-header-name": {
+    "type": "string",
+    "minLength": 1
   }
 }

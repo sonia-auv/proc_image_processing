@@ -24,6 +24,8 @@ namespace proc_image_processing {
 
 Filter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
+  // <FILTER_GENERATOR_CREATE_INSTANCE>
+  // <FILTER_GENERATOR_CREATE_INSTANCE/>
   if (name == "Blurr") {
     return new Blurr(globalParams);
   } else if (name == "Dilate") {
@@ -134,6 +136,8 @@ Filter *FilterFactory::createInstance(const std::string &name,
 }
 
 std::string FilterFactory::GetFilterList() {
+  // <FILTER_GENERATOR_FILTER_LIST>
+  // <FILTER_GENERATOR_FILTER_LIST/>
   return "Blurr;Dilate;Erode;MissionTestFakeString;TestFilter;"
          "BuoySingle;Morphology;OriginalImage;Scharr;ScharrAdding;"
          "StatsThreshold;SubtractAllPlanes;Threshold;BuoySingle;Rotate;"

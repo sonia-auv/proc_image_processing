@@ -20,7 +20,7 @@
 
 #ifndef PROVIDER_VISION_FILTER_FACTORY_H_
 #define PROVIDER_VISION_FILTER_FACTORY_H_
-
+// <FILTER_GENERATOR_HEADER_INCLUDES>
 #include <proc_image_processing/filters/adaptive_threshold.h>
 #include <proc_image_processing/filters/background_substract.h>
 #include <proc_image_processing/filters/bilateral_filter.h>
@@ -73,6 +73,8 @@
 #include <proc_image_processing/filters/vampire_torpidoes_detector_close.h>
 #include <proc_image_processing/filters/threshold_between.h>
 #include <proc_image_processing/filters/center_coffin_detector.h>
+// <FILTER_GENERATOR_HEADER_INCLUDES/>
+
 #include <memory>
 #include <string>
 
