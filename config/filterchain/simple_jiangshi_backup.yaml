@@ -30,7 +30,7 @@ filters:
         value: 1
       - name: Max_value
         value: 100
-  - name: VampireTorpidoesDetector
+  - name: VampireTorpedoesDetector
     parameters:
       - name: Enable
         value: 1
