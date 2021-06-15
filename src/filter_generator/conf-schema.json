@@ -1,4 +1,8 @@
 {
+  "project-path": {
+    "type": "string",
+    "minLength": 1
+  },
   "filters-path": {
     "type": "string",
     "minLength": 1
@@ -14,5 +18,12 @@
   "factory-header-filename": {
     "type": "string",
     "minLength": 1
+  },
+  "excluded-filters": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "minLength": 3
+    }
   }
 }

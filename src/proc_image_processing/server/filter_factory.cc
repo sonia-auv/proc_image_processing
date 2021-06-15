@@ -24,8 +24,7 @@ namespace proc_image_processing {
 
 Filter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
-  // <FILTER_GENERATOR_CREATE_INSTANCE>
-  // <FILTER_GENERATOR_CREATE_INSTANCE/>
+  // <FILTER_GENERATOR_INSTANCE_CREATION>
   if (name == "Blurr") {
     return new Blurr(globalParams);
   } else if (name == "Dilate") {
@@ -133,12 +132,12 @@ Filter *FilterFactory::createInstance(const std::string &name,
   }else {
     return nullptr;
   }
+  // <FILTER_GENERATOR_INSTANCE_CREATION/>
 }
 
 std::string FilterFactory::GetFilterList() {
-  // <FILTER_GENERATOR_FILTER_LIST>
-  // <FILTER_GENERATOR_FILTER_LIST/>
-  return "Blurr;Dilate;Erode;MissionTestFakeString;TestFilter;"
+  // <FILTER_GENERATOR_FILTERS_LIST>
+    return "Blurr;Dilate;Erode;MissionTestFakeString;TestFilter;"
          "BuoySingle;Morphology;OriginalImage;Scharr;ScharrAdding;"
          "StatsThreshold;SubtractAllPlanes;Threshold;BuoySingle;Rotate;"
          "FenceDetector;ImageAccumulator;ObjectFeatureCalculator;"
@@ -150,6 +149,7 @@ std::string FilterFactory::GetFilterList() {
          "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
          "DeepDice;PipeDetectorAngle;Deep2019;VampireTorpidoesDetector;VampireBodyDetector;"
          "VampireTorpidoesDetectorClose;ThresholdBetween;CenterCoffinDetector";
+  // <FILTER_GENERATOR_FILTERS_LIST/>
 }
 
 }  // namespace proc_image_processing

@@ -18,8 +18,9 @@ def get_conf() -> dict:
             conf = yaml.load(f, Loader=yaml.FullLoader)
         try:
             validate(conf, schema)
-            validate_and_fix_path(conf, "filters-path")
-            validate_and_fix_path(conf, "factory-path")
+            validate_and_fix_path(conf, "project-path")
+            conf["filters-path"] = conf["project-path"].joinpath(conf["filters-path"])
+            conf["factory-path"] = conf["project-path"].joinpath(conf["factory-path"])
             return conf
         except ValidationError as ve:
             logging.warning("Invalid configuration file, default values will be used. Error: " + str(ve))
@@ -39,9 +40,11 @@ def validate_and_fix_path(conf: dict, key: str):
 
 
 def get_default_conf_values() -> dict:
+    project_path = current_path.joinpath('../../proc_image_processing').absolute()
     return {
-        "filters-path": current_path.joinpath('../../proc_image_processing/filters/').absolute(),
-        "factory-path": current_path.joinpath('../../proc_image_processing/server/').absolute(),
+        "project-root": project_path,
+        "filters-path": project_path.joinpath('filters/'),
+        "factory-path": project_path.joinpath('server/'),
         "factory-filename": "filter_factory.cc",
         "factory-header-filename": "filter_factory.h"
     }

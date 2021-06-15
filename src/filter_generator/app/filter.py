@@ -14,8 +14,9 @@ def load(path: Path) -> Filter:
     return Filter(path, path.name, content)
 
 
-def load_all(paths: list) -> list:
+def load_all(paths: list, excluded_filters: list) -> list:
     filters = list()
     for path in paths:
-        filters.append(load(path))
+        if path.name not in excluded_filters:
+            filters.append(load(path))
     return filters
