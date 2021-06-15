@@ -43,26 +43,24 @@
                 <tr class="table-dark">
                     <th scope="col">File path</th>
                     <th scope="col">File name</th>
-                    <th scope="col">Object name</th>
                     <th scope="col">Included</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for filename, filepath in filters %}
-                    <tr>
-                        <td>{{ filepath }}</td>
-                        <td>{{ filename }}</td>
-                        <td>TODO</td>
-                        <td>TODO</td>
-                    </tr>
+                {% for filter in filters %}
+                <tr>
+                    <td>{{ filter.path }}</td>
+                    <td>{{ filter.filename }}</td>
+                    <td><input class="form-check-input" id="checkbox-{{ filter.filename }}" type="checkbox"
+                               value="{{ filter.filename }}"></td>
+                </tr>
                 {% endfor %}
                 </tbody>
             </table>
             <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
     </div>
-
-
+    <br>
     {% block content %}{% endblock %}
 </div>
 

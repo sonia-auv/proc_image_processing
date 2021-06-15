@@ -7,11 +7,11 @@
     "type": "string",
     "minLength": 1
   },
-  "factory-name": {
+  "factory-filename": {
     "type": "string",
     "minLength": 1
   },
-  "factory-header-name": {
+  "factory-header-filename": {
     "type": "string",
     "minLength": 1
   }

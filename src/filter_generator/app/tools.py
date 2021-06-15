@@ -42,8 +42,8 @@ def get_default_conf_values() -> dict:
     return {
         "filters-path": current_path.joinpath('../../proc_image_processing/filters/').absolute(),
         "factory-path": current_path.joinpath('../../proc_image_processing/server/').absolute(),
-        "factory-name": "filter_factory.cc",
-        "factory-header-name": "filter_factory.h"
+        "factory-filename": "filter_factory.cc",
+        "factory-header-filename": "filter_factory.h"
     }
 
 
@@ -54,5 +54,5 @@ def get_files_from_path(path: Path, recurse=False) -> list:
         paths = path.glob('*')
     out = []
     for file in [i for i in paths if i.is_file()]:
-        out.append((file.name, file))
+        out.append(file)
     return out
