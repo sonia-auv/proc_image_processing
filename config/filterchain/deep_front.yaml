@@ -94,7 +94,7 @@ filters:
         value: 0
       - name: Max_value
         value: 100
-  - name: VampireTorpidoesDetectorClose
+  - name: VampireTorpedoesDetectorClose
     parameters:
       - name: Enable
         value: 1

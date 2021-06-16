@@ -17,8 +17,8 @@
 /// You should have received a copy of the GNU General Public License
 /// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PROVIDER_VISION_FILTERS_PIPE_DETECTOR_ANGLE_H_
-#define PROVIDER_VISION_FILTERS_PIPE_DETECTOR_ANGLE_H_
+#ifndef PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
+#define PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
 
 #include <proc_image_processing/algorithm/general_function.h>
 #include <proc_image_processing/algorithm/object_full_data.h>
@@ -30,32 +30,23 @@
 
 namespace proc_image_processing {
 
-    class PipeDetectorAngle : public Filter {
+    class PipeAngleDetector : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
+        using Ptr = std::shared_ptr<PipeAngleDetector>;
 
-        using Ptr = std::shared_ptr<PipeDetectorAngle>;
-
-        //============================================================================
-        // P U B L I C   C / D T O R S
-
-        explicit PipeDetectorAngle(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                  angle_(0.0f),
-                  enable_("Enable", false, &parameters_),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  min_area_("Min_area", 200, 0, 10000, &parameters_),
-                  min_pixel_("Min_pixel", 0, 20, 100, &parameters_){
-            SetName("PipeDetectorAngle");
+        explicit PipeAngleDetector(const GlobalParamHandler& globalParams)
+            : Filter(globalParams),
+            angle_(0.0f),
+            enable_("Enable", false, &parameters_),
+            debug_contour_("Debug_contour", false, &parameters_),
+            min_area_("Min_area", 200, 0, 10000, &parameters_),
+            min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
+            SetName("PipeAngleDetector");
         }
 
-        virtual ~PipeDetectorAngle() {}
+        virtual ~PipeAngleDetector() {}
 
-        //============================================================================
-        // P U B L I C   M E T H O D S
-
-        virtual void Execute(cv::Mat &image) {
+        virtual void Execute(cv::Mat& image) {
             if (enable_()) {
                 intersectionPoint_.clear();
                 if (debug_contour_()) {
@@ -75,19 +66,18 @@ namespace proc_image_processing {
                 RetrieveOuterContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 ObjectFullData::Ptr firstObject = nullptr;
-                ObjectFullData::Ptr lastObject  = nullptr;
+                ObjectFullData::Ptr lastObject = nullptr;
                 for (int i = 0, size = contours.size(); i < size; i++) {
                     ObjectFullData::Ptr object =
-                            std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                        std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 
                     std::vector<cv::Point> realContour = contours[i];
 
                     if (object.get() == nullptr) {
                         continue;
                     }
-                    //
+
                     // AREA
-                    //
                     if (object->GetArea() < min_area_()) {
                         continue;
                     }
@@ -100,12 +90,9 @@ namespace proc_image_processing {
 
                     std::vector<std::tuple<cv::Point, int>> intersectionPoint;
 
-                    for (cv::Point &linePoint : perpendicularLine)
-                    {
-                        for (size_t id = 0; id < realContour.size(); id++)
-                        {
-                            if (std::abs(cv::norm(linePoint - realContour[id])) < min_pixel_())
-                            {
+                    for (cv::Point& linePoint : perpendicularLine) {
+                        for (size_t id = 0; id < realContour.size(); id++) {
+                            if (std::abs(cv::norm(linePoint - realContour[id])) < min_pixel_()) {
                                 std::tuple<cv::Point, int> data = std::make_tuple(realContour[id], id);
                                 intersectionPoint.push_back(data);
                             }
@@ -113,13 +100,11 @@ namespace proc_image_processing {
                     }
 
                     bool oneTime = false;
-                    for (std::tuple<cv::Point, int> &pointAndId1 : intersectionPoint)
-                    {
-                        for (std::tuple<cv::Point, int> &pointAndId2 : intersectionPoint) {
+                    for (std::tuple<cv::Point, int>& pointAndId1 : intersectionPoint) {
+                        for (std::tuple<cv::Point, int>& pointAndId2 : intersectionPoint) {
                             int id1 = std::get<1>(pointAndId1);
                             int id2 = std::get<1>(pointAndId2);
-                            if (std::abs(id2 - id1) >= (float)realContour.size() / 2 && !oneTime)
-                            {
+                            if (std::abs(id2 - id1) >= (float)realContour.size() / 2 && !oneTime) {
                                 intersectionPoint_.push_back(pointAndId2);
                                 intersectionPoint_.push_back(pointAndId1);
                                 oneTime = true;
@@ -131,98 +116,80 @@ namespace proc_image_processing {
                     std::vector<int> firstContourId;
                     std::vector<int> lastContourId;
 
-                    if (intersectionPoint_.size() == 2)
-                    {
+                    if (intersectionPoint_.size() == 2) {
                         int idMax = std::max(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
                         int idMin = std::min(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
 
 
-                        for (int idLastContour = idMin; idLastContour <= idMax; idLastContour++)
-                        {
+                        for (int idLastContour = idMin; idLastContour <= idMax; idLastContour++) {
                             lastContourId.push_back(idLastContour);
                         }
 
                         int contourSize = (int)contours[i].size();
-                        while (idMax != idMin)
-                        {
-                            if (idMax > (contourSize - 1))
-                            {
+                        while (idMax != idMin) {
+                            if (idMax > (contourSize - 1)) {
                                 idMax = idMax - contourSize;
-                            } else
-                            {
+                            }
+                            else {
                                 firstContourId.push_back(idMax);
                                 idMax++;
                             }
                         }
 
-
                         std::vector<cv::Point> firstContour;
                         std::vector<cv::Point> lastContour;
 
-                        for (int &id : firstContourId)
-                        {
+                        for (int& id : firstContourId) {
                             firstContour.push_back(realContour[id]);
                         }
 
-                        for (int &id : lastContourId)
-                        {
+                        for (int& id : lastContourId) {
                             lastContour.push_back(realContour[id]);
                         }
 
                         firstObject = std::make_shared<ObjectFullData>(originalImage, image, firstContour);
-                        lastObject  = std::make_shared<ObjectFullData>(originalImage, image, lastContour);
-
+                        lastObject = std::make_shared<ObjectFullData>(originalImage, image, lastContour);
                     }
 
-                    if (debug_contour_())
-                    {
+                    if (debug_contour_()) {
                         cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                     }
-
                     objVec.push_back(object);
                 }
 
                 std::sort(objVec.begin(), objVec.end(),
-                          [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                              return a->GetArea() > b->GetArea();
-                          });
-
+                    [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                        return a->GetArea() > b->GetArea();
+                    });
 
                 // Since we search only one buoy, get the biggest from sort function
-                if (objVec.size() > 0)
-                {
-                    if (firstObject != nullptr && lastObject != nullptr)
-                    {
+                if (objVec.size() > 0) {
+                    if (firstObject != nullptr && lastObject != nullptr) {
                         angle_ = firstObject->GetCenter().y > lastObject->GetCenter().y ? lastObject->GetRotatedRect().angle : firstObject->GetRotatedRect().angle;
 
-                        if (debug_contour_())
-                        {
-                            if (firstObject->GetCenter().y > lastObject->GetCenter().y)
-                            {
+                        if (debug_contour_()) {
+                            if (firstObject->GetCenter().y > lastObject->GetCenter().y) {
                                 cv::circle(output_image_, lastObject->GetCenter(), 3, CV_RGB(0, 0, 255), 3);
 
-                            } else
-                            {
+                            }
+                            else {
                                 cv::circle(output_image_, firstObject->GetCenter(), 3, CV_RGB(0, 0, 255), 3);
                             }
                         }
                     }
-
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->GetCenter();
                     target.SetTarget("pipe", center.x, center.y, object->GetWidth(),
-                                     object->GetHeight(), angle_,
-                                     image.rows, image.cols);
+                        object->GetHeight(), angle_,
+                        image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->GetCenter(), 3,
-                                   CV_RGB(0, 255, 0), 3);
+                            CV_RGB(0, 255, 0), 3);
 
                     }
-
                 }
-
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
@@ -230,9 +197,6 @@ namespace proc_image_processing {
         }
 
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
-
         cv::Mat output_image_;
 
         float angle_;
@@ -246,4 +210,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_PIPE_DETECTOR_ANGLE_H_
+#endif  // PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
