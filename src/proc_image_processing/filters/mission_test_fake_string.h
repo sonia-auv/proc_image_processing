@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FILTER_GENERATOR_CLASS_NAME=MissionTestFakeString
 
 #ifndef PROVIDER_VISION_FILTERS_MISSION_TEST_FAKE_STRING_H_
 #define PROVIDER_VISION_FILTERS_MISSION_TEST_FAKE_STRING_H_

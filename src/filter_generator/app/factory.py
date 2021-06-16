@@ -12,22 +12,25 @@ class Factory:
 
     def generate(self):
         for i in range(len(self.content)):
-            if self.tags["filters-list-start"] in self.content[i]:
-                idx = i + 1
-                while self.tags["filters-list-end"] not in self.content[idx]:
-                    self.content.pop(idx)
-                for j in range(len(self.included_filters)):
-                    # TODO
-                    pass
             if self.tags["instance-creation-start"] in self.content[i]:
                 idx = i + 1
                 while self.tags["instance-creation-end"] not in self.content[idx]:
                     self.content.pop(idx)
                 for j in range(len(self.included_filters)):
-                    # TODO
-                    pass
-        # with open(self.path, 'w') as f:
-        #     f.write("".join(self.content))
+                    class_name = self.included_filters[j].class_name
+                    self.content.insert(idx + j,
+                                        "\tcase '" + class_name + "':\n\t\treturn new " + class_name + "(globalParams);\n")
+                break
+        for i in range(len(self.content)):
+            if self.tags["filters-list-start"] in self.content[i]:
+                idx = i + 1
+                while self.tags["filters-list-end"] not in self.content[idx]:
+                    self.content.pop(idx)
+                self.content.insert(idx,
+                                    "\treturn '" + ";".join([a.class_name for a in self.included_filters]) + "';\n")
+                break
+        with open(self.path, 'w') as f:
+            f.write("".join(self.content))
 
 
 def load(project_path, path: Path, filters: list, tags: dict) -> Factory:

@@ -1,5 +1,6 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 
+// FILTER_GENERATOR_CLASS_NAME=ImageCropper
 
 #ifndef PROVIDER_VISION_FILTERS_IMAGE_CROPPER_H_
 #define PROVIDER_VISION_FILTERS_IMAGE_CROPPER_H_

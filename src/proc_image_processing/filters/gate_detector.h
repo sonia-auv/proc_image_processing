@@ -2,6 +2,8 @@
 // Created by sonia on 7/27/16.
 //
 
+// FILTER_GENERATOR_CLASS_NAME=GateDetector
+
 #ifndef PROVIDER_VISION_GATE_DETECTOR_H
 #define PROVIDER_VISION_GATE_DETECTOR_H
 

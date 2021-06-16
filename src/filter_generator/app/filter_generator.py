@@ -5,11 +5,13 @@ import factory_header as fah
 import filter as f
 from tools import get_conf, get_files_from_path
 
-if __name__ == '__main__':
+
+def generate():
     conf = get_conf()
     filters = f.load_all(
         get_files_from_path(conf["filters-path"]),
-        conf["excluded-filters"]
+        conf["excluded-filters"],
+        conf["tags"]["filter"]
     )
     factory_header = fah.load(
         conf["project-path"],
@@ -24,3 +26,8 @@ if __name__ == '__main__':
         filters,
         conf["tags"]["factory"]
     )
+    factory.generate()
+
+
+if __name__ == '__main__':
+    generate()

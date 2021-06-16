@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FILTER_GENERATOR_CLASS_NAME=SubtractPlaneAdder
 
 #ifndef PROVIDER_VISION_FILTERS_SUBTRACT_PLANES_ADDER_H_
 #define PROVIDER_VISION_FILTERS_SUBTRACT_PLANES_ADDER_H_

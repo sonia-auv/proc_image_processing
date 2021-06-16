@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 from unittest import TestCase
 
-from app.tools import get_conf, current_path
+from filter_generator.tools import get_conf, current_path
 
 
 class TestTools(TestCase):

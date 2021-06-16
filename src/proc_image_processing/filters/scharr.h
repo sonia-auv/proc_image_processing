@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FILTER_GENERATOR_CLASS_NAME=Scharr
 
 #ifndef PROVIDER_VISION_FILTERS_SHCARR_H_
 #define PROVIDER_VISION_FILTERS_SHCARR_H_

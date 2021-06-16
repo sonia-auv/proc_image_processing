@@ -8,110 +8,103 @@
 namespace proc_image_processing {
 Filter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
-  // <FILTER_GENERATOR_INSTANCE_CREATION>
-  if (name == "Blurr") {
-    return new Blurr(globalParams);
-  } else if (name == "Dilate") {
-    return new Dilate(globalParams);
-  } else if (name == "Erode") {
-    return new Erode(globalParams);
-  } else if (name == "MissionTestFakeString") {
-    return new MissionTestFakeString(globalParams);
-  } else if (name == "TestFilter") {
-    return new TestFilter(globalParams);
-  } else if (name == "Morphology") {
-    return new Morphology(globalParams);
-  } else if (name == "OriginalImage") {
-    return new OriginalImage(globalParams);
-  } else if (name == "Scharr") {
-    return new Scharr(globalParams);
-  } else if (name == "ScharrAdding") {
-    return new ScharrAdding(globalParams);
-  } else if (name == "StatsThreshold") {
-    return new StatsThreshold(globalParams);
-  } else if (name == "SubtractAllPlanes") {
-    return new SubtractAllPlanes(globalParams);
-  } else if (name == "Threshold") {
-    return new Threshold(globalParams);
-  } else if (name == "Rotate") {
-    return new Rotate(globalParams);
-  } else if (name == "FenceDetector") {
-    return new FenceDetector(globalParams);
-  } else if (name == "ImageAccumulator") {
-    return new ImageAccumulator(globalParams);
-  } else if (name == "Sobel") {
-    return new Sobel(globalParams);
-  } else if (name == "SubmarineFrameMasker") {
-    return new SubmarineFrameMasker(globalParams);
-  } else if (name == "InRange") {
-    return new InRange(globalParams);
-  } else if (name == "ConvexHull") {
-    return new ConvexHull(globalParams);
-  } else if (name == "Laplacian") {
-    return new Laplacian(globalParams);
-  } else if (name == "Canny") {
-    return new Canny(globalParams);
-  } else if (name == "HoughLine") {
-    return new HoughLine(globalParams);
-  } else if (name == "AdaptiveThreshold") {
-    return new AdaptiveThreshold(globalParams);
-  } else if (name == "HandleDetector") {
-    return new HandleDetector(globalParams);
-  } else if (name == "WhiteNoiseTakedown") {
-    return new WhiteNoiseTakedown(globalParams);
-  } else if (name == "BilateralFilter") {
-    return new BilateralFilter(globalParams);
-  } else if (name == "BackgroundSubstract") {
-    return new BackgroundSubstract(globalParams);
-  } else if (name == "ImageCropper") {
-    return new ImageCropper(globalParams);
-  } else if (name == "GateDetector") {
-    return new GateDetector(globalParams);
-  } else if (name == "RemoveMask") {
-    return new RemoveMask(globalParams);
-  } else if (name == "Equalize") {
-    return new Equalize(globalParams);
-  } else if (name == "HSVThreshold") {
-    return new HSVThreshold(globalParams);
-  } else if (name == "ContrastBrightness") {
-    return new ContrastBrightness(globalParams);
-  } else if (name == "SquareDetection") {
-    return new SquareDetection(globalParams);
-  } else if (name == "WhiteFilter") {
-    return new WhiteFilter(globalParams);
-  } else if (name == "PipeAngleDetector") {
-    return new PipeAngleDetector(globalParams);
-  } else if (name == "Deep2019") {
-    return new Deep2019(globalParams);
-  } else if (name == "VampireTorpedoesDetector") {
-    return new VampireTorpedoesDetector(globalParams);
-  } else if (name == "VampireBodyDetector") {
-    return new VampireBodyDetector(globalParams);
-  } else if (name == "VampireTorpedoesDetectorClose") {
-    return new VampireTorpedoesDetectorClose(globalParams);
-  } else if (name == "ThresholdBetween") {
-    return new ThresholdBetween(globalParams);
-  } else if (name == "CenterCoffinDetector") {
-    return new CenterCoffinDetector(globalParams);
-  } else {
-    return nullptr;
+  switch(name){
+    // <FILTER_GENERATOR_INSTANCE_CREATION>
+	case 'AdaptiveThreshold':
+		return new AdaptiveThreshold(globalParams);
+	case 'BackgroundSubstract':
+		return new BackgroundSubstract(globalParams);
+	case 'BilateralFilter':
+		return new BilateralFilter(globalParams);
+	case 'Blurr':
+		return new Blurr(globalParams);
+	case 'Canny':
+		return new Canny(globalParams);
+	case 'CenterCoffinDetector':
+		return new CenterCoffinDetector(globalParams);
+	case 'ContrastBrightness':
+		return new ContrastBrightness(globalParams);
+	case 'ConvexHull':
+		return new ConvexHull(globalParams);
+	case 'Deep2019':
+		return new Deep2019(globalParams);
+	case 'Dilate':
+		return new Dilate(globalParams);
+	case 'Equalize':
+		return new Equalize(globalParams);
+	case 'Erode':
+		return new Erode(globalParams);
+	case 'FenceDetector':
+		return new FenceDetector(globalParams);
+	case 'GateDetector':
+		return new GateDetector(globalParams);
+	case 'HandleDetector':
+		return new HandleDetector(globalParams);
+	case 'HoughLine':
+		return new HoughLine(globalParams);
+	case 'HSVThreshold':
+		return new HSVThreshold(globalParams);
+	case 'ImageAccumulator':
+		return new ImageAccumulator(globalParams);
+	case 'ImageCropper':
+		return new ImageCropper(globalParams);
+	case 'InRange':
+		return new InRange(globalParams);
+	case 'Laplacian':
+		return new Laplacian(globalParams);
+	case 'MissionTestFakeString':
+		return new MissionTestFakeString(globalParams);
+	case 'Morphology':
+		return new Morphology(globalParams);
+	case 'OriginalImage':
+		return new OriginalImage(globalParams);
+	case 'PipeAngleDetector':
+		return new PipeAngleDetector(globalParams);
+	case 'RemoveMask':
+		return new RemoveMask(globalParams);
+	case 'Rotate':
+		return new Rotate(globalParams);
+	case 'Scharr':
+		return new Scharr(globalParams);
+	case 'ScharrAdding':
+		return new ScharrAdding(globalParams);
+	case 'Sobel':
+		return new Sobel(globalParams);
+	case 'SquareDetection':
+		return new SquareDetection(globalParams);
+	case 'StatsThreshold':
+		return new StatsThreshold(globalParams);
+	case 'SubmarineFrameMasker':
+		return new SubmarineFrameMasker(globalParams);
+	case 'SubtractAllPlanes':
+		return new SubtractAllPlanes(globalParams);
+	case 'SubtractPlaneAdder':
+		return new SubtractPlaneAdder(globalParams);
+	case 'TestFilter':
+		return new TestFilter(globalParams);
+	case 'Threshold':
+		return new Threshold(globalParams);
+	case 'ThresholdBetween':
+		return new ThresholdBetween(globalParams);
+	case 'VampireBodyDetector':
+		return new VampireBodyDetector(globalParams);
+	case 'VampireTorpedoesDetectorClose':
+		return new VampireTorpedoesDetectorClose(globalParams);
+	case 'VampireTorpedoesDetector':
+		return new VampireTorpedoesDetector(globalParams);
+	case 'WhiteFilter':
+		return new WhiteFilter(globalParams);
+	case 'WhiteNoiseTakedown':
+		return new WhiteNoiseTakedown(globalParams);
+    // <FILTER_GENERATOR_INSTANCE_CREATION/>
+    default:
+        return nullptr;
   }
-  // <FILTER_GENERATOR_INSTANCE_CREATION/>
 }
 
 std::string FilterFactory::GetFilterList() {
 // <FILTER_GENERATOR_FILTERS_LIST>
-  return "Blurr;Dilate;Erode;MissionTestFakeString;TestFilter;"
-         "Morphology;OriginalImage;Scharr;ScharrAdding;"
-         "StatsThreshold;SubtractAllPlanes;Threshold;Rotate;"
-         "FenceDetector;ImageAccumulator;"
-         "Sobel;SubmarineFrameMasker;InRange;ConvexHull;"
-         "Laplacian;Canny;HoughLine;AdaptiveThreshold;"
-         "HandleDetector;WhiteNoiseTakedown;BilateralFilter;"
-         "BackgroundSubstract;ImageCropper;GateDetector;RemoveMask;"
-         "HSVThreshold;ContrastBrightness;Equalize;SquareDetection;WhiteFilter;"
-         "PipeAngleDetector;Deep2019;VampireTorpedoesDetector;VampireBodyDetector;"
-         "VampireTorpedoesDetectorClose;ThresholdBetween;CenterCoffinDetector";
+return 'AdaptiveThreshold;BackgroundSubstract;BilateralFilter;Blurr;Canny;CenterCoffinDetector;ContrastBrightness;ConvexHull;Deep2019;Dilate;Equalize;Erode;FenceDetector;GateDetector;HandleDetector;HoughLine;HSVThreshold;ImageAccumulator;ImageCropper;InRange;Laplacian;MissionTestFakeString;Morphology;OriginalImage;PipeAngleDetector;RemoveMask;Rotate;Scharr;ScharrAdding;Sobel;SquareDetection;StatsThreshold;SubmarineFrameMasker;SubtractAllPlanes;SubtractPlaneAdder;TestFilter;Threshold;ThresholdBetween;VampireBodyDetector;VampireTorpedoesDetectorClose;VampireTorpedoesDetector;WhiteFilter;WhiteNoiseTakedown';
          // <FILTER_GENERATOR_FILTERS_LIST/>
 }
 
