@@ -13,13 +13,57 @@
   },
   "factory-filename": {
     "type": "string",
-    "minLength": 1
+    "minLength": 4
   },
   "factory-header-filename": {
     "type": "string",
-    "minLength": 1
+    "minLength": 3
   },
-  "excluded-filters": {
+  "tags": {
+    "type": "object",
+    "properties": {
+      "factory-header": {
+        "type": "object",
+        "properties": {
+          "includes-start": {
+            "type": "string"
+          },
+          "includes-end": {
+            "type": "string"
+          }
+        }
+      },
+      "factory": {
+        "type": "object",
+        "properties": {
+          "filters-list-start": {
+            "type": "string"
+          },
+          "filters-list-end": {
+            "type": "string"
+          },
+          "instance-creation-start": {
+            "type": "string"
+          },
+          "instance-creation-stop": {
+            "type": "string"
+          }
+        }
+      },
+      "filter": {
+        "type": "object",
+        "properties": {
+          "class-name": {
+            "type": "string"
+          },
+          "class-name-separator": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "excluded-filter-headers": {
     "type": "array",
     "items": {
       "type": "string",

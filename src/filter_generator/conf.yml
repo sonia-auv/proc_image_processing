@@ -15,6 +15,6 @@ tags:
   filter:
     class-name: FILTER_GENERATOR_CLASS_NAME
     class-name-separator: "="
-excluded-filters:
+excluded-filter-headers:
   - filter.h
   - filter_inl.h

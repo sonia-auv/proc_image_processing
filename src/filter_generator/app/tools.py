@@ -1,61 +1,57 @@
 import json
-import logging
 from pathlib import Path
 
 import yaml
-from jsonschema import validate, ValidationError
+from jsonschema import validate
+
+from filter_generator_exception import FilterGeneratorException
 
 current_path = Path(__file__).parent.absolute()
 
 
-def get_conf() -> dict:
+def get_conf_schema() -> dict:
     schema_path = current_path.joinpath('../conf-schema.json')
-    conf_path = current_path.joinpath('../conf.yml')
     if schema_path.is_file():
         with open(schema_path) as f:
             schema = json.load(f)
+        return schema
+    raise FilterGeneratorException("Cannot find configuration schema file (conf-schema.json)!")
+
+
+def get_conf() -> dict:
+    conf_path = current_path.joinpath('../conf.yml')
+    if conf_path.is_file():
         with open(conf_path) as f:
             conf = yaml.load(f, Loader=yaml.FullLoader)
-        try:
-            validate(conf, schema)
-            validate_and_fix_path(conf, "project-path")
-            conf["filters-path"] = conf["project-path"].joinpath(conf["filters-path"])
-            conf["factory-path"] = conf["project-path"].joinpath(conf["factory-path"])
-            return conf
-        except ValidationError as ve:
-            logging.warning("Invalid configuration file, default values will be used. Error: " + str(ve))
-            return get_default_conf_values()
-    return get_default_conf_values()
+        return conf
+    raise FilterGeneratorException("Cannot find configuration file (conf.yml)!")
 
 
-def validate_and_fix_path(conf: dict, key: str):
-    path = Path(conf[key])
+def validate_and_fix_path(p):
+    path = Path(p)
     if not path.is_absolute() and not path.exists():
-        path = Path(current_path, '../', conf[key])
+        path = Path(current_path, '../', p)
         if not path.exists():
-            raise ValidationError("Invalid path: " + str(path))
-        conf[key] = path
-    else:
-        conf[key] = Path(conf[key])
+            raise FilterGeneratorException("Cannot find path '" + p + "'.")
+    return path
 
 
-def get_default_conf_values() -> dict:
-    project_path = current_path.joinpath('../../proc_image_processing').absolute()
-    return {
-        "project-root": project_path,
-        "filters-path": project_path.joinpath('filters/'),
-        "factory-path": project_path.joinpath('server/'),
-        "factory-filename": "filter_factory.cc",
-        "factory-header-filename": "filter_factory.h"
-    }
-
-
-def get_files_from_path(path: Path, recurse=False) -> list:
+def get_files_from_path(path: Path, recurse=False, extension="") -> list:
     if recurse:
-        paths = path.glob('*/**')
+        paths = path.rglob('*' + extension)
     else:
-        paths = path.glob('*')
+        paths = path.glob('*' + extension)
     out = []
     for file in [i for i in paths if i.is_file()]:
         out.append(file)
     return out
+
+
+def validate_and_get_conf() -> dict:
+    schema = get_conf_schema()
+    conf = get_conf()
+    validate(conf, schema)
+    conf["project-path"] = validate_and_fix_path(conf["project-path"])
+    conf["filters-path"] = conf["project-path"].joinpath(conf["filters-path"])
+    conf["factory-path"] = conf["project-path"].joinpath(conf["factory-path"])
+    return conf

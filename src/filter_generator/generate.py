@@ -1,4 +1,10 @@
-from app.filter_generator import generate
+import logging
+
+from app.filter_generator import FilterGenerator
 
 if __name__ == "__main__":
-    generate()
+    try:
+        generator = FilterGenerator()
+        generator.generate()
+    except:
+        logging.warning("Cannot generate, please fix errors first!")
