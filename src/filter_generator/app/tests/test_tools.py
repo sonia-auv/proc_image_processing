@@ -169,15 +169,11 @@ class TestTools(TestCase):
             self.assertTrue(file.name in expected_files)
 
     def test_validate_and_get_conf(self):
-        # Assert success
-        self.assertTrue(isinstance(tools.validate_and_get_conf(), dict))
-
-        # Assert failures
-        conf = tools.get_conf()
-
-        tools.current_path = Path("bad")
-        with self.assertRaises(FilterGeneratorException):
-            tools.validate_and_get_conf()
+        conf = tools.validate_and_get_conf()
+        self.assertTrue(isinstance(conf, dict))
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing'), conf["project-path"])
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/filters'), conf["filters-path"])
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/server'), conf["factory-path"])
 
 
 if __name__ == "__main__":
