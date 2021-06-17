@@ -1,0 +1,1 @@
+// BAD_GENERATOR_CLASS_NAME=TestFilter1

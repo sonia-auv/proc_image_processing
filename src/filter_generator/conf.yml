@@ -12,7 +12,7 @@ tags:
     filters-list-end: <FILTER_GENERATOR_FILTERS_LIST/>
     instance-creation-start: <FILTER_GENERATOR_INSTANCE_CREATION>
     instance-creation-end: <FILTER_GENERATOR_INSTANCE_CREATION/>
-  filter:
+  filter-headers:
     class-name: FILTER_GENERATOR_CLASS_NAME
     class-name-separator: "="
 excluded-filter-headers:

@@ -7,8 +7,10 @@ class FilterGeneratorException(Exception):
         self.msg = msg
 
 
-def raise_cannot_find_tag(tag, filename, start=True):
-    s = "(" + tag + ") in " + filename + "."
-    if start:
-        raise FilterGeneratorException("Cannot find starting tag " + s)
-    raise FilterGeneratorException("Cannot find ending tag " + s)
+def raise_cannot_find_tag(tag, filename, start=True, surrounded=True):
+    s = "'" + tag + "' in '" + filename + "'."
+    if surrounded:
+        if start:
+            raise FilterGeneratorException("Cannot find starting tag " + s)
+        raise FilterGeneratorException("Cannot find ending tag " + s)
+    raise FilterGeneratorException("Cannot find tag " + s)

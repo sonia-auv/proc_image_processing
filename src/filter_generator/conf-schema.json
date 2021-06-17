@@ -50,7 +50,7 @@
           }
         }
       },
-      "filter": {
+      "filter-headers": {
         "type": "object",
         "properties": {
           "class-name": {

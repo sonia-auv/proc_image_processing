@@ -56,7 +56,7 @@ class TestTools(TestCase):
                             'instance-creation-stop': {'type': 'string'}
                         }
                     },
-                    'filter': {
+                    'filter-headers': {
                         'type': 'object',
                         'properties': {
                             'class-name': {'type': 'string'},
@@ -105,7 +105,7 @@ class TestTools(TestCase):
                     'instance-creation-start': '<FILTER_GENERATOR_INSTANCE_CREATION>',
                     'instance-creation-end': '<FILTER_GENERATOR_INSTANCE_CREATION/>'
                 },
-                'filter': {
+                'filter-headers': {
                     'class-name': 'FILTER_GENERATOR_CLASS_NAME',
                     'class-name-separator': '='
                 }

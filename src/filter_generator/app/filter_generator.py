@@ -12,7 +12,7 @@ class FilterGenerator:
         self.filter_headers = f.load_all(
             get_files_from_path(self.conf["filters-path"], True, ".h"),
             self.conf["excluded-filter-headers"],
-            self.conf["tags"]["filter"]
+            self.conf["tags"]["filter-headers"]
         )
         self.factory_header = fah.load(
             self.conf["project-path"],
