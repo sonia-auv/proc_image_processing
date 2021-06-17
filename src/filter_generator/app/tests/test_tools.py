@@ -88,30 +88,6 @@ class TestTools(TestCase):
         # Assert success
         conf = tools.get_conf()
         self.assertTrue(isinstance(conf, dict))
-        self.assertDictEqual({
-            'project-path': '../proc_image_processing/',
-            'filters-path': 'filters/',
-            'factory-path': 'server/',
-            'factory-filename': 'filter_factory.cc',
-            'factory-header-filename': 'filter_factory.h',
-            'tags': {
-                'factory-header': {
-                    'includes-start': '<FILTER_GENERATOR_HEADER_INCLUDES>',
-                    'includes-end': '<FILTER_GENERATOR_HEADER_INCLUDES/>'
-                },
-                'factory': {
-                    'filters-list-start': '<FILTER_GENERATOR_FILTERS_LIST>',
-                    'filters-list-end': '<FILTER_GENERATOR_FILTERS_LIST/>',
-                    'instance-creation-start': '<FILTER_GENERATOR_INSTANCE_CREATION>',
-                    'instance-creation-end': '<FILTER_GENERATOR_INSTANCE_CREATION/>'
-                },
-                'filter-headers': {
-                    'class-name': 'FILTER_GENERATOR_CLASS_NAME',
-                    'class-name-separator': '='
-                }
-            },
-            'excluded-filter-headers': ['filter.h', 'filter_inl.h']
-        }, conf)
 
         # Assert failures
         tools.current_path = Path("bad")

@@ -7,27 +7,32 @@ from filter_header import load, FilterHeader, load_all
 
 
 class TestFilterHeader(TestCase):
+    filter1 = Path('assets/test-filter1.h')
+    filter2 = Path('assets/test-filter2.h')
+    bad_filter1 = Path('assets/bad-test-filter1.h')
+    bad_filter2 = Path('assets/bad-test-filter2.h')
+
     def test_load(self):
         # Assert success
-        loaded = load(Path('assets/test-filter1.h'), {
+        loaded = load(self.filter1, {
             "class-name": "FILTER_GENERATOR_CLASS_NAME",
             "class-name-separator": "="
         })
         self.assertTrue(isinstance(loaded, FilterHeader))
-        self.assertEqual(Path('assets/test-filter1.h'), loaded.path)
+        self.assertEqual(self.filter1, loaded.path)
         self.assertEqual('test-filter1.h', loaded.filename)
         self.assertEqual(['// FILTER_GENERATOR_CLASS_NAME=TestFilter1'], loaded.content)
         self.assertEqual('TestFilter1', loaded.class_name)
 
         # Assert failures
         with self.assertRaises(FilterGeneratorException):
-            load(Path('assets/test-filter1.h'), {
+            load(self.filter1, {
                 "class-name": "bFILTER_GENERATOR_CLASS_NAME",
                 "class-name-separator": "="
             })
 
         try:
-            load(Path('assets/test-filter1.h'), {
+            load(self.filter1, {
                 "class-name": "bFILTER_GENERATOR_CLASS_NAME",
                 "class-name-separator": "="
             })
@@ -35,13 +40,13 @@ class TestFilterHeader(TestCase):
             self.assertEqual("Cannot find tag 'bFILTER_GENERATOR_CLASS_NAME' in 'test-filter1.h'.", fge.msg)
 
         with self.assertRaises(FilterGeneratorException):
-            load(Path('assets/test-filter2.h'), {
+            load(self.filter2, {
                 "class-name": "FILTER_GENERATOR_CLASS_NAME",
                 "class-name-separator": ":"
             })
 
         try:
-            load(Path('assets/test-filter2.h'), {
+            load(self.filter2, {
                 "class-name": "FILTER_GENERATOR_CLASS_NAME",
                 "class-name-separator": ":"
             })
@@ -50,18 +55,18 @@ class TestFilterHeader(TestCase):
 
     def test_load_all(self):
         filter_headers_paths = [
-            Path('assets/test-filter1.h'),
-            Path('assets/test-filter2.h'),
-            Path('assets/bad-test-filter1.h'),
-            Path('assets/bad-test-filter2.h')
+            self.filter1,
+            self.filter2,
+            self.bad_filter1,
+            self.bad_filter2
         ]
-        excluded_filter_headers = [Path('assets/bad-test-filter2.h')]
+        excluded_filter_headers = [self.bad_filter2]
         filter_headers = load_all(filter_headers_paths, excluded_filter_headers, {
             "class-name": "FILTER_GENERATOR_CLASS_NAME",
             "class-name-separator": "="
         })
         expected_filenames = ["test-filter1.h", "test-filter2.h"]
-        expected_paths = [Path('assets/test-filter1.h'), Path('assets/test-filter2.h')]
+        expected_paths = [self.filter1, self.filter2]
 
         self.assertEqual(2, len(filter_headers))
         for filter_header in filter_headers:
