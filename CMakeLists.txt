@@ -61,8 +61,8 @@ catkin_package(
 # I N C L U D E   F I L E S
 
 file(GLOB_RECURSE proc_image_processing_FILES
-    "${proc_image_processing_SRC_DIR}/*.cc"
-    "${proc_image_processing_SRC_DIR}/*.h")
+    "${proc_image_processing_SRC_DIR}/proc_image_processing/*.cc"
+    "${proc_image_processing_SRC_DIR}/proc_image_processing/*.h")
 
 list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/main.cc)
 list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_SRC_DIR}/${PROJECT_NAME}/uncompress/republisher.cc)
