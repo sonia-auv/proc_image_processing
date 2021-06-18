@@ -23,9 +23,9 @@ catkin_package(
         sonia_common
 )
 
-file(GLOB_RECURSE proc_image_processing_CPU_FILES "${proc_image_processing_IMPL_DIR}/*.cc" "${proc_image_processing_IMPL_DIR}/*.h")
+file(GLOB_RECURSE proc_image_processing_FILES "${proc_image_processing_IMPL_DIR}/*.cc" "${proc_image_processing_IMPL_DIR}/*.h")
 
-list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_IMPL_DIR}/main.cc)
+list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_IMPL_DIR}/main.cc)
 
 include_directories(
         ${catkin_INCLUDE_DIRS}
@@ -38,7 +38,7 @@ include_directories(
 add_executable(
         ${PROJECT_NAME}_node
         ${proc_image_processing_IMPL_DIR}/main.cc
-        ${proc_image_processing_CPU_FILES}
+        ${proc_image_processing_FILES}
 )
 
 target_link_libraries(
