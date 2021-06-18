@@ -1,2 +1,0 @@
-#include <all/star.h>
-<FILTER_GENERATOR_HEADER_INCLUDES/>

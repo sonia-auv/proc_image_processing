@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FILTER_GENERATOR_CLASS_NAME=Blurr
+// FACTORY_GENERATOR_CLASS_NAME=Blurr
 
 #ifndef PROVIDER_VISION_FILTERS_BLURR_H_
 #define PROVIDER_VISION_FILTERS_BLURR_H_

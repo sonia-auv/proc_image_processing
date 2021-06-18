@@ -4,7 +4,7 @@ from pathlib import Path
 import yaml
 from jsonschema import validate
 
-from filter_generator_exception import FilterGeneratorException
+from factory_generator_exception import FactoryGeneratorException
 
 current_path = Path(__file__).parent.absolute()
 
@@ -15,7 +15,7 @@ def get_conf_schema() -> dict:
         with open(schema_path) as f:
             schema = json.load(f)
         return schema
-    raise FilterGeneratorException("Cannot find configuration schema file (conf-schema.json)!")
+    raise FactoryGeneratorException("Cannot find configuration schema file (conf-schema.json)!")
 
 
 def get_conf() -> dict:
@@ -24,7 +24,7 @@ def get_conf() -> dict:
         with open(conf_path) as f:
             conf = yaml.load(f, Loader=yaml.FullLoader)
         return conf
-    raise FilterGeneratorException("Cannot find configuration file (conf.yml)!")
+    raise FactoryGeneratorException("Cannot find configuration file (conf.yml)!")
 
 
 def validate_and_fix_path(p):
@@ -32,7 +32,7 @@ def validate_and_fix_path(p):
     if not path.is_absolute() and not path.exists():
         path = Path(current_path, '../', p)
         if not path.exists():
-            raise FilterGeneratorException("Cannot find path '" + p + "'.")
+            raise FactoryGeneratorException("Cannot find path '" + p + "'.")
     return path
 
 

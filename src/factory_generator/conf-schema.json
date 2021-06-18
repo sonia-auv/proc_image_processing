@@ -16,6 +16,9 @@
           "type": "string",
           "minLength": 1
         },
+        "recurse": {
+          "type": "boolean"
+        },
         "filename": {
           "type": "string",
           "minLength": 4
@@ -51,21 +54,21 @@
       "factory": {
         "type": "object",
         "properties": {
-          "filters-list-start": {
+          "list-start": {
             "type": "string"
           },
-          "filters-list-end": {
+          "list-end": {
             "type": "string"
           },
-          "instance-creation-start": {
+          "create-start": {
             "type": "string"
           },
-          "instance-creation-stop": {
+          "create-end": {
             "type": "string"
           }
         }
       },
-      "filter-headers": {
+      "item-headers": {
         "type": "object",
         "properties": {
           "class-name": {

@@ -2,7 +2,7 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 /// \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
 
-// FILTER_GENERATOR_CLASS_NAME=PipeAngleDetector
+// FACTORY_GENERATOR_CLASS_NAME=PipeAngleDetector
 
 #ifndef PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
 #define PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_

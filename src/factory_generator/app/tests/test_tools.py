@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest import TestCase
 
 import tools
-from filter_generator_exception import FilterGeneratorException
+from factory_generator_exception import FactoryGeneratorException
 
 
 class TestTools(TestCase):
@@ -34,6 +34,9 @@ class TestTools(TestCase):
                         'items-path': {
                             'type': 'string',
                             'minLength': 1
+                        },
+                        "recurse": {
+                            "type": "boolean"
                         },
                         'filename': {
                             'type': 'string',
@@ -70,21 +73,21 @@ class TestTools(TestCase):
                     'factory': {
                         'type': 'object',
                         'properties': {
-                            'filters-list-start': {
+                            'list-start': {
                                 'type': 'string'
                             },
-                            'filters-list-end': {
+                            'list-end': {
                                 'type': 'string'
                             },
-                            'instance-creation-start': {
+                            'create-start': {
                                 'type': 'string'
                             },
-                            'instance-creation-stop': {
+                            'create-end': {
                                 'type': 'string'
                             }
                         }
                     },
-                    'filter-headers': {
+                    'item-headers': {
                         'type': 'object',
                         'properties': {
                             'class-name': {
@@ -101,12 +104,12 @@ class TestTools(TestCase):
 
         # Assert failures
         tools.current_path = Path("bad")
-        with self.assertRaises(FilterGeneratorException):
+        with self.assertRaises(FactoryGeneratorException):
             tools.get_conf_schema()
 
         try:
             tools.get_conf_schema()
-        except FilterGeneratorException as fge:
+        except FactoryGeneratorException as fge:
             self.assertEqual("Cannot find configuration schema file (conf-schema.json)!", fge.msg)
 
     def test_get_conf(self):
@@ -116,12 +119,12 @@ class TestTools(TestCase):
 
         # Assert failures
         tools.current_path = Path("bad")
-        with self.assertRaises(FilterGeneratorException):
+        with self.assertRaises(FactoryGeneratorException):
             tools.get_conf()
 
         try:
             tools.get_conf()
-        except FilterGeneratorException as fge:
+        except FactoryGeneratorException as fge:
             self.assertEqual("Cannot find configuration file (conf.yml)!", fge.msg)
 
     def test_validate_and_fix_path(self):
@@ -136,12 +139,12 @@ class TestTools(TestCase):
         )
 
         # Assert failures
-        with self.assertRaises(FilterGeneratorException):
+        with self.assertRaises(FactoryGeneratorException):
             tools.validate_and_fix_path("bad/path")
 
         try:
             tools.validate_and_fix_path("bad/path")
-        except FilterGeneratorException as fge:
+        except FactoryGeneratorException as fge:
             self.assertEqual("Cannot find path 'bad/path'.", fge.msg)
 
     def test_get_files_from_path(self):

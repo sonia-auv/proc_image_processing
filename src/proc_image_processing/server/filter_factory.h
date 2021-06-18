@@ -5,7 +5,7 @@
 
 #ifndef PROVIDER_VISION_FILTER_FACTORY_H_
 #define PROVIDER_VISION_FILTER_FACTORY_H_
-// <FILTER_GENERATOR_HEADER_INCLUDES>
+// <FACTORY_GENERATOR_HEADER_INCLUDES>
 #include <proc_image_processing/filters/adaptive_threshold.h>
 #include <proc_image_processing/filters/background_substract.h>
 #include <proc_image_processing/filters/bilateral_filter.h>
@@ -49,7 +49,7 @@
 #include <proc_image_processing/filters/vampire_torpedoes_detector.h>
 #include <proc_image_processing/filters/white_filter.h>
 #include <proc_image_processing/filters/white_noise_takedown.h>
-// <FILTER_GENERATOR_HEADER_INCLUDES/>
+// <FACTORY_GENERATOR_HEADER_INCLUDES/>
 #include <memory>
 #include <string>
 

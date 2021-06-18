@@ -9,7 +9,7 @@ namespace proc_image_processing {
 Filter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
   switch(name){
-    // <FILTER_GENERATOR_INSTANCE_CREATION>
+    // <FACTORY_GENERATOR_INSTANCE_CREATION>
 	case 'AdaptiveThreshold':
 		return new AdaptiveThreshold(globalParams);
 	case 'BackgroundSubstract':
@@ -96,16 +96,16 @@ Filter *FilterFactory::createInstance(const std::string &name,
 		return new WhiteFilter(globalParams);
 	case 'WhiteNoiseTakedown':
 		return new WhiteNoiseTakedown(globalParams);
-    // <FILTER_GENERATOR_INSTANCE_CREATION/>
+    // <FACTORY_GENERATOR_INSTANCE_CREATION/>
     default:
         return nullptr;
   }
 }
 
 std::string FilterFactory::GetFilterList() {
-// <FILTER_GENERATOR_FILTERS_LIST>
+// <FACTORY_GENERATOR_ITEMS_LIST>
 	return 'AdaptiveThreshold;BackgroundSubstract;BilateralFilter;Blurr;Canny;CenterCoffinDetector;ContrastBrightness;ConvexHull;Deep2019;Dilate;Equalize;Erode;FenceDetector;GateDetector;HandleDetector;HoughLine;HSVThreshold;ImageAccumulator;ImageCropper;InRange;Laplacian;MissionTestFakeString;Morphology;OriginalImage;PipeAngleDetector;RemoveMask;Rotate;Scharr;ScharrAdding;Sobel;SquareDetection;StatsThreshold;SubmarineFrameMasker;SubtractAllPlanes;SubtractPlaneAdder;TestFilter;Threshold;ThresholdBetween;VampireBodyDetector;VampireTorpedoesDetectorClose;VampireTorpedoesDetector;WhiteFilter;WhiteNoiseTakedown';
-         // <FILTER_GENERATOR_FILTERS_LIST/>
+         // <FACTORY_GENERATOR_ITEMS_LIST/>
 }
 
 }  // namespace proc_image_processing

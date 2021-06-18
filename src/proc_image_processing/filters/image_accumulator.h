@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FILTER_GENERATOR_CLASS_NAME=ImageAccumulator
+// FACTORY_GENERATOR_CLASS_NAME=ImageAccumulator
 
 #ifndef PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
 #define PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_

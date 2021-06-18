@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FILTER_GENERATOR_CLASS_NAME=Sobel
+// FACTORY_GENERATOR_CLASS_NAME=Sobel
 
 #ifndef PROVIDER_VISION_FILTERS_SOBEL_H_
 #define PROVIDER_VISION_FILTERS_SOBEL_H_

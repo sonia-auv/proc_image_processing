@@ -1,14 +1,15 @@
 import logging
 
-from app.filter_generator import FilterGenerator
+from app.factory_generator import FactoryGenerator
 from tools import validate_and_get_conf
 
 if __name__ == "__main__":
     try:
         conf = validate_and_get_conf()
         for factory in conf["factories"]:
-            logging.info("Generating factory " + factory["name"] + "!")
-            generator = FilterGenerator(conf["project-path"], factory, conf["tags"])
+            print("Generating factory " + factory["name"] + "...", end=" ")
+            generator = FactoryGenerator(conf["project-path"], factory, conf["tags"])
             generator.generate()
+            print("Done!")
     except:
         logging.warning("Cannot generate, please fix errors first!")

@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from filter_generator_exception import raise_cannot_find_tag
+from factory_generator_exception import raise_cannot_find_tag
 
 
-class FilterHeader:
+class ItemHeader:
     def __init__(self, path: Path, filename, content: list, class_name):
         self.path = path
         self.filename = filename
@@ -11,7 +11,7 @@ class FilterHeader:
         self.class_name = class_name
 
 
-def load(path: Path, tags: dict) -> FilterHeader:
+def load(path: Path, tags: dict) -> ItemHeader:
     with open(path) as f:
         content = f.readlines()
     for i in range(len(content)):
@@ -19,16 +19,16 @@ def load(path: Path, tags: dict) -> FilterHeader:
             class_name = content[i].strip("\n\t").split(tags["class-name-separator"])
             if len(class_name) != 2:
                 raise_cannot_find_tag(tags["class-name"] + tags["class-name-separator"], path.name, surrounded=False)
-            return FilterHeader(path, path.name, content, class_name[1])
+            return ItemHeader(path, path.name, content, class_name[1])
     raise_cannot_find_tag(tags["class-name"], path.name, surrounded=False)
 
 
-def load_all(paths: list, excluded_filter_headers: list, tags: dict) -> list:
-    filter_headers = list()
+def load_all(paths: list, excluded_item_headers: list, tags: dict) -> list:
+    item_headers = list()
     for path in paths:
-        if path.name not in excluded_filter_headers:
+        if path.name not in excluded_item_headers:
             try:
-                filter_headers.append(load(path, tags))
+                item_headers.append(load(path, tags))
             except:
                 pass
-    return filter_headers
+    return item_headers
