@@ -33,7 +33,7 @@ catkin_package(
 
 file(GLOB_RECURSE proc_image_processing_FILES "${proc_image_processing_IMPL_DIR}/*.cc" "${proc_image_processing_IMPL_DIR}/*.h")
 
-list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_IMPL_DIR}/main.cc)
+list(REMOVE_ITEM proc_image_processing_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_IMPL_DIR}/uncompress/republisher.cc)
 
 include_directories(
         ${catkin_INCLUDE_DIRS}
