@@ -7,10 +7,10 @@ from item_header import load, ItemHeader, load_all
 
 
 class TestFilterHeader(TestCase):
-    item1 = Path('assets/test_item_factory/test-item1.h')
-    item2 = Path('assets/test_item_factory/test-item2.h')
-    bad_item1 = Path('assets/test_item_factory/bad-test-item1.h')
-    bad_item2 = Path('assets/test_item_factory/bad-test-item2.h')
+    item1 = Path('assets/test_item_factory/item1.h')
+    item2 = Path('assets/test_item_factory/item2.h')
+    bad_item1 = Path('assets/test_item_factory/bad-item1.h')
+    bad_item2 = Path('assets/test_item_factory/bad-item2.h')
 
     def test_load(self):
         # Assert success
@@ -20,7 +20,7 @@ class TestFilterHeader(TestCase):
         })
         self.assertTrue(isinstance(loaded, ItemHeader))
         self.assertEqual(self.item1, loaded.path)
-        self.assertEqual('test-item1.h', loaded.filename)
+        self.assertEqual('item1.h', loaded.filename)
         self.assertEqual(['// FACTORY_GENERATOR_CLASS_NAME=TestItem1'], loaded.content)
         self.assertEqual('TestItem1', loaded.class_name)
 
@@ -37,7 +37,7 @@ class TestFilterHeader(TestCase):
                 "class-name-separator": "="
             })
         except FactoryGeneratorException as fge:
-            self.assertEqual("Cannot find tag 'bFACTORY_GENERATOR_CLASS_NAME' in 'test-item1.h'.", fge.msg)
+            self.assertEqual("Cannot find tag 'bFACTORY_GENERATOR_CLASS_NAME' in 'item1.h'.", fge.msg)
 
         with self.assertRaises(FactoryGeneratorException):
             load(self.item2, {
@@ -51,7 +51,7 @@ class TestFilterHeader(TestCase):
                 "class-name-separator": ":"
             })
         except FactoryGeneratorException as fge:
-            self.assertEqual("Cannot find tag 'FACTORY_GENERATOR_CLASS_NAME:' in 'test-item2.h'.", fge.msg)
+            self.assertEqual("Cannot find tag 'FACTORY_GENERATOR_CLASS_NAME:' in 'item2.h'.", fge.msg)
 
     def test_load_all(self):
         item_headers_paths = [
@@ -65,7 +65,7 @@ class TestFilterHeader(TestCase):
             "class-name": "FACTORY_GENERATOR_CLASS_NAME",
             "class-name-separator": "="
         })
-        expected_filenames = ["test-item1.h", "test-item2.h"]
+        expected_filenames = ["item1.h", "item2.h"]
         expected_paths = [self.item1, self.item2]
 
         self.assertEqual(2, len(item_headers))

@@ -14,14 +14,10 @@ class TestFactoryHeader(TestCase):
     bad_factory1 = Path('assets/test_item_factory/subdir/bad_factory1.h')
     bad_factory2 = Path('assets/test_item_factory/subdir/bad_factory2.h')
 
-    item_header1 = ItemHeader(Path('assets/test_item_factory/test-item1.h'), 'test-item1.h', None,
-                              'TestItem1')
-    item_header2 = ItemHeader(Path('assets/test_item_factory/test-item2.h'), 'test-item2.h', None,
-                              'TestItem2')
-    bad_item_header1 = ItemHeader(Path('assets/test_item_factory/test-item1.h'), 'test-item1.h', None,
-                                  'TestItem1')
-    bad_item_header2 = ItemHeader(Path('assets/test_item_factory/test-item2.h'), 'test-item2.h', None,
-                                  'TestItem2')
+    item_header1 = ItemHeader(Path('assets/test_item_factory/item1.h'), 'item1.h', None, 'TestItem1')
+    item_header2 = ItemHeader(Path('assets/test_item_factory/item2.h'), 'item2.h', None, 'TestItem2')
+    bad_item_header1 = ItemHeader(Path('assets/test_item_factory/item1.h'), 'item1.h', None, 'TestItem1')
+    bad_item_header2 = ItemHeader(Path('assets/test_item_factory/item2.h'), 'item2.h', None, 'TestItem2')
     tags = tools.get_conf()["tags"]["factory-header"]
 
     def test_load(self):
@@ -44,8 +40,8 @@ class TestFactoryHeader(TestCase):
         factory_header.generate()
         self.assertEqual([
             '<FACTORY_GENERATOR_HEADER_INCLUDES>\n',
-            '#include <assets/test_item_factory/test-item1.h>\n',
-            '#include <assets/test_item_factory/test-item2.h>\n',
+            '#include <assets/test_item_factory/item1.h>\n',
+            '#include <assets/test_item_factory/item2.h>\n',
             '<FACTORY_GENERATOR_HEADER_INCLUDES/>'
         ], factory_header.content)
 
@@ -85,8 +81,8 @@ class TestFactoryHeader(TestCase):
             content = f.readlines()
         self.assertEqual([
             '<FACTORY_GENERATOR_HEADER_INCLUDES>\n',
-            '#include <assets/test_item_factory/test-item1.h>\n',
-            '#include <assets/test_item_factory/test-item2.h>\n',
+            '#include <assets/test_item_factory/item1.h>\n',
+            '#include <assets/test_item_factory/item2.h>\n',
             '<FACTORY_GENERATOR_HEADER_INCLUDES/>'
         ], content)
 

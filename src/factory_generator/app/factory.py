@@ -5,11 +5,12 @@ from factory_generator_exception import raise_cannot_find_tag
 
 class Factory:
     def __init__(self, project_path: Path, path: Path, filename, content: list, included_item_headers: list,
-                 tags: dict):
+                 create_params: list, tags: dict):
         self.project_path = project_path
         self.path = path
         self.filename = filename
         self.content = content
+        self.create_params = create_params
         self.included_item_headers = included_item_headers
         self.tags = tags
 
@@ -23,13 +24,9 @@ class Factory:
                         raise_cannot_find_tag(self.tags["create-end"], self.filename, False)
                 for j in range(len(self.included_item_headers)):
                     class_name = self.included_item_headers[j].class_name
-                    self.content.insert(idx + j,
-                                        "\tcase '" +
-                                        class_name +
-                                        "':\n\t\treturn new " +
-                                        class_name +
-                                        "(globalParams);\n"
-                                        )
+                    params = ",".join(self.create_params)
+                    line = "\tcase '" + class_name + "':\n\t\treturn new " + class_name + "(" + params + ");\n"
+                    self.content.insert(idx + j, line)
                 return
         raise_cannot_find_tag(self.tags["create-start"], self.filename)
 
@@ -56,7 +53,7 @@ class Factory:
             f.write("".join(self.content))
 
 
-def load(project_path, path: Path, item_headers: list, tags: dict) -> Factory:
+def load(project_path: Path, path: Path, item_headers: list, create_params: list, tags: dict) -> Factory:
     with open(path) as f:
         content = f.readlines()
-    return Factory(project_path, path, path.name, content, item_headers, tags)
+    return Factory(project_path, path, path.name, content, item_headers, create_params, tags)

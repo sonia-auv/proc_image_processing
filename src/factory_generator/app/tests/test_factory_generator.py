@@ -2,7 +2,7 @@ import unittest
 from unittest import TestCase
 
 
-class TestFactoryHeader(TestCase):
+class TestFactoryGenerator(TestCase):
     pass
 
 

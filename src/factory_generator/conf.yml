@@ -6,6 +6,8 @@ factories:
     recurse: true
     filename: "filter_factory.cc"
     header-filename: "filter_factory.h"
+    create-params:
+      - "globalParams"
     excluded-items:
       - "filter.h"
       - "filter_inl.h"

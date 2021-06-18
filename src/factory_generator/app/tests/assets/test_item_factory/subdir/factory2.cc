@@ -1,3 +1,5 @@
-<FACTORY_GENERATOR_HEADER_INCLUDES>
-#include <all/star.h>
-<FACTORY_GENERATOR_HEADER_INCLUDES/>
+std::string FilterFactory::GetFilterList() {
+    // <FACTORY_GENERATOR_ITEMS_LIST>
+	return 'Stuff;Other';
+    // <FACTORY_GENERATOR_ITEMS_LIST/>
+}

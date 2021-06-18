@@ -27,6 +27,12 @@
           "type": "string",
           "minLength": 3
         },
+        "create-params": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "excluded-items": {
           "type": "array",
           "items": {
