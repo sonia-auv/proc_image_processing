@@ -35,6 +35,7 @@ class TestFactory(TestCase):
         self.assertEqual(self.item_headers, factory.included_item_headers)
         self.assertEqual(self.create_params, factory.create_params)
         self.assertEqual([
+            'should remain\n',
             'switch(name){\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
             "    case 'AdaptiveThreshold':\n",
@@ -44,7 +45,8 @@ class TestFactory(TestCase):
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
             '    default:\n',
             '        return null;\n',
-            '}'
+            '}\n',
+            'should remain'
         ], factory.content)
 
     def test_generate_instance_creation(self):
