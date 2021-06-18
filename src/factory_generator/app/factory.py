@@ -24,7 +24,7 @@ class Factory:
                         raise_cannot_find_tag(self.tags["create-end"], self.filename, False)
                 for j in range(len(self.included_item_headers)):
                     class_name = self.included_item_headers[j].class_name
-                    params = ",".join(self.create_params)
+                    params = ", ".join(self.create_params)
                     line = "\tcase '" + class_name + "':\n\t\treturn new " + class_name + "(" + params + ");\n"
                     self.content.insert(idx + j, line)
                 return
