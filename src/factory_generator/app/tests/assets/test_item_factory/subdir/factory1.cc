@@ -1,3 +1,4 @@
+should remain
 switch(name){
     // <FACTORY_GENERATOR_INSTANCE_CREATION>
     case 'AdaptiveThreshold':
@@ -8,3 +9,4 @@ switch(name){
     default:
         return null;
 }
+should remain

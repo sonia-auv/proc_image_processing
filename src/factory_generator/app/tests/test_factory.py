@@ -10,11 +10,13 @@ from item_header import ItemHeader
 
 class TestFactory(TestCase):
     project_path = Path('assets')
-    factory1 = Path('assets/test_item_factory/subdir/factory1.cc')
-    bad_factory1 = Path('assets/test_item_factory/subdir/bad_factory1.cc')
-    bad_factory2 = Path('assets/test_item_factory/subdir/bad_factory2.cc')
-    bad_factory3 = Path('assets/test_item_factory/subdir/bad_factory3.cc')
-    bad_factory4 = Path('assets/test_item_factory/subdir/bad_factory4.cc')
+    assets_location = 'assets/test_item_factory/subdir/'
+    factory1 = Path(assets_location + 'factory1.cc')
+    factory2 = Path(assets_location + 'factory2.cc')
+    bad_factory1 = Path(assets_location + 'bad_factory1.cc')
+    bad_factory2 = Path(assets_location + 'bad_factory2.cc')
+    bad_factory3 = Path(assets_location + 'bad_factory3.cc')
+    bad_factory4 = Path(assets_location + 'bad_factory4.cc')
 
     item_header1 = ItemHeader(Path('assets/test_item_factory/item1.h'), 'item1.h', None, 'TestItem1')
     item_header2 = ItemHeader(Path('assets/test_item_factory/item2.h'), 'item2.h', None, 'TestItem2')
@@ -50,6 +52,7 @@ class TestFactory(TestCase):
         factory = load(self.project_path, self.factory1, self.item_headers, self.create_params, self.tags)
         factory.generate_instance_creation()
         self.assertEqual([
+            'should remain\n',
             'switch(name){\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
             "\tcase 'TestItem1':\n\t\treturn new TestItem1(p1, p2);\n",
@@ -57,11 +60,12 @@ class TestFactory(TestCase):
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
             '    default:\n',
             '        return null;\n',
-            '}'
+            '}\n',
+            'should remain'
         ], factory.content)
 
         # Assert failures
-        # Missing starting tag for instance creation
+        # Missing starting tag
         factory = load(self.project_path, self.bad_factory1, self.item_headers, self.create_params, self.tags)
         with self.assertRaises(FactoryGeneratorException):
             factory.generate_instance_creation()
@@ -73,7 +77,7 @@ class TestFactory(TestCase):
                 fge.msg
             )
 
-        # Missing ending tag for instance creation
+        # Missing ending tag
         factory = load(self.project_path, self.bad_factory2, self.item_headers, self.create_params, self.tags)
         with self.assertRaises(FactoryGeneratorException):
             factory.generate_instance_creation()
@@ -83,6 +87,46 @@ class TestFactory(TestCase):
         except FactoryGeneratorException as fge:
             self.assertEqual(
                 "Cannot find ending tag '<FACTORY_GENERATOR_INSTANCE_CREATION/>' in 'bad_factory2.cc'.",
+                fge.msg
+            )
+
+    def test_generate_headers_list(self):
+        # Assert success
+        factory = load(self.project_path, self.factory2, self.item_headers, self.create_params, self.tags)
+        factory.generate_item_headers_list()
+        self.assertEqual([
+            'should remain\n',
+            'std::string FilterFactory::GetFilterList() {\n',
+            '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
+            "\treturn 'TestItem1;TestItem2';\n",
+            '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
+            '}\n',
+            'should remain'
+        ], factory.content)
+
+        # Assert failures
+        # Missing starting tag
+        factory = load(self.project_path, self.bad_factory3, self.item_headers, self.create_params, self.tags)
+        with self.assertRaises(FactoryGeneratorException):
+            factory.generate_item_headers_list()
+        try:
+            factory.generate_item_headers_list()
+        except FactoryGeneratorException as fge:
+            self.assertEqual(
+                "Cannot find starting tag '<FACTORY_GENERATOR_ITEMS_LIST>' in 'bad_factory3.cc'.",
+                fge.msg
+            )
+
+        # Missing ending tag
+        factory = load(self.project_path, self.bad_factory4, self.item_headers, self.create_params, self.tags)
+        with self.assertRaises(FactoryGeneratorException):
+            factory.generate_item_headers_list()
+        factory = load(self.project_path, self.bad_factory4, self.item_headers, self.create_params, self.tags)
+        try:
+            factory.generate_item_headers_list()
+        except FactoryGeneratorException as fge:
+            self.assertEqual(
+                "Cannot find ending tag '<FACTORY_GENERATOR_ITEMS_LIST/>' in 'bad_factory4.cc'.",
                 fge.msg
             )
 
