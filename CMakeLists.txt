@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 project(proc_image_processing)
 
+if (NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING
+      "Choose the type of build: None Debug Release RelWithDebInfo MinSizeRel."
+       FORCE)
+endif (NOT CMAKE_BUILD_TYPE)
+
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++17 -Wall -Wno-unknown-pragmas")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++17 -O3 -s -Wno-unknown-pragmas")
 
 set(proc_image_processing_SRC_DIR "src")
 set(proc_image_processing_IMPL_DIR "src/proc_image_processing")
