@@ -8,95 +8,95 @@
 namespace proc_image_processing {
 Filter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
-  switch(name){
-    // <FACTORY_GENERATOR_INSTANCE_CREATION>
-	case "AdaptiveThreshold":
-		return new AdaptiveThreshold(globalParams);
-	case "BackgroundSubstract":
-		return new BackgroundSubstract(globalParams);
-	case "BilateralFilter":
-		return new BilateralFilter(globalParams);
-	case "Blurr":
-		return new Blurr(globalParams);
-	case "Canny":
-		return new Canny(globalParams);
-	case "CenterCoffinDetector":
-		return new CenterCoffinDetector(globalParams);
-	case "ContrastBrightness":
-		return new ContrastBrightness(globalParams);
-	case "ConvexHull":
-		return new ConvexHull(globalParams);
-	case "Deep2019":
-		return new Deep2019(globalParams);
-	case "Dilate":
-		return new Dilate(globalParams);
-	case "Equalize":
-		return new Equalize(globalParams);
-	case "Erode":
-		return new Erode(globalParams);
-	case "FenceDetector":
-		return new FenceDetector(globalParams);
-	case "GateDetector":
-		return new GateDetector(globalParams);
-	case "HandleDetector":
-		return new HandleDetector(globalParams);
-	case "HoughLine":
-		return new HoughLine(globalParams);
-	case "HSVThreshold":
-		return new HSVThreshold(globalParams);
-	case "ImageAccumulator":
-		return new ImageAccumulator(globalParams);
-	case "ImageCropper":
-		return new ImageCropper(globalParams);
-	case "InRange":
-		return new InRange(globalParams);
-	case "Laplacian":
-		return new Laplacian(globalParams);
-	case "MissionTestFakeString":
-		return new MissionTestFakeString(globalParams);
-	case "Morphology":
-		return new Morphology(globalParams);
-	case "OriginalImage":
-		return new OriginalImage(globalParams);
-	case "PipeAngleDetector":
-		return new PipeAngleDetector(globalParams);
-	case "RemoveMask":
-		return new RemoveMask(globalParams);
-	case "Rotate":
-		return new Rotate(globalParams);
-	case "Scharr":
-		return new Scharr(globalParams);
-	case "ScharrAdding":
-		return new ScharrAdding(globalParams);
-	case "Sobel":
-		return new Sobel(globalParams);
-	case "SquareDetection":
-		return new SquareDetection(globalParams);
-	case "StatsThreshold":
-		return new StatsThreshold(globalParams);
-	case "SubmarineFrameMasker":
-		return new SubmarineFrameMasker(globalParams);
-	case "SubtractAllPlanes":
-		return new SubtractAllPlanes(globalParams);
-	case "TestFilter":
-		return new TestFilter(globalParams);
-	case "Threshold":
-		return new Threshold(globalParams);
-	case "ThresholdBetween":
-		return new ThresholdBetween(globalParams);
-	case "VampireBodyDetector":
-		return new VampireBodyDetector(globalParams);
-	case "VampireTorpedoesDetectorClose":
-		return new VampireTorpedoesDetectorClose(globalParams);
-	case "VampireTorpedoesDetector":
-		return new VampireTorpedoesDetector(globalParams);
-	case "WhiteFilter":
-		return new WhiteFilter(globalParams);
-	case "WhiteNoiseTakedown":
-		return new WhiteNoiseTakedown(globalParams);
-    // <FACTORY_GENERATOR_INSTANCE_CREATION/>
-    default:
-        return nullptr;
+  switch (std::hash(name)) {
+      // <FACTORY_GENERATOR_INSTANCE_CREATION>
+      case std::hash("AdaptiveThreshold"):
+          return new AdaptiveThreshold(globalParams);
+      case std::hash("BackgroundSubstract"):
+          return new BackgroundSubstract(globalParams);
+      case std::hash("BilateralFilter"):
+          return new BilateralFilter(globalParams);
+      case std::hash("Blurr"):
+          return new Blurr(globalParams);
+      case std::hash("Canny"):
+          return new Canny(globalParams);
+      case std::hash("CenterCoffinDetector"):
+          return new CenterCoffinDetector(globalParams);
+      case std::hash("ContrastBrightness"):
+          return new ContrastBrightness(globalParams);
+      case std::hash("ConvexHull"):
+          return new ConvexHull(globalParams);
+      case std::hash("Deep2019"):
+          return new Deep2019(globalParams);
+      case std::hash("Dilate"):
+          return new Dilate(globalParams);
+      case std::hash("Equalize"):
+          return new Equalize(globalParams);
+      case std::hash("Erode"):
+          return new Erode(globalParams);
+      case std::hash("FenceDetector"):
+          return new FenceDetector(globalParams);
+      case std::hash("GateDetector"):
+          return new GateDetector(globalParams);
+      case std::hash("HandleDetector"):
+          return new HandleDetector(globalParams);
+      case std::hash("HoughLine"):
+          return new HoughLine(globalParams);
+      case std::hash("HSVThreshold"):
+          return new HSVThreshold(globalParams);
+      case std::hash("ImageAccumulator"):
+          return new ImageAccumulator(globalParams);
+      case std::hash("ImageCropper"):
+          return new ImageCropper(globalParams);
+      case std::hash("InRange"):
+          return new InRange(globalParams);
+      case std::hash("Laplacian"):
+          return new Laplacian(globalParams);
+      case std::hash("MissionTestFakeString"):
+          return new MissionTestFakeString(globalParams);
+      case std::hash("Morphology"):
+          return new Morphology(globalParams);
+      case std::hash("OriginalImage"):
+          return new OriginalImage(globalParams);
+      case std::hash("PipeAngleDetector"):
+          return new PipeAngleDetector(globalParams);
+      case std::hash("RemoveMask"):
+          return new RemoveMask(globalParams);
+      case std::hash("Rotate"):
+          return new Rotate(globalParams);
+      case std::hash("Scharr"):
+          return new Scharr(globalParams);
+      case std::hash("ScharrAdding"):
+          return new ScharrAdding(globalParams);
+      case std::hash("Sobel"):
+          return new Sobel(globalParams);
+      case std::hash("SquareDetection"):
+          return new SquareDetection(globalParams);
+      case std::hash("StatsThreshold"):
+          return new StatsThreshold(globalParams);
+      case std::hash("SubmarineFrameMasker"):
+          return new SubmarineFrameMasker(globalParams);
+      case std::hash("SubtractAllPlanes"):
+          return new SubtractAllPlanes(globalParams);
+      case std::hash("TestFilter"):
+          return new TestFilter(globalParams);
+      case std::hash("Threshold"):
+          return new Threshold(globalParams);
+      case std::hash("ThresholdBetween"):
+          return new ThresholdBetween(globalParams);
+      case std::hash("VampireBodyDetector"):
+          return new VampireBodyDetector(globalParams);
+      case std::hash("VampireTorpedoesDetectorClose"):
+          return new VampireTorpedoesDetectorClose(globalParams);
+      case std::hash("VampireTorpedoesDetector"):
+          return new VampireTorpedoesDetector(globalParams);
+      case std::hash("WhiteFilter"):
+          return new WhiteFilter(globalParams);
+      case std::hash("WhiteNoiseTakedown"):
+          return new WhiteNoiseTakedown(globalParams);
+          // <FACTORY_GENERATOR_INSTANCE_CREATION/>
+      default:
+          return nullptr;
   }
 }
 
