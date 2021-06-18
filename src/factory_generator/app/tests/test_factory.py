@@ -156,5 +156,36 @@ class TestFactory(TestCase):
             'should remain'
         ], factory.content)
 
-        if __name__ == "__main__":
-            unittest.main()
+    def test_write(self):
+        factory = load(self.project_path, self.factory3, self.item_headers, self.create_params, self.tags)
+        factory.generate()
+        factory.path = Path(self.assets_location, 'output.cc')
+        factory.write()
+
+        with open(factory.path) as f:
+            content = f.readlines()
+        self.assertEqual([
+            'should remain\n',
+            'switch(name){\n',
+            '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
+            "\tcase 'TestItem1':\n",
+            '\t\treturn new TestItem1(p1, p2);\n',
+            "\tcase 'TestItem2':\n",
+            '\t\treturn new TestItem2(p1, p2);\n',
+            '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
+            '    default:\n',
+            '        return null;\n',
+            '}\n',
+            'should remain\n',
+            '\n',
+            'std::string FilterFactory::GetFilterList() {\n',
+            '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
+            "\treturn 'TestItem1;TestItem2';\n",
+            '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
+            '}\n',
+            'should remain'
+        ], content)
+
+
+if __name__ == "__main__":
+    unittest.main()
