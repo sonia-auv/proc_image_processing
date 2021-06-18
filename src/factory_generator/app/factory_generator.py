@@ -11,23 +11,32 @@ class FactoryGenerator:
         self.project_path = project_path
         self.conf = conf
         self.tags = tags
-        self.item_headers = f.load_all(
+        self.item_headers = self.load_items()
+        self.factory_header = self.load_factory_header()
+        self.factory = self.load_factory()
+
+    def load_items(self):
+        return f.load_all(
             get_files_from_path(self.conf["items-path"], self.conf["recurse"], ".h"),
             self.conf["excluded-items"],
             self.tags["item-headers"]
         )
-        self.factory_header = fah.load(
-            self.project_path,
-            Path(self.conf["path"], self.conf["header-filename"]),
-            self.item_headers,
-            self.tags["factory-header"]
-        )
-        self.factory = fa.load(
+
+    def load_factory(self):
+        return fa.load(
             self.project_path,
             Path(self.conf["path"], self.conf["filename"]),
             self.item_headers,
             self.conf["create-params"],
             self.tags["factory"]
+        )
+
+    def load_factory_header(self):
+        return fah.load(
+            self.project_path,
+            Path(self.conf["path"], self.conf["header-filename"]),
+            self.item_headers,
+            self.tags["factory-header"]
         )
 
     def generate(self):
