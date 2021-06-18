@@ -7,10 +7,10 @@ from filter_header import load, FilterHeader, load_all
 
 
 class TestFilterHeader(TestCase):
-    filter1 = Path('assets/test-filter1.h')
-    filter2 = Path('assets/test-filter2.h')
-    bad_filter1 = Path('assets/bad-test-filter1.h')
-    bad_filter2 = Path('assets/bad-test-filter2.h')
+    filter1 = Path('assets/test_filter_factory/test-filter1.h')
+    filter2 = Path('assets/test_filter_factory/test-filter2.h')
+    bad_filter1 = Path('assets/test_filter_factory/bad-test-filter1.h')
+    bad_filter2 = Path('assets/test_filter_factory/bad-test-filter2.h')
 
     def test_load(self):
         # Assert success

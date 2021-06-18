@@ -52,6 +52,7 @@ def validate_and_get_conf() -> dict:
     conf = get_conf()
     validate(conf, schema)
     conf["project-path"] = validate_and_fix_path(conf["project-path"])
-    conf["filters-path"] = conf["project-path"].joinpath(conf["filters-path"])
-    conf["factory-path"] = conf["project-path"].joinpath(conf["factory-path"])
+    for factory in conf["factories"]:
+        factory["path"] = conf["project-path"].joinpath(factory["path"])
+        factory["items-path"] = conf["project-path"].joinpath(factory["items-path"])
     return conf

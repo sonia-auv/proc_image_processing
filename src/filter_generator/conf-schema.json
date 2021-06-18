@@ -3,21 +3,36 @@
     "type": "string",
     "minLength": 1
   },
-  "filters-path": {
-    "type": "string",
-    "minLength": 1
-  },
-  "factory-path": {
-    "type": "string",
-    "minLength": 1
-  },
-  "factory-filename": {
-    "type": "string",
-    "minLength": 4
-  },
-  "factory-header-filename": {
-    "type": "string",
-    "minLength": 3
+  "factories": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "items-path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "filename": {
+          "type": "string",
+          "minLength": 4
+        },
+        "header-filename": {
+          "type": "string",
+          "minLength": 3
+        },
+        "excluded-items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      }
+    }
   },
   "tags": {
     "type": "object",
@@ -61,13 +76,6 @@
           }
         }
       }
-    }
-  },
-  "excluded-filter-headers": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "minLength": 3
     }
   }
 }

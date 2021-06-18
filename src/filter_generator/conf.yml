@@ -1,20 +1,22 @@
-project-path: ../proc_image_processing/
-filters-path: filters/
-factory-path: server/
-factory-filename: filter_factory.cc
-factory-header-filename: filter_factory.h
+project-path: "../proc_image_processing/"
+factories:
+  - name: "FilterFactory"
+    path: "server/"
+    items-path: "filters/"
+    filename: "filter_factory.cc"
+    header-filename: "filter_factory.h"
+    excluded-items:
+      - "filter.h"
+      - "filter_inl.h"
 tags:
   factory-header:
-    includes-start: <FILTER_GENERATOR_HEADER_INCLUDES>
-    includes-end: <FILTER_GENERATOR_HEADER_INCLUDES/>
+    includes-start: "<FILTER_GENERATOR_HEADER_INCLUDES>"
+    includes-end: "<FILTER_GENERATOR_HEADER_INCLUDES/>"
   factory:
-    filters-list-start: <FILTER_GENERATOR_FILTERS_LIST>
-    filters-list-end: <FILTER_GENERATOR_FILTERS_LIST/>
-    instance-creation-start: <FILTER_GENERATOR_INSTANCE_CREATION>
-    instance-creation-end: <FILTER_GENERATOR_INSTANCE_CREATION/>
-  filter-headers:
-    class-name: FILTER_GENERATOR_CLASS_NAME
+    filters-list-start: "<FILTER_GENERATOR_FILTERS_LIST>"
+    filters-list-end: "<FILTER_GENERATOR_FILTERS_LIST/>"
+    instance-creation-start: "<FILTER_GENERATOR_INSTANCE_CREATION>"
+    instance-creation-end: "<FILTER_GENERATOR_INSTANCE_CREATION/>"
+  items-headers:
+    class-name: "FILTER_GENERATOR_CLASS_NAME"
     class-name-separator: "="
-excluded-filter-headers:
-  - filter.h
-  - filter_inl.h

@@ -10,14 +10,18 @@ from filter_header import FilterHeader
 
 class TestFactoryHeader(TestCase):
     project_path = Path('assets')
-    factory1 = Path('assets/subdir/factory1.h')
-    bad_factory1 = Path('assets/subdir/bad_factory1.h')
-    bad_factory2 = Path('assets/subdir/bad_factory2.h')
+    factory1 = Path('assets/test_filter_factory/subdir/factory1.h')
+    bad_factory1 = Path('assets/test_filter_factory/subdir/bad_factory1.h')
+    bad_factory2 = Path('assets/test_filter_factory/subdir/bad_factory2.h')
 
-    filter_header1 = FilterHeader(Path('assets/test-filter1.h'), 'test-filter1.h', None, 'TestFilter1')
-    filter_header2 = FilterHeader(Path('assets/test-filter2.h'), 'test-filter2.h', None, 'TestFilter2')
-    bad_filter_header1 = FilterHeader(Path('assets/test-filter1.h'), 'test-filter1.h', None, 'TestFilter1')
-    bad_filter_header2 = FilterHeader(Path('assets/test-filter2.h'), 'test-filter2.h', None, 'TestFilter2')
+    filter_header1 = FilterHeader(Path('assets/test_filter_factory/test-filter1.h'), 'test-filter1.h', None,
+                                  'TestFilter1')
+    filter_header2 = FilterHeader(Path('assets/test_filter_factory/test-filter2.h'), 'test-filter2.h', None,
+                                  'TestFilter2')
+    bad_filter_header1 = FilterHeader(Path('assets/test_filter_factory/test-filter1.h'), 'test-filter1.h', None,
+                                      'TestFilter1')
+    bad_filter_header2 = FilterHeader(Path('assets/test_filter_factory/test-filter2.h'), 'test-filter2.h', None,
+                                      'TestFilter2')
     tags = tools.get_conf()["tags"]["factory-header"]
 
     def test_load(self):
@@ -40,8 +44,8 @@ class TestFactoryHeader(TestCase):
         factory_header.generate()
         self.assertEqual([
             '<FILTER_GENERATOR_HEADER_INCLUDES>\n',
-            '#include <assets/test-filter1.h>\n',
-            '#include <assets/test-filter2.h>\n',
+            '#include <assets/test_filter_factory/test-filter1.h>\n',
+            '#include <assets/test_filter_factory/test-filter2.h>\n',
             '<FILTER_GENERATOR_HEADER_INCLUDES/>'
         ], factory_header.content)
 
@@ -75,14 +79,14 @@ class TestFactoryHeader(TestCase):
     def test_write(self):
         factory_header = self.load_factory(self.factory1)
         factory_header.generate()
-        factory_header.path = Path('assets/subdir/output.h')
+        factory_header.path = Path('assets/test_filter_factory/subdir/output.h')
         factory_header.write()
         with open(factory_header.path) as f:
             content = f.readlines()
         self.assertEqual([
             '<FILTER_GENERATOR_HEADER_INCLUDES>\n',
-            '#include <assets/test-filter1.h>\n',
-            '#include <assets/test-filter2.h>\n',
+            '#include <assets/test_filter_factory/test-filter1.h>\n',
+            '#include <assets/test_filter_factory/test-filter2.h>\n',
             '<FILTER_GENERATOR_HEADER_INCLUDES/>'
         ], content)
 

@@ -17,25 +17,41 @@ class TestTools(TestCase):
         schema = tools.get_conf_schema()
         self.assertTrue(isinstance(schema, dict))
         self.assertDictEqual({
-            'project-path': {
-                'type': 'string',
-                'minLength': 1
-            },
-            'filters-path': {
-                'type': 'string',
-                'minLength': 1
-            },
-            'factory-path': {
-                'type': 'string',
-                'minLength': 1
-            },
-            'factory-filename': {
-                'type': 'string',
-                'minLength': 4
-            },
-            'factory-header-filename': {
-                'type': 'string',
-                'minLength': 3
+            'project-path':
+                {
+                    'type': 'string',
+                    'minLength': 1
+                },
+            'factories': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'path': {
+                            'type': 'string',
+                            'minLength': 1
+                        },
+                        'items-path': {
+                            'type': 'string',
+                            'minLength': 1
+                        },
+                        'filename': {
+                            'type': 'string',
+                            'minLength': 4
+                        },
+                        'header-filename': {
+                            'type': 'string',
+                            'minLength': 3
+                        },
+                        'excluded-items': {
+                            'type': 'array',
+                            'items': {
+                                'type': 'string',
+                                'minLength': 3
+                            }
+                        }
+                    }
+                }
             },
             'tags': {
                 'type': 'object',
@@ -43,33 +59,42 @@ class TestTools(TestCase):
                     'factory-header': {
                         'type': 'object',
                         'properties': {
-                            'includes-start': {'type': 'string'},
-                            'includes-end': {'type': 'string'}
+                            'includes-start': {
+                                'type': 'string'
+                            },
+                            'includes-end': {
+                                'type': 'string'
+                            }
                         }
                     },
                     'factory': {
                         'type': 'object',
                         'properties': {
-                            'filters-list-start': {'type': 'string'},
-                            'filters-list-end': {'type': 'string'},
-                            'instance-creation-start': {'type': 'string'},
-                            'instance-creation-stop': {'type': 'string'}
+                            'filters-list-start': {
+                                'type': 'string'
+                            },
+                            'filters-list-end': {
+                                'type': 'string'
+                            },
+                            'instance-creation-start': {
+                                'type': 'string'
+                            },
+                            'instance-creation-stop': {
+                                'type': 'string'
+                            }
                         }
                     },
                     'filter-headers': {
                         'type': 'object',
                         'properties': {
-                            'class-name': {'type': 'string'},
-                            'class-name-separator': {'type': 'string'}
+                            'class-name': {
+                                'type': 'string'
+                            },
+                            'class-name-separator': {
+                                'type': 'string'
+                            }
                         }
                     }
-                }
-            },
-            'excluded-filter-headers': {
-                'type': 'array',
-                'items': {
-                    'type': 'string',
-                    'minLength': 3
                 }
             }
         }, schema)
@@ -121,25 +146,26 @@ class TestTools(TestCase):
 
     def test_get_files_from_path(self):
         expected_files = ['f1.txt', 'f2.c', 'f3.h', 'f4.h']
-        files = tools.get_files_from_path(Path("path"))
+        path = Path("assets/test_tools")
+        files = tools.get_files_from_path(path)
         self.assertEqual(len(expected_files), len(files))
         for file in files:
             self.assertTrue(file.name in expected_files)
 
         expected_files = ['f1.txt', 'f2.c', 'f3.h', 'f4.h', 'f5.h', 'f6.c', 'f7.txt', 'f8.h']
-        files = tools.get_files_from_path(Path("path"), recurse=True)
+        files = tools.get_files_from_path(path, recurse=True)
         self.assertEqual(len(expected_files), len(files))
         for file in files:
             self.assertTrue(file.name in expected_files)
 
         expected_files = ['f3.h', 'f4.h']
-        files = tools.get_files_from_path(Path("path"), extension=".h")
+        files = tools.get_files_from_path(path, extension=".h")
         self.assertEqual(len(expected_files), len(files))
         for file in files:
             self.assertTrue(file.name in expected_files)
 
         expected_files = ['f3.h', 'f4.h', 'f5.h', 'f8.h']
-        files = tools.get_files_from_path(Path("path"), recurse=True, extension=".h")
+        files = tools.get_files_from_path(path, recurse=True, extension=".h")
         self.assertEqual(len(expected_files), len(files))
         for file in files:
             self.assertTrue(file.name in expected_files)
@@ -148,8 +174,10 @@ class TestTools(TestCase):
         conf = tools.validate_and_get_conf()
         self.assertTrue(isinstance(conf, dict))
         self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing'), conf["project-path"])
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/filters'), conf["filters-path"])
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/server'), conf["factory-path"])
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/server'),
+                         conf["factories"][0]["path"])
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/filters'),
+                         conf["factories"][0]["items-path"])
 
 
 if __name__ == "__main__":
