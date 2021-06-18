@@ -13,6 +13,7 @@ class TestFactory(TestCase):
     assets_location = 'assets/test_item_factory/subdir/'
     factory1 = Path(assets_location + 'factory1.cc')
     factory2 = Path(assets_location + 'factory2.cc')
+    factory3 = Path(assets_location + 'factory3.cc')
     bad_factory1 = Path(assets_location + 'bad_factory1.cc')
     bad_factory2 = Path(assets_location + 'bad_factory2.cc')
     bad_factory3 = Path(assets_location + 'bad_factory3.cc')
@@ -132,6 +133,28 @@ class TestFactory(TestCase):
                 fge.msg
             )
 
+    def test_generate(self):
+        factory = load(self.project_path, self.factory3, self.item_headers, self.create_params, self.tags)
+        factory.generate()
+        self.assertEqual([
+            'should remain\n',
+            'switch(name){\n',
+            '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
+            "\tcase 'TestItem1':\n\t\treturn new TestItem1(p1, p2);\n",
+            "\tcase 'TestItem2':\n\t\treturn new TestItem2(p1, p2);\n",
+            '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
+            '    default:\n',
+            '        return null;\n',
+            '}\n',
+            'should remain\n',
+            '\n',
+            'std::string FilterFactory::GetFilterList() {\n',
+            '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
+            "\treturn 'TestItem1;TestItem2';\n",
+            '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
+            '}\n',
+            'should remain'
+        ], factory.content)
 
-if __name__ == "__main__":
-    unittest.main()
+        if __name__ == "__main__":
+            unittest.main()
