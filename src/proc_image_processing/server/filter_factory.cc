@@ -78,8 +78,6 @@ Filter *FilterFactory::createInstance(const std::string &name,
 		return new SubmarineFrameMasker(globalParams);
 	case 'SubtractAllPlanes':
 		return new SubtractAllPlanes(globalParams);
-	case 'SubtractPlaneAdder':
-		return new SubtractPlaneAdder(globalParams);
 	case 'TestFilter':
 		return new TestFilter(globalParams);
 	case 'Threshold':

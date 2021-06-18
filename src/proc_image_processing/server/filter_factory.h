@@ -40,7 +40,6 @@
 #include <proc_image_processing/filters/stats_threshold.h>
 #include <proc_image_processing/filters/submarine_frame_masker.h>
 #include <proc_image_processing/filters/subtract_all_planes.h>
-#include <proc_image_processing/filters/subtract_plane_adder.h>
 #include <proc_image_processing/filters/test_filter.h>
 #include <proc_image_processing/filters/threshold.h>
 #include <proc_image_processing/filters/threshold_between.h>
