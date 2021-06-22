@@ -5,7 +5,7 @@ ARG SONAR_TOKEN=""
 
 USER root
 
-RUN apt update && apt install -y build-essential cmake g++ unzip
+RUN apt update && apt install -y build-essential cmake g++ unzip wget
 
 RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip build-wrapper-linux-x86.zip
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip && unzip sonar-scanner-cli-4.6.2.2472-linux.zip
