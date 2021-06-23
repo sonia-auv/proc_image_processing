@@ -8,7 +8,6 @@
 namespace proc_image_processing {
 Filter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
-  switch (std::hash(name)) {
       // <FACTORY_GENERATOR_INSTANCE_CREATION>
 	if(name == "AdaptiveThreshold"){
 		return new AdaptiveThreshold(globalParams);
@@ -140,7 +139,6 @@ Filter *FilterFactory::createInstance(const std::string &name,
     else{
         return nullptr;
     }
-  }
 }
 
 std::string FilterFactory::GetFilterList() {
