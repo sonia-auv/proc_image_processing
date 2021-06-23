@@ -27,6 +27,10 @@
           "type": "string",
           "minLength": 3
         },
+        "equality-variable": {
+          "type": "string",
+          "minLength": 1
+        },
         "create-params": {
           "type": "array",
           "items": {
