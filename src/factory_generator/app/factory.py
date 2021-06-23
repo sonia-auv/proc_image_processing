@@ -43,8 +43,8 @@ class Factory:
                     if idx >= len(self.content):
                         raise_cannot_find_tag(self.tags["list-end"], self.filename, False)
                 self.content.insert(idx,
-                                    "\treturn '" + ";".join(
-                                        [a.class_name for a in self.included_item_headers]) + "';\n")
+                                    "\treturn " + ";'\n\t\t".join(
+                                        ["'" + a.class_name for a in self.included_item_headers]) + "';\n")
                 return
         raise_cannot_find_tag(self.tags["list-start"], self.filename)
 
