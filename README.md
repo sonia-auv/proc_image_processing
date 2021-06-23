@@ -4,6 +4,8 @@
 ![Docker Image CI - Develop Branch](https://github.com/sonia-auv/proc_image_processing/workflows/Docker%20Image%20CI%20-%20Develop%20Branch/badge.svg?branch=develop)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sonia-auv/proc_image_processing)
 ![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/sonia-auv/proc_image_processing.svg)
+
+
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=bugs)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=coverage)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
