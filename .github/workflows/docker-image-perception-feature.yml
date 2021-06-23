@@ -30,7 +30,7 @@ jobs:
 
       - name: Run Sonarcloud
         run: |
-          docker build -f Dockerfile.sonarcloud --build-arg BASE_IMAGE=build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} --build-arg SONAR_TOKEN=${{secrets.SONAR_TOKEN}} .
+          docker build -f Dockerfile.sonarcloud --build-arg BASE_IMAGE=build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} --build-arg SONAR_TOKEN=${{secrets.SONAR_TOKEN}} --build-arg BRANCH=${GITHUB_REF##*/} .
 
       - name: Push Image to Github Packages Registry
         run: |

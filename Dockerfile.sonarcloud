@@ -2,6 +2,7 @@ ARG BASE_IMAGE=""
 FROM ${BASE_IMAGE}
 ARG GITHUB_TOKEN=""
 ARG SONAR_TOKEN=""
+ARG BRANCH="master"
 
 USER root
 
@@ -22,4 +23,4 @@ RUN /sonarcloud/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-
 
 RUN export PATH="/sonarcloud/sonar-scanner-4.6.2.2472-linux/bin/:$PATH" && \
     export GITHUB_TOKEN=${GITHUB_TOKEN} && \
-    sonar-scanner -Dproject.settings=sonarcloud.properties -Dsonar.cfamily.threads=$(nproc) -Dsonar.login=${SONAR_TOKEN}
+    sonar-scanner -Dsonar.branch.name=${BRANCH} -Dproject.settings=sonarcloud.properties -Dsonar.cfamily.threads=$(nproc) -Dsonar.login=${SONAR_TOKEN}
