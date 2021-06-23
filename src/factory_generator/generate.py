@@ -1,7 +1,7 @@
 import logging
 
 from app.factory_generator import FactoryGenerator
-from tools import validate_and_get_conf
+from app.tools import validate_and_get_conf
 
 if __name__ == "__main__":
     try:

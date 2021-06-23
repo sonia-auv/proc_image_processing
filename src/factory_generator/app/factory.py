@@ -27,9 +27,9 @@ class Factory:
                     class_name = self.included_item_headers[j].class_name
                     params = ", ".join(self.create_params)
                     if j == 0:
-                        line = '\tif(' + self.equality_variable + ' == "' + class_name + '"){\n\t\treturn new ' + class_name + '(' + params + ');\n\t}\n'
+                        line = '\tif(' + self.equality_variable + ' == "' + class_name + '"){\n\t\treturn std::make_unique<' + class_name + '(' + params + ')>;\n\t}\n'
                     else:
-                        line = '\telse if(' + self.equality_variable + ' == "' + class_name + '"){\n\t\treturn new ' + class_name + '(' + params + ');\n\t}\n'
+                        line = '\telse if(' + self.equality_variable + ' == "' + class_name + '"){\n\t\treturn std::make_unique<' + class_name + '(' + params + ')>;\n\t}\n'
                     self.content.insert(idx + j, line)
                 return
         raise_cannot_find_tag(self.tags["create-start"], self.filename)
