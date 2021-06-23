@@ -6,6 +6,7 @@ factories:
     recurse: true
     filename: "filter_factory.cc"
     header-filename: "filter_factory.h"
+    equality-variable: "name"
     create-params:
       - "globalParams"
     excluded-items:

@@ -1,12 +1,15 @@
 should remain
 switch(name){
     // <FACTORY_GENERATOR_INSTANCE_CREATION>
-    case 'AdaptiveThreshold':
-		return new AdaptiveThreshold(globalParams);
-	case 'BackgroundSubstract':
-		return new BackgroundSubstract(globalParams);
+	if(name == "TestItem3000"){
+		return new TestItem3000(p1, p2);
+	}
+	else if(name == "TestItem30"){
+	    return new TestItem30(p1, p2);
+	}
     // <FACTORY_GENERATOR_INSTANCE_CREATION/>
-    default:
+    else{
         return null;
+    }
 }
 should remain

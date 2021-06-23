@@ -1,13 +1,16 @@
 should remain
 switch(name){
     // <FACTORY_GENERATOR_INSTANCE_CREATION>
-	case 'TestItem1':
-		return new TestItem1(p1, p2);
-	case 'TestItem2':
-		return new TestItem2(p1, p2);
+	if(name == "TestItem4"){
+		return new TestItem4(p1, p2);
+	}
+	else if(name == "TestItem5"){
+	    return new TestItem5(p1, p2);
+	}
     // <FACTORY_GENERATOR_INSTANCE_CREATION/>
-    default:
+    else{
         return null;
+    }
 }
 should remain
 

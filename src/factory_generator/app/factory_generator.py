@@ -27,6 +27,7 @@ class FactoryGenerator:
             self.project_path,
             Path(self.conf["path"], self.conf["filename"]),
             self.item_headers,
+            self.conf["equality-variable"],
             self.conf["create-params"],
             self.tags["factory"]
         )
