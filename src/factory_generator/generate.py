@@ -1,4 +1,8 @@
 import logging
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.joinpath('app').absolute()))
 
 from app.factory_generator import FactoryGenerator
 from app.tools import validate_and_get_conf
