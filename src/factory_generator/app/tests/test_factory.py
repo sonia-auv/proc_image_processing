@@ -112,7 +112,7 @@ class TestFactory(TestCase):
             'should remain\n',
             'std::string FilterFactory::GetFilterList() {\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
-            "\treturn 'TestItem1;'\n\t\t'TestItem2';\n",
+            "\treturn \"TestItem1;\"\n\t\t\"TestItem2\";\n",
             '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
             '}\n',
             'should remain'
@@ -166,7 +166,7 @@ class TestFactory(TestCase):
             '\n',
             'std::string FilterFactory::GetFilterList() {\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
-            "\treturn 'TestItem1;'\n\t\t'TestItem2';\n",
+            "\treturn \"TestItem1;\"\n\t\t\"TestItem2\";\n",
             '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
             '}\n',
             'should remain'
@@ -200,8 +200,8 @@ class TestFactory(TestCase):
             '\n',
             'std::string FilterFactory::GetFilterList() {\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
-            "\treturn 'TestItem1;'\n",
-            "\t\t'TestItem2';\n",
+            "\treturn \"TestItem1;\"\n",
+            "\t\t\"TestItem2\";\n",
             '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
             '}\n',
             'should remain'
