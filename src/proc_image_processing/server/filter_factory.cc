@@ -6,8 +6,7 @@
 #include "proc_image_processing/server/filter_factory.h"
 
 namespace proc_image_processing {
-Filter *FilterFactory::createInstance(const std::string &name,
-                                      const GlobalParamHandler &globalParams) {
+std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, const GlobalParamHandler &globalParams) {
       // <FACTORY_GENERATOR_INSTANCE_CREATION>
 	if(name == "AdaptiveThreshold"){
 		return std::move(std::make_unique<AdaptiveThreshold>(globalParams));
