@@ -39,13 +39,13 @@ class TestFactory(TestCase):
         self.assertEqual(self.create_params, factory.create_params)
         self.assertEqual([
             'should remain\n',
-            'switch(name){\n',
+            'create(name){\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
             '\tif(name == "TestItem3000"){\n',
-            '\t\treturn std::make_unique<TestItem3000(p1, p2)>;\n',
+            '\t\treturn new TestItem3000(p1, p2);\n',
             '\t}\n',
             '\telse if(name == "TestItem30"){\n',
-            '\t    return std::make_unique<TestItem30(p1, p2)>;\n',
+            '\t    return new TestItem30(p1, p2);\n',
             '\t}\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
             '    else{\n',
@@ -62,10 +62,10 @@ class TestFactory(TestCase):
         factory.generate_instance_creation()
         self.assertEqual([
             'should remain\n',
-            'switch(name){\n',
+            'create(name){\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
-            '\tif(name == "TestItem1"){\n\t\treturn std::make_unique<(p1, p2)>;\n\t}\n',
-            '\telse if(name == "TestItem2"){\n\t\treturn std::make_unique<(p1, p2)>;\n\t}\n',
+            '\tif(name == "TestItem1"){\n\t\treturn std::make_unique<TestItem1(p1, p2)>;\n\t}\n',
+            '\telse if(name == "TestItem2"){\n\t\treturn std::make_unique<TestItem2(p1, p2)>;\n\t}\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
             '    else{\n',
             '        return null;\n',
@@ -153,10 +153,10 @@ class TestFactory(TestCase):
         factory.generate()
         self.assertEqual([
             'should remain\n',
-            'switch(name){\n',
+            'create(name){\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
-            '\tif(name == "TestItem1"){\n\t\treturn std::make_unique<(p1, p2)>;\n\t}\n',
-            '\telse if(name == "TestItem2"){\n\t\treturn std::make_unique<(p1, p2)>;\n\t}\n',
+            '\tif(name == "TestItem1"){\n\t\treturn std::make_unique<TestItem1(p1, p2)>;\n\t}\n',
+            '\telse if(name == "TestItem2"){\n\t\treturn std::make_unique<TestItem2(p1, p2)>;\n\t}\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
             '    else{\n',
             '        return null;\n',
@@ -166,7 +166,7 @@ class TestFactory(TestCase):
             '\n',
             'std::string FilterFactory::GetFilterList() {\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
-            "\treturn \"TestItem1;\"\n\t\t\"TestItem2\";\n",
+            '\treturn "TestItem1;"\n\t\t"TestItem2";\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
             '}\n',
             'should remain'
@@ -183,13 +183,13 @@ class TestFactory(TestCase):
             content = f.readlines()
         self.assertEqual([
             'should remain\n',
-            'switch(name){\n',
+            'create(name){\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION>\n',
             '\tif(name == "TestItem1"){\n',
-            '\t\treturn std::make_unique<(p1, p2)>;\n',
+            '\t\treturn std::make_unique<TestItem1(p1, p2)>;\n',
             '\t}\n',
             '\telse if(name == "TestItem2"){\n',
-            '\t\treturn std::make_unique<(p1, p2)>;\n',
+            '\t\treturn std::make_unique<TestItem2(p1, p2)>;\n',
             '\t}\n',
             '    // <FACTORY_GENERATOR_INSTANCE_CREATION/>\n',
             '    else{\n',
@@ -200,8 +200,8 @@ class TestFactory(TestCase):
             '\n',
             'std::string FilterFactory::GetFilterList() {\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST>\n',
-            "\treturn \"TestItem1;\"\n",
-            "\t\t\"TestItem2\";\n",
+            '\treturn "TestItem1;"\n',
+            '\t\t"TestItem2";\n',
             '    // <FACTORY_GENERATOR_ITEMS_LIST/>\n',
             '}\n',
             'should remain'

@@ -1,5 +1,5 @@
 should remain
-switch(name){
+create(name){
     // <FACTORY_GENERATOR_INSTANCE_CREATION>
 	if(name == "TestItem3000"){
 		return new TestItem3000(p1, p2);
