@@ -23,9 +23,6 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
 	else if(name == "Canny"){
 		return std::move(std::make_unique<Canny>(globalParams));
 	}
-	else if(name == "CenterCoffinDetector"){
-		return std::move(std::make_unique<CenterCoffinDetector>(globalParams));
-	}
 	else if(name == "ContrastBrightness"){
 		return std::move(std::make_unique<ContrastBrightness>(globalParams));
 	}
@@ -43,15 +40,6 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
 	}
 	else if(name == "Erode"){
 		return std::move(std::make_unique<Erode>(globalParams));
-	}
-	else if(name == "FenceDetector"){
-		return std::move(std::make_unique<FenceDetector>(globalParams));
-	}
-	else if(name == "GateDetector"){
-		return std::move(std::make_unique<GateDetector>(globalParams));
-	}
-	else if(name == "HandleDetector"){
-		return std::move(std::make_unique<HandleDetector>(globalParams));
 	}
 	else if(name == "HoughLine"){
 		return std::move(std::make_unique<HoughLine>(globalParams));
@@ -79,9 +67,6 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
 	}
 	else if(name == "OriginalImage"){
 		return std::move(std::make_unique<OriginalImage>(globalParams));
-	}
-	else if(name == "PipeAngleDetector"){
-		return std::move(std::make_unique<PipeAngleDetector>(globalParams));
 	}
 	else if(name == "RemoveMask"){
 		return std::move(std::make_unique<RemoveMask>(globalParams));
@@ -119,6 +104,27 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
 	else if(name == "ThresholdBetween"){
 		return std::move(std::make_unique<ThresholdBetween>(globalParams));
 	}
+	else if(name == "WhiteFilter"){
+		return std::move(std::make_unique<WhiteFilter>(globalParams));
+	}
+	else if(name == "WhiteNoiseTakedown"){
+		return std::move(std::make_unique<WhiteNoiseTakedown>(globalParams));
+	}
+	else if(name == "CenterCoffinDetector"){
+		return std::move(std::make_unique<CenterCoffinDetector>(globalParams));
+	}
+	else if(name == "FenceDetector"){
+		return std::move(std::make_unique<FenceDetector>(globalParams));
+	}
+	else if(name == "GateDetector"){
+		return std::move(std::make_unique<GateDetector>(globalParams));
+	}
+	else if(name == "HandleDetector"){
+		return std::move(std::make_unique<HandleDetector>(globalParams));
+	}
+	else if(name == "PipeAngleDetector"){
+		return std::move(std::make_unique<PipeAngleDetector>(globalParams));
+	}
 	else if(name == "VampireBodyDetector"){
 		return std::move(std::make_unique<VampireBodyDetector>(globalParams));
 	}
@@ -127,12 +133,6 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
 	}
 	else if(name == "VampireTorpedoesDetector"){
 		return std::move(std::make_unique<VampireTorpedoesDetector>(globalParams));
-	}
-	else if(name == "WhiteFilter"){
-		return std::move(std::make_unique<WhiteFilter>(globalParams));
-	}
-	else if(name == "WhiteNoiseTakedown"){
-		return std::move(std::make_unique<WhiteNoiseTakedown>(globalParams));
 	}
           // <FACTORY_GENERATOR_INSTANCE_CREATION/>
     else{
@@ -147,16 +147,12 @@ std::string FilterFactory::GetFilterList() {
 		"BilateralFilter;"
 		"Blurr;"
 		"Canny;"
-		"CenterCoffinDetector;"
 		"ContrastBrightness;"
 		"ConvexHull;"
 		"Deep2019;"
 		"Dilate;"
 		"Equalize;"
 		"Erode;"
-		"FenceDetector;"
-		"GateDetector;"
-		"HandleDetector;"
 		"HoughLine;"
 		"HSVThreshold;"
 		"ImageAccumulator;"
@@ -166,7 +162,6 @@ std::string FilterFactory::GetFilterList() {
 		"MissionTestFakeString;"
 		"Morphology;"
 		"OriginalImage;"
-		"PipeAngleDetector;"
 		"RemoveMask;"
 		"Rotate;"
 		"Scharr;"
@@ -179,11 +174,16 @@ std::string FilterFactory::GetFilterList() {
 		"TestFilter;"
 		"Threshold;"
 		"ThresholdBetween;"
+		"WhiteFilter;"
+		"WhiteNoiseTakedown;"
+		"CenterCoffinDetector;"
+		"FenceDetector;"
+		"GateDetector;"
+		"HandleDetector;"
+		"PipeAngleDetector;"
 		"VampireBodyDetector;"
 		"VampireTorpedoesDetectorClose;"
-		"VampireTorpedoesDetector;"
-		"WhiteFilter;"
-		"WhiteNoiseTakedown";
+		"VampireTorpedoesDetector";
          // <FACTORY_GENERATOR_ITEMS_LIST/>
 }
 
