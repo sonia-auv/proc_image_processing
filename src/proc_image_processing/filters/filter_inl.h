@@ -67,7 +67,8 @@ namespace proc_image_processing {
   }
 
   ATLAS_INLINE void Filter::GlobalParamInteger(const std::string& name,
-    const int value, const int min,
+    const int value, 
+    const int min,
     const int max) {
     global_params_.addParam(
       new RangedParameter<int>(name, value, max, min, &parameters_));
