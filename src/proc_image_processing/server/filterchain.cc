@@ -177,7 +177,7 @@ namespace proc_image_processing {
   }
 
   std::vector<proc_image_processing::ParameterInterface*>
-    Filterchain::GetFilterAllParameters(const size_t& index) {
+    Filterchain::GetParametersByFilterIndex(const size_t& index) {
     return GetFilter(index)->GetParameters();
   }
 

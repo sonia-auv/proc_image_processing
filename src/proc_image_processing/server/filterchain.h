@@ -79,7 +79,7 @@ namespace proc_image_processing {
       const std::string& param_name,
       const std::string& param_value);
 
-    std::vector<proc_image_processing::ParameterInterface*> GetFilterAllParameters(
+    std::vector<proc_image_processing::ParameterInterface*> GetParametersByFilterIndex(
       const size_t& index);
 
     proc_image_processing::GlobalParamHandler& GetParameterHandler();

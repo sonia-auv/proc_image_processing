@@ -191,7 +191,7 @@ namespace proc_image_processing {
       detection_task_mgr_.GetFilterchainFromDetectionTask(execution_name);
 
     if (filterchain != nullptr) {
-      auto parameters = filterchain->GetFilterAllParameters(
+      auto parameters = filterchain->GetParametersByFilterIndex(
         ExtractFilterIndexFromUIName(rqst.filter));
       std::vector<std::string> parameter_names;
       for (const auto& parameter : parameters) {
