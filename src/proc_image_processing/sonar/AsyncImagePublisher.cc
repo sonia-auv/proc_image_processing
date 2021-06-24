@@ -68,7 +68,7 @@ void AsyncImagePublisher::Publish(const cv::Mat &image) {
 //
 void AsyncImagePublisher::ThreadFunction() {
   cv_bridge::CvImage ros_image;
-  ROS_INFO("Starting ascyn image publisher");
+  ROS_INFO("Starting async image publisher");
   while (!stop_thread_) {
     image_queue_mutex_.lock();
     size_t size = images_to_publish_.size();
