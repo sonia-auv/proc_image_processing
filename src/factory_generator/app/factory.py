@@ -1,3 +1,4 @@
+import io
 from pathlib import Path
 
 from factory_generator_exception import raise_cannot_find_tag
@@ -55,7 +56,7 @@ class Factory:
         self.generate_item_headers_list()
 
     def write(self):
-        with open(self.path, 'w') as f:
+        with io.open(self.path, 'w', newline='\n') as f:
             f.write("".join(self.content))
 
 
