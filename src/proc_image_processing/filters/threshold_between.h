@@ -13,7 +13,7 @@ namespace proc_image_processing {
 
   class ThresholdBetween : public Filter {
   public:
-    using Ptr = std::shared_ptr<Threshold>;
+    using Ptr = std::shared_ptr<ThresholdBetween>;
 
     explicit ThresholdBetween(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
