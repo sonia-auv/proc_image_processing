@@ -31,4 +31,4 @@ def load_all(paths: list, excluded_item_headers: list, tags: dict) -> list:
                 item_headers.append(load(path, tags))
             except:
                 pass
-    return item_headers
+    return sorted(item_headers, key=lambda k: k.filename)
