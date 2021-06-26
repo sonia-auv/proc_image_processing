@@ -113,7 +113,7 @@ void DetectionTask::ChangeReturnImageToOrigin() {
 //------------------------------------------------------------------------------
 //
 void DetectionTask::Run() {
-  unsigned int image_id_old, image_id_new;
+  unsigned int image_id_old = -1, image_id_new = -1;
   while (!MustStop()) {
     try {
       // Fetch the image.
