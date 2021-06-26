@@ -1,11 +1,10 @@
-//
-// Created by csauvain on 20/07/19.
-// Il y a des repetitions de code a ameliorer
-//
+/// \author csauvain
+/// \date 20/07/19
+/// TODO: Refactor code repetition
 
-#ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
-#define PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
 
+#ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 
 #include <proc_image_processing/filters/filter.h>
 #include <math.h>
@@ -16,31 +15,24 @@
 
 namespace proc_image_processing {
 
-    class VampireTorpidoesDetector : public Filter {
+    class VampireTorpedoesDetector : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
+        using Ptr = std::shared_ptr<VampireTorpedoesDetector>;
 
-        using Ptr = std::shared_ptr<VampireTorpidoesDetector>;
+        explicit VampireTorpedoesDetector(const GlobalParamHandler& globalParams)
+            : Filter(globalParams),
+            enable_("Enable", false, &parameters_),
+            debug_contour_("Debug_contour", false, &parameters_),
+            look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
+            look_for_heart_("Look_for_Heart", false, &parameters_),
+            min_area_("Min_area", 5000, 1, 100000, &parameters_),
+            max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+            SetName("VampireTorpedoesDetector");
+        }
 
-        //============================================================================
-        // P U B L I C   C / D T O R S
+        virtual ~VampireTorpedoesDetector() {}
 
-        explicit VampireTorpidoesDetector(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                enable_("Enable", false, &parameters_),
-                debug_contour_("Debug_contour", false, &parameters_),
-                look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
-                look_for_heart_("Look_for_Heart", false, &parameters_),
-                min_area_("Min_area", 5000, 1, 100000, &parameters_),
-                max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
-            SetName("VampireTorpidoesDetector");}
-
-        virtual ~VampireTorpidoesDetector() {}
-
-        //============================================================================
-        // P U B L I C   M E T H O D S
-        virtual void Execute(cv::Mat &image){
+        virtual void Execute(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);
@@ -70,8 +62,8 @@ namespace proc_image_processing {
                     if (object.get() == nullptr) {
                         continue;
                     }
-                    //AREA
 
+                    //AREA
                    //std::cout << object->GetArea();
 
                     if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
@@ -83,7 +75,7 @@ namespace proc_image_processing {
                     }
 
                     cv::Mat pointfs;
-                    cv::Mat(contours[i]).convertTo(pointfs,CV_32F);
+                    cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
 
                     float circleIndex;
@@ -110,7 +102,6 @@ namespace proc_image_processing {
                         }
 
                         objectif = "vampire_torpedoes";
-
                     }
 
                     if (look_for_heart_()) {
@@ -132,9 +123,7 @@ namespace proc_image_processing {
                         }
 
                         objectif = "heart_torpedoes";
-
                     }
-
                     objVec.push_back(object);
                 }
 
@@ -147,39 +136,24 @@ namespace proc_image_processing {
                     target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0,255,0),3);
+                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0, 255, 0), 3);
                     }
                 }
-
-
-
 
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-
-
             }
-
-
-
-
-    }
-
-
-
+        }
 
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
 
         Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
 
         RangedParameter<double> min_area_, max_area_;
-
     };
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_VAMPIRE_TORPIDOES_DETECTOR_H
+#endif  // PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
