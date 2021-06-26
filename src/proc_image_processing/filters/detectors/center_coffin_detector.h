@@ -1,10 +1,9 @@
-//
-// Created by csauvain on 20/07/19.
-//
+/// \author csauvain
+/// \date 20/07/19
+
 
 #ifndef PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
-
 
 #include <proc_image_processing/filters/filter.h>
 #include <math.h>
@@ -15,28 +14,21 @@ namespace proc_image_processing {
 
     class CenterCoffinDetector : public Filter {
     public:
-        //==========================================================================
-        // T Y P E D E F   A N D   E N U M
-
         using Ptr = std::shared_ptr<CenterCoffinDetector>;
 
-        //============================================================================
-        // P U B L I C   C / D T O R S
-
-        explicit CenterCoffinDetector(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                enable_("Enable", false, &parameters_),
-                debug_contour_("Debug_contour", false, &parameters_),
-                look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-                min_area_("Min_area", 100, 1, 10000, &parameters_),
-                max_area_("Max_area", 1000, 1, 1000000, &parameters_) {
-            SetName("CenterCoffinDetector");}
+        explicit CenterCoffinDetector(const GlobalParamHandler& globalParams)
+            : Filter(globalParams),
+            enable_("Enable", false, &parameters_),
+            debug_contour_("Debug_contour", false, &parameters_),
+            look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
+            min_area_("Min_area", 100, 1, 10000, &parameters_),
+            max_area_("Max_area", 1000, 1, 1000000, &parameters_) {
+            SetName("CenterCoffinDetector");
+        }
 
         virtual ~CenterCoffinDetector() {}
 
-        //============================================================================
-        // P U B L I C   M E T H O D S
-        virtual void Execute(cv::Mat &image){
+        virtual void Execute(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);
@@ -67,7 +59,7 @@ namespace proc_image_processing {
                         cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                     }
 
-                    if (look_for_rectangle_() && IsRectangle(contours[i],20)) {
+                    if (look_for_rectangle_() && IsRectangle(contours[i], 20)) {
 
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
@@ -91,38 +83,24 @@ namespace proc_image_processing {
                     cv::Point center_2 = object_2->GetCenter();
 
                     cv::Point target_center;
-                    target_center.x = (center_1.x+center_2.x)/2;
-                    target_center.y = (center_1.y+center_2.y)/2;
+                    target_center.x = (center_1.x + center_2.x) / 2;
+                    target_center.y = (center_1.y + center_2.y) / 2;
 
                     target.SetTarget(objectif, target_center.x, target_center.y, object_1->GetWidth(),
-                                     object_1->GetHeight(), object_1->GetRotatedRect().angle, image.rows, image.cols);
+                        object_1->GetHeight(), object_1->GetRotatedRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, target_center, 100, CV_RGB(0,255,0),3);
+                        cv::circle(output_image_, target_center, 100, CV_RGB(0, 255, 0), 3);
                     }
                 }
-
-
-
 
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-
-
             }
-
-
-
-
         }
 
-
-
-
     private:
-        //============================================================================
-        // P R I V A T E   M E M B E R S
         cv::Mat output_image_;
 
         Parameter<bool> enable_, debug_contour_, look_for_rectangle_;

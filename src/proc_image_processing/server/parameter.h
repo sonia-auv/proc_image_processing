@@ -1,22 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-/// \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
-/// \section LICENSE
-/// This file is part of S.O.N.I.A. software.
-///
-/// S.O.N.I.A. software is free software: you can redistribute it and/or modify
-/// it under the terms of the GNU General Public License as published by
-/// the Free Software Foundation, either version 3 of the License, or
-/// (at your option) any later version.
-///
-/// S.O.N.I.A. software is distributed in the hope that it will be useful,
-/// but WITHOUT ANY WARRANTY; without even the implied warranty of
-/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-/// GNU General Public License for more details.
-///
-/// You should have received a copy of the GNU General Public License
-/// along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
+
 
 #ifndef PROVIDER_VISION_FILTER_PARAMETER_H_
 #define PROVIDER_VISION_FILTER_PARAMETER_H_
@@ -32,138 +17,121 @@
 
 namespace proc_image_processing {
 
-template <typename Tp_>
-class Parameter : public ParameterInterface {
- public:
-  //==========================================================================
-  // T Y P E D E F   A N D   E N U M
+  template <typename Tp_>
+  class Parameter : public ParameterInterface {
+  public:
+    using Ptr = std::shared_ptr<Parameter<Tp_>>;
 
-  using Ptr = std::shared_ptr<Parameter<Tp_>>;
+    static const char SEPARATOR = '|';
 
-  static const char SEPARATOR = '|';
+    explicit Parameter(const std::string& name, const Tp_& value,
+      std::vector<ParameterInterface*>* vector = nullptr,
+      const std::string& description = "");
 
-  //============================================================================
-  // P U B L I C   C / D T O R S
+    virtual ~Parameter() = default;
 
-  explicit Parameter(const std::string &name, const Tp_ &value,
-                     std::vector<ParameterInterface *> *vector = nullptr,
-                     const std::string &description = "");
+    template <class Ut_>
+    bool operator>(const Ut_& rhs) {
+      return value_ > rhs;
+    }
 
-  virtual ~Parameter() = default;
+    template <class Ut_>
+    bool operator<(const Ut_& rhs) {
+      return value_ < rhs;
+    }
 
-  //============================================================================
-  // P U B L I C   O P E R A T O R S
+    template <class Ut_>
+    bool operator==(const Ut_& rhs) {
+      return rhs == value_;
+    }
 
-  template <class Ut_>
-  bool operator>(const Ut_ &rhs) {
-    return value_ > rhs;
-  }
+    template <class Ut_>
+    bool operator!=(const Ut_& rhs) {
+      return rhs != value_;
+    }
 
-  template <class Ut_>
-  bool operator<(const Ut_ &rhs) {
-    return value_ < rhs;
-  }
+    template <class Ut_>
+    void operator+=(const Ut_& rhs) {
+      value_ += rhs;
+    }
 
-  template <class Ut_>
-  bool operator==(const Ut_ &rhs) {
-    return rhs == value_;
-  }
+    template <class Ut_>
+    void operator++() {
+      value_++;
+    }
 
-  template <class Ut_>
-  bool operator!=(const Ut_ &rhs) {
-    return rhs != value_;
-  }
+    template <class Ut_>
+    void operator-=(const Ut_& rhs) {
+      value_ -= rhs;
+    }
 
-  template <class Ut_>
-  void operator+=(const Ut_ &rhs) {
-    value_ += rhs;
-  }
+    template <class Ut_>
+    void operator--() {
+      value_--;
+    }
 
-  template <class Ut_>
-  void operator++() {
-    value_++;
-  }
+    template <class Ut_>
+    void operator*=(const Ut_& rhs) {
+      value_ *= rhs;
+    }
 
-  template <class Ut_>
-  void operator-=(const Ut_ &rhs) {
-    value_ -= rhs;
-  }
+    template <class Ut_>
+    void operator/=(const Ut_& rhs) {
+      value_ /= rhs;
+    }
 
-  template <class Ut_>
-  void operator--() {
-    value_--;
-  }
+    template <class Ut_>
+    int operator+(const Ut_& rhs) {
+      return value_ + rhs;
+    }
 
-  template <class Ut_>
-  void operator*=(const Ut_ &rhs) {
-    value_ *= rhs;
-  }
+    template <class Ut_>
+    int operator-(const Ut_& rhs) {
+      return value_ - rhs;
+    }
 
-  template <class Ut_>
-  void operator/=(const Ut_ &rhs) {
-    value_ /= rhs;
-  }
+    template <class Ut_>
+    int operator*(const Ut_& rhs) {
+      return value_ * rhs;
+    }
 
-  template <class Ut_>
-  int operator+(const Ut_ &rhs) {
-    return value_ + rhs;
-  }
+    template <class Ut_>
+    int operator/(const Ut_& rhs) {
+      return value_ / rhs;
+    }
 
-  template <class Ut_>
-  int operator-(const Ut_ &rhs) {
-    return value_ - rhs;
-  }
+    template <class Ut_>
+    void operator=(const Ut_& rhs) {
+      SetValue(rhs);
+    }
 
-  template <class Ut_>
-  int operator*(const Ut_ &rhs) {
-    return value_ * rhs;
-  }
+    Tp_ operator()() { return GetValue(); }
 
-  template <class Ut_>
-  int operator/(const Ut_ &rhs) {
-    return value_ / rhs;
-  }
+    void SetValue(const Tp_& value);
 
-  template <class Ut_>
-  void operator=(const Ut_ &rhs) {
-    SetValue(rhs);
-  }
+    const Tp_& GetValue() const;
 
-  Tp_ operator()() { return GetValue(); }
+    void SetDescription(const std::string& description) override;
 
-  //============================================================================
-  // P U B L I C   M E T H O D S
+    std::string GetDescription() const override;
 
-  void SetValue(const Tp_ &value);
+    void SetName(const std::string& name) override;
 
-  const Tp_ &GetValue() const;
+    std::string GetName() const override;
 
-  void SetDescription(const std::string &description) override;
+    virtual std::string ToString() const override;
 
-  std::string GetDescription() const override;
+    std::string GetType() const override;
 
-  void SetName(const std::string &name) override;
+    std::string GetStringValue() const override;
 
-  std::string GetName() const override;
+    void SetStringValue(const std::string& value) override;
 
-  virtual std::string ToString() const override;
-
-  std::string GetType() const override;
-
-  std::string GetStringValue() const override;
-
-  void SetStringValue(const std::string &value) override;
-
- protected:
-  //============================================================================
-  // P R O T E C T E D   M E M B E R S
-
-  std::string name_;
-
-  Tp_ value_;
-
-  std::string description_;
-};
+  protected:
+    std::string name_;
+    Tp_ value_;
+    std::string description_;
+  };
 
 }  // namespace proc_image_processing
 
