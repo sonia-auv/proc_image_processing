@@ -19,8 +19,7 @@ namespace proc_image_processing {
       &VisionServer::CallbackExecutionCMD, *this);
 
     RegisterService<sonia_common::GetInformationList>(base_node_name + "get_information_list",
-      &VisionServer::CallbackInfoListCMD,
-      *this);
+      &VisionServer::CallbackInfoListCMD, *this);
 
     RegisterService<sonia_common::CopyFilterchain>(base_node_name + "copy_filterchain",
       &VisionServer::CallbackCopyFc, *this);
@@ -106,8 +105,7 @@ namespace proc_image_processing {
         ROS_INFO("Node: %s, Filterchain: %s, Media: %s", rqst.node_name.c_str(),
           rqst.filterchain_name.c_str(), rqst.media_name.c_str());
 
-        auto fc =
-          detection_task_mgr_.GetFilterchainFromDetectionTask(rqst.node_name);
+        auto fc = detection_task_mgr_.GetFilterchainFromDetectionTask(rqst.node_name);
         if (fc == nullptr) {
           ROS_ERROR("Filterchain does not exist, cannot close execution.");
           return false;
