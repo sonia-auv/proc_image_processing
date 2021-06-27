@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Morphology : public IFilter {
+  class Morphology : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Morphology>;
 
     explicit Morphology(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       morph_type_("Morphology_type", 0, 0, 4, &parameters_,
         "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
@@ -30,7 +30,7 @@ namespace proc_image_processing {
     virtual ~Morphology() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -80,11 +80,10 @@ namespace proc_image_processing {
             iteration_(), CV_8U);
           break;
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_;
+    
     RangedParameter<int> morph_type_, kernel_type_, iteration_, kernel_size_;
     const cv::Point anchor_;
   };

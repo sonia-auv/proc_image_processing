@@ -11,12 +11,12 @@
 
 namespace proc_image_processing {
 
-  class ScharrAdding : public IFilter {
+  class ScharrAdding : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<ScharrAdding>;
 
     explicit ScharrAdding(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       run_small_image_("Run_small_image", true, &parameters_,
         "Resize image to run on smaller image"),
@@ -37,7 +37,7 @@ namespace proc_image_processing {
     virtual ~ScharrAdding() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (image.channels() != 3) return;
         if (run_small_image_()) {
           cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
@@ -62,7 +62,6 @@ namespace proc_image_processing {
         if (convert_to_uchar_() && image.channels() < 3) {
           cv::cvtColor(image, image, CV_GRAY2BGR);
         }
-      }
     }
 
   private:

@@ -14,12 +14,12 @@
 
 namespace proc_image_processing {
 
-  class FenceDetector : public IFilter {
+  class FenceDetector : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<FenceDetector>;
 
     explicit FenceDetector(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       debug_contour_("Debug_contour", false, &parameters_),
       search_only_bottom_("Search_only_bottom", false, &parameters_,

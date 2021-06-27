@@ -10,13 +10,12 @@
 
 namespace proc_image_processing {
 
-  class WhiteNoiseTakedown : public IFilter {
+  class WhiteNoiseTakedown : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<WhiteNoiseTakedown>;
 
     explicit WhiteNoiseTakedown(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
-      enable_("Enable", false, &parameters_),
+      : AbstractFilter(globalParams),
       low_b_("LowB", 0, 0, 255, &parameters_),
       high_b_("HighB", 0, 0, 255, &parameters_),
       low_g_("LowG", 0, 0, 255, &parameters_),
@@ -31,7 +30,7 @@ namespace proc_image_processing {
     virtual ~WhiteNoiseTakedown() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         std::vector<cv::Mat> channels;
         cv::Mat original_image(global_params_.getOriginalImage());
         cv::split(original_image, channels);
@@ -70,7 +69,7 @@ namespace proc_image_processing {
     }
 
   private:
-    Parameter<bool> enable_;
+    
     RangedParameter<int> low_b_, high_b_, low_g_, high_g_, low_r_, high_r_;
     RangedParameter<int> view_channel_;
   };

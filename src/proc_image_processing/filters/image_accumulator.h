@@ -12,12 +12,12 @@
 
 namespace proc_image_processing {
 
-  class ImageAccumulator : public IFilter {
+  class ImageAccumulator : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<ImageAccumulator>;
 
     explicit ImageAccumulator(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       accumulator_(3, cv::Size(0, 0), CV_8UC1),
       enable_("Enable", false, &parameters_),
       nb_image_("NB_of_images", 3, 1, 20, &parameters_),
@@ -33,7 +33,7 @@ namespace proc_image_processing {
     virtual ~ImageAccumulator() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         // Is there any change in the type of images
         // we input to the accumulator?
         // If yes, reset it.
@@ -69,12 +69,11 @@ namespace proc_image_processing {
         accumulator_.AddImage(image);
         // Change the input for the newest averaging.
         accumulator_.GetImage(image);
-      }
     }
 
   private:
     ImageAccumulatorBuffer accumulator_;
-    Parameter<bool> enable_;
+    
     RangedParameter<int> nb_image_, method_;
     // Here we need some sorte of remembering
     // so we can reset the accumulator on

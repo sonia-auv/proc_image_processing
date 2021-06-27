@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class HoughLine : public IFilter {
+  class HoughLine : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<HoughLine>;
 
     explicit HoughLine(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
       theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),
@@ -28,7 +28,7 @@ namespace proc_image_processing {
     virtual ~HoughLine() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -44,11 +44,10 @@ namespace proc_image_processing {
             cv::Point(line[2], line[3]), cv::Scalar(255, 255, 255), 3);
         }
         cv::cvtColor(drawing_image, image, CV_BGR2GRAY);
-      }
     }
 
   private:
-    Parameter<bool> enable_;
+    
     RangedParameter<double> rho_, theta_, min_length_, max_gap_;
     RangedParameter<int> threshold_;
   };

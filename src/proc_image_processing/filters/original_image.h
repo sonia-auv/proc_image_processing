@@ -10,25 +10,21 @@
 
 namespace proc_image_processing {
 
-  class OriginalImage : public IFilter {
+  class OriginalImage : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<OriginalImage>;
 
     explicit OriginalImage(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams), enable_("Enable", false, &parameters_) {
+      : AbstractFilter(globalParams), enable_("Enable", false, &parameters_) {
       SetName("OriginalImage");
     }
 
     virtual ~OriginalImage() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         image = global_params_.getOriginalImage();
       }
-    }
-
-  private:
-    Parameter<bool> enable_;
   };
 
 }  // namespace proc_image_processing

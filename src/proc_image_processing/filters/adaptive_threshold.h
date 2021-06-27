@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class AdaptiveThreshold : public IFilter {
+  class AdaptiveThreshold : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<AdaptiveThreshold>;
 
     explicit AdaptiveThreshold(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
       threshold_type_("Threshold_type", 0, 0, 1, &parameters_,
@@ -28,7 +28,6 @@ namespace proc_image_processing {
     virtual ~AdaptiveThreshold() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -38,11 +37,9 @@ namespace proc_image_processing {
         int type =
           threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
         cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
-      }
     }
 
   private:
-    Parameter<bool> enable_;
 
     RangedParameter<int> method_, threshold_type_, _block_size;
 

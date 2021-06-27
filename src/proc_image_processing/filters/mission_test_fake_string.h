@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class MissionTestFakeString : public IFilter {
+  class MissionTestFakeString : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<MissionTestFakeString>;
 
     explicit MissionTestFakeString(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       _string("String_to_return", "test", &parameters_) {
       SetName("MissionTestFakeString");
@@ -24,13 +24,12 @@ namespace proc_image_processing {
     virtual ~MissionTestFakeString() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         NotifyTarget(Target());
-      }
     }
 
   private:
-    Parameter<bool> enable_;
+    
     Parameter<std::string> _string;
   };
 

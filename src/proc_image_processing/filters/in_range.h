@@ -17,12 +17,12 @@ namespace proc_image_processing {
    * In this case, this filter is a binarizer and will output a black and white
    * image
    */
-  class InRange : public IFilter {
+  class InRange : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<InRange>;
 
     explicit InRange(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
       upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
@@ -68,7 +68,6 @@ namespace proc_image_processing {
             upper_v_.GetValue()),
           luv);
         cv::bitwise_and(hsv, luv, image);
-      }
     }
 
   private:
@@ -77,7 +76,7 @@ namespace proc_image_processing {
      * This is being used by the vision server for calling the filter in the
      * filterchain.
      */
-    Parameter<bool> enable_;
+    
 
     /** Inclusive Hue lower boundary. */
     RangedParameter<int> lower_hue_;

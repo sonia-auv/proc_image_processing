@@ -13,12 +13,12 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class ContrastBrightness : public IFilter {
+  class ContrastBrightness : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<ContrastBrightness>;
 
     explicit ContrastBrightness(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("enable", false, &parameters_),
       contrast_("Contrast", 0, 0, 256, &parameters_,
         "Contrast"),
@@ -32,7 +32,6 @@ namespace proc_image_processing {
     virtual ~ContrastBrightness() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
         rows_ = image.rows;
         cols_ = image.cols;
         // Set final matrices
@@ -50,12 +49,10 @@ namespace proc_image_processing {
         }
 
         final.copyTo(image);
-      }
     }
 
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<double> contrast_, brightness_;
     // Color matrices
     int rows_;

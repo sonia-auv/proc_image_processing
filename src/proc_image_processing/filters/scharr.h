@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Scharr : public IFilter {
+  class Scharr : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Scharr>;
 
     explicit Scharr(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       convert_to_uchar_("Convert_to_uchar", true, &parameters_),
       use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
@@ -30,7 +30,7 @@ namespace proc_image_processing {
     virtual ~Scharr() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -56,7 +56,6 @@ namespace proc_image_processing {
         if (convert_to_uchar_()) {
           cv::convertScaleAbs(image, image);
         }
-      }
     }
 
   private:

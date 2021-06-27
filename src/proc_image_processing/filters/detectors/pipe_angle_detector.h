@@ -30,12 +30,12 @@
 
 namespace proc_image_processing {
 
-    class PipeAngleDetector : public IFilter {
+    class PipeAngleDetector : public AbstractFilter {
     public:
         using Ptr = std::shared_ptr<PipeAngleDetector>;
 
         explicit PipeAngleDetector(const GlobalParamHandler& globalParams)
-            : IFilter(globalParams),
+            : AbstractFilter(globalParams),
             angle_(0.0f),
             enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
@@ -47,7 +47,7 @@ namespace proc_image_processing {
         virtual ~PipeAngleDetector() {}
 
         virtual void ProcessImage(cv::Mat& image) {
-            if (enable_()) {
+      
                 intersectionPoint_.clear();
                 if (debug_contour_()) {
                     image.copyTo(output_image_);

@@ -10,13 +10,12 @@
 
 namespace proc_image_processing {
 
-  class StatsThreshold : public IFilter {
+  class StatsThreshold : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<StatsThreshold>;
 
     explicit StatsThreshold(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
-      enable_("Enable", false, &parameters_),
+      : AbstractFilter(globalParams),
       min_thresh_("Min_thresh", 0, 0, 255, &parameters_),
       mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
       std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
@@ -27,7 +26,7 @@ namespace proc_image_processing {
     virtual ~StatsThreshold() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -45,7 +44,7 @@ namespace proc_image_processing {
     }
 
   private:
-    Parameter<bool> enable_;
+    
     RangedParameter<int> min_thresh_;
     RangedParameter<double> mean_multiplier_, std_dev_multiplier_;
   };

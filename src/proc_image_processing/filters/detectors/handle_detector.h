@@ -14,12 +14,12 @@
 
 namespace proc_image_processing {
 
-  class HandleDetector : public IFilter {
+  class HandleDetector : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<HandleDetector>;
 
     explicit HandleDetector(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       debug_contour_("Debug_contour", false, &parameters_),
       look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
@@ -44,7 +44,7 @@ namespace proc_image_processing {
     virtual ~HandleDetector() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (debug_contour_()) {
           image.copyTo(output_image_);
           if (output_image_.channels() == 1) {

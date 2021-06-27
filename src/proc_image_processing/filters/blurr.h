@@ -16,12 +16,12 @@ namespace proc_image_processing {
   // This is a program to execute image filter other than erode, dilate and
   // morphologicalEx. Those are more blur function than pixelizer
   // settings are for the differents type of filters, and does not apply to all
-  class Blurr : public IFilter {
+  class Blurr : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Blurr>;
 
     explicit Blurr(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       type_("Type", 2, 0, 3, &parameters_,
         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
@@ -33,7 +33,6 @@ namespace proc_image_processing {
     virtual ~Blurr() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
         cv::Size2i kernelSize((int)kernel_size_() * 2 + 1,
           (int)(kernel_size_() * 2 + 1));
         switch (type_()) {
@@ -50,11 +49,9 @@ namespace proc_image_processing {
           cv::medianBlur(image, image, kernel_size_() * 2 + 1);
           break;
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> type_, kernel_size_;
 
     const cv::Point anchor_;

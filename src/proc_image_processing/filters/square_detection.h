@@ -12,12 +12,12 @@
 
 namespace proc_image_processing {
 
-    class SquareDetection : public IFilter {
+    class SquareDetection : public AbstractFilter {
     public:
         using Ptr = std::shared_ptr<SquareDetection>;
 
         explicit SquareDetection(const GlobalParamHandler& globalParams)
-            : IFilter(globalParams), enable_("Enable", false, &parameters_),
+            : AbstractFilter(globalParams), enable_("Enable", false, &parameters_),
             N("N", 100, 0, 100, &parameters_),
             thresh("threshold", 100, 0, 100, &parameters_) {
             SetName("SquareDetection");
@@ -118,7 +118,7 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_;
+        
         RangedParameter<int> N, thresh;
 
         const cv::Point anchor_;

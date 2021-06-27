@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Canny : public IFilter {
+  class Canny : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Canny>;
 
     explicit Canny(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       l2_gradiant_("l2_gradient", false, &parameters_),
       thresh_one_("thres_one", 100, 0, 255, &parameters_),
@@ -27,13 +27,11 @@ namespace proc_image_processing {
     virtual ~Canny() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
         cv::Canny(image, image, thresh_one_(), thresh_two_(),
           aperture_size_() * 2 + 1, l2_gradiant_());
-      }
     }
 
   private:

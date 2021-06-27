@@ -14,13 +14,12 @@ namespace proc_image_processing {
   // Take the input image as binary, takes the originalImage and process
   // a subtracAllPlane filter, then add both input and computed image together.
   // Most usefull for the purple handle...
-  class SubtractPlaneAdder : public IFilter {
+  class SubtractPlaneAdder : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<SubtractPlaneAdder>;
 
     explicit SubtractPlaneAdder(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
-      enable_("enable", false, &parameters_),
+      : AbstractFilter(globalParams),
       show_adding_result_("show_adding_result", false, &parameters_),
       plane_one_("Plane_1", 1, 0, 7, &parameters_,
         "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
@@ -45,7 +44,7 @@ namespace proc_image_processing {
     virtual ~SubtractPlaneAdder() {}
 
     virtual void execute(cv::Mat& image) {
-      if (enable_()) {
+
         cv::Mat original = global_params_.getOriginalImage();
         if (CV_MAT_CN(original.type()) != 3) {
           return;
@@ -80,7 +79,6 @@ namespace proc_image_processing {
           cv::add(final, image, final);
         }
         final.copyTo(image);
-      }
     }
 
   private:

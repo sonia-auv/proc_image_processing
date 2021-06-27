@@ -24,10 +24,7 @@ namespace proc_image_processing {
 
     virtual ~IFilter() = default;
 
-    void Execute(cv::Mat& image) {
-      ProcessImage(image);
-    };
-
+    virtual void Execute(cv::Mat& image) = 0;
 
     virtual void ProcessImage(cv::Mat& image) = 0;
 

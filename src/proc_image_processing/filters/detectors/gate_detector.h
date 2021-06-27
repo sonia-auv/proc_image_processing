@@ -16,12 +16,12 @@
 
 namespace proc_image_processing {
 
-  class GateDetector : public IFilter {
+  class GateDetector : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<GateDetector>;
 
     explicit GateDetector(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       debug_contour_("Debug_contour", false, &parameters_),
       use_convex_hull_("Use_convex_hull", false, &parameters_),
@@ -67,7 +67,7 @@ namespace proc_image_processing {
     virtual ~GateDetector() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (debug_contour_()) {
           image.copyTo(output_image_);
           if (output_image_.channels() == 1) {

@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class ConvexHull : public IFilter {
+  class ConvexHull : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<ConvexHull>;
 
     explicit ConvexHull(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       mode_("Mode", 0, 0, 3, &parameters_,
         "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "
@@ -30,7 +30,6 @@ namespace proc_image_processing {
     virtual ~ConvexHull() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
         int mode, method;
         switch (mode_()) {
         case 0:
@@ -78,11 +77,9 @@ namespace proc_image_processing {
         for (size_t i = 0; i < contours.size(); i++) {
           cv::drawContours(image, hull, i, cv::Scalar(255, 255, 255), CV_FILLED);
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> mode_, method_;
   };
 

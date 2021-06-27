@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Equalize : public IFilter {
+  class Equalize : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Equalize>;
 
     explicit Equalize(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("enable", false, &parameters_) {
       SetName("Equalize");
     }
@@ -23,13 +23,12 @@ namespace proc_image_processing {
     virtual ~Equalize() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         cv::equalizeHist(image, image);
-      }
     }
 
   private:
-    Parameter<bool> enable_;
+    
   };
 
 }  // namespace proc_image_processing

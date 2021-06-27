@@ -14,7 +14,7 @@
 #include <sonia_common/DetectionArray.h>
 
 namespace proc_image_processing {
-    class Deep2019 : public IFilter {
+    class Deep2019 : public AbstractFilter {
 
     public:
         explicit Deep2019(const GlobalParamHandler& globalParams) :
@@ -37,7 +37,6 @@ namespace proc_image_processing {
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
 
         virtual void ProcessImage(cv::Mat& image) {
-            if (enable_()) {
                 Target target;
                 image_width_ = image.size().width;
                 image_height_ = image.size().height;
@@ -77,7 +76,6 @@ namespace proc_image_processing {
                     NotifyTarget(objects_.back());
                     objects_.pop_back();
                 }
-            }
         };
 
     private:

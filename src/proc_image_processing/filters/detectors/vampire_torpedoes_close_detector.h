@@ -15,12 +15,12 @@
 
 namespace proc_image_processing {
 
-    class VampireTorpedoesDetectorClose : public IFilter {
+    class VampireTorpedoesDetectorClose : public AbstractFilter {
     public:
         using Ptr = std::shared_ptr<VampireTorpedoesDetectorClose>;
 
         explicit VampireTorpedoesDetectorClose(const GlobalParamHandler& globalParams)
-            : IFilter(globalParams),
+            : AbstractFilter(globalParams),
             enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
             look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
@@ -33,7 +33,7 @@ namespace proc_image_processing {
         virtual ~VampireTorpedoesDetectorClose() {}
 
         virtual void ProcessImage(cv::Mat& image) {
-            if (enable_()) {
+      
                 std::string objectif;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {

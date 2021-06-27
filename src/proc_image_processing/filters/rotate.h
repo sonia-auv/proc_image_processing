@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Rotate : public IFilter {
+  class Rotate : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Rotate>;
 
     explicit Rotate(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("enable", false, &parameters_),
       transpose_("transpose", false, &parameters_),
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
@@ -26,7 +26,7 @@ namespace proc_image_processing {
     virtual ~Rotate() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (transpose_()) cv::transpose(image, image);
         switch (rotate_type_()) {
         case 0:
@@ -41,7 +41,6 @@ namespace proc_image_processing {
           cv::flip(image, image, -1);
           break;
         }
-      }
     }
 
   private:

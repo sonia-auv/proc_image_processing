@@ -14,12 +14,12 @@ namespace proc_image_processing {
    * The filter bilateral aims to blurr an image without loosing edge sharpness.
    * This act like a proxy for the OpenCv bilateralFilter method.
    */
-  class BilateralFilter : public IFilter {
+  class BilateralFilter : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<BilateralFilter>;
 
     explicit BilateralFilter(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       diameter_("Diameter", -100, 0, 100, &parameters_),
       sigma_color_("Sigm_color", 0, 0, 300, &parameters_),
@@ -36,14 +36,12 @@ namespace proc_image_processing {
      *
      * \param image The image to process.
      */
-    void ProcessImage(cv::Mat& image) override {
-      if (enable_()) {
+    virtual void ProcessImage(cv::Mat& image) override {
         cv::Mat blurred;
         cv::bilateralFilter(image, blurred, diameter_.GetValue(),
           sigma_color_.GetValue(), sigma_space_.GetValue());
 
         blurred.copyTo(image);
-      }
     }
 
   private:
@@ -52,7 +50,7 @@ namespace proc_image_processing {
      * This is being used by the vision server for calling the filter in the
      * filterchain.
      */
-    Parameter<bool> enable_;
+    
 
     /**
      * From the OpenCV definition:

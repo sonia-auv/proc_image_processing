@@ -16,12 +16,12 @@ namespace proc_image_processing {
   // This is a program to execute image filter other than erode, dilate and
   // morphologicalEx. Those are more blur function than pixelizer
   // settings are for the differents type of filters, and does not apply to all
-  class RemoveMask : public IFilter {
+  class RemoveMask : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<Blurr>;
 
     explicit RemoveMask(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("Enable", false, &parameters_),
       type_("Type", 2, 0, 3, &parameters_,
         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
@@ -33,13 +33,12 @@ namespace proc_image_processing {
     virtual ~RemoveMask() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         global_params_.getOriginalImage().copyTo(image, image);
-      }
     }
 
   private:
-    Parameter<bool> enable_;
+    
     RangedParameter<int> type_, kernel_size_;
 
     const cv::Point anchor_;

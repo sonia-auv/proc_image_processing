@@ -13,12 +13,12 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class HSVThreshold : public IFilter {
+  class HSVThreshold : public AbstractFilter {
   public:
     using Ptr = std::shared_ptr<HSVThreshold>;
 
     explicit HSVThreshold(const GlobalParamHandler& globalParams)
-      : IFilter(globalParams),
+      : AbstractFilter(globalParams),
       enable_("enable", false, &parameters_),
       hue_min_("Hue Min", 0, 0, 256, &parameters_,
         "Minimum Hue to threshold. Keep values higher or equal to this value."),
@@ -40,7 +40,7 @@ namespace proc_image_processing {
     virtual ~HSVThreshold() {}
 
     virtual void ProcessImage(cv::Mat& image) {
-      if (enable_()) {
+
         if (CV_MAT_CN(image.type()) != 3) {
           return;
         }
@@ -74,7 +74,6 @@ namespace proc_image_processing {
         cv::bitwise_and(final, value_res, final);
 
         final.copyTo(image);
-      }
     }
 
   private:
@@ -85,7 +84,7 @@ namespace proc_image_processing {
 
     }
 
-    Parameter<bool> enable_;
+    
     RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;
     // Color matrices
     std::vector<cv::Mat> channel_vec_;
