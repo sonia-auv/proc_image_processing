@@ -1,4 +1,7 @@
 
+#ifndef PROVIDER_VISION_ABTSTRACT_FILTER_H_
+#define PROVIDER_VISION_ABTSTRACT_FILTER_H_
+
 #include <proc_image_processing/filters/filter.h>
 
 namespace proc_image_processing
@@ -24,3 +27,5 @@ namespace proc_image_processing
 
     };
 }  // namespace proc_image_processing
+
+#endif  // PROVIDER_VISION_ABTSTRACT_FILTER_H_

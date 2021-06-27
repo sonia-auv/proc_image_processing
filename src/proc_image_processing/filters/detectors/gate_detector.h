@@ -331,7 +331,6 @@ namespace proc_image_processing {
         if (debug_contour_()) {
           output_image_.copyTo(image);
         }
-      }
     }
 
     float GetDistanceFromCenter(ObjectFullData::Ptr object) {
@@ -345,7 +344,7 @@ namespace proc_image_processing {
   private:
     cv::Mat output_image_;
 
-    Parameter<bool> enable_, debug_contour_
+    Parameter<bool> debug_contour_
       , use_convex_hull_, offset_y_for_fence_;
 
     RangedParameter<double> offset_y_for_fence_fraction;

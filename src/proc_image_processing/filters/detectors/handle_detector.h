@@ -20,7 +20,6 @@ namespace proc_image_processing {
 
     explicit HandleDetector(const GlobalParamHandler& globalParams)
       : AbstractFilter(globalParams),
-      enable_("Enable", false, &parameters_),
       debug_contour_("Debug_contour", false, &parameters_),
       look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
       disable_ratio_("disable_ratio_check", false, &parameters_),
@@ -129,13 +128,12 @@ namespace proc_image_processing {
         if (debug_contour_()) {
           output_image_.copyTo(image);
         }
-      }
     }
 
   private:
     cv::Mat output_image_;
     // Params
-    Parameter<bool> enable_, debug_contour_, look_for_rectangle_, disable_ratio_,
+    Parameter<bool> debug_contour_, look_for_rectangle_, disable_ratio_,
       disable_angle_;
     Parameter<std::string> id_, spec_1_, spec_2_;
     RangedParameter<double> min_area_, targeted_ratio_,
