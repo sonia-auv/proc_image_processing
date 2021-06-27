@@ -6,6 +6,19 @@
 ![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/sonia-auv/proc_image_processing.svg)
 
 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=security_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=bugs)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=coverage)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=ncloc)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_index)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+
 *Please read the instructions and fill in the blanks*
 
 
