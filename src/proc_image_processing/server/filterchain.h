@@ -45,12 +45,12 @@ namespace proc_image_processing {
 
     bool Deserialize();
 
-    proc_image_processing::Filter::Ptr GetFilter(const size_t& index) const;
+    proc_image_processing::IFilter::Ptr GetFilter(const size_t& index) const;
 
-    std::vector<proc_image_processing::Filter::Ptr> GetFiltersWithName(
+    std::vector<proc_image_processing::IFilter::Ptr> GetFiltersWithName(
       const std::string& filter_name) const;
 
-    std::vector<proc_image_processing::Filter::Ptr> GetAllFilters() const;
+    std::vector<proc_image_processing::IFilter::Ptr> GetAllFilters() const;
 
     /**
      * Check if there is a filter with the same name than the given parameter.
@@ -91,19 +91,19 @@ namespace proc_image_processing {
 
     proc_image_processing::GlobalParamHandler param_handler_;
 
-    std::vector<proc_image_processing::Filter::Ptr> filters_;
+    std::vector<proc_image_processing::IFilter::Ptr> filters_;
 
     size_t observer_index_;
   };
 
-  inline proc_image_processing::Filter::Ptr Filterchain::GetFilter(
+  inline proc_image_processing::IFilter::Ptr Filterchain::GetFilter(
     const size_t& index) const {
     return filters_.at(index);
   }
 
-  inline std::vector<proc_image_processing::Filter::Ptr>
+  inline std::vector<proc_image_processing::IFilter::Ptr>
     Filterchain::GetFiltersWithName(const std::string& filter_name) const {
-    std::vector<proc_image_processing::Filter::Ptr> filters;
+    std::vector<proc_image_processing::IFilter::Ptr> filters;
     for (const auto& filter : filters_) {
       if (filter->GetName() == filter_name) {
         filters.push_back(filter);
@@ -112,7 +112,7 @@ namespace proc_image_processing {
     return filters;
   }
 
-  inline std::vector<proc_image_processing::Filter::Ptr> Filterchain::GetAllFilters()
+  inline std::vector<proc_image_processing::IFilter::Ptr> Filterchain::GetAllFilters()
     const {
     return filters_;
   }

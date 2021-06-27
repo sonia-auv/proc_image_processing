@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Dilate : public Filter {
+  class Dilate : public IFilter {
   public:
     using Ptr = std::shared_ptr<Dilate>;
 
     explicit Dilate(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       use_square_kernel_("Square_kernel", true, &parameters_),
       kernel_type_("Kernel_type", 0, 0, 2, &parameters_),

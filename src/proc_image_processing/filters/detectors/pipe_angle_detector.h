@@ -30,12 +30,12 @@
 
 namespace proc_image_processing {
 
-    class PipeAngleDetector : public Filter {
+    class PipeAngleDetector : public IFilter {
     public:
         using Ptr = std::shared_ptr<PipeAngleDetector>;
 
         explicit PipeAngleDetector(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
+            : IFilter(globalParams),
             angle_(0.0f),
             enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),

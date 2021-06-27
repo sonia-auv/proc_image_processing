@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Canny : public Filter {
+  class Canny : public IFilter {
   public:
     using Ptr = std::shared_ptr<Canny>;
 
     explicit Canny(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       l2_gradiant_("l2_gradient", false, &parameters_),
       thresh_one_("thres_one", 100, 0, 255, &parameters_),

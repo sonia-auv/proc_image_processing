@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class ConvexHull : public Filter {
+  class ConvexHull : public IFilter {
   public:
     using Ptr = std::shared_ptr<ConvexHull>;
 
     explicit ConvexHull(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       mode_("Mode", 0, 0, 3, &parameters_,
         "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "

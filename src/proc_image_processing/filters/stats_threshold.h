@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class StatsThreshold : public Filter {
+  class StatsThreshold : public IFilter {
   public:
     using Ptr = std::shared_ptr<StatsThreshold>;
 
     explicit StatsThreshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       min_thresh_("Min_thresh", 0, 0, 255, &parameters_),
       mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),

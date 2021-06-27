@@ -12,12 +12,12 @@
 
 namespace proc_image_processing {
 
-    class SquareDetection : public Filter {
+    class SquareDetection : public IFilter {
     public:
         using Ptr = std::shared_ptr<SquareDetection>;
 
         explicit SquareDetection(const GlobalParamHandler& globalParams)
-            : Filter(globalParams), enable_("Enable", false, &parameters_),
+            : IFilter(globalParams), enable_("Enable", false, &parameters_),
             N("N", 100, 0, 100, &parameters_),
             thresh("threshold", 100, 0, 100, &parameters_) {
             SetName("SquareDetection");

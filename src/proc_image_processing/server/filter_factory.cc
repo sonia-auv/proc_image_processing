@@ -6,7 +6,7 @@
 #include "proc_image_processing/server/filter_factory.h"
 
 namespace proc_image_processing {
-Filter *FilterFactory::createInstance(const std::string &name,
+IFilter *FilterFactory::createInstance(const std::string &name,
                                       const GlobalParamHandler &globalParams) {
   if (name == "Blurr") {
     return new Blurr(globalParams);

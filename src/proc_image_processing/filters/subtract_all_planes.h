@@ -13,12 +13,12 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class SubtractAllPlanes : public Filter {
+  class SubtractAllPlanes : public IFilter {
   public:
     using Ptr = std::shared_ptr<SubtractAllPlanes>;
 
     explicit SubtractAllPlanes(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("enable", false, &parameters_),
       plane_one_("Plane_1", 1, 0, 7, &parameters_,
         "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "

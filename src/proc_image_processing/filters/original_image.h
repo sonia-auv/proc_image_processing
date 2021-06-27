@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class OriginalImage : public Filter {
+  class OriginalImage : public IFilter {
   public:
     using Ptr = std::shared_ptr<OriginalImage>;
 
     explicit OriginalImage(const GlobalParamHandler& globalParams)
-      : Filter(globalParams), enable_("Enable", false, &parameters_) {
+      : IFilter(globalParams), enable_("Enable", false, &parameters_) {
       SetName("OriginalImage");
     }
 

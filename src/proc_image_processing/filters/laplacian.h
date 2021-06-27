@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Laplacian : public Filter {
+  class Laplacian : public IFilter {
   public:
     using Ptr = std::shared_ptr<Laplacian>;
 
     explicit Laplacian(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       convert_to_uchar_("Convert_to_uchar", true, &parameters_),
       delta_("Delta", 0, 0, 255, &parameters_),

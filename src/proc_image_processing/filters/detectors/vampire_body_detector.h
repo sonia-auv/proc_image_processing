@@ -12,12 +12,12 @@
 
 namespace proc_image_processing {
 
-    class VampireBodyDetector : public Filter {
+    class VampireBodyDetector : public IFilter {
     public:
         using Ptr = std::shared_ptr<VampireBodyDetector>;
 
         explicit VampireBodyDetector(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
+            : IFilter(globalParams),
             enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
             look_for_rectangle_("Look_for_Rectangle", false, &parameters_),

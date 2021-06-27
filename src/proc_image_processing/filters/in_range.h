@@ -17,12 +17,12 @@ namespace proc_image_processing {
    * In this case, this filter is a binarizer and will output a black and white
    * image
    */
-  class InRange : public Filter {
+  class InRange : public IFilter {
   public:
     using Ptr = std::shared_ptr<InRange>;
 
     explicit InRange(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
       upper_hue_("HSVHighH", 255, 0, 255, &parameters_),

@@ -182,7 +182,7 @@ namespace proc_image_processing {
   }
 
   void Filterchain::AddFilter(const std::string& filter_name) {
-    auto filter = proc_image_processing::Filter::Ptr(
+    auto filter = proc_image_processing::IFilter::Ptr(
       proc_image_processing::FilterFactory::createInstance(filter_name,
         param_handler_));
     if (filter != nullptr) {

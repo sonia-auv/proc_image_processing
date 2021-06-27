@@ -9,12 +9,12 @@
 
 namespace proc_image_processing {
 
-  class ImageCropper : public Filter {
+  class ImageCropper : public IFilter {
   public:
     using Ptr = std::shared_ptr<Blurr>;
 
     explicit ImageCropper(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       x_offset_("X Offset", 0, 0, 2000, &parameters_),
       y_offset_("Y Offset", 0, 0, 2000, &parameters_),

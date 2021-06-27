@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class MissionTestFakeString : public Filter {
+  class MissionTestFakeString : public IFilter {
   public:
     using Ptr = std::shared_ptr<MissionTestFakeString>;
 
     explicit MissionTestFakeString(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       _string("String_to_return", "test", &parameters_) {
       SetName("MissionTestFakeString");

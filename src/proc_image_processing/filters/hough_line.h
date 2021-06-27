@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class HoughLine : public Filter {
+  class HoughLine : public IFilter {
   public:
     using Ptr = std::shared_ptr<HoughLine>;
 
     explicit HoughLine(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
       theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),

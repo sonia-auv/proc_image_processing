@@ -13,12 +13,12 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class HSVThreshold : public Filter {
+  class HSVThreshold : public IFilter {
   public:
     using Ptr = std::shared_ptr<HSVThreshold>;
 
     explicit HSVThreshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("enable", false, &parameters_),
       hue_min_("Hue Min", 0, 0, 256, &parameters_,
         "Minimum Hue to threshold. Keep values higher or equal to this value."),

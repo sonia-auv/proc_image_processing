@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class AdaptiveThreshold : public Filter {
+  class AdaptiveThreshold : public IFilter {
   public:
     using Ptr = std::shared_ptr<AdaptiveThreshold>;
 
     explicit AdaptiveThreshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
       threshold_type_("Threshold_type", 0, 0, 1, &parameters_,

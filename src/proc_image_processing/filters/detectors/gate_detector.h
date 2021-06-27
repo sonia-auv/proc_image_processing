@@ -16,12 +16,12 @@
 
 namespace proc_image_processing {
 
-  class GateDetector : public Filter {
+  class GateDetector : public IFilter {
   public:
     using Ptr = std::shared_ptr<GateDetector>;
 
     explicit GateDetector(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       debug_contour_("Debug_contour", false, &parameters_),
       use_convex_hull_("Use_convex_hull", false, &parameters_),

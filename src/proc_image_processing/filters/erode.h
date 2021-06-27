@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Erode : public Filter {
+  class Erode : public IFilter {
   public:
     using Ptr = std::shared_ptr<Erode>;
 
     explicit Erode(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       use_square_kernel_("Square_kernel", true, &parameters_),
       kernel_type_("Kernel_type", 0, 0, 2, &parameters_),

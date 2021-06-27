@@ -11,12 +11,12 @@
 
 namespace proc_image_processing {
 
-  class ScharrAdding : public Filter {
+  class ScharrAdding : public IFilter {
   public:
     using Ptr = std::shared_ptr<ScharrAdding>;
 
     explicit ScharrAdding(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       run_small_image_("Run_small_image", true, &parameters_,
         "Resize image to run on smaller image"),

@@ -16,12 +16,12 @@ namespace proc_image_processing {
   // This is a program to execute image filter other than erode, dilate and
   // morphologicalEx. Those are more blur function than pixelizer
   // settings are for the differents type of filters, and does not apply to all
-  class BackgroundSubstract : public Filter {
+  class BackgroundSubstract : public IFilter {
   public:
     using Ptr = std::shared_ptr<BackgroundSubstract>;
 
     explicit BackgroundSubstract(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       show_blurred_("Show_blurred", false, &parameters_),
       blur_size_("Blur_size", 255, 0, 1000, &parameters_),

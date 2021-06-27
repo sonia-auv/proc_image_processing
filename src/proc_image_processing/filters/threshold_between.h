@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class ThresholdBetween : public Filter {
+  class ThresholdBetween : public IFilter {
   public:
     using Ptr = std::shared_ptr<Threshold>;
 
     explicit ThresholdBetween(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       type_("Threshold_type_", 1, 0, 5, &parameters_,
         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),

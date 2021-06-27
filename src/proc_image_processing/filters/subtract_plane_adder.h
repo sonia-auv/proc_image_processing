@@ -14,12 +14,12 @@ namespace proc_image_processing {
   // Take the input image as binary, takes the originalImage and process
   // a subtracAllPlane filter, then add both input and computed image together.
   // Most usefull for the purple handle...
-  class SubtractPlaneAdder : public Filter {
+  class SubtractPlaneAdder : public IFilter {
   public:
     using Ptr = std::shared_ptr<SubtractPlaneAdder>;
 
     explicit SubtractPlaneAdder(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("enable", false, &parameters_),
       show_adding_result_("show_adding_result", false, &parameters_),
       plane_one_("Plane_1", 1, 0, 7, &parameters_,

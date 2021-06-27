@@ -16,13 +16,13 @@
 
 namespace proc_image_processing {
 
-  class Filter {
+  class IFilter {
   public:
-    using Ptr = std::shared_ptr<Filter>;
+    using Ptr = std::shared_ptr<IFilter>;
 
-    explicit Filter(const GlobalParamHandler& globalParams);
+    explicit IFilter(const GlobalParamHandler& globalParams);
 
-    virtual ~Filter() = default;
+    virtual ~IFilter() = default;
 
     virtual void Execute(cv::Mat& image) = 0;
 

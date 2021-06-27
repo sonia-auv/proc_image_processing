@@ -12,12 +12,12 @@
 
 namespace proc_image_processing {
 
-    class CenterCoffinDetector : public Filter {
+    class CenterCoffinDetector : public IFilter {
     public:
         using Ptr = std::shared_ptr<CenterCoffinDetector>;
 
         explicit CenterCoffinDetector(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
+            : IFilter(globalParams),
             enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
             look_for_rectangle_("Look_for_Rectangle", false, &parameters_),

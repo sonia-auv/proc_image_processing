@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Rotate : public Filter {
+  class Rotate : public IFilter {
   public:
     using Ptr = std::shared_ptr<Rotate>;
 
     explicit Rotate(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("enable", false, &parameters_),
       transpose_("transpose", false, &parameters_),
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,

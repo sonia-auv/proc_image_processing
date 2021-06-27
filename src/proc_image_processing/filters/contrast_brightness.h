@@ -13,12 +13,12 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class ContrastBrightness : public Filter {
+  class ContrastBrightness : public IFilter {
   public:
     using Ptr = std::shared_ptr<ContrastBrightness>;
 
     explicit ContrastBrightness(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("enable", false, &parameters_),
       contrast_("Contrast", 0, 0, 256, &parameters_,
         "Contrast"),

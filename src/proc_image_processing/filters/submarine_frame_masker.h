@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class SubmarineFrameMasker : public Filter {
+  class SubmarineFrameMasker : public IFilter {
   public:
     using Ptr = std::shared_ptr<SubmarineFrameMasker>;
 
     explicit SubmarineFrameMasker(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
         "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),

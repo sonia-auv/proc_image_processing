@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Equalize : public Filter {
+  class Equalize : public IFilter {
   public:
     using Ptr = std::shared_ptr<Equalize>;
 
     explicit Equalize(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("enable", false, &parameters_) {
       SetName("Equalize");
     }

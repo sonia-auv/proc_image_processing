@@ -12,12 +12,12 @@
 
 namespace proc_image_processing {
 
-  class ImageAccumulator : public Filter {
+  class ImageAccumulator : public IFilter {
   public:
     using Ptr = std::shared_ptr<ImageAccumulator>;
 
     explicit ImageAccumulator(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       accumulator_(3, cv::Size(0, 0), CV_8UC1),
       enable_("Enable", false, &parameters_),
       nb_image_("NB_of_images", 3, 1, 20, &parameters_),

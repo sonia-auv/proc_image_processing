@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class WhiteNoiseTakedown : public Filter {
+  class WhiteNoiseTakedown : public IFilter {
   public:
     using Ptr = std::shared_ptr<WhiteNoiseTakedown>;
 
     explicit WhiteNoiseTakedown(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       low_b_("LowB", 0, 0, 255, &parameters_),
       high_b_("HighB", 0, 0, 255, &parameters_),

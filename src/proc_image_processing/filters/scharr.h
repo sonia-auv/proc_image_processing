@@ -10,12 +10,12 @@
 
 namespace proc_image_processing {
 
-  class Scharr : public Filter {
+  class Scharr : public IFilter {
   public:
     using Ptr = std::shared_ptr<Scharr>;
 
     explicit Scharr(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
+      : IFilter(globalParams),
       enable_("Enable", false, &parameters_),
       convert_to_uchar_("Convert_to_uchar", true, &parameters_),
       use_pixel_intensity_correction_("use_pixel_intensity_correction", false,

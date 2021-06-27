@@ -14,11 +14,11 @@
 #include <sonia_common/DetectionArray.h>
 
 namespace proc_image_processing {
-    class Deep2019 : public Filter {
+    class Deep2019 : public IFilter {
 
     public:
         explicit Deep2019(const GlobalParamHandler& globalParams) :
-            Filter(globalParams),
+            IFilter(globalParams),
             nh_(ros::NodeHandle("proc_image_processing")),
             enable_("Enable", false, &parameters_),
             debug_contour_("Debug contour", false, &parameters_),
