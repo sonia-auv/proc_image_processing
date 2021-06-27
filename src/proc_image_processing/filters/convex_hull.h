@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
     virtual ~ConvexHull() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         int mode, method;
         switch (mode_()) {

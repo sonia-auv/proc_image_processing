@@ -22,7 +22,7 @@ namespace proc_image_processing {
 
     virtual ~Equalize() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         cv::equalizeHist(image, image);
       }

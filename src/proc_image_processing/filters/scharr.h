@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
     virtual ~Scharr() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);

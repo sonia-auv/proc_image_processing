@@ -31,7 +31,7 @@ namespace proc_image_processing {
 
     virtual ~ContrastBrightness() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         rows_ = image.rows;
         cols_ = image.cols;

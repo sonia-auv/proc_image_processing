@@ -46,7 +46,7 @@ namespace proc_image_processing {
 
         virtual ~PipeAngleDetector() {}
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void ProcessImage(cv::Mat& image) {
             if (enable_()) {
                 intersectionPoint_.clear();
                 if (debug_contour_()) {

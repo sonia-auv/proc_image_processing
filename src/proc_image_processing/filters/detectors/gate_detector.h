@@ -66,7 +66,7 @@ namespace proc_image_processing {
 
     virtual ~GateDetector() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         if (debug_contour_()) {
           image.copyTo(output_image_);

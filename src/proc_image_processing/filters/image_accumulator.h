@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
     virtual ~ImageAccumulator() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         // Is there any change in the type of images
         // we input to the accumulator?

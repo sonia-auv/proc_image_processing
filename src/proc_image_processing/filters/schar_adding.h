@@ -36,7 +36,7 @@ namespace proc_image_processing {
 
     virtual ~ScharrAdding() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         if (image.channels() != 3) return;
         if (run_small_image_()) {

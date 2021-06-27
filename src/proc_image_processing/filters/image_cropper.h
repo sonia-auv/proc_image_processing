@@ -25,7 +25,7 @@ namespace proc_image_processing {
 
     virtual ~ImageCropper() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         if ((x_offset_() + x_reduction_() < image.size[1]) |
           (y_offset_() + y_reduction_() < image.size[0])) {

@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
     virtual ~RemoveMask() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         global_params_.getOriginalImage().copyTo(image, image);
       }

@@ -28,7 +28,7 @@ namespace proc_image_processing {
 
     virtual ~Erode() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         int kernel_type = 0;
         switch (kernel_type_()) {

@@ -30,7 +30,7 @@ namespace proc_image_processing {
 
     virtual ~WhiteNoiseTakedown() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         std::vector<cv::Mat> channels;
         cv::Mat original_image(global_params_.getOriginalImage());

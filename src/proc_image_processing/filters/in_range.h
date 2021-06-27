@@ -48,7 +48,7 @@ namespace proc_image_processing {
      *
      * \param image The image to process.
      */
-    void Execute(cv::Mat& image) override {
+    void ProcessImage(cv::Mat& image) override {
       if (enable_.GetValue()) {
         cv::Mat hsv;
         cv::Mat luv;

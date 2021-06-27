@@ -23,7 +23,7 @@ namespace proc_image_processing {
 
     virtual ~MissionTestFakeString() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         NotifyTarget(Target());
       }

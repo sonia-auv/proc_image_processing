@@ -24,7 +24,12 @@ namespace proc_image_processing {
 
     virtual ~IFilter() = default;
 
-    virtual void Execute(cv::Mat& image) = 0;
+    void Execute(cv::Mat& image) {
+      ProcessImage(image);
+    };
+
+
+    virtual void ProcessImage(cv::Mat& image) = 0;
 
     // Name of the filter handlers
     inline const std::string GetName();

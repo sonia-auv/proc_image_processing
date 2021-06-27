@@ -42,7 +42,7 @@ namespace proc_image_processing {
 
     virtual ~SubtractAllPlanes() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         if (CV_MAT_CN(image.type()) != 3) {
           return;

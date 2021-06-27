@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
         virtual ~VampireTorpedoesDetector() {}
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void ProcessImage(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);

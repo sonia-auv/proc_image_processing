@@ -31,7 +31,7 @@ namespace proc_image_processing {
 
     virtual ~BackgroundSubstract() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ProcessImage(cv::Mat& image) {
       if (enable_()) {
         std::vector<cv::Mat> channels;
         split(image, channels);
