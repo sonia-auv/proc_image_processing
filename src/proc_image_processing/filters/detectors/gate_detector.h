@@ -1,6 +1,6 @@
-//
-// Created by sonia on 7/27/16.
-//
+/// \author sonia
+/// \date 7/27/16
+
 
 #ifndef PROVIDER_VISION_GATE_DETECTOR_H
 #define PROVIDER_VISION_GATE_DETECTOR_H
