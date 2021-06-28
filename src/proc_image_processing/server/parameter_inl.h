@@ -8,7 +8,6 @@
 #endif
 
 #include <cxxabi.h>
-#include <sonia_common/macros.h>
 #include <opencv/cv.h>
 #include <cstdlib>
 #include <string>
