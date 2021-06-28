@@ -72,9 +72,9 @@ namespace proc_image_processing {
 
   // Receive a binary input and calculates the number of white pixel over the
   // total number of pixel in the upright rectangle
-  float CalculatePourcentFilled(const cv::Mat& image, const cv::Rect& rectangle);
+  float CalculatePercentFilled(const cv::Mat& image, const cv::Rect& rectangle);
 
-  float CalculatePourcentFilled(const cv::Mat& image, const cv::RotatedRect& rectangle);
+  float CalculatePercentFilled(const cv::Mat& image, const cv::RotatedRect& rectangle);
 
   cv::Scalar CalculateMeans(contour_t contour, cv::Mat image, bool middle = true);
 

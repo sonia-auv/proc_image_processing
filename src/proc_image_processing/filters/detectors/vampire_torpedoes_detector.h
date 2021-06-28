@@ -79,7 +79,7 @@ namespace proc_image_processing {
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
 
                     float circleIndex;
-                    float pourcentageFilled;
+                    float percentageFilled;
 
                     if (look_for_ellipse_()) {
 
@@ -91,9 +91,9 @@ namespace proc_image_processing {
                             continue;
                         }
 
-                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
+                        percentageFilled = CalculatePercentFilled(output_image_, box);
 
-                        if (pourcentageFilled > 50) {
+                        if (percentageFilled > 50) {
                             continue;
                         }
 
@@ -112,9 +112,9 @@ namespace proc_image_processing {
                             continue;
                         }
 
-                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
+                        percentageFilled = CalculatePercentFilled(output_image_, box);
 
-                        if (pourcentageFilled > 50) {
+                        if (percentageFilled > 50) {
                             continue;
                         }
 

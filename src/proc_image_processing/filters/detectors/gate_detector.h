@@ -137,7 +137,7 @@ namespace proc_image_processing {
           // PERCENT FILLED
           feature_factory_.PercentFilledFeature(object);
           float percent_filled =
-            CalculatePourcentFilled(image, object->GetUprightRect());
+            CalculatePercentFilled(image, object->GetUprightRect());
           if ((percent_filled) < min_percent_filled_()) {
             continue;
           }
