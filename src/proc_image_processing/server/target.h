@@ -18,11 +18,7 @@ namespace proc_image_processing {
 
   class Target {
   public:
-
-
     using Ptr = std::shared_ptr<Target>;
-
-
 
     Target();
     Target(const std::string& header, int x, int y, float width, float height,
@@ -31,8 +27,6 @@ namespace proc_image_processing {
       const std::string& spec_field_2 = "");
 
     ~Target() {};
-
-
 
     // Setting target will use offseted center.
     void SetTarget(const std::string& header, int x, int y, float width,
@@ -69,7 +63,6 @@ namespace proc_image_processing {
     void SetMessage(sonia_common::VisionTarget& msg);
 
   private:
-
     cv::Point center_;
 
     cv::Size_<float> dimension_;
@@ -83,9 +76,6 @@ namespace proc_image_processing {
   };
 
   typedef std::queue<Target> TargetQueue;
-
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
 
   inline void Target::SetTarget(const std::string& header, int x, int y,
     float width, float height, float angle,
