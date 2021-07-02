@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  proc_image_processing:
+    container_name: proc_image_processing
+    image: sonia-auv/proc_image_processing:local
+    build:
+      context: .
+
+  sonarcloud:
+    container_name: sonarcloud
+    image: sonia-auv/proc_image_processing:sonarcloud
+    build:
+      context: .
+      dockerfile: Dockerfile.sonarcloud
+      args:
+        - BASE_IMAGE=sonia-auv/proc_image_processing:local
+        - GITHUB_TOKEN=
+        - SONAR_TOKEN=
+        - BRANCH=feature/CHANGEME

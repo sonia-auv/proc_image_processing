@@ -1,6 +1,6 @@
-//
-// Created by jeremie on 2/27/17.
-//
+/// \author jeremie
+/// \date 2/27/17
+
 
 #include <gtest/gtest.h>
 #include <opencv2/opencv.hpp>
@@ -12,38 +12,33 @@
 #include "proc_image_processing/server/vision_server.h"
 #include "proc_image_processing/config.h"
 
-ros::NodeHandle *nhp;
+ros::NodeHandle* nhp;
 
-class ImagePulishingThread
-{
+class ImagePulishingThread {
 public:
-    ImagePulishingThread(const std::string &topic_name):
-            image_publisher_(),
-            exit_thread_(false),
-            pause_thread_(false),
-            thread_(std::bind(&ImagePulishingThread::PublishingThread, this)),
-            it_(*nhp)
-    {
+    ImagePulishingThread(const std::string& topic_name) :
+        image_publisher_(),
+        exit_thread_(false),
+        pause_thread_(false),
+        thread_(std::bind(&ImagePulishingThread::PublishingThread, this)),
+        it_(*nhp) {
         image_publisher_ = it_.advertise(topic_name, 100);
     }
-    ~ImagePulishingThread()
-    {
+    ~ImagePulishingThread() {
         StopThread();
         thread_.join();
         image_publisher_.shutdown();
     }
-    inline void StopThread(){exit_thread_ = true;}
-    inline void PauseThread(){pause_thread_ = true;}
-    inline void RestartThread(){pause_thread_ = false;}
+    inline void StopThread() { exit_thread_ = true; }
+    inline void PauseThread() { pause_thread_ = true; }
+    inline void RestartThread() { pause_thread_ = false; }
 private:
-    void PublishingThread()
-    {
-        cv::Mat image_to_publish(400,400,CV_8UC1);
+    void PublishingThread() {
+        cv::Mat image_to_publish(400, 400, CV_8UC1);
         uint8_t i = 0;
         cv_bridge::CvImage ros_image;
-        while(!exit_thread_)
-        {
-            while(pause_thread_);
+        while (!exit_thread_) {
+            while (pause_thread_);
             // Publish a new image.
             image_to_publish.setTo(i);
             i++;
@@ -60,22 +55,18 @@ private:
     image_transport::ImageTransport it_;
 };
 
-
-void VisionServerThread()
-{
+void VisionServerThread() {
     proc_image_processing::VisionServer visionServer(*nhp);
 
     while (ros::ok()) {
         usleep(20000);
         ros::spinOnce();
     }
-
 }
-
 
 TEST(BlackBoxTest, test) {
 
-    std::thread vsthd (&VisionServerThread);
+    std::thread vsthd(&VisionServerThread);
 
     std::string base_node_name = proc_image_processing::kRosNodeName;
     std::string exec_cmd_name = base_node_name + std::string("execute_cmd");
@@ -140,12 +131,11 @@ TEST(BlackBoxTest, test) {
 
     // test as much as you want here...
     sleep(3600);
-
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     ros::init(argc, argv, "proc_image_processing");
-    nhp = new ros::NodeHandle{"~"};
+    nhp = new ros::NodeHandle{ "~" };
     return RUN_ALL_TESTS();
 }

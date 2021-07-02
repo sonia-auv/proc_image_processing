@@ -33,6 +33,7 @@ using namespace std;
 //------------------------------------------------------------------------------
 //
 int main(int argc, char **argv) {
+    cout << "Starting proc_image_processing server (CPU mode)...";
     cout << "OpenCV: " << CV_VERSION << endl;
     cout << "OpenCV Major version: " << CV_MAJOR_VERSION << endl;
     cout << "OpenCV Minor version: " << CV_MINOR_VERSION << endl;

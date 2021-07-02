@@ -5,6 +5,20 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sonia-auv/proc_image_processing)
 ![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/sonia-auv/proc_image_processing.svg)
 
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=security_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=bugs)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=coverage)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=ncloc)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_index)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+
 *Please read the instructions and fill in the blanks*
 
 One Paragraph of project description goes here
@@ -55,16 +69,20 @@ CLion provides more features than VSCode and is typically more powerful in sever
 
 To get your environment setup with it, follow these steps:
 
+- Pull sonia_common image: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
+
+
 - Build the remote environment Docker image:
     - CPU mode: `docker-compose -f docker-compose-cpu.yml build`.
     - GPU mode: `docker-compose -f docker-compose-gpu.yml build`.
 
 
 - Launch the remote environment:
-    - CPU mode: `docker-compose -f docker-compose-cpu.yml up clion_cpu_remote_env`.
-    - GPU mode: `docker-compose -f docker-compose-cpu.yml up clion_gpu_remote_env`.
-
-
+    - CPU mode: `docker-compose -f docker-compose-cpu.yml up clion_remote_env`.
+    - GPU mode: `docker-compose -f docker-compose-gpu.yml up clion_remote_env`.
+    - If this error happens: ` standard_init_linux.go:228: exec user process caused: no such file or directory`, you are
+      probably using a Windows host, and you need to make sur end of lines for `sonia_entrypoint.sh`
+      and `sonia_clion_entrypoint.sh` are `LF`.
 - Configure your Toolchain:
     - Go to `File | Settings | Build, Execution, Deployment | Toolchains`.
     - Add a new `Remote Host` Toolchain:
@@ -94,13 +112,13 @@ To get your environment setup with it, follow these steps:
 
 - Configure Deployment:
     - Go to `File | Settings | Build, Execution, Deployment | Deployment`.
-    - Add a new `SFTP` deployment:
+    - Add a new `SFTP` deployment if there is none or modify the one automatically created by the previous steps:
         - Give it a name, like `Remote Environment`.
         - Use your configured credentials as `SSH configuration`. Test that the connection still works!
         - Go to the `Mappings` tab:
-            - Use `/home/sonia/ros_sonia_ws/src/proc_image_processing` as `Deployment path`.
             - Use the path of proc_image_processing as `Local path`. For
               example: `/home/yourusername/CLionProjects/proc_image_processing/`.
+            - Use `/home/sonia/ros_sonia_ws/src/proc_image_processing` as `Deployment path`.
 
 - Reload the CMake project using `File | Reload CMake Project`. CLion should populate all the available launch options
   up top at the left of the `Play` icon.

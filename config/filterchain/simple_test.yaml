@@ -70,7 +70,7 @@ filters:
         value: 1.000000
       - name: Weight_Plane_3
         value: 1.000000
-  - name: PipeDetectorAngle
+  - name: PipeAngleDetector
     parameters:
       - name: Enable
         value: 1

@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  proc_image_processing_cpu:
+  proc_image_processing:
     container_name: proc_image_processing
     restart: unless-stopped
     image: sonia-auv/proc_image_processing:cpu-latest
@@ -11,7 +11,7 @@ services:
     cap_add:
       - SYS_PTRACE
 
-  clion_cpu_remote_env:
+  clion_remote_env:
     container_name: clion_cpu_remote_env
     restart: unless-stopped
     image: sonia-auv/proc_image_processing:clion-cpu
@@ -25,4 +25,4 @@ services:
     cap_add:
       - SYS_PTRACE
     depends_on:
-      - proc_image_processing_cpu
+      - proc_image_processing

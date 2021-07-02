@@ -100,7 +100,7 @@ filters:
         value: 0
       - name: Max_value
         value: 100
-  - name: VampireTorpidoesDetector
+  - name: VampireTorpedoesDetector
     parameters:
       - name: Enable
         value: 1
@@ -114,7 +114,7 @@ filters:
         value: 10000.000000
       - name: Max_area
         value: 900007.000000
-  - name: VampireTorpidoesDetectorClose
+  - name: VampireTorpedoesDetectorClose
     parameters:
       - name: Enable
         value: 1
