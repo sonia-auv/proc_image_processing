@@ -4,29 +4,36 @@
 
 
 #include <sonia_common/ros/service_server_manager.h>
-#include <opencv2/opencv.hpp>
-#include <proc_image_processing/cpu/config.h>
+#include <proc_image_processing/cpu/sonar/SubmarinePosition.h>
+#include <proc_image_processing/cpu/sonar/SonarMapper.h>
+#include <proc_image_processing/cpu/server/vision_server.h>
 
-void run();
-
-using namespace std;
-
-//------------------------------------------------------------------------------
-//
 int main(int argc, char **argv) {
+    ROS_INFO("Starting proc_image_processing (GPU mode)...");
     cout << "OpenCV: " << CV_VERSION << endl;
-    cout << "OpenCV Major version: " << CV_MAJOR_VERSION << endl;
-    cout << "OpenCV Minor version: " << CV_MINOR_VERSION << endl;
-    cout << "OpenCV Subminor version: " << CV_SUBMINOR_VERSION << endl;
 
     ros::init(argc, argv, "proc_image_processing");
+    ros::NodeHandle nh("~");
+
     int gpuCount = cv::cuda::getCudaEnabledDeviceCount();
-    if (gpuCount == 0){
-        cout << "OpenCV is not compiled with cuda support" << endl;
-    }else if (gpuCount == -1){
-        cout << "The CUDA driver is not installed, or is incompatible" << endl;
-    }else{
-        cout << "CUDA is fully supported" << endl;
+    if (gpuCount == 0 || gpuCount == -1) {
+        if (gpuCount == 0) ROS_ERROR("OpenCV is not compiled with cuda support. Running CPU mode instead...");
+        else if (gpuCount == -1)
+            ROS_ERROR("The CUDA driver is not installed, or is incompatible. Running CPU mode instead...");
+
+        proc_image_processing::VisionServer pv(nh);
+
+        ros::NodeHandlePtr nhp(&nh);
+        proc_image_processing::SubmarinePosition sp(nhp);
+        proc_image_processing::SonarMapper sonarMapper(sp, nhp);
+    } else {
+        ROS_INFO("CUDA is fully supported");
+        // TODO Launch GPU server
+    }
+
+    while (ros::ok()) {
+        usleep(20000);
+        ros::spinOnce();
     }
 
     return 0;

@@ -1,5 +1,6 @@
 /// \author	Antoine Dozois <dozois.a@gmail.com>
 
+// FACTORY_GENERATOR_CLASS_NAME=Deep2019
 
 #ifndef PROC_IMAGE_PROCESSING_DEEP_2019_H
 #define PROC_IMAGE_PROCESSING_DEEP_2019_H

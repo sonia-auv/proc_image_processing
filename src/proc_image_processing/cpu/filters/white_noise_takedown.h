@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FACTORY_GENERATOR_CLASS_NAME=WhiteNoiseTakeDown
 
 #ifndef PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKEDOWN_H_
 #define PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKEDOWN_H_
@@ -10,11 +11,11 @@
 
 namespace proc_image_processing {
 
-  class WhiteNoiseTakedown : public Filter {
+  class WhiteNoiseTakeDown : public Filter {
   public:
-    using Ptr = std::shared_ptr<WhiteNoiseTakedown>;
+    using Ptr = std::shared_ptr<WhiteNoiseTakeDown>;
 
-    explicit WhiteNoiseTakedown(const GlobalParamHandler& globalParams)
+    explicit WhiteNoiseTakeDown(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
       enable_("Enable", false, &parameters_),
       low_b_("LowB", 0, 0, 255, &parameters_),
@@ -25,10 +26,10 @@ namespace proc_image_processing {
       high_r_("HighR", 0, 0, 255, &parameters_),
       view_channel_("Channel_view", 0, 0, 3, &parameters_,
         "0=ALL, 1=Blue, 2=Green, 3=Red") {
-      SetName("WhiteNoiseTakedown");
+      SetName("WhiteNoiseTakeDown");
     }
 
-    virtual ~WhiteNoiseTakedown() {}
+    virtual ~WhiteNoiseTakeDown() {}
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {

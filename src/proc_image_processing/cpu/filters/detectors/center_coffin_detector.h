@@ -1,14 +1,15 @@
 /// \author csauvain
 /// \date 20/07/19
 
+// FACTORY_GENERATOR_CLASS_NAME=CenterCoffinDetector
 
 #ifndef PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
 
 #include <proc_image_processing/cpu/filters/filter.h>
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 #include <math.h>
 #include <memory>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
 
 namespace proc_image_processing {
 

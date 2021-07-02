@@ -1,15 +1,16 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FACTORY_GENERATOR_CLASS_NAME=HandleDetector
 
 #ifndef PROVIDER_VISION_FILTERS_HANDLE_DETECTOR_H_
 #define PROVIDER_VISION_FILTERS_HANDLE_DETECTOR_H_
 
-#include <proc_image_processing/algorithm/object_feature_factory.h>
-#include <proc_image_processing/algorithm/object_full_data.h>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
+#include <proc_image_processing/cpu/algorithm/object_feature_factory.h>
+#include <proc_image_processing/cpu/algorithm/object_full_data.h>
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 #include <proc_image_processing/cpu/filters/filter.h>
-#include <proc_image_processing/server/target.h>
+#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
 
 namespace proc_image_processing {

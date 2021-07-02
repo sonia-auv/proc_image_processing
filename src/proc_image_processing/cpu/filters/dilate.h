@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FACTORY_GENERATOR_CLASS_NAME=Dilate
 
 #ifndef PROVIDER_VISION_FILTERS_DILATE_H_
 #define PROVIDER_VISION_FILTERS_DILATE_H_

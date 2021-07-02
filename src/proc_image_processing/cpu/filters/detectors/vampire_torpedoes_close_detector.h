@@ -2,6 +2,7 @@
 /// \date 20/07/19
 /// TODO: Refactor code repetition
 
+// FACTORY_GENERATOR_CLASS_NAME=VampireTorpedoesDetectorClose
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_CLOSE_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_CLOSE_DETECTOR_H
@@ -9,7 +10,7 @@
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <math.h>
 #include <memory>
-#include <proc_image_processing/algorithm/performance_evaluator.h>
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 //#include "opencv2/highgui/highgui.hpp"
 //#include "opencv2/imgproc/imgproc.hpp"
 
