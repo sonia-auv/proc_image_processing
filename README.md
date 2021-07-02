@@ -5,11 +5,9 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sonia-auv/proc_image_processing)
 ![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/sonia-auv/proc_image_processing.svg)
 
-
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=security_rating)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
-
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=bugs)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
@@ -57,7 +55,16 @@ Docker version 19.03.5, build 633a0ea
 
 It means you have it installed. If not follow instructions on how to install it for your OS.
 
-### Installing
+### Environment configuration
+
+First, you must be logged on the GitHub Docker Registry.
+
+In order to do this:
+
+- Generate a personal access token on
+  GitHub ([Settings | Developper Settings | Personal acces tokens](https://github.com/settings/tokens/new)) with at
+  least the scope `read:packages`.
+- Type `docker login docker.pkg.github.com -u YOUR_GITHUB_USERNAME` and use your generated access token as password.
 
 #### VSCode
 
@@ -69,7 +76,8 @@ CLion provides more features than VSCode and is typically more powerful in sever
 
 To get your environment setup with it, follow these steps:
 
-- Pull sonia_common image: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
+- Pull sonia_common image: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`
+  .
 
 
 - Build the remote environment Docker image:
