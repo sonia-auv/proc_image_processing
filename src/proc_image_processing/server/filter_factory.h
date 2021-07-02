@@ -19,7 +19,7 @@
 #include <proc_image_processing/filters/equalize.h>
 #include <proc_image_processing/filters/erode.h>
 #include <proc_image_processing/filters/detectors/fence_detector.h>
-#include <proc_image_processing/filters/filter.h>
+#include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/filters/detectors/gate_detector.h>
 #include <proc_image_processing/filters/detectors/handle_detector.h>
 #include <proc_image_processing/filters/hough_line.h>

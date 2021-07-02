@@ -8,7 +8,7 @@
 #include <proc_image_processing/algorithm/general_function.h>
 #include <proc_image_processing/algorithm/object_feature_factory.h>
 #include <proc_image_processing/algorithm/object_full_data.h>
-#include <proc_image_processing/filters/filter.h>
+#include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/server/target.h>
 #include <memory>
 

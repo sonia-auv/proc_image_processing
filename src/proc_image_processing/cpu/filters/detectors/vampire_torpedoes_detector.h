@@ -6,7 +6,7 @@
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H
 
-#include <proc_image_processing/filters/filter.h>
+#include <proc_image_processing/cpu/filters/filter.h>
 #include <math.h>
 #include <memory>
 #include <proc_image_processing/algorithm/performance_evaluator.h>
