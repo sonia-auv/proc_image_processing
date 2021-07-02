@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
         proc_image_processing::SubmarinePosition sp(nhp);
         proc_image_processing::SonarMapper sonarMapper(sp, nhp);
     } else {
-        ROS_INFO("CUDA is fully supported");
+        ROS_INFO("proc_image_processing started with CUDA fully supported!");
         // TODO Launch GPU server
     }
 
