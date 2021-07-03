@@ -27,7 +27,7 @@ namespace proc_image_processing {
 
     virtual ~AdaptiveThreshold() {}
 
-    virtual void Execute(cv::Mat& image) {
+    void ApplyFilter(cv::Mat& image) {
       if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);

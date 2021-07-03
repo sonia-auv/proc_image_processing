@@ -28,7 +28,7 @@ namespace proc_image_processing {
 
         virtual ~VampireBodyDetector() {}
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void ApplyFilter(cv::Mat& image) {
             if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);

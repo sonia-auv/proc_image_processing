@@ -21,7 +21,7 @@ namespace proc_image_processing {
 
     virtual ~OriginalImage() {}
 
-    virtual void Execute(cv::Mat& image) {
+    virtual void ApplyFilter(cv::Mat& image) {
       if (enable_()) {
         image = global_params_.getOriginalImage();
       }

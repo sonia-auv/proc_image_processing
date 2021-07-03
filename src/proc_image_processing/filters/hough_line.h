@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit HoughLine(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
       theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),
       min_length_("Min_length", 1, 0, 1000, &parameters_),
@@ -27,8 +26,7 @@ namespace proc_image_processing {
 
     virtual ~HoughLine() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
+    void ApplyFilter(cv::Mat& image) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -44,11 +42,9 @@ namespace proc_image_processing {
             cv::Point(line[2], line[3]), cv::Scalar(255, 255, 255), 3);
         }
         cv::cvtColor(drawing_image, image, CV_BGR2GRAY);
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<double> rho_, theta_, min_length_, max_gap_;
     RangedParameter<int> threshold_;
   };

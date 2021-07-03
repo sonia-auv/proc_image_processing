@@ -36,7 +36,7 @@ namespace proc_image_processing {
 
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void ApplyFilter(cv::Mat& image) {
             if (enable_()) {
                 Target target;
                 image_width_ = image.size().width;

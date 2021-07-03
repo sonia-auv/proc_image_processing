@@ -24,7 +24,13 @@ namespace proc_image_processing {
 
     virtual ~Filter() = default;
 
-    virtual void Execute(cv::Mat& image) = 0;
+    void Execute(cv::Mat& image) {
+      if (enable_()){
+        ApplyFilter(image);
+      }
+    };
+
+    virtual void ApplyFilter(cv::Mat& image) = 0;
 
     // Name of the filter handlers
     inline const std::string GetName();
@@ -58,8 +64,10 @@ namespace proc_image_processing {
 
     // Useful to identify the filter.
     std::string name_;
-  };
 
+  private:
+    Parameter<bool> enable_{"Enable", false, &parameters_};
+  };
 }  // namespace proc_image_processing
 
 #include <proc_image_processing/filters/filter_inl.h>
