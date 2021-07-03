@@ -45,7 +45,6 @@ namespace proc_image_processing {
     virtual ~SubtractPlaneAdder() {}
 
     virtual void execute(cv::Mat& image) {
-      if (enable_()) {
         cv::Mat original = global_params_.getOriginalImage();
         if (CV_MAT_CN(original.type()) != 3) {
           return;
@@ -80,7 +79,6 @@ namespace proc_image_processing {
           cv::add(final, image, final);
         }
         final.copyTo(image);
-      }
     }
 
   private:
@@ -100,7 +98,7 @@ namespace proc_image_processing {
       cv::multiply(out, one, out, weight, CV_8UC1);
     }
 
-    Parameter<bool> enable_, show_adding_result_;
+    Parameter<bool> show_adding_result_;
     RangedParameter<int> plane_one_, plane_two_, plane_three_;
     Parameter<bool> invert_one_, invert_two_, invert_three_;
     RangedParameter<double> weight_one_, weight_two_, weight_three_;

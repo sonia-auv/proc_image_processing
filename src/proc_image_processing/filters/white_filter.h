@@ -16,7 +16,7 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<WhiteFilter>;
 
         explicit WhiteFilter(const GlobalParamHandler& globalParams)
-            : Filter(globalParams), enable_("Enable", false, &parameters_),
+            : Filter(globalParams),
             minimal_1pixel_range_("minimal 1 pixel range", 0, 0, 255, &parameters_),
             minimal_2pixel_range_("minimal 2 pixel range", 0, 0, 255, &parameters_),
             minimal_3pixel_range_("minimal 3 pixel range", 0, 0, 255, &parameters_),
@@ -44,7 +44,6 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_;
         RangedParameter<int> minimal_1pixel_range_;
         RangedParameter<int> minimal_2pixel_range_;
         RangedParameter<int> minimal_3pixel_range_;

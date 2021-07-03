@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit MissionTestFakeString(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       _string("String_to_return", "test", &parameters_) {
       SetName("MissionTestFakeString");
     }
@@ -24,13 +23,10 @@ namespace proc_image_processing {
     virtual ~MissionTestFakeString() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         NotifyTarget(Target());
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     Parameter<std::string> _string;
   };
 

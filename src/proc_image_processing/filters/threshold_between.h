@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit ThresholdBetween(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       type_("Threshold_type_", 1, 0, 5, &parameters_,
         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
       min_1("Min_value_1", 100, 0, 255, &parameters_),
@@ -27,7 +26,6 @@ namespace proc_image_processing {
     virtual ~ThresholdBetween() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -62,13 +60,11 @@ namespace proc_image_processing {
         cv::threshold(image, image_1, min_1(), 255, threshold_type);
         cv::threshold(image, image_2, min_2(), 255, threshold_type);
         image = image_2 - image_1;
-      }
     }
 
   private:
     cv::Mat image_1, image_2, image_out;
 
-    Parameter<bool> enable_;
     RangedParameter<int> type_, min_1, min_2;
   };
 

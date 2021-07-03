@@ -15,20 +15,15 @@ namespace proc_image_processing {
     using Ptr = std::shared_ptr<OriginalImage>;
 
     explicit OriginalImage(const GlobalParamHandler& globalParams)
-      : Filter(globalParams), enable_("Enable", false, &parameters_) {
+      : Filter(globalParams) {
       SetName("OriginalImage");
     }
 
     virtual ~OriginalImage() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         image = global_params_.getOriginalImage();
-      }
     }
-
-  private:
-    Parameter<bool> enable_;
   };
 
 }  // namespace proc_image_processing

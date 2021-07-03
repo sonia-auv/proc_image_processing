@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit Morphology(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       morph_type_("Morphology_type", 0, 0, 4, &parameters_,
         "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
       kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
@@ -30,7 +29,6 @@ namespace proc_image_processing {
     virtual ~Morphology() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -80,11 +78,9 @@ namespace proc_image_processing {
             iteration_(), CV_8U);
           break;
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> morph_type_, kernel_type_, iteration_, kernel_size_;
     const cv::Point anchor_;
   };

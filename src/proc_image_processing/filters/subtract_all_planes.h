@@ -19,7 +19,6 @@ namespace proc_image_processing {
 
     explicit SubtractAllPlanes(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("enable", false, &parameters_),
       plane_one_("Plane_1", 1, 0, 7, &parameters_,
         "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
         "6=Intensity, 7=Gray"),
@@ -43,7 +42,6 @@ namespace proc_image_processing {
     virtual ~SubtractAllPlanes() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (CV_MAT_CN(image.type()) != 3) {
           return;
         }
@@ -74,7 +72,6 @@ namespace proc_image_processing {
         cv::subtract(final, three, final);
 
         final.copyTo(image);
-      }
     }
 
   private:
@@ -93,7 +90,6 @@ namespace proc_image_processing {
       cv::multiply(out, one, out, weight, CV_8UC1);
     }
 
-    Parameter<bool> enable_;
     RangedParameter<int> plane_one_, plane_two_, plane_three_;
     Parameter<bool> invert_one_, invert_two_, invert_three_;
     RangedParameter<double> weight_one_, weight_two_, weight_three_;

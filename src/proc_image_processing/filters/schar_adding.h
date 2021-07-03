@@ -17,7 +17,6 @@ namespace proc_image_processing {
 
     explicit ScharrAdding(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       run_small_image_("Run_small_image", true, &parameters_,
         "Resize image to run on smaller image"),
       convert_to_uchar_("Convert_to_uchar", false, &parameters_),
@@ -37,7 +36,6 @@ namespace proc_image_processing {
     virtual ~ScharrAdding() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (image.channels() != 3) return;
         if (run_small_image_()) {
           cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
@@ -62,7 +60,6 @@ namespace proc_image_processing {
         if (convert_to_uchar_() && image.channels() < 3) {
           cv::cvtColor(image, image, CV_GRAY2BGR);
         }
-      }
     }
 
   private:
@@ -89,7 +86,7 @@ namespace proc_image_processing {
     // reducing the image size by two (in each direction)
     // so that the scharr computation does not take to much time
     // when multiple images.
-    Parameter<bool> enable_, run_small_image_, convert_to_uchar_;
+    Parameter<bool> run_small_image_, convert_to_uchar_;
     // _mean_multiplier act as threshold for noise.
     // When set, it remove everything under the mean to keep only
     // proeminent contours.

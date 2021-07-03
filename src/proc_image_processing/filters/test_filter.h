@@ -17,7 +17,6 @@ namespace proc_image_processing {
 
     explicit TestFilter(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", true, &parameters_),
       x_("X", 0, -512, 512, &parameters_),
       y_("Y", 0, -512, 512, &parameters_),
       w_("Width", 200, 0, 1024, &parameters_),
@@ -34,18 +33,15 @@ namespace proc_image_processing {
     virtual void init() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         target_.SetTarget("test_filter", x_.GetValue() - 1000 / 2, y_.GetValue(),
           w_.GetValue(), h_.GetValue(), angle_.GetValue(), 1000,
           -1000 - (1000 / 2), specField1_.GetValue(),
           specField2_.GetValue());
 
         NotifyTarget(target_);
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> x_, y_, w_, h_, angle_;
     Parameter<std::string> header_, specField1_, specField2_;
 

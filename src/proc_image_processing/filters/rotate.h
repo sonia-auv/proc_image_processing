@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit Rotate(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("enable", false, &parameters_),
       transpose_("transpose", false, &parameters_),
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
         "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis") {
@@ -26,7 +25,6 @@ namespace proc_image_processing {
     virtual ~Rotate() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (transpose_()) cv::transpose(image, image);
         switch (rotate_type_()) {
         case 0:
@@ -41,11 +39,10 @@ namespace proc_image_processing {
           cv::flip(image, image, -1);
           break;
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_, transpose_;
+    Parameter<bool> transpose_;
 
     RangedParameter<int> rotate_type_;
   };

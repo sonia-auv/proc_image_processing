@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit SubmarineFrameMasker(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
         "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
       prev_rot_value_(0) {
@@ -30,7 +29,6 @@ namespace proc_image_processing {
     virtual ~SubmarineFrameMasker() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (prev_rot_value_ != rotate_type_()) {
           prev_rot_value_ = rotate_type_();
           switch (rotate_type_()) {
@@ -47,11 +45,9 @@ namespace proc_image_processing {
         }
         if (image.size() == bottom_mask_.size())
           cv::bitwise_and(image, bottom_mask_, image);
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> rotate_type_;
     cv::Mat bottom_mask_;
     int prev_rot_value_;
