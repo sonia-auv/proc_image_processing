@@ -17,7 +17,7 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<SquareDetection>;
 
         explicit SquareDetection(const GlobalParamHandler& globalParams)
-            : Filter(globalParams), enable_("Enable", false, &parameters_),
+            : Filter(globalParams),
             N("N", 100, 0, 100, &parameters_),
             thresh("threshold", 100, 0, 100, &parameters_) {
             SetName("SquareDetection");
@@ -118,7 +118,6 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_;
         RangedParameter<int> N, thresh;
 
         const cv::Point anchor_;

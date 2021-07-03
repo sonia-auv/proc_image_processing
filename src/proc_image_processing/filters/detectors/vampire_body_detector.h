@@ -18,7 +18,6 @@ namespace proc_image_processing {
 
         explicit VampireBodyDetector(const GlobalParamHandler& globalParams)
             : Filter(globalParams),
-            enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
             look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
             min_area_("Min_area", 100, 1, 10000, &parameters_),
@@ -29,7 +28,6 @@ namespace proc_image_processing {
         virtual ~VampireBodyDetector() {}
 
         virtual void ApplyFilter(cv::Mat& image) {
-            if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
@@ -101,13 +99,12 @@ namespace proc_image_processing {
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-            }
         }
 
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_, debug_contour_, look_for_rectangle_;
+        Parameter<bool> debug_contour_, look_for_rectangle_;
 
         RangedParameter<double> min_area_, max_area_;
     };

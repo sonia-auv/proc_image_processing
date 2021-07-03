@@ -22,7 +22,6 @@ namespace proc_image_processing {
 
     explicit GateDetector(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       debug_contour_("Debug_contour", false, &parameters_),
       use_convex_hull_("Use_convex_hull", false, &parameters_),
       offset_y_for_fence_("Offset Y for fence", false, &parameters_),
@@ -67,7 +66,6 @@ namespace proc_image_processing {
     virtual ~GateDetector() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (debug_contour_()) {
           image.copyTo(output_image_);
           if (output_image_.channels() == 1) {
@@ -331,7 +329,6 @@ namespace proc_image_processing {
         if (debug_contour_()) {
           output_image_.copyTo(image);
         }
-      }
     }
 
     float GetDistanceFromCenter(ObjectFullData::Ptr object) {
@@ -345,7 +342,7 @@ namespace proc_image_processing {
   private:
     cv::Mat output_image_;
 
-    Parameter<bool> enable_, debug_contour_
+    Parameter<bool> debug_contour_
       , use_convex_hull_, offset_y_for_fence_;
 
     RangedParameter<double> offset_y_for_fence_fraction;

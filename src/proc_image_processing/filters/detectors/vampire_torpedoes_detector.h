@@ -21,7 +21,6 @@ namespace proc_image_processing {
 
         explicit VampireTorpedoesDetector(const GlobalParamHandler& globalParams)
             : Filter(globalParams),
-            enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
             look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
             look_for_heart_("Look_for_Heart", false, &parameters_),
@@ -33,7 +32,6 @@ namespace proc_image_processing {
         virtual ~VampireTorpedoesDetector() {}
 
         virtual void ApplyFilter(cv::Mat& image) {
-            if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
@@ -143,13 +141,12 @@ namespace proc_image_processing {
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-            }
         }
 
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
+        Parameter<bool> debug_contour_, look_for_ellipse_, look_for_heart_;
 
         RangedParameter<double> min_area_, max_area_;
     };

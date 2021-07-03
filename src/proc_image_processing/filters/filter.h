@@ -65,12 +65,7 @@ namespace proc_image_processing {
     // Useful to identify the filter.
     std::string name_;
 
-  private:
-    /**
-     * State if the filter is enabled or not.
-     * This is being used by the vision server for calling the filter in the
-     * filterchain.
-     */
+  private: 
     Parameter<bool> enable_{"Enable", false, &parameters_};
   };
 }  // namespace proc_image_processing

@@ -37,7 +37,6 @@ namespace proc_image_processing {
         explicit PipeAngleDetector(const GlobalParamHandler& globalParams)
             : Filter(globalParams),
             angle_(0.0f),
-            enable_("Enable", false, &parameters_),
             debug_contour_("Debug_contour", false, &parameters_),
             min_area_("Min_area", 200, 0, 10000, &parameters_),
             min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
@@ -47,7 +46,6 @@ namespace proc_image_processing {
         virtual ~PipeAngleDetector() {}
 
         virtual void ApplyFilter(cv::Mat& image) {
-            if (enable_()) {
                 intersectionPoint_.clear();
                 if (debug_contour_()) {
                     image.copyTo(output_image_);
@@ -193,7 +191,6 @@ namespace proc_image_processing {
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-            }
         }
 
     private:
@@ -201,7 +198,7 @@ namespace proc_image_processing {
 
         float angle_;
 
-        Parameter<bool> enable_, debug_contour_;
+        Parameter<bool> debug_contour_;
 
         std::vector<std::tuple<cv::Point, int>> intersectionPoint_;
 
