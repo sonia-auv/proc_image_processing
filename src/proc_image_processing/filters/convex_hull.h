@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit ConvexHull(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       mode_("Mode", 0, 0, 3, &parameters_,
         "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "
         "3=CV_RETR_TREE"),
@@ -30,7 +29,6 @@ namespace proc_image_processing {
     virtual ~ConvexHull() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         int mode, method;
         switch (mode_()) {
         case 0:
@@ -78,11 +76,9 @@ namespace proc_image_processing {
         for (size_t i = 0; i < contours.size(); i++) {
           cv::drawContours(image, hull, i, cv::Scalar(255, 255, 255), CV_FILLED);
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> mode_, method_;
   };
 

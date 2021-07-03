@@ -20,7 +20,6 @@ namespace proc_image_processing {
 
     explicit BilateralFilter(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       diameter_("Diameter", -100, 0, 100, &parameters_),
       sigma_color_("Sigm_color", 0, 0, 300, &parameters_),
       sigma_space_("Sigma_space", 0, 0, 300, &parameters_) {
@@ -37,23 +36,14 @@ namespace proc_image_processing {
      * \param image The image to process.
      */
     void ApplyFilter(cv::Mat& image) override {
-      if (enable_()) {
         cv::Mat blurred;
         cv::bilateralFilter(image, blurred, diameter_.GetValue(),
           sigma_color_.GetValue(), sigma_space_.GetValue());
 
         blurred.copyTo(image);
-      }
     }
 
   private:
-    /**
-     * State if the filter is enabled or not.
-     * This is being used by the vision server for calling the filter in the
-     * filterchain.
-     */
-    Parameter<bool> enable_;
-
     /**
      * From the OpenCV definition:
      * Diameter of each pixel neighborhood that is used during filtering.

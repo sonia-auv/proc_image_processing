@@ -19,7 +19,6 @@ namespace proc_image_processing {
 
     explicit HSVThreshold(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("enable", false, &parameters_),
       hue_min_("Hue Min", 0, 0, 256, &parameters_,
         "Minimum Hue to threshold. Keep values higher or equal to this value."),
       hue_max_("Hue Max", 255, 0, 256, &parameters_,
@@ -40,7 +39,6 @@ namespace proc_image_processing {
     virtual ~HSVThreshold() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (CV_MAT_CN(image.type()) != 3) {
           return;
         }
@@ -74,7 +72,6 @@ namespace proc_image_processing {
         cv::bitwise_and(final, value_res, final);
 
         final.copyTo(image);
-      }
     }
 
   private:
@@ -85,7 +82,6 @@ namespace proc_image_processing {
 
     }
 
-    Parameter<bool> enable_;
     RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;
     // Color matrices
     std::vector<cv::Mat> channel_vec_;

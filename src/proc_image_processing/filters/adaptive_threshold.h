@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit AdaptiveThreshold(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
       threshold_type_("Threshold_type", 0, 0, 1, &parameters_,
         "0=BIN, 1=BIN_INV"),
@@ -28,7 +27,6 @@ namespace proc_image_processing {
     virtual ~AdaptiveThreshold() {}
 
     void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }
@@ -38,12 +36,9 @@ namespace proc_image_processing {
         int type =
           threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
         cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
-      }
     }
 
   private:
-    Parameter<bool> enable_;
-
     RangedParameter<int> method_, threshold_type_, _block_size;
 
     RangedParameter<double> c_param_;

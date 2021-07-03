@@ -20,7 +20,6 @@ namespace proc_image_processing {
         explicit Deep2019(const GlobalParamHandler& globalParams) :
             Filter(globalParams),
             nh_(ros::NodeHandle("proc_image_processing")),
-            enable_("Enable", false, &parameters_),
             debug_contour_("Debug contour", false, &parameters_),
             vetalas_("vetalas", true, &parameters_),
             draugr_("draugr", true, &parameters_),
@@ -37,7 +36,6 @@ namespace proc_image_processing {
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
 
         virtual void ApplyFilter(cv::Mat& image) {
-            if (enable_()) {
                 Target target;
                 image_width_ = image.size().width;
                 image_height_ = image.size().height;
@@ -77,7 +75,6 @@ namespace proc_image_processing {
                     NotifyTarget(objects_.back());
                     objects_.pop_back();
                 }
-            }
         };
 
     private:
@@ -91,7 +88,7 @@ namespace proc_image_processing {
         ros::NodeHandle nh_;
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
-        Parameter<bool> enable_, debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
+        Parameter<bool> debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
         int image_width_;
         int image_height_;
         cv::Scalar color_;
@@ -100,7 +97,6 @@ namespace proc_image_processing {
             if (bounding_box_.empty())
                 bounding_box_.clear();
             bounding_box_ = msg->detected_object;
-
         }
 
         inline std::string convertFloatToString(float value) {

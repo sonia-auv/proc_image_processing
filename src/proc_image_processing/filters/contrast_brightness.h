@@ -19,7 +19,6 @@ namespace proc_image_processing {
 
     explicit ContrastBrightness(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("enable", false, &parameters_),
       contrast_("Contrast", 0, 0, 256, &parameters_,
         "Contrast"),
       brightness_("Brightness", 0, -256, 256, &parameters_,
@@ -32,7 +31,6 @@ namespace proc_image_processing {
     virtual ~ContrastBrightness() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         rows_ = image.rows;
         cols_ = image.cols;
         // Set final matrices
@@ -50,12 +48,10 @@ namespace proc_image_processing {
         }
 
         final.copyTo(image);
-      }
     }
 
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<double> contrast_, brightness_;
     // Color matrices
     int rows_;

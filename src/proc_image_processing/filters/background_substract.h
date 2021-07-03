@@ -22,7 +22,6 @@ namespace proc_image_processing {
 
     explicit BackgroundSubstract(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       show_blurred_("Show_blurred", false, &parameters_),
       blur_size_("Blur_size", 255, 0, 1000, &parameters_),
       sigma_("Sigma", 10, 0, 100, &parameters_) {
@@ -32,7 +31,6 @@ namespace proc_image_processing {
     virtual ~BackgroundSubstract() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         std::vector<cv::Mat> channels;
         split(image, channels);
         cv::Mat b = channels[0];
@@ -59,11 +57,10 @@ namespace proc_image_processing {
         channels[1] = g;
         channels[2] = r;
         cv::merge(channels, image);
-      }
     }
 
   private:
-    Parameter<bool> enable_, show_blurred_;
+    Parameter<bool> show_blurred_;
     RangedParameter<int> blur_size_, sigma_;
   };
 

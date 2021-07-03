@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
     explicit Erode(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       use_square_kernel_("Square_kernel", true, &parameters_),
       kernel_type_("Kernel_type", 0, 0, 2, &parameters_),
       kernel_size_x_("Width", 1, 0, 20, &parameters_),
@@ -29,7 +28,6 @@ namespace proc_image_processing {
     virtual ~Erode() {}
 
     void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         int kernel_type = 0;
         switch (kernel_type_()) {
         case 0:
@@ -49,11 +47,10 @@ namespace proc_image_processing {
         cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
 
         cv::erode(image, image, kernel, anchor_, iteration_());
-      }
     }
 
   private:
-    Parameter<bool> enable_, use_square_kernel_;
+    Parameter<bool> use_square_kernel_;
     RangedParameter<int> kernel_type_;
     RangedParameter<int> kernel_size_x_, kernel_size_y_;
     RangedParameter<int> iteration_;

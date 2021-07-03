@@ -22,7 +22,6 @@ namespace proc_image_processing {
 
     explicit Blurr(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
       type_("Type", 2, 0, 3, &parameters_,
         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
       kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
@@ -33,7 +32,6 @@ namespace proc_image_processing {
     virtual ~Blurr() {}
 
     virtual void ApplyFilter(cv::Mat& image) {
-      if (enable_()) {
         cv::Size2i kernelSize((int)kernel_size_() * 2 + 1,
           (int)(kernel_size_() * 2 + 1));
         switch (type_()) {
@@ -50,11 +48,9 @@ namespace proc_image_processing {
           cv::medianBlur(image, image, kernel_size_() * 2 + 1);
           break;
         }
-      }
     }
 
   private:
-    Parameter<bool> enable_;
     RangedParameter<int> type_, kernel_size_;
 
     const cv::Point anchor_;
