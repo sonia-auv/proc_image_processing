@@ -28,9 +28,16 @@ jobs:
         run: |
           docker tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
 
+      - name: Cache Sonarcloud analysis
+        uses: actions/cache@v2
+        with:
+          path: sonarcloud-cache
+          key: 'test'
+
       - name: Run Sonarcloud
         run: |
           docker build -f Dockerfile.sonarcloud --build-arg BASE_IMAGE=build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} --build-arg SONAR_TOKEN=${{secrets.SONAR_TOKEN}} --build-arg BRANCH=${GITHUB_REF#refs/heads/} .
+          docker cp build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}:/sonarcloud-cache sonarcloud-cache
 
       - name: Push Image to Github Packages Registry
         run: |
