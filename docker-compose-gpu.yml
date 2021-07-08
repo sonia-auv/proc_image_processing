@@ -7,7 +7,9 @@ services:
     image: sonia-auv/proc_image_processing:local-gpu
     build:
       context: .
-      dockerfile: Dockerfile.cuda
+      dockerfile: Dockerfile
+      args:
+        - BASE_IMAGE=docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest
     deploy:
       resources:
         reservations:

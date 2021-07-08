@@ -81,8 +81,9 @@ CLion provides more features than VSCode and is typically more powerful in sever
 
 To get your environment setup with it, follow these steps:
 
-- Pull sonia_common image: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`
-  .
+- Pull sonia_common image:
+    - CPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
+    - GPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
 
 
 - Copy `.env.example` to `.env` and change the exposed SSH port that will be used to connect to the CLion remote
