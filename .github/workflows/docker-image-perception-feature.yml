@@ -22,16 +22,16 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Build the docker image (perception based)
         run: |
-          docker build . --tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
 
       - name: Create Docker Image Tag
         run: |
-          docker tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
 
       - name: Run Sonarcloud
         run: |
-          docker build -f Dockerfile.sonarcloud --build-arg BASE_IMAGE=build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} --build-arg SONAR_TOKEN=${{secrets.SONAR_TOKEN}} --build-arg BRANCH=${GITHUB_REF#refs/heads/} .
-          docker cp build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}:/sonarcloud-cache sonarcloud-cache
+          docker build -f Dockerfile.sonarcloud --build-arg BASE_IMAGE=build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} --build-arg SONAR_TOKEN=${{secrets.SONAR_TOKEN}} --build-arg BRANCH=${GITHUB_REF#refs/heads/} .
+          docker cp build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}:/sonarcloud-cache sonarcloud-cache
 
       - name: Push Image to Github Packages Registry
         run: |
@@ -67,15 +67,82 @@ jobs:
 
       - name: Build the docker image (perception based)
         run: |
-          docker build . --tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
 
       - name: Create Docker Image Tag
         run: |
-          docker tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
 
       - name: Push Image to Github Packages Registry
         run: |
           docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+
+  build-ros-perception-cuda-x86-64:
+    name: "Build ROS perception CUDA X86/64"
+    runs-on: ubuntu-latest
+    env:
+      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest"
+      ARCH: x86
+      TARGET_TYPE: perception
+      TARGET_VERSION: feature
+      IMAGE_NAME: proc_image_processing_cuda
+      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Github Package Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: Build the docker image (perception based)
+        run: |
+          docker build -f Dockerfile.cuda --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE} .
+
+      - name: Create Docker Image Tag
+        run: |
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
+
+      - name: Push Image to Github Packages Registry
+        run: |
+          docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+
+  #  build-ros-perception-cuda-arm64:
+  #    name: "Build ROS perception CUDA ARM64"
+  #    runs-on: ubuntu-latest
+  #    env:
+  #      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:arm64-perception-latest"
+  #      ARCH: arm64
+  #      TARGET_TYPE: perception
+  #      TARGET_VERSION: feature
+  #      IMAGE_NAME: proc_image_processing_cuda
+  #      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - name: Login to Github Package Registry
+  #        run: |
+  #          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+  #      - name: Enable Docker Daemon Experimental Features
+  #        run: |
+  #          sudo rm /etc/docker/daemon.json
+  #          echo '{"experimental": true , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
+  #          sudo service docker restart
+  #          docker version
+  #
+  #      - name: Install QEMU to be able to compile on X86 into ARM64
+  #        run: |
+  #          sudo apt-get update
+  #          sudo apt-get install qemu binfmt-support qemu-user-static
+  #          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #
+  #      - name: Build the docker image (perception based)
+  #        run: |
+  #          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+  #
+  #      - name: Create Docker Image Tag
+  #        run: |
+  #          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
+  #
+  #      - name: Push Image to Github Packages Registry
+  #        run: |
+  #          docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   notify-success:
     name: "Notify Slack - Success"
