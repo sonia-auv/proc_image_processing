@@ -3,7 +3,6 @@ build
 .github
 .devcontainer
 .vscode
-tools
 devel
 docker-compose*
 clion.env.vars

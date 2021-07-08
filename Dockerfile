@@ -26,7 +26,7 @@ WORKDIR ${NODE_PATH}
 
 COPY . ${NODE_PATH}
 
-RUN bash -c "source ${ROS_WS_SETUP}; source ${BASE_LIB_WS_SETUP}; cmake -GNinja .; ninja"
+RUN bash -c "source ${ROS_WS_SETUP}; source ${BASE_LIB_WS_SETUP}; catkin_make --use-ninja"
 RUN chown -R ${SONIA_USER}: ${SONIA_WS}
 
 USER ${SONIA_USER}
