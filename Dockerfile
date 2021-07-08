@@ -22,11 +22,11 @@ ENV LAUNCH_ABSPATH=${NODE_PATH}/launch/${LAUNCH_FILE}
 ENV ENTRYPOINT_ABSPATH=${NODE_PATH}/scripts/${ENTRYPOINT_FILE}
 ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
 
-WORKDIR ${SONIA_WS}
+WORKDIR ${NODE_PATH}
 
 COPY . ${NODE_PATH}
 
-RUN bash -c "source ${ROS_WS_SETUP}; source ${BASE_LIB_WS_SETUP}; catkin_make --use-ninja"
+RUN bash -c "source ${ROS_WS_SETUP}; source ${BASE_LIB_WS_SETUP}; cmake -GNinja .; ninja"
 RUN chown -R ${SONIA_USER}: ${SONIA_WS}
 
 USER ${SONIA_USER}
