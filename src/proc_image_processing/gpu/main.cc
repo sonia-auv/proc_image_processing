@@ -10,7 +10,6 @@
 
 int main(int argc, char **argv) {
     ROS_INFO("Starting proc_image_processing (GPU mode)...");
-    cout << "OpenCV: " << CV_VERSION << endl;
 
     ros::init(argc, argv, "proc_image_processing");
     ros::NodeHandle nh("~");
