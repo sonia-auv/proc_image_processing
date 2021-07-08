@@ -28,16 +28,15 @@ jobs:
       - name: Run tests
         run: |
           cd app/tests
-          PYTHONPATH=../../app pytest --cov-report html:../../tests_coverage --html=../../tests_run/index.html
+          PYTHONPATH=../../app pytest --cov-report html:tests_coverage --html=tests_run/index.html
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: Factory Generator Tests Results
           path: |
-            src/factory_generator/tests_run
-            src/factory_generator/tests_coverage
-        # Use always() to always run this step to publish test results when there are test failures
+            app/tests/tests_run
+            app/tests/tests_coverage
         if: always()
 
   build-ros-perception-x86-64:
