@@ -28,7 +28,7 @@ jobs:
       - name: Run tests
         run: |
           cd app/tests
-          PYTHONPATH=app pytest --cov-report html:tests_coverage --html=tests_run/index.html
+          PYTHONPATH=src/factory_generator/app pytest --cov-report html:tests_coverage --html=tests_run/index.html
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
