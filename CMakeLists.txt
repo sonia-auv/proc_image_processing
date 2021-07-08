@@ -114,7 +114,7 @@ if (CUDA_FOUND)
     include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
     try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
-            ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tools/detect_gpu.c
+            ${CMAKE_BINARY_DIR} tools/detect_gpu.c
             CMAKE_FLAGS
             -DINCLUDE_DIRECTORIES=${CUDA_TOOLKIT_INCLUDE}
             -DLINK_LIBRARIES=${CUDA_CUDART_LIBRARY}
