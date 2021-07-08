@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FACTORY_GENERATOR_CLASS_NAME=RemoveMask
 
 #ifndef PROVIDER_VISION_FILTERS_REMOVE_MASK_H_
 #define PROVIDER_VISION_FILTERS_REMOVE_MASK_H_
@@ -18,7 +19,7 @@ namespace proc_image_processing {
   // settings are for the differents type of filters, and does not apply to all
   class RemoveMask : public Filter {
   public:
-    using Ptr = std::shared_ptr<Blurr>;
+    using Ptr = std::shared_ptr<RemoveMask>;
 
     explicit RemoveMask(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
