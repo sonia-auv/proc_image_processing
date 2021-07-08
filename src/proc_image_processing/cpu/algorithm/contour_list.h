@@ -32,7 +32,7 @@ namespace proc_image_processing {
       HIERARCHY        // All the contours, fills the hierarchy member
     };
 
-    ContourList(const cv::Mat& image, const METHOD method);
+    ContourList(const cv::Mat &image, METHOD method);
 
     Contour operator[](size_t index);
 

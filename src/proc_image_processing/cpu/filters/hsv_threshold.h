@@ -48,7 +48,7 @@ namespace proc_image_processing {
 
         rows_ = image.rows;
         cols_ = image.cols;
-        // Set final matrices
+        // Set result matrices
         cv::Mat hue = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat hue_res1 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat hue_res2 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
@@ -56,25 +56,25 @@ namespace proc_image_processing {
         cv::Mat saturation = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat saturation_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat value = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat value_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat final = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+          cv::Mat value_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+          cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
         // Replace with new images
         channel_vec_ = GetColorPlanes(image);
-        set_image(H_INDEX, hue);
-        set_image(S_INDEX, saturation);
-        set_image(V_INDEX, value);
-        cv::inRange(hue, cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
-        //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
-        //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
-        //cv::bitwise_and(hue_res1, hue_res2, hue_res);
-        cv::inRange(saturation, cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
-        cv::inRange(value, cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
+          set_image(H_INDEX, hue);
+          set_image(S_INDEX, saturation);
+          set_image(V_INDEX, value);
+          cv::inRange(hue, cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
+          //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
+          //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
+          //cv::bitwise_and(hue_res1, hue_res2, hue_res);
+          cv::inRange(saturation, cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
+          cv::inRange(value, cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
 
-        cv::bitwise_and(hue_res, saturation_res, final);
-        cv::bitwise_and(final, value_res, final);
+          cv::bitwise_and(hue_res, saturation_res, result);
+          cv::bitwise_and(result, value_res, result);
 
-        final.copyTo(image);
+          result.copyTo(image);
       }
     }
 

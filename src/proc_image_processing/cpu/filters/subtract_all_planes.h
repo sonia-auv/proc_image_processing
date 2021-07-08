@@ -51,30 +51,30 @@ namespace proc_image_processing {
 
         rows_ = image.rows;
         cols_ = image.cols;
-        // Set final matrices
+        // Set result matrices
         cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat final = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+          cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+          cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
         // Replace with new images
         channel_vec_ = GetColorPlanes(image);
 
-        // Set subtraction
-        if (plane_one_() != 0)
-          set_image(plane_one_() - 1, one, weight_one_(), invert_one_());
+          // Set subtraction
+          if (plane_one_() != 0)
+              set_image(plane_one_() - 1, one, weight_one_(), invert_one_());
 
-        if (plane_two_() != 0)
-          set_image(plane_two_() - 1, two, weight_two_(), invert_two_());
+          if (plane_two_() != 0)
+              set_image(plane_two_() - 1, two, weight_two_(), invert_two_());
 
-        if (plane_three_() != 0)
-          set_image(plane_three_() - 1, three, weight_three_(), invert_three_());
+          if (plane_three_() != 0)
+              set_image(plane_three_() - 1, three, weight_three_(), invert_three_());
 
-        cv::subtract(one, two, final);
-        cv::subtract(final, three, final);
+          cv::subtract(one, two, result);
+          cv::subtract(result, three, result);
 
-        final.copyTo(image);
+          result.copyTo(image);
       }
     }
 

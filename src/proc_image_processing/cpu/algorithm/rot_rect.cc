@@ -73,11 +73,11 @@ namespace proc_image_processing {
       result = false;
     }
     if (rotRect.size != size) {
-      result = false;
+        result = false;
     }
-    if (std::abs(rotRect.angle - rotRect.angle) > 0.5) {
-      result = false;
-    }
+      if (std::abs(rotRect.angle) > 0.5) {
+          result = false;
+      }
     return result;
   }
 

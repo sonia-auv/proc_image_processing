@@ -17,10 +17,6 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_index)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 
-*Please read the instructions and fill in the blanks*
-
-One Paragraph of project description goes here
-
 ## Getting Started
 
 Clone current project by using following command :
@@ -31,9 +27,6 @@ Clone current project by using following command :
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing
 purposes. See deployment for notes on how to deploy the project on a live system.
-
-**IMPORTANT :** *If you have just imported your repository, please follow the instructions
-in* [BOOTSTRAP.md](BOOTSTRAP.md) (Once the bootstrap completed, you can remove this comment from the README)
 
 ### Prerequisites
 
@@ -54,6 +47,18 @@ Docker version 19.03.5, build 633a0ea
 ```
 
 It means you have it installed. If not follow instructions on how to install it for your OS.
+
+### Project Modes
+
+This project has to variants, or modes, that can be built.
+
+This is mainly due to the fact that we have both an implementation using:
+
+- OpenCV **without CUDA** support (`CPU Mode`)
+- OpenCV **with CUDA** support (`GPU Mode`)
+
+If a GPU is detected, the NVIDIA Tools are present and OpenCV is compiled with CUDA, then the `GPU Mode` is used.
+Otherwise, the project is built in `CPU Mode`.
 
 ### Environment configuration
 
@@ -80,13 +85,17 @@ To get your environment setup with it, follow these steps:
   .
 
 
+- Copy `.env.example` to `.env` and change the exposed SSH port that will be used to connect to the CLion remote
+  environment with the `CLION_SSH_PORT` variable. You can use the default value of `2222`.
+
+
 - Build the remote environment Docker image:
-    - CPU mode: `docker-compose -f docker-compose-cpu.yml build`.
-    - GPU mode: `docker-compose -f docker-compose-gpu.yml build`.
+    - CPU mode: `docker-compose build proc_image_processing clion_remote_env`.
+    - GPU mode: `docker-compose -f docker-compose-gpu.yml build proc_image_processing clion_remote_env`.
 
 
 - Launch the remote environment:
-    - CPU mode: `docker-compose -f docker-compose-cpu.yml up clion_remote_env`.
+    - CPU mode: `docker-compose up clion_remote_env`.
     - GPU mode: `docker-compose -f docker-compose-gpu.yml up clion_remote_env`.
     - If this error happens: ` standard_init_linux.go:228: exec user process caused: no such file or directory`, you are
       probably using a Windows host, and you need to make sur end of lines for `sonia_entrypoint.sh`
@@ -97,10 +106,10 @@ To get your environment setup with it, follow these steps:
         - Give it a name, like `Remote Environment`.
         - Configure the credentials by clicking on the kog icon:
             - Give it a name, like `Remote Environment`.
-            - Use `127.0.0.1` as `Host`.
-            - Use `2222` as `Port`.
-            - Use `sonia` as `User name`.
-            - Use `test` as `Password`.
+            - Use `127.0.0.1` as `Host` value.
+            - Use the value that you used for the `CLION_SSH_PORT` variable as `Port` value.
+            - Use `sonia` as `User name` value.
+            - Use `test` as `Password` value.
             - Leave the remaining fields with their default values.
             - Try using the `Test connection` button to make sure CLion can SSH into your remote environment.
         - Once you are done with the credentials, CLion should find CMake, Make, the C Compiler, the C++ Compiler and
@@ -110,23 +119,24 @@ To get your environment setup with it, follow these steps:
 - Configure CMake:
     - Go to `File | Settings | Build, Execution, Deployment | CMake`.
     - Add a new profile:
-        - Use `Debug` as the `Build type`.
-        - Use the toolchain name you just configured as the `Toolchain`.
-        - Use `build` as the `Build directory`.
-        - Copy and paste the contents from the [clion.env.vars](clion.env.vars) file as the `Environment`.
+        - Use `Debug` as the `Build type` value.
+        - Use the toolchain name you just configured as the `Toolchain` value.
+        - Use `build` as the `Build directory` value.
+        - Hit `Apply` button (you will need to close the window in order to do the next step).
+        - Copy and paste the contents from the [clion.env.vars](clion.env.vars) file as the `Environment` value.
         - Make sure that `Include system environment variables` is checked when you click on the small icon at the end
           of the `Environment` field.
 
 
 - Configure Deployment:
     - Go to `File | Settings | Build, Execution, Deployment | Deployment`.
-    - Add a new `SFTP` deployment if there is none or modify the one automatically created by the previous steps:
+    - Modify `SFTP` deployment that has been automatically created by the previous steps:
         - Give it a name, like `Remote Environment`.
         - Use your configured credentials as `SSH configuration`. Test that the connection still works!
         - Go to the `Mappings` tab:
-            - Use the path of proc_image_processing as `Local path`. For
+            - Use the path of proc_image_processing as `Local path` value. For
               example: `/home/yourusername/CLionProjects/proc_image_processing/`.
-            - Use `/home/sonia/ros_sonia_ws/src/proc_image_processing` as `Deployment path`.
+            - Use `/home/sonia/ros_sonia_ws/src/proc_image_processing` as `Deployment path` value.
 
 - Reload the CMake project using `File | Reload CMake Project`. CLion should populate all the available launch options
   up top at the left of the `Play` icon.
@@ -155,6 +165,20 @@ To get your environment setup with it, follow these steps:
 - No need to commit from your remote environment contrary to VSCode. Truth is, everything you modify is done locally and
   then sent to your remote environment. In other words, you won't lose your changes if you don't commit them since your
   remote environment behaves like a server where stuff is compiled and executed.
+
+## Code Quality
+
+This project uses [SonarCloud](https://sonarcloud.io/) to analyze the code base quality continuously using a GitHub
+Actions Workflow.
+
+Although, a manual analysis can also be performed and submitted on SonarCloud by following these steps:
+
+- Copy `.env.example` a template for a `.env` file. In that file, you must specify your GitHub Token (`GITHUB_TOKEN`)
+  with the necessary privileges, your SonarCloud token (`SONAR_TOKEN`) and the branch name that you are currently
+  on (`BRANCH`).
+- Build the SonarCloud container with: `docker-compose build proc_image_processing sonarcloud`.
+- Launch the SonarCloud analysis with: `docker-compose up sonarcloud`.
+- Go to [SonarCloud](https://sonarcloud.io/) and see the results for your branch.
 
 ## Running the tests
 

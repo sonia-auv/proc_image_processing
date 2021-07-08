@@ -1,2 +1,16 @@
 build
+.idea
+.github
+.devcontainer
+.vscode
+tools
 devel
+docker-compose*
+clion.env.vars
+.env.example
+.env
+README.md
+LICENSE
+Dockerfile.sonarcloud
+Dockerfile.clion
+Dockerfile.cuda
