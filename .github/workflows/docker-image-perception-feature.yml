@@ -33,7 +33,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Client Tests Results
+          name: Factory Generator Tests Results
           path: |
             src/factory_generator/tests_run
             src/factory_generator/tests_coverage
