@@ -26,8 +26,8 @@ jobs:
 
       - name: Run Module Unit Test
         run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make run_tests
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
 
       - name: Create Docker Image Tag
         run: |
@@ -42,7 +42,7 @@ jobs:
           docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   build-ros-perception-arm64:
-    name: "Build ROS perception AMR64"
+    name: "Build ROS perception ARM64"
     runs-on: ubuntu-latest
     env:
       BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
@@ -75,8 +75,8 @@ jobs:
 
       - name: Run Module Unit Test
         run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make run_tests
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
 
       - name: Create Docker Image Tag
         run: |
