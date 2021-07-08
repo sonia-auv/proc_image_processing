@@ -24,7 +24,7 @@ namespace proc_image_processing {
                 RetrieveOutNoChildContours(image);
                 break;
             case HIERARCHY:
-                RetrieveHiearchyContours(image);
+                RetrieveHierarchyContours(image);
                 break;
             default:
                 break;
@@ -40,7 +40,7 @@ namespace proc_image_processing {
                          CV_CHAIN_APPROX_SIMPLE);
     }
 
-    void ContourList::RetrieveHiearchyContours(const cv::Mat &image) {
+    void ContourList::RetrieveHierarchyContours(const cv::Mat &image) {
         cv::findContours(image.clone(), contour_list_point_, hierarchy_, CV_RETR_TREE,
                          CV_CHAIN_APPROX_SIMPLE);
     }

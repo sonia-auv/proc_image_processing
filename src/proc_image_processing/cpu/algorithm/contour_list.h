@@ -64,7 +64,7 @@ namespace proc_image_processing {
     void RetrieveAllContours(const cv::Mat& image);
 
     // Retrieve contour with hierachy. Sets the vector _hierachy of this object.
-    void RetrieveHiearchyContours(const cv::Mat& image);
+    void RetrieveHierarchyContours(const cv::Mat &image);
 
     // All innermost contour i.e. no child
     void RetrieveInnerContours(const cv::Mat& image);
