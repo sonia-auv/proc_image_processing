@@ -1,0 +1,27 @@
+project-path: "../proc_image_processing/"
+factories:
+  - name: "FilterFactory"
+    path: "server/"
+    items-path: "filters/"
+    recurse: true
+    filename: "filter_factory.cc"
+    header-filename: "filter_factory.h"
+    equality-variable: "name"
+    create-params:
+      - "globalParams"
+    excluded-items:
+      - "filter.h"
+      - "filter_inl.h"
+      - "subtract_plane_adder.h"
+tags:
+  factory-header:
+    includes-start: "<FACTORY_GENERATOR_HEADER_INCLUDES>"
+    includes-end: "<FACTORY_GENERATOR_HEADER_INCLUDES/>"
+  factory:
+    list-start: "<FACTORY_GENERATOR_ITEMS_LIST>"
+    list-end: "<FACTORY_GENERATOR_ITEMS_LIST/>"
+    create-start: "<FACTORY_GENERATOR_INSTANCE_CREATION>"
+    create-end: "<FACTORY_GENERATOR_INSTANCE_CREATION/>"
+  item-headers:
+    class-name: "FACTORY_GENERATOR_CLASS_NAME"
+    class-name-separator: "="

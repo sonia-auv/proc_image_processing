@@ -1,6 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
+// FACTORY_GENERATOR_CLASS_NAME=ThresholdBetween
 
 #ifndef PROVIDER_VISION_FILTERS_THRESHOLD_BETWEEN_H_
 #define PROVIDER_VISION_FILTERS_THRESHOLD_BETWEEN_H_
@@ -12,7 +13,7 @@ namespace proc_image_processing {
 
   class ThresholdBetween : public Filter {
   public:
-    using Ptr = std::shared_ptr<Threshold>;
+    using Ptr = std::shared_ptr<ThresholdBetween>;
 
     explicit ThresholdBetween(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
