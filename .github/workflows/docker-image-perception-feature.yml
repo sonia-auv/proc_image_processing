@@ -35,8 +35,8 @@ jobs:
         with:
           name: Factory Generator Tests Results
           path: |
-            app/tests/tests_run
-            app/tests/tests_coverage
+            src/factory_generator/app/tests/tests_run
+            src/factory_generator/app/tests/tests_coverage
         if: always()
 
   build-ros-perception-x86-64:
