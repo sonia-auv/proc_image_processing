@@ -15,10 +15,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Python
-          id: setup-python
-          uses: actions/setup-python@v2
-          with:
-            python-version: '3.9'
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -26,18 +26,18 @@ jobs:
           pip install -r requirements.txt pytest pytest-cov pytest-html
 
       - name: Run tests
-          run: |
-            PYTHONPATH=app pytest --cov=app --cov-report html:tests_coverage --html=tests_run/index.html
+        run: |
+          PYTHONPATH=app pytest --cov=app --cov-report html:tests_coverage --html=tests_run/index.html
 
       - name: Upload artifacts
-          uses: actions/upload-artifact@v2
-          with:
-            name: Client Tests Results
-            path: |
-              src/factory_generator/tests_run
-              src/factory_generator/tests_coverage
-          # Use always() to always run this step to publish test results when there are test failures
-          if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: Client Tests Results
+          path: |
+            src/factory_generator/tests_run
+            src/factory_generator/tests_coverage
+        # Use always() to always run this step to publish test results when there are test failures
+        if: always()
 
   build-ros-perception-x86-64:
     name: "Build ROS perception X86/64"
