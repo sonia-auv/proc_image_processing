@@ -19,7 +19,7 @@ namespace proc_image_processing {
   // settings are for the differents type of filters, and does not apply to all
   class RemoveMask : public Filter {
   public:
-    using Ptr = std::shared_ptr<Blurr>;
+    using Ptr = std::shared_ptr<RemoveMask>;
 
     explicit RemoveMask(const GlobalParamHandler& globalParams)
       : Filter(globalParams),

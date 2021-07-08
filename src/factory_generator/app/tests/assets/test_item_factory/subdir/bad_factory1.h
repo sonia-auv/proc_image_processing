@@ -1,0 +1,2 @@
+<FACTORY_GENERATOR_HEADER_INCLUDES>
+#include <all/star.h>
