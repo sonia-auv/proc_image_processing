@@ -12,4 +12,3 @@ README.md
 LICENSE
 Dockerfile.sonarcloud
 Dockerfile.clion
-Dockerfile.cuda
