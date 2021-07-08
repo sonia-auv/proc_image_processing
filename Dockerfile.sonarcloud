@@ -1,0 +1,26 @@
+ARG BASE_IMAGE=""
+FROM ${BASE_IMAGE}
+ARG GITHUB_TOKEN=""
+ARG SONAR_TOKEN=""
+ARG BRANCH="master"
+
+USER root
+
+RUN apt update && apt install -y unzip wget ninja-build
+
+WORKDIR /sonarcloud
+
+RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip build-wrapper-linux-x86.zip
+RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip && unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+
+WORKDIR ${SONIA_WS}/src/proc_image_processing
+
+COPY sonarcloud.properties .
+COPY scripts/sonarcloud-build.sh .
+RUN chmod +x sonarcloud-build.sh
+
+RUN /sonarcloud/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output ./sonarcloud-build.sh
+
+RUN export PATH="/sonarcloud/sonar-scanner-4.6.2.2472-linux/bin/:$PATH" && \
+    export GITHUB_TOKEN=${GITHUB_TOKEN} && \
+    sonar-scanner -Dsonar.branch.name=${BRANCH} -Dproject.settings=sonarcloud.properties -Dsonar.cfamily.threads=$(nproc) -Dsonar.login=${SONAR_TOKEN}
