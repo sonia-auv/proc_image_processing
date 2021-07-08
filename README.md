@@ -16,6 +16,7 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=ncloc)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=sqale_index)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sonia-auv_proc_image_processing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=sonia-auv_proc_image_processing)
+---
 
 ## Getting Started
 
@@ -27,6 +28,7 @@ Clone current project by using following command :
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing
 purposes. See deployment for notes on how to deploy the project on a live system.
+---
 
 ### Prerequisites
 
@@ -48,6 +50,8 @@ Docker version 19.03.5, build 633a0ea
 
 It means you have it installed. If not follow instructions on how to install it for your OS.
 
+---
+
 ### Project Modes
 
 This project has to variants, or modes, that can be built.
@@ -60,6 +64,19 @@ This is mainly due to the fact that we have both an implementation using:
 If a GPU is detected, the NVIDIA Tools are present and OpenCV is compiled with CUDA, then the `GPU Mode` is used.
 Otherwise, the project is built in `CPU Mode`.
 
+#### GPU Mode requirements
+
+In order to use GPU mode, you need:
+
+- [nvidia-container-runtime](https://github.com/NVIDIA/nvidia-container-runtime)
+  or [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker).
+- A compatible GPU: Maxwell generation and up.
+- A compatible NVIDIA driver installed.
+
+**Support for GPU mode with Windows has not been tested and is not recommended.**
+
+---
+
 ### Environment configuration
 
 First, you must be logged on the GitHub Docker Registry.
@@ -71,20 +88,43 @@ In order to do this:
   least the scope `read:packages`.
 - Type `docker login docker.pkg.github.com -u YOUR_GITHUB_USERNAME` and use your generated access token as password.
 
+- Pull sonia_common image:
+    - CPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
+    - GPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
+
 #### VSCode
 
 TODO document how to run this module with VSCode
+
+- Install these extensions:
+    - C/C++ (extension id: `ms-vscode.cpptools`)
+    - Docker (extension id: `ms-azuretools.vscode-docker`)
+    - Python (extension id: `ms-python.python`)
+    - Remote - Containers (extension id: `ms-vscode-remote.remote-containers`)
+    - ROS (extension id: `ms-iot.vscode-ros`)
+
+
+- Setup `devcontainer` extension:
+    - CPU Mode: Copy `.devcontainer/devcontainer-cpu.json` to `.devcontainer/devcontainer.json`
+    - GPU Mode: Copy `.devcontainer/devcontainer-gpu.json` to `.devcontainer/devcontainer.json`
+
+
+- Open the project on a remote container:
+    - `ctrl+shift+p`
+    - Type `Remote-Containers: Reopen in Container` (command id: `remote-containers.reopenInContainer`)
+
+
+- Start ROS core:
+    - `ctrl+shift+p`
+    - Type `ROS: Start Core` (command id: `ros.startCore`)
+
+---
 
 #### CLion
 
 CLion provides more features than VSCode and is typically more powerful in several use case.
 
 To get your environment setup with it, follow these steps:
-
-- Pull sonia_common image:
-    - CPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
-    - GPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
-
 
 - Copy `.env.example` to `.env` and change the exposed SSH port that will be used to connect to the CLion remote
   environment with the `CLION_SSH_PORT` variable. You can use the default value of `2222`.
@@ -167,6 +207,8 @@ To get your environment setup with it, follow these steps:
   then sent to your remote environment. In other words, you won't lose your changes if you don't commit them since your
   remote environment behaves like a server where stuff is compiled and executed.
 
+---
+
 ## Code Quality
 
 This project uses [SonarCloud](https://sonarcloud.io/) to analyze the code base quality continuously using a GitHub
@@ -181,9 +223,13 @@ Although, a manual analysis can also be performed and submitted on SonarCloud by
 - Launch the SonarCloud analysis with: `docker-compose up sonarcloud`.
 - Go to [SonarCloud](https://sonarcloud.io/) and see the results for your branch.
 
-## Running the tests
+---
+
+### Running the tests
 
 Explain how to run the automated tests for this system
+
+---
 
 ### Break down into end to end tests
 
@@ -193,6 +239,8 @@ Explain what these tests test and why
 Give an example
 ```
 
+---
+
 ### And coding style tests
 
 Explain what these tests test and why
@@ -201,9 +249,13 @@ Explain what these tests test and why
 Give an example
 ```
 
+---
+
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
+
+---
 
 ## Built With
 
@@ -211,10 +263,15 @@ Add additional project dependencies
 
 * [ROS](http://wiki.ros.org/) - ROS robotic framework
 
+---
+
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see
 the [tags on this repository](https://github.com/your/project/tags).
+
+
+---
 
 ## License
 

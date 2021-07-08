@@ -1,8 +1,6 @@
 build
 .idea
 .github
-.devcontainer
-.vscode
 devel
 docker-compose*
 clion.env.vars
