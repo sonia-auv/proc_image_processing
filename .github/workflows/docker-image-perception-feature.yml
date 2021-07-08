@@ -28,7 +28,7 @@ jobs:
       - name: Run tests
         run: |
           cd app/tests
-          pytest --cov-report html:tests_coverage --html=tests_run/index.html
+          PYTHONPATH=app pytest --cov-report html:tests_coverage --html=tests_run/index.html
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
