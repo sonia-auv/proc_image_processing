@@ -112,7 +112,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp std_msgs image_transport cv_bridg
 find_package(CUDA)
 if (CUDA_FOUND)
     include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-    include(tools/detect_gpu.c)
+
     try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
             ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tools/detect_gpu.c
             CMAKE_FLAGS
