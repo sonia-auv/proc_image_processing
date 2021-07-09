@@ -97,6 +97,8 @@ In order to do this:
     - CPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
     - GPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
 
+---
+
 #### VSCode
 
 TODO document how to run this module with VSCode
