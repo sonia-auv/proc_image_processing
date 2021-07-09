@@ -27,7 +27,12 @@ int main(int argc, char **argv) {
         proc_image_processing::SonarMapper sonarMapper(sp, nhp);
     } else {
         ROS_INFO("proc_image_processing started with CUDA fully supported!");
-        // TODO Launch GPU server
+        // TODO Replace to launch GPU server
+        proc_image_processing::VisionServer pv(nh);
+        ros::NodeHandlePtr nhp(&nh);
+        proc_image_processing::SubmarinePosition sp(nhp);
+        proc_image_processing::SonarMapper sonarMapper(sp, nhp);
+        // END replace
     }
 
     while (ros::ok()) {
