@@ -32,15 +32,13 @@ purposes. See deployment for notes on how to deploy the project on a live system
 
 ### Prerequisites
 
+#### Docker
+
 First and foremost to run the module you will need to
 have [docker](https://www.docker.com/get-started?utm_source=google&utm_medium=cpc&utm_campaign=getstarted&utm_content=sitelink&utm_term=getstarted&utm_budget=growth&gclid=CjwKCAjw57b3BRBlEiwA1Imytuv9VRFX5Z0INBaD3JJNSUmadgQh7ZYWTw_r-yFn2S4XjZTsLbNnnBoCPsIQAvD_BwE)
 installed.
 
-To validate your installation of docker, simply type in
-
-```
-docker -v
-```
+To validate your installation of docker, simply type in `docker -v`
 
 If you receive an output in the likes of :
 
@@ -48,7 +46,14 @@ If you receive an output in the likes of :
 Docker version 19.03.5, build 633a0ea
 ```
 
-It means you have it installed. If not follow instructions on how to install it for your OS.
+It means you have it installed. If not, follow instructions on how to install it for your OS.
+
+#### Docker-Compose
+
+In order to use provided Docker-Compose files, you must have the latest version of Docker-Compose installed, or it must
+support version `3.9` of compose files.
+
+See https://docs.docker.com/compose/install/ for installation.
 
 ---
 
@@ -61,8 +66,8 @@ This is mainly due to the fact that we have both an implementation using:
 - OpenCV **without CUDA** support (`CPU Mode`)
 - OpenCV **with CUDA** support (`GPU Mode`)
 
-If a GPU is detected, the NVIDIA Tools are present and OpenCV is compiled with CUDA, then the `GPU Mode` is used.
-Otherwise, the project is built in `CPU Mode`.
+If a GPU is detected, the NVIDIA Tools present and OpenCV is compiled with CUDA, then the `GPU Mode` is used. Otherwise,
+the project is built in `CPU Mode`.
 
 #### GPU Mode requirements
 
