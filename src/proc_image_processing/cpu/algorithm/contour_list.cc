@@ -8,7 +8,7 @@ namespace proc_image_processing {
 
     ContourList::ContourList(const cv::Mat &image, const METHOD method) {
         switch (method) {
-            case ALL:
+            case METHOD::ALL:
                 RetrieveAllContours(image);
                 break;
             case INNER:
@@ -53,7 +53,7 @@ namespace proc_image_processing {
 
         for (size_t i = 0, size = hierarchy_.size(); i < size; i++) {
             if (HasParent(hierarchy_[i])) {
-                new_contour_list.push_back((contour_list_point_)[i]);
+                new_contour_list.push_back(contour_list_point_[i]);
             }
         }
 
@@ -68,7 +68,7 @@ namespace proc_image_processing {
 
         for (size_t i = 0, size = hierarchy_.size(); i < size; i++) {
             if (HasParent(hierarchy_[i]) && !HasChild(hierarchy_[i])) {
-                new_contour_list.push_back((contour_list_point_)[i]);
+                new_contour_list.push_back(contour_list_point_[i]);
             }
         }
 
@@ -83,7 +83,7 @@ namespace proc_image_processing {
 
         for (size_t i = 0, size = hierarchy_.size(); i < size; i++) {
             if (!HasParent(hierarchy_[i])) {
-                new_contour_list.push_back((contour_list_point_)[i]);
+                new_contour_list.push_back(contour_list_point_[i]);
             }
         }
 
@@ -98,7 +98,7 @@ namespace proc_image_processing {
 
         for (size_t i = 0, size = hierarchy_.size(); i < size; i++) {
             if (!HasParent(hierarchy_[i]) && !HasChild(hierarchy_[i])) {
-                new_contour_list.push_back((contour_list_point_)[i]);
+                new_contour_list.push_back(contour_list_point_[i]);
             }
         }
 

@@ -92,29 +92,29 @@ namespace proc_image_processing {
     int image_height, int image_width,
     const std::string& spec_field_1,
     const std::string& spec_field_2) {
-    header_ = header;
-    center_.x = x;
-    center_.y = y;
-    dimension_.width = width;
-    dimension_.height = height;
-    angle_ = angle;
-    special_field_1_ = spec_field_1;
-    special_field_2_ = spec_field_2;
-    SetCameraOffset(center_, image_height, image_width);
+      header_ = header;
+      center_.x = x;
+      center_.y = y;
+      dimension_.width = width;
+      dimension_.height = height;
+      angle_ = angle;
+      special_field_1_ = spec_field_1;
+      special_field_2_ = spec_field_2;
+      setCameraOffset(center_, image_height, image_width);
   }
 
   inline void Target::SetTarget(ObjectFullData::Ptr obj,
     const std::string& header,
     const std::string& spec_field_1,
     const std::string& spec_field_2) {
-    header_ = header;
-    center_ = obj->GetCenter();
-    dimension_ = obj->GetRotatedRect().size;
-    angle_ = obj->GetAngle();
-    special_field_1_ = spec_field_1;
-    special_field_2_ = spec_field_2;
-    SetCameraOffset(center_, obj->GetImageSize().height,
-      obj->GetImageSize().width);
+      header_ = header;
+      center_ = obj->GetCenter();
+      dimension_ = obj->GetRotatedRect().size;
+      angle_ = obj->GetAngle();
+      special_field_1_ = spec_field_1;
+      special_field_2_ = spec_field_2;
+      setCameraOffset(center_, obj->GetImageSize().height,
+                      obj->GetImageSize().width);
   }
 
   inline void Target::SetHeader(const std::string& header) { header_ = header; }

@@ -67,7 +67,7 @@ namespace proc_image_processing {
       }
 
       contourList_t contours;
-      RetrieveOuterContours(in, contours);
+      getOuterContours(in, contours);
       std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar,
         merged_horizontal_bar;
 
@@ -166,7 +166,7 @@ namespace proc_image_processing {
           if (debug_contour_()) {
             cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
           }
-          SetCameraOffset(center, image.rows, image.cols);
+            setCameraOffset(center, image.rows, image.cols);
 
           fence.SetCenter(center);
 
@@ -203,35 +203,35 @@ namespace proc_image_processing {
             int x = 0, y = 0;
             // X from bottom bar plus
             x = (rect_from_hori_bar.center.x +
-              (final_vert_bar[0].x + final_vert_bar[1].x) / 2) /
-              2;
+                 (final_vert_bar[0].x + final_vert_bar[1].x) / 2) /
+                2;
 
-            y = (y_coord_from_bottom + final_vert_bar[0].y +
-              final_vert_bar[1].y) /
-              3;
-            center = cv::Point(x, y);
-            if (debug_contour_()) {
-              cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-            }
-            SetCameraOffset(center, image.rows, image.cols);
-            fence.SetCenter(center);
+              y = (y_coord_from_bottom + final_vert_bar[0].y +
+                   final_vert_bar[1].y) /
+                  3;
+              center = cv::Point(x, y);
+              if (debug_contour_()) {
+                  cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+              }
+              setCameraOffset(center, image.rows, image.cols);
+              fence.SetCenter(center);
           }
           else if (bar_founded == 1) {
-            int y = (y_coord_from_bottom + final_vert_bar[0].y) / 2;
-            center = cv::Point(rect_from_hori_bar.center.x, y);
-            if (debug_contour_()) {
-              cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-            }
-            SetCameraOffset(center, image.rows, image.cols);
-            fence.SetCenter(center);
+              int y = (y_coord_from_bottom + final_vert_bar[0].y) / 2;
+              center = cv::Point(rect_from_hori_bar.center.x, y);
+              if (debug_contour_()) {
+                  cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+              }
+              setCameraOffset(center, image.rows, image.cols);
+              fence.SetCenter(center);
           }
           else {
-            center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
-            if (debug_contour_()) {
-              cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-            }
-            SetCameraOffset(center, image.rows, image.cols);
-            fence.SetCenter(center);
+              center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
+              if (debug_contour_()) {
+                  cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+              }
+              setCameraOffset(center, image.rows, image.cols);
+              fence.SetCenter(center);
           }
         }
         NotifyTarget(fence);

@@ -49,7 +49,7 @@ namespace proc_image_processing {
                 timer.UpdateStartTime();
 
                 contourList_t contours;
-                RetrieveOuterContours(image, contours);
+                getOuterContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 ObjectFullData::Ptr firstObject = nullptr;
                 ObjectFullData::Ptr lastObject = nullptr;
@@ -68,9 +68,9 @@ namespace proc_image_processing {
                         continue;
                     }
 
-                    Line lineFit = FitLineOnPolygone(contours[i], output_image_.cols);
+                    Line lineFit = getLineOnPolygon(contours[i], output_image_.cols);
 
-                    Line linePer = GetPerpendicularLine(lineFit, object->GetCenter());
+                    Line linePer = getPerpendicularLine(lineFit, object->GetCenter());
 
                     std::vector<cv::Point> perpendicularLine = linePer.GenerateLine(output_image_);
 

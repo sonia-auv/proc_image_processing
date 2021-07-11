@@ -83,19 +83,19 @@ namespace proc_image_processing {
         contourList_t contours;
         switch (contour_retreval_()) {
         case 0:
-          RetrieveAllContours(image, contours);
+          retrieveAllContours(image, contours);
           break;
         case 1:
-          RetrieveOuterContours(image, contours);
+            getOuterContours(image, contours);
           break;
         case 2:
-          RetrieveAllInnerContours(image, contours);
+            getAllInnerContours(image, contours);
           break;
         case 3:
-          RetrieveInnerContours(image, contours);
+            getInnerContours(image, contours);
           break;
         case 4:
-          RetrieveOutNoChildContours(image, contours);
+            retrieveOutNoChildContours(image, contours);
           break;
         }
 
@@ -128,44 +128,44 @@ namespace proc_image_processing {
           // RATIO
           //feature_factory_.ComputeAllFeature(object);
           feature_factory_.RatioFeature(object);
-          if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
-            fabs(difference_from_target_ratio_()))) {
-            continue;
-          }
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
-          }
+            if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
+                                      fabs(difference_from_target_ratio_()))) {
+                continue;
+            }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
+            }
 
-          // PERCENT FILLED
-          feature_factory_.PercentFilledFeature(object);
-          float percent_filled =
-            CalculatePourcentFilled(image, object->GetUprightRect());
-          if ((percent_filled) < min_percent_filled_()) {
-            continue;
-          }
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 2);
-          }
+            // PERCENT FILLED
+            feature_factory_.PercentFilledFeature(object);
+            float percent_filled =
+                    getPercentFilled(image, object->GetUprightRect());
+            if ((percent_filled) < min_percent_filled_()) {
+                continue;
+            }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 2);
+            }
 
-          // ANGLE
-          if (!disable_angle_() &&
-            (fabs(fabs(object->GetRotatedRect().angle) - targeted_angle_()) >
-              fabs(difference_from_target_angle_()))) {
-            continue;
-          }
+            // ANGLE
+            if (!disable_angle_() &&
+                (fabs(fabs(object->GetRotatedRect().angle) - targeted_angle_()) >
+                 fabs(difference_from_target_angle_()))) {
+                continue;
+            }
 
-          // RECTANGLE
-          if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
-            // if (look_for_rectangle_() && !IsSquare(contours[i], min_area_(),
-            // 80.0f, 0.0f, 100.0f)) {
-            continue;
-          }
+            // RECTANGLE
+            if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
+                // if (look_for_rectangle_() && !isSquare(contours[i], min_area_(),
+                // 80.0f, 0.0f, 100.0f)) {
+                continue;
+            }
 
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-          }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+            }
 
-          objVec.push_back(object);
+            objVec.push_back(object);
         }
 
         int num_of_objects = objVec.size();

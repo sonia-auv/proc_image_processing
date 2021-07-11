@@ -49,13 +49,13 @@ namespace proc_image_processing {
 
                 contourList_t contours;
 
-                //RetrieveContours(image, contours);
+                //getContours(image, contours);
                 //std::cout << "Contours : " << contours.size() << std::endl;
 
-                //RetrieveOuterContours(image, contours);
+                //getOuterContours(image, contours);
                 //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
-                RetrieveAllContours(image, contours);
+                retrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
                 for (int i = 0, size = contours.size(); i < size; i++) {
@@ -84,7 +84,7 @@ namespace proc_image_processing {
 
                     if (look_for_ellipse_()) {
 
-                        circleIndex = CalculateCircleIndex(contours[i]);
+                        circleIndex = getCircleIndexFromContour(contours[i]);
 
                         //std::cout << circleIndex << std::endl;
 
@@ -92,7 +92,7 @@ namespace proc_image_processing {
                             continue;
                         }
 
-                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
+                        pourcentageFilled = getPercentFilled(output_image_, box);
 
                         if (pourcentageFilled > 25) {
                             continue;
@@ -107,13 +107,13 @@ namespace proc_image_processing {
 
                     if (look_for_heart_()) {
 
-                        circleIndex = CalculateCircleIndex(contours[i]);
+                        circleIndex = getCircleIndexFromContour(contours[i]);
 
                         if (circleIndex > 0.9) {
                             continue;
                         }
 
-                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
+                        pourcentageFilled = getPercentFilled(output_image_, box);
 
                         if (pourcentageFilled > 50) {
                             continue;

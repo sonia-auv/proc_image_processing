@@ -60,7 +60,7 @@ namespace proc_image_processing {
         timer.UpdateStartTime();
 
         contourList_t contours;
-        RetrieveAllContours(image, contours);
+          retrieveAllContours(image, contours);
         ObjectFullData::FullObjectPtrVec objVec;
         for (int i = 0, size = contours.size(); i < size; i++) {
           ObjectFullData::Ptr object =
@@ -87,23 +87,23 @@ namespace proc_image_processing {
             cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
           }
 
-          // ANGLE
-          if (!disable_angle_() &&
-            (fabs(object->GetRotatedRect().angle - targeted_angle_()) >
-              fabs(difference_from_target_angle_()))) {
-            continue;
-          }
+            // ANGLE
+            if (!disable_angle_() &&
+                (fabs(object->GetRotatedRect().angle - targeted_angle_()) >
+                 fabs(difference_from_target_angle_()))) {
+                continue;
+            }
 
-          // RECTANGLE
-          if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
-            continue;
-          }
+            // RECTANGLE
+            if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
+                continue;
+            }
 
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-          }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+            }
 
-          objVec.push_back(object);
+            objVec.push_back(object);
         }
 
         std::sort(objVec.begin(), objVec.end(),

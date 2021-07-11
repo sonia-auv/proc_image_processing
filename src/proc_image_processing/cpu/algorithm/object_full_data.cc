@@ -13,14 +13,14 @@ namespace proc_image_processing {
   }
 
   cv::Point ObjectVecMedian(ObjectFullData::FullObjectPtrVec objVec) {
-    std::vector<float> xVec;
-    std::vector<float> yVec;
-    for (auto& elem : objVec) {
-      xVec.insert(xVec.begin(), elem->GetCenter().x);
-      yVec.insert(yVec.begin(), elem->GetCenter().y);
-    }
-    return cv::Point((int)(Median(xVec)),
-      (int)(Median(yVec)));
+      std::vector<float> xVec;
+      std::vector<float> yVec;
+      for (auto &elem : objVec) {
+          xVec.insert(xVec.begin(), elem->GetCenter().x);
+          yVec.insert(yVec.begin(), elem->GetCenter().y);
+      }
+      return cv::Point((int) (getMedian(xVec)),
+                       (int) (getMedian(yVec)));
   }
 
 }  // namespace proc_image_processing

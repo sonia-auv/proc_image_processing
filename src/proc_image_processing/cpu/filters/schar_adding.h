@@ -39,23 +39,23 @@ namespace proc_image_processing {
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
-        if (image.channels() != 3) return;
-        if (run_small_image_()) {
-          cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
-        }
+          if (image.channels() != 3) return;
+          if (run_small_image_()) {
+              cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
+          }
 
-        std::vector<cv::Mat> colorPlanes = GetColorPlanes(image);
-        cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
+          std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
+          cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
 
-        if (plane_blue_()) cv::add(calcScharr(colorPlanes[0]), sum, sum);
-        if (plane_green_()) cv::add(calcScharr(colorPlanes[1]), sum, sum);
-        if (plane_red_()) cv::add(calcScharr(colorPlanes[2]), sum, sum);
-        if (plane_hue_()) cv::add(calcScharr(colorPlanes[3]), sum, sum);
-        if (plane_saturation_()) cv::add(calcScharr(colorPlanes[4]), sum, sum);
-        if (plane_intensity_()) cv::add(calcScharr(colorPlanes[5]), sum, sum);
-        if (plane_gray_()) cv::add(calcScharr(colorPlanes[6]), sum, sum);
+          if (plane_blue_()) cv::add(calcScharr(colorPlanes[0]), sum, sum);
+          if (plane_green_()) cv::add(calcScharr(colorPlanes[1]), sum, sum);
+          if (plane_red_()) cv::add(calcScharr(colorPlanes[2]), sum, sum);
+          if (plane_hue_()) cv::add(calcScharr(colorPlanes[3]), sum, sum);
+          if (plane_saturation_()) cv::add(calcScharr(colorPlanes[4]), sum, sum);
+          if (plane_intensity_()) cv::add(calcScharr(colorPlanes[5]), sum, sum);
+          if (plane_gray_()) cv::add(calcScharr(colorPlanes[6]), sum, sum);
 
-        sum.copyTo(image);
+          sum.copyTo(image);
         if (run_small_image_()) {
           cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
         }
