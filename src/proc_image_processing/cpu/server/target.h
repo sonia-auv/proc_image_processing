@@ -100,7 +100,7 @@ namespace proc_image_processing {
       angle_ = angle;
       special_field_1_ = spec_field_1;
       special_field_2_ = spec_field_2;
-      setCameraOffset(center_, image_height, image_width);
+      SetCameraOffset(center_, image_height, image_width);
   }
 
   inline void Target::SetTarget(ObjectFullData::Ptr obj,
@@ -113,7 +113,7 @@ namespace proc_image_processing {
       angle_ = obj->GetAngle();
       special_field_1_ = spec_field_1;
       special_field_2_ = spec_field_2;
-      setCameraOffset(center_, obj->GetImageSize().height,
+      SetCameraOffset(center_, obj->GetImageSize().height,
                       obj->GetImageSize().width);
   }
 

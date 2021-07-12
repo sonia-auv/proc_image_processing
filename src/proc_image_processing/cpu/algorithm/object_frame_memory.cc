@@ -36,7 +36,7 @@ namespace proc_image_processing {
         ObjectFullData::Ptr analysedObject = currentFrameData[j];
         if (analysedObject.get() != nullptr) {
           cv::Point analysedCenter = analysedObject->GetCenter();
-            float distance = getEuclideanPointDistance(center, analysedCenter);
+            float distance = EucledianPointDistance(center, analysedCenter);
 
           float analysedRatio = analysedObject->GetRatio();
           float ratioDifference = fabsf(analysedRatio - objectRatio);

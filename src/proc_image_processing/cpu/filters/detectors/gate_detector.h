@@ -83,19 +83,19 @@ namespace proc_image_processing {
         contourList_t contours;
         switch (contour_retreval_()) {
         case 0:
-          retrieveAllContours(image, contours);
+          RetrieveAllContours(image, contours);
           break;
         case 1:
-            getOuterContours(image, contours);
+            RetrieveOuterContours(image, contours);
           break;
         case 2:
-            getAllInnerContours(image, contours);
+            RetrieveAllInnerContours(image, contours);
           break;
         case 3:
-            getInnerContours(image, contours);
+            RetrieveInnerContours(image, contours);
           break;
         case 4:
-            retrieveOutNoChildContours(image, contours);
+            RetrieveOutNoChildContours(image, contours);
           break;
         }
 
@@ -109,25 +109,25 @@ namespace proc_image_processing {
             std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 
 
-          if (object.get() == nullptr) {
-            continue;
-          }
+            if (object.get() == nullptr) {
+                continue;
+            }
 
-          // AREA
-          if (object->GetCenter().y > max_y_() && check_max_y_()) {
-            continue;
-          }
+            // AREA
+            if (object->GetCenter().y > max_y_() && check_max_y_()) {
+                continue;
+            }
 
-          if (object->GetArea() < min_area_()) {
-            continue;
-          }
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-          }
+            if (object->GetArea() < min_area_()) {
+                continue;
+            }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+            }
 
-          // RATIO
-          //feature_factory_.ComputeAllFeature(object);
-          feature_factory_.RatioFeature(object);
+            // RATIO
+            //feature_factory_.ComputeAllFeature(object);
+            feature_factory_.RatioFeature(object);
             if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
                                       fabs(difference_from_target_ratio_()))) {
                 continue;
@@ -139,7 +139,7 @@ namespace proc_image_processing {
             // PERCENT FILLED
             feature_factory_.PercentFilledFeature(object);
             float percent_filled =
-                    getPercentFilled(image, object->GetUprightRect());
+                    CalculatePourcentFilled(image, object->GetUprightRect());
             if ((percent_filled) < min_percent_filled_()) {
                 continue;
             }
@@ -155,8 +155,8 @@ namespace proc_image_processing {
             }
 
             // RECTANGLE
-            if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
-                // if (look_for_rectangle_() && !isSquare(contours[i], min_area_(),
+            if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
+                // if (look_for_rectangle_() && !IsSquare(contours[i], min_area_(),
                 // 80.0f, 0.0f, 100.0f)) {
                 continue;
             }

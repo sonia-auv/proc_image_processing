@@ -49,13 +49,13 @@ namespace proc_image_processing {
 
                 contourList_t contours;
 
-                getOuterContours(image, contours);
+                RetrieveOuterContours(image, contours);
                 //std::cout << "Contours : " << contours.size() << std::endl;
 
-                //getOuterContours(image, contours);
+                //RetrieveOuterContours(image, contours);
                 //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
-                //retrieveAllContours(image, contours);
+                //RetrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
                 for (int i = 0, size = contours.size(); i < size; i++) {
@@ -84,7 +84,7 @@ namespace proc_image_processing {
 
                     if (look_for_ellipse_()) {
 
-                        circleIndex = getCircleIndexFromContour(contours[i]);
+                        circleIndex = CalculateCircleIndex(contours[i]);
 
                         //std::cout << circleIndex << std::endl;
 
@@ -92,7 +92,7 @@ namespace proc_image_processing {
                             continue;
                         }
 
-                        pourcentageFilled = getPercentFilled(output_image_, box);
+                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
 
                         if (pourcentageFilled > 50) {
                             continue;
@@ -107,13 +107,13 @@ namespace proc_image_processing {
 
                     if (look_for_heart_()) {
 
-                        circleIndex = getCircleIndexFromContour(contours[i]);
+                        circleIndex = CalculateCircleIndex(contours[i]);
 
                         if (circleIndex > 0.9) {
                             continue;
                         }
 
-                        pourcentageFilled = getPercentFilled(output_image_, box);
+                        pourcentageFilled = CalculatePourcentFilled(output_image_, box);
 
                         if (pourcentageFilled > 50) {
                             continue;

@@ -17,7 +17,7 @@ namespace proc_image_processing {
     // Degree accuracy are the values corresponding to norm(A X B)/(norm(A) *
     // norm(B))
     // for angles of 90 +- index_in_array.
-    // Example:
+    // Exemple:
     // DEGREE_ACCURACY_FOR_90[5] is the result of norm(A X B)/(norm(A) * norm(B))
     // when the angle between A and B is 90+t or 90-5
     const float ACCURACY_TABLE[ACCURACY_TABLE_SIZE] = {
@@ -30,93 +30,98 @@ namespace proc_image_processing {
 
     // Image splitting
     // Return vector with blue,green,red,hue,saturation,intensity,gray (in order)
-    std::vector<cv::Mat> getColorPlanes(cv::Mat image);
+    std::vector<cv::Mat> GetColorPlanes(cv::Mat image);
 
-    void setCameraOffset(cv::Point &pt, int rows, int cols);
+    // Camera offset
+    void SetCameraOffset(cv::Point &pt, int rows, int cols);
 
-    void retrieveContours(cv::Mat image, contourList_t &contours);
+    // Contours getter
+    void RetrieveContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveInnerContours(cv::Mat image, contourList_t &contours);
+    void RetrieveInnerContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveAllInnerContours(cv::Mat image, contourList_t &contours);
+    void RetrieveAllInnerContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveOuterContours(cv::Mat image, contourList_t &contours);
+    void RetrieveOuterContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveAllContours(cv::Mat image, contourList_t &contours);
+    void RetrieveAllContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveHierarchyContours(cv::Mat image, contourList_t &contours,
-                                   hierachy_t &hierarchy);
+    void RetrieveHiearchyContours(cv::Mat image, contourList_t &contours,
+                                  hierachy_t &hierarchy);
 
-    void retrieveOutNoChildContours(cv::Mat image, contourList_t &contours);
+    void RetrieveOutNoChildContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveRotatedRectContours(cv::RotatedRect rect, contour_t &contour);
+    void RetrieveContourRotRect(cv::RotatedRect rect, contour_t &contour);
 
-    Line getLineOnPolygon(contour_t contour, int cols);
+    Line FitLineOnPolygone(contour_t contour, int cols);
 
-    Line getPerpendicularLine(Line line, cv::Point2f center);
+    Line GetPerpendicularLine(Line line, cv::Point2f center);
 
-    void retrieveRotRectContours(RotRect rect, contour_t &contour);
+    void RetrieveContourRotRect(RotRect rect, contour_t &contour);
 
     // Features calculation
-    float getResolutionRation(float width, float height);
+    float CalculateRatio(float width, float height);
 
-    float getConvexityRatio(contour_t contour);
+    float CalculateConvexityRatio(contour_t contour);
 
-    float getConvexHullArea(contour_t contour);
+    float CalculateConvexHullArea(contour_t contour);
 
-    float getCircleIndex(float area, float perimeter);
+    float CalculateCircleIndex(float area, float perimeter);
 
-    float getCircleIndex(contour_t contour);
+    float CalculateCircleIndex(contour_t contour);
 
     // Receive a binary input and calculates the number of white pixel over the
     // total number of pixel in the upright rectangle
-    float calculatePercentFilled(const cv::Mat &image, const cv::Rect &rectangle);
+    float CalculatePourcentFilled(const cv::Mat &image, const cv::Rect &rectangle);
 
-    float calculatePercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle);
+    float CalculatePourcentFilled(const cv::Mat &image,
+                                  const cv::RotatedRect &rectangle);
 
-    cv::Scalar getMean(contour_t contour, cv::Mat image, bool middle = true);
+    cv::Scalar CalculateMeans(contour_t contour, cv::Mat image, bool middle = true);
 
-    bool isRectangle(contour_t &contour, unsigned int degreeAccuracy = 5);
+    bool IsRectangle(contour_t &contour, unsigned int degreeAccuracy = 5);
 
-    bool isSquare(std::vector<cv::Point> &approx, double min_area, double angle,
+    bool IsSquare(std::vector<cv::Point> &approx, double min_area, double angle,
                   double ratio_min, double ratio_max);
 
-    cv::Mat geImageFromRotatedRect(cv::RotatedRect rect, cv::Mat image);
+    cv::Mat ExtractImageFromRect(cv::RotatedRect rect, cv::Mat image);
 
-    cv::Mat getImageFromContour(contour_t contour, cv::Mat image);
+    cv::Mat ExtractImageFromRect(contour_t rect, cv::Mat image);
 
     // Uses the enum given in type_and_const.h to control the rotation
-    cv::Mat rotate(cv::Mat in, rotationType rotation, symmetryType symmetry);
+    cv::Mat RotateImage(cv::Mat in, rotationType rotation, symmetryType symmetry);
 
     // Inverse a single channel image.
-    void inverse(const cv::Mat &in, cv::Mat &out);
+    void InverseImage(const cv::Mat &in, cv::Mat &out);
 
     // Process PCA
-    cv::Point getEigenPosition(std::vector<cv::Point> &pts);
+    cv::Point GetEigenPos(std::vector<cv::Point> &pts);
 
-    std::vector<double> getEigenValues(std::vector<cv::Point> &pts);
+    std::vector<double> GetEigenValues(std::vector<cv::Point> &pts);
 
-    std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts);
+    std::vector<cv::Point2d> GetEigenVectors(std::vector<cv::Point> &pts);
 
-    double getAngle(cv::Point pt1, cv::Point pt2, cv::Point pt0);
+    double AngleBetweenThreePoints(cv::Point pt1, cv::Point pt2, cv::Point pt0);
 
-    void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares);
+    void DrawSquares(cv::Mat &image,
+                     const std::vector<std::vector<cv::Point>> &squares);
 
-    bool compare(const cv::Point &p1, const cv::Point &p2);
+    bool CompareYX(const cv::Point &p1, const cv::Point &p2);
 
-    float getMedian(std::vector<float> values);
+    float Median(std::vector<float> values);
 
-    inline bool
-    compareVerticesLength(const std::pair<unsigned int, cv::Vec3f> &a, const std::pair<unsigned int, cv::Vec3f> &b) {
+    inline bool SortVerticesLength(const std::pair<unsigned int, cv::Vec3f> &a,
+                                   const std::pair<unsigned int, cv::Vec3f> &b) {
         return norm(a.second) > norm(b.second);
     }
 
-    inline bool
-    compareVerticesIndex(const std::pair<unsigned int, cv::Vec3f> &a, const std::pair<unsigned int, cv::Vec3f> &b) {
+    inline bool SortVerticesIndex(const std::pair<unsigned int, cv::Vec3f> &a,
+                                  const std::pair<unsigned int, cv::Vec3f> &b) {
         return a.first < b.first;
     }
 
-    inline float getEuclideanPointDistance(const cv::Point2f &pt1, const cv::Point2f &pt2) {
+    inline float EucledianPointDistance(const cv::Point2f &pt1,
+                                        const cv::Point2f &pt2) {
         return sqrt(pow((pt1.x - pt2.x), 2) + pow((pt1.y - pt2.y), 2));
     }
 

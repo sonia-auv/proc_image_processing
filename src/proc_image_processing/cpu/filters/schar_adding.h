@@ -44,7 +44,7 @@ namespace proc_image_processing {
               cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
           }
 
-          std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
+          std::vector<cv::Mat> colorPlanes = GetColorPlanes(image);
           cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
 
           if (plane_blue_()) cv::add(calcScharr(colorPlanes[0]), sum, sum);
@@ -56,13 +56,13 @@ namespace proc_image_processing {
           if (plane_gray_()) cv::add(calcScharr(colorPlanes[6]), sum, sum);
 
           sum.copyTo(image);
-        if (run_small_image_()) {
-          cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
-        }
+          if (run_small_image_()) {
+              cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
+          }
 
-        if (convert_to_uchar_() && image.channels() < 3) {
-          cv::cvtColor(image, image, CV_GRAY2BGR);
-        }
+          if (convert_to_uchar_() && image.channels() < 3) {
+              cv::cvtColor(image, image, CV_GRAY2BGR);
+          }
       }
     }
 

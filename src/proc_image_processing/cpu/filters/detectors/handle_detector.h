@@ -60,7 +60,7 @@ namespace proc_image_processing {
         timer.UpdateStartTime();
 
         contourList_t contours;
-          retrieveAllContours(image, contours);
+        RetrieveAllContours(image, contours);
         ObjectFullData::FullObjectPtrVec objVec;
         for (int i = 0, size = contours.size(); i < size; i++) {
           ObjectFullData::Ptr object =
@@ -69,23 +69,23 @@ namespace proc_image_processing {
             continue;
           }
 
-          // AREA
-          if (object->GetArea() < min_area_()) {
-            continue;
-          }
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-          }
+            // AREA
+            if (object->GetArea() < min_area_()) {
+                continue;
+            }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+            }
 
-          // RATIO
-          feature_factory_.RatioFeature(object);
-          if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
-            fabs(difference_from_target_ratio_()))) {
-            continue;
-          }
-          if (debug_contour_()) {
-            cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
-          }
+            // RATIO
+            feature_factory_.RatioFeature(object);
+            if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
+                                      fabs(difference_from_target_ratio_()))) {
+                continue;
+            }
+            if (debug_contour_()) {
+                cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
+            }
 
             // ANGLE
             if (!disable_angle_() &&
@@ -95,7 +95,7 @@ namespace proc_image_processing {
             }
 
             // RECTANGLE
-            if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
+            if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
                 continue;
             }
 

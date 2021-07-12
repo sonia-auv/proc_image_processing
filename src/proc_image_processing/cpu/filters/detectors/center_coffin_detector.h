@@ -44,7 +44,7 @@ namespace proc_image_processing {
 
                 contourList_t contours;
 
-                retrieveAllContours(image, contours);
+                RetrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 for (int i = 0, size = contours.size(); i < size; i++) {
                     ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
@@ -60,7 +60,7 @@ namespace proc_image_processing {
                         cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                     }
 
-                    if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
+                    if (look_for_rectangle_() && IsRectangle(contours[i], 20)) {
 
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
