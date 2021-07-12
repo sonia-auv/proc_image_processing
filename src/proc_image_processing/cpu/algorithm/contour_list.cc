@@ -8,7 +8,7 @@ namespace proc_image_processing {
 
     ContourList::ContourList(const cv::Mat &image, const METHOD method) {
         switch (method) {
-            case METHOD::ALL:
+            case ALL:
                 RetrieveAllContours(image);
                 break;
             case INNER:
