@@ -26,7 +26,7 @@ namespace proc_image_processing {
 
         virtual ~SquareDetection() {}
 
-        virtual void ApplyFilter(cv::Mat& image) {
+        void Apply(cv::Mat& image) {
             std::vector<std::vector<cv::Point> > squares;
 
             squares.clear();

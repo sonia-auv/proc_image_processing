@@ -33,7 +33,7 @@ namespace proc_image_processing {
 
     virtual void init() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         target_.SetTarget("test_filter", x_.GetValue() - 1000 / 2, y_.GetValue(),
           w_.GetValue(), h_.GetValue(), angle_.GetValue(), 1000,
           -1000 - (1000 / 2), specField1_.GetValue(),

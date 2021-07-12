@@ -31,7 +31,7 @@ namespace proc_image_processing {
 
     virtual ~ContrastBrightness() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         rows_ = image.rows;
         cols_ = image.cols;
         // Set final matrices

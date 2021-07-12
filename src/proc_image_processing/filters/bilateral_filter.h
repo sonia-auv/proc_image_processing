@@ -36,7 +36,7 @@ namespace proc_image_processing {
      *
      * \param image The image to process.
      */
-    void ApplyFilter(cv::Mat& image) override {
+    void Apply(cv::Mat& image) override {
         cv::Mat blurred;
         cv::bilateralFilter(image, blurred, diameter_.GetValue(),
           sigma_color_.GetValue(), sigma_space_.GetValue());

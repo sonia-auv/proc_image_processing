@@ -26,7 +26,7 @@ namespace proc_image_processing {
 
     virtual ~Laplacian() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         if (image.channels() > 1) {
           cv::cvtColor(image, image, CV_BGR2GRAY);
         }

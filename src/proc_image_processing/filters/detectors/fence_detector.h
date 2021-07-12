@@ -42,7 +42,7 @@ namespace proc_image_processing {
 
     virtual ~FenceDetector() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
       cv::Mat in;
       if (debug_contour_()) {
         // Case we receive a color or gray scale image.

@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
     virtual ~Blurr() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         cv::Size2i kernelSize((int)kernel_size_() * 2 + 1,
           (int)(kernel_size_() * 2 + 1));
         switch (type_()) {

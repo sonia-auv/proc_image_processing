@@ -36,7 +36,7 @@ namespace proc_image_processing {
 
     virtual ~ScharrAdding() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         if (image.channels() != 3) return;
         if (run_small_image_()) {
           cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));

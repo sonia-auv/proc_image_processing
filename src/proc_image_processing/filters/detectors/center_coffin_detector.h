@@ -28,7 +28,7 @@ namespace proc_image_processing {
 
         virtual ~CenterCoffinDetector() {}
 
-        virtual void ApplyFilter(cv::Mat& image) {
+        void Apply(cv::Mat& image) {
                 std::string objectif;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {

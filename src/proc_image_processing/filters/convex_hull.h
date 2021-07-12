@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
     virtual ~ConvexHull() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         int mode, method;
         switch (mode_()) {
         case 0:

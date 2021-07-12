@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
         virtual ~WhiteFilter() {}
 
-        virtual void ApplyFilter(cv::Mat& image) {
+        void Apply(cv::Mat& image) {
 
             cv::Mat mask;
 

@@ -25,7 +25,7 @@ namespace proc_image_processing {
 
     virtual ~Rotate() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         if (transpose_()) cv::transpose(image, image);
         switch (rotate_type_()) {
         case 0:

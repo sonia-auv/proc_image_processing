@@ -23,7 +23,7 @@ namespace proc_image_processing {
 
     virtual ~MissionTestFakeString() {}
 
-    virtual void ApplyFilter(cv::Mat& image) {
+    void Apply(cv::Mat& image) {
         NotifyTarget(Target());
     }
 
