@@ -22,7 +22,7 @@ namespace proc_image_processing {
 
     virtual ~Equalize() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         cv::equalizeHist(image, image);
     }
   };

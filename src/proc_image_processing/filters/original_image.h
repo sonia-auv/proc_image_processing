@@ -22,7 +22,7 @@ namespace proc_image_processing {
 
     virtual ~OriginalImage() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         image = global_params_.getOriginalImage();
     }
   };

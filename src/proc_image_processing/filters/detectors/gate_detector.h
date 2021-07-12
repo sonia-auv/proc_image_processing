@@ -67,7 +67,7 @@ namespace proc_image_processing {
 
     virtual ~GateDetector() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         if (debug_contour_()) {
           image.copyTo(output_image_);
           if (output_image_.channels() == 1) {

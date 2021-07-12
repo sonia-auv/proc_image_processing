@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
         virtual ~VampireTorpedoesDetector() {}
 
-        void Apply(cv::Mat& image) {
+        void Apply(cv::Mat& image) override {
                 std::string objectif;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {

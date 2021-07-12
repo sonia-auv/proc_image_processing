@@ -37,7 +37,7 @@ namespace proc_image_processing {
 
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
 
-        void Apply(cv::Mat& image) {
+        void Apply(cv::Mat& image) override {
                 Target target;
                 image_width_ = image.size().width;
                 image_height_ = image.size().height;

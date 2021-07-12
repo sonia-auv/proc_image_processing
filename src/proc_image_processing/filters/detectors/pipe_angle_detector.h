@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
         virtual ~PipeAngleDetector() {}
 
-        void Apply(cv::Mat& image) {
+        void Apply(cv::Mat& image) override {
                 intersectionPoint_.clear();
                 if (debug_contour_()) {
                     image.copyTo(output_image_);

@@ -28,7 +28,7 @@ namespace proc_image_processing {
 
     virtual ~Dilate() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         int kernel_type = 0;
         switch (kernel_type_()) {
         case 0:

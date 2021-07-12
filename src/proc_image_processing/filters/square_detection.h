@@ -26,7 +26,7 @@ namespace proc_image_processing {
 
         virtual ~SquareDetection() {}
 
-        void Apply(cv::Mat& image) {
+        void Apply(cv::Mat& image) override {
             std::vector<std::vector<cv::Point> > squares;
 
             squares.clear();

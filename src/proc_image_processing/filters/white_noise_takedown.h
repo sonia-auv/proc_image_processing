@@ -30,7 +30,7 @@ namespace proc_image_processing {
 
     virtual ~WhiteNoiseTakedown() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         std::vector<cv::Mat> channels;
         cv::Mat original_image(global_params_.getOriginalImage());
         cv::split(original_image, channels);

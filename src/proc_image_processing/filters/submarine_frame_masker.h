@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
     virtual ~SubmarineFrameMasker() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         if (prev_rot_value_ != rotate_type_()) {
           prev_rot_value_ = rotate_type_();
           switch (rotate_type_()) {

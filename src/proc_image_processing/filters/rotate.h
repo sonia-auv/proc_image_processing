@@ -25,7 +25,7 @@ namespace proc_image_processing {
 
     virtual ~Rotate() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         if (transpose_()) cv::transpose(image, image);
         switch (rotate_type_()) {
         case 0:

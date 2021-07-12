@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
     virtual ~ConvexHull() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         int mode, method;
         switch (mode_()) {
         case 0:

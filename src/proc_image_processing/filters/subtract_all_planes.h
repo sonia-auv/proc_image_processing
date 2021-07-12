@@ -42,7 +42,7 @@ namespace proc_image_processing {
 
     virtual ~SubtractAllPlanes() {}
 
-    void Apply(cv::Mat& image) {
+    void Apply(cv::Mat& image) override {
         if (CV_MAT_CN(image.type()) != 3) {
           return;
         }
