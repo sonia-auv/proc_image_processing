@@ -17,7 +17,7 @@ namespace proc_image_processing {
 
     explicit Equalize(const GlobalParamHandler& globalParams)
       : Filter(globalParams) {
-      SetName("Equalize");
+      setName("Equalize");
     }
 
     virtual ~Equalize() {}

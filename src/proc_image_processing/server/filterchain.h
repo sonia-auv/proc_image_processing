@@ -32,14 +32,14 @@ namespace proc_image_processing {
      *
      * \return The name of the filterchain.
      */
-    const std::string& GetName() const;
+    const std::string& getName() const;
 
     /**
      * Set the name of the filterchain.
      *
      * \param name The new name of the filterchain.
      */
-    void SetName(const std::string& name);
+    void setName(const std::string& name);
 
     bool Serialize();
 
@@ -105,7 +105,7 @@ namespace proc_image_processing {
     Filterchain::GetFiltersWithName(const std::string& filter_name) const {
     std::vector<proc_image_processing::Filter::Ptr> filters;
     for (const auto& filter : filters_) {
-      if (filter->GetName() == filter_name) {
+      if (filter->getName() == filter_name) {
         filters.push_back(filter);
       }
     }
@@ -119,7 +119,7 @@ namespace proc_image_processing {
 
   inline bool Filterchain::ContainsFilter(const std::string& filter_name) const {
     for (const auto& filter : filters_) {
-      if (filter->GetName() == filter_name) {
+      if (filter->getName() == filter_name) {
         return true;
       }
     }
@@ -134,9 +134,9 @@ namespace proc_image_processing {
     return param_handler_;
   }
 
-  inline const std::string& Filterchain::GetName() const { return name_; }
+  inline const std::string& Filterchain::getName() const { return name_; }
 
-  inline void Filterchain::SetName(const std::string& name) { name_ = name; }
+  inline void Filterchain::setName(const std::string& name) { name_ = name; }
 
 }  // namespace proc_image_processing
 

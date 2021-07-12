@@ -33,7 +33,7 @@ namespace proc_image_processing {
     YAML::Emitter out;
     out << YAML::BeginMap;
     out << YAML::Key << "name";
-    out << YAML::Value << GetName();
+    out << YAML::Value << getName();
 
     if (filters_.size() > 0) {
       out << YAML::Key << "filters";
@@ -41,16 +41,16 @@ namespace proc_image_processing {
       for (auto& filter : filters_) {
         out << YAML::BeginMap;
         out << YAML::Key << "name";
-        out << YAML::Value << filter->GetName();
+        out << YAML::Value << filter->getName();
 
-        auto parameters = filter->GetParameters();
+        auto parameters = filter->getParameters();
         if (parameters.size() > 0) {
           out << YAML::Key << "parameters";
           out << YAML::Value << YAML::BeginSeq;
           for (const auto& parameter : parameters) {
             out << YAML::BeginMap;
             out << YAML::Key << "name";
-            out << YAML::Value << parameter->GetName();
+            out << YAML::Value << parameter->getName();
             out << YAML::Key << "value";
             out << YAML::Value << parameter->GetStringValue();
             out << YAML::EndMap;
@@ -63,7 +63,7 @@ namespace proc_image_processing {
     }
     out << YAML::EndMap;
 
-    auto filepath = kFilterchainPath + GetName() + kFilterchainExt;
+    auto filepath = kFilterchainPath + getName() + kFilterchainExt;
     std::ofstream fout(filepath);
     fout << out.c_str();
     return true;
@@ -73,7 +73,7 @@ namespace proc_image_processing {
     YAML::Node node = YAML::LoadFile(filepath_);
 
     if (node["name"]) {
-      SetName(node["name"].as<std::string>());
+      setName(node["name"].as<std::string>());
     }
 
     if (node["filters"]) {
@@ -167,18 +167,18 @@ namespace proc_image_processing {
 
   std::string Filterchain::GetFilterParameterValue(
     const size_t& index, const std::string& param_name) {
-    return GetFilter(index)->GetParameterValue(param_name);
+    return GetFilter(index)->getParameterValue(param_name);
   }
 
   void Filterchain::SetFilterParameterValue(const size_t& index,
     const std::string& param_name,
     const std::string& param_value) {
-    GetFilter(index)->SetParameterValue(param_name, param_value);
+    GetFilter(index)->setParameterValue(param_name, param_value);
   }
 
   std::vector<proc_image_processing::ParameterInterface*>
     Filterchain::GetFilterAllParameters(const size_t& index) {
-    return GetFilter(index)->GetParameters();
+    return GetFilter(index)->getParameters();
   }
 
   void Filterchain::AddFilter(const std::string& filter_name) {

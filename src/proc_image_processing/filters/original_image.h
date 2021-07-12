@@ -17,7 +17,7 @@ namespace proc_image_processing {
 
     explicit OriginalImage(const GlobalParamHandler& globalParams)
       : Filter(globalParams) {
-      SetName("OriginalImage");
+      setName("OriginalImage");
     }
 
     virtual ~OriginalImage() {}

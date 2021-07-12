@@ -23,7 +23,7 @@ namespace proc_image_processing {
       kernel_size_y_("Height", 1, 0, 20, &parameters_),
       iteration_("Iteration", 1, 0, 20, &parameters_),
       anchor_(-1, -1) {
-      SetName("Dilate");
+      setName("Dilate");
     }
 
     virtual ~Dilate() {}

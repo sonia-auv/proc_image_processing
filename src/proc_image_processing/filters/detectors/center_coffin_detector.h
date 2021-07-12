@@ -23,7 +23,7 @@ namespace proc_image_processing {
             look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
             min_area_("Min_area", 100, 1, 10000, &parameters_),
             max_area_("Max_area", 1000, 1, 1000000, &parameters_) {
-            SetName("CenterCoffinDetector");
+            setName("CenterCoffinDetector");
         }
 
         virtual ~CenterCoffinDetector() {}
@@ -87,7 +87,7 @@ namespace proc_image_processing {
 
                     target.SetTarget(objectif, target_center.x, target_center.y, object_1->GetWidth(),
                         object_1->GetHeight(), object_1->GetRotatedRect().angle, image.rows, image.cols);
-                    NotifyTarget(target);
+                    notifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, target_center, 100, CV_RGB(0, 255, 0), 3);
                     }

@@ -20,7 +20,7 @@ namespace proc_image_processing {
       y_offset_("Y Offset", 0, 0, 2000, &parameters_),
       x_reduction_("X Reduction", 0, 0, 2000, &parameters_),
       y_reduction_("Y Reduction", 0, 0, 2000, &parameters_) {
-      SetName("ImageCropper");
+      setName("ImageCropper");
     }
 
     virtual ~ImageCropper() {}

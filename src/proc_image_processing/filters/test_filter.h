@@ -26,7 +26,7 @@ namespace proc_image_processing {
       header_("Header", "test", &parameters_),
       specField1_("SpecialField_1", "sf1", &parameters_),
       specField2_("SpecialField_2", "sf2", &parameters_) {
-      SetName("TestFilter");
+      setName("TestFilter");
     }
 
     virtual ~TestFilter() {}
@@ -39,7 +39,7 @@ namespace proc_image_processing {
           -1000 - (1000 / 2), specField1_.GetValue(),
           specField2_.GetValue());
 
-        NotifyTarget(target_);
+        notifyTarget(target_);
     }
 
   private:

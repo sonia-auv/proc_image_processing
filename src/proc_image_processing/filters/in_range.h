@@ -36,7 +36,7 @@ namespace proc_image_processing {
       upper_u_("LUVhighU", 255, 0, 255, &parameters_),
       lower_v_("LUVlowV", 0, 0, 255, &parameters_),
       upper_v_("LUVhighV", 255, 0, 255, &parameters_) {
-      SetName("InRange");
+      setName("InRange");
     }
 
     virtual ~InRange() {}

@@ -25,7 +25,7 @@ namespace proc_image_processing {
       power_pixel_correction_("pixel_correction_power", 1, -10, 10,
         &parameters_),
       size_("Size", 2, 1, 20, &parameters_) {
-      SetName("Sobel");
+      setName("Sobel");
     }
 
     virtual ~Sobel() {}

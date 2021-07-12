@@ -21,7 +21,7 @@ namespace proc_image_processing {
       mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
       std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
         &parameters_) {
-      SetName("StatsThreshold");
+      setName("StatsThreshold");
     }
 
     virtual ~StatsThreshold() {}

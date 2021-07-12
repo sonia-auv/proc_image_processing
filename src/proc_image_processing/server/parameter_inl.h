@@ -125,19 +125,19 @@ namespace proc_image_processing {
   }
 
   template <class Tp_>
-  ATLAS_INLINE void Parameter<Tp_>::SetName(const std::string& name) {
+  ATLAS_INLINE void Parameter<Tp_>::setName(const std::string& name) {
     name_ = name;
   }
 
   template <class Tp_>
-  ATLAS_INLINE std::string Parameter<Tp_>::GetName() const {
+  ATLAS_INLINE std::string Parameter<Tp_>::getName() const {
     return name_;
   }
 
   template <class Tp_>
   ATLAS_INLINE std::string Parameter<Tp_>::ToString() const {
     std::stringstream ss;
-    ss << GetName() << SEPARATOR;
+    ss << getName() << SEPARATOR;
     ss << GetType() << SEPARATOR;
     ss << GetStringValue() << SEPARATOR;
     ss << SEPARATOR << SEPARATOR;

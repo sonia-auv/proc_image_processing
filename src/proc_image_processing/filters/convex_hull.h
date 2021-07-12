@@ -24,7 +24,7 @@ namespace proc_image_processing {
         "0=CV_CHAIN_APPROX_NONE, 1=CV_CHAIN_APPROX_SIMPLE, "
         "2=CV_CHAIN_APPROX_TC89_L1, "
         "3=CV_CHAIN_APPROX_TC89_KCOS") {
-      SetName("ConvexHull");
+      setName("ConvexHull");
     }
 
     virtual ~ConvexHull() {}

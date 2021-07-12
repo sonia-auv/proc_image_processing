@@ -36,7 +36,7 @@ namespace proc_image_processing {
       difference_from_target_angle_("Diff_from_angle_target", 30.0f, 0.0f,
         90.0f, &parameters_),
       feature_factory_(5) {
-      SetName("HandleDetector");
+      setName("HandleDetector");
       // Little goodies for cvs
       // area_rank,length_rank,circularity,convexity,ratio,presence,percent_filled,hueMean,
     }
@@ -119,7 +119,7 @@ namespace proc_image_processing {
             image.rows, image.cols);
           target.SetSpecField_1(spec_1_());
           target.SetSpecField_2(spec_2_());
-          NotifyTarget(target);
+          notifyTarget(target);
           if (debug_contour_()) {
             cv::circle(output_image_, objVec[0]->GetCenter(), 3,
               CV_RGB(0, 255, 0), 3);

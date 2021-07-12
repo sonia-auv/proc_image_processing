@@ -24,7 +24,7 @@ namespace proc_image_processing {
             maximal_1pixel_range_("maximal 1 pixel range", 0, 0, 255, &parameters_),
             maximal_2pixel_range_("maximal 2 pixel range", 0, 0, 255, &parameters_),
             maximal_3pixel_range_("maximal 3 pixel range", 0, 0, 255, &parameters_) {
-            SetName("WhiteFilter");
+            setName("WhiteFilter");
         }
 
         virtual ~WhiteFilter() {}

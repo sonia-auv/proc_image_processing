@@ -27,7 +27,7 @@ namespace proc_image_processing {
             debug_contour_("Debug_contour", false, &parameters_),
             min_area_("Min_area", 200, 0, 10000, &parameters_),
             min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
-            SetName("PipeAngleDetector");
+            setName("PipeAngleDetector");
         }
 
         virtual ~PipeAngleDetector() {}
@@ -168,7 +168,7 @@ namespace proc_image_processing {
                     target.SetTarget("pipe", center.x, center.y, object->GetWidth(),
                         object->GetHeight(), angle_,
                         image.rows, image.cols);
-                    NotifyTarget(target);
+                    notifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->GetCenter(), 3,
                             CV_RGB(0, 255, 0), 3);

@@ -20,7 +20,7 @@ namespace proc_image_processing {
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
         "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
       prev_rot_value_(0) {
-      SetName("SubmarineFrameMasker");
+      setName("SubmarineFrameMasker");
       std::string mask_name =
         std::string(getenv("SONIA_WORKSPACE_ROOT")) +
         std::string("/ros/src/vision_server/config/bottom_mask.jpg");

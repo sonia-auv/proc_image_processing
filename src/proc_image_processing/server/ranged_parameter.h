@@ -40,7 +40,7 @@ namespace proc_image_processing {
 
     std::string ToString() const override {
       std::stringstream ss;
-      ss << Parameter<Tp_>::GetName() << Parameter<Tp_>::SEPARATOR;
+      ss << Parameter<Tp_>::getName() << Parameter<Tp_>::SEPARATOR;
       ss << Parameter<Tp_>::GetType() << Parameter<Tp_>::SEPARATOR;
       ss << Parameter<Tp_>::GetStringValue() << Parameter<Tp_>::SEPARATOR;
       ss << details::StringConvertor<Tp_>::GetString(min_)

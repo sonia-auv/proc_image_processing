@@ -21,7 +21,7 @@ namespace proc_image_processing {
       thresh_one_("thres_one", 100, 0, 255, &parameters_),
       thresh_two_("thres_two", 200, 0, 255, &parameters_),
       aperture_size_("Aperture_size", 3, 0, 20, &parameters_) {
-      SetName("Canny");
+      setName("Canny");
     }
 
     virtual ~Canny() {}

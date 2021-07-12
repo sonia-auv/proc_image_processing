@@ -21,7 +21,7 @@ namespace proc_image_processing {
             : Filter(globalParams),
             N("N", 100, 0, 100, &parameters_),
             thresh("threshold", 100, 0, 100, &parameters_) {
-            SetName("SquareDetection");
+            setName("SquareDetection");
         }
 
         virtual ~SquareDetection() {}

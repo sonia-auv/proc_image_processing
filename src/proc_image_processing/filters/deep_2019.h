@@ -32,7 +32,7 @@ namespace proc_image_processing {
             wolf_("wolf", true, &parameters_),
             color_(0, 0, 0) {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &Deep2019::boundingBoxCallback, this);
-            SetName("Deep2019");
+            setName("Deep2019");
         };
 
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
@@ -43,38 +43,38 @@ namespace proc_image_processing {
                 image_height_ = image.size().height;
 
                 for (auto& object : bounding_box_) {
-                    if (vetalas_.GetValue() && object.class_name.data == vetalas_.GetName()) {
+                    if (vetalas_.GetValue() && object.class_name.data == vetalas_.getName()) {
                         color_ = cv::Scalar(0, 0, 255);
                         handleObject(target, object, image, color_);
                     }
-                    if (draugr_.GetValue() && object.class_name.data == draugr_.GetName()) {
+                    if (draugr_.GetValue() && object.class_name.data == draugr_.getName()) {
                         color_ = cv::Scalar(0, 255, 0);
                         handleObject(target, object, image, color_);
                     }
-                    if (jiangshi_.GetValue() && object.class_name.data == jiangshi_.GetName()) {
+                    if (jiangshi_.GetValue() && object.class_name.data == jiangshi_.getName()) {
                         color_ = cv::Scalar(255, 0, 0);
                         handleObject(target, object, image, color_);
                     }
-                    if (answag_.GetValue() && object.class_name.data == answag_.GetName()) {
+                    if (answag_.GetValue() && object.class_name.data == answag_.getName()) {
                         color_ = cv::Scalar(244, 185, 66);
                         handleObject(target, object, image, color_);
                     }
-                    if (vampire_.GetValue() && object.class_name.data == vampire_.GetName()) {
+                    if (vampire_.GetValue() && object.class_name.data == vampire_.getName()) {
                         color_ = cv::Scalar(200, 185, 66);
                         handleObject(target, object, image, color_);
                     }
-                    if (bat_.GetValue() && object.class_name.data == bat_.GetName()) {
+                    if (bat_.GetValue() && object.class_name.data == bat_.getName()) {
                         color_ = cv::Scalar(217, 244, 66);
                         handleObject(target, object, image, color_);
                     }
-                    if (wolf_.GetValue() && object.class_name.data == wolf_.GetName()) {
+                    if (wolf_.GetValue() && object.class_name.data == wolf_.getName()) {
                         color_ = cv::Scalar(66, 244, 223);
                         handleObject(target, object, image, color_);
                     }
                 }
 
                 for (int i = 0; i < (int)objects_.size(); ++i) {
-                    NotifyTarget(objects_.back());
+                    notifyTarget(objects_.back());
                     objects_.pop_back();
                 }
         };

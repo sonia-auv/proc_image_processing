@@ -115,9 +115,9 @@ namespace proc_image_processing {
 
     std::string GetDescription() const override;
 
-    void SetName(const std::string& name) override;
+    void setName(const std::string& name) override;
 
-    std::string GetName() const override;
+    std::string getName() const override;
 
     virtual std::string ToString() const override;
 

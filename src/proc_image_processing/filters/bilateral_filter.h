@@ -24,7 +24,7 @@ namespace proc_image_processing {
       diameter_("Diameter", -100, 0, 100, &parameters_),
       sigma_color_("Sigm_color", 0, 0, 300, &parameters_),
       sigma_space_("Sigma_space", 0, 0, 300, &parameters_) {
-      SetName("BilateralFilter");
+      setName("BilateralFilter");
     }
 
     virtual ~BilateralFilter() {}

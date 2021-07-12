@@ -22,7 +22,7 @@ namespace proc_image_processing {
         "0=BIN, 1=BIN_INV"),
       _block_size("Size", 1, 1, 40, &parameters_),
       c_param_("C_param", 0.0f, -255.0f, 255.0f, &parameters_) {
-      SetName("AdaptiveThreshold");
+      setName("AdaptiveThreshold");
     }
 
     virtual ~AdaptiveThreshold() {}

@@ -37,7 +37,7 @@ namespace proc_image_processing {
       min_percent_filled_("Minimum_percent_filled", 70, 0, 1000,
         &parameters_),
       feat_factory_(3) {
-      SetName("FenceDetector");
+      setName("FenceDetector");
     }
 
     virtual ~FenceDetector() {}
@@ -229,7 +229,7 @@ namespace proc_image_processing {
             fence.SetCenter(center);
           }
         }
-        NotifyTarget(fence);
+        notifyTarget(fence);
       }
       if (debug_contour_()) {
         output_image_.copyTo(image);

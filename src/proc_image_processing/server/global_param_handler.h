@@ -66,7 +66,7 @@ namespace proc_image_processing {
       std::vector<ParameterInterface*>::const_iterator end = _params_vec.end();
       bool deleted = false;
       for (; index != end && !deleted; index++) {
-        if ((*index)->GetName() == name) {
+        if ((*index)->getName() == name) {
           _params_vec.erase(index);
           deleted = true;
         }
@@ -76,7 +76,7 @@ namespace proc_image_processing {
     inline ParameterInterface* getParam(const std::string& name) const {
       // Using [] accessor for optimisation.
       for (size_t i = 0, size = _params_vec.size(); i < size; i++) {
-        if (_params_vec[i]->GetName() == name) {
+        if (_params_vec[i]->getName() == name) {
           return _params_vec[i];
         }
       }

@@ -22,7 +22,7 @@ namespace proc_image_processing {
       min_length_("Min_length", 1, 0, 1000, &parameters_),
       max_gap_("Max_gap", 1, 0, 1000, &parameters_),
       threshold_("Threshold", 1, 0, 1000, &parameters_) {
-      SetName("HoughLine");
+      setName("HoughLine");
     }
 
     virtual ~HoughLine() {}

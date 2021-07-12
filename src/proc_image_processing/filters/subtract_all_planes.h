@@ -37,7 +37,7 @@ namespace proc_image_processing {
       weight_three_("Weight_Plane_3", 1.0, 0.0, 10.0, &parameters_),
       rows_(0),
       cols_(0) {
-      SetName("SubtractAllPlanes");
+      setName("SubtractAllPlanes");
     }
 
     virtual ~SubtractAllPlanes() {}

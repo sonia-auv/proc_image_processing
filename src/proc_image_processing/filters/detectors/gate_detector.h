@@ -60,7 +60,7 @@ namespace proc_image_processing {
       contour_retreval_("Contour_retreval", 0, 0, 4, &parameters_,
         "0=All, 1=Out, 2=Inner, 3=InnerMost, 4=OutNoChild"),
       feature_factory_(5) {
-      SetName("GateDetector");
+      setName("GateDetector");
       // Little goodies for cvs
       // area_rank,length_rank,circularity,convexity,ratio,presence,percent_filled,hueMean,
     }
@@ -321,7 +321,7 @@ namespace proc_image_processing {
             id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
           target.SetSpecField_1(spec_1_());
           target.SetSpecField_2(spec_2_());
-          NotifyTarget(target);
+          notifyTarget(target);
           if (debug_contour_()) {
             cv::circle(output_image_,
               cv::Point((int)round(x), (int)round(y)),

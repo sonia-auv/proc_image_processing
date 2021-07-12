@@ -21,7 +21,7 @@ namespace proc_image_processing {
         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
       min_1("Min_value_1", 100, 0, 255, &parameters_),
       min_2("Min_value_2", 100, 0, 255, &parameters_) {
-      SetName("ThresholdBetween");
+      setName("ThresholdBetween");
     }
 
     virtual ~ThresholdBetween() {}

@@ -24,7 +24,7 @@ namespace proc_image_processing {
       scale_("Scale", 1, 0, 255, &parameters_),
       power_pixel_correction_("pixel_correction_power", 1, -10, 10,
         &parameters_) {
-      SetName("Scharr");
+      setName("Scharr");
     }
 
     virtual ~Scharr() {}

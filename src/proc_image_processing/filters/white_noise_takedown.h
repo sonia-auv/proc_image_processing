@@ -25,7 +25,7 @@ namespace proc_image_processing {
       high_r_("HighR", 0, 0, 255, &parameters_),
       view_channel_("Channel_view", 0, 0, 3, &parameters_,
         "0=ALL, 1=Blue, 2=Green, 3=Red") {
-      SetName("WhiteNoiseTakedown");
+      setName("WhiteNoiseTakedown");
     }
 
     virtual ~WhiteNoiseTakedown() {}

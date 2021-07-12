@@ -26,7 +26,7 @@ namespace proc_image_processing {
       show_blurred_("Show_blurred", false, &parameters_),
       blur_size_("Blur_size", 255, 0, 1000, &parameters_),
       sigma_("Sigma", 10, 0, 100, &parameters_) {
-      SetName("BackgroundSubstract");
+      setName("BackgroundSubstract");
     }
 
     virtual ~BackgroundSubstract() {}

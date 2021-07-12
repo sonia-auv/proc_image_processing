@@ -24,7 +24,7 @@ namespace proc_image_processing {
       iteration_("Iteration", 1, 1, 20, &parameters_),
       kernel_size_("Kernel_size", 1, 1, 40, &parameters_),
       anchor_(-1, -1) {
-      SetName("Morphology");
+      setName("Morphology");
     }
 
     virtual ~Morphology() {}

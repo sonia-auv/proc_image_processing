@@ -26,7 +26,7 @@ namespace proc_image_processing {
         "Set Brightness"),
       rows_(0),
       cols_(0) {
-      SetName("ContrastBrightness");
+      setName("ContrastBrightness");
     }
 
     virtual ~ContrastBrightness() {}

@@ -34,7 +34,7 @@ namespace proc_image_processing {
         "Maximum value to threshold. Keep values lower or equal to this value."),
       rows_(0),
       cols_(0) {
-      SetName("HSVThreshold");
+      setName("HSVThreshold");
     }
 
     virtual ~HSVThreshold() {}

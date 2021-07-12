@@ -21,7 +21,7 @@ namespace proc_image_processing {
       delta_("Delta", 0, 0, 255, &parameters_),
       scale_("Scale", 1, 0, 255, &parameters_),
       size_("Size", 2, 1, 20, &parameters_) {
-      SetName("Laplacian");
+      setName("Laplacian");
     }
 
     virtual ~Laplacian() {}

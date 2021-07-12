@@ -31,7 +31,7 @@ namespace proc_image_processing {
       plane_saturation_("Saturation", false, &parameters_),
       plane_intensity_("Intensity", false, &parameters_),
       plane_gray_("Gray", false, &parameters_) {
-      SetName("ScharrAdding");
+      setName("ScharrAdding");
     }
 
     virtual ~ScharrAdding() {}

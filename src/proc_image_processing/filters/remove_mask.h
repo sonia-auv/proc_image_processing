@@ -27,7 +27,7 @@ namespace proc_image_processing {
         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
       kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
       anchor_(-1, -1) {
-      SetName("RemoveMask");
+      setName("RemoveMask");
     }
 
     virtual ~RemoveMask() {}

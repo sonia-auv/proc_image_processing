@@ -33,9 +33,9 @@ namespace proc_image_processing {
 
     virtual std::string GetDescription() const = 0;
 
-    virtual void SetName(const std::string& name) = 0;
+    virtual void setName(const std::string& name) = 0;
 
-    virtual std::string GetName() const = 0;
+    virtual std::string getName() const = 0;
 
     virtual std::string ToString() const = 0;
 

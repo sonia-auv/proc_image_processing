@@ -18,13 +18,13 @@ namespace proc_image_processing {
     explicit MissionTestFakeString(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
       _string("String_to_return", "test", &parameters_) {
-      SetName("MissionTestFakeString");
+      setName("MissionTestFakeString");
     }
 
     virtual ~MissionTestFakeString() {}
 
     void apply(cv::Mat& image) override {
-        NotifyTarget(Target());
+        notifyTarget(Target());
     }
 
   private:

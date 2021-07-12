@@ -27,7 +27,7 @@ namespace proc_image_processing {
       last_method_(CV_8UC1),
       last_type_(0),
       last_nb_image_(3) {
-      SetName("ImageAccumulator");
+      setName("ImageAccumulator");
     }
 
     virtual ~ImageAccumulator() {}
