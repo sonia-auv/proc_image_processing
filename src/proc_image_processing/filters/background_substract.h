@@ -31,7 +31,7 @@ namespace proc_image_processing {
 
     virtual ~BackgroundSubstract() {}
 
-    void Apply(cv::Mat& image) override {
+    void apply(cv::Mat& image) override {
         std::vector<cv::Mat> channels;
         split(image, channels);
         cv::Mat b = channels[0];

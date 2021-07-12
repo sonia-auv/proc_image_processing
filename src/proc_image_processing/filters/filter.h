@@ -24,13 +24,13 @@ namespace proc_image_processing {
 
     virtual ~Filter() = default;
 
-    void Execute(cv::Mat& image) {
+    void execute(cv::Mat& image) {
       if (enable_()){
-        Apply(image);
+        apply(image);
       }
     };
 
-    virtual void Apply(cv::Mat& image) = 0;
+    virtual void apply(cv::Mat& image) = 0;
 
     // Name of the filter handlers
     inline const std::string GetName();

@@ -110,7 +110,7 @@ namespace proc_image_processing {
         size_t index = 0;
         for (size_t i = 0; i < filters_.size(); i++) {
           if (!imageToProcess.empty()) {
-            (filters_.at(i))->Execute(imageToProcess);
+            (filters_.at(i))->execute(imageToProcess);
           }
 
           if (index == observer_index_) {

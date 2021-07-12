@@ -42,7 +42,7 @@ namespace proc_image_processing {
 
     virtual ~FenceDetector() {}
 
-    void Apply(cv::Mat& image) override {
+    void apply(cv::Mat& image) override {
       cv::Mat in;
       if (debug_contour_()) {
         // Case we receive a color or gray scale image.

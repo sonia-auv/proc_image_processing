@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
         virtual ~WhiteFilter() {}
 
-        void Apply(cv::Mat& image) override {
+        void apply(cv::Mat& image) override {
 
             cv::Mat mask;
 

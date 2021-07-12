@@ -48,7 +48,7 @@ namespace proc_image_processing {
      *
      * \param image The image to process.
      */
-    void Apply(cv::Mat& image) override {
+    void apply(cv::Mat& image) override {
         cv::Mat hsv;
         cv::Mat luv;
 

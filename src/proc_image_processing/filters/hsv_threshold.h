@@ -39,7 +39,7 @@ namespace proc_image_processing {
 
     virtual ~HSVThreshold() {}
 
-    void Apply(cv::Mat& image) override {
+    void apply(cv::Mat& image) override {
         if (CV_MAT_CN(image.type()) != 3) {
           return;
         }

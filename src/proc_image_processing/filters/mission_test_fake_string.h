@@ -23,7 +23,7 @@ namespace proc_image_processing {
 
     virtual ~MissionTestFakeString() {}
 
-    void Apply(cv::Mat& image) override {
+    void apply(cv::Mat& image) override {
         NotifyTarget(Target());
     }
 

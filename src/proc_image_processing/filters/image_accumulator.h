@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
     virtual ~ImageAccumulator() {}
 
-    void Apply(cv::Mat& image) override {
+    void apply(cv::Mat& image) override {
         // Is there any change in the type of images
         // we input to the accumulator?
         // If yes, reset it.
