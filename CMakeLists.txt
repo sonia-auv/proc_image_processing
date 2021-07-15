@@ -77,7 +77,7 @@ function(gpu_mode)
 
     list(REMOVE_ITEM proc_image_processing_GPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
-    # TODO fix major_edge_extractor implementation for GPU mode. Likely due to newer OpenCV version.
+    # TODO fix major_edge_extractor implementation for GPU mode. Likely due to incompatibility.
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
 
@@ -123,12 +123,11 @@ if (CUDA_FOUND)
             RUN_OUTPUT_VARIABLE RUN_OUTPUT_VAR
             )
     if (COMPILE_RESULT_VAR AND NOT RUN_RESULT_VAR)
-        message("##### - Using GPU mode, ${RUN_OUTPUT_VAR} - #####")
-        gpu_mode()
+        message("##### - ${RUN_OUTPUT_VAR} - #####")
     else ()
-        message("##### - Using CPU mode, ${RUN_OUTPUT_VAR} - #####")
-        cpu_mode()
+        message("##### - ${RUN_OUTPUT_VAR} Build anyway since CUDA is present. - #####")
     endif ()
+    gpu_mode()
 else ()
     message("##### - Using CPU mode, CUDA not found - #####")
     cpu_mode()
