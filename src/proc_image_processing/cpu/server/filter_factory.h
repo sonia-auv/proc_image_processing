@@ -11,7 +11,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/background_subtract_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/blurr_filter.h>
-#include <proc_image_processing/cpu/filters/edge_detection/canny_filter.h>
+#include <proc_image_processing/cpu/filters/high_pass/edge_detection/canny_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/center_coffin_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/contrast_and_brightness_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/convex_hull_filter.h>
@@ -34,9 +34,9 @@
 #include <proc_image_processing/cpu/filters/detectors/pipe_angle_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/remove_mask_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
-#include <proc_image_processing/cpu/filters/edge_detection/scharr_adding_filter.h>
-#include <proc_image_processing/cpu/filters/edge_detection/scharr.h>
-#include <proc_image_processing/cpu/filters/edge_detection/sobel_filter.h>
+#include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_adding_filter.h>
+#include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr.h>
+#include <proc_image_processing/cpu/filters/high_pass/edge_detection/sobel_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/square_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/statistical_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/custom/hide_submarine_frame_filter.h>
