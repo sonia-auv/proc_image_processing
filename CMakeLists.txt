@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(proc_image_processing)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(proc_image_processing_SRC_DIR "src")
 set(proc_image_processing_CPU_SRC_DIR "src/proc_image_processing/cpu")
@@ -75,6 +77,9 @@ function(gpu_mode)
 
     list(REMOVE_ITEM proc_image_processing_GPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
     list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
+    # TODO fix major_edge_extractor implementation for GPU mode. Likely due to newer OpenCV version.
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
+    list(REMOVE_ITEM proc_image_processing_CPU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
 
     include_directories(
             ${catkin_INCLUDE_DIRS}

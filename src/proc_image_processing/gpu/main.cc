@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     int gpuCount = cv::cuda::getCudaEnabledDeviceCount();
     if (gpuCount == 0 || gpuCount == -1) {
         if (gpuCount == 0) ROS_ERROR("OpenCV is not compiled with cuda support. Running CPU mode instead...");
-        else if (gpuCount == -1)
+        else
             ROS_ERROR("The CUDA driver is not installed, or is incompatible. Running CPU mode instead...");
 
         proc_image_processing::VisionServer pv(nh);
