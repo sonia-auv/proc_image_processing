@@ -16,49 +16,47 @@
 
 namespace proc_image_processing {
 
-  class Filter {
-  public:
-    using Ptr = std::shared_ptr<Filter>;
+    class Filter {
+    public:
+        using Ptr = std::shared_ptr<Filter>;
 
-    explicit Filter(const GlobalParamHandler& globalParams);
+        explicit Filter(const GlobalParamHandler &globalParams);
 
-    virtual ~Filter() = default;
+        virtual ~Filter() = default;
 
-    virtual void Execute(cv::Mat& image) = 0;
+        virtual void apply(cv::Mat &image) = 0;
 
-    // Name of the filter handlers
-    inline const std::string GetName();
+        // Name of the filter handlers
+        inline const std::string getName();
 
-    inline void SetName(const std::string& name);
+        inline void setName(const std::string &name);
 
-    const std::vector<ParameterInterface*>& GetParameters() const;
+        const std::vector<ParameterInterface *> &getParameters() const;
 
-    std::string GetParameterValue(const std::string& name);
+        std::string getParameterValue(const std::string &name);
 
-    void SetParameterValue(const std::string& name, std::string value);
+        void setParameterValue(const std::string &name, std::string value);
 
-    // Wrapper for a call to _globalParms
-    // NotifyTarget, to be put on the result topic
-    void NotifyTarget(const Target& target);
+        // Wrapper for a call to _globalParms
+        // notify, to be put on the result topic
+        void notify(const Target &target);
 
-    void GlobalParamInteger(const std::string& name, const int value,
-      const int min, const int max);
+        void addGlobalParameter(const std::string &name, int value, int min, int max);
 
-    void GlobalParamDouble(const std::string& name, const double value,
-      const double min, const double max);
+        void addGlobalParameter(const std::string &name, double value, double min, double max);
 
-    void GlobalParamBoolean(const std::string& name, const bool value);
+        void addGlobalParameter(const std::string &name, bool value);
 
-    void GlobalParamString(const std::string& name, const std::string& value);
+        void addGlobalParameter(const std::string &name, const std::string &value);
 
-  protected:
-    GlobalParamHandler& global_params_;
+    protected:
+        GlobalParamHandler &global_params_;
 
-    std::vector<ParameterInterface*> parameters_;
+        std::vector<ParameterInterface *> parameters_;
 
-    // Useful to identify the filter.
-    std::string name_;
-  };
+        // Useful to identify the filter.
+        std::string name_;
+    };
 
 }  // namespace proc_image_processing
 

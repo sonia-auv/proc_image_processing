@@ -28,12 +28,12 @@ namespace proc_image_processing {
             look_for_heart_("Look_for_Heart", false, &parameters_),
             min_area_("Min_area", 5000, 1, 100000, &parameters_),
             max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
-            SetName("VampireTorpedoesDetector");
+            setName("VampireTorpedoesDetector");
         }
 
         virtual ~VampireTorpedoesDetector() {}
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void apply(cv::Mat &image) {
             if (enable_()) {
                 std::string objectif;
                 image.copyTo(output_image_);
@@ -140,7 +140,7 @@ namespace proc_image_processing {
                     cv::Point center = object->getCenterPoint();
                     target.SetTarget(objectif, center.x, center.y, object->getWidth(), object->getHeight(),
                                      object->getRotRect().angle, image.rows, image.cols);
-                    NotifyTarget(target);
+                    notify(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
                     }

@@ -24,22 +24,22 @@ namespace proc_image_processing {
       kernel_size_y_("Height", 1, 0, 20, &parameters_),
       iteration_("Iteration", 1, 0, 20, &parameters_),
       anchor_(-1, -1) {
-      SetName("Dilate");
+        setName("Dilate");
     }
 
     virtual ~Dilate() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        int kernel_type = 0;
-        switch (kernel_type_()) {
-        case 0:
-          kernel_type = cv::MORPH_RECT;
-          break;
-        case 1:
-          kernel_type = cv::MORPH_ELLIPSE;
-          break;
-        case 2:
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              int kernel_type = 0;
+              switch (kernel_type_()) {
+                  case 0:
+                      kernel_type = cv::MORPH_RECT;
+                      break;
+                  case 1:
+                      kernel_type = cv::MORPH_ELLIPSE;
+                      break;
+                  case 2:
           kernel_type = cv::MORPH_CROSS;
           break;
         }

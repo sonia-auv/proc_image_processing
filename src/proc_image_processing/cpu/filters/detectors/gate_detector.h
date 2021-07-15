@@ -61,24 +61,24 @@ namespace proc_image_processing {
       contour_retreval_("Contour_retreval", 0, 0, 4, &parameters_,
         "0=All, 1=Out, 2=Inner, 3=InnerMost, 4=OutNoChild"),
       feature_factory_(5) {
-      SetName("GateDetector");
+        setName("GateDetector");
       // Little goodies for cvs
       // area_rank,length_rank,circularity,convexity,ratio,presence,percent_filled,hueMean,
     }
 
     virtual ~GateDetector() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (debug_contour_()) {
-          image.copyTo(output_image_);
-          if (output_image_.channels() == 1) {
-            cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
-          }
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (debug_contour_()) {
+                  image.copyTo(output_image_);
+                  if (output_image_.channels() == 1) {
+                      cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
+                  }
+              }
 
-        if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-        cv::Mat originalImage = global_params_.getOriginalImage();
+              if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
+              cv::Mat originalImage = global_params_.getOriginalImage();
 
         contourList_t contours;
         switch (contour_retreval_()) {
@@ -175,7 +175,7 @@ namespace proc_image_processing {
               std::sort(
                       objVec.begin(), objVec.end(),
                       [this](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                          return GetDistanceFromCenter(a) < GetDistanceFromCenter(b);
+                          return getDistanceFromCenter(a) < getDistanceFromCenter(b);
                       });
               objVec[0]->vote();
               if (num_of_objects > 2) {
@@ -287,7 +287,7 @@ namespace proc_image_processing {
 
 
         if (eliminate_same_x_targets_() && objVec.size() > 1) {
-          EliminateSameXTarget(objVec);
+            removeSameXTarget(objVec);
         }
 
         ObjectFullData::FullObjectPtrVec finalists;
@@ -322,8 +322,8 @@ namespace proc_image_processing {
           target.SetTarget(
             id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
           target.SetSpecField_1(spec_1_());
-          target.SetSpecField_2(spec_2_());
-          NotifyTarget(target);
+            target.SetSpecField_2(spec_2_());
+            notify(target);
           if (debug_contour_()) {
             cv::circle(output_image_,
               cv::Point((int)round(x), (int)round(y)),
@@ -336,13 +336,13 @@ namespace proc_image_processing {
       }
     }
 
-    float GetDistanceFromCenter(ObjectFullData::Ptr object) {
-        cv::Point center(object->getBinaryImage().cols / 2,
-                         object->getBinaryImage().rows / 2);
-        float x_diff = object->getCenterPoint().x - center.x;
-        float y_diff = object->getCenterPoint().y - center.y;
-        return x_diff * x_diff + y_diff * y_diff;
-    };
+      float getDistanceFromCenter(ObjectFullData::Ptr object) {
+          cv::Point center(object->getBinaryImage().cols / 2,
+                           object->getBinaryImage().rows / 2);
+          float x_diff = object->getCenterPoint().x - center.x;
+          float y_diff = object->getCenterPoint().y - center.y;
+          return x_diff * x_diff + y_diff * y_diff;
+      };
 
   private:
     cv::Mat output_image_;
@@ -380,58 +380,58 @@ namespace proc_image_processing {
 
     ObjectFeatureFactory feature_factory_;
 
-    bool IsSameX(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
+      bool isSameX(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
 
-    // check if ref is higher than compared
-    bool IsHigher(ObjectFullData::Ptr ref, ObjectFullData::Ptr compared);
+      // check if ref is higher than compared
+      bool isHigher(ObjectFullData::Ptr ref, ObjectFullData::Ptr compared);
 
-    void EliminateSameXTarget(ObjectFullData::FullObjectPtrVec& vec);
+      void removeSameXTarget(ObjectFullData::FullObjectPtrVec &vec);
   };
 
-  inline void GateDetector::EliminateSameXTarget(
-    ObjectFullData::FullObjectPtrVec& vec) {
-    std::vector<unsigned int> index_to_eliminate;
-    // We should not have much target, so double loop is ok...
-    for (unsigned int i = 0, size = vec.size(); i < size; i++) {
-      for (unsigned int j = 0; j < size; j++) {
-        if (i == j) {
-          continue;
-        }
-        if (IsSameX(vec[i], vec[j])) {
-          // If I is higher, eliminate it
-          if (IsHigher(vec[i], vec[j])) {
-            index_to_eliminate.push_back(i);
-          }
-        }
+    inline void GateDetector::removeSameXTarget(
+            ObjectFullData::FullObjectPtrVec &vec) {
+        std::vector<unsigned int> index_to_eliminate;
+        // We should not have much target, so double loop is ok...
+        for (unsigned int i = 0, size = vec.size(); i < size; i++) {
+            for (unsigned int j = 0; j < size; j++) {
+                if (i == j) {
+                    continue;
+                }
+                if (isSameX(vec[i], vec[j])) {
+                    // If I is higher, eliminate it
+                    if (isHigher(vec[i], vec[j])) {
+                        index_to_eliminate.push_back(i);
+                    }
+                }
       }
     }
     // Erase from vector
     if (index_to_eliminate.size() > 0) {
       // Erase same indexes
       std::sort(index_to_eliminate.begin(), index_to_eliminate.end());
-      index_to_eliminate.erase(
-        std::unique(index_to_eliminate.begin(), index_to_eliminate.end()),
-        index_to_eliminate.end());
-      // Erase the values from the vector.
-      for (int i = index_to_eliminate.size() - 1; i >= 0; i--) {
-        vec.erase(vec.begin() + i);
-      }
+        index_to_eliminate.erase(
+                std::unique(index_to_eliminate.begin(), index_to_eliminate.end()),
+                index_to_eliminate.end());
+        // Erase the values from the vector.
+        for (int i = index_to_eliminate.size() - 1; i >= 0; i--) {
+            vec.erase(vec.begin() + i);
+        }
     }
-  }
+    }
 
-  inline bool GateDetector::IsSameX(ObjectFullData::Ptr a,
-    ObjectFullData::Ptr b) {
-      double x_difference = static_cast<double>(a->getCenterPoint().x) -
-                            static_cast<double>(b->getCenterPoint().x);
-      double abs_x_difference = fabs(x_difference);
-      return abs_x_difference < max_x_difference_for_elimination_();
-  }
+    inline bool GateDetector::isSameX(ObjectFullData::Ptr a,
+                                      ObjectFullData::Ptr b) {
+        double x_difference = static_cast<double>(a->getCenterPoint().x) -
+                              static_cast<double>(b->getCenterPoint().x);
+        double abs_x_difference = fabs(x_difference);
+        return abs_x_difference < max_x_difference_for_elimination_();
+    }
 
-  // check if ref is higher than compared
-  inline bool GateDetector::IsHigher(ObjectFullData::Ptr ref,
-    ObjectFullData::Ptr compared) {
-      return ref->getCenterPoint().y < compared->getCenterPoint().y;
-  }
+    // check if ref is higher than compared
+    inline bool GateDetector::isHigher(ObjectFullData::Ptr ref,
+                                       ObjectFullData::Ptr compared) {
+        return ref->getCenterPoint().y < compared->getCenterPoint().y;
+    }
 
 }  // namespace proc_image_processing
 

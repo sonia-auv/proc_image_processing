@@ -105,8 +105,8 @@ namespace proc_image_processing {
     Filterchain::GetFiltersWithName(const std::string& filter_name) const {
     std::vector<proc_image_processing::Filter::Ptr> filters;
     for (const auto& filter : filters_) {
-      if (filter->GetName() == filter_name) {
-        filters.push_back(filter);
+      if (filter->getName() == filter_name) {
+          filters.push_back(filter);
       }
     }
     return filters;
@@ -119,9 +119,9 @@ namespace proc_image_processing {
 
   inline bool Filterchain::ContainsFilter(const std::string& filter_name) const {
     for (const auto& filter : filters_) {
-      if (filter->GetName() == filter_name) {
-        return true;
-      }
+        if (filter->getName() == filter_name) {
+            return true;
+        }
     }
     return false;
   }

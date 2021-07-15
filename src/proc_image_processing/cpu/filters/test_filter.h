@@ -27,23 +27,23 @@ namespace proc_image_processing {
       header_("Header", "test", &parameters_),
       specField1_("SpecialField_1", "sf1", &parameters_),
       specField2_("SpecialField_2", "sf2", &parameters_) {
-      SetName("TestFilter");
+        setName("TestFilter");
     }
 
     virtual ~TestFilter() {}
 
     virtual void init() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        target_.SetTarget("test_filter", x_.GetValue() - 1000 / 2, y_.GetValue(),
-          w_.GetValue(), h_.GetValue(), angle_.GetValue(), 1000,
-          -1000 - (1000 / 2), specField1_.GetValue(),
-          specField2_.GetValue());
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              target_.SetTarget("test_filter", x_.GetValue() - 1000 / 2, y_.GetValue(),
+                                w_.GetValue(), h_.GetValue(), angle_.GetValue(), 1000,
+                                -1000 - (1000 / 2), specField1_.GetValue(),
+                                specField2_.GetValue());
 
-        NotifyTarget(target_);
+              notify(target_);
+          }
       }
-    }
 
   private:
     Parameter<bool> enable_;

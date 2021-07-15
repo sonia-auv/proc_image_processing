@@ -48,7 +48,7 @@
 #include <proc_image_processing/cpu/filters/detectors/vampire_torpedoes_close_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/vampire_torpedoes_detector.h>
 #include <proc_image_processing/cpu/filters/white_filter.h>
-#include <proc_image_processing/cpu/filters/white_noise_takedown_filter.h>
+#include <proc_image_processing/cpu/filters/white_noise_take_down_filter.h>
 // <FACTORY_GENERATOR_HEADER_INCLUDES/>
 #include <memory>
 #include <string>

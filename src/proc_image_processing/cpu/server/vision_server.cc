@@ -244,7 +244,7 @@ namespace proc_image_processing {
       std::vector<std::string> filter_names;
       for (size_t i = 0; i < filters.size(); ++i) {
         filter_names.push_back(
-          ConstructFilterUIName(filters.at(i)->GetName(), i));
+                ConstructFilterUIName(filters.at(i)->getName(), i));
       }
       rep.list = BuildRosMessage(filter_names);
       return true;

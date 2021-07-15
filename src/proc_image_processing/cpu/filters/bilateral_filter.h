@@ -25,27 +25,27 @@ namespace proc_image_processing {
       diameter_("Diameter", -100, 0, 100, &parameters_),
       sigma_color_("Sigm_color", 0, 0, 300, &parameters_),
       sigma_space_("Sigma_space", 0, 0, 300, &parameters_) {
-      SetName("BilateralFilter");
+        setName("BilateralFilter");
     }
 
     virtual ~BilateralFilter() {}
 
-    /**
-     * Override the execute function from the Filter class.
-     * This is the function that is going to be called for processing the image.
-     * This takes an image as a parameter and modify it with the filtered image.
-     *
-     * \param image The image to process.
-     */
-    void Execute(cv::Mat& image) override {
-      if (enable_()) {
-        cv::Mat blurred;
-        cv::bilateralFilter(image, blurred, diameter_.GetValue(),
-          sigma_color_.GetValue(), sigma_space_.GetValue());
+      /**
+       * Override the execute function from the Filter class.
+       * This is the function that is going to be called for processing the image.
+       * This takes an image as a parameter and modify it with the filtered image.
+       *
+       * \param image The image to process.
+       */
+      void apply(cv::Mat &image) override {
+          if (enable_()) {
+              cv::Mat blurred;
+              cv::bilateralFilter(image, blurred, diameter_.GetValue(),
+                                  sigma_color_.GetValue(), sigma_space_.GetValue());
 
-        blurred.copyTo(image);
+              blurred.copyTo(image);
+          }
       }
-    }
 
   private:
     /**

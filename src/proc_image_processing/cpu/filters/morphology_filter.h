@@ -25,22 +25,22 @@ namespace proc_image_processing {
       iteration_("Iteration", 1, 1, 20, &parameters_),
       kernel_size_("Kernel_size", 1, 1, 40, &parameters_),
       anchor_(-1, -1) {
-      SetName("Morphology");
+        setName("Morphology");
     }
 
     virtual ~Morphology() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
 
-        // Kernel selection
-        int kernelType;
-        switch (kernel_type_()) {
-        case 0:
-          kernelType = cv::MORPH_RECT;
+              // Kernel selection
+              int kernelType;
+              switch (kernel_type_()) {
+                  case 0:
+                      kernelType = cv::MORPH_RECT;
           break;
         case 1:
           kernelType = cv::MORPH_ELLIPSE;

@@ -33,19 +33,20 @@ namespace proc_image_processing {
             bat_("bat", true, &parameters_),
             wolf_("wolf", true, &parameters_),
             color_(0, 0, 0) {
-            image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &Deep2019::boundingBoxCallback, this);
-            SetName("Deep2019");
+            image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100,
+                                                               &Deep2019::boundingBoxCallback, this);
+            setName("Deep2019");
         };
 
         virtual ~Deep2019() { image_subscriber_.shutdown(); }
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void apply(cv::Mat &image) {
             if (enable_()) {
                 Target target;
                 image_width_ = image.size().width;
                 image_height_ = image.size().height;
 
-                for (auto& object : bounding_box_) {
+                for (auto &object : bounding_box_) {
                     if (vetalas_.GetValue() && object.class_name.data == vetalas_.GetName()) {
                         color_ = cv::Scalar(0, 0, 255);
                         handleObject(target, object, image, color_);
@@ -77,7 +78,7 @@ namespace proc_image_processing {
                 }
 
                 for (int i = 0; i < (int)objects_.size(); ++i) {
-                    NotifyTarget(objects_.back());
+                    notify(objects_.back());
                     objects_.pop_back();
                 }
             }
@@ -114,7 +115,7 @@ namespace proc_image_processing {
             return ss.str();
         }
 
-        inline void constructTarget(Target& target, const sonia_common::Detection& object) {
+        inline void buildTarget(Target &target, const sonia_common::Detection &object) {
             int image_central_x;
             int image_central_y;
             int bounding_box_center_x;
@@ -122,8 +123,8 @@ namespace proc_image_processing {
             int vision_bounding_box_center_x;
             int vision_bounding_box_center_y;
 
-            image_central_x = (int)(image_width_ / 2);
-            image_central_y = (int)(image_height_ / 2);
+            image_central_x = (int) (image_width_ / 2);
+            image_central_y = (int) (image_height_ / 2);
 
             bounding_box_center_x = (int)object.bbox.center.x;
             bounding_box_center_y = (int)object.bbox.center.y;
@@ -152,18 +153,18 @@ namespace proc_image_processing {
             cv::rectangle(image, rect, color_box, thickness);
             cv::rectangle(image, rect_top, color_box, CV_FILLED);
 
-            std::string text = creatTextBoundingBox(object);
+            std::string text = createTextBoundingBox(object);
             cv::putText(image, text, cv::Point(origin_x, origin_y), BBOX_INFO_FONT, 1, BBOX_INFO_TEXT_COLOR, 2, CV_AA);
         }
 
-        inline std::string creatTextBoundingBox(const sonia_common::Detection& object) {
+        inline std::string createTextBoundingBox(const sonia_common::Detection &object) {
             std::stringstream ss;
             ss << object.class_name.data << ":" << convertFloatToString(object.confidence) << "%";
             return ss.str();
         }
 
         inline void handleObject(Target& target, const sonia_common::Detection& object, cv::Mat& image, const cv::Scalar& color) {
-            constructTarget(target, object);
+            buildTarget(target, object);
             if (debug_contour_()) {
                 drawTarget(image, object, 10, color);
             }

@@ -18,16 +18,16 @@ namespace proc_image_processing {
     explicit Equalize(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
       enable_("enable", false, &parameters_) {
-      SetName("Equalize");
+        setName("Equalize");
     }
 
     virtual ~Equalize() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        cv::equalizeHist(image, image);
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              cv::equalizeHist(image, image);
+          }
       }
-    }
 
   private:
     Parameter<bool> enable_;

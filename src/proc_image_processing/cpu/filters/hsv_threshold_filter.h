@@ -35,56 +35,56 @@ namespace proc_image_processing {
         "Maximum value to threshold. Keep values lower or equal to this value."),
       rows_(0),
       cols_(0) {
-      SetName("HSVThreshold");
+        setName("HSVThreshold");
     }
 
     virtual ~HSVThreshold() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (CV_MAT_CN(image.type()) != 3) {
-          return;
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (CV_MAT_CN(image.type()) != 3) {
+                  return;
+              }
 
-        rows_ = image.rows;
-        cols_ = image.cols;
-        // Set result matrices
-        cv::Mat hue = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat hue_res1 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat hue_res2 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat hue_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat saturation = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat saturation_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat value = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-          cv::Mat value_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-          cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              rows_ = image.rows;
+              cols_ = image.cols;
+              // Set result matrices
+              cv::Mat hue = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat hue_res1 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat hue_res2 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat hue_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat saturation = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat saturation_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat value = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat value_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
-        // Replace with new images
-        channel_vec_ = getColorPlanes(image);
-          set_image(H_INDEX, hue);
-          set_image(S_INDEX, saturation);
-          set_image(V_INDEX, value);
-          cv::inRange(hue, cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
-          //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
-          //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
-          //cv::bitwise_and(hue_res1, hue_res2, hue_res);
-          cv::inRange(saturation, cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
-          cv::inRange(value, cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
+              // Replace with new images
+              channel_vec_ = getColorPlanes(image);
+              setImage(H_INDEX, hue);
+              setImage(S_INDEX, saturation);
+              setImage(V_INDEX, value);
+              cv::inRange(hue, cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
+              //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
+              //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
+              //cv::bitwise_and(hue_res1, hue_res2, hue_res);
+              cv::inRange(saturation, cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
+              cv::inRange(value, cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
 
-          cv::bitwise_and(hue_res, saturation_res, result);
-          cv::bitwise_and(result, value_res, result);
+              cv::bitwise_and(hue_res, saturation_res, result);
+              cv::bitwise_and(result, value_res, result);
 
           result.copyTo(image);
       }
     }
 
   private:
-    void set_image(const int choice, cv::Mat& out) {
-      // Thightly couple with parameter, but putting safety...
-      int index = choice < 0 ? 0 : (choice > 6 ? 6 : choice);
-      channel_vec_[index].copyTo(out);
+      void setImage(const int choice, cv::Mat &out) {
+          // Thightly couple with parameter, but putting safety...
+          int index = choice < 0 ? 0 : (choice > 6 ? 6 : choice);
+          channel_vec_[index].copyTo(out);
 
-    }
+      }
 
     Parameter<bool> enable_;
     RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;

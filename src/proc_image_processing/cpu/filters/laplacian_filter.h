@@ -22,22 +22,22 @@ namespace proc_image_processing {
       delta_("Delta", 0, 0, 255, &parameters_),
       scale_("Scale", 1, 0, 255, &parameters_),
       size_("Size", 2, 1, 20, &parameters_) {
-      SetName("Laplacian");
+        setName("Laplacian");
     }
 
     virtual ~Laplacian() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        int size = size_() * 2 + 1;
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              int size = size_() * 2 + 1;
 
-        if (convert_to_uchar_()) {
-          cv::Laplacian(image, image, CV_8U, size, scale_(), delta_(),
-            cv::BORDER_DEFAULT);
-        }
+              if (convert_to_uchar_()) {
+                  cv::Laplacian(image, image, CV_8U, size, scale_(), delta_(),
+                                cv::BORDER_DEFAULT);
+              }
         else {
           cv::Laplacian(image, image, CV_32F, size, scale_(), delta_(),
             cv::BORDER_DEFAULT);

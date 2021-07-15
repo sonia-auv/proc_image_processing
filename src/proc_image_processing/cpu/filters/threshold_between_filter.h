@@ -22,22 +22,22 @@ namespace proc_image_processing {
         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
       min_1("Min_value_1", 100, 0, 255, &parameters_),
       min_2("Min_value_2", 100, 0, 255, &parameters_) {
-      SetName("ThresholdBetween");
+        setName("ThresholdBetween");
     }
 
     virtual ~ThresholdBetween() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        if (image.depth() != CV_8U) {
-          image.convertTo(image, CV_8U);
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              if (image.depth() != CV_8U) {
+                  image.convertTo(image, CV_8U);
+              }
 
-        int threshold_type = CV_THRESH_BINARY;
-        switch (type_()) {
+              int threshold_type = CV_THRESH_BINARY;
+              switch (type_()) {
         case 0:
           threshold_type = CV_THRESH_BINARY;
           break;

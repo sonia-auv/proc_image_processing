@@ -41,9 +41,9 @@ namespace proc_image_processing {
       for (auto& filter : filters_) {
         out << YAML::BeginMap;
         out << YAML::Key << "name";
-        out << YAML::Value << filter->GetName();
+          out << YAML::Value << filter->getName();
 
-        auto parameters = filter->GetParameters();
+          auto parameters = filter->getParameters();
         if (parameters.size() > 0) {
           out << YAML::Key << "parameters";
           out << YAML::Value << YAML::BeginSeq;
@@ -110,7 +110,7 @@ namespace proc_image_processing {
         size_t index = 0;
         for (size_t i = 0; i < filters_.size(); i++) {
           if (!imageToProcess.empty()) {
-            (filters_.at(i))->Execute(imageToProcess);
+              (filters_.at(i))->apply(imageToProcess);
           }
 
           if (index == observer_index_) {
@@ -167,18 +167,18 @@ namespace proc_image_processing {
 
   std::string Filterchain::GetFilterParameterValue(
     const size_t& index, const std::string& param_name) {
-    return GetFilter(index)->GetParameterValue(param_name);
+      return GetFilter(index)->getParameterValue(param_name);
   }
 
   void Filterchain::SetFilterParameterValue(const size_t& index,
     const std::string& param_name,
     const std::string& param_value) {
-    GetFilter(index)->SetParameterValue(param_name, param_value);
+      GetFilter(index)->setParameterValue(param_name, param_value);
   }
 
   std::vector<proc_image_processing::ParameterInterface*>
     Filterchain::GetFilterAllParameters(const size_t& index) {
-    return GetFilter(index)->GetParameters();
+      return GetFilter(index)->getParameters();
   }
 
   void Filterchain::AddFilter(const std::string& filter_name) {

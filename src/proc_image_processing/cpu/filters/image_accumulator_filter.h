@@ -28,22 +28,22 @@ namespace proc_image_processing {
       last_method_(CV_8UC1),
       last_type_(0),
       last_nb_image_(3) {
-      SetName("ImageAccumulator");
+        setName("ImageAccumulator");
     }
 
     virtual ~ImageAccumulator() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        // Is there any change in the type of images
-        // we input to the accumulator?
-        // If yes, reset it.
-        if (last_type_ != image.type() || last_method_ != method_() ||
-          last_nb_image_ != nb_image_() || last_size_ != image.size()) {
-            accumulator_.resetBuffer(nb_image_(), image.size(), image.type());
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              // Is there any change in the type of images
+              // we input to the accumulator?
+              // If yes, reset it.
+              if (last_type_ != image.type() || last_method_ != method_() ||
+                  last_nb_image_ != nb_image_() || last_size_ != image.size()) {
+                  accumulator_.resetBuffer(nb_image_(), image.size(), image.type());
 
-          last_nb_image_ = nb_image_();
-          last_size_ = image.size();
+                  last_nb_image_ = nb_image_();
+                  last_size_ = image.size();
 
           switch (method_()) {
               case 0:

@@ -21,12 +21,12 @@ namespace proc_image_processing {
             : Filter(globalParams), enable_("Enable", false, &parameters_),
             N("N", 100, 0, 100, &parameters_),
             thresh("threshold", 100, 0, 100, &parameters_) {
-            SetName("SquareDetection");
+            setName("SquareDetection");
         }
 
         virtual ~SquareDetection() {}
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void apply(cv::Mat &image) {
             std::vector<std::vector<cv::Point> > squares;
 
             squares.clear();
@@ -84,8 +84,8 @@ namespace proc_image_processing {
                             double maxCosine = 0;
 
                             for (int j = 2; j < 5; j++) {
-                                // find the maximum cosine of the angle between joint edges
-                                double cosine = fabs(angle(approx[j % 4], approx[j - 2], approx[j - 1]));
+                                // find the maximum cosine of the getAngle between joint edges
+                                double cosine = fabs(getAngle(approx[j % 4], approx[j - 2], approx[j - 1]));
                                 maxCosine = MAX(maxCosine, cosine);
                             }
 
@@ -108,7 +108,7 @@ namespace proc_image_processing {
             }
         }
 
-        static double angle(cv::Point pt1, cv::Point pt2, cv::Point pt0) {
+        static double getAngle(cv::Point pt1, cv::Point pt2, cv::Point pt0) {
             double dx1 = pt1.x - pt0.x;
             double dy1 = pt1.y - pt0.y;
             double dx2 = pt2.x - pt0.x;

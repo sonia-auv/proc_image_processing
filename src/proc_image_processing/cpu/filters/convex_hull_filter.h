@@ -25,22 +25,22 @@ namespace proc_image_processing {
         "0=CV_CHAIN_APPROX_NONE, 1=CV_CHAIN_APPROX_SIMPLE, "
         "2=CV_CHAIN_APPROX_TC89_L1, "
         "3=CV_CHAIN_APPROX_TC89_KCOS") {
-      SetName("ConvexHull");
+        setName("ConvexHull");
     }
 
     virtual ~ConvexHull() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        int mode, method;
-        switch (mode_()) {
-        case 0:
-          mode = char(CV_RETR_EXTERNAL);
-          break;
-        case 1:
-          mode = char(CV_RETR_LIST);
-          break;
-        case 2:
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              int mode, method;
+              switch (mode_()) {
+                  case 0:
+                      mode = char(CV_RETR_EXTERNAL);
+                      break;
+                  case 1:
+                      mode = char(CV_RETR_LIST);
+                      break;
+                  case 2:
           mode = char(CV_RETR_CCOMP);
           break;
         case 3:

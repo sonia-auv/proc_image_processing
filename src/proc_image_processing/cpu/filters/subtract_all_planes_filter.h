@@ -38,22 +38,22 @@ namespace proc_image_processing {
       weight_three_("Weight_Plane_3", 1.0, 0.0, 10.0, &parameters_),
       rows_(0),
       cols_(0) {
-      SetName("SubtractAllPlanes");
+        setName("SubtractAllPlanes");
     }
 
     virtual ~SubtractAllPlanes() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (CV_MAT_CN(image.type()) != 3) {
-          return;
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (CV_MAT_CN(image.type()) != 3) {
+                  return;
+              }
 
-        rows_ = image.rows;
-        cols_ = image.cols;
-        // Set result matrices
-        cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-        cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              rows_ = image.rows;
+              cols_ = image.cols;
+              // Set result matrices
+              cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+              cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
         cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
           cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
           cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
@@ -63,34 +63,34 @@ namespace proc_image_processing {
 
           // Set subtraction
           if (plane_one_() != 0)
-              set_image(plane_one_() - 1, one, weight_one_(), invert_one_());
+              setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
 
           if (plane_two_() != 0)
-              set_image(plane_two_() - 1, two, weight_two_(), invert_two_());
+              setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
 
           if (plane_three_() != 0)
-              set_image(plane_three_() - 1, three, weight_three_(), invert_three_());
+              setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
 
-          cv::subtract(one, two, result);
-          cv::subtract(result, three, result);
+              cv::subtract(one, two, result);
+              cv::subtract(result, three, result);
 
-          result.copyTo(image);
+              result.copyTo(image);
+          }
       }
-    }
 
   private:
-    void set_image(const int choice, cv::Mat& out, const double weight,
-      const bool inverse) {
-      cv::Mat two_five_five(rows_, cols_, CV_16SC1, cv::Scalar(255));
-      cv::Mat one(rows_, cols_, CV_16SC1, cv::Scalar(1));
+      void setImage(const int choice, cv::Mat &out, const double weight,
+                    const bool inverse) {
+          cv::Mat two_five_five(rows_, cols_, CV_16SC1, cv::Scalar(255));
+          cv::Mat one(rows_, cols_, CV_16SC1, cv::Scalar(1));
 
-      // Thightly couple with parameter, but putting safety...
-      int index = choice < 0 ? 0 : (choice > 6 ? 6 : choice);
-      channel_vec_[index].copyTo(out);
+          // Thightly couple with parameter, but putting safety...
+          int index = choice < 0 ? 0 : (choice > 6 ? 6 : choice);
+          channel_vec_[index].copyTo(out);
 
-      if (inverse) {
-          inverseImage(out, out);
-      }
+          if (inverse) {
+              inverseImage(out, out);
+          }
       cv::multiply(out, one, out, weight, CV_8UC1);
     }
 

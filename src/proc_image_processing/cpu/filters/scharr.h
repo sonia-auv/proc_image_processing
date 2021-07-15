@@ -25,22 +25,22 @@ namespace proc_image_processing {
       scale_("Scale", 1, 0, 255, &parameters_),
       power_pixel_correction_("pixel_correction_power", 1, -10, 10,
         &parameters_) {
-      SetName("Scharr");
+        setName("Scharr");
     }
 
     virtual ~Scharr() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        cv::Mat scharrX, scharrY;
-        cv::Scharr(image, scharrX, CV_32F, 1, 0, scale_(), delta_(),
-          cv::BORDER_REPLICATE);
-        cv::Scharr(image, scharrY, CV_32F, 0, 1, scale_(), delta_(),
-          cv::BORDER_REPLICATE);
-        cv::absdiff(scharrX, 0, scharrX);
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              cv::Mat scharrX, scharrY;
+              cv::Scharr(image, scharrX, CV_32F, 1, 0, scale_(), delta_(),
+                         cv::BORDER_REPLICATE);
+              cv::Scharr(image, scharrY, CV_32F, 0, 1, scale_(), delta_(),
+                         cv::BORDER_REPLICATE);
+              cv::absdiff(scharrX, 0, scharrX);
         cv::absdiff(scharrY, 0, scharrY);
 
         cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, image, CV_32F);

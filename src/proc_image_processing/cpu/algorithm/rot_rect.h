@@ -18,7 +18,7 @@ namespace proc_image_processing {
 #define PROVIDER_VISION_BOTTOM_RIGHT 2
 
   // Rotated rect ensure that the height member is the longest one
-  // and the angle is in the direction of the height
+  // and the getAngle is in the direction of the height
   // it also contains useful method to play with rotated rectangle
   class RotRect : public cv::RotatedRect {
   public:

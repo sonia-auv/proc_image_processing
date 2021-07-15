@@ -15,285 +15,278 @@
 
 namespace proc_image_processing {
 
-  class FenceDetector : public Filter {
-  public:
-    using Ptr = std::shared_ptr<FenceDetector>;
+    class FenceDetector : public Filter {
+    public:
+        using Ptr = std::shared_ptr<FenceDetector>;
 
-    explicit FenceDetector(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      debug_contour_("Debug_contour", false, &parameters_),
-      search_only_bottom_("Search_only_bottom", false, &parameters_,
-        "Enables searching only for bottom bar"),
-      min_length_("Minimum_length", 50, 0, 2000, &parameters_),
-      max_distance_from_bottom_bar_extremum_("Max_dist_from_extremum", 50, 0,
-        2000, &parameters_),
-      min_area_("Minimum_area", 300, 0, 10000, &parameters_),
-      max_diff_from_90_tbca_horizontal_(
-        "Max_diff_horizontal", 20, 0, 90, &parameters_,
-        "Maximum difference from 90 to be consider as horizontal"),
-      max_diff_from_0_tbca_vertical_(
-        "Max_diff_vertical", 20, 0, 90, &parameters_,
-        "Maximum difference from 0 to be consider as vertical"),
-      min_percent_filled_("Minimum_percent_filled", 70, 0, 1000,
-        &parameters_),
-      feat_factory_(3) {
-      SetName("FenceDetector");
-    }
-
-    virtual ~FenceDetector() {}
-
-    virtual void Execute(cv::Mat& image) {
-      if (!enable_()) {
-        return;
-      }
-
-      cv::Mat in;
-      if (debug_contour_()) {
-        // Case we receive a color or gray scale image.
-        if (image.channels() == 1) {
-          cv::cvtColor(image, output_image_, CV_GRAY2BGR);
-        }
-        else {
-          image.copyTo(output_image_);
-        }
-      }
-
-      if (image.channels() != 1) {
-        cv::cvtColor(image, in, CV_BGR2GRAY);
-      }
-      else {
-        image.copyTo(in);
-      }
-
-      contourList_t contours;
-        retrieveOuterContours(in, contours);
-      std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar,
-        merged_horizontal_bar;
-
-      cv::Mat originalImage = global_params_.getOriginalImage();
-
-      // Parse contours into 2 categories, vertical or horizontal.
-      for (int i = 0, size = contours.size(); i < size; i++) {
-        ObjectFullData::Ptr object =
-          std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
-
-        if (object.get() == nullptr) {
-          continue;
+        explicit FenceDetector(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  debug_contour_("Debug_contour", false, &parameters_),
+                  search_only_bottom_("Search_only_bottom", false, &parameters_,
+                                      "Enables searching only for bottom bar"),
+                  min_length_("Minimum_length", 50, 0, 2000, &parameters_),
+                  max_distance_from_bottom_bar_extremum_("Max_dist_from_extremum", 50, 0,
+                                                         2000, &parameters_),
+                  min_area_("Minimum_area", 300, 0, 10000, &parameters_),
+                  max_diff_from_90_tbca_horizontal_(
+                          "Max_diff_horizontal", 20, 0, 90, &parameters_,
+                          "Maximum difference from 90 to be consider as horizontal"),
+                  max_diff_from_0_tbca_vertical_(
+                          "Max_diff_vertical", 20, 0, 90, &parameters_,
+                          "Maximum difference from 0 to be consider as vertical"),
+                  min_percent_filled_("Minimum_percent_filled", 70, 0, 1000,
+                                      &parameters_),
+                  feat_factory_(3) {
+            setName("FenceDetector");
         }
 
-        // AREA
-        if (object->getArea() < min_area_()) {
-            continue;
+        virtual ~FenceDetector() {}
+
+        virtual void apply(cv::Mat &image) {
+            if (!enable_()) {
+                return;
+            }
+
+            cv::Mat in;
+            if (debug_contour_()) {
+                // Case we receive a color or gray scale image.
+                if (image.channels() == 1) {
+                    cv::cvtColor(image, output_image_, CV_GRAY2BGR);
+                } else {
+                    image.copyTo(output_image_);
+                }
+            }
+
+            if (image.channels() != 1) {
+                cv::cvtColor(image, in, CV_BGR2GRAY);
+            } else {
+                image.copyTo(in);
+            }
+
+            contourList_t contours;
+            retrieveOuterContours(in, contours);
+            std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar,
+                    merged_horizontal_bar;
+
+            cv::Mat originalImage = global_params_.getOriginalImage();
+
+            // Parse contours into 2 categories, vertical or horizontal.
+            for (int i = 0, size = contours.size(); i < size; i++) {
+                ObjectFullData::Ptr object =
+                        std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+
+                if (object.get() == nullptr) {
+                    continue;
+                }
+
+                // AREA
+                if (object->getArea() < min_area_()) {
+                    continue;
+                }
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+                }
+
+                // LENGTH
+                if (object->getRotRect().size.height < min_length_()) continue;
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
+                }
+                feat_factory_.PercentFilledFeature(object);
+
+                if (int(object->GetPercentFilled() * 100.0f) < min_percent_filled_())
+                    continue;
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 255), 4);
+                }
+
+                float angle = fabs(object->getRotRect().angle);
+
+                if (angle < max_diff_from_0_tbca_vertical_()) {
+                    verticalBars.push_back(object);
+                } else if ((90 - angle) < max_diff_from_90_tbca_horizontal_()) {
+                    horizontalBar.push_back(object);
+                }
+            }
+
+            // Sort the bars with different criteria
+            // Here we look for horizontal bar because it's
+            std::sort(horizontalBar.begin(), horizontalBar.end(),
+                      [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                          return a->getRotRect().size.height >
+                                 b->getRotRect().size.height;
+                      });
+
+            if (horizontalBar.size() >= 2) {
+                std::vector<std::pair<int, int>> pairs;
+                for (int ref_idx = 0, size_ref = horizontalBar.size(); ref_idx < size_ref;
+                     ref_idx++) {
+                    if (isSplitBar(horizontalBar[0], horizontalBar[1])) {
+                        contour_t tmp, a, b;
+                        a = horizontalBar[0]->getContourCopy().getContour();
+                        b = horizontalBar[1]->getContourCopy().getContour();
+
+                        tmp.reserve(a.size() + b.size());
+                        tmp.insert(tmp.end(), a.begin(), a.end());
+                        tmp.insert(tmp.end(), b.begin(), b.end());
+                        horizontalBar[0] =
+                                std::make_shared<ObjectFullData>(originalImage, image, tmp);
+                    }
+                }
+            }
+
+            // the easiest to find... if you did not find this one...
+            // you probably didn't find any other... by experience.
+            // Also, you need to return a size to AUV6 so...
+            if (horizontalBar.size() != 0) {
+                // Gets bottom bar info.
+                ObjectFullData::Ptr final_horizontal_bar = horizontalBar[0];
+                RotRect rect_from_hori_bar = final_horizontal_bar->getRotRect();
+                if (debug_contour_()) {
+                    cv::circle(output_image_, rect_from_hori_bar.center, 3,
+                               CV_RGB(0, 0, 255), 3);
+                }
+
+                Target fence;
+                cv::Point center = (rect_from_hori_bar.center);
+                fence.SetTarget("fence", center.x, center.y,
+                                rect_from_hori_bar.size.width,
+                                rect_from_hori_bar.size.height, rect_from_hori_bar.angle,
+                                image.rows, image.cols);
+
+                int y_coord_from_bottom = getYFromBottomBar(
+                        rect_from_hori_bar.size.height, rect_from_hori_bar.center.y);
+
+                if (search_only_bottom_()) {
+                    center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
+                    if (debug_contour_()) {
+                        cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+                    }
+                    setCameraOffset(center, image.rows, image.cols);
+
+                    fence.SetCenter(center);
+
+                } else  // Gets the two best vertical bar to compute our y center.
+                {
+                    std::sort(verticalBars.begin(), verticalBars.end(),
+                              [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                                  return a->getRotRect().size.height >
+                                         b->getRotRect().size.height;
+                              });
+
+                    std::vector<cv::Point2f> final_vert_bar;
+                    int leftX, rightX;
+                    getBottomBarXExtremum(final_horizontal_bar, leftX, rightX);
+
+                    // Extract the two major bar that are near the extremum of the bottom
+                    // post.
+                    int i = 0, size = verticalBars.size(), bar_founded = 0;
+                    for (; i < size && bar_founded != 2; i++) {
+                        if (isNearExtremum(verticalBars[i]->getRotRect().center.x, leftX,
+                                           rightX)) {
+                            final_vert_bar.push_back(verticalBars[i]->getRotRect().center);
+                            if (debug_contour_()) {
+                                cv::circle(output_image_,
+                                           verticalBars[i]->getRotRect().center, 5,
+                                           CV_RGB(0, 255, 255), 20);
+                            }
+                            bar_founded++;
+                        }
+                    }
+
+                    if (bar_founded == 2) {
+                        int x = 0, y = 0;
+                        // X from bottom bar plus
+                        x = (rect_from_hori_bar.center.x +
+                             (final_vert_bar[0].x + final_vert_bar[1].x) / 2) /
+                            2;
+
+                        y = (y_coord_from_bottom + final_vert_bar[0].y +
+                             final_vert_bar[1].y) /
+                            3;
+                        center = cv::Point(x, y);
+                        if (debug_contour_()) {
+                            cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+                        }
+                        setCameraOffset(center, image.rows, image.cols);
+                        fence.SetCenter(center);
+                    } else if (bar_founded == 1) {
+                        int y = (y_coord_from_bottom + final_vert_bar[0].y) / 2;
+                        center = cv::Point(rect_from_hori_bar.center.x, y);
+                        if (debug_contour_()) {
+                            cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+                        }
+                        setCameraOffset(center, image.rows, image.cols);
+                        fence.SetCenter(center);
+                    } else {
+                        center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
+                        if (debug_contour_()) {
+                            cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
+                        }
+                        setCameraOffset(center, image.rows, image.cols);
+                        fence.SetCenter(center);
+                    }
+                }
+                notify(fence);
+            }
+            if (debug_contour_()) {
+                output_image_.copyTo(image);
+            }
         }
-          if (debug_contour_()) {
-              cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-          }
 
-        // LENGTH
-          if (object->getRotRect().size.height < min_length_()) continue;
-          if (debug_contour_()) {
-              cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
-          }
-        feat_factory_.PercentFilledFeature(object);
-
-        if (int(object->GetPercentFilled() * 100.0f) < min_percent_filled_())
-          continue;
-        if (debug_contour_()) {
-          cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 255), 4);
+    private:
+        inline int getYFromBottomBar(float bar_size, int bar_y) {
+            int offset = static_cast<int>((bar_size) / 5.0f);
+            return bar_y - offset;
         }
 
-          float angle = fabs(object->getRotRect().angle);
-
-        if (angle < max_diff_from_0_tbca_vertical_()) {
-          verticalBars.push_back(object);
-        }
-        else if ((90 - angle) < max_diff_from_90_tbca_horizontal_()) {
-          horizontalBar.push_back(object);
-        }
-      }
-
-      // Sort the bars with different criteria
-      // Here we look for horizontal bar because it's
-      std::sort(horizontalBar.begin(), horizontalBar.end(),
-        [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-            return a->getRotRect().size.height >
-                   b->getRotRect().size.height;
-        });
-
-      if (horizontalBar.size() >= 2) {
-        std::vector<std::pair<int, int>> pairs;
-        for (int ref_idx = 0, size_ref = horizontalBar.size(); ref_idx < size_ref;
-          ref_idx++) {
-          if (IsSplitBar(horizontalBar[0], horizontalBar[1])) {
-              contour_t tmp, a, b;
-              a = horizontalBar[0]->getContourCopy().getContour();
-              b = horizontalBar[1]->getContourCopy().getContour();
-
-              tmp.reserve(a.size() + b.size());
-              tmp.insert(tmp.end(), a.begin(), a.end());
-              tmp.insert(tmp.end(), b.begin(), b.end());
-              horizontalBar[0] =
-                      std::make_shared<ObjectFullData>(originalImage, image, tmp);
-          }
-        }
-      }
-
-      // the easiest to find... if you did not find this one...
-      // you probably didn't find any other... by experience.
-      // Also, you need to return a size to AUV6 so...
-      if (horizontalBar.size() != 0) {
-        // Gets bottom bar info.
-          ObjectFullData::Ptr final_horizontal_bar = horizontalBar[0];
-          RotRect rect_from_hori_bar = final_horizontal_bar->getRotRect();
-        if (debug_contour_()) {
-          cv::circle(output_image_, rect_from_hori_bar.center, 3,
-            CV_RGB(0, 0, 255), 3);
+        inline void getBottomBarXExtremum(ObjectFullData::Ptr bottom_bar, int &leftX, int &rightX) {
+            leftX = 20000;
+            rightX = -1;
+            contour_t contour = bottom_bar->getContourCopy().getContour();
+            for (const auto &pt : contour) {
+                if (leftX > pt.x) {
+                    leftX = pt.x;
+                }
+                if (rightX < pt.x) {
+                    rightX = pt.x;
+                }
+            }
         }
 
-        Target fence;
-        cv::Point center = (rect_from_hori_bar.center);
-        fence.SetTarget("fence", center.x, center.y,
-          rect_from_hori_bar.size.width,
-          rect_from_hori_bar.size.height, rect_from_hori_bar.angle,
-          image.rows, image.cols);
-
-        int y_coord_from_bottom = CalculateYFromBottomBar(
-          rect_from_hori_bar.size.height, rect_from_hori_bar.center.y);
-
-        if (search_only_bottom_()) {
-          center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
-          if (debug_contour_()) {
-            cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-          }
-            setCameraOffset(center, image.rows, image.cols);
-
-          fence.SetCenter(center);
-
+        inline bool isNearExtremum(int x_coord, int leftX, int rightX) {
+            return isBetweenLimit(x_coord, leftX) || isBetweenLimit(x_coord, rightX);
         }
-        else  // Gets the two best vertical bar to compute our y center.
-        {
-          std::sort(verticalBars.begin(), verticalBars.end(),
-            [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                return a->getRotRect().size.height >
-                       b->getRotRect().size.height;
-            });
 
-          std::vector<cv::Point2f> final_vert_bar;
-          int leftX, rightX;
-          GetBottomBarXExtremum(final_horizontal_bar, leftX, rightX);
-
-          // Extract the two major bar that are near the extremum of the bottom
-          // post.
-          int i = 0, size = verticalBars.size(), bar_founded = 0;
-          for (; i < size && bar_founded != 2; i++) {
-              if (IsNearExtremum(verticalBars[i]->getRotRect().center.x, leftX,
-                                 rightX)) {
-                  final_vert_bar.push_back(verticalBars[i]->getRotRect().center);
-                  if (debug_contour_()) {
-                      cv::circle(output_image_,
-                                 verticalBars[i]->getRotRect().center, 5,
-                                 CV_RGB(0, 255, 255), 20);
-                  }
-                  bar_founded++;
-              }
-          }
-
-          if (bar_founded == 2) {
-              int x = 0, y = 0;
-              // X from bottom bar plus
-              x = (rect_from_hori_bar.center.x +
-                   (final_vert_bar[0].x + final_vert_bar[1].x) / 2) /
-                  2;
-
-              y = (y_coord_from_bottom + final_vert_bar[0].y +
-                   final_vert_bar[1].y) /
-                  3;
-              center = cv::Point(x, y);
-              if (debug_contour_()) {
-                  cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-              }
-              setCameraOffset(center, image.rows, image.cols);
-              fence.SetCenter(center);
-          }
-          else if (bar_founded == 1) {
-              int y = (y_coord_from_bottom + final_vert_bar[0].y) / 2;
-              center = cv::Point(rect_from_hori_bar.center.x, y);
-              if (debug_contour_()) {
-                  cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-              }
-              setCameraOffset(center, image.rows, image.cols);
-              fence.SetCenter(center);
-          }
-          else {
-              center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
-              if (debug_contour_()) {
-                  cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
-              }
-              setCameraOffset(center, image.rows, image.cols);
-              fence.SetCenter(center);
-          }
+        inline bool isBetweenLimit(int pt_x, int ref_x) {
+            int left_max = (ref_x - max_distance_from_bottom_bar_extremum_());
+            int right_max = (ref_x + max_distance_from_bottom_bar_extremum_());
+            bool left_ok = left_max < pt_x;
+            bool right_ok = right_max > pt_x;
+            return left_ok && right_ok;
         }
-        NotifyTarget(fence);
-      }
-      if (debug_contour_()) {
-        output_image_.copyTo(image);
-      }
-    }
 
-  private:
-    inline int CalculateYFromBottomBar(float bar_size, int bar_y) {
-      int offset = static_cast<int>((bar_size) / 5.0f);
-      return bar_y - offset;
-    }
+        inline bool isSplitBar(ObjectFullData::Ptr ref, ObjectFullData::Ptr &comp) {
+            float ratio_diff =
+                    std::abs(comp->GetRatio() - ref->GetRatio()) / ref->GetRatio();
+            float y_diff =
+                    std::abs(comp->getCenterPoint().y - ref->getCenterPoint().y) / ref->getCenterPoint().y;
 
-    inline void GetBottomBarXExtremum(ObjectFullData::Ptr bottom_bar, int& leftX,
-      int& rightX) {
-      leftX = 20000;
-      rightX = -1;
-        contour_t contour = bottom_bar->getContourCopy().getContour();
-      for (auto pt : contour) {
-        if (leftX > pt.x) {
-          leftX = pt.x;
+            bool ratio_ok = ratio_diff < 0.1;
+            bool y_diff_ok = y_diff < 0.1;
+            return ratio_ok && y_diff_ok;
         }
-        if (rightX < pt.x) {
-          rightX = pt.x;
-        }
-      }
-    }
 
-    inline bool IsNearExtremum(int x_coord, int leftX, int rightX) {
-      return IsBetweenLimit(x_coord, leftX) || IsBetweenLimit(x_coord, rightX);
-    }
+        Parameter<bool> enable_, debug_contour_, search_only_bottom_;
+        // tbca = To Be Consider As
+        RangedParameter<int> min_length_, max_distance_from_bottom_bar_extremum_,
+                min_area_, max_diff_from_90_tbca_horizontal_,
+                max_diff_from_0_tbca_vertical_, min_percent_filled_;
 
-    inline bool IsBetweenLimit(int pt_x, int ref_x) {
-      int left_max = (ref_x - max_distance_from_bottom_bar_extremum_());
-      int right_max = (ref_x + max_distance_from_bottom_bar_extremum_());
-      bool left_ok = left_max < pt_x;
-      bool right_ok = right_max > pt_x;
-      return left_ok && right_ok;
-    }
-
-    inline bool IsSplitBar(ObjectFullData::Ptr ref, ObjectFullData::Ptr& comp) {
-        float ratio_diff =
-                std::abs(comp->GetRatio() - ref->GetRatio()) / ref->GetRatio();
-        float y_diff =
-                std::abs(comp->getCenterPoint().y - ref->getCenterPoint().y) / ref->getCenterPoint().y;
-
-      bool ratio_ok = ratio_diff < 0.1;
-      bool y_diff_ok = y_diff < 0.1;
-      return ratio_ok && y_diff_ok;
-    }
-
-    Parameter<bool> enable_, debug_contour_, search_only_bottom_;
-    // tbca = To Be Consider As
-    RangedParameter<int> min_length_, max_distance_from_bottom_bar_extremum_,
-      min_area_, max_diff_from_90_tbca_horizontal_,
-      max_diff_from_0_tbca_vertical_, min_percent_filled_;
-
-    cv::Mat output_image_;
-    ObjectFeatureFactory feat_factory_;
-  };
+        cv::Mat output_image_;
+        ObjectFeatureFactory feat_factory_;
+    };
 
 }  // namespace proc_image_processing
 

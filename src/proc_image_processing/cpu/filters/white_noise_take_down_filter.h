@@ -3,17 +3,17 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=WhiteNoiseTakeDown
 
-#ifndef PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKEDOWN_H_
-#define PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKEDOWN_H_
+#ifndef PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKE_DOWN_H_
+#define PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKE_DOWN_H_
 
 #include "filter.h"
 #include <memory>
 
 namespace proc_image_processing {
 
-  class WhiteNoiseTakeDown : public Filter {
-  public:
-    using Ptr = std::shared_ptr<WhiteNoiseTakeDown>;
+    class WhiteNoiseTakeDown : public Filter {
+    public:
+        using Ptr = std::shared_ptr<WhiteNoiseTakeDown>;
 
     explicit WhiteNoiseTakeDown(const GlobalParamHandler& globalParams)
       : Filter(globalParams),
@@ -26,22 +26,22 @@ namespace proc_image_processing {
       high_r_("HighR", 0, 0, 255, &parameters_),
       view_channel_("Channel_view", 0, 0, 3, &parameters_,
         "0=ALL, 1=Blue, 2=Green, 3=Red") {
-      SetName("WhiteNoiseTakeDown");
+        setName("WhiteNoiseTakeDown");
     }
 
     virtual ~WhiteNoiseTakeDown() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        std::vector<cv::Mat> channels;
-        cv::Mat original_image(global_params_.getOriginalImage());
-        cv::split(original_image, channels);
-        cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
-        cv::inRange(channels[1], low_g_(), high_g_(), channels[1]);
-        cv::inRange(channels[2], low_r_(), high_r_(), channels[2]);
-        cv::Mat result;
-        cv::bitwise_or(channels[0], channels[1], result);
-        cv::bitwise_or(channels[2], result, result);
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                std::vector<cv::Mat> channels;
+                cv::Mat original_image(global_params_.getOriginalImage());
+                cv::split(original_image, channels);
+                cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
+                cv::inRange(channels[1], low_g_(), high_g_(), channels[1]);
+                cv::inRange(channels[2], low_r_(), high_r_(), channels[2]);
+                cv::Mat result;
+                cv::bitwise_or(channels[0], channels[1], result);
+                cv::bitwise_or(channels[2], result, result);
         std::vector<cv::Mat> res;
 
         switch (view_channel_()) {
@@ -78,4 +78,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_INRANGE_H_
+#endif  // PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKE_DOWN_H_

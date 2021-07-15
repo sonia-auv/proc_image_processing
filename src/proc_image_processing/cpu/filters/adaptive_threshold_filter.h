@@ -23,22 +23,22 @@ namespace proc_image_processing {
         "0=BIN, 1=BIN_INV"),
       _block_size("Size", 1, 1, 40, &parameters_),
       c_param_("C_param", 0.0f, -255.0f, 255.0f, &parameters_) {
-      SetName("AdaptiveThreshold");
+        setName("AdaptiveThreshold");
     }
 
     virtual ~AdaptiveThreshold() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        int size = _block_size() * 2 + 1;
-        int method = method_() == 0 ? cv::ADAPTIVE_THRESH_GAUSSIAN_C
-          : cv::ADAPTIVE_THRESH_MEAN_C;
-        int type =
-          threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
-        cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              int size = _block_size() * 2 + 1;
+              int method = method_() == 0 ? cv::ADAPTIVE_THRESH_GAUSSIAN_C
+                                          : cv::ADAPTIVE_THRESH_MEAN_C;
+              int type =
+                      threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
+              cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
       }
     }
 

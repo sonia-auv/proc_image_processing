@@ -22,22 +22,22 @@ namespace proc_image_processing {
       mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
       std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
         &parameters_) {
-      SetName("StatsThreshold");
+        setName("StatsThreshold");
     }
 
     virtual ~StatsThreshold() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        if (image.depth() != CV_8U) {
-          image.convertTo(image, CV_8U);
-        }
-        cv::Scalar mean, stdDev;
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              if (image.depth() != CV_8U) {
+                  image.convertTo(image, CV_8U);
+              }
+              cv::Scalar mean, stdDev;
 
-        cv::meanStdDev(image, mean, stdDev);
+              cv::meanStdDev(image, mean, stdDev);
         int thresh_val =
           mean[0] * mean_multiplier_() + stdDev[0] * std_dev_multiplier_();
         thresh_val = thresh_val < min_thresh_() ? min_thresh_() : thresh_val;

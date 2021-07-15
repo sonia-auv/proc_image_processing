@@ -21,22 +21,22 @@ namespace proc_image_processing {
       type_("Threshold_type", 1, 0, 5, &parameters_,
         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
       max_("Max_value", 100, 0, 255, &parameters_) {
-      SetName("Threshold");
+        setName("Threshold");
     }
 
     virtual ~Threshold() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        if (image.depth() != CV_8U) {
-          image.convertTo(image, CV_8U);
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              if (image.depth() != CV_8U) {
+                  image.convertTo(image, CV_8U);
+              }
 
-        int threshold_type = CV_THRESH_BINARY;
-        switch (type_()) {
+              int threshold_type = CV_THRESH_BINARY;
+              switch (type_()) {
         case 0:
           threshold_type = CV_THRESH_BINARY;
           break;

@@ -32,52 +32,52 @@ namespace proc_image_processing {
       plane_saturation_("Saturation", false, &parameters_),
       plane_intensity_("Intensity", false, &parameters_),
       plane_gray_("Gray", false, &parameters_) {
-      SetName("ScharrAdding");
+        setName("ScharrAdding");
     }
 
     virtual ~ScharrAdding() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-          if (image.channels() != 3) return;
-          if (run_small_image_()) {
-              cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() != 3) return;
+              if (run_small_image_()) {
+                  cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
+              }
+
+              std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
+              cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
+
+              if (plane_blue_()) cv::add(getScharr(colorPlanes[0]), sum, sum);
+              if (plane_green_()) cv::add(getScharr(colorPlanes[1]), sum, sum);
+              if (plane_red_()) cv::add(getScharr(colorPlanes[2]), sum, sum);
+              if (plane_hue_()) cv::add(getScharr(colorPlanes[3]), sum, sum);
+              if (plane_saturation_()) cv::add(getScharr(colorPlanes[4]), sum, sum);
+              if (plane_intensity_()) cv::add(getScharr(colorPlanes[5]), sum, sum);
+              if (plane_gray_()) cv::add(getScharr(colorPlanes[6]), sum, sum);
+
+              sum.copyTo(image);
+              if (run_small_image_()) {
+                  cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
+              }
+
+              if (convert_to_uchar_() && image.channels() < 3) {
+                  cv::cvtColor(image, image, CV_GRAY2BGR);
+              }
           }
-
-          std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
-          cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
-
-          if (plane_blue_()) cv::add(calcScharr(colorPlanes[0]), sum, sum);
-          if (plane_green_()) cv::add(calcScharr(colorPlanes[1]), sum, sum);
-          if (plane_red_()) cv::add(calcScharr(colorPlanes[2]), sum, sum);
-          if (plane_hue_()) cv::add(calcScharr(colorPlanes[3]), sum, sum);
-          if (plane_saturation_()) cv::add(calcScharr(colorPlanes[4]), sum, sum);
-          if (plane_intensity_()) cv::add(calcScharr(colorPlanes[5]), sum, sum);
-          if (plane_gray_()) cv::add(calcScharr(colorPlanes[6]), sum, sum);
-
-          sum.copyTo(image);
-          if (run_small_image_()) {
-              cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
-          }
-
-          if (convert_to_uchar_() && image.channels() < 3) {
-              cv::cvtColor(image, image, CV_GRAY2BGR);
-          }
-      }
     }
 
   private:
-    cv::Mat calcScharr(const cv::Mat& img) {
-      cv::Mat abs_x, scharrX, abs_y, scharrY, diff;
+      cv::Mat getScharr(const cv::Mat &img) {
+          cv::Mat abs_x, scharrX, abs_y, scharrY, diff;
 
-      cv::Scharr(img, scharrX, CV_32F, 1, 0, scale_(), delta_(),
-        cv::BORDER_REPLICATE);
-      cv::Scharr(img, scharrY, CV_32F, 0, 1, scale_(), delta_(),
-        cv::BORDER_REPLICATE);
-      cv::absdiff(scharrX, 0, scharrX);
-      cv::absdiff(scharrY, 0, scharrY);
+          cv::Scharr(img, scharrX, CV_32F, 1, 0, scale_(), delta_(),
+                     cv::BORDER_REPLICATE);
+          cv::Scharr(img, scharrY, CV_32F, 0, 1, scale_(), delta_(),
+                     cv::BORDER_REPLICATE);
+          cv::absdiff(scharrX, 0, scharrX);
+          cv::absdiff(scharrY, 0, scharrY);
 
-      cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, diff, CV_32F);
+          cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, diff, CV_32F);
 
       cv::Scalar mean = cv::mean(diff);
       cv::threshold(diff, diff, (mean[0] * mean_multiplier_()), 0,

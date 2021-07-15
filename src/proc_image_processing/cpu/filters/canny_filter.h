@@ -22,20 +22,20 @@ namespace proc_image_processing {
       thresh_one_("thres_one", 100, 0, 255, &parameters_),
       thresh_two_("thres_two", 200, 0, 255, &parameters_),
       aperture_size_("Aperture_size", 3, 0, 20, &parameters_) {
-      SetName("Canny");
+        setName("Canny");
     }
 
     virtual ~Canny() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        cv::Canny(image, image, thresh_one_(), thresh_two_(),
-          aperture_size_() * 2 + 1, l2_gradiant_());
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              cv::Canny(image, image, thresh_one_(), thresh_two_(),
+                        aperture_size_() * 2 + 1, l2_gradiant_());
+          }
       }
-    }
 
   private:
     Parameter<bool> enable_, l2_gradiant_;

@@ -24,14 +24,14 @@ namespace proc_image_processing {
             look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
             min_area_("Min_area", 100, 1, 10000, &parameters_),
             max_area_("Max_area", 1000, 1, 50000, &parameters_) {
-            SetName("VampireBodyDetector");
+            setName("VampireBodyDetector");
         }
 
         virtual ~VampireBodyDetector() {}
 
-        virtual void Execute(cv::Mat& image) {
+        virtual void apply(cv::Mat &image) {
             if (enable_()) {
-                std::string objectif;
+                std::string objective;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
                     cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -79,7 +79,7 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        objectif = "vampire_torpedoes";
+                        objective = "vampire_torpedoes";
 
                     }
 
@@ -96,9 +96,9 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
-                    target.SetTarget(objectif, center.x, center.y, object->getWidth(), object->getHeight(),
+                    target.SetTarget(objective, center.x, center.y, object->getWidth(), object->getHeight(),
                                      object->getRotRect().angle, image.rows, image.cols);
-                    NotifyTarget(target);
+                    notify(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
                     }

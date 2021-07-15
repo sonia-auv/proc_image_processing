@@ -19,16 +19,16 @@ namespace proc_image_processing {
       : Filter(globalParams),
       enable_("Enable", false, &parameters_),
       _string("String_to_return", "test", &parameters_) {
-      SetName("MissionTestFakeString");
+        setName("MissionTestFakeString");
     }
 
     virtual ~MissionTestFakeString() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        NotifyTarget(Target());
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              notify(Target());
+          }
       }
-    }
 
   private:
     Parameter<bool> enable_;

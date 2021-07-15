@@ -17,16 +17,16 @@ namespace proc_image_processing {
 
     explicit OriginalImage(const GlobalParamHandler& globalParams)
       : Filter(globalParams), enable_("Enable", false, &parameters_) {
-      SetName("OriginalImage");
+        setName("OriginalImage");
     }
 
     virtual ~OriginalImage() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        image = global_params_.getOriginalImage();
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              image = global_params_.getOriginalImage();
+          }
       }
-    }
 
   private:
     Parameter<bool> enable_;

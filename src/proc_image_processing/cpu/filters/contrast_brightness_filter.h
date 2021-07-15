@@ -27,12 +27,12 @@ namespace proc_image_processing {
                               "Set Brightness"),
                   rows_(0),
                   cols_(0) {
-            SetName("ContrastBrightness");
+            setName("ContrastBrightness");
         }
 
         virtual ~ContrastBrightness() {}
 
-        virtual void Execute(cv::Mat &image) {
+        virtual void apply(cv::Mat &image) {
             if (enable_()) {
                 rows_ = image.rows;
                 cols_ = image.cols;

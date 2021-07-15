@@ -10,22 +10,22 @@ namespace proc_image_processing {
     if (image.channels() != 1) {
       cv::Mat image2;
       cv::cvtColor(image, image2, CV_BGR2GRAY);
-      image2.copyTo(image);
+        image2.copyTo(image);
     }
 
-    // Gets the moment by opencv moment function
-    cv_moments_ = cv::moments(image, binary);
+      // Gets the moment by opencv moment function
+      cv_moments_ = cv::moments(image, binary);
 
-    mass_center_ = cv::Point2f(cv_moments_.m10 / cv_moments_.m00,
-      cv_moments_.m01 / cv_moments_.m00);
+      mass_center_ = cv::Point2f(cv_moments_.m10 / cv_moments_.m00,
+                                 cv_moments_.m01 / cv_moments_.m00);
 
-    // Here, remember that the mome are calculated on an image. If the image
-    // was extract from a rotatedRect, it means the coordinate are in the angle
-    // of the rotatedRect. X and Y axis of the image are rotated of angle degree
-    real_center_ = cv::Point(image.cols / 2, image.rows / 2);
+      // Here, remember that the mome are calculated on an image. If the image
+      // was extract from a rotatedRect, it means the coordinate are in the getAngle
+      // of the rotatedRect. X and Y axis of the image are rotated of getAngle degree
+      real_center_ = cv::Point(image.cols / 2, image.rows / 2);
 
-    x_distance_from_center_ = mass_center_.x - real_center_.x;
-    y_distance_from_center_ = mass_center_.y - real_center_.y;
+      x_distance_from_center_ = mass_center_.x - real_center_.x;
+      y_distance_from_center_ = mass_center_.y - real_center_.y;
   }
 
   Moments::Moments() {

@@ -19,7 +19,7 @@ namespace proc_image_processing {
     // for angles of 90 +- index_in_array.
     // Exemple:
     // DEGREE_ACCURACY_FOR_90[5] is the result of norm(A X B)/(norm(A) * norm(B))
-    // when the angle between A and B is 90+t or 90-5
+    // when the getAngle between A and B is 90+t or 90-5
     const float ACCURACY_TABLE[ACCURACY_TABLE_SIZE] = {
             1.0f, 0.999848, 0.999391, 0.99863, 0.997564, 0.996195, 0.994522,
             0.992546, 0.990268, 0.987688, 0.984808, 0.981627, 0.978148, 0.97437,

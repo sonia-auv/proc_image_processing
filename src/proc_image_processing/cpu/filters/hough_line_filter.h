@@ -23,22 +23,22 @@ namespace proc_image_processing {
       min_length_("Min_length", 1, 0, 1000, &parameters_),
       max_gap_("Max_gap", 1, 0, 1000, &parameters_),
       threshold_("Threshold", 1, 0, 1000, &parameters_) {
-      SetName("HoughLine");
+        setName("HoughLine");
     }
 
     virtual ~HoughLine() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
 
-        std::vector<cv::Vec4i> lines;
-        cv::HoughLinesP(image, lines, rho_(), theta_(), threshold_(),
-          min_length_(), max_gap_());
+              std::vector<cv::Vec4i> lines;
+              cv::HoughLinesP(image, lines, rho_(), theta_(), threshold_(),
+                              min_length_(), max_gap_());
 
-        cv::Mat drawing_image(image.rows, image.cols, CV_8UC3,
+              cv::Mat drawing_image(image.rows, image.cols, CV_8UC3,
           cv::Scalar::all(0));
         for (const auto& line : lines) {
           cv::line(drawing_image, cv::Point(line[0], line[1]),

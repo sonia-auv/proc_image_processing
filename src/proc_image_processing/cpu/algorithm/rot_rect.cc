@@ -35,10 +35,10 @@ namespace proc_image_processing {
   void RotRect::setValues() {
     float in_angle = angle;
     float out_angle = in_angle;
-    // angle is consider in of height in opencv
-    // since height always is not always on the longest size,
-    // make sure always return the longest size in the height
-    // and makes the angle follow.
+    // getAngle is consider in of height in opencv
+      // since height always is not always on the longest size,
+      // make sure always return the longest size in the height
+      // and makes the getAngle follow.
     if (size.width > size.height) {
       std::swap(size.width, size.height);
       if (in_angle < 0)

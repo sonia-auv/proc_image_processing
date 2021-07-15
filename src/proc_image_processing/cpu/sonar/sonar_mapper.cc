@@ -28,8 +28,8 @@ void SonarMapper::AddScanlineToMap(const sensor_msgs::PointCloud2::ConstPtr &msg
 
   Eigen::Affine3d transform;
   // The transform order is:
-  // 1) rotate the pointcloud coordinate (from local heading to global angle)
-  // 2) translate it to the submarine's position (from local to global position)
+    // 1) rotate the pointcloud coordinate (from local heading to global getAngle)
+    // 2) translate it to the submarine's position (from local to global position)
   // 3) Scale it to the map's pixel by meter (ex. 10 cm = 1 pixel)
   // 4) Transport it to the center of the map (since the Mat center is width/2 an cols/2)
   //

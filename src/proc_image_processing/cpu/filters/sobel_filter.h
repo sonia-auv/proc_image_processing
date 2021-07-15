@@ -26,22 +26,22 @@ namespace proc_image_processing {
       power_pixel_correction_("pixel_correction_power", 1, -10, 10,
         &parameters_),
       size_("Size", 2, 1, 20, &parameters_) {
-      SetName("Sobel");
+        setName("Sobel");
     }
 
     virtual ~Sobel() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (image.channels() > 1) {
-          cv::cvtColor(image, image, CV_BGR2GRAY);
-        }
-        cv::Mat sobelX, sobelY;
-        int size = size_() * 2 + 1;
-        cv::Sobel(image, sobelX, CV_32F, 1, 0, size, scale_(), delta_(),
-          cv::BORDER_DEFAULT);
-        cv::Sobel(image, sobelY, CV_32F, 0, 1, size, scale_(), delta_(),
-          cv::BORDER_DEFAULT);
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (image.channels() > 1) {
+                  cv::cvtColor(image, image, CV_BGR2GRAY);
+              }
+              cv::Mat sobelX, sobelY;
+              int size = size_() * 2 + 1;
+              cv::Sobel(image, sobelX, CV_32F, 1, 0, size, scale_(), delta_(),
+                        cv::BORDER_DEFAULT);
+              cv::Sobel(image, sobelY, CV_32F, 0, 1, size, scale_(), delta_(),
+                        cv::BORDER_DEFAULT);
 
         cv::absdiff(sobelX, 0, sobelX);
         cv::absdiff(sobelY, 0, sobelY);

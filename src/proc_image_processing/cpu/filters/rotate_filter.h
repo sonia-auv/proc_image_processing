@@ -21,22 +21,22 @@ namespace proc_image_processing {
       transpose_("transpose", false, &parameters_),
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
         "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis") {
-      SetName("Rotate");
+        setName("Rotate");
     }
 
     virtual ~Rotate() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (transpose_()) cv::transpose(image, image);
-        switch (rotate_type_()) {
-        case 0:
-          break;
-        case 1:
-          cv::flip(image, image, 0);
-          break;
-        case 2:
-          cv::flip(image, image, 1);
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (transpose_()) cv::transpose(image, image);
+              switch (rotate_type_()) {
+                  case 0:
+                      break;
+                  case 1:
+                      cv::flip(image, image, 0);
+                      break;
+                  case 2:
+                      cv::flip(image, image, 1);
           break;
         case 3:
           cv::flip(image, image, -1);

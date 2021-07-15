@@ -434,7 +434,7 @@ namespace proc_image_processing {
 
         // to have a single loop and less if statement,
         // we add the first contours to the end, so we can get the last
-        // angle value.
+        // getAngle value.
         longestVertices.push_back(longestVertices[0]);
         for (j = 0, size = longestVertices.size() - 1; j < size; j++) {
             cv::Vec3f A = longestVertices[j];

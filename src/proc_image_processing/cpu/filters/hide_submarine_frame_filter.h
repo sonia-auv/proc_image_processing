@@ -21,7 +21,7 @@ namespace proc_image_processing {
       rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
         "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
       prev_rot_value_(0) {
-      SetName("SubmarineFrameMasker");
+        setName("SubmarineFrameMasker");
       std::string mask_name =
         std::string(getenv("SONIA_WORKSPACE_ROOT")) +
         std::string("/ros/src/vision_server/config/bottom_mask.jpg");
@@ -30,17 +30,17 @@ namespace proc_image_processing {
 
     virtual ~SubmarineFrameMasker() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        if (prev_rot_value_ != rotate_type_()) {
-          prev_rot_value_ = rotate_type_();
-          switch (rotate_type_()) {
-          case 1:
-            cv::flip(bottom_mask_, bottom_mask_, 0);
-            break;
-          case 2:
-            cv::flip(bottom_mask_, bottom_mask_, 1);
-            break;
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              if (prev_rot_value_ != rotate_type_()) {
+                  prev_rot_value_ = rotate_type_();
+                  switch (rotate_type_()) {
+                      case 1:
+                          cv::flip(bottom_mask_, bottom_mask_, 0);
+                          break;
+                      case 2:
+                          cv::flip(bottom_mask_, bottom_mask_, 1);
+                          break;
           case 3:
             cv::flip(bottom_mask_, bottom_mask_, -1);
             break;

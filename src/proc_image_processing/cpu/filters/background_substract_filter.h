@@ -27,22 +27,22 @@ namespace proc_image_processing {
       show_blurred_("Show_blurred", false, &parameters_),
       blur_size_("Blur_size", 255, 0, 1000, &parameters_),
       sigma_("Sigma", 10, 0, 100, &parameters_) {
-      SetName("BackgroundSubstract");
+        setName("BackgroundSubstract");
     }
 
     virtual ~BackgroundSubstract() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        std::vector<cv::Mat> channels;
-        split(image, channels);
-        cv::Mat b = channels[0];
-        cv::Mat g = channels[1];
-        cv::Mat r = channels[2];
-        cv::Mat blurB, blurG, blurR;
-        cv::blur(b, blurB,
-          cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));
-        cv::blur(g, blurG,
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              std::vector<cv::Mat> channels;
+              split(image, channels);
+              cv::Mat b = channels[0];
+              cv::Mat g = channels[1];
+              cv::Mat r = channels[2];
+              cv::Mat blurB, blurG, blurR;
+              cv::blur(b, blurB,
+                       cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));
+              cv::blur(g, blurG,
           cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));
         cv::blur(r, blurR,
           cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));

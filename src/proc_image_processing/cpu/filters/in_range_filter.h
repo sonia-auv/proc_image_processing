@@ -37,29 +37,29 @@ namespace proc_image_processing {
       upper_u_("LUVhighU", 255, 0, 255, &parameters_),
       lower_v_("LUVlowV", 0, 0, 255, &parameters_),
       upper_v_("LUVhighV", 255, 0, 255, &parameters_) {
-      SetName("InRange");
+        setName("InRange");
     }
 
     virtual ~InRange() {}
 
-    /**
-     * Overrides the execute function from the Filter class.
-     * This is the function that is going to be called for processing the image.
-     * This takes an image as a parameter and modify it with the filtered image.
-     *
-     * \param image The image to process.
-     */
-    void Execute(cv::Mat& image) override {
-      if (enable_.GetValue()) {
-        cv::Mat hsv;
-        cv::Mat luv;
+      /**
+       * Overrides the execute function from the Filter class.
+       * This is the function that is going to be called for processing the image.
+       * This takes an image as a parameter and modify it with the filtered image.
+       *
+       * \param image The image to process.
+       */
+      void apply(cv::Mat &image) override {
+          if (enable_.GetValue()) {
+              cv::Mat hsv;
+              cv::Mat luv;
 
-        cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
-        cv::inRange(
-          hsv, cv::Scalar(lower_hue_.GetValue(), lower_saturation_.GetValue(),
-            lower_value_.GetValue()),
-          cv::Scalar(upper_hue_.GetValue(), upper_saturation_.GetValue(),
-            upper_value_.GetValue()),
+              cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
+              cv::inRange(
+                      hsv, cv::Scalar(lower_hue_.GetValue(), lower_saturation_.GetValue(),
+                                      lower_value_.GetValue()),
+                      cv::Scalar(upper_hue_.GetValue(), upper_saturation_.GetValue(),
+                                 upper_value_.GetValue()),
           hsv);
 
         cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);

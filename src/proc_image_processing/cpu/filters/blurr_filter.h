@@ -28,22 +28,22 @@ namespace proc_image_processing {
         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
       kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
       anchor_(-1, -1) {
-      SetName("Blurr");
+        setName("Blurr");
     }
 
     virtual ~Blurr() {}
 
-    virtual void Execute(cv::Mat& image) {
-      if (enable_()) {
-        cv::Size2i kernelSize((int)kernel_size_() * 2 + 1,
-          (int)(kernel_size_() * 2 + 1));
-        switch (type_()) {
-          // Could be optimized via function pointer maybe?
-        case 0:
-          break;
-        case 1:
-          cv::blur(image, image, kernelSize, anchor_);
-          break;
+      virtual void apply(cv::Mat &image) {
+          if (enable_()) {
+              cv::Size2i kernelSize((int) kernel_size_() * 2 + 1,
+                                    (int) (kernel_size_() * 2 + 1));
+              switch (type_()) {
+                  // Could be optimized via function pointer maybe?
+                  case 0:
+                      break;
+                  case 1:
+                      cv::blur(image, image, kernelSize, anchor_);
+                      break;
         case 2:
           cv::GaussianBlur(image, image, kernelSize, 0, 0);
           break;
