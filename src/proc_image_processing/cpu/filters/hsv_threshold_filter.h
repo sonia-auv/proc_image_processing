@@ -60,7 +60,7 @@ namespace proc_image_processing {
           cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
         // Replace with new images
-        channel_vec_ = GetColorPlanes(image);
+        channel_vec_ = getColorPlanes(image);
           set_image(H_INDEX, hue);
           set_image(S_INDEX, saturation);
           set_image(V_INDEX, value);

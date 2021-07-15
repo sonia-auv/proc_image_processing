@@ -83,19 +83,19 @@ namespace proc_image_processing {
         contourList_t contours;
         switch (contour_retreval_()) {
         case 0:
-          RetrieveAllContours(image, contours);
+            retrieveAllContours(image, contours);
           break;
         case 1:
-            RetrieveOuterContours(image, contours);
+            retrieveOuterContours(image, contours);
           break;
         case 2:
-            RetrieveAllInnerContours(image, contours);
+            retrieveAllInnerContours(image, contours);
           break;
         case 3:
-            RetrieveInnerContours(image, contours);
+            retrieveInnerContours(image, contours);
           break;
         case 4:
-            RetrieveOutNoChildContours(image, contours);
+            retrieveNoChildAndParentContours(image, contours);
           break;
         }
 
@@ -139,7 +139,7 @@ namespace proc_image_processing {
             // PERCENT FILLED
             feature_factory_.PercentFilledFeature(object);
             float percent_filled =
-                    CalculatePourcentFilled(image, object->GetUprightRect());
+                    getPercentFilled(image, object->GetUprightRect());
             if ((percent_filled) < min_percent_filled_()) {
                 continue;
             }
@@ -155,8 +155,8 @@ namespace proc_image_processing {
             }
 
             // RECTANGLE
-            if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
-                // if (look_for_rectangle_() && !IsSquare(contours[i], min_area_(),
+            if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
+                // if (look_for_rectangle_() && !isSquare(contours[i], min_area_(),
                 // 80.0f, 0.0f, 100.0f)) {
                 continue;
             }

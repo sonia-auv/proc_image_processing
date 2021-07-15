@@ -63,7 +63,7 @@ namespace proc_image_processing {
         contour[i].y = int(pts[i].y);
       }
       contours.push_back(contour);
-      contours.push_back(object->GetContourCopy().GetContour());
+        contours.push_back(object->getContourCopy().getContour());
 
       // Draw the biggest one (contour by corners)
       // Then draw the contour in black over the biggest one.
@@ -85,8 +85,8 @@ namespace proc_image_processing {
     if (object.get() != nullptr) {
       cv::Mat binaryImage(object->GetImageSize(), CV_8UC3, cv::Scalar::all(0));
       contourList_t contours;
-      contours.push_back(object->GetContourCopy().GetContour());
-      cv::drawContours(binaryImage, contours, -1, CV_RGB(255, 255, 255), -1);
+        contours.push_back(object->getContourCopy().getContour());
+        cv::drawContours(binaryImage, contours, -1, CV_RGB(255, 255, 255), -1);
       cv::cvtColor(binaryImage, binaryImage, CV_BGR2GRAY);
       cv::Mat colorbinaryImage;
 

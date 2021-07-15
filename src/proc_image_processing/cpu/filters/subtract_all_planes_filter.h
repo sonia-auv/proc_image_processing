@@ -59,7 +59,7 @@ namespace proc_image_processing {
           cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
         // Replace with new images
-        channel_vec_ = GetColorPlanes(image);
+        channel_vec_ = getColorPlanes(image);
 
           // Set subtraction
           if (plane_one_() != 0)
@@ -89,7 +89,7 @@ namespace proc_image_processing {
       channel_vec_[index].copyTo(out);
 
       if (inverse) {
-          InverseImage(out, out);
+          inverseImage(out, out);
       }
       cv::multiply(out, one, out, weight, CV_8UC1);
     }

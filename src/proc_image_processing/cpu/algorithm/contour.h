@@ -25,45 +25,45 @@ namespace proc_image_processing {
         /**
          * Approximate contours and merges vertex together
          */
-        void Approximate(double accuracy);
+        void approximate(double accuracy);
 
-        void ApproximateBySize();
+        void approximateBySize();
 
         /**
          * Draw contour in the image.
          */
-        void DrawContours(cv::Mat &image, const cv::Scalar &color, int thickness) const;
+        void drawContours(cv::Mat &image, const cv::Scalar &color, int thickness) const;
 
-        size_t GetSize();
+        size_t getSize();
 
-        std::vector<cv::Point> GetContour();
+        std::vector<cv::Point> getContour();
 
         std::vector<cv::Point> contour_;
     };
 
-    inline void Contour::Approximate(double accuracy) {
+    inline void Contour::approximate(double accuracy) {
         std::vector<cv::Point> output;
         cv::approxPolyDP(contour_, output, accuracy, false);
         std::swap(contour_, output);
     }
 
-    inline void Contour::ApproximateBySize() {
+    inline void Contour::approximateBySize() {
         double arc_length = 0.1 * cv::arcLength(contour_, true);
         std::vector<cv::Point> output;
         cv::approxPolyDP(contour_, output, arc_length, false);
         std::swap(contour_, output);
     }
 
-    inline void Contour::DrawContours(cv::Mat &image, const cv::Scalar &color,
+    inline void Contour::drawContours(cv::Mat &image, const cv::Scalar &color,
                                       int thickness) const {
-        std::vector<ContourVec> ctrs;
-        ctrs.push_back(contour_);
-        cv::drawContours(image, ctrs, -1, color, thickness);
+        std::vector<ContourVec> contours;
+        contours.push_back(contour_);
+        cv::drawContours(image, contours, -1, color, thickness);
     }
 
-    inline size_t Contour::GetSize() { return contour_.size(); }
+    inline size_t Contour::getSize() { return contour_.size(); }
 
-    inline std::vector<cv::Point> Contour::GetContour() { return contour_; }
+    inline std::vector<cv::Point> Contour::getContour() { return contour_; }
 
     inline cv::Point Contour::operator[](unsigned int index) {
         return contour_[index];

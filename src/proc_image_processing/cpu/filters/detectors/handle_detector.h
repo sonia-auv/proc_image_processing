@@ -60,7 +60,7 @@ namespace proc_image_processing {
         timer.UpdateStartTime();
 
         contourList_t contours;
-        RetrieveAllContours(image, contours);
+          retrieveAllContours(image, contours);
         ObjectFullData::FullObjectPtrVec objVec;
         for (int i = 0, size = contours.size(); i < size; i++) {
           ObjectFullData::Ptr object =
@@ -95,7 +95,7 @@ namespace proc_image_processing {
             }
 
             // RECTANGLE
-            if (look_for_rectangle_() && !IsRectangle(contours[i], 10)) {
+            if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
                 continue;
             }
 

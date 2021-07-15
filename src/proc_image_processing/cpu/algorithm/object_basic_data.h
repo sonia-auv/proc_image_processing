@@ -77,7 +77,7 @@ namespace proc_image_processing {
 
     cv::Mat GetBinaryImageAtUprightRect();
 
-    Contour GetContourCopy();
+    Contour getContourCopy();
 
     cv::Size GetImageSize();
 
@@ -108,24 +108,24 @@ namespace proc_image_processing {
 
   inline float ObjectBasicData::GetArea() {
     if (!is_calculated_map_[AREA]) {
-      area_ = cv::contourArea(contour_.GetContour(), false);
-      is_calculated_map_[AREA] = true;
+        area_ = cv::contourArea(contour_.getContour(), false);
+        is_calculated_map_[AREA] = true;
     }
     return area_;
   }
 
   inline float ObjectBasicData::GetHeight() {
     if (!is_calculated_map_[ROTATED_RECT]) {
-      rect_ = RotRect(contour_.GetContour());
-      is_calculated_map_[ROTATED_RECT] = true;
+        rect_ = RotRect(contour_.getContour());
+        is_calculated_map_[ROTATED_RECT] = true;
     }
     return rect_.size.height;
   }
 
   inline float ObjectBasicData::GetWidth() {
     if (!is_calculated_map_[ROTATED_RECT]) {
-      rect_ = RotRect(contour_.GetContour());
-      is_calculated_map_[ROTATED_RECT] = true;
+        rect_ = RotRect(contour_.getContour());
+        is_calculated_map_[ROTATED_RECT] = true;
     }
     return rect_.size.width;
   }
@@ -139,8 +139,8 @@ namespace proc_image_processing {
   inline float ObjectBasicData::GetConvexHullArea() {
     if (!is_calculated_map_[CONVEX_HULL]) {
       contour_t convexHull;
-      cv::convexHull(contour_.GetContour(), convexHull, false, true);
-      convex_hull_area_ = cv::contourArea(convexHull, false);
+        cv::convexHull(contour_.getContour(), convexHull, false, true);
+        convex_hull_area_ = cv::contourArea(convexHull, false);
       is_calculated_map_[CONVEX_HULL] = true;
     }
     return convex_hull_area_;
@@ -148,16 +148,16 @@ namespace proc_image_processing {
 
   inline float ObjectBasicData::GetCircumference() {
     if (!is_calculated_map_[CIRCUMFERENCE]) {
-      circumference_ = cv::arcLength(contour_.GetContour(), true);
-      is_calculated_map_[CIRCUMFERENCE] = true;
+        circumference_ = cv::arcLength(contour_.getContour(), true);
+        is_calculated_map_[CIRCUMFERENCE] = true;
     }
     return circumference_;
   }
 
   inline const RotRect& ObjectBasicData::GetRotatedRect() {
     if (!is_calculated_map_[ROTATED_RECT]) {
-      rect_ = RotRect(contour_.GetContour());
-      is_calculated_map_[ROTATED_RECT] = true;
+        rect_ = RotRect(contour_.getContour());
+        is_calculated_map_[ROTATED_RECT] = true;
     }
     return rect_;
   }
@@ -174,8 +174,8 @@ namespace proc_image_processing {
 
   inline const cv::Rect& ObjectBasicData::GetUprightRect() {
     if (!is_calculated_map_[UP_RIGHT_RECT]) {
-      up_right_rect_ = cv::boundingRect(contour_.GetContour());
-      is_calculated_map_[UP_RIGHT_RECT] = true;
+        up_right_rect_ = cv::boundingRect(contour_.getContour());
+        is_calculated_map_[UP_RIGHT_RECT] = true;
     }
     return up_right_rect_;
   }
@@ -188,7 +188,7 @@ namespace proc_image_processing {
     return cv::Mat(binary_image_, uprightRect);
   }
 
-  inline Contour ObjectBasicData::GetContourCopy() { return contour_; }
+    inline Contour ObjectBasicData::getContourCopy() { return contour_; }
 
   inline cv::Size ObjectBasicData::GetImageSize() {
     return original_image_.size();

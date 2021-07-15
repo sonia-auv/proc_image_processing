@@ -67,7 +67,7 @@ namespace proc_image_processing {
       }
 
       contourList_t contours;
-      RetrieveOuterContours(in, contours);
+        retrieveOuterContours(in, contours);
       std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar,
         merged_horizontal_bar;
 
@@ -126,15 +126,15 @@ namespace proc_image_processing {
         for (int ref_idx = 0, size_ref = horizontalBar.size(); ref_idx < size_ref;
           ref_idx++) {
           if (IsSplitBar(horizontalBar[0], horizontalBar[1])) {
-            contour_t tmp, a, b;
-            a = horizontalBar[0]->GetContourCopy().GetContour();
-            b = horizontalBar[1]->GetContourCopy().GetContour();
+              contour_t tmp, a, b;
+              a = horizontalBar[0]->getContourCopy().getContour();
+              b = horizontalBar[1]->getContourCopy().getContour();
 
-            tmp.reserve(a.size() + b.size());
-            tmp.insert(tmp.end(), a.begin(), a.end());
-            tmp.insert(tmp.end(), b.begin(), b.end());
-            horizontalBar[0] =
-              std::make_shared<ObjectFullData>(originalImage, image, tmp);
+              tmp.reserve(a.size() + b.size());
+              tmp.insert(tmp.end(), a.begin(), a.end());
+              tmp.insert(tmp.end(), b.begin(), b.end());
+              horizontalBar[0] =
+                      std::make_shared<ObjectFullData>(originalImage, image, tmp);
           }
         }
       }
@@ -166,7 +166,7 @@ namespace proc_image_processing {
           if (debug_contour_()) {
             cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
           }
-            SetCameraOffset(center, image.rows, image.cols);
+            setCameraOffset(center, image.rows, image.cols);
 
           fence.SetCenter(center);
 
@@ -213,7 +213,7 @@ namespace proc_image_processing {
               if (debug_contour_()) {
                   cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
               }
-              SetCameraOffset(center, image.rows, image.cols);
+              setCameraOffset(center, image.rows, image.cols);
               fence.SetCenter(center);
           }
           else if (bar_founded == 1) {
@@ -222,7 +222,7 @@ namespace proc_image_processing {
               if (debug_contour_()) {
                   cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
               }
-              SetCameraOffset(center, image.rows, image.cols);
+              setCameraOffset(center, image.rows, image.cols);
               fence.SetCenter(center);
           }
           else {
@@ -230,7 +230,7 @@ namespace proc_image_processing {
               if (debug_contour_()) {
                   cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
               }
-              SetCameraOffset(center, image.rows, image.cols);
+              setCameraOffset(center, image.rows, image.cols);
               fence.SetCenter(center);
           }
         }
@@ -251,7 +251,7 @@ namespace proc_image_processing {
       int& rightX) {
       leftX = 20000;
       rightX = -1;
-      contour_t contour = bottom_bar->GetContourCopy().GetContour();
+        contour_t contour = bottom_bar->getContourCopy().getContour();
       for (auto pt : contour) {
         if (leftX > pt.x) {
           leftX = pt.x;

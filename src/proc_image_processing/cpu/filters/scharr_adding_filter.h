@@ -44,7 +44,7 @@ namespace proc_image_processing {
               cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
           }
 
-          std::vector<cv::Mat> colorPlanes = GetColorPlanes(image);
+          std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
           cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
 
           if (plane_blue_()) cv::add(calcScharr(colorPlanes[0]), sum, sum);
