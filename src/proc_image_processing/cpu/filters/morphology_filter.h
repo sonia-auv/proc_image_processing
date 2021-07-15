@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Morphology
+// FACTORY_GENERATOR_CLASS_NAME=MorphologyFilter
 
 #ifndef PROVIDER_VISION_FILTERS_MORPHOLOGY_H_
 #define PROVIDER_VISION_FILTERS_MORPHOLOGY_H_
@@ -11,24 +11,24 @@
 
 namespace proc_image_processing {
 
-  class Morphology : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Morphology>;
+    class MorphologyFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<MorphologyFilter>;
 
-    explicit Morphology(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      morph_type_("Morphology_type", 0, 0, 4, &parameters_,
-        "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
-      kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
-        "0=Rect, 1=Elipse, 2=Cross"),
-      iteration_("Iteration", 1, 1, 20, &parameters_),
-      kernel_size_("Kernel_size", 1, 1, 40, &parameters_),
-      anchor_(-1, -1) {
-        setName("Morphology");
+        explicit MorphologyFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  morph_type_("Morphology_type", 0, 0, 4, &parameters_,
+                              "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
+                  kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
+                               "0=Rect, 1=Elipse, 2=Cross"),
+                  iteration_("Iteration", 1, 1, 20, &parameters_),
+                  kernel_size_("Kernel_size", 1, 1, 40, &parameters_),
+                  anchor_(-1, -1) {
+            setName("MorphologyFilter");
     }
 
-    virtual ~Morphology() {}
+        virtual ~MorphologyFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

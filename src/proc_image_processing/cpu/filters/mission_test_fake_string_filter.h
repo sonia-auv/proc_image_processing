@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=MissionTestFakeString
+// FACTORY_GENERATOR_CLASS_NAME=MissionTestFakeStringFilter
 
 #ifndef PROVIDER_VISION_FILTERS_MISSION_TEST_FAKE_STRING_H_
 #define PROVIDER_VISION_FILTERS_MISSION_TEST_FAKE_STRING_H_
@@ -11,18 +11,18 @@
 
 namespace proc_image_processing {
 
-  class MissionTestFakeString : public Filter {
-  public:
-    using Ptr = std::shared_ptr<MissionTestFakeString>;
+    class MissionTestFakeStringFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<MissionTestFakeStringFilter>;
 
-    explicit MissionTestFakeString(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      _string("String_to_return", "test", &parameters_) {
-        setName("MissionTestFakeString");
-    }
+        explicit MissionTestFakeStringFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  _string("String_to_return", "test", &parameters_) {
+            setName("MissionTestFakeStringFilter");
+        }
 
-    virtual ~MissionTestFakeString() {}
+        virtual ~MissionTestFakeStringFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

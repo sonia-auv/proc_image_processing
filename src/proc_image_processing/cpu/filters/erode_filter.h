@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Erode
+// FACTORY_GENERATOR_CLASS_NAME=ErodeFilter
 
 #ifndef PROVIDER_VISION_FILTERS_ERODE_H_
 #define PROVIDER_VISION_FILTERS_ERODE_H_
@@ -11,23 +11,23 @@
 
 namespace proc_image_processing {
 
-  class Erode : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Erode>;
+    class ErodeFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<ErodeFilter>;
 
-    explicit Erode(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      use_square_kernel_("Square_kernel", true, &parameters_),
-      kernel_type_("Kernel_type", 0, 0, 2, &parameters_),
-      kernel_size_x_("Width", 1, 0, 20, &parameters_),
-      kernel_size_y_("Height", 1, 0, 20, &parameters_),
-      iteration_("Iteration", 1, 0, 20, &parameters_),
-      anchor_(-1, -1) {
-        setName("Erode");
-    }
+        explicit ErodeFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  use_square_kernel_("Square_kernel", true, &parameters_),
+                  kernel_type_("Kernel_type", 0, 0, 2, &parameters_),
+                  kernel_size_x_("Width", 1, 0, 20, &parameters_),
+                  kernel_size_y_("Height", 1, 0, 20, &parameters_),
+                  iteration_("Iteration", 1, 0, 20, &parameters_),
+                  anchor_(-1, -1) {
+            setName("ErodeFilter");
+        }
 
-    virtual ~Erode() {}
+        virtual ~ErodeFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

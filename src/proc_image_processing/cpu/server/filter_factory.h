@@ -8,12 +8,12 @@
 
 // <FACTORY_GENERATOR_HEADER_INCLUDES>
 #include <proc_image_processing/cpu/filters/adaptive_threshold_filter.h>
-#include <proc_image_processing/cpu/filters/background_substract_filter.h>
+#include <proc_image_processing/cpu/filters/background_subtract_filter.h>
 #include <proc_image_processing/cpu/filters/bilateral_filter.h>
 #include <proc_image_processing/cpu/filters/blurr_filter.h>
 #include <proc_image_processing/cpu/filters/canny_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/center_coffin_detector.h>
-#include <proc_image_processing/cpu/filters/contrast_brightness_filter.h>
+#include <proc_image_processing/cpu/filters/contrast_and_brightness_filter.h>
 #include <proc_image_processing/cpu/filters/convex_hull_filter.h>
 #include <proc_image_processing/cpu/filters/deep_2019_filter.h>
 #include <proc_image_processing/cpu/filters/dilate_filter.h>
@@ -24,8 +24,8 @@
 #include <proc_image_processing/cpu/filters/detectors/handle_detector.h>
 #include <proc_image_processing/cpu/filters/hough_line_filter.h>
 #include <proc_image_processing/cpu/filters/hsv_threshold_filter.h>
-#include <proc_image_processing/cpu/filters/image_accumulator_filter.h>
-#include <proc_image_processing/cpu/filters/image_crop_filter.h>
+#include <proc_image_processing/cpu/filters/accumulator_filter.h>
+#include <proc_image_processing/cpu/filters/crop_filter.h>
 #include <proc_image_processing/cpu/filters/in_range_filter.h>
 #include <proc_image_processing/cpu/filters/laplacian_filter.h>
 #include <proc_image_processing/cpu/filters/mission_test_fake_string_filter.h>
@@ -43,7 +43,7 @@
 #include <proc_image_processing/cpu/filters/subtract_all_planes_filter.h>
 #include <proc_image_processing/cpu/filters/test_filter.h>
 #include <proc_image_processing/cpu/filters/threshold_filter.h>
-#include <proc_image_processing/cpu/filters/threshold_between_filter.h>
+#include <proc_image_processing/cpu/filters/interval_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/vampire_body_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/vampire_torpedoes_close_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/vampire_torpedoes_detector.h>

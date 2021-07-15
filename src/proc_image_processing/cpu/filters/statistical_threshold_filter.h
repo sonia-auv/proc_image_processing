@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=StatsThreshold
+// FACTORY_GENERATOR_CLASS_NAME=StatisticalThresholdFilter
 
 #ifndef PROVIDER_VISION_FILTERS_STATS_THRESHOLD_H_
 #define PROVIDER_VISION_FILTERS_STATS_THRESHOLD_H_
@@ -11,21 +11,21 @@
 
 namespace proc_image_processing {
 
-  class StatsThreshold : public Filter {
-  public:
-    using Ptr = std::shared_ptr<StatsThreshold>;
+    class StatisticalThresholdFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<StatisticalThresholdFilter>;
 
-    explicit StatsThreshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      min_thresh_("Min_thresh", 0, 0, 255, &parameters_),
-      mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
-      std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
-        &parameters_) {
-        setName("StatsThreshold");
-    }
+        explicit StatisticalThresholdFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  min_thresh_("Min_thresh", 0, 0, 255, &parameters_),
+                  mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
+                  std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
+                                      &parameters_) {
+            setName("StatisticalThresholdFilter");
+        }
 
-    virtual ~StatsThreshold() {}
+        virtual ~StatisticalThresholdFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

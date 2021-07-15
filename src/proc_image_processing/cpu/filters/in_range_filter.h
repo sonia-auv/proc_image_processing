@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=InRange
+// FACTORY_GENERATOR_CLASS_NAME=InRangeFilter
 
 #ifndef PROVIDER_VISION_FILTERS_IN_RANGE_FILTER_H_
 #define PROVIDER_VISION_FILTERS_IN_RANGE_FILTER_H_
@@ -18,29 +18,29 @@ namespace proc_image_processing {
    * In this case, this filter is a binarizer and will output a black and white
    * image
    */
-  class InRange : public Filter {
+  class InRangeFilter : public Filter {
   public:
-    using Ptr = std::shared_ptr<InRange>;
+      using Ptr = std::shared_ptr<InRangeFilter>;
 
-    explicit InRange(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
-      upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
-      lower_saturation_("HSVLowS", 0, 0, 255, &parameters_),
-      upper_saturation_("HSVHighS", 255, 0, 255, &parameters_),
-      lower_value_("HSVLowV", 0, 0, 255, &parameters_),
-      upper_value_("HSVHighV", 255, 0, 255, &parameters_),
-      lower_lightness_("LUVlowL", 0, 0, 255, &parameters_),
-      upper_lightness_("LUVhighL", 255, 0, 255, &parameters_),
+      explicit InRangeFilter(const GlobalParamHandler &globalParams)
+              : Filter(globalParams),
+                enable_("Enable", false, &parameters_),
+                lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
+                upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
+                lower_saturation_("HSVLowS", 0, 0, 255, &parameters_),
+                upper_saturation_("HSVHighS", 255, 0, 255, &parameters_),
+                lower_value_("HSVLowV", 0, 0, 255, &parameters_),
+                upper_value_("HSVHighV", 255, 0, 255, &parameters_),
+                lower_lightness_("LUVlowL", 0, 0, 255, &parameters_),
+                upper_lightness_("LUVhighL", 255, 0, 255, &parameters_),
       lower_u_("LUVlowU", 0, 0, 255, &parameters_),
       upper_u_("LUVhighU", 255, 0, 255, &parameters_),
       lower_v_("LUVlowV", 0, 0, 255, &parameters_),
       upper_v_("LUVhighV", 255, 0, 255, &parameters_) {
-        setName("InRange");
+          setName("InRangeFilter");
     }
 
-    virtual ~InRange() {}
+      virtual ~InRangeFilter() {}
 
       /**
        * Overrides the execute function from the Filter class.

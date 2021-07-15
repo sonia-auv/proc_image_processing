@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=ImageAccumulator
+// FACTORY_GENERATOR_CLASS_NAME=AccumulatorFilter
 
 #ifndef PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
 #define PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
@@ -13,25 +13,25 @@
 
 namespace proc_image_processing {
 
-  class ImageAccumulator : public Filter {
-  public:
-    using Ptr = std::shared_ptr<ImageAccumulator>;
+    class AccumulatorFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<AccumulatorFilter>;
 
-    explicit ImageAccumulator(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      accumulator_(3, cv::Size(0, 0), CV_8UC1),
-      enable_("Enable", false, &parameters_),
-      nb_image_("NB_of_images", 3, 1, 20, &parameters_),
-      method_("Method_to_use", 1, 0, 2, &parameters_,
-        "Method: 1=SameWeight, 2=Adding50Percent, 3=Adjusted"),
-      last_size_(0, 0),
-      last_method_(CV_8UC1),
-      last_type_(0),
-      last_nb_image_(3) {
-        setName("ImageAccumulator");
+        explicit AccumulatorFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  accumulator_(3, cv::Size(0, 0), CV_8UC1),
+                  enable_("Enable", false, &parameters_),
+                  nb_image_("NB_of_images", 3, 1, 20, &parameters_),
+                  method_("Method_to_use", 1, 0, 2, &parameters_,
+                          "Method: 1=SameWeight, 2=Adding50Percent, 3=Adjusted"),
+                  last_size_(0, 0),
+                  last_method_(CV_8UC1),
+                  last_type_(0),
+                  last_nb_image_(3) {
+            setName("AccumulatorFilter");
     }
 
-    virtual ~ImageAccumulator() {}
+        virtual ~AccumulatorFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

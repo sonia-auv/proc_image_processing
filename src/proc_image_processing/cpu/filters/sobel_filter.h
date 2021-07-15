@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Sobel
+// FACTORY_GENERATOR_CLASS_NAME=SobelFilter
 
 #ifndef PROVIDER_VISION_FILTERS_SOBEL_H_
 #define PROVIDER_VISION_FILTERS_SOBEL_H_
@@ -11,25 +11,25 @@
 
 namespace proc_image_processing {
 
-  class Sobel : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Sobel>;
+    class SobelFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<SobelFilter>;
 
-    explicit Sobel(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      convert_to_uchar_("Convert_to_uchar", true, &parameters_),
-      use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
-        &parameters_),
-      delta_("Delta", 0, 0, 255, &parameters_),
-      scale_("Scale", 1, 0, 255, &parameters_),
-      power_pixel_correction_("pixel_correction_power", 1, -10, 10,
-        &parameters_),
-      size_("Size", 2, 1, 20, &parameters_) {
-        setName("Sobel");
+        explicit SobelFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
+                  use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
+                                                  &parameters_),
+                  delta_("Delta", 0, 0, 255, &parameters_),
+                  scale_("Scale", 1, 0, 255, &parameters_),
+                  power_pixel_correction_("pixel_correction_power", 1, -10, 10,
+                                          &parameters_),
+                  size_("Size", 2, 1, 20, &parameters_) {
+            setName("SobelFilter");
     }
 
-    virtual ~Sobel() {}
+        virtual ~SobelFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

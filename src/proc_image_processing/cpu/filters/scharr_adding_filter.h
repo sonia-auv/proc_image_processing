@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=ScharrAdding
+// FACTORY_GENERATOR_CLASS_NAME=ScharrAddingFilter
 
 #ifndef PROVIDER_VISION_FILTERS_SCHARR_ADDING_H_
 #define PROVIDER_VISION_FILTERS_SCHARR_ADDING_H_
@@ -12,30 +12,30 @@
 
 namespace proc_image_processing {
 
-  class ScharrAdding : public Filter {
-  public:
-    using Ptr = std::shared_ptr<ScharrAdding>;
+    class ScharrAddingFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<ScharrAddingFilter>;
 
-    explicit ScharrAdding(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      run_small_image_("Run_small_image", true, &parameters_,
-        "Resize image to run on smaller image"),
-      convert_to_uchar_("Convert_to_uchar", false, &parameters_),
-      delta_("Delta", 0, 0, 255, &parameters_),
-      scale_("Scale", 1, 0, 255, &parameters_),
-      mean_multiplier_("Mean_multiplier", 1.0f, 0.0f, 10.0f, &parameters_),
-      plane_blue_("Blue", false, &parameters_),
-      plane_green_("Green", false, &parameters_),
+        explicit ScharrAddingFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  run_small_image_("Run_small_image", true, &parameters_,
+                                   "Resize image to run on smaller image"),
+                  convert_to_uchar_("Convert_to_uchar", false, &parameters_),
+                  delta_("Delta", 0, 0, 255, &parameters_),
+                  scale_("Scale", 1, 0, 255, &parameters_),
+                  mean_multiplier_("Mean_multiplier", 1.0f, 0.0f, 10.0f, &parameters_),
+                  plane_blue_("Blue", false, &parameters_),
+                  plane_green_("Green", false, &parameters_),
       plane_red_("Red", false, &parameters_),
       plane_hue_("Hue", false, &parameters_),
       plane_saturation_("Saturation", false, &parameters_),
       plane_intensity_("Intensity", false, &parameters_),
       plane_gray_("Gray", false, &parameters_) {
-        setName("ScharrAdding");
+            setName("ScharrAddingFilter");
     }
 
-    virtual ~ScharrAdding() {}
+        virtual ~ScharrAddingFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

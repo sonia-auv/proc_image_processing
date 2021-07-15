@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=WhiteNoiseTakeDown
+// FACTORY_GENERATOR_CLASS_NAME=WhiteNoiseTakeDownFilter
 
 #ifndef PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKE_DOWN_H_
 #define PROVIDER_VISION_FILTERS_WHITE_NOISE_TAKE_DOWN_H_
@@ -11,25 +11,25 @@
 
 namespace proc_image_processing {
 
-    class WhiteNoiseTakeDown : public Filter {
+    class WhiteNoiseTakeDownFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<WhiteNoiseTakeDown>;
+        using Ptr = std::shared_ptr<WhiteNoiseTakeDownFilter>;
 
-    explicit WhiteNoiseTakeDown(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      low_b_("LowB", 0, 0, 255, &parameters_),
-      high_b_("HighB", 0, 0, 255, &parameters_),
-      low_g_("LowG", 0, 0, 255, &parameters_),
-      high_g_("HighG", 0, 0, 255, &parameters_),
-      low_r_("LowR", 0, 0, 255, &parameters_),
-      high_r_("HighR", 0, 0, 255, &parameters_),
-      view_channel_("Channel_view", 0, 0, 3, &parameters_,
-        "0=ALL, 1=Blue, 2=Green, 3=Red") {
-        setName("WhiteNoiseTakeDown");
+        explicit WhiteNoiseTakeDownFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  low_b_("LowB", 0, 0, 255, &parameters_),
+                  high_b_("HighB", 0, 0, 255, &parameters_),
+                  low_g_("LowG", 0, 0, 255, &parameters_),
+                  high_g_("HighG", 0, 0, 255, &parameters_),
+                  low_r_("LowR", 0, 0, 255, &parameters_),
+                  high_r_("HighR", 0, 0, 255, &parameters_),
+                  view_channel_("Channel_view", 0, 0, 3, &parameters_,
+                                "0=ALL, 1=Blue, 2=Green, 3=Red") {
+            setName("WhiteNoiseTakeDownFilter");
     }
 
-    virtual ~WhiteNoiseTakeDown() {}
+        virtual ~WhiteNoiseTakeDownFilter() {}
 
         virtual void apply(cv::Mat &image) {
             if (enable_()) {

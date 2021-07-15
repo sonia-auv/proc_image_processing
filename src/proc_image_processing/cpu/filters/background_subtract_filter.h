@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=BackgroundSubstract
+// FACTORY_GENERATOR_CLASS_NAME=BackgroundSubtractFilter
 
 #ifndef PROVIDER_VISION_FILTERS_BACKGROUND_SUBSTRACT_H_
 #define PROVIDER_VISION_FILTERS_BACKGROUND_SUBSTRACT_H_
@@ -17,20 +17,20 @@ namespace proc_image_processing {
   // This is a program to execute image filter other than erode, dilate and
   // morphologicalEx. Those are more blur function than pixelizer
   // settings are for the differents type of filters, and does not apply to all
-  class BackgroundSubstract : public Filter {
+  class BackgroundSubtractFilter : public Filter {
   public:
-    using Ptr = std::shared_ptr<BackgroundSubstract>;
+      using Ptr = std::shared_ptr<BackgroundSubtractFilter>;
 
-    explicit BackgroundSubstract(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      show_blurred_("Show_blurred", false, &parameters_),
-      blur_size_("Blur_size", 255, 0, 1000, &parameters_),
-      sigma_("Sigma", 10, 0, 100, &parameters_) {
-        setName("BackgroundSubstract");
-    }
+      explicit BackgroundSubtractFilter(const GlobalParamHandler &globalParams)
+              : Filter(globalParams),
+                enable_("Enable", false, &parameters_),
+                show_blurred_("Show_blurred", false, &parameters_),
+                blur_size_("Blur_size", 255, 0, 1000, &parameters_),
+                sigma_("Sigma", 10, 0, 100, &parameters_) {
+          setName("BackgroundSubtractFilter");
+      }
 
-    virtual ~BackgroundSubstract() {}
+      virtual ~BackgroundSubtractFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

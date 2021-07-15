@@ -1,8 +1,8 @@
 /// \author	Antoine Dozois <dozois.a@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Deep2019
+// FACTORY_GENERATOR_CLASS_NAME=Deep2019Filter
 
-// FACTORY_GENERATOR_CLASS_NAME=Deep2019
+// FACTORY_GENERATOR_CLASS_NAME=Deep2019Filter
 
 #ifndef PROC_IMAGE_PROCESSING_DEEP_2019_H
 #define PROC_IMAGE_PROCESSING_DEEP_2019_H
@@ -17,28 +17,28 @@
 #include <sonia_common/DetectionArray.h>
 
 namespace proc_image_processing {
-    class Deep2019 : public Filter {
+    class Deep2019Filter : public Filter {
 
     public:
-        explicit Deep2019(const GlobalParamHandler& globalParams) :
-            Filter(globalParams),
-            nh_(ros::NodeHandle("proc_image_processing")),
-            enable_("Enable", false, &parameters_),
-            debug_contour_("Debug contour", false, &parameters_),
-            vetalas_("vetalas", true, &parameters_),
-            draugr_("draugr", true, &parameters_),
-            jiangshi_("jiangshi", true, &parameters_),
-            answag_("answag", true, &parameters_),
-            vampire_("vampire", true, &parameters_),
-            bat_("bat", true, &parameters_),
+        explicit Deep2019Filter(const GlobalParamHandler &globalParams) :
+                Filter(globalParams),
+                nh_(ros::NodeHandle("proc_image_processing")),
+                enable_("Enable", false, &parameters_),
+                debug_contour_("Debug contour", false, &parameters_),
+                vetalas_("vetalas", true, &parameters_),
+                draugr_("draugr", true, &parameters_),
+                jiangshi_("jiangshi", true, &parameters_),
+                answag_("answag", true, &parameters_),
+                vampire_("vampire", true, &parameters_),
+                bat_("bat", true, &parameters_),
             wolf_("wolf", true, &parameters_),
             color_(0, 0, 0) {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100,
-                                                               &Deep2019::boundingBoxCallback, this);
-            setName("Deep2019");
+                                                               &Deep2019Filter::boundingBoxCallback, this);
+            setName("Deep2019Filter");
         };
 
-        virtual ~Deep2019() { image_subscriber_.shutdown(); }
+        virtual ~Deep2019Filter() { image_subscriber_.shutdown(); }
 
         virtual void apply(cv::Mat &image) {
             if (enable_()) {

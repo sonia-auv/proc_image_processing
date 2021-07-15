@@ -1,6 +1,6 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=ImageCropper
+// FACTORY_GENERATOR_CLASS_NAME=CropFilter
 
 #ifndef PROVIDER_VISION_FILTERS_IMAGE_CROPPER_H_
 #define PROVIDER_VISION_FILTERS_IMAGE_CROPPER_H_
@@ -10,21 +10,21 @@
 
 namespace proc_image_processing {
 
-  class ImageCropper : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Blurr>;
+    class CropFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<BlurrFilter>;
 
-    explicit ImageCropper(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      x_offset_("X Offset", 0, 0, 2000, &parameters_),
-      y_offset_("Y Offset", 0, 0, 2000, &parameters_),
-      x_reduction_("X Reduction", 0, 0, 2000, &parameters_),
-      y_reduction_("Y Reduction", 0, 0, 2000, &parameters_) {
-        setName("ImageCropper");
-    }
+        explicit CropFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  x_offset_("X Offset", 0, 0, 2000, &parameters_),
+                  y_offset_("Y Offset", 0, 0, 2000, &parameters_),
+                  x_reduction_("X Reduction", 0, 0, 2000, &parameters_),
+                  y_reduction_("Y Reduction", 0, 0, 2000, &parameters_) {
+            setName("CropFilter");
+        }
 
-    virtual ~ImageCropper() {}
+        virtual ~CropFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

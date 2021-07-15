@@ -1,34 +1,34 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Scharr
+// FACTORY_GENERATOR_CLASS_NAME=ScharrFilter
 
-#ifndef PROVIDER_VISION_FILTERS_SHCARR_H_
-#define PROVIDER_VISION_FILTERS_SHCARR_H_
+#ifndef PROVIDER_VISION_FILTERS_SCHARR_H_
+#define PROVIDER_VISION_FILTERS_SCHARR_H_
 
 #include "filter.h"
 #include <memory>
 
 namespace proc_image_processing {
 
-  class Scharr : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Scharr>;
+    class ScharrFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<ScharrFilter>;
 
-    explicit Scharr(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      convert_to_uchar_("Convert_to_uchar", true, &parameters_),
-      use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
-        &parameters_),
-      delta_("Delta", 0, 0, 255, &parameters_),
-      scale_("Scale", 1, 0, 255, &parameters_),
-      power_pixel_correction_("pixel_correction_power", 1, -10, 10,
-        &parameters_) {
-        setName("Scharr");
+        explicit ScharrFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
+                  use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
+                                                  &parameters_),
+                  delta_("Delta", 0, 0, 255, &parameters_),
+                  scale_("Scale", 1, 0, 255, &parameters_),
+                  power_pixel_correction_("pixel_correction_power", 1, -10, 10,
+                                          &parameters_) {
+            setName("ScharrFilter");
     }
 
-    virtual ~Scharr() {}
+        virtual ~ScharrFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {
@@ -67,4 +67,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_SHCARR_H_
+#endif  // PROVIDER_VISION_FILTERS_SCHARR_H_

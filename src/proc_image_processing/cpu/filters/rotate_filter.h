@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Rotate
+// FACTORY_GENERATOR_CLASS_NAME=RotateFilter
 
 #ifndef PROVIDER_VISION_FILTERS_ROTATE_H_
 #define PROVIDER_VISION_FILTERS_ROTATE_H_
@@ -11,20 +11,20 @@
 
 namespace proc_image_processing {
 
-  class Rotate : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Rotate>;
+    class RotateFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<RotateFilter>;
 
-    explicit Rotate(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("enable", false, &parameters_),
-      transpose_("transpose", false, &parameters_),
-      rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
-        "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis") {
-        setName("Rotate");
-    }
+        explicit RotateFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("enable", false, &parameters_),
+                  transpose_("transpose", false, &parameters_),
+                  rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
+                               "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis") {
+            setName("RotateFilter");
+        }
 
-    virtual ~Rotate() {}
+        virtual ~RotateFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

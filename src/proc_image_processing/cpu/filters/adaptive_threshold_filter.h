@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=AdaptiveThreshold
+// FACTORY_GENERATOR_CLASS_NAME=AdaptiveThresholdFilter
 
 #ifndef PROVIDER_VISION_FILTERS_ADAPTIVE_THRESHOLD_H_
 #define PROVIDER_VISION_FILTERS_ADAPTIVE_THRESHOLD_H_
@@ -11,22 +11,22 @@
 
 namespace proc_image_processing {
 
-  class AdaptiveThreshold : public Filter {
-  public:
-    using Ptr = std::shared_ptr<AdaptiveThreshold>;
+    class AdaptiveThresholdFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<AdaptiveThresholdFilter>;
 
-    explicit AdaptiveThreshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
-      threshold_type_("Threshold_type", 0, 0, 1, &parameters_,
-        "0=BIN, 1=BIN_INV"),
-      _block_size("Size", 1, 1, 40, &parameters_),
-      c_param_("C_param", 0.0f, -255.0f, 255.0f, &parameters_) {
-        setName("AdaptiveThreshold");
-    }
+        explicit AdaptiveThresholdFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
+                  threshold_type_("Threshold_type", 0, 0, 1, &parameters_,
+                                  "0=BIN, 1=BIN_INV"),
+                  _block_size("Size", 1, 1, 40, &parameters_),
+                  c_param_("C_param", 0.0f, -255.0f, 255.0f, &parameters_) {
+            setName("AdaptiveThresholdFilter");
+        }
 
-    virtual ~AdaptiveThreshold() {}
+        virtual ~AdaptiveThresholdFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

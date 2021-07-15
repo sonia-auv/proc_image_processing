@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=SubmarineFrameMasker
+// FACTORY_GENERATOR_CLASS_NAME=HideSubmarineFrameFilter
 
 #ifndef PROVIDER_VISION_FILTERS_SUBMARINE_FRAME_MASKER_H_
 #define PROVIDER_VISION_FILTERS_SUBMARINE_FRAME_MASKER_H_
@@ -11,24 +11,24 @@
 
 namespace proc_image_processing {
 
-  class SubmarineFrameMasker : public Filter {
-  public:
-    using Ptr = std::shared_ptr<SubmarineFrameMasker>;
+    class HideSubmarineFrameFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<HideSubmarineFrameFilter>;
 
-    explicit SubmarineFrameMasker(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
-        "Rotate type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
-      prev_rot_value_(0) {
-        setName("SubmarineFrameMasker");
-      std::string mask_name =
-        std::string(getenv("SONIA_WORKSPACE_ROOT")) +
-        std::string("/ros/src/vision_server/config/bottom_mask.jpg");
-      bottom_mask_ = cv::imread(mask_name, CV_LOAD_IMAGE_GRAYSCALE);
+        explicit HideSubmarineFrameFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
+                               "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
+                  prev_rot_value_(0) {
+            setName("HideSubmarineFrameFilter");
+            std::string mask_name =
+                    std::string(getenv("SONIA_WORKSPACE_ROOT")) +
+                    std::string("/ros/src/vision_server/config/bottom_mask.jpg");
+            bottom_mask_ = cv::imread(mask_name, CV_LOAD_IMAGE_GRAYSCALE);
     }
 
-    virtual ~SubmarineFrameMasker() {}
+        virtual ~HideSubmarineFrameFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

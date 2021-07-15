@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=HSVThreshold
+// FACTORY_GENERATOR_CLASS_NAME=HSVThresholdFilter
 
 #ifndef PROVIDER_VISION_FILTERS_HSV_THRESHOLD_H_
 #define PROVIDER_VISION_FILTERS_HSV_THRESHOLD_H_
@@ -14,31 +14,31 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class HSVThreshold : public Filter {
+  class HSVThresholdFilter : public Filter {
   public:
-    using Ptr = std::shared_ptr<HSVThreshold>;
+      using Ptr = std::shared_ptr<HSVThresholdFilter>;
 
-    explicit HSVThreshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("enable", false, &parameters_),
-      hue_min_("Hue Min", 0, 0, 256, &parameters_,
-        "Minimum Hue to threshold. Keep values higher or equal to this value."),
-      hue_max_("Hue Max", 255, 0, 256, &parameters_,
-        "Maximum Hue to threshold. Keep values lower or equal to this value."),
-      saturation_min_("saturation Min", 0, 0, 256, &parameters_,
-        "Minimum saturation to threshold. Keep values higher or equal to this value."),
-      saturation_max_("saturation Max", 255, 0, 256, &parameters_,
-        "Maximum saturation to threshold. Keep values lower or equal to this value."),
+      explicit HSVThresholdFilter(const GlobalParamHandler &globalParams)
+              : Filter(globalParams),
+                enable_("enable", false, &parameters_),
+                hue_min_("Hue Min", 0, 0, 256, &parameters_,
+                         "Minimum Hue to threshold. Keep values higher or equal to this value."),
+                hue_max_("Hue Max", 255, 0, 256, &parameters_,
+                         "Maximum Hue to threshold. Keep values lower or equal to this value."),
+                saturation_min_("saturation Min", 0, 0, 256, &parameters_,
+                                "Minimum saturation to threshold. Keep values higher or equal to this value."),
+                saturation_max_("saturation Max", 255, 0, 256, &parameters_,
+                                "Maximum saturation to threshold. Keep values lower or equal to this value."),
       value_min_("value Min", 0, 0, 256, &parameters_,
         "Minimum value to threshold. Keep values higher or equal to this value."),
       value_max_("value Max", 255, 0, 256, &parameters_,
         "Maximum value to threshold. Keep values lower or equal to this value."),
       rows_(0),
       cols_(0) {
-        setName("HSVThreshold");
+          setName("HSVThresholdFilter");
     }
 
-    virtual ~HSVThreshold() {}
+      virtual ~HSVThresholdFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

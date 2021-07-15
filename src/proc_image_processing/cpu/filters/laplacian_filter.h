@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Laplacian
+// FACTORY_GENERATOR_CLASS_NAME=LaplacianFilter
 
 #ifndef PROVIDER_VISION_FILTERS_LAPLACIAN_H_
 #define PROVIDER_VISION_FILTERS_LAPLACIAN_H_
@@ -11,21 +11,21 @@
 
 namespace proc_image_processing {
 
-  class Laplacian : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Laplacian>;
+    class LaplacianFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<LaplacianFilter>;
 
-    explicit Laplacian(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      convert_to_uchar_("Convert_to_uchar", true, &parameters_),
-      delta_("Delta", 0, 0, 255, &parameters_),
-      scale_("Scale", 1, 0, 255, &parameters_),
-      size_("Size", 2, 1, 20, &parameters_) {
-        setName("Laplacian");
-    }
+        explicit LaplacianFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
+                  delta_("Delta", 0, 0, 255, &parameters_),
+                  scale_("Scale", 1, 0, 255, &parameters_),
+                  size_("Size", 2, 1, 20, &parameters_) {
+            setName("LaplacianFilter");
+        }
 
-    virtual ~Laplacian() {}
+        virtual ~LaplacianFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

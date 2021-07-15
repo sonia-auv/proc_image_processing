@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=SubtractPlaneAdder
+// FACTORY_GENERATOR_CLASS_NAME=SubtractPlaneAdderFilter
 
 #ifndef PROVIDER_VISION_FILTERS_SUBTRACT_PLANES_ADDER_H_
 #define PROVIDER_VISION_FILTERS_SUBTRACT_PLANES_ADDER_H_
@@ -15,21 +15,21 @@ namespace proc_image_processing {
   // Take the input image as binary, takes the originalImage and process
   // a subtracAllPlane filter, then add both input and computed image together.
   // Most usefull for the purple handle...
-  class SubtractPlaneAdder : public Filter {
+  class SubtractPlaneAdderFilter : public Filter {
   public:
-    using Ptr = std::shared_ptr<SubtractPlaneAdder>;
+      using Ptr = std::shared_ptr<SubtractPlaneAdderFilter>;
 
-    explicit SubtractPlaneAdder(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("enable", false, &parameters_),
-      show_adding_result_("show_adding_result", false, &parameters_),
-      plane_one_("Plane_1", 1, 0, 7, &parameters_,
-        "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
-        "6=Intensity, 7=Gray"),
-      plane_two_("Plane_2", 1, 0, 7, &parameters_,
-        "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
-        "6=Intensity, 7=Gray"),
-      plane_three_("Plane_3", 1, 0, 7, &parameters_,
+      explicit SubtractPlaneAdderFilter(const GlobalParamHandler &globalParams)
+              : Filter(globalParams),
+                enable_("enable", false, &parameters_),
+                show_adding_result_("show_adding_result", false, &parameters_),
+                plane_one_("Plane_1", 1, 0, 7, &parameters_,
+                           "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
+                           "6=Intensity, 7=Gray"),
+                plane_two_("Plane_2", 1, 0, 7, &parameters_,
+                           "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
+                           "6=Intensity, 7=Gray"),
+                plane_three_("Plane_3", 1, 0, 7, &parameters_,
         "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
         "6=Intensity, 7=Gray"),
       invert_one_("Invert_plane_1", false, &parameters_),
@@ -40,10 +40,10 @@ namespace proc_image_processing {
       weight_three_("Weight_Plane_3", 1.0, -10.0, 10.0, &parameters_),
       rows_(0),
       cols_(0) {
-        setName("SubtractPlaneAdder");
+          setName("SubtractPlaneAdderFilter");
     }
 
-    virtual ~SubtractPlaneAdder() {}
+      virtual ~SubtractPlaneAdderFilter() {}
 
     virtual void execute(cv::Mat& image) {
       if (enable_()) {

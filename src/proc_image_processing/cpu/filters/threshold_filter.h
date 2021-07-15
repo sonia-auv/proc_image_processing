@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Threshold
+// FACTORY_GENERATOR_CLASS_NAME=ThresholdFilter
 
 #ifndef PROVIDER_VISION_FILTERS_THRESHOLD_H_
 #define PROVIDER_VISION_FILTERS_THRESHOLD_H_
@@ -11,20 +11,20 @@
 
 namespace proc_image_processing {
 
-  class Threshold : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Threshold>;
+    class ThresholdFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<ThresholdFilter>;
 
-    explicit Threshold(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      type_("Threshold_type", 1, 0, 5, &parameters_,
-        "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
-      max_("Max_value", 100, 0, 255, &parameters_) {
-        setName("Threshold");
-    }
+        explicit ThresholdFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  type_("Threshold_type", 1, 0, 5, &parameters_,
+                        "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
+                  max_("Max_value", 100, 0, 255, &parameters_) {
+            setName("ThresholdFilter");
+        }
 
-    virtual ~Threshold() {}
+        virtual ~ThresholdFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

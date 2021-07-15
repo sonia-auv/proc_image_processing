@@ -2,7 +2,7 @@
 /// \date 20/07/19
 /// TODO: Refactor code repetition
 
-// FACTORY_GENERATOR_CLASS_NAME=VampireTorpedoesDetectorClose
+// FACTORY_GENERATOR_CLASS_NAME=VampireTorpedoesCloseDetector
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_CLOSE_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_CLOSE_DETECTOR_H
@@ -16,22 +16,22 @@
 
 namespace proc_image_processing {
 
-    class VampireTorpedoesDetectorClose : public Filter {
+    class VampireTorpedoesCloseDetector : public Filter {
     public:
-        using Ptr = std::shared_ptr<VampireTorpedoesDetectorClose>;
+        using Ptr = std::shared_ptr<VampireTorpedoesCloseDetector>;
 
-        explicit VampireTorpedoesDetectorClose(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
-            enable_("Enable", false, &parameters_),
-            debug_contour_("Debug_contour", false, &parameters_),
-            look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
-            look_for_heart_("Look_for_Heart", false, &parameters_),
-            min_area_("Min_area", 5000, 1, 50000, &parameters_),
-            max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
-            setName("VampireTorpedoesDetectorClose");
+        explicit VampireTorpedoesCloseDetector(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  debug_contour_("Debug_contour", false, &parameters_),
+                  look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
+                  look_for_heart_("Look_for_Heart", false, &parameters_),
+                  min_area_("Min_area", 5000, 1, 50000, &parameters_),
+                  max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+            setName("VampireTorpedoesCloseDetector");
         }
 
-        virtual ~VampireTorpedoesDetectorClose() {}
+        virtual ~VampireTorpedoesCloseDetector() {}
 
         virtual void apply(cv::Mat &image) {
             if (enable_()) {

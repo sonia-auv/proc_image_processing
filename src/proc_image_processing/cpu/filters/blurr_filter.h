@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Blurr
+// FACTORY_GENERATOR_CLASS_NAME=BlurrFilter
 
 #ifndef PROVIDER_VISION_FILTERS_BLURR_H_
 #define PROVIDER_VISION_FILTERS_BLURR_H_
@@ -17,21 +17,21 @@ namespace proc_image_processing {
   // This is a program to execute image filter other than erode, dilate and
   // morphologicalEx. Those are more blur function than pixelizer
   // settings are for the differents type of filters, and does not apply to all
-  class Blurr : public Filter {
+  class BlurrFilter : public Filter {
   public:
-    using Ptr = std::shared_ptr<Blurr>;
+      using Ptr = std::shared_ptr<BlurrFilter>;
 
-    explicit Blurr(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      type_("Type", 2, 0, 3, &parameters_,
-        "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
-      kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
-      anchor_(-1, -1) {
-        setName("Blurr");
-    }
+      explicit BlurrFilter(const GlobalParamHandler &globalParams)
+              : Filter(globalParams),
+                enable_("Enable", false, &parameters_),
+                type_("Type", 2, 0, 3, &parameters_,
+                      "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
+                kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
+                anchor_(-1, -1) {
+          setName("BlurrFilter");
+      }
 
-    virtual ~Blurr() {}
+      virtual ~BlurrFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

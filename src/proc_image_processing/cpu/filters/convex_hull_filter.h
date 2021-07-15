@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=ConvexHull
+// FACTORY_GENERATOR_CLASS_NAME=ConvexHullFilter
 
 #ifndef PROVIDER_VISION_FILTERS_CONVEX_HULL_H_
 #define PROVIDER_VISION_FILTERS_CONVEX_HULL_H_
@@ -11,24 +11,24 @@
 
 namespace proc_image_processing {
 
-  class ConvexHull : public Filter {
-  public:
-    using Ptr = std::shared_ptr<ConvexHull>;
+    class ConvexHullFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<ConvexHullFilter>;
 
-    explicit ConvexHull(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      mode_("Mode", 0, 0, 3, &parameters_,
-        "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "
-        "3=CV_RETR_TREE"),
-      method_("Method", 0, 0, 3, &parameters_,
-        "0=CV_CHAIN_APPROX_NONE, 1=CV_CHAIN_APPROX_SIMPLE, "
-        "2=CV_CHAIN_APPROX_TC89_L1, "
-        "3=CV_CHAIN_APPROX_TC89_KCOS") {
-        setName("ConvexHull");
+        explicit ConvexHullFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  mode_("Mode", 0, 0, 3, &parameters_,
+                        "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "
+                        "3=CV_RETR_TREE"),
+                  method_("Method", 0, 0, 3, &parameters_,
+                          "0=CV_CHAIN_APPROX_NONE, 1=CV_CHAIN_APPROX_SIMPLE, "
+                          "2=CV_CHAIN_APPROX_TC89_L1, "
+                          "3=CV_CHAIN_APPROX_TC89_KCOS") {
+            setName("ConvexHullFilter");
     }
 
-    virtual ~ConvexHull() {}
+        virtual ~ConvexHullFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

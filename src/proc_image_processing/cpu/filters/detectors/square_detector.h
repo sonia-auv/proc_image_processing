@@ -1,7 +1,7 @@
 /// \author olavoie
 /// \date 11/29/17
 
-// FACTORY_GENERATOR_CLASS_NAME=SquareDetection
+// FACTORY_GENERATOR_CLASS_NAME=SquareDetector
 
 #ifndef PROC_IMAGE_PROCESSING_SQUARE_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_SQUARE_DETECTOR_H
@@ -13,18 +13,18 @@
 
 namespace proc_image_processing {
 
-    class SquareDetection : public Filter {
+    class SquareDetector : public Filter {
     public:
-        using Ptr = std::shared_ptr<SquareDetection>;
+        using Ptr = std::shared_ptr<SquareDetector>;
 
-        explicit SquareDetection(const GlobalParamHandler& globalParams)
-            : Filter(globalParams), enable_("Enable", false, &parameters_),
-            N("N", 100, 0, 100, &parameters_),
-            thresh("threshold", 100, 0, 100, &parameters_) {
-            setName("SquareDetection");
+        explicit SquareDetector(const GlobalParamHandler &globalParams)
+                : Filter(globalParams), enable_("Enable", false, &parameters_),
+                  N("N", 100, 0, 100, &parameters_),
+                  thresh("threshold", 100, 0, 100, &parameters_) {
+            setName("SquareDetector");
         }
 
-        virtual ~SquareDetection() {}
+        virtual ~SquareDetector() {}
 
         virtual void apply(cv::Mat &image) {
             std::vector<std::vector<cv::Point> > squares;
@@ -45,17 +45,16 @@ namespace proc_image_processing {
 
                 // try several threshold levels
                 for (int l = 0; l < N(); l++) {
-                    // hack: use Canny instead of zero threshold level.
-                    // Canny helps to catch squares with gradient shading
+                    // hack: use CannyFilter instead of zero threshold level.
+                    // CannyFilter helps to catch squares with gradient shading
                     if (l == 0) {
-                        // apply Canny. Take the upper threshold from slider
+                        // apply CannyFilter. Take the upper threshold from slider
                         // and set the lower to 0 (which forces edges merging)
                         cv::Canny(gray0, gray, 5, thresh(), 5);
                         // dilate canny output to remove potential
                         // holes between edge segments
                         cv::dilate(gray, gray, cv::Mat(), cv::Point(-1, -1));
-                    }
-                    else {
+                    } else {
                         // apply threshold if l!=0:
                         //     tgray(x,y) = gray(x,y) < (l+1)*255/N ? 255 : 0
                         gray = gray0 >= (l + 1) * 255 / N();

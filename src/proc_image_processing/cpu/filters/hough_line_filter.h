@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=HoughLine
+// FACTORY_GENERATOR_CLASS_NAME=HoughLineFilter
 
 #ifndef PROVIDER_VISION_FILTERS_HOUGH_LINE_H_
 #define PROVIDER_VISION_FILTERS_HOUGH_LINE_H_
@@ -11,22 +11,22 @@
 
 namespace proc_image_processing {
 
-  class HoughLine : public Filter {
-  public:
-    using Ptr = std::shared_ptr<HoughLine>;
+    class HoughLineFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<HoughLineFilter>;
 
-    explicit HoughLine(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
-      theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),
-      min_length_("Min_length", 1, 0, 1000, &parameters_),
-      max_gap_("Max_gap", 1, 0, 1000, &parameters_),
-      threshold_("Threshold", 1, 0, 1000, &parameters_) {
-        setName("HoughLine");
-    }
+        explicit HoughLineFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
+                  theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),
+                  min_length_("Min_length", 1, 0, 1000, &parameters_),
+                  max_gap_("Max_gap", 1, 0, 1000, &parameters_),
+                  threshold_("ThresholdFilter", 1, 0, 1000, &parameters_) {
+            setName("HoughLineFilter");
+        }
 
-    virtual ~HoughLine() {}
+        virtual ~HoughLineFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

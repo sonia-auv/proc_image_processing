@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=Canny
+// FACTORY_GENERATOR_CLASS_NAME=CannyFilter
 
 #ifndef PROVIDER_VISION_FILTERS_CANNY_H_
 #define PROVIDER_VISION_FILTERS_CANNY_H_
@@ -11,21 +11,21 @@
 
 namespace proc_image_processing {
 
-  class Canny : public Filter {
-  public:
-    using Ptr = std::shared_ptr<Canny>;
+    class CannyFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<CannyFilter>;
 
-    explicit Canny(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("Enable", false, &parameters_),
-      l2_gradiant_("l2_gradient", false, &parameters_),
-      thresh_one_("thres_one", 100, 0, 255, &parameters_),
-      thresh_two_("thres_two", 200, 0, 255, &parameters_),
-      aperture_size_("Aperture_size", 3, 0, 20, &parameters_) {
-        setName("Canny");
-    }
+        explicit CannyFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  l2_gradiant_("l2_gradient", false, &parameters_),
+                  thresh_one_("thres_one", 100, 0, 255, &parameters_),
+                  thresh_two_("thres_two", 200, 0, 255, &parameters_),
+                  aperture_size_("Aperture_size", 3, 0, 20, &parameters_) {
+            setName("CannyFilter");
+        }
 
-    virtual ~Canny() {}
+        virtual ~CannyFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

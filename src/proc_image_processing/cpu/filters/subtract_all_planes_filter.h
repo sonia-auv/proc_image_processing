@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=SubtractAllPlanes
+// FACTORY_GENERATOR_CLASS_NAME=SubtractAllPlanesFilter
 
 #ifndef PROVIDER_VISION_FILTERS_SUBTRACT_ALL_PLANES_H_
 #define PROVIDER_VISION_FILTERS_SUBTRACT_ALL_PLANES_H_
@@ -14,21 +14,21 @@ namespace proc_image_processing {
 
   // Filter showing planes of different analysis (gray, _hsi, _bgr)
   // No threshold
-  class SubtractAllPlanes : public Filter {
+  class SubtractAllPlanesFilter : public Filter {
   public:
-    using Ptr = std::shared_ptr<SubtractAllPlanes>;
+      using Ptr = std::shared_ptr<SubtractAllPlanesFilter>;
 
-    explicit SubtractAllPlanes(const GlobalParamHandler& globalParams)
-      : Filter(globalParams),
-      enable_("enable", false, &parameters_),
-      plane_one_("Plane_1", 1, 0, 7, &parameters_,
-        "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
-        "6=Intensity, 7=Gray"),
-      plane_two_("Plane_2", 1, 0, 7, &parameters_,
-        "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
-        "6=Intensity, 7=Gray"),
-      plane_three_("Plane_3", 1, 0, 7, &parameters_,
-        "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
+      explicit SubtractAllPlanesFilter(const GlobalParamHandler &globalParams)
+              : Filter(globalParams),
+                enable_("enable", false, &parameters_),
+                plane_one_("Plane_1", 1, 0, 7, &parameters_,
+                           "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
+                           "6=Intensity, 7=Gray"),
+                plane_two_("Plane_2", 1, 0, 7, &parameters_,
+                           "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
+                           "6=Intensity, 7=Gray"),
+                plane_three_("Plane_3", 1, 0, 7, &parameters_,
+                             "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
         "6=Intensity, 7=Gray"),
       invert_one_("Invert_plane_1", false, &parameters_),
       invert_two_("Invert_plane_2", false, &parameters_),
@@ -38,10 +38,10 @@ namespace proc_image_processing {
       weight_three_("Weight_Plane_3", 1.0, 0.0, 10.0, &parameters_),
       rows_(0),
       cols_(0) {
-        setName("SubtractAllPlanes");
+          setName("SubtractAllPlanesFilter");
     }
 
-    virtual ~SubtractAllPlanes() {}
+      virtual ~SubtractAllPlanesFilter() {}
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {

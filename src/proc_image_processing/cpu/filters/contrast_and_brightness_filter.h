@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=ContrastBrightness
+// FACTORY_GENERATOR_CLASS_NAME=ContrastAndBrightnessFilter
 
 #ifndef PROVIDER_VISION_FILTERS_CONTRAST_BRIGHTNESS_H_
 #define PROVIDER_VISION_FILTERS_CONTRAST_BRIGHTNESS_H_
@@ -14,11 +14,11 @@ namespace proc_image_processing {
 
     // Filter showing planes of different analysis (gray, _hsi, _bgr)
     // No threshold
-    class ContrastBrightness : public Filter {
+    class ContrastAndBrightnessFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<ContrastBrightness>;
+        using Ptr = std::shared_ptr<ContrastAndBrightnessFilter>;
 
-        explicit ContrastBrightness(const GlobalParamHandler &globalParams)
+        explicit ContrastAndBrightnessFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("enable", false, &parameters_),
                   contrast_("Contrast", 0, 0, 256, &parameters_,
@@ -27,10 +27,10 @@ namespace proc_image_processing {
                               "Set Brightness"),
                   rows_(0),
                   cols_(0) {
-            setName("ContrastBrightness");
+            setName("ContrastAndBrightnessFilter");
         }
 
-        virtual ~ContrastBrightness() {}
+        virtual ~ContrastAndBrightnessFilter() {}
 
         virtual void apply(cv::Mat &image) {
             if (enable_()) {
