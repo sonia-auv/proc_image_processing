@@ -4,40 +4,24 @@
 
 
 #include <sonia_common/ros/service_server_manager.h>
-#include <proc_image_processing/cpu/sonar/SubmarinePosition.h>
-#include <proc_image_processing/cpu/sonar/SonarMapper.h>
-#include <proc_image_processing/cpu/server/vision_server.h>
+#include <opencv2/opencv.hpp>
 
 int main(int argc, char **argv) {
     ROS_INFO("Starting proc_image_processing (GPU mode)...");
 
     ros::init(argc, argv, "proc_image_processing");
-    ros::NodeHandle nh("~");
 
     int gpuCount = cv::cuda::getCudaEnabledDeviceCount();
     if (gpuCount == 0 || gpuCount == -1) {
-        if (gpuCount == 0) ROS_ERROR("OpenCV is not compiled with cuda support. Running CPU mode instead...");
+        if (gpuCount == 0) ROS_ERROR("OpenCV is not compiled with CUDA support. Please use CPU mode.");
         else
-            ROS_ERROR("The CUDA driver is not installed, or is incompatible. Running CPU mode instead...");
-
-        proc_image_processing::VisionServer pv(nh);
-
-        ros::NodeHandlePtr nhp(&nh);
-        proc_image_processing::SubmarinePosition sp(nhp);
-        proc_image_processing::SonarMapper sonarMapper(sp, nhp);
+            ROS_ERROR("The CUDA driver is not installed, or is incompatible. Please fix it or use CPU mode.");
+        return 1;
     } else {
         ROS_INFO("proc_image_processing started with CUDA fully supported!");
         // TODO Replace to launch GPU server
-        proc_image_processing::VisionServer pv(nh);
-        ros::NodeHandlePtr nhp(&nh);
-        proc_image_processing::SubmarinePosition sp(nhp);
-        proc_image_processing::SonarMapper sonarMapper(sp, nhp);
-        // END replace
-    }
-
-    while (ros::ok()) {
-        usleep(20000);
-        ros::spinOnce();
+        ROS_ERROR("GPU Mode has not been implemented yet. Please use CPU mode for the time being.");
+        return 1;
     }
 
     return 0;

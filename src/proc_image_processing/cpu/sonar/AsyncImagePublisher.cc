@@ -66,5 +66,5 @@ void AsyncImagePublisher::ThreadFunction() {
             image_publisher_.publish(ros_image.toImageMsg());
         }
     }
-    ROS_INFO("Closing ascyn image publisher");
+    ROS_INFO("Closing AsyncImagePublisher");
 }
