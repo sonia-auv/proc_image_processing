@@ -26,44 +26,44 @@ namespace proc_image_processing {
                   power_pixel_correction_("pixel_correction_power", 1, -10, 10,
                                           &parameters_) {
             setName("ScharrFilter");
-    }
+        }
 
         virtual ~ScharrFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if (image.channels() > 1) {
-                  cv::cvtColor(image, image, CV_BGR2GRAY);
-              }
-              cv::Mat scharrX, scharrY;
-              cv::Scharr(image, scharrX, CV_32F, 1, 0, scale_(), delta_(),
-                         cv::BORDER_REPLICATE);
-              cv::Scharr(image, scharrY, CV_32F, 0, 1, scale_(), delta_(),
-                         cv::BORDER_REPLICATE);
-              cv::absdiff(scharrX, 0, scharrX);
-        cv::absdiff(scharrY, 0, scharrY);
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if (image.channels() > 1) {
+                    cv::cvtColor(image, image, CV_BGR2GRAY);
+                }
+                cv::Mat scharrX, scharrY;
+                cv::Scharr(image, scharrX, CV_32F, 1, 0, scale_(), delta_(),
+                           cv::BORDER_REPLICATE);
+                cv::Scharr(image, scharrY, CV_32F, 0, 1, scale_(), delta_(),
+                           cv::BORDER_REPLICATE);
+                cv::absdiff(scharrX, 0, scharrX);
+                cv::absdiff(scharrY, 0, scharrY);
 
-        cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, image, CV_32F);
+                cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, image, CV_32F);
 
-        if (use_pixel_intensity_correction_()) {
-          for (int y = 0; y < image.rows; y++) {
-            float* ptr = image.ptr<float>(y);
-            for (int x = 0; x < image.cols; x++) {
-              ptr[x] = pow(ptr[x], power_pixel_correction_());
+                if (use_pixel_intensity_correction_()) {
+                    for (int y = 0; y < image.rows; y++) {
+                        float *ptr = image.ptr<float>(y);
+                        for (int x = 0; x < image.cols; x++) {
+                            ptr[x] = pow(ptr[x], power_pixel_correction_());
+                        }
+                    }
+                }
+
+                if (convert_to_uchar_()) {
+                    cv::convertScaleAbs(image, image);
+                }
             }
-          }
         }
 
-        if (convert_to_uchar_()) {
-          cv::convertScaleAbs(image, image);
-        }
-      }
-    }
-
-  private:
-    Parameter<bool> enable_, convert_to_uchar_, use_pixel_intensity_correction_;
-    RangedParameter<double> delta_, scale_, power_pixel_correction_;
-  };
+    private:
+        Parameter<bool> enable_, convert_to_uchar_, use_pixel_intensity_correction_;
+        RangedParameter<double> delta_, scale_, power_pixel_correction_;
+    };
 
 }  // namespace proc_image_processing
 

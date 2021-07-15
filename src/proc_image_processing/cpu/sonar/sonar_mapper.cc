@@ -9,18 +9,17 @@
 
 namespace proc_image_processing {
 
-SonarMapper::SonarMapper(const SubmarinePosition &submarine_position,
-                         const ros::NodeHandlePtr &nh)
-        : sonar_map_(MAP_HEIGHT_METER * NB_PIXEL_BY_METER, MAP_WIDTH_METER * NB_PIXEL_BY_METER, CV_8UC1),
-          object_list_(0),
-          submarine_position_(submarine_position),
-          scanline_count_(0),
-          image_publisher_("sonar_map"),
-          nh_(nh)
-{
-  std::string topic_name ("/provider_sonar/point_cloud2" );
-    scanline_subscriber_ = nh_->subscribe(topic_name, 100, &SonarMapper::addScanLineToMap, this);
-}
+    SonarMapper::SonarMapper(const SubmarinePosition &submarine_position,
+                             const ros::NodeHandlePtr &nh)
+            : sonar_map_(MAP_HEIGHT_METER * NB_PIXEL_BY_METER, MAP_WIDTH_METER * NB_PIXEL_BY_METER, CV_8UC1),
+              object_list_(0),
+              submarine_position_(submarine_position),
+              scanline_count_(0),
+              image_publisher_("sonar_map"),
+              nh_(nh) {
+        std::string topic_name("/provider_sonar/point_cloud2");
+        scanline_subscriber_ = nh_->subscribe(topic_name, 100, &SonarMapper::addScanLineToMap, this);
+    }
 
     void SonarMapper::addScanLineToMap(const sensor_msgs::PointCloud2::ConstPtr &msg) {
         scanline_count_++;
@@ -48,23 +47,21 @@ SonarMapper::SonarMapper(const SubmarinePosition &submarine_position,
             Eigen::Vector3d point_cloud_coords(x, y, z);
             Eigen::Vector3d image_coords = transform * point_cloud_coords;
 
-    int image_x = std::round(image_coords.x()), image_y = std::round(image_coords.y());
-    if(0 <= image_x && image_x < sonar_map_.cols &&
-        0 <= image_y && image_y < sonar_map_.rows)
-    {
-      // Can do this because <at> function returns a reference.
-      uchar &value = sonar_map_.at<uchar>(image_y, image_x);
-      value = (uchar)( ( (uint16_t)(intensity * 255.0f * 10) + (uint16_t)value)/2 );
-    }
-  }
+            int image_x = std::round(image_coords.x()), image_y = std::round(image_coords.y());
+            if (0 <= image_x && image_x < sonar_map_.cols &&
+                0 <= image_y && image_y < sonar_map_.rows) {
+                // Can do this because <at> function returns a reference.
+                uchar &value = sonar_map_.at<uchar>(image_y, image_x);
+                value = (uchar) (((uint16_t) (intensity * 255.0f * 10) + (uint16_t) value) / 2);
+            }
+        }
 
-  if( scanline_count_ > MAX_SCANLINE )
-  {
-      cv::operator-=(sonar_map_,20);
-      scanline_count_ = 0;
-      image_publisher_.publish(sonar_map_);
-  }
-}
+        if (scanline_count_ > MAX_SCANLINE) {
+            cv::operator-=(sonar_map_, 20);
+            scanline_count_ = 0;
+            image_publisher_.publish(sonar_map_);
+        }
+    }
 
 
 }

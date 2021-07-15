@@ -11,40 +11,40 @@
 
 namespace proc_image_processing {
 
-  // see http://docs.opencv.org/modules/imgproc/doc/filtering.html
-  // for more detail on how and why
-  //
-  // This is a program to execute image filter other than erode, dilate and
-  // morphologicalEx. Those are more blur function than pixelizer
-  // settings are for the differents type of filters, and does not apply to all
-  class RemoveMaskFilter : public Filter {
-  public:
-      using Ptr = std::shared_ptr<RemoveMaskFilter>;
+    // see http://docs.opencv.org/modules/imgproc/doc/filtering.html
+    // for more detail on how and why
+    //
+    // This is a program to execute image filter other than erode, dilate and
+    // morphologicalEx. Those are more blur function than pixelizer
+    // settings are for the differents type of filters, and does not apply to all
+    class RemoveMaskFilter : public Filter {
+    public:
+        using Ptr = std::shared_ptr<RemoveMaskFilter>;
 
-      explicit RemoveMaskFilter(const GlobalParamHandler &globalParams)
-              : Filter(globalParams),
-                enable_("Enable", false, &parameters_),
-                type_("Type", 2, 0, 3, &parameters_,
-                      "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
-                kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
-                anchor_(-1, -1) {
-          setName("RemoveMaskFilter");
-      }
+        explicit RemoveMaskFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  type_("Type", 2, 0, 3, &parameters_,
+                        "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
+                  kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
+                  anchor_(-1, -1) {
+            setName("RemoveMaskFilter");
+        }
 
-      virtual ~RemoveMaskFilter() {}
+        virtual ~RemoveMaskFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              global_params_.getOriginalImage().copyTo(image, image);
-          }
-      }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                global_params_.getOriginalImage().copyTo(image, image);
+            }
+        }
 
-  private:
-    Parameter<bool> enable_;
-    RangedParameter<int> type_, kernel_size_;
+    private:
+        Parameter<bool> enable_;
+        RangedParameter<int> type_, kernel_size_;
 
-    const cv::Point anchor_;
-  };
+        const cv::Point anchor_;
+    };
 
 }  // namespace proc_image_processing
 

@@ -12,30 +12,30 @@
 
 namespace proc_image_processing {
 
-  class Moments {
-  public:
-    using Ptr = std::shared_ptr<Moments>;
+    class Moments {
+    public:
+        using Ptr = std::shared_ptr<Moments>;
 
-    Moments(cv::Mat image, bool binary);
+        Moments(cv::Mat image, bool binary);
 
-    Moments();
+        Moments();
 
-    ~Moments();
+        ~Moments();
 
-    void operator=(Moments moments);
+        void operator=(Moments moments);
 
-    // Points are in local coordinate, meaning that if the image was taken
-    // from a rotated rectangle, the x and y a rotated too!
-    cv::Point real_center_;
+        // Points are in local coordinate, meaning that if the image was taken
+        // from a rotated rectangle, the x and y a rotated too!
+        cv::Point real_center_;
 
-    cv::Point mass_center_;
+        cv::Point mass_center_;
 
-    float y_distance_from_center_;
+        float y_distance_from_center_;
 
-    float x_distance_from_center_;
+        float x_distance_from_center_;
 
-    cv::Moments cv_moments_;
-  };
+        cv::Moments cv_moments_;
+    };
 
 }  // namespace proc_image_processing
 

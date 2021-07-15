@@ -20,13 +20,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<PipeAngleDetector>;
 
-        explicit PipeAngleDetector(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
-            angle_(0.0f),
-            enable_("Enable", false, &parameters_),
-            debug_contour_("Debug_contour", false, &parameters_),
-            min_area_("Min_area", 200, 0, 10000, &parameters_),
-            min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
+        explicit PipeAngleDetector(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  angle_(0.0f),
+                  enable_("Enable", false, &parameters_),
+                  debug_contour_("Debug_contour", false, &parameters_),
+                  min_area_("Min_area", 200, 0, 10000, &parameters_),
+                  min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
             setName("PipeAngleDetector");
         }
 
@@ -55,7 +55,7 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr lastObject = nullptr;
                 for (int i = 0, size = contours.size(); i < size; i++) {
                     ObjectFullData::Ptr object =
-                        std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                            std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 
                     std::vector<cv::Point> realContour = contours[i];
 
@@ -76,7 +76,7 @@ namespace proc_image_processing {
 
                     std::vector<std::tuple<cv::Point, int>> intersectionPoint;
 
-                    for (cv::Point& linePoint : perpendicularLine) {
+                    for (cv::Point &linePoint : perpendicularLine) {
                         for (size_t id = 0; id < realContour.size(); id++) {
                             if (std::abs(cv::norm(linePoint - realContour[id])) < min_pixel_()) {
                                 std::tuple<cv::Point, int> data = std::make_tuple(realContour[id], id);
@@ -86,11 +86,11 @@ namespace proc_image_processing {
                     }
 
                     bool oneTime = false;
-                    for (std::tuple<cv::Point, int>& pointAndId1 : intersectionPoint) {
-                        for (std::tuple<cv::Point, int>& pointAndId2 : intersectionPoint) {
+                    for (std::tuple<cv::Point, int> &pointAndId1 : intersectionPoint) {
+                        for (std::tuple<cv::Point, int> &pointAndId2 : intersectionPoint) {
                             int id1 = std::get<1>(pointAndId1);
                             int id2 = std::get<1>(pointAndId2);
-                            if (std::abs(id2 - id1) >= (float)realContour.size() / 2 && !oneTime) {
+                            if (std::abs(id2 - id1) >= (float) realContour.size() / 2 && !oneTime) {
                                 intersectionPoint_.push_back(pointAndId2);
                                 intersectionPoint_.push_back(pointAndId1);
                                 oneTime = true;
@@ -111,12 +111,11 @@ namespace proc_image_processing {
                             lastContourId.push_back(idLastContour);
                         }
 
-                        int contourSize = (int)contours[i].size();
+                        int contourSize = (int) contours[i].size();
                         while (idMax != idMin) {
                             if (idMax > (contourSize - 1)) {
                                 idMax = idMax - contourSize;
-                            }
-                            else {
+                            } else {
                                 firstContourId.push_back(idMax);
                                 idMax++;
                             }
@@ -125,11 +124,11 @@ namespace proc_image_processing {
                         std::vector<cv::Point> firstContour;
                         std::vector<cv::Point> lastContour;
 
-                        for (int& id : firstContourId) {
+                        for (int &id : firstContourId) {
                             firstContour.push_back(realContour[id]);
                         }
 
-                        for (int& id : lastContourId) {
+                        for (int &id : lastContourId) {
                             lastContour.push_back(realContour[id]);
                         }
 
@@ -144,9 +143,9 @@ namespace proc_image_processing {
                 }
 
                 std::sort(objVec.begin(), objVec.end(),
-                    [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                        return a->getArea() > b->getArea();
-                    });
+                          [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                              return a->getArea() > b->getArea();
+                          });
 
                 // Since we search only one buoy, get the biggest from sort function
                 if (objVec.size() > 0) {

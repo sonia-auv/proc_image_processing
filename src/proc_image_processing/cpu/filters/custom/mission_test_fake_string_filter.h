@@ -24,16 +24,16 @@ namespace proc_image_processing {
 
         virtual ~MissionTestFakeStringFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              notify(Target());
-          }
-      }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                notify(Target());
+            }
+        }
 
-  private:
-    Parameter<bool> enable_;
-    Parameter<std::string> _string;
-  };
+    private:
+        Parameter<bool> enable_;
+        Parameter <std::string> _string;
+    };
 
 }  // namespace proc_image_processing
 

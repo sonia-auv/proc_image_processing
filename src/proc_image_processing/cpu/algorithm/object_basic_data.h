@@ -13,92 +13,92 @@
 
 namespace proc_image_processing {
 
-  class ObjectBasicData {
-  public:
-    using Ptr = std::shared_ptr<ObjectBasicData>;
+    class ObjectBasicData {
+    public:
+        using Ptr = std::shared_ptr<ObjectBasicData>;
 
-    static const int BLUE_PLANE = 0;
-    static const int GREEN_PLANE = 1;
-    static const int RED_PLANE = 2;
-    static const int HUE_PLANE = 3;
-    static const int SATURATION_PLANE = 4;
-    static const int INTENSITY_PLANE = 5;
-    static const int GRAY_PLANE = 6;
-    static const int NB_OF_PLANE = 7;
+        static const int BLUE_PLANE = 0;
+        static const int GREEN_PLANE = 1;
+        static const int RED_PLANE = 2;
+        static const int HUE_PLANE = 3;
+        static const int SATURATION_PLANE = 4;
+        static const int INTENSITY_PLANE = 5;
+        static const int GRAY_PLANE = 6;
+        static const int NB_OF_PLANE = 7;
 
-    enum OBJECT_DATA {
-      AREA,
-      CONVEX_HULL,
-      CIRCUMFERENCE,
-      ROTATED_RECT,
-      UP_RIGHT_RECT,
-      MOMENTS,
-      PLANES
+        enum OBJECT_DATA {
+            AREA,
+            CONVEX_HULL,
+            CIRCUMFERENCE,
+            ROTATED_RECT,
+            UP_RIGHT_RECT,
+            MOMENTS,
+            PLANES
+        };
+
+        ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage,
+                        const Contour &contour);
+
+        virtual ~ObjectBasicData() {}
+
+        void setPlaneInRange(int &planeID);
+
+        // Voting system
+        void vote();
+
+        int getVoteCount();
+
+        void resetVotes();
+
+        // All getters calculate their element if they are not already calculated.
+        // If they are, simply return them.
+        float getArea();
+
+        float getHeight();
+
+        float getWidth();
+
+        float getConvexHullArea();
+
+        float getCircumference();
+
+        const RotRect &getRotRect();
+
+        float getAngle();
+
+        cv::Point2f &getCenterPoint();
+
+        const cv::Rect &getUprightRect();
+
+        const cv::Moments &getMoments(bool binary);
+
+        // Images are already reference in opencv...
+        const cv::Mat &getPlanes(int planesID);
+
+        cv::Mat getBinaryImageAtUprightRect();
+
+        Contour getContourCopy();
+
+        cv::Size getImageSize();
+
+        const cv::Mat &getBinaryImage();
+
+        const cv::Mat &getOriginalImage();
+
+    private:
+        std::map<OBJECT_DATA, bool> is_calculated_map_;
+
+        float area_, convex_hull_area_, circumference_;
+
+        RotRect rect_;
+        cv::Rect up_right_rect_;
+        cv::Moments cv_moments_;
+        std::vector<cv::Mat> planes_;
+        cv::Mat original_image_, binary_image_;
+
+        int vote_count_;
+        Contour contour_;
     };
-
-    ObjectBasicData(const cv::Mat& originalImage, const cv::Mat& binaryImage,
-      const Contour& contour);
-
-    virtual ~ObjectBasicData() {}
-
-    void setPlaneInRange(int &planeID);
-
-      // Voting system
-      void vote();
-
-      int getVoteCount();
-
-      void resetVotes();
-
-      // All getters calculate their element if they are not already calculated.
-      // If they are, simply return them.
-      float getArea();
-
-      float getHeight();
-
-      float getWidth();
-
-      float getConvexHullArea();
-
-      float getCircumference();
-
-      const RotRect &getRotRect();
-
-      float getAngle();
-
-      cv::Point2f &getCenterPoint();
-
-      const cv::Rect &getUprightRect();
-
-      const cv::Moments &getMoments(bool binary);
-
-      // Images are already reference in opencv...
-      const cv::Mat &getPlanes(int planesID);
-
-      cv::Mat getBinaryImageAtUprightRect();
-
-    Contour getContourCopy();
-
-      cv::Size getImageSize();
-
-      const cv::Mat &getBinaryImage();
-
-      const cv::Mat &getOriginalImage();
-
-  private:
-    std::map<OBJECT_DATA, bool> is_calculated_map_;
-
-    float area_, convex_hull_area_, circumference_;
-
-    RotRect rect_;
-    cv::Rect up_right_rect_;
-    cv::Moments cv_moments_;
-    std::vector<cv::Mat> planes_;
-    cv::Mat original_image_, binary_image_;
-
-    int vote_count_;
-    Contour contour_;
-  };
 
     inline void ObjectBasicData::vote() { vote_count_++; }
 

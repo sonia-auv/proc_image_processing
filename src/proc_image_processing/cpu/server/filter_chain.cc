@@ -40,34 +40,34 @@ namespace proc_image_processing {
             out << YAML::Value << YAML::BeginSeq;
             for (auto &filter : filters_) {
                 out << YAML::BeginMap;
-        out << YAML::Key << "name";
-          out << YAML::Value << filter->getName();
+                out << YAML::Key << "name";
+                out << YAML::Value << filter->getName();
 
-          auto parameters = filter->getParameters();
-        if (parameters.size() > 0) {
-          out << YAML::Key << "parameters";
-          out << YAML::Value << YAML::BeginSeq;
-          for (const auto& parameter : parameters) {
-            out << YAML::BeginMap;
-              out << YAML::Key << "name";
-              out << YAML::Value << parameter->getName();
-              out << YAML::Key << "value";
-              out << YAML::Value << parameter->getStringValue();
-              out << YAML::EndMap;
-          }
-          out << YAML::EndSeq;
+                auto parameters = filter->getParameters();
+                if (parameters.size() > 0) {
+                    out << YAML::Key << "parameters";
+                    out << YAML::Value << YAML::BeginSeq;
+                    for (const auto &parameter : parameters) {
+                        out << YAML::BeginMap;
+                        out << YAML::Key << "name";
+                        out << YAML::Value << parameter->getName();
+                        out << YAML::Key << "value";
+                        out << YAML::Value << parameter->getStringValue();
+                        out << YAML::EndMap;
+                    }
+                    out << YAML::EndSeq;
+                }
+                out << YAML::EndMap;
+            }
+            out << YAML::EndSeq;
         }
         out << YAML::EndMap;
-      }
-      out << YAML::EndSeq;
-    }
-    out << YAML::EndMap;
 
         auto filepath = kFilterChainPath + getName() + kFilterChainExt;
         std::ofstream fout(filepath);
-    fout << out.c_str();
-    return true;
-  }
+        fout << out.c_str();
+        return true;
+    }
 
     bool FilterChain::deserialize() {
         YAML::Node node = YAML::LoadFile(filepath_);
@@ -80,26 +80,26 @@ namespace proc_image_processing {
             auto filters = node["filters"];
             assert(filters.Type() == YAML::NodeType::Sequence);
 
-      for (std::size_t i = 0; i < filters.size(); i++) {
-        auto filter_node = filters[i];
-          addFilter(filter_node["name"].as<std::string>());
+            for (std::size_t i = 0; i < filters.size(); i++) {
+                auto filter_node = filters[i];
+                addFilter(filter_node["name"].as<std::string>());
 
-        if (filter_node["parameters"]) {
-          auto parameters = filter_node["parameters"];
-          assert(parameters.Type() == YAML::NodeType::Sequence);
+                if (filter_node["parameters"]) {
+                    auto parameters = filter_node["parameters"];
+                    assert(parameters.Type() == YAML::NodeType::Sequence);
 
-          for (std::size_t j = 0; j < parameters.size(); j++) {
-            auto param_node = parameters[j];
+                    for (std::size_t j = 0; j < parameters.size(); j++) {
+                        auto param_node = parameters[j];
 
-            auto param_name = param_node["name"].as<std::string>();
-            auto param_value = param_node["value"].as<std::string>();
-              setFilterParameterValue(i, param_name, param_value);
-          }
+                        auto param_name = param_node["name"].as<std::string>();
+                        auto param_value = param_node["value"].as<std::string>();
+                        setFilterParameterValue(i, param_name, param_value);
+                    }
+                }
+            }
         }
-      }
+        return true;
     }
-    return true;
-  }
 
     void FilterChain::executeFilterChain(cv::Mat &image) {
         cv::Mat imageToProcess = image.clone();
@@ -113,16 +113,16 @@ namespace proc_image_processing {
                         (filters_.at(i))->apply(imageToProcess);
                     }
 
-          if (index == observer_index_) {
-            imageToProcess.copyTo(image);
-          }
+                    if (index == observer_index_) {
+                        imageToProcess.copyTo(image);
+                    }
 
-          index++;
-        }
-      }
-      catch (cv::Exception& e) {
-        ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s", name_.c_str(), e.what());
-      };
+                    index++;
+                }
+            }
+            catch (cv::Exception &e) {
+                ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s", name_.c_str(), e.what());
+            };
         }
     }
 

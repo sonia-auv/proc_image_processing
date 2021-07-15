@@ -6,22 +6,22 @@
 
 namespace proc_image_processing {
 
-  void ObjectRanker::RankByArea(ObjectFullData::FullObjectPtrVec objects) {
-    std::sort(objects.begin(), objects.end(), ObjectRanker::AreaSortFunction);
-    for (int i = 0, size = objects.size(); i < size; i++) {
-      if (objects[i].get() != nullptr) {
-          objects[i]->setAreaRank((float(size - i)) / float(size));
-      }
+    void ObjectRanker::RankByArea(ObjectFullData::FullObjectPtrVec objects) {
+        std::sort(objects.begin(), objects.end(), ObjectRanker::AreaSortFunction);
+        for (int i = 0, size = objects.size(); i < size; i++) {
+            if (objects[i].get() != nullptr) {
+                objects[i]->setAreaRank((float(size - i)) / float(size));
+            }
+        }
     }
-  }
 
-  void ObjectRanker::RankByLength(ObjectFullData::FullObjectPtrVec objects) {
-    std::sort(objects.begin(), objects.end(), ObjectRanker::LengthSortFunction);
-    for (int i = 0, size = objects.size(); i < size; i++) {
-      if (objects[i].get() != nullptr) {
-          objects[i]->setLengthRank(float((size - i)) / float(size));
-      }
+    void ObjectRanker::RankByLength(ObjectFullData::FullObjectPtrVec objects) {
+        std::sort(objects.begin(), objects.end(), ObjectRanker::LengthSortFunction);
+        for (int i = 0, size = objects.size(); i < size; i++) {
+            if (objects[i].get() != nullptr) {
+                objects[i]->setLengthRank(float((size - i)) / float(size));
+            }
+        }
     }
-  }
 
 }  // namespace proc_image_processing

@@ -34,7 +34,7 @@ namespace proc_image_processing {
             // are added by the said object (which cannot be null if
             // it gets to the constructor) and which are member of
             // the filter class (which mean they are alive as long as the
-      // filter is alive)...
+            // filter is alive)...
             if (param != nullptr) {
                 // Is it the param we are searching
                 if (param->getName() == name) {

@@ -29,60 +29,60 @@ namespace proc_image_processing {
                   last_type_(0),
                   last_nb_image_(3) {
             setName("AccumulatorFilter");
-    }
+        }
 
         virtual ~AccumulatorFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              // Is there any change in the type of images
-              // we input to the accumulator?
-              // If yes, reset it.
-              if (last_type_ != image.type() || last_method_ != method_() ||
-                  last_nb_image_ != nb_image_() || last_size_ != image.size()) {
-                  accumulator_.resetBuffer(nb_image_(), image.size(), image.type());
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                // Is there any change in the type of images
+                // we input to the accumulator?
+                // If yes, reset it.
+                if (last_type_ != image.type() || last_method_ != method_() ||
+                    last_nb_image_ != nb_image_() || last_size_ != image.size()) {
+                    accumulator_.resetBuffer(nb_image_(), image.size(), image.type());
 
-                  last_nb_image_ = nb_image_();
-                  last_size_ = image.size();
+                    last_nb_image_ = nb_image_();
+                    last_size_ = image.size();
 
-          switch (method_()) {
-              case 0:
-                  accumulator_.setAverageMethod(
-                          ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
-            break;
-              case 1:
-                  accumulator_.setAverageMethod(
-                          ImageAccumulatorBuffer::ACC_50_PERCENT);
-            break;
-              case 2:
-                  accumulator_.setAverageMethod(
-                          ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
-            break;
-              default:
-                  accumulator_.setAverageMethod(
-                          ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
-            break;
-          }
-          last_method_ = method_();
-          last_type_ = image.type();
+                    switch (method_()) {
+                        case 0:
+                            accumulator_.setAverageMethod(
+                                    ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+                            break;
+                        case 1:
+                            accumulator_.setAverageMethod(
+                                    ImageAccumulatorBuffer::ACC_50_PERCENT);
+                            break;
+                        case 2:
+                            accumulator_.setAverageMethod(
+                                    ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
+                            break;
+                        default:
+                            accumulator_.setAverageMethod(
+                                    ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+                            break;
+                    }
+                    last_method_ = method_();
+                    last_type_ = image.type();
+                }
+                // Add the newest frame
+                accumulator_.addImage(image);
+                // Change the input for the newest averaging.
+                accumulator_.convertImage(image);
+            }
         }
-        // Add the newest frame
-          accumulator_.addImage(image);
-        // Change the input for the newest averaging.
-          accumulator_.convertImage(image);
-      }
-    }
 
-  private:
-    ImageAccumulatorBuffer accumulator_;
-    Parameter<bool> enable_;
-    RangedParameter<int> nb_image_, method_;
-    // Here we need some sorte of remembering
-    // so we can reset the accumulator on
-    // param changing.
-    cv::Size last_size_;
-    int last_method_, last_type_, last_nb_image_;
-  };
+    private:
+        ImageAccumulatorBuffer accumulator_;
+        Parameter<bool> enable_;
+        RangedParameter<int> nb_image_, method_;
+        // Here we need some sorte of remembering
+        // so we can reset the accumulator on
+        // param changing.
+        cv::Size last_size_;
+        int last_method_, last_type_, last_nb_image_;
+    };
 
 }  // namespace proc_image_processing
 

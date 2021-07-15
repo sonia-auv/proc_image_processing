@@ -6,21 +6,21 @@
 
 namespace proc_image_processing {
 
-  ObjectFullData::ObjectFullData(const cv::Mat& originalImage,
-    const cv::Mat& binaryImage,
-    const Contour& contour)
-    : ObjectBasicData(originalImage, binaryImage, contour) {
-  }
+    ObjectFullData::ObjectFullData(const cv::Mat &originalImage,
+                                   const cv::Mat &binaryImage,
+                                   const Contour &contour)
+            : ObjectBasicData(originalImage, binaryImage, contour) {
+    }
 
-  cv::Point ObjectVecMedian(ObjectFullData::FullObjectPtrVec objVec) {
-      std::vector<float> xVec;
-      std::vector<float> yVec;
-      for (auto &elem : objVec) {
-          xVec.insert(xVec.begin(), elem->getCenterPoint().x);
-          yVec.insert(yVec.begin(), elem->getCenterPoint().y);
-      }
-      return cv::Point((int) (getMedian(xVec)),
-                       (int) (getMedian(yVec)));
-  }
+    cv::Point ObjectVecMedian(ObjectFullData::FullObjectPtrVec objVec) {
+        std::vector<float> xVec;
+        std::vector<float> yVec;
+        for (auto &elem : objVec) {
+            xVec.insert(xVec.begin(), elem->getCenterPoint().x);
+            yVec.insert(yVec.begin(), elem->getCenterPoint().y);
+        }
+        return cv::Point((int) (getMedian(xVec)),
+                         (int) (getMedian(yVec)));
+    }
 
 }  // namespace proc_image_processing

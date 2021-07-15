@@ -17,8 +17,8 @@ namespace proc_image_processing {
     class SubmarinePosition {
     public:
         const size_t X = 0;
-  const size_t Y = 1;
-  const size_t Z = 2;
+        const size_t Y = 1;
+        const size_t Z = 2;
         const size_t ROLL = 0;
         const size_t PITCH = 1;
         const size_t YAW = 2;
@@ -45,12 +45,12 @@ namespace proc_image_processing {
 
     private:
 
-  // ROS
-  ros::Subscriber nav_odometry_subscriber_;
-  Eigen::Vector3d position_xyz_, orientation_rpy_;
-  Eigen::Quaterniond orientation_quaternion_;
-    ros::NodeHandlePtr nh_;
-};
+        // ROS
+        ros::Subscriber nav_odometry_subscriber_;
+        Eigen::Vector3d position_xyz_, orientation_rpy_;
+        Eigen::Quaterniond orientation_quaternion_;
+        ros::NodeHandlePtr nh_;
+    };
 
 
     inline void

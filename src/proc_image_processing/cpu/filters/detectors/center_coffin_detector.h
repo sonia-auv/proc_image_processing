@@ -17,13 +17,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<CenterCoffinDetector>;
 
-        explicit CenterCoffinDetector(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
-            enable_("Enable", false, &parameters_),
-            debug_contour_("Debug_contour", false, &parameters_),
-            look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-            min_area_("Min_area", 100, 1, 10000, &parameters_),
-            max_area_("Max_area", 1000, 1, 1000000, &parameters_) {
+        explicit CenterCoffinDetector(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  debug_contour_("Debug_contour", false, &parameters_),
+                  look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
+                  min_area_("Min_area", 100, 1, 10000, &parameters_),
+                  max_area_("Max_area", 1000, 1, 1000000, &parameters_) {
             setName("CenterCoffinDetector");
         }
 

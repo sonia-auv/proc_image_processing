@@ -26,30 +26,30 @@ namespace proc_image_processing {
 
         virtual ~RotateFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if (transpose_()) cv::transpose(image, image);
-              switch (rotate_type_()) {
-                  case 0:
-                      break;
-                  case 1:
-                      cv::flip(image, image, 0);
-                      break;
-                  case 2:
-                      cv::flip(image, image, 1);
-          break;
-        case 3:
-          cv::flip(image, image, -1);
-          break;
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if (transpose_()) cv::transpose(image, image);
+                switch (rotate_type_()) {
+                    case 0:
+                        break;
+                    case 1:
+                        cv::flip(image, image, 0);
+                        break;
+                    case 2:
+                        cv::flip(image, image, 1);
+                        break;
+                    case 3:
+                        cv::flip(image, image, -1);
+                        break;
+                }
+            }
         }
-      }
-    }
 
-  private:
-    Parameter<bool> enable_, transpose_;
+    private:
+        Parameter<bool> enable_, transpose_;
 
-    RangedParameter<int> rotate_type_;
-  };
+        RangedParameter<int> rotate_type_;
+    };
 
 }  // namespace proc_image_processing
 

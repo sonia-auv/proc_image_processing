@@ -59,16 +59,16 @@ namespace proc_image_processing {
 // for the proc_image_processing project.
 // It enables instantiation via a string
 // and holds the list of all the filters.
-class FilterFactory {
- public:
+    class FilterFactory {
+    public:
 
-  using Ptr = std::shared_ptr<FilterFactory>;
+        using Ptr = std::shared_ptr<FilterFactory>;
 
-  // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT
-  static std::unique_ptr<Filter> createInstance(const std::string &name, const GlobalParamHandler &globalParams);
+        // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT
+        static std::unique_ptr<Filter> createInstance(const std::string &name, const GlobalParamHandler &globalParams);
 
-  static std::string getFilters();
-};
+        static std::string getFilters();
+    };
 
 }  // namespace proc_image_processing
 

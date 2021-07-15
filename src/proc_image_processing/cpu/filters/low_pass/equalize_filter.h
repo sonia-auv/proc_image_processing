@@ -23,15 +23,15 @@ namespace proc_image_processing {
 
         virtual ~EqualizeFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              cv::equalizeHist(image, image);
-          }
-      }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                cv::equalizeHist(image, image);
+            }
+        }
 
-  private:
-    Parameter<bool> enable_;
-  };
+    private:
+        Parameter<bool> enable_;
+    };
 
 }  // namespace proc_image_processing
 

@@ -10,8 +10,8 @@
 
 namespace proc_image_processing {
 
-  typedef std::vector<cv::Point> contour_t;
-  typedef std::vector<contour_t> contourList_t;
+    typedef std::vector<cv::Point> contour_t;
+    typedef std::vector<contour_t> contourList_t;
     typedef std::vector<cv::Vec4i> hierarchy_t;
 
 #define NEXT_CTR 0
@@ -19,12 +19,16 @@ namespace proc_image_processing {
 #define FIRST_CHILD_CTR 2
 #define PARENT_CTR 3
 
-  typedef std::vector<cv::Vec4i> defectuosity_t;
+    typedef std::vector<cv::Vec4i> defectuosity_t;
 
-  // Enum for the rotation function
-  enum rotationType { R_NONE = 0, R_90, R_180, R_270 };
+    // Enum for the rotation function
+    enum rotationType {
+        R_NONE = 0, R_90, R_180, R_270
+    };
 
-  enum symmetryType { S_NONE = 0, S_X_AXIS, S_Y_AXIS, S_BOTH };
+    enum symmetryType {
+        S_NONE = 0, S_X_AXIS, S_Y_AXIS, S_BOTH
+    };
 
 }  // namespace proc_image_processing
 

@@ -101,13 +101,13 @@ namespace proc_image_processing {
          */
         std::string getFilterChainPath(const std::string &filterchain) const;
 
-  private:
+    private:
         /**
          * List of current instances of filterchains
          */
         std::vector<FilterChain::Ptr> running_filterchains_;
 
-  };
+    };
 
 }  // namespace proc_image_processing
 

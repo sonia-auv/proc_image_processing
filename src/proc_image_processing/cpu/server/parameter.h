@@ -17,121 +17,121 @@
 
 namespace proc_image_processing {
 
-  template <typename Tp_>
-  class Parameter : public ParameterInterface {
-  public:
-    using Ptr = std::shared_ptr<Parameter<Tp_>>;
+    template<typename Tp_>
+    class Parameter : public ParameterInterface {
+    public:
+        using Ptr = std::shared_ptr<Parameter<Tp_>>;
 
-    static const char SEPARATOR = '|';
+        static const char SEPARATOR = '|';
 
-    explicit Parameter(const std::string& name, const Tp_& value,
-      std::vector<ParameterInterface*>* vector = nullptr,
-      const std::string& description = "");
+        explicit Parameter(const std::string &name, const Tp_ &value,
+                           std::vector<ParameterInterface *> *vector = nullptr,
+                           const std::string &description = "");
 
-    virtual ~Parameter() = default;
+        virtual ~Parameter() = default;
 
-    template <class Ut_>
-    bool operator>(const Ut_& rhs) {
-      return value_ > rhs;
-    }
+        template<class Ut_>
+        bool operator>(const Ut_ &rhs) {
+            return value_ > rhs;
+        }
 
-    template <class Ut_>
-    bool operator<(const Ut_& rhs) {
-      return value_ < rhs;
-    }
+        template<class Ut_>
+        bool operator<(const Ut_ &rhs) {
+            return value_ < rhs;
+        }
 
-    template <class Ut_>
-    bool operator==(const Ut_& rhs) {
-      return rhs == value_;
-    }
+        template<class Ut_>
+        bool operator==(const Ut_ &rhs) {
+            return rhs == value_;
+        }
 
-    template <class Ut_>
-    bool operator!=(const Ut_& rhs) {
-      return rhs != value_;
-    }
+        template<class Ut_>
+        bool operator!=(const Ut_ &rhs) {
+            return rhs != value_;
+        }
 
-    template <class Ut_>
-    void operator+=(const Ut_& rhs) {
-      value_ += rhs;
-    }
+        template<class Ut_>
+        void operator+=(const Ut_ &rhs) {
+            value_ += rhs;
+        }
 
-    template <class Ut_>
-    void operator++() {
-      value_++;
-    }
+        template<class Ut_>
+        void operator++() {
+            value_++;
+        }
 
-    template <class Ut_>
-    void operator-=(const Ut_& rhs) {
-      value_ -= rhs;
-    }
+        template<class Ut_>
+        void operator-=(const Ut_ &rhs) {
+            value_ -= rhs;
+        }
 
-    template <class Ut_>
-    void operator--() {
-      value_--;
-    }
+        template<class Ut_>
+        void operator--() {
+            value_--;
+        }
 
-    template <class Ut_>
-    void operator*=(const Ut_& rhs) {
-      value_ *= rhs;
-    }
+        template<class Ut_>
+        void operator*=(const Ut_ &rhs) {
+            value_ *= rhs;
+        }
 
-    template <class Ut_>
-    void operator/=(const Ut_& rhs) {
-      value_ /= rhs;
-    }
+        template<class Ut_>
+        void operator/=(const Ut_ &rhs) {
+            value_ /= rhs;
+        }
 
-    template <class Ut_>
-    int operator+(const Ut_& rhs) {
-      return value_ + rhs;
-    }
+        template<class Ut_>
+        int operator+(const Ut_ &rhs) {
+            return value_ + rhs;
+        }
 
-    template <class Ut_>
-    int operator-(const Ut_& rhs) {
-      return value_ - rhs;
-    }
+        template<class Ut_>
+        int operator-(const Ut_ &rhs) {
+            return value_ - rhs;
+        }
 
-    template <class Ut_>
-    int operator*(const Ut_& rhs) {
-      return value_ * rhs;
-    }
+        template<class Ut_>
+        int operator*(const Ut_ &rhs) {
+            return value_ * rhs;
+        }
 
-    template <class Ut_>
-    int operator/(const Ut_& rhs) {
-      return value_ / rhs;
-    }
+        template<class Ut_>
+        int operator/(const Ut_ &rhs) {
+            return value_ / rhs;
+        }
 
-    template <class Ut_>
-    void operator=(const Ut_& rhs) {
-        setStringValue(rhs);
-    }
+        template<class Ut_>
+        void operator=(const Ut_ &rhs) {
+            setStringValue(rhs);
+        }
 
-      Tp_ operator()() { return getValue(); }
+        Tp_ operator()() { return getValue(); }
 
-      void setValue(const Tp_ &value);
+        void setValue(const Tp_ &value);
 
-      const Tp_ &getValue() const;
+        const Tp_ &getValue() const;
 
-      void setDescription(const std::string &description) override;
+        void setDescription(const std::string &description) override;
 
-      std::string getDescription() const override;
+        std::string getDescription() const override;
 
-      void setName(const std::string &name) override;
+        void setName(const std::string &name) override;
 
-      std::string getName() const override;
+        std::string getName() const override;
 
-      virtual std::string toString() const override;
+        virtual std::string toString() const override;
 
-      std::string getType() const override;
+        std::string getType() const override;
 
-      std::string getStringValue() const override;
+        std::string getStringValue() const override;
 
-      void setStringValue(const std::string &value) override;
+        void setStringValue(const std::string &value) override;
 
-  protected:
-    std::string name_;
-    Tp_ value_;
-    std::string description_;
-  };
+    protected:
+        std::string name_;
+        Tp_ value_;
+        std::string description_;
+    };
 
 }  // namespace proc_image_processing
 

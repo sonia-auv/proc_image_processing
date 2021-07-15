@@ -6,22 +6,22 @@
 
 namespace proc_image_processing {
 
-  const float MajorEdgeExtractor::PERCENT_OF_VAL_FOR_VALUE_CONNECTION = 0.8;
+    const float MajorEdgeExtractor::PERCENT_OF_VAL_FOR_VALUE_CONNECTION = 0.8;
 
-  ReferencePoint::ReferencePoint(float pix_val, int max_val_index)
-    : _pix_value(pix_val), _reference_max_index(max_val_index) {
-  }
+    ReferencePoint::ReferencePoint(float pix_val, int max_val_index)
+            : _pix_value(pix_val), _reference_max_index(max_val_index) {
+    }
 
-  RefKernel::RefKernel(const RefPointPtr& north, const RefPointPtr& west,
-    const RefPointPtr& center)
-    : _north(north), _west(west), _center(center) {
-  }
+    RefKernel::RefKernel(const RefPointPtr &north, const RefPointPtr &west,
+                         const RefPointPtr &center)
+            : _north(north), _west(west), _center(center) {
+    }
 
-  void MajorEdgeExtractor::init(const cv::Size &size) {
-      // If the image is already created, no need for
-      // re-creating it.
-      if (ref_image_.size() != size) createReferenceImage(size);
-  }
+    void MajorEdgeExtractor::init(const cv::Size &size) {
+        // If the image is already created, no need for
+        // re-creating it.
+        if (ref_image_.size() != size) createReferenceImage(size);
+    }
 
     void MajorEdgeExtractor::clean() {
         // Free the RefPoint allocated previously.
@@ -51,75 +51,75 @@ namespace proc_image_processing {
         setLink(first_value, value, x, y);
 
         setValueInReferenceVector(second_value, getValueInReferenceVector(first_value));
-  }
-
-  cv::Mat MajorEdgeExtractor::ExtractEdge(const cv::Mat& image,
-    int extreme_minimum) {
-    if (image.channels() != 1 || image.type() != CV_32F) {
-      std::cout << "Bad image type or number of channel" << std::endl;
-      return cv::Mat::zeros(1, 1, CV_8UC1);
     }
 
-    // Image creation
-    cv::Mat final_image(image.size(), CV_8UC1, 0);
-    cv::Mat working_image;
-      cv::copyMakeBorder(image, working_image, 1, 1, 1, 1, cv::BORDER_DEFAULT);
-      init(working_image.size());
-
-    for (int y = 1, rows = working_image.rows, cols = working_image.cols;
-      y < rows - 1; y++) {
-      float* ptr = working_image.ptr<float>(y);
-      RefPointPtr* ref_up_line = ref_image_.ptr<RefPointPtr>(y - 1);
-      RefPointPtr* ref_center_line = ref_image_.ptr<RefPointPtr>(y);
-      for (int x = 1; x < cols - 1; x++) {
-          RefKernel ref_kernel(ref_up_line[x], ref_center_line[x - 1],
-                               ref_center_line[x]);
-          float pix_val = ptr[x];
-          // Pixel is too low in value, does not workt being looked at...
-          if (pix_val < extreme_minimum) {
-              continue;
-          }
-
-          if (isAloneReference(ref_kernel)) {
-              addReferencePoint(x, y, pix_val);
-              continue;
-          }
-
-          if (isNorthAndWestExist(ref_kernel)) {
-              if (isJunction(ref_kernel, pix_val)) {
-                  setJunction(ref_kernel, pix_val, x, y);
-                  continue;
-              }
-          }
-
-          if (isWestExist(ref_kernel)) {
-              if (isValueConnected(ref_kernel._west, pix_val)) {
-                  setLink(ref_kernel._west, pix_val, x, y);
-              }
-          } else if (isNorthExist(ref_kernel)) {
-              if (isValueConnected(ref_kernel._north, pix_val)) {
-                  setLink(ref_kernel._north, pix_val, x, y);
-              }
-          }
-      }
-    }
-
-    for (int y = 0, rows = final_image.rows, cols = final_image.cols; y < rows;
-      y++) {
-      float* val_ptr = final_image.ptr<float>(y);
-      RefPointPtr* ref_ptr = ref_image_.ptr<RefPointPtr>(y + 1);
-
-      for (int x = 0; x < cols; x++) {
-        if (ref_ptr[x + 1] != nullptr) {
-            // val_ptr[x] = getValueInReferenceVector(ref_ptr[x+1]);
-          val_ptr[x] = 255;
+    cv::Mat MajorEdgeExtractor::ExtractEdge(const cv::Mat &image,
+                                            int extreme_minimum) {
+        if (image.channels() != 1 || image.type() != CV_32F) {
+            std::cout << "Bad image type or number of channel" << std::endl;
+            return cv::Mat::zeros(1, 1, CV_8UC1);
         }
-      }
+
+        // Image creation
+        cv::Mat final_image(image.size(), CV_8UC1, 0);
+        cv::Mat working_image;
+        cv::copyMakeBorder(image, working_image, 1, 1, 1, 1, cv::BORDER_DEFAULT);
+        init(working_image.size());
+
+        for (int y = 1, rows = working_image.rows, cols = working_image.cols;
+             y < rows - 1; y++) {
+            float *ptr = working_image.ptr<float>(y);
+            RefPointPtr *ref_up_line = ref_image_.ptr<RefPointPtr>(y - 1);
+            RefPointPtr *ref_center_line = ref_image_.ptr<RefPointPtr>(y);
+            for (int x = 1; x < cols - 1; x++) {
+                RefKernel ref_kernel(ref_up_line[x], ref_center_line[x - 1],
+                                     ref_center_line[x]);
+                float pix_val = ptr[x];
+                // Pixel is too low in value, does not workt being looked at...
+                if (pix_val < extreme_minimum) {
+                    continue;
+                }
+
+                if (isAloneReference(ref_kernel)) {
+                    addReferencePoint(x, y, pix_val);
+                    continue;
+                }
+
+                if (isNorthAndWestExist(ref_kernel)) {
+                    if (isJunction(ref_kernel, pix_val)) {
+                        setJunction(ref_kernel, pix_val, x, y);
+                        continue;
+                    }
+                }
+
+                if (isWestExist(ref_kernel)) {
+                    if (isValueConnected(ref_kernel._west, pix_val)) {
+                        setLink(ref_kernel._west, pix_val, x, y);
+                    }
+                } else if (isNorthExist(ref_kernel)) {
+                    if (isValueConnected(ref_kernel._north, pix_val)) {
+                        setLink(ref_kernel._north, pix_val, x, y);
+                    }
+                }
+            }
+        }
+
+        for (int y = 0, rows = final_image.rows, cols = final_image.cols; y < rows;
+             y++) {
+            float *val_ptr = final_image.ptr<float>(y);
+            RefPointPtr *ref_ptr = ref_image_.ptr<RefPointPtr>(y + 1);
+
+            for (int x = 0; x < cols; x++) {
+                if (ref_ptr[x + 1] != nullptr) {
+                    // val_ptr[x] = getValueInReferenceVector(ref_ptr[x+1]);
+                    val_ptr[x] = 255;
+                }
+            }
+        }
+
+        clean();
+
+        return final_image;
     }
-
-      clean();
-
-    return final_image;
-  }
 
 }  // namespace proc_image_processing

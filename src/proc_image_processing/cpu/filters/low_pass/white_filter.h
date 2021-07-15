@@ -17,14 +17,14 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<WhiteFilter>;
 
-        explicit WhiteFilter(const GlobalParamHandler& globalParams)
-            : Filter(globalParams), enable_("Enable", false, &parameters_),
-            minimal_1pixel_range_("minimal 1 pixel range", 0, 0, 255, &parameters_),
-            minimal_2pixel_range_("minimal 2 pixel range", 0, 0, 255, &parameters_),
-            minimal_3pixel_range_("minimal 3 pixel range", 0, 0, 255, &parameters_),
-            maximal_1pixel_range_("maximal 1 pixel range", 0, 0, 255, &parameters_),
-            maximal_2pixel_range_("maximal 2 pixel range", 0, 0, 255, &parameters_),
-            maximal_3pixel_range_("maximal 3 pixel range", 0, 0, 255, &parameters_) {
+        explicit WhiteFilter(const GlobalParamHandler &globalParams)
+                : Filter(globalParams), enable_("Enable", false, &parameters_),
+                  minimal_1pixel_range_("minimal 1 pixel range", 0, 0, 255, &parameters_),
+                  minimal_2pixel_range_("minimal 2 pixel range", 0, 0, 255, &parameters_),
+                  minimal_3pixel_range_("minimal 3 pixel range", 0, 0, 255, &parameters_),
+                  maximal_1pixel_range_("maximal 1 pixel range", 0, 0, 255, &parameters_),
+                  maximal_2pixel_range_("maximal 2 pixel range", 0, 0, 255, &parameters_),
+                  maximal_3pixel_range_("maximal 3 pixel range", 0, 0, 255, &parameters_) {
             setName("WhiteFilter");
         }
 

@@ -17,42 +17,42 @@ namespace proc_image_processing {
 #define PROVIDER_VISION_BOTTOM_LEFT 1
 #define PROVIDER_VISION_BOTTOM_RIGHT 2
 
-  // Rotated rect ensure that the height member is the longest one
-  // and the getAngle is in the direction of the height
-  // it also contains useful method to play with rotated rectangle
-  class RotRect : public cv::RotatedRect {
-  public:
-    using Ptr = std::shared_ptr<RotRect>;
+    // Rotated rect ensure that the height member is the longest one
+    // and the getAngle is in the direction of the height
+    // it also contains useful method to play with rotated rectangle
+    class RotRect : public cv::RotatedRect {
+    public:
+        using Ptr = std::shared_ptr<RotRect>;
 
-    RotRect(const std::vector<cv::Point>& edges);
+        RotRect(const std::vector<cv::Point> &edges);
 
-    RotRect(const cv::RotatedRect& rotRect);
+        RotRect(const cv::RotatedRect &rotRect);
 
-    RotRect(const RotRect& a);
+        RotRect(const RotRect &a);
 
-    RotRect();
+        RotRect();
 
-    ~RotRect();
+        ~RotRect();
 
-    RotRect& operator=(RotRect rotRect);
+        RotRect &operator=(RotRect rotRect);
 
-    RotRect& operator=(cv::RotatedRect rotRect);
+        RotRect &operator=(cv::RotatedRect rotRect);
 
-    bool operator==(const RotRect& rotRect);
+        bool operator==(const RotRect &rotRect);
 
-    void drawRect(cv::Mat& out, cv::Scalar color, int thickness = 1);
+        void drawRect(cv::Mat &out, cv::Scalar color, int thickness = 1);
 
-    // Create the class with another rotated rect
-    void swap(RotRect& a);
+        // Create the class with another rotated rect
+        void swap(RotRect &a);
 
-    cv::Point2f* getCorners();
+        cv::Point2f *getCorners();
 
-  private:
-    // Set height to the longest side of the rectangle and
-    void setValues();
+    private:
+        // Set height to the longest side of the rectangle and
+        void setValues();
 
-    cv::Point2f pts_[4];
-  };
+        cv::Point2f pts_[4];
+    };
 
 }  // namespace proc_image_processing
 

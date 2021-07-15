@@ -29,38 +29,38 @@ namespace proc_image_processing {
 
         virtual ~ErodeFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              int kernel_type = 0;
-              switch (kernel_type_()) {
-                  case 0:
-                      kernel_type = cv::MORPH_RECT;
-                      break;
-                  case 1:
-                      kernel_type = cv::MORPH_ELLIPSE;
-                      break;
-                  case 2:
-          kernel_type = cv::MORPH_CROSS;
-          break;
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                int kernel_type = 0;
+                switch (kernel_type_()) {
+                    case 0:
+                        kernel_type = cv::MORPH_RECT;
+                        break;
+                    case 1:
+                        kernel_type = cv::MORPH_ELLIPSE;
+                        break;
+                    case 2:
+                        kernel_type = cv::MORPH_CROSS;
+                        break;
+                }
+
+                cv::Size size(kernel_size_x_() * 2 + 1,
+                              (use_square_kernel_() ? kernel_size_x_() * 2 + 1
+                                                    : kernel_size_y_() * 2 + 1));
+                cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
+
+                cv::erode(image, image, kernel, anchor_, iteration_());
+            }
         }
 
-        cv::Size size(kernel_size_x_() * 2 + 1,
-          (use_square_kernel_() ? kernel_size_x_() * 2 + 1
-            : kernel_size_y_() * 2 + 1));
-        cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
+    private:
+        Parameter<bool> enable_, use_square_kernel_;
+        RangedParameter<int> kernel_type_;
+        RangedParameter<int> kernel_size_x_, kernel_size_y_;
+        RangedParameter<int> iteration_;
 
-        cv::erode(image, image, kernel, anchor_, iteration_());
-      }
-    }
-
-  private:
-    Parameter<bool> enable_, use_square_kernel_;
-    RangedParameter<int> kernel_type_;
-    RangedParameter<int> kernel_size_x_, kernel_size_y_;
-    RangedParameter<int> iteration_;
-
-    const cv::Point anchor_;
-  };
+        const cv::Point anchor_;
+    };
 
 }  // namespace proc_image_processing
 

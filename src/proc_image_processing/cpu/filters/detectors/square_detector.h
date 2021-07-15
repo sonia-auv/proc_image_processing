@@ -40,7 +40,7 @@ namespace proc_image_processing {
 
             // find squares in every color plane of the image
             for (int c = 0; c < 3; c++) {
-                int ch[] = { c, 0 };
+                int ch[] = {c, 0};
                 cv::mixChannels(&timg, 1, &gray0, 1, ch, 1);
 
                 // try several threshold levels
@@ -69,7 +69,8 @@ namespace proc_image_processing {
                     for (size_t i = 0; i < contours.size(); i++) {
                         // approximate contour with accuracy proportional
                         // to the contour perimeter
-                        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true) * 0.02, true);
+                        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true) * 0.02,
+                                         true);
 
                         // square contours should have 4 vertices after approximation
                         // relatively large area (to filter out noisy contours)
@@ -98,9 +99,9 @@ namespace proc_image_processing {
                 }
             }
             for (size_t i = 0; i < squares.size(); i++) {
-                const cv::Point* p = &squares[i][0];
+                const cv::Point *p = &squares[i][0];
 
-                int n = (int)squares[i].size();
+                int n = (int) squares[i].size();
                 //dont detect the border
                 if (p->x > 3 && p->y > 3)
                     cv::polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 3, cv::LINE_AA);

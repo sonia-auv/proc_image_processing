@@ -16,21 +16,20 @@
 
 class ImageProvider {
 public:
-  ImageProvider(const std::string& topic_name)
-    :topic_name_(topic_name),
-    it_(ros::NodeHandle("~")),
-    image_id_(0) {
-    std::string compressed = "/compressed";
+    ImageProvider(const std::string &topic_name)
+            : topic_name_(topic_name),
+              it_(ros::NodeHandle("~")),
+              image_id_(0) {
+        std::string compressed = "/compressed";
 
-    if (topic_name.compare(topic_name.length() - compressed.length(), compressed.length(), compressed) == 0) {
-        image_transport::TransportHints hint("compressed");
-        subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()), 50,
-                                    &ImageProvider::imageCallback, this, hint);
+        if (topic_name.compare(topic_name.length() - compressed.length(), compressed.length(), compressed) == 0) {
+            image_transport::TransportHints hint("compressed");
+            subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()), 50,
+                                        &ImageProvider::imageCallback, this, hint);
+        } else {
+            subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::imageCallback, this);
+        }
     }
-    else {
-        subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::imageCallback, this);
-    }
-  }
 
     void imageCallback(const sensor_msgs::ImageConstPtr &msg) {
         image_mutex_.lock();
@@ -52,12 +51,12 @@ public:
     }
 
 private:
-  std::string topic_name_;
-  image_transport::ImageTransport it_;
-  image_transport::Subscriber subscriber_;
-  cv::Mat image_;
-  std::mutex image_mutex_;
-  unsigned int image_id_;
+    std::string topic_name_;
+    image_transport::ImageTransport it_;
+    image_transport::Subscriber subscriber_;
+    cv::Mat image_;
+    std::mutex image_mutex_;
+    unsigned int image_id_;
 };
 
 

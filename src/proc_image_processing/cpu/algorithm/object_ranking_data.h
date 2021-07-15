@@ -9,31 +9,31 @@
 
 namespace proc_image_processing {
 
-  // Basic container class. It holds information about the ranking
-  // of certain caracteristic of an object compare to the other.
-  // In other word, it contains the position resulting of the sorting
-  // by ObjectRanker.
-  class ObjectRankingData {
-  public:
-    using Ptr = std::shared_ptr<ObjectRankingData>;
+    // Basic container class. It holds information about the ranking
+    // of certain caracteristic of an object compare to the other.
+    // In other word, it contains the position resulting of the sorting
+    // by ObjectRanker.
+    class ObjectRankingData {
+    public:
+        using Ptr = std::shared_ptr<ObjectRankingData>;
 
-    ObjectRankingData() : area_rank_(0.0f), length_rank_(0.0f) {};
+        ObjectRankingData() : area_rank_(0.0f), length_rank_(0.0f) {};
 
-    virtual ~ObjectRankingData() {};
+        virtual ~ObjectRankingData() {};
 
-    // Rank are grade from 0 to 1, 0 being the last, 1 being the first
-    void setAreaRank(float rank);
+        // Rank are grade from 0 to 1, 0 being the last, 1 being the first
+        void setAreaRank(float rank);
 
-      void setLengthRank(float rank);
+        void setLengthRank(float rank);
 
-      float getAreaRank();
+        float getAreaRank();
 
-      float getLengthRank();
+        float getLengthRank();
 
-  private:
-    float area_rank_;
-    float length_rank_;
-  };
+    private:
+        float area_rank_;
+        float length_rank_;
+    };
 
     inline void ObjectRankingData::setAreaRank(float rank) { area_rank_ = rank; }
 

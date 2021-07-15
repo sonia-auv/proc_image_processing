@@ -17,31 +17,32 @@
 #include <image_transport/publisher.h>
 
 class AsyncImagePublisher {
- public:
+public:
 
 
     explicit AsyncImagePublisher(const std::string &topic_name);
-  ~AsyncImagePublisher();
+
+    ~AsyncImagePublisher();
 
 
-  void publish(const cv::Mat &image);
+    void publish(const cv::Mat &image);
 
- private:
+private:
 
     void threadFunction();
 
 
     std::string topic_name_;
-  // Flag to stop the thread
-  bool stop_thread_;
-  // The thread for broadcasting an image
-  std::thread thread_;
-  // Necessary publisher for the image
-  image_transport::Publisher image_publisher_;
-  image_transport::ImageTransport it_;
+    // Flag to stop the thread
+    bool stop_thread_;
+    // The thread for broadcasting an image
+    std::thread thread_;
+    // Necessary publisher for the image
+    image_transport::Publisher image_publisher_;
+    image_transport::ImageTransport it_;
 
-  std::queue<cv::Mat> images_to_publish_;
-  std::mutex image_queue_mutex_;
+    std::queue<cv::Mat> images_to_publish_;
+    std::mutex image_queue_mutex_;
 };
 
 #endif  // PROC_IMAGE_PROCESSING_ASYNC_IMAGE_PUBLISHER_H_

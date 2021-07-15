@@ -8,37 +8,36 @@
 
 namespace proc_image_processing {
 
-  DetectionTaskManager::DetectionTaskManager() {}
+    DetectionTaskManager::DetectionTaskManager() {}
 
-  DetectionTaskManager::~DetectionTaskManager() {}
+    DetectionTaskManager::~DetectionTaskManager() {}
 
-  std::string DetectionTaskManager::StartDetectionTask(
-          const std::string &topic_name, FilterChain::Ptr filterchain,
-          const std::string &execution_name) {
-      if (execution_name.empty()) {
-          throw std::invalid_argument("The detection task name is not valid");
-      }
-      if (topic_name.empty()) {
-          throw std::invalid_argument("The topic name is not valid");
-      }
-      if (!filterchain) {
-          throw std::invalid_argument("The filterchain is empty is not valid");
-      }
-      // Makes sure we have no detection task of that name.
-      DetectionTask::Ptr task = getDetectionTask(execution_name);
+    std::string DetectionTaskManager::StartDetectionTask(
+            const std::string &topic_name, FilterChain::Ptr filterchain,
+            const std::string &execution_name) {
+        if (execution_name.empty()) {
+            throw std::invalid_argument("The detection task name is not valid");
+        }
+        if (topic_name.empty()) {
+            throw std::invalid_argument("The topic name is not valid");
+        }
+        if (!filterchain) {
+            throw std::invalid_argument("The filterchain is empty is not valid");
+        }
+        // Makes sure we have no detection task of that name.
+        DetectionTask::Ptr task = getDetectionTask(execution_name);
 
-    if (task == nullptr) {
-        task = std::make_shared<DetectionTask>(topic_name, filterchain,
-                                               execution_name);
-        task->start();
-        detection_tasks_.push_back(task);
+        if (task == nullptr) {
+            task = std::make_shared<DetectionTask>(topic_name, filterchain,
+                                                   execution_name);
+            task->start();
+            detection_tasks_.push_back(task);
+        } else {
+            throw std::logic_error("This detection task already exist.");
+        }
+        ROS_INFO("DetectionTask is ready.");
+        return task->getName();
     }
-    else {
-      throw std::logic_error("This detection task already exist.");
-    }
-    ROS_INFO("DetectionTask is ready.");
-      return task->getName();
-  }
 
     void DetectionTaskManager::stopDetectionTask(
             const std::string &execution_name) {
@@ -50,11 +49,10 @@ namespace proc_image_processing {
             (*it)->stop();
             detection_tasks_.erase(it);
             ROS_INFO("Detection task is stopped.");
+        } else {
+            throw std::invalid_argument("This detection taks does not exist");
         }
-    else {
-      throw std::invalid_argument("This detection taks does not exist");
     }
-  }
 
     std::vector<std::string> DetectionTaskManager::getDetectionTasksNames()
     const {
@@ -113,7 +111,7 @@ namespace proc_image_processing {
                 image_topic.push_back(i.name);
             }
         }
-    return image_topic;
-  }
+        return image_topic;
+    }
 
 }  // namespace proc_image_processing

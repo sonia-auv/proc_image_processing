@@ -16,70 +16,70 @@
 
 namespace proc_image_processing {
 
-  class Target {
-  public:
+    class Target {
+    public:
 
 
-    using Ptr = std::shared_ptr<Target>;
+        using Ptr = std::shared_ptr<Target>;
 
 
+        Target();
 
-    Target();
-    Target(const std::string& header, int x, int y, float width, float height,
-      float angle, int image_height, int image_width,
-      const std::string& spec_field_1 = "",
-      const std::string& spec_field_2 = "");
+        Target(const std::string &header, int x, int y, float width, float height,
+               float angle, int image_height, int image_width,
+               const std::string &spec_field_1 = "",
+               const std::string &spec_field_2 = "");
 
-      ~Target() {};
+        ~Target() {};
 
 
-      // Setting target will use offseted center.
-      void setTarget(const std::string &header, int x, int y, float width,
-                     float height, float angle, int image_height, int image_width,
-                     const std::string &spec_field_1 = "",
-                     const std::string &spec_field_2 = "");
+        // Setting target will use offseted center.
+        void setTarget(const std::string &header, int x, int y, float width,
+                       float height, float angle, int image_height, int image_width,
+                       const std::string &spec_field_1 = "",
+                       const std::string &spec_field_2 = "");
 
-      void setTarget(ObjectFullData::Ptr obj, const std::string &header,
-                     const std::string &spec_field_1 = "",
-                     const std::string &spec_field_2 = "");
+        void setTarget(ObjectFullData::Ptr obj, const std::string &header,
+                       const std::string &spec_field_1 = "",
+                       const std::string &spec_field_2 = "");
 
-      void setHeader(const std::string &header);
+        void setHeader(const std::string &header);
 
-      void setCenter(int x, int y);
+        void setCenter(int x, int y);
 
-      void setCenter(const cv::Point &pt);
+        void setCenter(const cv::Point &pt);
 
-      void setSize(int width, int height);
+        void setSize(int width, int height);
 
-      void setSize(const cv::Size &sz);
+        void setSize(const cv::Size &sz);
 
-      void setAngle(float angle);
+        void setAngle(float angle);
 
-      void setSpecField1(const std::string &field);
+        void setSpecField1(const std::string &field);
 
-      void setSpecField2(const std::string &field);
+        void setSpecField2(const std::string &field);
 
-      void setSpecFields(const std::string &field1, const std::string &field2);
+        void setSpecFields(const std::string &field1, const std::string &field2);
 
-      std::string getSpecField1();
+        std::string getSpecField1();
 
-      std::string getSpecField2();
+        std::string getSpecField2();
 
-      void setMessage(sonia_common::VisionTarget &msg);
+        void setMessage(sonia_common::VisionTarget &msg);
 
-  private:
+    private:
 
-    cv::Point center_;
+        cv::Point center_;
 
-    cv::Size_<float> dimension_;
+        cv::Size_<float> dimension_;
 
-    float angle_;
+        float angle_;
 
-      // Bins name, buoy colors, etc.
-      std::string header_;
-      std::string special_field_1_;
-      std::string special_field_2_;
-  };
+        // Bins name, buoy colors, etc.
+        std::string header_;
+        std::string special_field_1_;
+        std::string special_field_2_;
+    };
 
     typedef std::queue<Target> TargetQueue;
 

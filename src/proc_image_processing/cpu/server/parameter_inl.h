@@ -16,100 +16,100 @@
 
 namespace proc_image_processing {
 
-  namespace details {
+    namespace details {
 
-    template <typename Tp_>
-    struct StringConvertor {
-      static std::string getTypeName() {
-          int status;
-          std::string tname = typeid(Tp_).name();
-          char *demangled_name =
-                  abi::__cxa_demangle(tname.c_str(), NULL, NULL, &status);
-          if (status == 0) {
-              tname = demangled_name;
-              std::free(demangled_name);
-          }
-          return tname;
-      }
-
-        static std::string getString(const Tp_ &value) {
-            return std::to_string(value);
-        }
-
-        static Tp_ getValue(const std::string &value) {
-            return static_cast<Tp_>(value);
-        }
-    };
-
-    template <>
-    struct StringConvertor<int> {
-        static std::string getTypeName() { return "Integer"; }
-
-        static std::string getString(const int &value) {
-            return std::to_string(value);
-        }
-
-        static int getValue(const std::string &value) { return atoi(value.c_str()); }
-    };
-
-    template <>
-    struct StringConvertor<bool> {
-        static std::string getTypeName() { return "Boolean"; }
-
-        static std::string getString(const bool &value) {
-            if (value) {
-                return "1";
-            } else {
-                return "0";
+        template<typename Tp_>
+        struct StringConvertor {
+            static std::string getTypeName() {
+                int status;
+                std::string tname = typeid(Tp_).name();
+                char *demangled_name =
+                        abi::__cxa_demangle(tname.c_str(), NULL, NULL, &status);
+                if (status == 0) {
+                    tname = demangled_name;
+                    std::free(demangled_name);
+                }
+                return tname;
             }
-        }
 
-        static bool getValue(const std::string &value) {
-            auto string_cpy = value;
-            std::transform(string_cpy.begin(), string_cpy.end(), string_cpy.begin(),
-                           ::tolower);
-            if (string_cpy == "true" || string_cpy == "1") {
-                return true;
-            } else if (string_cpy == "false" || string_cpy == "0") {
-                return false;
+            static std::string getString(const Tp_ &value) {
+                return std::to_string(value);
             }
-            throw std::invalid_argument("Could not convert argument to boolean");
-      }
-    };
 
-    template <>
-    struct StringConvertor<double> {
-        static std::string getTypeName() { return "Double"; }
+            static Tp_ getValue(const std::string &value) {
+                return static_cast<Tp_>(value);
+            }
+        };
 
-        static std::string getString(const double &value) {
-            return std::to_string(value);
+        template<>
+        struct StringConvertor<int> {
+            static std::string getTypeName() { return "Integer"; }
+
+            static std::string getString(const int &value) {
+                return std::to_string(value);
+            }
+
+            static int getValue(const std::string &value) { return atoi(value.c_str()); }
+        };
+
+        template<>
+        struct StringConvertor<bool> {
+            static std::string getTypeName() { return "Boolean"; }
+
+            static std::string getString(const bool &value) {
+                if (value) {
+                    return "1";
+                } else {
+                    return "0";
+                }
+            }
+
+            static bool getValue(const std::string &value) {
+                auto string_cpy = value;
+                std::transform(string_cpy.begin(), string_cpy.end(), string_cpy.begin(),
+                               ::tolower);
+                if (string_cpy == "true" || string_cpy == "1") {
+                    return true;
+                } else if (string_cpy == "false" || string_cpy == "0") {
+                    return false;
+                }
+                throw std::invalid_argument("Could not convert argument to boolean");
+            }
+        };
+
+        template<>
+        struct StringConvertor<double> {
+            static std::string getTypeName() { return "Double"; }
+
+            static std::string getString(const double &value) {
+                return std::to_string(value);
+            }
+
+            static double getValue(const std::string &value) {
+                return atof(value.c_str());
+            }
+        };
+
+        template<>
+        struct StringConvertor<std::string> {
+            static std::string getTypeName() { return "String"; }
+
+            static std::string getString(const std::string &value) { return value; }
+
+            static std::string getValue(const std::string &value) { return value; }
+        };
+
+    }  // namespace details
+
+    template<class Tp_>
+    ATLAS_INLINE Parameter<Tp_>::Parameter(
+            const std::string &name, const Tp_ &value,
+            std::vector<ParameterInterface *> *vector, const std::string &description)
+            : name_(name), value_(value), description_(description) {
+        if (vector != nullptr) {
+            vector->push_back(dynamic_cast<ParameterInterface *>(this));
         }
-
-        static double getValue(const std::string &value) {
-            return atof(value.c_str());
-        }
-    };
-
-    template <>
-    struct StringConvertor<std::string> {
-        static std::string getTypeName() { return "String"; }
-
-        static std::string getString(const std::string &value) { return value; }
-
-        static std::string getValue(const std::string &value) { return value; }
-    };
-
-  }  // namespace details
-
-  template <class Tp_>
-  ATLAS_INLINE Parameter<Tp_>::Parameter(
-    const std::string& name, const Tp_& value,
-    std::vector<ParameterInterface*>* vector, const std::string& description)
-    : name_(name), value_(value), description_(description) {
-    if (vector != nullptr) {
-      vector->push_back(dynamic_cast<ParameterInterface*>(this));
     }
-  }
 
     template<class Tp_>
     ATLAS_INLINE void Parameter<Tp_>::setDescription(

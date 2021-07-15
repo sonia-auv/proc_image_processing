@@ -10,8 +10,8 @@
 
 namespace proc_image_processing {
 
-  const std::string FilterChainManager::FILTER_CHAIN_MANAGER_TAG =
-          "FILTERCHAIN_MANAGER";
+    const std::string FilterChainManager::FILTER_CHAIN_MANAGER_TAG =
+            "FILTERCHAIN_MANAGER";
 
     FilterChainManager::FilterChainManager() {
     };

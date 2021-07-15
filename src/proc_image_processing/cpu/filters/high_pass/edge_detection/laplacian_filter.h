@@ -27,29 +27,28 @@ namespace proc_image_processing {
 
         virtual ~LaplacianFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if (image.channels() > 1) {
-                  cv::cvtColor(image, image, CV_BGR2GRAY);
-              }
-              int size = size_() * 2 + 1;
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if (image.channels() > 1) {
+                    cv::cvtColor(image, image, CV_BGR2GRAY);
+                }
+                int size = size_() * 2 + 1;
 
-              if (convert_to_uchar_()) {
-                  cv::Laplacian(image, image, CV_8U, size, scale_(), delta_(),
-                                cv::BORDER_DEFAULT);
-              }
-        else {
-          cv::Laplacian(image, image, CV_32F, size, scale_(), delta_(),
-            cv::BORDER_DEFAULT);
+                if (convert_to_uchar_()) {
+                    cv::Laplacian(image, image, CV_8U, size, scale_(), delta_(),
+                                  cv::BORDER_DEFAULT);
+                } else {
+                    cv::Laplacian(image, image, CV_32F, size, scale_(), delta_(),
+                                  cv::BORDER_DEFAULT);
+                }
+            }
         }
-      }
-    }
 
-  private:
-    Parameter<bool> enable_, convert_to_uchar_;
-    RangedParameter<double> delta_, scale_;
-    RangedParameter<int> size_;
-  };
+    private:
+        Parameter<bool> enable_, convert_to_uchar_;
+        RangedParameter<double> delta_, scale_;
+        RangedParameter<int> size_;
+    };
 
 }  // namespace proc_image_processing
 

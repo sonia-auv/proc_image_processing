@@ -26,21 +26,21 @@ namespace proc_image_processing {
 
         virtual ~CropFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if ((x_offset_() + x_reduction_() < image.size[1]) |
-                  (y_offset_() + y_reduction_() < image.size[0])) {
-                  image = image(cv::Rect(x_offset_(), y_offset_(),
-                                         image.size[1] - x_reduction_() - x_offset_(),
-                                         image.size[0] - y_reduction_() - y_offset_()));
-              }
-          }
-      }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if ((x_offset_() + x_reduction_() < image.size[1]) |
+                    (y_offset_() + y_reduction_() < image.size[0])) {
+                    image = image(cv::Rect(x_offset_(), y_offset_(),
+                                           image.size[1] - x_reduction_() - x_offset_(),
+                                           image.size[0] - y_reduction_() - y_offset_()));
+                }
+            }
+        }
 
-  private:
-    Parameter<bool> enable_;
-    RangedParameter<int> x_offset_, y_offset_, x_reduction_, y_reduction_;
-  };
+    private:
+        Parameter<bool> enable_;
+        RangedParameter<int> x_offset_, y_offset_, x_reduction_, y_reduction_;
+    };
 
 }  // namespace proc_image_processing
 

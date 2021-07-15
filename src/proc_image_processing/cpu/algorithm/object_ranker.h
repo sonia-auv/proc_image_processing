@@ -10,36 +10,36 @@
 
 namespace proc_image_processing {
 
-  // Class that simply rank the object
-  // with different value.
-  class ObjectRanker {
-  public:
-    // sort and set the value in each objects.
-    static void RankByArea(ObjectFullData::FullObjectPtrVec objects);
+    // Class that simply rank the object
+    // with different value.
+    class ObjectRanker {
+    public:
+        // sort and set the value in each objects.
+        static void RankByArea(ObjectFullData::FullObjectPtrVec objects);
 
-    static void RankByLength(ObjectFullData::FullObjectPtrVec objects);
+        static void RankByLength(ObjectFullData::FullObjectPtrVec objects);
 
-    // Function for std::sort function
-    static bool AreaSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
+        // Function for std::sort function
+        static bool AreaSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
 
-    static bool LengthSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
-  };
+        static bool LengthSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
+    };
 
-  inline bool ObjectRanker::AreaSortFunction(ObjectFullData::Ptr a,
-    ObjectFullData::Ptr b) {
-    if (a.get() != nullptr && b.get() != nullptr) {
-      return a->getArea() > b->getArea();
+    inline bool ObjectRanker::AreaSortFunction(ObjectFullData::Ptr a,
+                                               ObjectFullData::Ptr b) {
+        if (a.get() != nullptr && b.get() != nullptr) {
+            return a->getArea() > b->getArea();
+        }
+        return false;
     }
-    return false;
-  }
 
-  inline bool ObjectRanker::LengthSortFunction(ObjectFullData::Ptr a,
-    ObjectFullData::Ptr b) {
-    if (a.get() != nullptr && b.get() != nullptr) {
-        return a->getHeight() > b->getHeight();
+    inline bool ObjectRanker::LengthSortFunction(ObjectFullData::Ptr a,
+                                                 ObjectFullData::Ptr b) {
+        if (a.get() != nullptr && b.get() != nullptr) {
+            return a->getHeight() > b->getHeight();
+        }
+        return false;
     }
-    return false;
-  }
 
 }  // namespace proc_image_processing
 

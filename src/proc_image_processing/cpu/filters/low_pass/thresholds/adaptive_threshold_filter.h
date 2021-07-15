@@ -28,27 +28,27 @@ namespace proc_image_processing {
 
         virtual ~AdaptiveThresholdFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if (image.channels() > 1) {
-                  cv::cvtColor(image, image, CV_BGR2GRAY);
-              }
-              int size = _block_size() * 2 + 1;
-              int method = method_() == 0 ? cv::ADAPTIVE_THRESH_GAUSSIAN_C
-                                          : cv::ADAPTIVE_THRESH_MEAN_C;
-              int type =
-                      threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
-              cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
-      }
-    }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if (image.channels() > 1) {
+                    cv::cvtColor(image, image, CV_BGR2GRAY);
+                }
+                int size = _block_size() * 2 + 1;
+                int method = method_() == 0 ? cv::ADAPTIVE_THRESH_GAUSSIAN_C
+                                            : cv::ADAPTIVE_THRESH_MEAN_C;
+                int type =
+                        threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
+                cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
+            }
+        }
 
-  private:
-    Parameter<bool> enable_;
+    private:
+        Parameter<bool> enable_;
 
-    RangedParameter<int> method_, threshold_type_, _block_size;
+        RangedParameter<int> method_, threshold_type_, _block_size;
 
-    RangedParameter<double> c_param_;
-  };
+        RangedParameter<double> c_param_;
+    };
 
 }  // namespace proc_image_processing
 

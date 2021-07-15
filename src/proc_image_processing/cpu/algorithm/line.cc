@@ -6,38 +6,38 @@
 
 namespace proc_image_processing {
 
-  Line::Line(const cv::Point& start, const cv::Point& end)
-    : start_(start), end_(end), angle_(0), isSwap_(false) {
-    if (start_.x > end_.x) {
-      isSwap_ = true;
-      std::swap(start_, end_);
+    Line::Line(const cv::Point &start, const cv::Point &end)
+            : start_(start), end_(end), angle_(0), isSwap_(false) {
+        if (start_.x > end_.x) {
+            isSwap_ = true;
+            std::swap(start_, end_);
+        }
+
+        int yDiff = abs(start_.y - end_.y);
+        int xDiff = abs(start_.x - end_.x);
+
+        if (start_.y > end_.y)
+            center_.y = end_.y + yDiff / 2;
+        else
+            center_.y = start_.y + yDiff / 2;
+
+        if (start_.x > end_.x)
+            center_.x = end_.x + xDiff / 2;
+        else
+            center_.x = start_.x + xDiff / 2;
+
+        // inversion in the start_ end_ for x y is because y is positive
+        // downward.
+        float at = atan2(static_cast<double>(start_.y - end_.y),
+                         static_cast<double>(end_.x - start_.x));
+        angle_ = at / (2 * M_PI) * 360;
+
+        length_ = sqrt(pow((start_.y - end_.y), 2) + pow((start_.y - end_.y), 2));
     }
 
-    int yDiff = abs(start_.y - end_.y);
-    int xDiff = abs(start_.x - end_.x);
-
-    if (start_.y > end_.y)
-      center_.y = end_.y + yDiff / 2;
-    else
-      center_.y = start_.y + yDiff / 2;
-
-    if (start_.x > end_.x)
-      center_.x = end_.x + xDiff / 2;
-    else
-      center_.x = start_.x + xDiff / 2;
-
-    // inversion in the start_ end_ for x y is because y is positive
-    // downward.
-    float at = atan2(static_cast<double>(start_.y - end_.y),
-      static_cast<double>(end_.x - start_.x));
-    angle_ = at / (2 * M_PI) * 360;
-
-    length_ = sqrt(pow((start_.y - end_.y), 2) + pow((start_.y - end_.y), 2));
-  }
-
-  void Line::draw(cv::Mat &img, cv::Scalar color) {
-      cv::line(img, start_, end_, color, 4, 8);
-  }
+    void Line::draw(cv::Mat &img, cv::Scalar color) {
+        cv::line(img, start_, end_, color, 4, 8);
+    }
 
     cv::Point Line::getPerpendicularLine() {
         std::vector<cv::Point> secondLine;
@@ -50,16 +50,16 @@ namespace proc_image_processing {
 
         double min = fabs(vector.x());
         Eigen::Vector3d cardinalAxis;
-    cardinalAxis << 1, 0, 1;
+        cardinalAxis << 1, 0, 1;
 
-    if (fabs(vector.y()) < min) {
-      cardinalAxis << 0, 1, 1;
+        if (fabs(vector.y()) < min) {
+            cardinalAxis << 0, 1, 1;
+        }
+
+        vector2 = vector.cross(cardinalAxis);
+
+        return cv::Point(vector2.x(), vector2.y());
     }
-
-    vector2 = vector.cross(cardinalAxis);
-
-    return cv::Point(vector2.x(), vector2.y());
-  }
 
     std::vector<cv::Point> Line::getPoints(cv::Mat &img) {
         std::vector<cv::Point> line;

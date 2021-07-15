@@ -27,7 +27,7 @@ namespace proc_image_processing {
                   view_channel_("Channel_view", 0, 0, 3, &parameters_,
                                 "0=ALL, 1=Blue, 2=Green, 3=Red") {
             setName("WhiteNoiseTakeDownFilter");
-    }
+        }
 
         virtual ~WhiteNoiseTakeDownFilter() {}
 
@@ -42,39 +42,38 @@ namespace proc_image_processing {
                 cv::Mat result;
                 cv::bitwise_or(channels[0], channels[1], result);
                 cv::bitwise_or(channels[2], result, result);
-        std::vector<cv::Mat> res;
+                std::vector<cv::Mat> res;
 
-        switch (view_channel_()) {
-        case 0:
-          if (image.channels() == 3) {
-            res.push_back(result);
-            res.push_back(result);
-            res.push_back(result);
-            cv::merge(res, result);
-            cv::bitwise_and(image, result, image);
-          }
-          else {
-            cv::bitwise_and(image, result, image);
-          }
-          break;
-        case 1:
-          channels[0].copyTo(image);
-          break;
-        case 2:
-          channels[1].copyTo(image);
-          break;
-        case 3:
-          channels[2].copyTo(image);
-          break;
+                switch (view_channel_()) {
+                    case 0:
+                        if (image.channels() == 3) {
+                            res.push_back(result);
+                            res.push_back(result);
+                            res.push_back(result);
+                            cv::merge(res, result);
+                            cv::bitwise_and(image, result, image);
+                        } else {
+                            cv::bitwise_and(image, result, image);
+                        }
+                        break;
+                    case 1:
+                        channels[0].copyTo(image);
+                        break;
+                    case 2:
+                        channels[1].copyTo(image);
+                        break;
+                    case 3:
+                        channels[2].copyTo(image);
+                        break;
+                }
+            }
         }
-      }
-    }
 
-  private:
-    Parameter<bool> enable_;
-    RangedParameter<int> low_b_, high_b_, low_g_, high_g_, low_r_, high_r_;
-    RangedParameter<int> view_channel_;
-  };
+    private:
+        Parameter<bool> enable_;
+        RangedParameter<int> low_b_, high_b_, low_g_, high_g_, low_r_, high_r_;
+        RangedParameter<int> view_channel_;
+    };
 
 }  // namespace proc_image_processing
 

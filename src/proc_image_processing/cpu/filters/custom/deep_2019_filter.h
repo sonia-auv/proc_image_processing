@@ -31,8 +31,8 @@ namespace proc_image_processing {
                 answag_("answag", true, &parameters_),
                 vampire_("vampire", true, &parameters_),
                 bat_("bat", true, &parameters_),
-            wolf_("wolf", true, &parameters_),
-            color_(0, 0, 0) {
+                wolf_("wolf", true, &parameters_),
+                color_(0, 0, 0) {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100,
                                                                &Deep2019Filter::boundingBoxCallback, this);
             setName("Deep2019Filter");
@@ -77,7 +77,7 @@ namespace proc_image_processing {
                     }
                 }
 
-                for (int i = 0; i < (int)objects_.size(); ++i) {
+                for (int i = 0; i < (int) objects_.size(); ++i) {
                     notify(objects_.back());
                     objects_.pop_back();
                 }
@@ -100,7 +100,7 @@ namespace proc_image_processing {
         int image_height_;
         cv::Scalar color_;
 
-        void boundingBoxCallback(const sonia_common::DetectionArrayConstPtr& msg) {
+        void boundingBoxCallback(const sonia_common::DetectionArrayConstPtr &msg) {
             if (bounding_box_.empty())
                 bounding_box_.clear();
             bounding_box_ = msg->detected_object;
@@ -138,17 +138,18 @@ namespace proc_image_processing {
             target.setSpecField2(convertFloatToString(object.confidence));
         }
 
-        inline void drawTarget(cv::Mat& image, const sonia_common::Detection& object, int thickness = 3, const cv::Scalar& color_box = cv::Scalar(0, 255, 0)) {
-            int origin_x = (int)(object.bbox.center.x - (object.bbox.size_x / 2));
-            int origin_y = (int)(object.bbox.center.y - (int)(object.bbox.size_y / 2));
+        inline void drawTarget(cv::Mat &image, const sonia_common::Detection &object, int thickness = 3,
+                               const cv::Scalar &color_box = cv::Scalar(0, 255, 0)) {
+            int origin_x = (int) (object.bbox.center.x - (object.bbox.size_x / 2));
+            int origin_y = (int) (object.bbox.center.y - (int) (object.bbox.size_y / 2));
 
             int top_left_x = origin_x - BBOX_X_TOP_LEFT_CORRECTION;
             int top_left_y = origin_y - BBOX_INFO_RECT_HEIGHT;
-            int bottom_right_x = (int)object.bbox.size_x + BBOX_X_BOTTOM_RIGHT_CORRECTION;
+            int bottom_right_x = (int) object.bbox.size_x + BBOX_X_BOTTOM_RIGHT_CORRECTION;
             int bottom_right_y = BBOX_INFO_RECT_HEIGHT;
 
             cv::Rect rect_top(top_left_x, top_left_y, bottom_right_x, bottom_right_y);
-            cv::Rect rect(origin_x, origin_y, (int)object.bbox.size_x, (int)object.bbox.size_y);
+            cv::Rect rect(origin_x, origin_y, (int) object.bbox.size_x, (int) object.bbox.size_y);
 
             cv::rectangle(image, rect, color_box, thickness);
             cv::rectangle(image, rect_top, color_box, CV_FILLED);
@@ -163,7 +164,8 @@ namespace proc_image_processing {
             return ss.str();
         }
 
-        inline void handleObject(Target& target, const sonia_common::Detection& object, cv::Mat& image, const cv::Scalar& color) {
+        inline void
+        handleObject(Target &target, const sonia_common::Detection &object, cv::Mat &image, const cv::Scalar &color) {
             buildTarget(target, object);
             if (debug_contour_()) {
                 drawTarget(image, object, 10, color);

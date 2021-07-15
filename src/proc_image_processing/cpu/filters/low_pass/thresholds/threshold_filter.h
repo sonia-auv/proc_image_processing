@@ -26,47 +26,47 @@ namespace proc_image_processing {
 
         virtual ~ThresholdFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if (image.channels() > 1) {
-                  cv::cvtColor(image, image, CV_BGR2GRAY);
-              }
-              if (image.depth() != CV_8U) {
-                  image.convertTo(image, CV_8U);
-              }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if (image.channels() > 1) {
+                    cv::cvtColor(image, image, CV_BGR2GRAY);
+                }
+                if (image.depth() != CV_8U) {
+                    image.convertTo(image, CV_8U);
+                }
 
-              int threshold_type = CV_THRESH_BINARY;
-              switch (type_()) {
-        case 0:
-          threshold_type = CV_THRESH_BINARY;
-          break;
-        case 1:
-          threshold_type = CV_THRESH_BINARY_INV;
-          break;
-        case 2:
-          threshold_type = CV_THRESH_TRUNC;
-          break;
-        case 3:
-          threshold_type = CV_THRESH_TOZERO;
-          break;
-        case 4:
-          threshold_type = CV_THRESH_TOZERO_INV;
-          break;
-        case 5:
-          threshold_type = CV_THRESH_OTSU;
-          break;
-        default:
-          threshold_type = CV_THRESH_BINARY;
-          break;
+                int threshold_type = CV_THRESH_BINARY;
+                switch (type_()) {
+                    case 0:
+                        threshold_type = CV_THRESH_BINARY;
+                        break;
+                    case 1:
+                        threshold_type = CV_THRESH_BINARY_INV;
+                        break;
+                    case 2:
+                        threshold_type = CV_THRESH_TRUNC;
+                        break;
+                    case 3:
+                        threshold_type = CV_THRESH_TOZERO;
+                        break;
+                    case 4:
+                        threshold_type = CV_THRESH_TOZERO_INV;
+                        break;
+                    case 5:
+                        threshold_type = CV_THRESH_OTSU;
+                        break;
+                    default:
+                        threshold_type = CV_THRESH_BINARY;
+                        break;
+                }
+                cv::threshold(image, image, max_(), 255, threshold_type);
+            }
         }
-        cv::threshold(image, image, max_(), 255, threshold_type);
-      }
-    }
 
-  private:
-    Parameter<bool> enable_;
-    RangedParameter<int> type_, max_;
-  };
+    private:
+        Parameter<bool> enable_;
+        RangedParameter<int> type_, max_;
+    };
 
 }  // namespace proc_image_processing
 

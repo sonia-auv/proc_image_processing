@@ -22,15 +22,15 @@ namespace proc_image_processing {
 
         virtual ~OriginalImageFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              image = global_params_.getOriginalImage();
-          }
-      }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                image = global_params_.getOriginalImage();
+            }
+        }
 
-  private:
-    Parameter<bool> enable_;
-  };
+    private:
+        Parameter<bool> enable_;
+    };
 
 }  // namespace proc_image_processing
 

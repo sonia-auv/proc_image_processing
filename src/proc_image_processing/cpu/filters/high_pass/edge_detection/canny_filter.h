@@ -27,20 +27,20 @@ namespace proc_image_processing {
 
         virtual ~CannyFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              if (image.channels() > 1) {
-                  cv::cvtColor(image, image, CV_BGR2GRAY);
-              }
-              cv::Canny(image, image, thresh_one_(), thresh_two_(),
-                        aperture_size_() * 2 + 1, l2_gradiant_());
-          }
-      }
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                if (image.channels() > 1) {
+                    cv::cvtColor(image, image, CV_BGR2GRAY);
+                }
+                cv::Canny(image, image, thresh_one_(), thresh_two_(),
+                          aperture_size_() * 2 + 1, l2_gradiant_());
+            }
+        }
 
-  private:
-    Parameter<bool> enable_, l2_gradiant_;
-    RangedParameter<int> thresh_one_, thresh_two_, aperture_size_;
-  };
+    private:
+        Parameter<bool> enable_, l2_gradiant_;
+        RangedParameter<int> thresh_one_, thresh_two_, aperture_size_;
+    };
 
 }  // namespace proc_image_processing
 

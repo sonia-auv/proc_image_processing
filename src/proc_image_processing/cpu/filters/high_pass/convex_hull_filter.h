@@ -26,66 +26,66 @@ namespace proc_image_processing {
                           "2=CV_CHAIN_APPROX_TC89_L1, "
                           "3=CV_CHAIN_APPROX_TC89_KCOS") {
             setName("ConvexHullFilter");
-    }
+        }
 
         virtual ~ConvexHullFilter() {}
 
-      virtual void apply(cv::Mat &image) {
-          if (enable_()) {
-              int mode, method;
-              switch (mode_()) {
-                  case 0:
-                      mode = char(CV_RETR_EXTERNAL);
-                      break;
-                  case 1:
-                      mode = char(CV_RETR_LIST);
-                      break;
-                  case 2:
-          mode = char(CV_RETR_CCOMP);
-          break;
-        case 3:
-          mode = char(CV_RETR_TREE);
-          break;
-        }
-        switch (method_()) {
-        case 0:
-          method = char(CV_CHAIN_APPROX_NONE);
-          break;
-        case 1:
-          method = char(CV_CHAIN_APPROX_SIMPLE);
-          break;
-        case 2:
-          method = char(CV_CHAIN_APPROX_TC89_L1);
-          break;
-        case 3:
-          method = char(CV_CHAIN_APPROX_TC89_KCOS);
-          break;
-        }
-        std::vector<std::vector<cv::Point>> contours;
-        std::vector<cv::Vec4i> hierarchy;
+        virtual void apply(cv::Mat &image) {
+            if (enable_()) {
+                int mode, method;
+                switch (mode_()) {
+                    case 0:
+                        mode = char(CV_RETR_EXTERNAL);
+                        break;
+                    case 1:
+                        mode = char(CV_RETR_LIST);
+                        break;
+                    case 2:
+                        mode = char(CV_RETR_CCOMP);
+                        break;
+                    case 3:
+                        mode = char(CV_RETR_TREE);
+                        break;
+                }
+                switch (method_()) {
+                    case 0:
+                        method = char(CV_CHAIN_APPROX_NONE);
+                        break;
+                    case 1:
+                        method = char(CV_CHAIN_APPROX_SIMPLE);
+                        break;
+                    case 2:
+                        method = char(CV_CHAIN_APPROX_TC89_L1);
+                        break;
+                    case 3:
+                        method = char(CV_CHAIN_APPROX_TC89_KCOS);
+                        break;
+                }
+                std::vector<std::vector<cv::Point>> contours;
+                std::vector<cv::Vec4i> hierarchy;
 
-        // Find contours
-        cv::findContours(image, contours, hierarchy, mode, method,
-          cv::Point(0, 0));
+                // Find contours
+                cv::findContours(image, contours, hierarchy, mode, method,
+                                 cv::Point(0, 0));
 
-        // Find the convex hull object for each contour
-        std::vector<std::vector<cv::Point>> hull(contours.size());
-        for (size_t i = 0; i < contours.size(); i++) {
-          cv::convexHull(cv::Mat(contours[i]), hull[i], false);
+                // Find the convex hull object for each contour
+                std::vector<std::vector<cv::Point>> hull(contours.size());
+                for (size_t i = 0; i < contours.size(); i++) {
+                    cv::convexHull(cv::Mat(contours[i]), hull[i], false);
+                }
+
+                // draw Hull contour
+                image = cv::Mat::zeros(image.size(), CV_8UC1);
+                for (size_t i = 0; i < contours.size(); i++) {
+                    cv::drawContours(image, hull, i, cv::Scalar(255, 255, 255), CV_FILLED);
+                }
+            }
         }
 
-        // draw Hull contour
-        image = cv::Mat::zeros(image.size(), CV_8UC1);
-        for (size_t i = 0; i < contours.size(); i++) {
-          cv::drawContours(image, hull, i, cv::Scalar(255, 255, 255), CV_FILLED);
-        }
-      }
-    }
-
-  private:
-    Parameter<bool> enable_;
-    RangedParameter<int> mode_, method_;
-  };
+    private:
+        Parameter<bool> enable_;
+        RangedParameter<int> mode_, method_;
+    };
 
 }  // namespace proc_image_processing
 

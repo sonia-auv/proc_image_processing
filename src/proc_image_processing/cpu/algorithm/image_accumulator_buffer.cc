@@ -6,21 +6,21 @@
 
 namespace proc_image_processing {
 
-  ImageAccumulatorBuffer::ImageAccumulatorBuffer(int bufferLength,
-    cv::Size imgSize, int type,
-    METHOD method)
-    : buffer_size_(bufferLength),
-    individual_weight_(0.0f),
-    buffer_current_index_(0),
-    image_vec_(0),
-    image_type_(type),
-    image_size_(imgSize),
-    average_method_(nullptr) {
-    // Start with a buffer filled with blank matrices.
-      fillWithBlankImages();
-      individual_weight_ = 1.0 / static_cast<float>(bufferLength);
-      setAverageMethod(method);
-  }
+    ImageAccumulatorBuffer::ImageAccumulatorBuffer(int bufferLength,
+                                                   cv::Size imgSize, int type,
+                                                   METHOD method)
+            : buffer_size_(bufferLength),
+              individual_weight_(0.0f),
+              buffer_current_index_(0),
+              image_vec_(0),
+              image_type_(type),
+              image_size_(imgSize),
+              average_method_(nullptr) {
+        // Start with a buffer filled with blank matrices.
+        fillWithBlankImages();
+        individual_weight_ = 1.0 / static_cast<float>(bufferLength);
+        setAverageMethod(method);
+    }
 
     void ImageAccumulatorBuffer::convertImage(cv::Mat &image) {
         // We do not want to access blank...&
@@ -105,7 +105,7 @@ namespace proc_image_processing {
             cv::add(resultImage,
                     image_vec_[getIndexRelativeToNewest(i)] * resultingWeight,
                     resultImage);
+        }
     }
-  }
 
 }  // namespace proc_image_processing
