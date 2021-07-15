@@ -14,7 +14,7 @@ SubmarinePosition::SubmarinePosition(const ros::NodeHandlePtr &nh):
     orientation_quaternion_(1,0,0,0),
     nh_(nh)
 {
-  nav_odometry_subscriber_ = nh_->subscribe("/proc_navigation/odom", 100, &SubmarinePosition::OdometryCallback, this);
+    nav_odometry_subscriber_ = nh_->subscribe("/proc_navigation/odom", 100, &SubmarinePosition::odometryCallback, this);
 }
 
 

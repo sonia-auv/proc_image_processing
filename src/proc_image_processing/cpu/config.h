@@ -16,9 +16,9 @@ namespace proc_image_processing {
 
     const std::string kConfigPath = kProjectPath + "/config/";
 
-    const std::string kFilterchainPath = kConfigPath + "/filterchain/";
+    const std::string kFilterChainPath = kConfigPath + "/filterchain/";
 
-    const std::string kFilterchainExt = ".yaml";
+    const std::string kFilterChainExt = ".yaml";
 
 }; // namespace proc_image_processing
 

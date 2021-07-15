@@ -11,7 +11,7 @@
 namespace proc_image_processing {
 
     FilterChain::FilterChain(const std::string &name)
-            : filepath_(kFilterchainPath + name + kFilterchainExt),
+            : filepath_(kFilterChainPath + name + kFilterChainExt),
               name_(name),
               param_handler_(),
               observer_index_(0) {
@@ -20,8 +20,8 @@ namespace proc_image_processing {
     }
 
     FilterChain::FilterChain(const FilterChain &filterChain)
-            : filepath_(kFilterchainPath + filterChain.name_ + "_copy" +
-                        kFilterchainExt),
+            : filepath_(kFilterChainPath + filterChain.name_ + "_copy" +
+                        kFilterChainExt),
               name_(filterChain.name_ + "_copy"),
               param_handler_(filterChain.param_handler_),
               observer_index_(filterChain.observer_index_) {
@@ -63,7 +63,7 @@ namespace proc_image_processing {
     }
     out << YAML::EndMap;
 
-        auto filepath = kFilterchainPath + getName() + kFilterchainExt;
+        auto filepath = kFilterChainPath + getName() + kFilterChainExt;
         std::ofstream fout(filepath);
     fout << out.c_str();
     return true;

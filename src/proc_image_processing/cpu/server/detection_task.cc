@@ -125,7 +125,7 @@ namespace proc_image_processing {
         if (!prepareForPublishing(image_to_pubish)) {
             ROS_ERROR("Detection task %s could not format image for client", detection_task_name_.c_str());
         }
-    // Publish it
+    // publish it
     try {
       ros_image.image = image_to_pubish;
       ros_image.encoding = sensor_msgs::image_encodings::BGR8;

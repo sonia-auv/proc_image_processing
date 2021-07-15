@@ -16,7 +16,7 @@ AsyncImagePublisher::AsyncImagePublisher(const std::string &topic_name)
           it_(ros::NodeHandle("~")) {
     // Create the broadcast topic.
     image_publisher_ = it_.advertise(topic_name, 100);
-    thread_ = std::thread(std::bind(&AsyncImagePublisher::ThreadFunction, this));
+    thread_ = std::thread(std::bind(&AsyncImagePublisher::threadFunction, this));
 }
 
 
@@ -29,14 +29,14 @@ AsyncImagePublisher::~AsyncImagePublisher() {
 }
 
 
-void AsyncImagePublisher::Publish(const cv::Mat &image) {
+void AsyncImagePublisher::publish(const cv::Mat &image) {
     image_queue_mutex_.lock();
     images_to_publish_.push(image);
     image_queue_mutex_.unlock();
 }
 
 
-void AsyncImagePublisher::ThreadFunction() {
+void AsyncImagePublisher::threadFunction() {
     cv_bridge::CvImage ros_image;
     ROS_INFO("Starting proc_image_processing AsyncImagePublisher...");
     while (!stop_thread_) {

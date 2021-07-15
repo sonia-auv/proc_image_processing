@@ -26,10 +26,10 @@ namespace proc_image_processing {
             struct dirent *ent;
             while ((ent = readdir(dir)) != nullptr) {
                 auto filename = std::string{ent->d_name};
-                if (filename.length() > kFilterchainExt.length() &&
-                    filename.substr(filename.length() - kFilterchainExt.length()) ==
-                    kFilterchainExt) {
-                    filename.replace(filename.end() - kFilterchainExt.length(),
+                if (filename.length() > kFilterChainExt.length() &&
+                    filename.substr(filename.length() - kFilterChainExt.length()) ==
+                    kFilterChainExt) {
+                    filename.replace(filename.end() - kFilterChainExt.length(),
                                      filename.end(), "");
                     availableFilterchains.push_back(filename);
                 }
@@ -44,7 +44,7 @@ namespace proc_image_processing {
             YAML::Node node;
             node["name"] = filterchain;
 
-            auto filepath = kFilterchainPath + filterchain + kFilterchainExt;
+            auto filepath = kFilterChainPath + filterchain + kFilterChainExt;
             std::ofstream fout(filepath);
             fout << node;
         }
@@ -91,7 +91,7 @@ namespace proc_image_processing {
 
     std::string FilterChainManager::getFilterChainPath(
             const std::string &filterchain) const {
-        return kConfigPath + filterchain + kFilterchainExt;
+        return kConfigPath + filterchain + kFilterChainExt;
     }
 
     const std::vector<FilterChain::Ptr>

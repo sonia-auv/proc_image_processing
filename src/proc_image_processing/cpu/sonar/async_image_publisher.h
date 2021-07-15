@@ -24,11 +24,11 @@ class AsyncImagePublisher {
   ~AsyncImagePublisher();
 
 
-  void Publish(const cv::Mat &image);
+  void publish(const cv::Mat &image);
 
  private:
 
-  void ThreadFunction();
+    void threadFunction();
 
 
     std::string topic_name_;
