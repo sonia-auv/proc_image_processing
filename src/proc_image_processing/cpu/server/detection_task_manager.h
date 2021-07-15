@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 #include <proc_image_processing/cpu/server/detection_task.h>
-#include <proc_image_processing/cpu/server/filterchain.h>
+#include <proc_image_processing/cpu/server/filter_chain.h>
 
 namespace proc_image_processing {
 

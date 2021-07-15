@@ -14,19 +14,18 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/PointCloud2.h>
-#include "AsyncImagePublisher.h"
-#include "BaseObjectMapperInterface.h"
-#include "SubmarinePosition.h"
+#include "async_image_publisher.h"
+#include "base_object_mapper.h"
+#include "submarine_position.h"
 
 namespace proc_image_processing {
 
-class SonarMapper : public BaseObjectMapperInterface
-{
-public:
+    class SonarMapper : public BaseObjectMapperInterface {
+    public:
 
-  const int NB_PIXEL_BY_METER = 20;
-  const int MAP_WIDTH_METER = 60;
-  const int MAP_HEIGTH_METER = 30;
+        const int NB_PIXEL_BY_METER = 20;
+        const int MAP_WIDTH_METER = 60;
+        const int MAP_HEIGTH_METER = 30;
   const int MAX_SCANLINE = 50;
 
   SonarMapper(const SubmarinePosition &submarine_position,

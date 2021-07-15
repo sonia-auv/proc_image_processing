@@ -3,11 +3,11 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=SquareDetection
 
-#ifndef PROC_IMAGE_PROCESSING_SQUARE_DETECTION_H
-#define PROC_IMAGE_PROCESSING_SQUARE_DETECTION_H
+#ifndef PROC_IMAGE_PROCESSING_SQUARE_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_SQUARE_DETECTOR_H
 
 
-#include "filter.h"
+#include "proc_image_processing/cpu/filters/filter.h"
 #include <math.h>
 #include <memory>
 
@@ -127,4 +127,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_SQUARE_DETECTION_H
+#endif  // PROC_IMAGE_PROCESSING_SQUARE_DETECTOR_H

@@ -4,18 +4,19 @@
  * \date	06/02/2016
  */
 
-#ifndef PROC_IMAGE_PROCESSING_SUBMARINEPOSITION_H
-#define PROC_IMAGE_PROCESSING_SUBMARINEPOSITION_H
+#ifndef PROC_IMAGE_PROCESSING_SUBMARINE_POSITION_H
+#define PROC_IMAGE_PROCESSING_SUBMARINE_POSITION_H
 
 #include <sonia_common/maths.h>
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
 #include <eigen3/Eigen/Eigen>
+
 namespace proc_image_processing {
 
-class SubmarinePosition {
-public:
-  const size_t X = 0;
+    class SubmarinePosition {
+    public:
+        const size_t X = 0;
   const size_t Y = 1;
   const size_t Z = 2;
   const size_t ROLL = 0;
@@ -83,4 +84,4 @@ inline Eigen::Vector3d SubmarinePosition::GetPosition() const
 
 
 } // namespace proc_image_processing
-#endif //PROC_IMAGE_PROCESSING_SUBMARINEPOSITION_H
+#endif //PROC_IMAGE_PROCESSING_SUBMARINE_POSITION_H

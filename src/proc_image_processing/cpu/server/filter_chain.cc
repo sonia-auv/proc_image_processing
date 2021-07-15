@@ -3,7 +3,7 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#include "filterchain.h"
+#include "filter_chain.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include "proc_image_processing/cpu/config.h"

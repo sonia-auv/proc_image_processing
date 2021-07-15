@@ -9,9 +9,9 @@
 #include <sonia_common/ros/image_publisher.h>
 #include <mutex>
 #include "proc_image_processing/cpu/config.h"
-#include "filterchain.h"
+#include "filter_chain.h"
 #include "sonia_common/pattern/runnable.h"
-#include "ImageProvider.h"
+#include "image_provider.h"
 
 namespace proc_image_processing {
 

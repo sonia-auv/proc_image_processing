@@ -4,7 +4,7 @@
  * \date	27/07/2016
  */
 
-#include "AsyncImagePublisher.h"
+#include "async_image_publisher.h"
 #include <cv_bridge/cv_bridge.h>
 
 

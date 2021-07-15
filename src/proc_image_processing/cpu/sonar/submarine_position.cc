@@ -4,7 +4,7 @@
  * \date	06/02/2016
  */
 
-#include "SubmarinePosition.h"
+#include "submarine_position.h"
 
 namespace proc_image_processing {
 

@@ -3,8 +3,8 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 #include <sonia_common/ros/service_server_manager.h>
-#include <proc_image_processing/cpu/sonar/SubmarinePosition.h>
-#include <proc_image_processing/cpu/sonar/SonarMapper.h>
+#include <proc_image_processing/cpu/sonar/submarine_position.h>
+#include <proc_image_processing/cpu/sonar/sonar_mapper.h>
 #include <proc_image_processing/cpu/server/vision_server.h>
 
 int main(int argc, char **argv) {

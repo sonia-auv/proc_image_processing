@@ -4,7 +4,7 @@
 
 
 #include <proc_image_processing/cpu/server/detection_task_manager.h>
-#include "ImageProvider.h"
+#include "image_provider.h"
 
 namespace proc_image_processing {
 

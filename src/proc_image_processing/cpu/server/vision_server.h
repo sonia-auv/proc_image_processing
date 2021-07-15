@@ -26,7 +26,7 @@
 #include "proc_image_processing/cpu/config.h"
 #include "detection_task.h"
 #include "detection_task_manager.h"
-#include "filterchain_manager.h"
+#include "filter_chain_manager.h"
 
 namespace proc_image_processing {
 

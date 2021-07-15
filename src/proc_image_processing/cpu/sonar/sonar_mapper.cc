@@ -5,7 +5,7 @@
  */
 
 
-#include "SonarMapper.h"
+#include "sonar_mapper.h"
 
 namespace proc_image_processing {
 

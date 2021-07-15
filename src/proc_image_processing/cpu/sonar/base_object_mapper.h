@@ -5,17 +5,18 @@
  */
 
 
-#ifndef PROC_IMAGE_PROCESSING_OBJECTMAPPER_H
-#define PROC_IMAGE_PROCESSING_OBJECTMAPPER_H
+#ifndef PROC_IMAGE_PROCESSING_OBJECT_MAPPER_H
+#define PROC_IMAGE_PROCESSING_OBJECT_MAPPER_H
 
-#include "MapObject.h"
+#include "map_object.h"
 
 // Interface for all object mapper (vision, sonar, hydrophones, etc)
 class BaseObjectMapperInterface {
 public:
-  virtual void GetMapObject(MapObjectVector &list) = 0;
-  virtual void ResetMapper() = 0;
+    virtual void GetMapObject(MapObjectVector &list) = 0;
+
+    virtual void ResetMapper() = 0;
 };
 
 
-#endif //PROC_IMAGE_PROCESSING_OBJECTMAPPER_H
+#endif //PROC_IMAGE_PROCESSING_OBJECT_MAPPER_H
