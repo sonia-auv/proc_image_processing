@@ -44,7 +44,7 @@ public:
     boost::replace_all(ip_address, ".", "");
     pub = it_.advertise(req.topic_name + "_" + ip_address, 1);
 
-    // Use PublisherPlugin::publish as the subscriber callback
+    // Use PublisherPlugin::publish as the subscriber imageCallback
     sub = it_.subscribe(req.topic_name, 1, &Images::imageCallback, this, in_transport);
     return true;
   }

@@ -67,7 +67,7 @@ class FilterFactory {
   // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT
   static std::unique_ptr<Filter> createInstance(const std::string &name, const GlobalParamHandler &globalParams);
 
-  static std::string GetFilterList();
+  static std::string getFilters();
 };
 
 }  // namespace proc_image_processing

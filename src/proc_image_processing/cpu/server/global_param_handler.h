@@ -56,32 +56,32 @@ namespace proc_image_processing {
     }
 
     // Params
-    inline void addParam(ParameterInterface* param) {
-      _params_vec.push_back(param);
+    inline void addParameter(ParameterInterface *param) {
+        _params_vec.push_back(param);
     }
 
-    void removeParam(const std::string& name) {
-      // Using iterator as it is simpler to erase.
-      std::vector<ParameterInterface*>::iterator index = _params_vec.begin();
-      std::vector<ParameterInterface*>::const_iterator end = _params_vec.end();
-      bool deleted = false;
-      for (; index != end && !deleted; index++) {
-        if ((*index)->GetName() == name) {
-          _params_vec.erase(index);
-          deleted = true;
-        }
+      void removeParameter(const std::string &name) {
+          // Using iterator as it is simpler to erase.
+          auto index = _params_vec.begin();
+          auto end = _params_vec.end();
+          bool deleted = false;
+          for (; index != end && !deleted; index++) {
+              if ((*index)->getName() == name) {
+                  _params_vec.erase(index);
+                  deleted = true;
+              }
+          }
       }
-    }
 
-    inline ParameterInterface* getParam(const std::string& name) const {
-      // Using [] accessor for optimisation.
-      for (size_t i = 0, size = _params_vec.size(); i < size; i++) {
-        if (_params_vec[i]->GetName() == name) {
-          return _params_vec[i];
-        }
+      inline ParameterInterface *getParameter(const std::string &name) const {
+          // Using [] accessor for optimisation.
+          for (auto i : _params_vec) {
+              if (i->getName() == name) {
+                  return i;
+              }
+          }
+          return 0;
       }
-      return 0;
-    }
 
     // Util
     static const char SEPARATOR = ';';

@@ -102,30 +102,30 @@ namespace proc_image_processing {
 
     template <class Ut_>
     void operator=(const Ut_& rhs) {
-      SetValue(rhs);
+        setStringValue(rhs);
     }
 
-    Tp_ operator()() { return GetValue(); }
+      Tp_ operator()() { return getValue(); }
 
-    void SetValue(const Tp_& value);
+      void setValue(const Tp_ &value);
 
-    const Tp_& GetValue() const;
+      const Tp_ &getValue() const;
 
-    void SetDescription(const std::string& description) override;
+      void setDescription(const std::string &description) override;
 
-    std::string GetDescription() const override;
+      std::string getDescription() const override;
 
-    void SetName(const std::string& name) override;
+      void setName(const std::string &name) override;
 
-    std::string GetName() const override;
+      std::string getName() const override;
 
-    virtual std::string ToString() const override;
+      virtual std::string toString() const override;
 
-    std::string GetType() const override;
+      std::string getType() const override;
 
-    std::string GetStringValue() const override;
+      std::string getStringValue() const override;
 
-    void SetStringValue(const std::string& value) override;
+      void setStringValue(const std::string &value) override;
 
   protected:
     std::string name_;

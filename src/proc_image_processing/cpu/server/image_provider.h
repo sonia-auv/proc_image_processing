@@ -23,32 +23,33 @@ public:
     std::string compressed = "/compressed";
 
     if (topic_name.compare(topic_name.length() - compressed.length(), compressed.length(), compressed) == 0) {
-      image_transport::TransportHints hint("compressed");
-      subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()), 50, &ImageProvider::ImageCallback, this, hint);
+        image_transport::TransportHints hint("compressed");
+        subscriber_ = it_.subscribe(topic_name.substr(0, topic_name.length() - compressed.length()), 50,
+                                    &ImageProvider::imageCallback, this, hint);
     }
     else {
-      subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::ImageCallback, this);
+        subscriber_ = it_.subscribe(topic_name, 50, &ImageProvider::imageCallback, this);
     }
   }
 
-  void ImageCallback(const sensor_msgs::ImageConstPtr& msg) {
-    image_mutex_.lock();
-    try {
-      cv_bridge::toCvShare(msg, "bgr8")->image.copyTo(image_);
-      image_id_++;
+    void imageCallback(const sensor_msgs::ImageConstPtr &msg) {
+        image_mutex_.lock();
+        try {
+            cv_bridge::toCvShare(msg, "bgr8")->image.copyTo(image_);
+            image_id_++;
+        }
+        catch (cv_bridge::Exception &e) {
+            ROS_ERROR("%s Could not convert from '%s' to 'bgr8'.", topic_name_.c_str(), msg->encoding.c_str());
+        }
+        image_mutex_.unlock();
     }
-    catch (cv_bridge::Exception& e) {
-      ROS_ERROR("%s Could not convert from '%s' to 'bgr8'.", topic_name_.c_str(), msg->encoding.c_str());
-    }
-    image_mutex_.unlock();
-  }
 
-  inline void GetImage(cv::Mat& image, unsigned int& image_id) {
-    image_mutex_.lock();
-    image_.copyTo(image);
-    image_id = image_id_;
-    image_mutex_.unlock();
-  }
+    inline void getImage(cv::Mat &image, unsigned int &image_id) {
+        image_mutex_.lock();
+        image_.copyTo(image);
+        image_id = image_id_;
+        image_mutex_.unlock();
+    }
 
 private:
   std::string topic_name_;

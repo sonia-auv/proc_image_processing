@@ -30,26 +30,26 @@ namespace proc_image_processing {
 
     virtual ~RangedParameter() = default;
 
-    const Tp_& GetMin() const { return min_; }
+    const Tp_ &getMin() const { return min_; }
 
-    void SetMin(const Tp_& min) { min_ = min; }
+      void setMin(const Tp_ &min) { min_ = min; }
 
-    const Tp_& GetMax() const { return max_; }
+      const Tp_ &getMax() const { return max_; }
 
-    void SetMax(const Tp_& max) { max_ = max; }
+      void setMax(const Tp_ &max) { max_ = max; }
 
-    std::string ToString() const override {
-      std::stringstream ss;
-      ss << Parameter<Tp_>::GetName() << Parameter<Tp_>::SEPARATOR;
-      ss << Parameter<Tp_>::GetType() << Parameter<Tp_>::SEPARATOR;
-      ss << Parameter<Tp_>::GetStringValue() << Parameter<Tp_>::SEPARATOR;
-      ss << details::StringConvertor<Tp_>::GetString(min_)
-        << Parameter<Tp_>::SEPARATOR;
-      ss << details::StringConvertor<Tp_>::GetString(max_)
-        << Parameter<Tp_>::SEPARATOR;
-      ss << Parameter<Tp_>::GetDescription();
-      return ss.str();
-    }
+      std::string toString() const override {
+          std::stringstream ss;
+          ss << Parameter<Tp_>::getName() << Parameter<Tp_>::SEPARATOR;
+          ss << Parameter<Tp_>::getType() << Parameter<Tp_>::SEPARATOR;
+          ss << Parameter<Tp_>::getStringValue() << Parameter<Tp_>::SEPARATOR;
+          ss << details::StringConvertor<Tp_>::getString(min_)
+             << Parameter<Tp_>::SEPARATOR;
+          ss << details::StringConvertor<Tp_>::getString(max_)
+             << Parameter<Tp_>::SEPARATOR;
+          ss << Parameter<Tp_>::getDescription();
+          return ss.str();
+      }
 
   protected:
     Tp_ min_;

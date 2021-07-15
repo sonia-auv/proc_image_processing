@@ -150,7 +150,7 @@ namespace proc_image_processing {
 
                 Target fence;
                 cv::Point center = (rect_from_hori_bar.center);
-                fence.SetTarget("fence", center.x, center.y,
+                fence.setTarget("fence", center.x, center.y,
                                 rect_from_hori_bar.size.width,
                                 rect_from_hori_bar.size.height, rect_from_hori_bar.angle,
                                 image.rows, image.cols);
@@ -165,7 +165,7 @@ namespace proc_image_processing {
                     }
                     setCameraOffset(center, image.rows, image.cols);
 
-                    fence.SetCenter(center);
+                    fence.setCenter(center);
 
                 } else  // Gets the two best vertical bar to compute our y center.
                 {
@@ -210,7 +210,7 @@ namespace proc_image_processing {
                             cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
                         }
                         setCameraOffset(center, image.rows, image.cols);
-                        fence.SetCenter(center);
+                        fence.setCenter(center);
                     } else if (bar_founded == 1) {
                         int y = (y_coord_from_bottom + final_vert_bar[0].y) / 2;
                         center = cv::Point(rect_from_hori_bar.center.x, y);
@@ -218,14 +218,14 @@ namespace proc_image_processing {
                             cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
                         }
                         setCameraOffset(center, image.rows, image.cols);
-                        fence.SetCenter(center);
+                        fence.setCenter(center);
                     } else {
                         center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
                         if (debug_contour_()) {
                             cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);
                         }
                         setCameraOffset(center, image.rows, image.cols);
-                        fence.SetCenter(center);
+                        fence.setCenter(center);
                     }
                 }
                 notify(fence);

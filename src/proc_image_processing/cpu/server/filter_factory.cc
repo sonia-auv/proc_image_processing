@@ -139,17 +139,17 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
   }
 }
 
-std::string FilterFactory::GetFilterList() {
-   // <FACTORY_GENERATOR_ITEMS_LIST>
-	return "AdaptiveThreshold;"
-		"BackgroundSubstract;"
-		"BilateralFilter;"
-		"Blurr;"
-		"Canny;"
-		"CenterCoffinDetector;"
-		"ContrastBrightness;"
-		"ConvexHull;"
-		"Deep2019;"
+std::string FilterFactory::getFilters() {
+    // <FACTORY_GENERATOR_ITEMS_LIST>
+    return "AdaptiveThreshold;"
+           "BackgroundSubstract;"
+           "BilateralFilter;"
+           "Blurr;"
+           "Canny;"
+           "CenterCoffinDetector;"
+           "ContrastBrightness;"
+           "ConvexHull;"
+           "Deep2019;"
 		"Dilate;"
 		"Equalize;"
 		"Erode;"

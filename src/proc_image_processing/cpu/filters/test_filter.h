@@ -36,10 +36,10 @@ namespace proc_image_processing {
 
       virtual void apply(cv::Mat &image) {
           if (enable_()) {
-              target_.SetTarget("test_filter", x_.GetValue() - 1000 / 2, y_.GetValue(),
-                                w_.GetValue(), h_.GetValue(), angle_.GetValue(), 1000,
-                                -1000 - (1000 / 2), specField1_.GetValue(),
-                                specField2_.GetValue());
+              target_.setTarget("test_filter", x_.getValue() - 1000 / 2, y_.getValue(),
+                                w_.getValue(), h_.getValue(), angle_.getValue(), 1000,
+                                -1000 - (1000 / 2), specField1_.getValue(),
+                                specField2_.getValue());
 
               notify(target_);
           }

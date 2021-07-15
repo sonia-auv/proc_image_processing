@@ -37,8 +37,8 @@ namespace proc_image_processing {
       // filter is alive)...
             if (param != nullptr) {
                 // Is it the param we are searching
-                if (param->GetName() == name) {
-                    returnString = param->ToString();
+                if (param->getName() == name) {
+                    returnString = param->toString();
                 }
             }
         }
@@ -52,8 +52,8 @@ namespace proc_image_processing {
             // access to the vector (optimisation)
             ParameterInterface *param = parameters_[i];
 
-            if (param != nullptr && param->GetName() == name) {
-                param->SetStringValue(value);
+            if (param != nullptr && param->getName() == name) {
+                param->setStringValue(value);
             }
         }
     }
@@ -69,7 +69,7 @@ namespace proc_image_processing {
     ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
                                                  const int value, const int min,
                                                  const int max) {
-        global_params_.addParam(
+        global_params_.addParameter(
                 new RangedParameter<int>(name, value, max, min, &parameters_));
     }
 
@@ -77,18 +77,18 @@ namespace proc_image_processing {
                                                  const double value,
                                                  const double min,
                                                  const double max) {
-        global_params_.addParam(
+        global_params_.addParameter(
                 new RangedParameter<double>(name, value, max, min, &parameters_));
     }
 
     ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
                                                  const bool value) {
-        global_params_.addParam(new Parameter<bool>(name, value, &parameters_));
+        global_params_.addParameter(new Parameter<bool>(name, value, &parameters_));
     }
 
     ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
                                                  const std::string &value) {
-        global_params_.addParam(
+        global_params_.addParameter(
                 new Parameter<std::string>(name, value, &parameters_));
     }
 

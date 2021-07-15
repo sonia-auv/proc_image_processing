@@ -41,11 +41,11 @@ namespace proc_image_processing {
               cv::Mat r = channels[2];
               cv::Mat blurB, blurG, blurR;
               cv::blur(b, blurB,
-                       cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));
+                       cv::Size(blur_size_.getValue(), blur_size_.getValue()));
               cv::blur(g, blurG,
-          cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));
-        cv::blur(r, blurR,
-          cv::Size(blur_size_.GetValue(), blur_size_.GetValue()));
+                       cv::Size(blur_size_.getValue(), blur_size_.getValue()));
+              cv::blur(r, blurR,
+                       cv::Size(blur_size_.getValue(), blur_size_.getValue()));
         if (show_blurred_()) {
           b = blurB;
           g = blurG;

@@ -116,11 +116,11 @@ namespace proc_image_processing {
             Target target;
             ObjectFullData::Ptr object = objVec[0];
             cv::Point center = object->getCenterPoint();
-            target.SetTarget(id_(), center.x, center.y, object->getWidth(),
+            target.setTarget(id_(), center.x, center.y, object->getWidth(),
                              object->getHeight(), object->getRotRect().angle,
                              image.rows, image.cols);
-            target.SetSpecField_1(spec_1_());
-            target.SetSpecField_2(spec_2_());
+            target.setSpecField1(spec_1_());
+            target.setSpecField2(spec_2_());
             notify(target);
             if (debug_contour_()) {
                 cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,

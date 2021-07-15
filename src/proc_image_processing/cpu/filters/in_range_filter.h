@@ -50,26 +50,26 @@ namespace proc_image_processing {
        * \param image The image to process.
        */
       void apply(cv::Mat &image) override {
-          if (enable_.GetValue()) {
+          if (enable_.getValue()) {
               cv::Mat hsv;
               cv::Mat luv;
 
               cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
               cv::inRange(
-                      hsv, cv::Scalar(lower_hue_.GetValue(), lower_saturation_.GetValue(),
-                                      lower_value_.GetValue()),
-                      cv::Scalar(upper_hue_.GetValue(), upper_saturation_.GetValue(),
-                                 upper_value_.GetValue()),
-          hsv);
+                      hsv, cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(),
+                                      lower_value_.getValue()),
+                      cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(),
+                                 upper_value_.getValue()),
+                      hsv);
 
-        cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
-        cv::inRange(luv, cv::Scalar(lower_lightness_.GetValue(),
-          lower_u_.GetValue(), lower_v_.GetValue()),
-          cv::Scalar(upper_lightness_.GetValue(), upper_u_.GetValue(),
-            upper_v_.GetValue()),
-          luv);
-        cv::bitwise_and(hsv, luv, image);
-      }
+              cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
+              cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
+                                          lower_u_.getValue(), lower_v_.getValue()),
+                          cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
+                                     upper_v_.getValue()),
+                          luv);
+              cv::bitwise_and(hsv, luv, image);
+          }
     }
 
   private:

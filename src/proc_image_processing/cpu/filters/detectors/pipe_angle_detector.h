@@ -166,7 +166,7 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
-                    target.SetTarget("pipe", center.x, center.y, object->getWidth(),
+                    target.setTarget("pipe", center.x, center.y, object->getWidth(),
                                      object->getHeight(), angle_,
                                      image.rows, image.cols);
                     notify(target);

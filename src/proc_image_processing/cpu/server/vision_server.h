@@ -84,241 +84,241 @@ namespace proc_image_processing {
      *  * filter_chain_new_name	The name of the new filterchain (the copy).
      *
      * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
+     *             It contains all the parameters sent to the imageCallback
      * \param	rep The ROS object containnig the Response of the service.
      *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
+     * \return True if the imageCallback has succesfully processed the service call.
      */
     bool CallbackCopyFc(sonia_common::CopyFilterchain::Request& rqst,
       sonia_common::CopyFilterchain::Response& rep);
 
-    /**
-     * \brief Gets the parameters for a filter.
-     *
-     * Manages the ROS service sonia_common::GetFilterchainFilterParam.
-     *
-     * Here are the parameters of the service:
-     *  * filter_name Name of the filter contained in the filterchain.
-     *  * filter_chain_name Name of the filterchain used by the execution.
-     *  * execution_name Name of the execution which is running.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Gets the parameters for a filter.
+       *
+       * Manages the ROS service sonia_common::GetFilterchainFilterParam.
+       *
+       * Here are the parameters of the service:
+       *  * filter_name Name of the filter contained in the filterchain.
+       *  * filter_chain_name Name of the filterchain used by the execution.
+       *  * execution_name Name of the execution which is running.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackGetFilterParam(sonia_common::GetFilterchainFilterParam::Request& rqst,
       sonia_common::GetFilterchainFilterParam::Response& rep);
 
-    /**
-     * TODO Thibaut Mattio: Check this method, this is exacly the same
-     * as the above one, is it really usefull ???
-     *
-     * \brief Gets the parameters for a filter.
-     *
-     * Manages the ROS service sonia_common::GetFilterchainFilterParam.
-     *
-     * Here are the parameters of the service:
-     *  * filter_name Name of the filter contained in the filterchain.
-     *  * filter_chain_name Name of the filterchain used by the execution.
-     *  * execution_name Name of the execution which is running.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * TODO Thibaut Mattio: Check this method, this is exacly the same
+       * as the above one, is it really usefull ???
+       *
+       * \brief Gets the parameters for a filter.
+       *
+       * Manages the ROS service sonia_common::GetFilterchainFilterParam.
+       *
+       * Here are the parameters of the service:
+       *  * filter_name Name of the filter contained in the filterchain.
+       *  * filter_chain_name Name of the filterchain used by the execution.
+       *  * execution_name Name of the execution which is running.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackGetFilterAllParam(
       sonia_common::GetFilterchainFilterAllParam::Request& rqst,
       sonia_common::GetFilterchainFilterAllParam::Response& rep);
 
-    /**
-     * \brief Set the value of a parameter of a filter contained in a filterchain
-     * used by a running execution.
-     *
-     * Manages the ROS service sonia_common::SetFilterchainFilterParam.
-     *
-     * Here are the parameters of the service:
-     *  * filter_chain_name Name of the filterchain which contain the filter.
-     *  * filter_name Name of the filter which contain the parameter.
-     *  *	parameter_name Name of the parameter which the value has to be set.
-     *  *	parameter_value The value of the parameter.
-     *  *	execution_name Name of the running execution using the filterchain.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Set the value of a parameter of a filter contained in a filterchain
+       * used by a running execution.
+       *
+       * Manages the ROS service sonia_common::SetFilterchainFilterParam.
+       *
+       * Here are the parameters of the service:
+       *  * filter_chain_name Name of the filterchain which contain the filter.
+       *  * filter_name Name of the filter which contain the parameter.
+       *  *	parameter_name Name of the parameter which the value has to be set.
+       *  *	parameter_value The value of the parameter.
+       *  *	execution_name Name of the running execution using the filterchain.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackSetFilterParam(sonia_common::SetFilterchainFilterParam::Request& rqst,
       sonia_common::SetFilterchainFilterParam::Response& rep);
 
-    /**
-     * \brief Gets the filters contained in a filterchain.
-     *
-     * Manages the ROS service sonia_common::GetFilterchainFilterParam.
-     *
-     * Here are the parameters of the service:
-     *  *	filter_chain_name Name of the filterchain.
-     *  *	execution_name Name of the execution. Let empty to get the filters list
-     *                   associated with a filterchain.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Gets the filters contained in a filterchain.
+       *
+       * Manages the ROS service sonia_common::GetFilterchainFilterParam.
+       *
+       * Here are the parameters of the service:
+       *  *	filter_chain_name Name of the filterchain.
+       *  *	execution_name Name of the execution. Let empty to get the filters list
+       *                   associated with a filterchain.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackGetFilter(sonia_common::GetFilterchainFilter::Request& rqst,
       sonia_common::GetFilterchainFilter::Response& rep);
 
-    /**
-     * \brief Adds/Deletes a filter in a filterchain used by a running execution.
-     *
-     * Manages the ROS service sonia_common::ManageFilterchainFilter.
-     *
-     * Here are the parameters of the service:
-     *  * filter_chain_name	Name of the filterchain.
-     *  * commande The commande to proccess. 1 for ADD, 2 for DELETE.
-     *  * filter_name Name of the filter.
-     *  * execution_name Name of the execution.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Adds/Deletes a filter in a filterchain used by a running execution.
+       *
+       * Manages the ROS service sonia_common::ManageFilterchainFilter.
+       *
+       * Here are the parameters of the service:
+       *  * filter_chain_name	Name of the filterchain.
+       *  * commande The commande to proccess. 1 for ADD, 2 for DELETE.
+       *  * filter_name Name of the filter.
+       *  * execution_name Name of the execution.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackManageFilter(sonia_common::ManageFilterchainFilter::Request& rqst,
       sonia_common::ManageFilterchainFilter::Response& rep);
 
-    /**
-     * \brief Creates/Deletes a filterchain (the .fc fils in config directory).
-     *
-     * Manages the ROS service sonia_common::ManageFilterchain.
-     *
-     * Here are the parameters of the service:
-     *  * filter_chain_name	Name of the filterchain.
-     *  * commande The commande to process. 1 for ADD, 2 for DELETE.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Creates/Deletes a filterchain (the .fc fils in config directory).
+       *
+       * Manages the ROS service sonia_common::ManageFilterchain.
+       *
+       * Here are the parameters of the service:
+       *  * filter_chain_name	Name of the filterchain.
+       *  * commande The commande to process. 1 for ADD, 2 for DELETE.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackManageFc(sonia_common::ManageFilterchain::Request& rqst,
       sonia_common::ManageFilterchain::Response& rep);
 
-    /**
-     * \brief Saves a filterchain.
-     *
-     *
-     * When a filterchain is used by a running execution, the filters and their
-     * parameters values can be modified.
-     * The VisionServer doesn't store the new values until the user click to the
-     * save button.
-     * This will call this method, which send a request to the VisionServer
-     * in order to save the filterchain.
-     * If the filterchain is not used by a running execution, this call will
-     * fail.
-     *
-     * Manages the ROS service sonia_common::SaveFilterchain.
-     *
-     * Here are the parameters of the service:
-     *  * filter_chain_name Name of the filterchain to save.
-     *  * execution_name Name of the execution which use the filterchain to
-     *                   save.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Saves a filterchain.
+       *
+       *
+       * When a filterchain is used by a running execution, the filters and their
+       * parameters values can be modified.
+       * The VisionServer doesn't store the new values until the user click to the
+       * save button.
+       * This will call this method, which send a request to the VisionServer
+       * in order to save the filterchain.
+       * If the filterchain is not used by a running execution, this call will
+       * fail.
+       *
+       * Manages the ROS service sonia_common::SaveFilterchain.
+       *
+       * Here are the parameters of the service:
+       *  * filter_chain_name Name of the filterchain to save.
+       *  * execution_name Name of the execution which use the filterchain to
+       *                   save.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackSaveFc(sonia_common::SaveFilterchain::Request& rqst,
       sonia_common::SaveFilterchain::Response& rep);
 
-    /**
-     * \brief Change the order of a filter in a filterchain.
-     *
-     * Manages the ROS service sonia_common::SetFilterchainFilterOrder.
-     *
-     * Here are the parameters of the service:
-     *  * execution_name Name of the execution which use the filterchain.
-     *  * filter_chain_name	Name of the filterchain which contains the
-     *                      filter to move.
-     *  * filter_index Zero-based index of the filter.
-     *  * commande 1=UP, 2=DOWN.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Change the order of a filter in a filterchain.
+       *
+       * Manages the ROS service sonia_common::SetFilterchainFilterOrder.
+       *
+       * Here are the parameters of the service:
+       *  * execution_name Name of the execution which use the filterchain.
+       *  * filter_chain_name	Name of the filterchain which contains the
+       *                      filter to move.
+       *  * filter_index Zero-based index of the filter.
+       *  * commande 1=UP, 2=DOWN.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackSetFcOrder(sonia_common::SetFilterchainFilterOrder::Request& rqst,
       sonia_common::SetFilterchainFilterOrder::Response& rep);
 
-    /**
-     * \brief Get the filterchain used by the running execution given as
-     *parameter.
-     *
-     * Manages the ROS service sonia_common::GetFilterchainFromExecution.
-     *
-     * Here are the parameters of the service:
-     *  * execution_name Name of the running execution.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Get the filterchain used by the running execution given as
+       *parameter.
+       *
+       * Manages the ROS service sonia_common::GetFilterchainFromExecution.
+       *
+       * Here are the parameters of the service:
+       *  * execution_name Name of the running execution.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackGetFcFromExec(sonia_common::GetFilterchainFromExecution::Request& rqst,
       sonia_common::GetFilterchainFromExecution::Response& rep);
 
-    /**
-     * \brief Get the media used by the running execution given as parameter.
-     *
-     * Manages the ROS service sonia_common::GetMediaFromExecution.
-     *
-     * Here are the parameters of the service:
-     *  * execution_name Name of the running execution.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Get the media used by the running execution given as parameter.
+       *
+       * Manages the ROS service sonia_common::GetMediaFromExecution.
+       *
+       * Here are the parameters of the service:
+       *  * execution_name Name of the running execution.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackGetMediaFromExec(sonia_common::GetMediaFromExecution::Request& rqst,
       sonia_common::GetMediaFromExecution::Response& rep);
 
-    /**
-     * \brief Sets the observer to the filter given as parameter.
-     *
-     * As the processing of a filterchain is like a pipe, it is possible to
-     * observe the render of a specific filter and all the filters before.
-     * This method set this "cursor".
-     * The filter has to be used by a filterchain used by a running execution.
-     *
-     * Manages the ROS service get_filterchain_filter_param.
-     *
-     * Here are the parameters of the service:
-     *  * execution_name Name of the running execution.
-     *  * filter_chain_name Name of the filterchain used by the execution.
-     *  * filter_name Name of the filter used as the "cursor" of the observer.
-     *
-     * \param	rqst The ROS object containing the Request of the service.
-     *             It contains all the parameters sent to the callback
-     * \param	rep The ROS object containnig the Response of the service.
-     *            It set values such as success for the service return state.
-     * \return True if the callback has succesfully processed the service call.
-     */
+      /**
+       * \brief Sets the observer to the filter given as parameter.
+       *
+       * As the processing of a filterchain is like a pipe, it is possible to
+       * observe the render of a specific filter and all the filters before.
+       * This method set this "cursor".
+       * The filter has to be used by a filterchain used by a running execution.
+       *
+       * Manages the ROS service get_filterchain_filter_param.
+       *
+       * Here are the parameters of the service:
+       *  * execution_name Name of the running execution.
+       *  * filter_chain_name Name of the filterchain used by the execution.
+       *  * filter_name Name of the filter used as the "cursor" of the observer.
+       *
+       * \param	rqst The ROS object containing the Request of the service.
+       *             It contains all the parameters sent to the imageCallback
+       * \param	rep The ROS object containnig the Response of the service.
+       *            It set values such as success for the service return state.
+       * \return True if the imageCallback has succesfully processed the service call.
+       */
     bool CallbackSetObserver(sonia_common::SetFilterchainFilterObserver::Request& rqst,
       sonia_common::SetFilterchainFilterObserver::Response& rep);
 
@@ -337,7 +337,7 @@ namespace proc_image_processing {
      */
     ros::NodeHandle nh_;
 
-    FilterchainManager filterchain_mgr_;
+      FilterChainManager filterchain_mgr_;
 
     DetectionTaskManager detection_task_mgr_;
 

@@ -138,7 +138,7 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
-                    target.SetTarget(objectif, center.x, center.y, object->getWidth(), object->getHeight(),
+                    target.setTarget(objectif, center.x, center.y, object->getWidth(), object->getHeight(),
                                      object->getRotRect().angle, image.rows, image.cols);
                     notify(target);
                     if (debug_contour_()) {

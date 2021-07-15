@@ -47,31 +47,31 @@ namespace proc_image_processing {
                 image_height_ = image.size().height;
 
                 for (auto &object : bounding_box_) {
-                    if (vetalas_.GetValue() && object.class_name.data == vetalas_.GetName()) {
+                    if (vetalas_.getValue() && object.class_name.data == vetalas_.getName()) {
                         color_ = cv::Scalar(0, 0, 255);
                         handleObject(target, object, image, color_);
                     }
-                    if (draugr_.GetValue() && object.class_name.data == draugr_.GetName()) {
+                    if (draugr_.getValue() && object.class_name.data == draugr_.getName()) {
                         color_ = cv::Scalar(0, 255, 0);
                         handleObject(target, object, image, color_);
                     }
-                    if (jiangshi_.GetValue() && object.class_name.data == jiangshi_.GetName()) {
+                    if (jiangshi_.getValue() && object.class_name.data == jiangshi_.getName()) {
                         color_ = cv::Scalar(255, 0, 0);
                         handleObject(target, object, image, color_);
                     }
-                    if (answag_.GetValue() && object.class_name.data == answag_.GetName()) {
+                    if (answag_.getValue() && object.class_name.data == answag_.getName()) {
                         color_ = cv::Scalar(244, 185, 66);
                         handleObject(target, object, image, color_);
                     }
-                    if (vampire_.GetValue() && object.class_name.data == vampire_.GetName()) {
+                    if (vampire_.getValue() && object.class_name.data == vampire_.getName()) {
                         color_ = cv::Scalar(200, 185, 66);
                         handleObject(target, object, image, color_);
                     }
-                    if (bat_.GetValue() && object.class_name.data == bat_.GetName()) {
+                    if (bat_.getValue() && object.class_name.data == bat_.getName()) {
                         color_ = cv::Scalar(217, 244, 66);
                         handleObject(target, object, image, color_);
                     }
-                    if (wolf_.GetValue() && object.class_name.data == wolf_.GetName()) {
+                    if (wolf_.getValue() && object.class_name.data == wolf_.getName()) {
                         color_ = cv::Scalar(66, 244, 223);
                         handleObject(target, object, image, color_);
                     }
@@ -126,16 +126,16 @@ namespace proc_image_processing {
             image_central_x = (int) (image_width_ / 2);
             image_central_y = (int) (image_height_ / 2);
 
-            bounding_box_center_x = (int)object.bbox.center.x;
-            bounding_box_center_y = (int)object.bbox.center.y;
+            bounding_box_center_x = (int) object.bbox.center.x;
+            bounding_box_center_y = (int) object.bbox.center.y;
 
             vision_bounding_box_center_x = bounding_box_center_x - image_central_x;
             vision_bounding_box_center_y = image_central_y - bounding_box_center_y;
 
-            target.SetCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
-            target.SetSize((int)object.bbox.size_x, (int)object.bbox.size_y);
-            target.SetSpecField_1(object.class_name.data);
-            target.SetSpecField_2(convertFloatToString(object.confidence));
+            target.setCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
+            target.setSize((int) object.bbox.size_x, (int) object.bbox.size_y);
+            target.setSpecField1(object.class_name.data);
+            target.setSpecField2(convertFloatToString(object.confidence));
         }
 
         inline void drawTarget(cv::Mat& image, const sonia_common::Detection& object, int thickness = 3, const cv::Scalar& color_box = cv::Scalar(0, 255, 0)) {

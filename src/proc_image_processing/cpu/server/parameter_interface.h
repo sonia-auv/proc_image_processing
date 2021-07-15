@@ -29,21 +29,21 @@ namespace proc_image_processing {
 
     virtual ~ParameterInterface() = default;
 
-    virtual void SetDescription(const std::string& description) = 0;
+    virtual void setDescription(const std::string &description) = 0;
 
-    virtual std::string GetDescription() const = 0;
+      virtual std::string getDescription() const = 0;
 
-    virtual void SetName(const std::string& name) = 0;
+      virtual void setName(const std::string &name) = 0;
 
-    virtual std::string GetName() const = 0;
+      virtual std::string getName() const = 0;
 
-    virtual std::string ToString() const = 0;
+      virtual std::string toString() const = 0;
 
-    virtual std::string GetType() const = 0;
+      virtual std::string getType() const = 0;
 
-    virtual std::string GetStringValue() const = 0;
+      virtual std::string getStringValue() const = 0;
 
-    virtual void SetStringValue(const std::string&) = 0;
+      virtual void setStringValue(const std::string &) = 0;
   };
 
 }  // namespace proc_image_processing

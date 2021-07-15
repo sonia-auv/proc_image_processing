@@ -309,26 +309,26 @@ namespace proc_image_processing {
           for (size_t i = 0; i < finalists.size(); i++)
               x = x + finalists[i]->getCenterPoint().x;
           x = x / finalists.size();
-          float y;
-          int y_count = 0;
-          for (size_t j = 0; j < 2 && j < finalists.size(); j++) {
-              y = y + finalists[j]->getCenterPoint().y;
-              y_count++;
-          }
+            float y;
+            int y_count = 0;
+            for (size_t j = 0; j < 2 && j < finalists.size(); j++) {
+                y = y + finalists[j]->getCenterPoint().y;
+                y_count++;
+            }
 
-          y = y / y_count;
+            y = y / y_count;
 
-          cv::Point center((int)round(x), (int)round(y));
-          target.SetTarget(
-            id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
-          target.SetSpecField_1(spec_1_());
-            target.SetSpecField_2(spec_2_());
+            cv::Point center((int) round(x), (int) round(y));
+            target.setTarget(
+                    id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
+            target.setSpecField1(spec_1_());
+            target.setSpecField2(spec_2_());
             notify(target);
-          if (debug_contour_()) {
-            cv::circle(output_image_,
-              cv::Point((int)round(x), (int)round(y)),
-              3, CV_RGB(0, 255, 0), 3);
-          }
+            if (debug_contour_()) {
+                cv::circle(output_image_,
+                           cv::Point((int) round(x), (int) round(y)),
+                           3, CV_RGB(0, 255, 0), 3);
+            }
         }
         if (debug_contour_()) {
           output_image_.copyTo(image);
