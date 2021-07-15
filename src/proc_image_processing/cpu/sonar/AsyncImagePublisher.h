@@ -37,27 +37,20 @@
 
 class AsyncImagePublisher {
  public:
-  //==========================================================================
-  // P U B L I C   C / D T O R S
 
-  explicit AsyncImagePublisher(const std::string &topic_name);
+
+    explicit AsyncImagePublisher(const std::string &topic_name);
   ~AsyncImagePublisher();
 
-  //==========================================================================
-  // P U B L I C   M E T H O D S
 
   void Publish(const cv::Mat &image);
 
  private:
-  //==========================================================================
-  // P R I V A T E   M E T H O D S
 
   void ThreadFunction();
 
-  //==========================================================================
-  // P R I V A T E   M E M B E R S
 
-  std::string topic_name_;
+    std::string topic_name_;
   // Flag to stop the thread
   bool stop_thread_;
   // The thread for broadcasting an image

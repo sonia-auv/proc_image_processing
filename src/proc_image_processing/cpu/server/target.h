@@ -84,10 +84,8 @@ namespace proc_image_processing {
 
   typedef std::queue<Target> TargetQueue;
 
-  //==============================================================================
-  // I N L I N E   F U N C T I O N S   D E F I N I T I O N S
 
-  inline void Target::SetTarget(const std::string& header, int x, int y,
+    inline void Target::SetTarget(const std::string& header, int x, int y,
     float width, float height, float angle,
     int image_height, int image_width,
     const std::string& spec_field_1,

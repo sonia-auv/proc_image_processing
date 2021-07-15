@@ -26,11 +26,7 @@
 #include "AsyncImagePublisher.h"
 #include <cv_bridge/cv_bridge.h>
 
-//==============================================================================
-// C / D T O R S   S E C T I O N
 
-//------------------------------------------------------------------------------
-//
 AsyncImagePublisher::AsyncImagePublisher(const std::string &topic_name)
         : topic_name_(topic_name),
           stop_thread_(false),
@@ -42,8 +38,7 @@ AsyncImagePublisher::AsyncImagePublisher(const std::string &topic_name)
     thread_ = std::thread(std::bind(&AsyncImagePublisher::ThreadFunction, this));
 }
 
-//------------------------------------------------------------------------------
-//
+
 AsyncImagePublisher::~AsyncImagePublisher() {
     // Set the flag to stop the thread and wait for it to stop
     stop_thread_ = true;
@@ -52,19 +47,14 @@ AsyncImagePublisher::~AsyncImagePublisher() {
     image_publisher_.shutdown();
 }
 
-//==============================================================================
-// M E T H O D   S E C T I O N
 
-//------------------------------------------------------------------------------
-//
 void AsyncImagePublisher::Publish(const cv::Mat &image) {
     image_queue_mutex_.lock();
     images_to_publish_.push(image);
     image_queue_mutex_.unlock();
 }
 
-//------------------------------------------------------------------------------
-//
+
 void AsyncImagePublisher::ThreadFunction() {
     cv_bridge::CvImage ros_image;
     ROS_INFO("Starting proc_image_processing AsyncImagePublisher...");
