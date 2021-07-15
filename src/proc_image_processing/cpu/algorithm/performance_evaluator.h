@@ -17,34 +17,39 @@ namespace proc_image_processing {
    * After that, when you call GetExecTime, it returns
    * the time in millisecond since its construction.
    * you can update the start time (time since construction)
-   * by calling UpdateStartTime()
+   * by calling resetStartTime()
    */
   class PerformanceEvaluator {
   public:
-    using Ptr = std::shared_ptr<PerformanceEvaluator>;
+      using Ptr = std::shared_ptr<PerformanceEvaluator>;
 
-    PerformanceEvaluator();
+      PerformanceEvaluator();
 
-    ~PerformanceEvaluator() {};
+      ~PerformanceEvaluator() {};
 
-    // Return the time in second since construction or call to UpdateStartTime
-    double GetExecTimeSec();
+      // Return the time in second since construction or call to resetStartTime
+      /**
+       * @return the execution time in seconds.
+       */
+      double getExecutionTime();
 
-    // Reset the time reference
-    void UpdateStartTime();
+      /**
+       * Resets the start time to now.
+       */
+      void resetStartTime();
 
   private:
-    double tick_frequency_;
-    double start_tick_count_;
+      double tick_frequency_;
+      double start_tick_count_;
   };
 
-  inline double PerformanceEvaluator::GetExecTimeSec() {
-    return (cv::getTickCount() - start_tick_count_) / tick_frequency_;
-  }
+    inline double PerformanceEvaluator::getExecutionTime() {
+        return (cv::getTickCount() - start_tick_count_) / tick_frequency_;
+    }
 
-  inline void PerformanceEvaluator::UpdateStartTime() {
-    start_tick_count_ = cv::getTickCount();
-  }
+    inline void PerformanceEvaluator::resetStartTime() {
+        start_tick_count_ = cv::getTickCount();
+    }
 
 }  // namespace proc_image_processing
 

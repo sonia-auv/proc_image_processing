@@ -19,7 +19,7 @@ namespace proc_image_processing {
 
   // Rotated rect ensure that the height member is the longest one
   // and the angle is in the direction of the height
-  // it also contains usefull method to play with rotated rectangle
+  // it also contains useful method to play with rotated rectangle
   class RotRect : public cv::RotatedRect {
   public:
     using Ptr = std::shared_ptr<RotRect>;

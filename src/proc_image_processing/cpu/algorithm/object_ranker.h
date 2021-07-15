@@ -28,7 +28,7 @@ namespace proc_image_processing {
   inline bool ObjectRanker::AreaSortFunction(ObjectFullData::Ptr a,
     ObjectFullData::Ptr b) {
     if (a.get() != nullptr && b.get() != nullptr) {
-      return a->GetArea() > b->GetArea();
+      return a->getArea() > b->getArea();
     }
     return false;
   }
@@ -36,7 +36,7 @@ namespace proc_image_processing {
   inline bool ObjectRanker::LengthSortFunction(ObjectFullData::Ptr a,
     ObjectFullData::Ptr b) {
     if (a.get() != nullptr && b.get() != nullptr) {
-      return a->GetHeight() > b->GetHeight();
+        return a->getHeight() > b->getHeight();
     }
     return false;
   }

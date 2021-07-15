@@ -51,11 +51,11 @@ namespace proc_image_processing {
     if ((object.get() != nullptr) && (object->GetPercentFilled() == -1.0f)) {
       float percentFilled = 0.0f;
 
-      cv::Size imageSize = object->GetImageSize();
-      cv::Mat drawImage(imageSize, CV_8UC3, cv::Scalar::all(0));
+      cv::Size imageSize = object->getImageSize();
+        cv::Mat drawImage(imageSize, CV_8UC3, cv::Scalar::all(0));
       contourList_t contours;
-      cv::Point2f pts[4];
-      RotRect rrect = object->GetRotatedRect();
+        cv::Point2f pts[4];
+        RotRect rrect = object->getRotRect();
       rrect.points(pts);
       contour_t contour(4);
       for (int i = 0; i < 4; i++) {
@@ -65,8 +65,8 @@ namespace proc_image_processing {
       contours.push_back(contour);
         contours.push_back(object->getContourCopy().getContour());
 
-      // Draw the biggest one (contour by corners)
-      // Then draw the contour in black over the biggest one.
+        // draw the biggest one (contour by corners)
+        // Then draw the contour in black over the biggest one.
       cv::drawContours(drawImage, contours, 0, CV_RGB(255, 255, 255), -1);
       cv::drawContours(drawImage, contours, 1, CV_RGB(0, 0, 0), -1);
 
@@ -83,25 +83,25 @@ namespace proc_image_processing {
     int plane) {
     float mean = 0.0f;
     if (object.get() != nullptr) {
-      cv::Mat binaryImage(object->GetImageSize(), CV_8UC3, cv::Scalar::all(0));
-      contourList_t contours;
+        cv::Mat binaryImage(object->getImageSize(), CV_8UC3, cv::Scalar::all(0));
+        contourList_t contours;
         contours.push_back(object->getContourCopy().getContour());
         cv::drawContours(binaryImage, contours, -1, CV_RGB(255, 255, 255), -1);
-      cv::cvtColor(binaryImage, binaryImage, CV_BGR2GRAY);
-      cv::Mat colorbinaryImage;
+        cv::cvtColor(binaryImage, binaryImage, CV_BGR2GRAY);
+        cv::Mat colorbinaryImage;
 
-      cv::bitwise_and(object->GetPlanes(plane), cv::Scalar::all(255),
-        colorbinaryImage, binaryImage);
-      long unsigned int accumulator = 0, nbPixel = 0;
+        cv::bitwise_and(object->getPlanes(plane), cv::Scalar::all(255),
+                        colorbinaryImage, binaryImage);
+        long unsigned int accumulator = 0, nbPixel = 0;
 
-      int rows = colorbinaryImage.rows, cols = colorbinaryImage.cols;
-      for (int y = 0; y < rows; y++) {
-        uchar* ptr = colorbinaryImage.ptr<uchar>(y);
-        for (int x = 0; x < cols; x++) {
-          if (ptr[x] != 0) {
-            accumulator += ptr[x];
-            nbPixel++;
-          }
+        int rows = colorbinaryImage.rows, cols = colorbinaryImage.cols;
+        for (int y = 0; y < rows; y++) {
+            uchar *ptr = colorbinaryImage.ptr<uchar>(y);
+            for (int x = 0; x < cols; x++) {
+                if (ptr[x] != 0) {
+                    accumulator += ptr[x];
+                    nbPixel++;
+                }
         }
       }
       if (nbPixel != 0) {

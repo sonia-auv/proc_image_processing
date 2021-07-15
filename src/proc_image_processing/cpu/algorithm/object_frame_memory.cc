@@ -35,7 +35,7 @@ namespace proc_image_processing {
       for (int j = 0, size = currentFrameData.size(); j < size; j++) {
         ObjectFullData::Ptr analysedObject = currentFrameData[j];
         if (analysedObject.get() != nullptr) {
-          cv::Point analysedCenter = analysedObject->GetCenter();
+          cv::Point analysedCenter = analysedObject->getCenterPoint();
             float distance = getEuclideanDistance(center, analysedCenter);
 
           float analysedRatio = analysedObject->GetRatio();

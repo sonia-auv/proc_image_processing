@@ -41,49 +41,49 @@ namespace proc_image_processing {
 
     virtual ~ObjectBasicData() {}
 
-    void SetPlaneInRange(int& planeID);
+    void setPlaneInRange(int &planeID);
 
-    // Voting system
-    void IncrementVote();
+      // Voting system
+      void vote();
 
-    int GetVoteCount();
+      int getVoteCount();
 
-    void ResetVote();
+      void resetVotes();
 
-    // All getters calculate their element if they are not already calculated.
-    // If they are, simply return them.
-    float GetArea();
+      // All getters calculate their element if they are not already calculated.
+      // If they are, simply return them.
+      float getArea();
 
-    float GetHeight();
+      float getHeight();
 
-    float GetWidth();
+      float getWidth();
 
-    float GetConvexHullArea();
+      float getConvexHullArea();
 
-    float GetCircumference();
+      float getCircumference();
 
-    const RotRect& GetRotatedRect();
+      const RotRect &getRotRect();
 
-    float GetAngle();
+      float getAngle();
 
-    cv::Point2f& GetCenter();
+      cv::Point2f &getCenterPoint();
 
-    const cv::Rect& GetUprightRect();
+      const cv::Rect &getUprightRect();
 
-    const cv::Moments& GetMoments(bool useBinary);
+      const cv::Moments &getMoments(bool binary);
 
-    // Images are already reference in opencv...
-    const cv::Mat& GetPlanes(int planesID);
+      // Images are already reference in opencv...
+      const cv::Mat &getPlanes(int planesID);
 
-    cv::Mat GetBinaryImageAtUprightRect();
+      cv::Mat getBinaryImageAtUprightRect();
 
     Contour getContourCopy();
 
-    cv::Size GetImageSize();
+      cv::Size getImageSize();
 
-    const cv::Mat& GetBinaryImage();
+      const cv::Mat &getBinaryImage();
 
-    const cv::Mat& GetOriginalImage();
+      const cv::Mat &getOriginalImage();
 
   private:
     std::map<OBJECT_DATA, bool> is_calculated_map_;
@@ -100,107 +100,107 @@ namespace proc_image_processing {
     Contour contour_;
   };
 
-  inline void ObjectBasicData::IncrementVote() { vote_count_++; }
+    inline void ObjectBasicData::vote() { vote_count_++; }
 
-  inline int ObjectBasicData::GetVoteCount() { return vote_count_; }
+    inline int ObjectBasicData::getVoteCount() { return vote_count_; }
 
-  inline void ObjectBasicData::ResetVote() { vote_count_ = 0; }
+    inline void ObjectBasicData::resetVotes() { vote_count_ = 0; }
 
-  inline float ObjectBasicData::GetArea() {
-    if (!is_calculated_map_[AREA]) {
-        area_ = cv::contourArea(contour_.getContour(), false);
-        is_calculated_map_[AREA] = true;
+    inline float ObjectBasicData::getArea() {
+        if (!is_calculated_map_[AREA]) {
+            area_ = cv::contourArea(contour_.getContour(), false);
+            is_calculated_map_[AREA] = true;
+        }
+        return area_;
     }
-    return area_;
-  }
 
-  inline float ObjectBasicData::GetHeight() {
-    if (!is_calculated_map_[ROTATED_RECT]) {
-        rect_ = RotRect(contour_.getContour());
-        is_calculated_map_[ROTATED_RECT] = true;
+    inline float ObjectBasicData::getHeight() {
+        if (!is_calculated_map_[ROTATED_RECT]) {
+            rect_ = RotRect(contour_.getContour());
+            is_calculated_map_[ROTATED_RECT] = true;
+        }
+        return rect_.size.height;
     }
-    return rect_.size.height;
-  }
 
-  inline float ObjectBasicData::GetWidth() {
-    if (!is_calculated_map_[ROTATED_RECT]) {
-        rect_ = RotRect(contour_.getContour());
-        is_calculated_map_[ROTATED_RECT] = true;
+    inline float ObjectBasicData::getWidth() {
+        if (!is_calculated_map_[ROTATED_RECT]) {
+            rect_ = RotRect(contour_.getContour());
+            is_calculated_map_[ROTATED_RECT] = true;
+        }
+        return rect_.size.width;
     }
-    return rect_.size.width;
-  }
 
-  inline void ObjectBasicData::SetPlaneInRange(int& planeID) {
-    // Clamping the planeID in [0; NB_OF_PLANE - 1]
-    planeID =
-      planeID < 0 ? 0 : (planeID > NB_OF_PLANE - 1 ? NB_OF_PLANE - 1 : planeID);
-  }
-
-  inline float ObjectBasicData::GetConvexHullArea() {
-    if (!is_calculated_map_[CONVEX_HULL]) {
-      contour_t convexHull;
-        cv::convexHull(contour_.getContour(), convexHull, false, true);
-        convex_hull_area_ = cv::contourArea(convexHull, false);
-      is_calculated_map_[CONVEX_HULL] = true;
+    inline void ObjectBasicData::setPlaneInRange(int &planeID) {
+        // Clamping the planeID in [0; NB_OF_PLANE - 1]
+        planeID =
+                planeID < 0 ? 0 : (planeID > NB_OF_PLANE - 1 ? NB_OF_PLANE - 1 : planeID);
     }
-    return convex_hull_area_;
-  }
 
-  inline float ObjectBasicData::GetCircumference() {
-    if (!is_calculated_map_[CIRCUMFERENCE]) {
-        circumference_ = cv::arcLength(contour_.getContour(), true);
-        is_calculated_map_[CIRCUMFERENCE] = true;
+    inline float ObjectBasicData::getConvexHullArea() {
+        if (!is_calculated_map_[CONVEX_HULL]) {
+            contour_t convexHull;
+            cv::convexHull(contour_.getContour(), convexHull, false, true);
+            convex_hull_area_ = cv::contourArea(convexHull, false);
+            is_calculated_map_[CONVEX_HULL] = true;
+        }
+        return convex_hull_area_;
     }
-    return circumference_;
-  }
 
-  inline const RotRect& ObjectBasicData::GetRotatedRect() {
-    if (!is_calculated_map_[ROTATED_RECT]) {
-        rect_ = RotRect(contour_.getContour());
-        is_calculated_map_[ROTATED_RECT] = true;
+    inline float ObjectBasicData::getCircumference() {
+        if (!is_calculated_map_[CIRCUMFERENCE]) {
+            circumference_ = cv::arcLength(contour_.getContour(), true);
+            is_calculated_map_[CIRCUMFERENCE] = true;
+        }
+        return circumference_;
     }
-    return rect_;
-  }
 
-  inline float ObjectBasicData::GetAngle() {
-    GetRotatedRect();
-    return rect_.angle;
-  }
-
-  inline cv::Point2f& ObjectBasicData::GetCenter() {
-    GetRotatedRect();
-    return rect_.center;
-  }
-
-  inline const cv::Rect& ObjectBasicData::GetUprightRect() {
-    if (!is_calculated_map_[UP_RIGHT_RECT]) {
-        up_right_rect_ = cv::boundingRect(contour_.getContour());
-        is_calculated_map_[UP_RIGHT_RECT] = true;
+    inline const RotRect &ObjectBasicData::getRotRect() {
+        if (!is_calculated_map_[ROTATED_RECT]) {
+            rect_ = RotRect(contour_.getContour());
+            is_calculated_map_[ROTATED_RECT] = true;
+        }
+        return rect_;
     }
-    return up_right_rect_;
-  }
 
-  inline cv::Mat ObjectBasicData::GetBinaryImageAtUprightRect() {
-    // Making sure we have calculated the rectangle.
-    cv::Rect uprightRect = GetUprightRect();
-    // Clone is necessary since the object is created now
-    // OpenCV Mat are smart pointer
-    return cv::Mat(binary_image_, uprightRect);
-  }
+    inline float ObjectBasicData::getAngle() {
+        getRotRect();
+        return rect_.angle;
+    }
+
+    inline cv::Point2f &ObjectBasicData::getCenterPoint() {
+        getRotRect();
+        return rect_.center;
+    }
+
+    inline const cv::Rect &ObjectBasicData::getUprightRect() {
+        if (!is_calculated_map_[UP_RIGHT_RECT]) {
+            up_right_rect_ = cv::boundingRect(contour_.getContour());
+            is_calculated_map_[UP_RIGHT_RECT] = true;
+        }
+        return up_right_rect_;
+    }
+
+    inline cv::Mat ObjectBasicData::getBinaryImageAtUprightRect() {
+        // Making sure we have calculated the rectangle.
+        cv::Rect uprightRect = getUprightRect();
+        // Clone is necessary since the object is created now
+        // OpenCV Mat are smart pointer
+        return cv::Mat(binary_image_, uprightRect);
+    }
 
     inline Contour ObjectBasicData::getContourCopy() { return contour_; }
 
-  inline cv::Size ObjectBasicData::GetImageSize() {
-    return original_image_.size();
-  }
+    inline cv::Size ObjectBasicData::getImageSize() {
+        return original_image_.size();
+    }
 
-  inline const cv::Mat& ObjectBasicData::GetBinaryImage() {
-    return original_image_;
-  }
+    inline const cv::Mat &ObjectBasicData::getBinaryImage() {
+        return original_image_;
+    }
 
-  inline const cv::Mat& ObjectBasicData::GetOriginalImage() {
-    return binary_image_;
-  }
+    inline const cv::Mat &ObjectBasicData::getOriginalImage() {
+        return binary_image_;
+    }
 
 }  // namespace proc_image_processing
 

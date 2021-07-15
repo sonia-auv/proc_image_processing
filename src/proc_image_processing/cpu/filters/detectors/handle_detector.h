@@ -57,7 +57,7 @@ namespace proc_image_processing {
         cv::Mat originalImage = global_params_.getOriginalImage();
 
         PerformanceEvaluator timer;
-        timer.UpdateStartTime();
+          timer.resetStartTime();
 
         contourList_t contours;
           retrieveAllContours(image, contours);
@@ -70,7 +70,7 @@ namespace proc_image_processing {
           }
 
             // AREA
-            if (object->GetArea() < min_area_()) {
+            if (object->getArea() < min_area_()) {
                 continue;
             }
             if (debug_contour_()) {
@@ -89,8 +89,8 @@ namespace proc_image_processing {
 
             // ANGLE
             if (!disable_angle_() &&
-                (fabs(object->GetRotatedRect().angle - targeted_angle_()) >
-                 fabs(difference_from_target_angle_()))) {
+                    (fabs(object->getRotRect().angle - targeted_angle_()) >
+                     fabs(difference_from_target_angle_()))) {
                 continue;
             }
 
@@ -108,24 +108,24 @@ namespace proc_image_processing {
 
         std::sort(objVec.begin(), objVec.end(),
           [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-            return a->GetArea() > b->GetArea();
+              return a->getArea() > b->getArea();
           });
 
         // Since we search only one buoy, get the biggest from sort function
         if (objVec.size() > 0) {
-          Target target;
-          ObjectFullData::Ptr object = objVec[0];
-          cv::Point center = object->GetCenter();
-          target.SetTarget(id_(), center.x, center.y, object->GetWidth(),
-            object->GetHeight(), object->GetRotatedRect().angle,
-            image.rows, image.cols);
-          target.SetSpecField_1(spec_1_());
-          target.SetSpecField_2(spec_2_());
-          NotifyTarget(target);
-          if (debug_contour_()) {
-            cv::circle(output_image_, objVec[0]->GetCenter(), 3,
-              CV_RGB(0, 255, 0), 3);
-          }
+            Target target;
+            ObjectFullData::Ptr object = objVec[0];
+            cv::Point center = object->getCenterPoint();
+            target.SetTarget(id_(), center.x, center.y, object->getWidth(),
+                             object->getHeight(), object->getRotRect().angle,
+                             image.rows, image.cols);
+            target.SetSpecField_1(spec_1_());
+            target.SetSpecField_2(spec_2_());
+            NotifyTarget(target);
+            if (debug_contour_()) {
+                cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,
+                           CV_RGB(0, 255, 0), 3);
+            }
         }
         if (debug_contour_()) {
           output_image_.copyTo(image);

@@ -41,7 +41,7 @@ namespace proc_image_processing {
   };
 
   inline bool AreaSorts(ObjectFullData::Ptr a, ObjectFullData::Ptr b) {
-    return a->GetArea() < b->GetArea();
+    return a->getArea() < b->getArea();
   }
 
   inline bool RatioSorts(ObjectFullData::Ptr a, ObjectFullData::Ptr b) {

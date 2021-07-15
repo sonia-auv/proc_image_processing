@@ -97,33 +97,33 @@ namespace proc_image_processing {
 
   inline void ObjectFeatureFactory::RatioFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetRatio() == -1.0f)) {
-      RotRect rect = object->GetRotatedRect();
+      RotRect rect = object->getRotRect();
       object->SetRatio(rect.size.width / rect.size.height);
     }
   }
 
   inline void ObjectFeatureFactory::ConvexityFeature(ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetConvexity() == -1.0f)) {
-      // safety, should not happen
-      float convexHull = object->GetConvexHullArea();
-      float area = object->GetArea();
-      if (convexHull > 0 && area > 0)
-        object->SetConvexity(1.0f - (area / convexHull));
+        // safety, should not happen
+        float convexHull = object->getConvexHullArea();
+        float area = object->getArea();
+        if (convexHull > 0 && area > 0)
+            object->SetConvexity(1.0f - (area / convexHull));
     }
   }
 
   inline void ObjectFeatureFactory::CircularityFeature(
     ObjectFullData::Ptr object) {
     if ((object.get() != nullptr) && (object->GetCircularity() == -1.0f)) {
-      // Here we use pow on radius instead of sqrt on area because
-      // pow is less hard computation
-      float radiusCircum = pow(object->GetCircumference() / (2 * M_PI), 2);
-      float radiusArea = object->GetArea() / (M_PI);
-      if (radiusCircum != 0 && radiusArea != 0) {
-        object->SetCircularity(radiusCircum > radiusArea
-          ? radiusArea / radiusCircum
-          : radiusCircum / radiusArea);
-      }
+        // Here we use pow on radius instead of sqrt on area because
+        // pow is less hard computation
+        float radiusCircum = pow(object->getCircumference() / (2 * M_PI), 2);
+        float radiusArea = object->getArea() / (M_PI);
+        if (radiusCircum != 0 && radiusArea != 0) {
+            object->SetCircularity(radiusCircum > radiusArea
+                                   ? radiusArea / radiusCircum
+                                   : radiusCircum / radiusArea);
+        }
     }
   }
 
@@ -136,8 +136,8 @@ namespace proc_image_processing {
         RatioFeature(object);
         ratio = object->GetRatio();
       }
-      ObjectFullData::FullObjectPtrVec vec =
-        frame_memory_.GetPastObjectsViaCenter(object->GetCenter(), ratio);
+        ObjectFullData::FullObjectPtrVec vec =
+                frame_memory_.GetPastObjectsViaCenter(object->getCenterPoint(), ratio);
       object->SetPresenceConsistency(float(vec.size()) /
         float(frame_memory_.GetMemorySize()));
     }

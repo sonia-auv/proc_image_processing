@@ -29,25 +29,24 @@ namespace proc_image_processing {
 
 
     // Debug
-    void Draw(cv::Mat& img, cv::Scalar color);
+    void draw(cv::Mat &img, cv::Scalar color);
 
-    cv::Point PerpendicularLine();
+      cv::Point getPerpendicularLine();
 
-    // Getters
-    cv::Point GetCenter();
+      cv::Point getCenter();
 
-    cv::Point GetStart();
+      cv::Point getStart();
 
-    cv::Point GetEnd();
+      cv::Point getEnd();
 
-    std::vector<cv::Point> GenerateLine(cv::Mat& img);
+      std::vector<cv::Point> getPoints(cv::Mat &img);
 
-    float GetAngle();
+      float getAngle();
 
-    float GetLength();
+      float getLength();
 
   private:
-    // start point is leftmosst point, end id farrigth point
+      // start point is leftmost point, end id rightmost point
     cv::Point center_;
 
     cv::Point start_;

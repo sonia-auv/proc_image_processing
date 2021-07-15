@@ -35,21 +35,21 @@ namespace proc_image_processing {
     length_ = sqrt(pow((start_.y - end_.y), 2) + pow((start_.y - end_.y), 2));
   }
 
-  void Line::Draw(cv::Mat& img, cv::Scalar color) {
-    cv::line(img, start_, end_, color, 4, 8);
+  void Line::draw(cv::Mat &img, cv::Scalar color) {
+      cv::line(img, start_, end_, color, 4, 8);
   }
 
-  cv::Point Line::PerpendicularLine() {
-    std::vector<cv::Point> secondLine;
+    cv::Point Line::getPerpendicularLine() {
+        std::vector<cv::Point> secondLine;
 
-    cv::Point vector1;
-    Eigen::Vector3d vector2;
-    vector1 = end_ - start_;
+        cv::Point vector1;
+        Eigen::Vector3d vector2;
+        vector1 = end_ - start_;
 
-    Eigen::Vector3d vector(vector1.x, vector1.y, 1);
+        Eigen::Vector3d vector(vector1.x, vector1.y, 1);
 
-    double min = fabs(vector.x());
-    Eigen::Vector3d cardinalAxis;
+        double min = fabs(vector.x());
+        Eigen::Vector3d cardinalAxis;
     cardinalAxis << 1, 0, 1;
 
     if (fabs(vector.y()) < min) {
@@ -61,32 +61,32 @@ namespace proc_image_processing {
     return cv::Point(vector2.x(), vector2.y());
   }
 
-  std::vector<cv::Point> Line::GenerateLine(cv::Mat& img) {
-    std::vector<cv::Point> line;
-    cv::LineIterator it(img, start_, end_);
+    std::vector<cv::Point> Line::getPoints(cv::Mat &img) {
+        std::vector<cv::Point> line;
+        cv::LineIterator it(img, start_, end_);
 
-    for (int i = 0; i < it.count; i++, ++it) {
-      cv::Point p = it.pos();
-      line.push_back(p);
+        for (int i = 0; i < it.count; i++, ++it) {
+            cv::Point p = it.pos();
+            line.push_back(p);
+        }
+
+        return line;
     }
 
-    return line;
-  }
+    cv::Point Line::getCenter() { return center_; }
 
-  cv::Point Line::GetCenter() { return center_; }
+    cv::Point Line::getStart() { return start_; }
 
-  cv::Point Line::GetStart() { return start_; }
+    cv::Point Line::getEnd() { return end_; }
 
-  cv::Point Line::GetEnd() { return end_; }
+    float Line::getAngle() { return angle_; }
 
-  float Line::GetAngle() { return angle_; }
+    float Line::getLength() { return length_; }
 
-  float Line::GetLength() { return length_; }
+    bool lengthSort(Line a, Line b) { return a.getLength() > b.getLength(); }
 
-  bool lengthSort(Line a, Line b) { return a.GetLength() > b.GetLength(); }
+    bool centerXSort(Line a, Line b) { return a.getCenter().x > b.getCenter().x; }
 
-  bool centerXSort(Line a, Line b) { return a.GetCenter().x > b.GetCenter().x; }
-
-  bool centerYSort(Line a, Line b) { return a.GetCenter().y > b.GetCenter().y; }
+    bool centerYSort(Line a, Line b) { return a.getCenter().y > b.getCenter().y; }
 
 }  // namespace proc_image_processing

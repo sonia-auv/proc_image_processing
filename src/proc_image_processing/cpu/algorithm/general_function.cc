@@ -37,7 +37,7 @@ namespace proc_image_processing {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
-        hierachy_t hierarchy;
+        hierarchy_t hierarchy;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         cv::findContours(temp, contourVect, hierarchy, CV_RETR_TREE,
@@ -58,7 +58,7 @@ namespace proc_image_processing {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
-        hierachy_t hierarchy;
+        hierarchy_t hierarchy;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         cv::findContours(temp, contourVect, hierarchy, CV_RETR_TREE,
@@ -95,7 +95,7 @@ namespace proc_image_processing {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
-        hierachy_t hierachy;
+        hierarchy_t hierachy;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         retrieveHierarchyContours(image, contourVect, hierachy);
@@ -128,7 +128,7 @@ namespace proc_image_processing {
     }
 
     void retrieveHierarchyContours(cv::Mat image, contourList_t &contours,
-                                   hierachy_t &hierarchy) {
+                                   hierarchy_t &hierarchy) {
         if (image.channels() != 1) return;
 
         // CLone beacause find contour modifies the image.
@@ -174,7 +174,7 @@ namespace proc_image_processing {
         cv::Point p1;
         cv::Point p2;
 
-        cv::Point2f vector = line.PerpendicularLine();
+        cv::Point2f vector = line.getPerpendicularLine();
 
         p1 = center;
         p2 = vector + center;

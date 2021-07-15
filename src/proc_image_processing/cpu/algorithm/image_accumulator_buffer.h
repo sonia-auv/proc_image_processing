@@ -36,82 +36,82 @@ namespace proc_image_processing {
 
     ~ImageAccumulatorBuffer() {};
 
-    void AddImage(const cv::Mat& image);
+    void addImage(const cv::Mat &image);
 
-    void GetImage(cv::Mat& image);
+      void convertImage(cv::Mat &image);
 
-    /**
-     * No concurency access check on buffer is made,  Do not use in different
-     * thread.
-     */
-    void ResetBuffer();
+      /**
+       * No concurrency access check on buffer is made,  Do not use in different
+       * thread.
+       */
+      void resetBuffer();
 
-    /**
-     * No check is made on bufferLength.
-     * Resize the accumulator and reset it.
-     */
-    void ResetBuffer(int bufferLength, cv::Size imgSize, int type);
+      /**
+       * No check is made on bufferLength.
+       * Resize the accumulator and reset it.
+       */
+      void resetBuffer(int bufferLength, cv::Size imgSize, int type);
 
-    /**
-     * Set the average method via the Enum.
-     */
-    void SetAverageMethod(METHOD method);
+      /**
+       * Set the average method via the Enum.
+       */
+      void setAverageMethod(METHOD method);
 
-    /**
-     * Return the buffer length
-     */
-    int GetBufferLength();
+      /**
+       * Return the buffer length
+       */
+      int getBufferLength();
 
-    /**
-     * Usefull for for loop iteration. ZERO BASED
-     * Return the index of the element at elementNumber from the most
-     * recent.
-     *
-     * If the newest is at idx 4 (on a array of size 5)
-     * elementNumber == 0 will return 4, and
-     * elementNumber == 1 will return 3, etc.
-     */
-    int GetIndexFromMostRecent(int elementNumber);
+      /**
+       * Usefull for for loop iteration. ZERO BASED
+       * Return the index of the element at elementNumber from the most
+       * recent.
+       *
+       * If the newest is at idx 4 (on a array of size 5)
+       * elementNumber == 0 will return 4, and
+       * elementNumber == 1 will return 3, etc.
+       */
+      int getIndexRelativeToNewest(int elementNumber);
 
-    /**
-     * Return the index of the element at elementNumber from the oldest.
-     *
-     * If the oldest is at idx 4 (on a array of size 5)
-     * elementNumber == 0 will return 4, and
-     * elementNumber == 1 will return 0, etc.
-     */
-    int GetIndexFromOldest(int elementNumber);
+      /**
+       * Return the index of the element at elementNumber from the oldest.
+       *
+       * If the oldest is at idx 4 (on a array of size 5)
+       * elementNumber == 0 will return 4, and
+       * elementNumber == 1 will return 0, etc.
+       */
+      int getIndexRelativeToOldest(int elementNumber);
 
-    void GetImage(size_t index, cv::Mat& image);
+      void getImage(size_t index, cv::Mat &image);
 
   private:
-    /**
-     * Averaging methods
-     * They all keep the image in CV_32FCN
-     * All images in the buffer have the same weights
-     */
-    void AverageAllSameWeight(cv::Mat& resultImage);
+      /**
+       * Averaging methods
+       * They all keep the image in CV_32FCN
+       * All images in the buffer have the same weights
+       */
+      void averageUsingSameWeights(cv::Mat &resultImage);
 
-    /**
-     * Newest image has the most importance.
-     *
-     * for size of 4,Img1 is older image, Img4 is newest
-     * result = Img1*0.50 + Img2* 0.50
-     * result = result*0.50 + Img3 * 0.50
-     * result = result*0.50 + Img4 * 0.50
-     */
-    void AverageIncrease50Percent(cv::Mat& resultImage);
+      /**
+       * Newest image has the most importance.
+       *
+       * for size of 4,Img1 is older image, Img4 is newest
+       * result = Img1*0.50 + Img2* 0.50
+       * result = result*0.50 + Img3 * 0.50
+       * result = result*0.50 + Img4 * 0.50
+       */
+      void averageUsingNewestAsPriority(cv::Mat &resultImage);
 
-    /**
-     * for size of 4,Img1 is older image, Img4 is newest
-     * result = Img4*0.50 + Img3*0.25 + Img2*0.125 + Imag*0.0625
-     */
-    void AverageAccumulateWithResultingWeight(cv::Mat& resultImage);
+      /**
+       * for size of 4,Img1 is older image, Img4 is newest
+       * result = Img4*0.50 + Img3*0.25 + Img2*0.125 + Imag*0.0625
+       */
+      void averageUsingDecreasingWeights(cv::Mat &resultImage);
 
-    /**
-     * Fills the accumulator with blank images.
-     */
-    void FillWithBlank();
+      /**
+       * Fills the accumulator with blank images.
+       */
+      void fillWithBlankImages();
 
 
     size_t buffer_size_;
@@ -132,54 +132,54 @@ namespace proc_image_processing {
     void (ImageAccumulatorBuffer::* average_method_)(cv::Mat&);
   };
 
-  inline int ImageAccumulatorBuffer::GetBufferLength() { return buffer_size_; }
+    inline int ImageAccumulatorBuffer::getBufferLength() { return buffer_size_; }
 
-  inline void ImageAccumulatorBuffer::GetImage(size_t index, cv::Mat& image) {
-    if (index < buffer_size_) {
-      image_vec_[index].copyTo(image);
+    inline void ImageAccumulatorBuffer::getImage(size_t index, cv::Mat &image) {
+        if (index < buffer_size_) {
+            image_vec_[index].copyTo(image);
+        }
     }
+
+    inline int ImageAccumulatorBuffer::getIndexRelativeToNewest(int elementNumber) {
+        // Newest frame
+        int index = buffer_current_index_ % buffer_size_;
+        index -= elementNumber;
+        // return at the end of the vector to continue moving
+        if (index < 0) {
+            // In reality its _buffer_size - abs(index) but y'know
+            // computation and stuff
+            index = buffer_size_ + index;
+        }
+        return index;
   }
 
-  inline int ImageAccumulatorBuffer::GetIndexFromMostRecent(int elementNumber) {
-    // Newest frame
-    int index = buffer_current_index_ % buffer_size_;
-    index -= elementNumber;
-    // return at the end of the vector to continue moving
-    if (index < 0) {
-      // In reality its _buffer_size - abs(index) but y'know
-      // computation and stuff
-      index = buffer_size_ + index;
+    inline int ImageAccumulatorBuffer::getIndexRelativeToOldest(int elementNumber) {
+        // Newest frame
+        int index = buffer_current_index_ % buffer_size_;
+        return (index + 1 + elementNumber) % buffer_size_;
     }
-    return index;
-  }
 
-  inline int ImageAccumulatorBuffer::GetIndexFromOldest(int elementNumber) {
-    // Newest frame
-    int index = buffer_current_index_ % buffer_size_;
-    return (index + 1 + elementNumber) % buffer_size_;
-  }
-
-  inline void ImageAccumulatorBuffer::FillWithBlank() {
-    cv::Mat zero = cv::Mat::zeros(image_size_, image_type_);
-    // It is possible to call fillWithBlank when the buffer is active,
-    // we must clear it before pushing back new values.
-    image_vec_.clear();
-    for (size_t i = 0; i < buffer_size_; i++) {
-      image_vec_.push_back(zero);
+    inline void ImageAccumulatorBuffer::fillWithBlankImages() {
+        cv::Mat zero = cv::Mat::zeros(image_size_, image_type_);
+        // It is possible to call fillWithBlank when the buffer is active,
+        // we must clear it before pushing back new values.
+        image_vec_.clear();
+        for (size_t i = 0; i < buffer_size_; i++) {
+            image_vec_.push_back(zero);
+        }
     }
-  }
 
-  inline void ImageAccumulatorBuffer::SetAverageMethod(METHOD method) {
-    switch (method) {
-    case ACC_ALL_SAME_WEIGHT:
-      average_method_ = &ImageAccumulatorBuffer::AverageAllSameWeight;
-      break;
-    case ACC_50_PERCENT:
-      average_method_ = &ImageAccumulatorBuffer::AverageIncrease50Percent;
-      break;
-    case ACC_ADJUST_WEIGHT:
-      average_method_ =
-        &ImageAccumulatorBuffer::AverageAccumulateWithResultingWeight;
+    inline void ImageAccumulatorBuffer::setAverageMethod(METHOD method) {
+        switch (method) {
+            case ACC_ALL_SAME_WEIGHT:
+                average_method_ = &ImageAccumulatorBuffer::averageUsingSameWeights;
+                break;
+            case ACC_50_PERCENT:
+                average_method_ = &ImageAccumulatorBuffer::averageUsingNewestAsPriority;
+                break;
+            case ACC_ADJUST_WEIGHT:
+                average_method_ =
+                        &ImageAccumulatorBuffer::averageUsingDecreasingWeights;
       break;
     }
   }

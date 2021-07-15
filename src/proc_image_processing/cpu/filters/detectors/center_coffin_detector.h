@@ -40,7 +40,7 @@ namespace proc_image_processing {
                 if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
 
                 PerformanceEvaluator timer;
-                timer.UpdateStartTime();
+                timer.resetStartTime();
 
                 contourList_t contours;
 
@@ -52,7 +52,7 @@ namespace proc_image_processing {
                         continue;
                     }
 
-                    if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
+                    if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
                         continue;
                     }
 
@@ -73,22 +73,26 @@ namespace proc_image_processing {
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool { return a->GetArea() > b->GetArea();});
+                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                    return
+                            a->getArea() >
+                            b->getArea();
+                });
 
                 if (objVec.size() > 1) {
                     Target target;
                     ObjectFullData::Ptr object_1 = objVec[0];
                     ObjectFullData::Ptr object_2 = objVec[1];
 
-                    cv::Point center_1 = object_1->GetCenter();
-                    cv::Point center_2 = object_2->GetCenter();
+                    cv::Point center_1 = object_1->getCenterPoint();
+                    cv::Point center_2 = object_2->getCenterPoint();
 
                     cv::Point target_center;
                     target_center.x = (center_1.x + center_2.x) / 2;
                     target_center.y = (center_1.y + center_2.y) / 2;
 
-                    target.SetTarget(objectif, target_center.x, target_center.y, object_1->GetWidth(),
-                        object_1->GetHeight(), object_1->GetRotatedRect().angle, image.rows, image.cols);
+                    target.SetTarget(objectif, target_center.x, target_center.y, object_1->getWidth(),
+                                     object_1->getHeight(), object_1->getRotRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, target_center, 100, CV_RGB(0, 255, 0), 3);

@@ -10,7 +10,7 @@ namespace proc_image_processing {
     std::sort(objects.begin(), objects.end(), ObjectRanker::AreaSortFunction);
     for (int i = 0, size = objects.size(); i < size; i++) {
       if (objects[i].get() != nullptr) {
-        objects[i]->SetAreaRank((float(size - i)) / float(size));
+          objects[i]->setAreaRank((float(size - i)) / float(size));
       }
     }
   }
@@ -19,7 +19,7 @@ namespace proc_image_processing {
     std::sort(objects.begin(), objects.end(), ObjectRanker::LengthSortFunction);
     for (int i = 0, size = objects.size(); i < size; i++) {
       if (objects[i].get() != nullptr) {
-        objects[i]->SetLengthRank(float((size - i)) / float(size));
+          objects[i]->setLengthRank(float((size - i)) / float(size));
       }
     }
   }

@@ -74,7 +74,7 @@ namespace proc_image_processing {
           cv::convexHull(cv::Mat(contours[i]), hull[i], false);
         }
 
-        // Draw Hull contour
+        // draw Hull contour
         image = cv::Mat::zeros(image.size(), CV_8UC1);
         for (size_t i = 0; i < contours.size(); i++) {
           cv::drawContours(image, hull, i, cv::Scalar(255, 255, 255), CV_FILLED);

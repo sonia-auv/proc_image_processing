@@ -46,7 +46,7 @@ namespace proc_image_processing {
                 cv::Mat originalImage = global_params_.getOriginalImage();
 
                 PerformanceEvaluator timer;
-                timer.UpdateStartTime();
+                timer.resetStartTime();
 
                 contourList_t contours;
                 retrieveOuterContours(image, contours);
@@ -64,15 +64,15 @@ namespace proc_image_processing {
                     }
 
                     // AREA
-                    if (object->GetArea() < min_area_()) {
+                    if (object->getArea() < min_area_()) {
                         continue;
                     }
 
                     Line lineFit = getLineOnPolygon(contours[i], output_image_.cols);
 
-                    Line linePer = getPerpendicularLine(lineFit, object->GetCenter());
+                    Line linePer = getPerpendicularLine(lineFit, object->getCenterPoint());
 
-                    std::vector<cv::Point> perpendicularLine = linePer.GenerateLine(output_image_);
+                    std::vector<cv::Point> perpendicularLine = linePer.getPoints(output_image_);
 
                     std::vector<std::tuple<cv::Point, int>> intersectionPoint;
 
@@ -145,34 +145,34 @@ namespace proc_image_processing {
 
                 std::sort(objVec.begin(), objVec.end(),
                     [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                        return a->GetArea() > b->GetArea();
+                        return a->getArea() > b->getArea();
                     });
 
                 // Since we search only one buoy, get the biggest from sort function
                 if (objVec.size() > 0) {
                     if (firstObject != nullptr && lastObject != nullptr) {
-                        angle_ = firstObject->GetCenter().y > lastObject->GetCenter().y ? lastObject->GetRotatedRect().angle : firstObject->GetRotatedRect().angle;
+                        angle_ = firstObject->getCenterPoint().y > lastObject->getCenterPoint().y
+                                 ? lastObject->getRotRect().angle : firstObject->getRotRect().angle;
 
                         if (debug_contour_()) {
-                            if (firstObject->GetCenter().y > lastObject->GetCenter().y) {
-                                cv::circle(output_image_, lastObject->GetCenter(), 3, CV_RGB(0, 0, 255), 3);
+                            if (firstObject->getCenterPoint().y > lastObject->getCenterPoint().y) {
+                                cv::circle(output_image_, lastObject->getCenterPoint(), 3, CV_RGB(0, 0, 255), 3);
 
-                            }
-                            else {
-                                cv::circle(output_image_, firstObject->GetCenter(), 3, CV_RGB(0, 0, 255), 3);
+                            } else {
+                                cv::circle(output_image_, firstObject->getCenterPoint(), 3, CV_RGB(0, 0, 255), 3);
                             }
                         }
                     }
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
-                    cv::Point center = object->GetCenter();
-                    target.SetTarget("pipe", center.x, center.y, object->GetWidth(),
-                        object->GetHeight(), angle_,
-                        image.rows, image.cols);
+                    cv::Point center = object->getCenterPoint();
+                    target.SetTarget("pipe", center.x, center.y, object->getWidth(),
+                                     object->getHeight(), angle_,
+                                     image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3,
-                            CV_RGB(0, 255, 0), 3);
+                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,
+                                   CV_RGB(0, 255, 0), 3);
 
                     }
                 }

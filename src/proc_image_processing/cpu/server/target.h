@@ -106,13 +106,13 @@ namespace proc_image_processing {
     const std::string& spec_field_1,
     const std::string& spec_field_2) {
       header_ = header;
-      center_ = obj->GetCenter();
-      dimension_ = obj->GetRotatedRect().size;
-      angle_ = obj->GetAngle();
+      center_ = obj->getCenterPoint();
+      dimension_ = obj->getRotRect().size;
+      angle_ = obj->getAngle();
       special_field_1_ = spec_field_1;
       special_field_2_ = spec_field_2;
-      setCameraOffset(center_, obj->GetImageSize().height,
-                      obj->GetImageSize().width);
+      setCameraOffset(center_, obj->getImageSize().height,
+                      obj->getImageSize().width);
   }
 
   inline void Target::SetHeader(const std::string& header) { header_ = header; }

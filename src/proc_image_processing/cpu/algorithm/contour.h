@@ -30,7 +30,7 @@ namespace proc_image_processing {
         void approximateBySize();
 
         /**
-         * Draw contour in the image.
+         * draw contour in the image.
          */
         void drawContours(cv::Mat &image, const cv::Scalar &color, int thickness) const;
 

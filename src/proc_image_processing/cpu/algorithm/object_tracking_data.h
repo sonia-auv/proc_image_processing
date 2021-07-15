@@ -9,7 +9,7 @@
 
 namespace proc_image_processing {
 
-  // OBjectTrackingData is a basic container class that holds information
+  // ObjectTrackingData is a basic container class that holds information
   // about an object's past state in time. EX. In the past X frames, how
   // many time was the object present? Of How much the area or ratio changed
   // in the past frames?
@@ -21,9 +21,9 @@ namespace proc_image_processing {
 
     virtual ~ObjectTrackingData() {};
 
-    void SetPresenceCount(float presenceCount);
+      void setPresenceCount(float presenceCount);
 
-    float GetPresenceCount();
+      float getPresenceCount();
 
   private:
     // In percent, nb of presence/ nb of frame in memory
@@ -33,11 +33,11 @@ namespace proc_image_processing {
     // float _ratio_variation;
   };
 
-  inline void ObjectTrackingData::SetPresenceCount(float presenceCount) {
-    presence_count_ = presenceCount;
-  }
+    inline void ObjectTrackingData::setPresenceCount(float presenceCount) {
+        presence_count_ = presenceCount;
+    }
 
-  inline float ObjectTrackingData::GetPresenceCount() { return presence_count_; }
+    inline float ObjectTrackingData::getPresenceCount() { return presence_count_; }
 
 }  // namespace proc_image_processing
 

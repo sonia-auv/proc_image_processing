@@ -29,16 +29,16 @@ namespace proc_image_processing {
     assert(!binaryImage.empty());
   }
 
-  const cv::Mat& ObjectBasicData::GetPlanes(int planesID) {
-    if (!is_calculated_map_[PLANES]) {
-      cv::Mat gray, hsi;
-      planes_.resize(ObjectBasicData::NB_OF_PLANE);
-      cv::cvtColor(original_image_, gray, CV_BGR2GRAY);
-      cv::cvtColor(original_image_, hsi, CV_BGR2HSV);
-      // Set to zeros
-      for (int i = 0; i < 7; i++)
-        planes_[i] =
-        cv::Mat::zeros(original_image_.rows, original_image_.cols, CV_8UC1);
+  const cv::Mat &ObjectBasicData::getPlanes(int planesID) {
+      if (!is_calculated_map_[PLANES]) {
+          cv::Mat gray, hsi;
+          planes_.resize(ObjectBasicData::NB_OF_PLANE);
+          cv::cvtColor(original_image_, gray, CV_BGR2GRAY);
+          cv::cvtColor(original_image_, hsi, CV_BGR2HSV);
+          // Set to zeros
+          for (int i = 0; i < 7; i++)
+              planes_[i] =
+                      cv::Mat::zeros(original_image_.rows, original_image_.cols, CV_8UC1);
 
       cv::split(original_image_, &planes_[0]);
       cv::split(hsi, &planes_[3]);
@@ -46,22 +46,22 @@ namespace proc_image_processing {
       is_calculated_map_[PLANES] = true;
     }
     // Safety. Should be the constant set in this class, but...
-    SetPlaneInRange(planesID);
+      setPlaneInRange(planesID);
 
     return planes_[planesID];
   }
 
-  const cv::Moments& ObjectBasicData::GetMoments(bool useBinary) {
-    if (!is_calculated_map_[MOMENTS]) {
-      if (useBinary)
-        cv_moments_ = cv::moments(binary_image_, useBinary);
-      else {
-        cv::Mat gray;
-        cv::cvtColor(original_image_, gray, CV_BGR2GRAY);
-        cv_moments_ = cv::moments(binary_image_, useBinary);
-      }
-      is_calculated_map_[MOMENTS] = true;
-    }
+    const cv::Moments &ObjectBasicData::getMoments(bool binary) {
+        if (!is_calculated_map_[MOMENTS]) {
+            if (binary)
+                cv_moments_ = cv::moments(binary_image_, binary);
+            else {
+                cv::Mat gray;
+                cv::cvtColor(original_image_, gray, CV_BGR2GRAY);
+                cv_moments_ = cv::moments(binary_image_, binary);
+            }
+            is_calculated_map_[MOMENTS] = true;
+        }
     return cv_moments_;
   }
 

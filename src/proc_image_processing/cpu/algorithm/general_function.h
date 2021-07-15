@@ -46,7 +46,7 @@ namespace proc_image_processing {
 
     void retrieveAllContours(cv::Mat image, contourList_t &contours);
 
-    void retrieveHierarchyContours(cv::Mat image, contourList_t &contours, hierachy_t &hierarchy);
+    void retrieveHierarchyContours(cv::Mat image, contourList_t &contours, hierarchy_t &hierarchy);
 
     void retrieveNoChildAndParentContours(cv::Mat image, contourList_t &contours);
 

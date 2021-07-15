@@ -83,18 +83,18 @@ namespace proc_image_processing {
         }
 
         // AREA
-        if (object->GetArea() < min_area_()) {
-          continue;
+        if (object->getArea() < min_area_()) {
+            continue;
         }
-        if (debug_contour_()) {
-          cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-        }
+          if (debug_contour_()) {
+              cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+          }
 
         // LENGTH
-        if (object->GetRotatedRect().size.height < min_length_()) continue;
-        if (debug_contour_()) {
-          cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
-        }
+          if (object->getRotRect().size.height < min_length_()) continue;
+          if (debug_contour_()) {
+              cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
+          }
         feat_factory_.PercentFilledFeature(object);
 
         if (int(object->GetPercentFilled() * 100.0f) < min_percent_filled_())
@@ -103,7 +103,7 @@ namespace proc_image_processing {
           cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 255), 4);
         }
 
-        float angle = fabs(object->GetRotatedRect().angle);
+          float angle = fabs(object->getRotRect().angle);
 
         if (angle < max_diff_from_0_tbca_vertical_()) {
           verticalBars.push_back(object);
@@ -117,8 +117,8 @@ namespace proc_image_processing {
       // Here we look for horizontal bar because it's
       std::sort(horizontalBar.begin(), horizontalBar.end(),
         [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-          return a->GetRotatedRect().size.height >
-            b->GetRotatedRect().size.height;
+            return a->getRotRect().size.height >
+                   b->getRotRect().size.height;
         });
 
       if (horizontalBar.size() >= 2) {
@@ -144,8 +144,8 @@ namespace proc_image_processing {
       // Also, you need to return a size to AUV6 so...
       if (horizontalBar.size() != 0) {
         // Gets bottom bar info.
-        ObjectFullData::Ptr final_horizontal_bar = horizontalBar[0];
-        RotRect rect_from_hori_bar = final_horizontal_bar->GetRotatedRect();
+          ObjectFullData::Ptr final_horizontal_bar = horizontalBar[0];
+          RotRect rect_from_hori_bar = final_horizontal_bar->getRotRect();
         if (debug_contour_()) {
           cv::circle(output_image_, rect_from_hori_bar.center, 3,
             CV_RGB(0, 0, 255), 3);
@@ -175,8 +175,8 @@ namespace proc_image_processing {
         {
           std::sort(verticalBars.begin(), verticalBars.end(),
             [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-              return a->GetRotatedRect().size.height >
-                b->GetRotatedRect().size.height;
+                return a->getRotRect().size.height >
+                       b->getRotRect().size.height;
             });
 
           std::vector<cv::Point2f> final_vert_bar;
@@ -187,16 +187,16 @@ namespace proc_image_processing {
           // post.
           int i = 0, size = verticalBars.size(), bar_founded = 0;
           for (; i < size && bar_founded != 2; i++) {
-            if (IsNearExtremum(verticalBars[i]->GetRotatedRect().center.x, leftX,
-              rightX)) {
-              final_vert_bar.push_back(verticalBars[i]->GetRotatedRect().center);
-              if (debug_contour_()) {
-                cv::circle(output_image_,
-                  verticalBars[i]->GetRotatedRect().center, 5,
-                  CV_RGB(0, 255, 255), 20);
+              if (IsNearExtremum(verticalBars[i]->getRotRect().center.x, leftX,
+                                 rightX)) {
+                  final_vert_bar.push_back(verticalBars[i]->getRotRect().center);
+                  if (debug_contour_()) {
+                      cv::circle(output_image_,
+                                 verticalBars[i]->getRotRect().center, 5,
+                                 CV_RGB(0, 255, 255), 20);
+                  }
+                  bar_founded++;
               }
-              bar_founded++;
-            }
           }
 
           if (bar_founded == 2) {
@@ -275,10 +275,10 @@ namespace proc_image_processing {
     }
 
     inline bool IsSplitBar(ObjectFullData::Ptr ref, ObjectFullData::Ptr& comp) {
-      float ratio_diff =
-        std::abs(comp->GetRatio() - ref->GetRatio()) / ref->GetRatio();
-      float y_diff =
-        std::abs(comp->GetCenter().y - ref->GetCenter().y) / ref->GetCenter().y;
+        float ratio_diff =
+                std::abs(comp->GetRatio() - ref->GetRatio()) / ref->GetRatio();
+        float y_diff =
+                std::abs(comp->getCenterPoint().y - ref->getCenterPoint().y) / ref->getCenterPoint().y;
 
       bool ratio_ok = ratio_diff < 0.1;
       bool y_diff_ok = y_diff < 0.1;

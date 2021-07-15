@@ -16,8 +16,8 @@ namespace proc_image_processing {
       std::vector<float> xVec;
       std::vector<float> yVec;
       for (auto &elem : objVec) {
-          xVec.insert(xVec.begin(), elem->GetCenter().x);
-          yVec.insert(yVec.begin(), elem->GetCenter().y);
+          xVec.insert(xVec.begin(), elem->getCenterPoint().x);
+          yVec.insert(yVec.begin(), elem->getCenterPoint().y);
       }
       return cv::Point((int) (getMedian(xVec)),
                        (int) (getMedian(yVec)));

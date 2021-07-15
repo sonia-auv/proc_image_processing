@@ -40,36 +40,36 @@ namespace proc_image_processing {
         // If yes, reset it.
         if (last_type_ != image.type() || last_method_ != method_() ||
           last_nb_image_ != nb_image_() || last_size_ != image.size()) {
-          accumulator_.ResetBuffer(nb_image_(), image.size(), image.type());
+            accumulator_.resetBuffer(nb_image_(), image.size(), image.type());
 
           last_nb_image_ = nb_image_();
           last_size_ = image.size();
 
           switch (method_()) {
-          case 0:
-            accumulator_.SetAverageMethod(
-              ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+              case 0:
+                  accumulator_.setAverageMethod(
+                          ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
             break;
-          case 1:
-            accumulator_.SetAverageMethod(
-              ImageAccumulatorBuffer::ACC_50_PERCENT);
+              case 1:
+                  accumulator_.setAverageMethod(
+                          ImageAccumulatorBuffer::ACC_50_PERCENT);
             break;
-          case 2:
-            accumulator_.SetAverageMethod(
-              ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
+              case 2:
+                  accumulator_.setAverageMethod(
+                          ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
             break;
-          default:
-            accumulator_.SetAverageMethod(
-              ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+              default:
+                  accumulator_.setAverageMethod(
+                          ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
             break;
           }
           last_method_ = method_();
           last_type_ = image.type();
         }
         // Add the newest frame
-        accumulator_.AddImage(image);
+          accumulator_.addImage(image);
         // Change the input for the newest averaging.
-        accumulator_.GetImage(image);
+          accumulator_.convertImage(image);
       }
     }
 

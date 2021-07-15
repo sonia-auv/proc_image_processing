@@ -45,7 +45,7 @@ namespace proc_image_processing {
                 //cv::Mat originalImage = global_params_.getOriginalImage();
 
                 PerformanceEvaluator timer;
-                timer.UpdateStartTime();
+                timer.resetStartTime();
 
                 contourList_t contours;
 
@@ -65,9 +65,9 @@ namespace proc_image_processing {
                     }
 
                     //AREA
-                   // std::cout << object->GetArea();
+                    // std::cout << object->getArea();
 
-                    if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
+                    if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
                         continue;
                     }
 
@@ -128,16 +128,21 @@ namespace proc_image_processing {
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool { return a->GetArea() > b->GetArea();});
+                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                    return
+                            a->getArea() >
+                            b->getArea();
+                });
 
                 if (objVec.size() > 0) {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
-                    cv::Point center = object->GetCenter();
-                    target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, image.rows, image.cols);
+                    cv::Point center = object->getCenterPoint();
+                    target.SetTarget(objectif, center.x, center.y, object->getWidth(), object->getHeight(),
+                                     object->getRotRect().angle, image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0, 255, 0), 3);
+                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
                     }
                 }
 

@@ -12,7 +12,7 @@ namespace proc_image_processing {
 
   typedef std::vector<cv::Point> contour_t;
   typedef std::vector<contour_t> contourList_t;
-  typedef std::vector<cv::Vec4i> hierachy_t;
+    typedef std::vector<cv::Vec4i> hierarchy_t;
 
 #define NEXT_CTR 0
 #define PREV_CTR 1
