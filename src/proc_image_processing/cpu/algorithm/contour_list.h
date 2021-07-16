@@ -77,7 +77,6 @@ namespace proc_image_processing {
         // Contains the hierachy when METHOD used is HIERACHY
         std::vector<cv::Vec4i> hierarchy_;
     };
-  };
 
     inline size_t ContourList::getSize() const { return contour_vec_.size(); }
 
@@ -104,7 +103,6 @@ namespace proc_image_processing {
     inline void ContourList::drawContours(cv::Mat &img, const cv::Scalar &color, int thickness) const {
         cv::drawContours(img, contour_list_point_, -1, color, thickness);
     }
-
-}  // namespace proc_image_processing
+};// namespace proc_image_processing
 
 #endif  // PROC_IMAGE_PROCESSING_ALGORITHM_CONTOUR_LIST_H_
