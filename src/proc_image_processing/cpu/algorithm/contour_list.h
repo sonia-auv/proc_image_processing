@@ -47,13 +47,6 @@ namespace proc_image_processing {
 
     std::vector<cv::Vec4i> GetHierachy();
 
-    ContourListVector contour_list_point_;
-
-    std::vector<Contour> contour_vec_;
-
-    // Contains the hierachy when METHOD used is HIERACHY
-    std::vector<cv::Vec4i> hierarchy_;
-
 
   private:
     bool HasChild(const cv::Vec4i& hierarchy_def);
@@ -77,6 +70,14 @@ namespace proc_image_processing {
 
     // All contour that has no child AND no parent
     void RetrieveOutNoChildContours(const cv::Mat& image);
+
+
+    ContourListVector contour_list_point_;
+
+    std::vector<Contour> contour_vec_;
+
+    // Contains the hierachy when METHOD used is HIERACHY
+    std::vector<cv::Vec4i> hierarchy_;
   };
 
   inline size_t ContourList::GetSize() { return contour_vec_.size(); }

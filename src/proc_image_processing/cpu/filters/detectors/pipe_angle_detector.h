@@ -171,9 +171,7 @@ namespace proc_image_processing {
                         image.rows, image.cols);
                     NotifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3,
-                            CV_RGB(0, 255, 0), 3);
-
+                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0, 255, 0), 3);
                     }
                 }
                 if (debug_contour_()) {

@@ -1,6 +1,6 @@
-//
-// Created by sonia on 7/27/16.
-//
+/// \author sonia
+/// \date 7/27/16
+
 
 // FACTORY_GENERATOR_CLASS_NAME=GateDetector
 
@@ -347,20 +347,17 @@ namespace proc_image_processing {
   private:
     cv::Mat output_image_;
 
-    Parameter<bool> enable_, debug_contour_
-      , use_convex_hull_, offset_y_for_fence_;
+    Parameter<bool> enable_, debug_contour_, use_convex_hull_, offset_y_for_fence_;
 
     RangedParameter<double> offset_y_for_fence_fraction;
 
     Parameter<bool> check_max_y_;
 
-    RangedParameter<double> max_y_,
-      min_area_;
+    RangedParameter<double> max_y_, min_area_;
 
     Parameter<bool> disable_ratio_;
 
-    RangedParameter<double> targeted_ratio_,
-      difference_from_target_ratio_, min_percent_filled_;
+    RangedParameter<double> targeted_ratio_, difference_from_target_ratio_, min_percent_filled_;
 
     Parameter<bool> look_for_rectangle_, disable_angle_;
 
@@ -371,8 +368,7 @@ namespace proc_image_processing {
     RangedParameter<double> max_x_difference_for_elimination_;
 
     Parameter<bool> vote_most_centered_, vote_most_upright_,
-      vote_less_difference_from_targeted_ratio_, vote_length_, vote_higher_,
-      vote_most_horizontal_;
+      vote_less_difference_from_targeted_ratio_, vote_length_, vote_higher_, vote_most_horizontal_;
 
     Parameter<std::string> id_, spec_1_, spec_2_;
 

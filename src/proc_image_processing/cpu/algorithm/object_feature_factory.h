@@ -39,7 +39,7 @@ namespace proc_image_processing {
       ObjectFullData::Ptr object,
       const std::vector<ObjectFeatureData::Feature>& feature);
 
-    // feature funcitions
+    // feature functions
     void RatioFeature(ObjectFullData::Ptr object);
     void ConvexityFeature(ObjectFullData::Ptr object);
     void PercentFilledFeature(ObjectFullData::Ptr object);
