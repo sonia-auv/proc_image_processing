@@ -247,11 +247,7 @@ namespace proc_image_processing {
   }
 
   cv::Mat ExtractImageFromRect(cv::RotatedRect rect, cv::Mat image) {
-    /*
-     *
-     *  thanks to http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
-     *
-     */
+    //  thanks to http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
 
     cv::Mat rotated, rotationMat, originalOut;
     cv::Mat returnImage =
@@ -270,7 +266,7 @@ namespace proc_image_processing {
     return returnImage;
   }
 
-  float CalculatePourcentFilled(const cv::Mat& image, const cv::Rect& rectangle) {
+  float CalculatePercentFilled(const cv::Mat& image, const cv::Rect& rectangle) {
     cv::Mat opImage;
     if (image.channels() > 1)
       cv::cvtColor(image, opImage, CV_BGR2GRAY);
@@ -283,7 +279,7 @@ namespace proc_image_processing {
     return 0.0f;
   }
 
-  float CalculatePourcentFilled(const cv::Mat& image,
+  float CalculatePercentFilled(const cv::Mat& image,
     const cv::RotatedRect& rectangle) {
     cv::Mat opImage;
     if (image.channels() > 1)

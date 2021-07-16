@@ -37,9 +37,7 @@ namespace proc_image_processing {
 
   inline void ObjectRankingData::SetAreaRank(float rank) { area_rank_ = rank; }
 
-  inline void ObjectRankingData::SetLengthRank(float rank) {
-    length_rank_ = rank;
-  }
+  inline void ObjectRankingData::SetLengthRank(float rank) { length_rank_ = rank; }
 
   inline float ObjectRankingData::GetAreaRank() { return area_rank_; }
 
