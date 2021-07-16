@@ -1,9 +1,9 @@
 import unittest
+from factory_generator_exception import FactoryGeneratorException
 from pathlib import Path
 from unittest import TestCase
 
 import tools
-from factory_generator_exception import FactoryGeneratorException
 
 
 class TestTools(TestCase):
@@ -92,9 +92,9 @@ class TestTools(TestCase):
         conf = tools.validate_and_get_conf()
         self.assertTrue(isinstance(conf, dict))
         self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing'), conf["project-path"])
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/server'),
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/cpu/server'),
                          conf["factories"][0]["path"])
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/filters'),
+        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/cpu/filters'),
                          conf["factories"][0]["items-path"])
 
 

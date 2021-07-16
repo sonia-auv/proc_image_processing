@@ -1,6 +1,6 @@
-//
-// Created by sonia on 7/27/16.
-//
+/// \author sonia
+/// \date 7/27/16
+
 
 // FACTORY_GENERATOR_CLASS_NAME=GateDetector
 

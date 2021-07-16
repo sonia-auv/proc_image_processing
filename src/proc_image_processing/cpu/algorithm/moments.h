@@ -24,9 +24,11 @@ namespace proc_image_processing {
 
         void operator=(Moments moments);
 
-        // Points are in local coordinate, meaning that if the image was taken
-        // from a rotated rectangle, the x and y a rotated too!
-        cv::Point real_center_;
+
+  private:
+    // Points are in local coordinate, meaning that if the image was taken
+    // from a rotated rectangle, the x and y a rotated too!
+    cv::Point real_center_;
 
         cv::Point mass_center_;
 
