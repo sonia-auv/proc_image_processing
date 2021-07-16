@@ -25,13 +25,13 @@ namespace proc_image_processing {
 
         PerformanceEvaluator();
 
-        ~PerformanceEvaluator() {};
+        ~PerformanceEvaluator() = default;
 
         // Return the time in second since construction or call to resetStartTime
         /**
          * @return the execution time in seconds.
          */
-        double getExecutionTime();
+        [[maybe_unused]] double getExecutionTime() const;
 
         /**
          * Resets the start time to now.
@@ -43,13 +43,11 @@ namespace proc_image_processing {
         double start_tick_count_;
     };
 
-    inline double PerformanceEvaluator::getExecutionTime() {
+    [[maybe_unused]] inline double PerformanceEvaluator::getExecutionTime() const {
         return (cv::getTickCount() - start_tick_count_) / tick_frequency_;
     }
 
-    inline void PerformanceEvaluator::resetStartTime() {
-        start_tick_count_ = cv::getTickCount();
-    }
+    inline void PerformanceEvaluator::resetStartTime() { start_tick_count_ = cv::getTickCount(); }
 
 }  // namespace proc_image_processing
 

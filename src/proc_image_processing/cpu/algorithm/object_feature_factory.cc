@@ -11,44 +11,44 @@ namespace proc_image_processing {
         using namespace std::placeholders;
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::RATIO,
-                std::bind(&ObjectFeatureFactory::RatioFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::ratioFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::CONVEXITY,
-                std::bind(&ObjectFeatureFactory::ConvexityFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::convexityFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::PERCENT_FILLED,
-                std::bind(&ObjectFeatureFactory::PercentFilledFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::percentFilledFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::CIRCULARITY,
-                std::bind(&ObjectFeatureFactory::CircularityFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::circularityFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::PRESENCE_CONSISTENCY,
-                std::bind(&ObjectFeatureFactory::PresenceConsistencyFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::presenceConsistencyFeature, this, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::HUE_MEAN,
-                std::bind(&ObjectFeatureFactory::HueMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::hueMeanFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::SAT_MEAN,
-                std::bind(&ObjectFeatureFactory::SatMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::saturationMeanFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::INTENSITY_MEAN,
-                std::bind(&ObjectFeatureFactory::IntensityMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::intensityMeanFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::RED_MEAN,
-                std::bind(&ObjectFeatureFactory::RedMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::redMeanFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::GREEN_MEAN,
-                std::bind(&ObjectFeatureFactory::GreenMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::greenMeanFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::BLUE_MEAN,
-                std::bind(&ObjectFeatureFactory::BlueMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::blueMeanFeature, _1));
         feature_fct_map_.emplace(
                 ObjectFeatureData::Feature::GRAY_MEAN,
-                std::bind(&ObjectFeatureFactory::GrayMeanFeature, this, _1));
+                std::bind(&ObjectFeatureFactory::grayMeanFeature, _1));
     }
 
-    void ObjectFeatureFactory::PercentFilledFeature(ObjectFullData::Ptr object) {
-        if ((object.get() != nullptr) && (object->GetPercentFilled() == -1.0f)) {
+    void ObjectFeatureFactory::percentFilledFeature(const ObjectFullData::Ptr &object) {
+        if ((object.get() != nullptr) && (object->getPercentFilled() == -1.0f)) {
             float percentFilled = 0.0f;
 
             cv::Size imageSize = object->getImageSize();
@@ -75,12 +75,11 @@ namespace proc_image_processing {
             // safety, should not happen
             float rrectArea = rrect.size.area();
             if (rrectArea != 0) percentFilled = 1.0f - (notCovered / rrectArea);
-            object->SetPercentFilled(percentFilled);
+            object->setPercentFilled(percentFilled);
         }
     }
 
-    float ObjectFeatureFactory::CalculatePlaneMean(ObjectFullData::Ptr object,
-                                                   int plane) {
+    float ObjectFeatureFactory::calculatePlaneMean(const ObjectFullData::Ptr &object, int plane) {
         float mean = 0.0f;
         if (object.get() != nullptr) {
             cv::Mat binaryImage(object->getImageSize(), CV_8UC3, cv::Scalar::all(0));
@@ -96,7 +95,7 @@ namespace proc_image_processing {
 
             int rows = colorbinaryImage.rows, cols = colorbinaryImage.cols;
             for (int y = 0; y < rows; y++) {
-                uchar *ptr = colorbinaryImage.ptr<uchar>(y);
+                auto *ptr = colorbinaryImage.ptr<uchar>(y);
                 for (int x = 0; x < cols; x++) {
                     if (ptr[x] != 0) {
                         accumulator += ptr[x];

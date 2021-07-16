@@ -93,9 +93,9 @@ namespace proc_image_processing {
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
                 }
-                feat_factory_.PercentFilledFeature(object);
+                feat_factory_.percentFilledFeature(object);
 
-                if (int(object->GetPercentFilled() * 100.0f) < min_percent_filled_())
+                if (int(object->getPercentFilled() * 100.0f) < min_percent_filled_())
                     continue;
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 255), 4);
@@ -269,7 +269,7 @@ namespace proc_image_processing {
 
         inline bool isSplitBar(ObjectFullData::Ptr ref, ObjectFullData::Ptr &comp) {
             float ratio_diff =
-                    std::abs(comp->GetRatio() - ref->GetRatio()) / ref->GetRatio();
+                    std::abs(comp->getRatio() - ref->getRatio()) / ref->getRatio();
             float y_diff =
                     std::abs(comp->getCenterPoint().y - ref->getCenterPoint().y) / ref->getCenterPoint().y;
 

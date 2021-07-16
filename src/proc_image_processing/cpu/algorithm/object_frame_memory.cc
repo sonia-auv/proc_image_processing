@@ -38,7 +38,7 @@ namespace proc_image_processing {
                     cv::Point analysedCenter = analysedObject->getCenterPoint();
                     float distance = getEuclideanDistance(center, analysedCenter);
 
-                    float analysedRatio = analysedObject->GetRatio();
+                    float analysedRatio = analysedObject->getRatio();
                     float ratioDifference = fabsf(analysedRatio - objectRatio);
 
                     if (distance < shortestDistance && distance < DISTANCE_MAX_DIFFERENCE &&

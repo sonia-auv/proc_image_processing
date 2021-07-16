@@ -23,24 +23,23 @@ namespace proc_image_processing {
         static const float DISTANCE_MAX_DIFFERENCE;
         static const float RATIO_MAX_DIFFERENCE;
 
-        ObjectFrameMemory(unsigned int memorySize);
+        explicit ObjectFrameMemory(unsigned int memorySize);
 
-        ~ObjectFrameMemory() {}
+        ~ObjectFrameMemory() = default;
 
         void AddFrameObjects(ObjectFullData::FullObjectPtrVec &objectVector);
 
-        unsigned int GetMemorySize();
+        unsigned int GetMemorySize() const;
 
         // Use the center and the ratio to find an object in the past object list.
-        ObjectFullData::FullObjectPtrVec GetPastObjectsViaCenter(
-                const cv::Point &center, const float objectRatio);
+        ObjectFullData::FullObjectPtrVec GetPastObjectsViaCenter(const cv::Point &center, float objectRatio);
 
     private:
         std::vector<ObjectFullData::FullObjectPtrVec> previous_frames_;
         unsigned int memory_size_;
     };
 
-    inline unsigned int ObjectFrameMemory::GetMemorySize() { return memory_size_; }
+    inline unsigned int ObjectFrameMemory::GetMemorySize() const { return memory_size_; }
 
 }  // namespace proc_image_processing
 

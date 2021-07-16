@@ -24,9 +24,9 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<RotRect>;
 
-        RotRect(const std::vector<cv::Point> &edges);
+        explicit RotRect(const std::vector<cv::Point> &edges);
 
-        RotRect(const cv::RotatedRect &rotRect);
+        explicit RotRect(const cv::RotatedRect &rotRect);
 
         RotRect(const RotRect &a);
 
@@ -40,12 +40,12 @@ namespace proc_image_processing {
 
         bool operator==(const RotRect &rotRect);
 
-        void drawRect(cv::Mat &out, cv::Scalar color, int thickness = 1);
+        [[maybe_unused]] void drawRect(cv::Mat &out, cv::Scalar color, int thickness = 1);
 
         // Create the class with another rotated rect
         void swap(RotRect &a);
 
-        cv::Point2f *getCorners();
+        [[maybe_unused]] cv::Point2f *getCorners();
 
     private:
         // Set height to the longest side of the rectangle and

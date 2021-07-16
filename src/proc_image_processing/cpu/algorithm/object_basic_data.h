@@ -36,19 +36,18 @@ namespace proc_image_processing {
             PLANES
         };
 
-        ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage,
-                        const Contour &contour);
+        ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage, const Contour &contour);
 
-        virtual ~ObjectBasicData() {}
+        virtual ~ObjectBasicData() = default;
 
-        void setPlaneInRange(int &planeID);
+        static void setPlaneInRange(int &planeID);
 
         // Voting system
         void vote();
 
-        int getVoteCount();
+        int getVoteCount() const;
 
-        void resetVotes();
+        [[maybe_unused]] void resetVotes();
 
         // All getters calculate their element if they are not already calculated.
         // If they are, simply return them.
@@ -70,16 +69,16 @@ namespace proc_image_processing {
 
         const cv::Rect &getUprightRect();
 
-        const cv::Moments &getMoments(bool binary);
+        [[maybe_unused]] const cv::Moments &getMoments(bool binary);
 
         // Images are already reference in opencv...
         const cv::Mat &getPlanes(int planesID);
 
-        cv::Mat getBinaryImageAtUprightRect();
+        [[maybe_unused]] cv::Mat getBinaryImageAtUprightRect();
 
         Contour getContourCopy();
 
-        cv::Size getImageSize();
+        cv::Size getImageSize() const;
 
         const cv::Mat &getBinaryImage();
 
@@ -102,9 +101,9 @@ namespace proc_image_processing {
 
     inline void ObjectBasicData::vote() { vote_count_++; }
 
-    inline int ObjectBasicData::getVoteCount() { return vote_count_; }
+    inline int ObjectBasicData::getVoteCount() const { return vote_count_; }
 
-    inline void ObjectBasicData::resetVotes() { vote_count_ = 0; }
+    [[maybe_unused]] inline void ObjectBasicData::resetVotes() { vote_count_ = 0; }
 
     inline float ObjectBasicData::getArea() {
         if (!is_calculated_map_[AREA]) {
@@ -180,7 +179,7 @@ namespace proc_image_processing {
         return up_right_rect_;
     }
 
-    inline cv::Mat ObjectBasicData::getBinaryImageAtUprightRect() {
+    [[maybe_unused]] inline cv::Mat ObjectBasicData::getBinaryImageAtUprightRect() {
         // Making sure we have calculated the rectangle.
         cv::Rect uprightRect = getUprightRect();
         // Clone is necessary since the object is created now
@@ -190,17 +189,11 @@ namespace proc_image_processing {
 
     inline Contour ObjectBasicData::getContourCopy() { return contour_; }
 
-    inline cv::Size ObjectBasicData::getImageSize() {
-        return original_image_.size();
-    }
+    inline cv::Size ObjectBasicData::getImageSize() const { return original_image_.size(); }
 
-    inline const cv::Mat &ObjectBasicData::getBinaryImage() {
-        return original_image_;
-    }
+    inline const cv::Mat &ObjectBasicData::getBinaryImage() { return original_image_; }
 
-    inline const cv::Mat &ObjectBasicData::getOriginalImage() {
-        return binary_image_;
-    }
+    inline const cv::Mat &ObjectBasicData::getOriginalImage() { return binary_image_; }
 
 }  // namespace proc_image_processing
 

@@ -18,24 +18,20 @@ namespace proc_image_processing {
      */
     class Line {
     public:
-
-
         using Ptr = std::shared_ptr<Line>;
-
 
         Line(const cv::Point &start, const cv::Point &end);
 
-
         // Debug
-        void draw(cv::Mat &img, cv::Scalar color);
+        [[maybe_unused]] void draw(cv::Mat &img, cv::Scalar color);
 
         cv::Point getPerpendicularLine();
 
         cv::Point getCenter();
 
-        cv::Point getStart();
+        [[maybe_unused]] cv::Point getStart();
 
-        cv::Point getEnd();
+        [[maybe_unused]] cv::Point getEnd();
 
         std::vector<cv::Point> getPoints(cv::Mat &img);
 
@@ -58,11 +54,11 @@ namespace proc_image_processing {
         bool isSwap_;
     };
 
-    bool lengthSort(Line a, Line b);
+    [[maybe_unused]] bool lengthSort(Line a, Line b);
 
-    bool centerXSort(Line a, Line b);
+    [[maybe_unused]] bool centerXSort(Line a, Line b);
 
-    bool centerYSort(Line a, Line b);
+    [[maybe_unused]] bool centerYSort(Line a, Line b);
 
 }  // namespace proc_image_processing
 

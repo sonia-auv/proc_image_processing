@@ -34,21 +34,20 @@ namespace proc_image_processing {
 
         typedef std::vector<ObjectFullData::Ptr> FullObjectPtrVec;
 
-        ObjectFullData(const cv::Mat &originalImage, const cv::Mat &binaryImage,
-                       const Contour &contour);
+        ObjectFullData(const cv::Mat &originalImage, const cv::Mat &binaryImage, const Contour &contour);
 
-        virtual ~ObjectFullData() {};
+        ~ObjectFullData() override = default;
     };
 
-    inline bool AreaSorts(ObjectFullData::Ptr a, ObjectFullData::Ptr b) {
+    [[maybe_unused]] inline bool areaSorts(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
         return a->getArea() < b->getArea();
     }
 
-    inline bool RatioSorts(ObjectFullData::Ptr a, ObjectFullData::Ptr b) {
-        return a->GetRatio() < b->GetRatio();
+    [[maybe_unused]] inline bool ratioSorts(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
+        return a->getRatio() < b->getRatio();
     }
 
-    cv::Point ObjectVecMedian(ObjectFullData::FullObjectPtrVec);
+    [[maybe_unused]] cv::Point objectVecMedian(const ObjectFullData::FullObjectPtrVec &);
 
 }  // namespace proc_image_processing
 

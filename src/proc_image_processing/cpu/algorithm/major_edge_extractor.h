@@ -30,20 +30,20 @@ namespace proc_image_processing {
         RefKernel(const RefPointPtr &north, const RefPointPtr &west,
                   const RefPointPtr &center);
 
-        ~RefKernel() {};
+        ~RefKernel() = default;
         RefPointPtr _north;
         RefPointPtr _west;
-        RefPointPtr _center;
+        [[maybe_unused]] RefPointPtr _center;
     };
 
 
-    class MajorEdgeExtractor {
+    class [[maybe_unused]] MajorEdgeExtractor {
     public:
         using Ptr = std::shared_ptr<MajorEdgeExtractor>;
 
         static const float PERCENT_OF_VAL_FOR_VALUE_CONNECTION;
 
-        cv::Mat ExtractEdge(const cv::Mat &image, int extreme_minimum);
+        [[maybe_unused]] cv::Mat ExtractEdge(const cv::Mat &image, int extreme_minimum);
 
     private:
         void init(const cv::Size &size);
@@ -55,25 +55,25 @@ namespace proc_image_processing {
         // TODO is it really adding or it is just setting the reference point?!
         void addReferencePoint(int x, int y, float value);
 
-        bool isAloneReference(const RefKernel &ref_kernel) const;
+        static bool isAloneReference(const RefKernel &ref_kernel);
 
-        bool isNorthExist(const RefKernel &ref_kernel) const;
+        static bool isNorthExist(const RefKernel &ref_kernel);
 
-        bool isWestExist(const RefKernel &ref_kernel) const;
+        static bool isWestExist(const RefKernel &ref_kernel);
 
-        bool isNorthAndWestExist(const RefKernel &ref_kernel) const;
+        static bool isNorthAndWestExist(const RefKernel &ref_kernel);
 
-        bool isValueConnected(const RefPointPtr ref, float value) const;
+        static bool isValueConnected(RefPointPtr ref, float value);
 
-        bool isValueGreater(const RefPointPtr ref, float value) const;
+        bool isValueGreater(RefPointPtr ref, float value) const;
 
-        bool isJunction(const RefKernel &ref_kernel, float value) const;
+        static bool isJunction(const RefKernel &ref_kernel, float value);
 
         float getValueInReferenceVector(int index);
 
         float getValueInReferenceVector(RefPointPtr ptr);
 
-        void setLink(const RefPointPtr ref, float value, int x, int y);
+        void setLink(RefPointPtr ref, float value, int x, int y);
 
         void setJunction(RefKernel &ref_kernel, float value, int x, int y);
 
@@ -86,7 +86,7 @@ namespace proc_image_processing {
 
         std::vector<float> max_value_reference_;
 
-        cv::Size img_size_;
+        [[maybe_unused]] cv::Size img_size_;
 
         friend class MajorEdgeExtractorUT;
     };
@@ -96,7 +96,7 @@ namespace proc_image_processing {
         // Free the RefPoint allocated previously.
         for (int y = 0, rows = ref_image_.rows, cols = ref_image_.cols; y < rows;
              y++) {
-            RefPointPtr *ptr = ref_image_.ptr<RefPointPtr>(y);
+            auto *ptr = ref_image_.ptr<RefPointPtr>(y);
             for (int x = 0; x < cols; x++) {
                 ptr[x] = nullptr;
             }
@@ -109,48 +109,42 @@ namespace proc_image_processing {
                 new ReferencePoint(value, max_value_reference_.size() - 1);
     }
 
-    inline bool MajorEdgeExtractor::isAloneReference(const RefKernel &ref_kernel) const {
+    inline bool MajorEdgeExtractor::isAloneReference(const RefKernel &ref_kernel) {
         // if north or west exist, not alone
         return !(isNorthExist(ref_kernel) || isWestExist(ref_kernel));
     }
 
-    inline bool MajorEdgeExtractor::isNorthExist(
-            const RefKernel &ref_kernel) const {
+    inline bool MajorEdgeExtractor::isNorthExist(const RefKernel &ref_kernel) {
         return ref_kernel._north != nullptr;
     }
 
-    inline bool MajorEdgeExtractor::isWestExist(const RefKernel &ref_kernel) const {
+    inline bool MajorEdgeExtractor::isWestExist(const RefKernel &ref_kernel) {
         return ref_kernel._west != nullptr;
     }
 
-    inline bool MajorEdgeExtractor::isNorthAndWestExist(
-            const RefKernel &ref_kernel) const {
+    inline bool MajorEdgeExtractor::isNorthAndWestExist(const RefKernel &ref_kernel) {
         return isNorthExist(ref_kernel) && isWestExist(ref_kernel);
     }
 
-    inline bool MajorEdgeExtractor::isValueConnected(const RefPointPtr ref,
-                                                     float value) const {
+    inline bool MajorEdgeExtractor::isValueConnected(RefPointPtr ref, float value) {
         if (ref != nullptr)
-            return float(ref->_pix_value) * PERCENT_OF_VAL_FOR_VALUE_CONNECTION <=
-                   value;
+            return float(ref->_pix_value) * PERCENT_OF_VAL_FOR_VALUE_CONNECTION <= value;
         return false;
     }
 
-    inline bool MajorEdgeExtractor::isValueGreater(const RefPointPtr ref,
-                                                   float value) const {
+    inline bool MajorEdgeExtractor::isValueGreater(RefPointPtr ref, float value) const {
         if (ref != nullptr)
             return max_value_reference_[ref->_reference_max_index] < value;
         return false;
     }
 
     inline bool MajorEdgeExtractor::isJunction(const RefKernel &ref_kernel,
-                                               float value) const {
+                                               float value) {
         return isValueConnected(ref_kernel._north, value) &&
                isValueConnected(ref_kernel._west, value);
     }
 
-    inline void MajorEdgeExtractor::setLink(const RefPointPtr ref, float value,
-                                            int x, int y) {
+    inline void MajorEdgeExtractor::setLink(RefPointPtr ref, float value, int x, int y) {
         if (ref != nullptr) {
             ref_image_.at<RefPointPtr>(y, x) =
                     new ReferencePoint(value, ref->_reference_max_index);
@@ -172,8 +166,7 @@ namespace proc_image_processing {
         max_value_reference_[index] = value;
     }
 
-    inline void MajorEdgeExtractor::setValueInReferenceVector(RefPointPtr ptr,
-                                                              float value) {
+    inline void MajorEdgeExtractor::setValueInReferenceVector(RefPointPtr ptr, float value) {
         setValueInReferenceVector(ptr->_reference_max_index, value);
     }
 

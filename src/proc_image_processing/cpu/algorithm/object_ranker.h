@@ -12,29 +12,27 @@ namespace proc_image_processing {
 
     // Class that simply rank the object
     // with different value.
-    class ObjectRanker {
+    class [[maybe_unused]] ObjectRanker {
     public:
         // sort and set the value in each objects.
-        static void RankByArea(ObjectFullData::FullObjectPtrVec objects);
+        [[maybe_unused]] static void rankByArea(ObjectFullData::FullObjectPtrVec objects);
 
-        static void RankByLength(ObjectFullData::FullObjectPtrVec objects);
+        [[maybe_unused]] static void rankByLength(ObjectFullData::FullObjectPtrVec objects);
 
         // Function for std::sort function
-        static bool AreaSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
+        static bool areaSortFunction(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b);
 
-        static bool LengthSortFunction(ObjectFullData::Ptr a, ObjectFullData::Ptr b);
+        static bool lengthSortFunction(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b);
     };
 
-    inline bool ObjectRanker::AreaSortFunction(ObjectFullData::Ptr a,
-                                               ObjectFullData::Ptr b) {
+    inline bool ObjectRanker::areaSortFunction(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
         if (a.get() != nullptr && b.get() != nullptr) {
             return a->getArea() > b->getArea();
         }
         return false;
     }
 
-    inline bool ObjectRanker::LengthSortFunction(ObjectFullData::Ptr a,
-                                                 ObjectFullData::Ptr b) {
+    inline bool ObjectRanker::lengthSortFunction(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
         if (a.get() != nullptr && b.get() != nullptr) {
             return a->getHeight() > b->getHeight();
         }

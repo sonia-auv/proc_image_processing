@@ -126,9 +126,9 @@ namespace proc_image_processing {
                     }
 
                     // RATIO
-                    //feature_factory_.ComputeAllFeature(object);
-                    feature_factory_.RatioFeature(object);
-                    if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
+                    //feature_factory_.computeAllFeature(object);
+                    feature_factory_.ratioFeature(object);
+                    if (!disable_ratio_() && (fabs(object->getRatio() - targeted_ratio_()) >
                                               fabs(difference_from_target_ratio_()))) {
                         continue;
                     }
@@ -137,7 +137,7 @@ namespace proc_image_processing {
                     }
 
                     // PERCENT FILLED
-                    feature_factory_.PercentFilledFeature(object);
+                    feature_factory_.percentFilledFeature(object);
                     float percent_filled =
                             getPercentFilled(image, object->getUprightRect());
                     if ((percent_filled) < min_percent_filled_()) {
@@ -238,8 +238,8 @@ namespace proc_image_processing {
                         std::sort(
                                 objVec.begin(), objVec.end(),
                                 [this](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                                    return fabs(a->GetRatio() - targeted_ratio_()) <
-                                           fabs(b->GetRatio() - targeted_ratio_());
+                                    return fabs(a->getRatio() - targeted_ratio_()) <
+                                           fabs(b->getRatio() - targeted_ratio_());
                                 });
                         objVec[0]->vote();
                         if (num_of_objects > 2) {

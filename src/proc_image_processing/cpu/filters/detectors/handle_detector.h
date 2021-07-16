@@ -78,8 +78,8 @@ namespace proc_image_processing {
                     }
 
                     // RATIO
-                    feature_factory_.RatioFeature(object);
-                    if (!disable_ratio_() && (fabs(object->GetRatio() - targeted_ratio_()) >
+                    feature_factory_.ratioFeature(object);
+                    if (!disable_ratio_() && (fabs(object->getRatio() - targeted_ratio_()) >
                                               fabs(difference_from_target_ratio_()))) {
                         continue;
                     }

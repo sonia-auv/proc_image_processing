@@ -16,8 +16,7 @@ namespace proc_image_processing {
         // Gets the moment by opencv moment function
         cv_moments_ = cv::moments(image, binary);
 
-        mass_center_ = cv::Point2f(cv_moments_.m10 / cv_moments_.m00,
-                                   cv_moments_.m01 / cv_moments_.m00);
+        mass_center_ = cv::Point2f(cv_moments_.m10 / cv_moments_.m00, cv_moments_.m01 / cv_moments_.m00);
 
         // Here, remember that the mome are calculated on an image. If the image
         // was extract from a rotatedRect, it means the coordinate are in the getAngle

@@ -36,7 +36,7 @@ namespace proc_image_processing {
     void setCameraOffset(cv::Point &pt, int rows, int cols);
 
     // Contours getter
-    void retrieveContours(const cv::Mat &image, contourList_t &contours);
+    [[maybe_unused]] void retrieveContours(const cv::Mat &image, contourList_t &contours);
 
     void retrieveInnerContours(const cv::Mat &image, contourList_t &contours);
 
@@ -56,12 +56,12 @@ namespace proc_image_processing {
 
     Line getPerpendicularLine(Line line, const cv::Point2f &center);
 
-    void retrieveContourRotRect(RotRect rect, contour_t &contour);
+    [[maybe_unused]] void retrieveContourRotRect(RotRect rect, contour_t &contour);
 
     // Features calculation
-    float getResolutionRatio(float width, float height);
+    [[maybe_unused]] float getResolutionRatio(float width, float height);
 
-    float getConvexityRatio(const contour_t &contour);
+    [[maybe_unused]] float getConvexityRatio(const contour_t &contour);
 
     float getConvexHullArea(const contour_t &contour);
 
@@ -75,15 +75,16 @@ namespace proc_image_processing {
 
     float getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle);
 
-    cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle = true);
+    [[maybe_unused]] cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle = true);
 
     bool isRectangle(contour_t &contour, unsigned int accuracy = 5);
 
-    bool isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max);
+    [[maybe_unused]] bool
+    isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max);
 
     cv::Mat getImageFromRotatedRect(const cv::RotatedRect &rect, const cv::Mat &image);
 
-    cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image);
+    [[maybe_unused]] cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image);
 
     // Uses the enum given in type_and_const.h to control the rotation
     cv::Mat rotateImage(const cv::Mat &in, rotationType rotation, symmetryType symmetry);

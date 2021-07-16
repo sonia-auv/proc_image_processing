@@ -5,7 +5,7 @@
 #ifndef PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_
 #define PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_
 
-#include <math.h>
+#include <cmath>
 #include <memory>
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>

@@ -30,7 +30,7 @@ namespace proc_image_processing {
         pt.y = -(pt.y - (rows / 2));
     }
 
-    void retrieveContours(const cv::Mat &image, contourList_t &contours) {
+    [[maybe_unused]] void retrieveContours(const cv::Mat &image, contourList_t &contours) {
         retrieveOuterContours(image, contours);
     }
 
@@ -189,12 +189,12 @@ namespace proc_image_processing {
 
     }
 
-    float getResolutionRatio(float width, float height) {
+    [[maybe_unused]] float getResolutionRatio(float width, float height) {
         if (width == 0 && height == 0) return 0;
         return std::min((height / width), (width / height)) * 100;
     }
 
-    float getConvexityRatio(const contour_t &contour) {
+    [[maybe_unused]] float getConvexityRatio(const contour_t &contour) {
         if (contour.size() <= 2) return -1;
         float convexHullArea = getConvexHullArea(contour);
         if (convexHullArea == 0) return 0;
@@ -221,7 +221,7 @@ namespace proc_image_processing {
                               cv::arcLength(contour, true));
     }
 
-    cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle) {
+    [[maybe_unused]] cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle) {
         cv::Mat opImage;
         if (image.channels() > 1)
             cv::cvtColor(image, opImage, CV_BGR2GRAY);
@@ -241,7 +241,7 @@ namespace proc_image_processing {
         return cv::mean(matRoi);
     }
 
-    cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image) {
+    [[maybe_unused]] cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image) {
         return getImageFromRotatedRect(RotRect(rect), image);
     }
 
@@ -446,7 +446,8 @@ namespace proc_image_processing {
         return trueSquareAngleCount == 4;
     }
 
-    bool isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max) {
+    [[maybe_unused]] bool
+    isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max) {
         if (approx.size() == 4 &&
             std::fabs(cv::contourArea(cv::Mat(approx))) > min_area &&
             cv::isContourConvex(cv::Mat(approx))) {

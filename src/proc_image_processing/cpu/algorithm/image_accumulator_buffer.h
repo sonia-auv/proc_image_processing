@@ -36,7 +36,7 @@ namespace proc_image_processing {
         ImageAccumulatorBuffer(int bufferLength, cv::Size imgSize, int type,
                                METHOD method = ACC_ALL_SAME_WEIGHT);
 
-        ~ImageAccumulatorBuffer() {};
+        ~ImageAccumulatorBuffer() = default;
 
         void addImage(const cv::Mat &image);
 
@@ -62,7 +62,7 @@ namespace proc_image_processing {
         /**
          * Return the buffer length
          */
-        int getBufferLength();
+        int getBufferLength() const;
 
         /**
          * Usefull for for loop iteration. ZERO BASED
@@ -73,7 +73,7 @@ namespace proc_image_processing {
          * elementNumber == 0 will return 4, and
          * elementNumber == 1 will return 3, etc.
          */
-        int getIndexRelativeToNewest(int elementNumber);
+        int getIndexRelativeToNewest(int elementNumber) const;
 
         /**
          * Return the index of the element at elementNumber from the oldest.
@@ -82,7 +82,7 @@ namespace proc_image_processing {
          * elementNumber == 0 will return 4, and
          * elementNumber == 1 will return 0, etc.
          */
-        int getIndexRelativeToOldest(int elementNumber);
+        int getIndexRelativeToOldest(int elementNumber) const;
 
         void getImage(size_t index, cv::Mat &image);
 
@@ -134,7 +134,7 @@ namespace proc_image_processing {
         void (ImageAccumulatorBuffer::* average_method_)(cv::Mat &);
     };
 
-    inline int ImageAccumulatorBuffer::getBufferLength() { return buffer_size_; }
+    inline int ImageAccumulatorBuffer::getBufferLength() const { return buffer_size_; }
 
     inline void ImageAccumulatorBuffer::getImage(size_t index, cv::Mat &image) {
         if (index < buffer_size_) {
@@ -142,7 +142,7 @@ namespace proc_image_processing {
         }
     }
 
-    inline int ImageAccumulatorBuffer::getIndexRelativeToNewest(int elementNumber) {
+    inline int ImageAccumulatorBuffer::getIndexRelativeToNewest(int elementNumber) const {
         // Newest frame
         int index = buffer_current_index_ % buffer_size_;
         index -= elementNumber;
@@ -155,7 +155,7 @@ namespace proc_image_processing {
         return index;
     }
 
-    inline int ImageAccumulatorBuffer::getIndexRelativeToOldest(int elementNumber) {
+    inline int ImageAccumulatorBuffer::getIndexRelativeToOldest(int elementNumber) const {
         // Newest frame
         int index = buffer_current_index_ % buffer_size_;
         return (index + 1 + elementNumber) % buffer_size_;

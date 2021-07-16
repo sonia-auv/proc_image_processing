@@ -19,31 +19,28 @@ namespace proc_image_processing {
 
         ObjectRankingData() : area_rank_(0.0f), length_rank_(0.0f) {};
 
-        virtual ~ObjectRankingData() {};
+        virtual ~ObjectRankingData() = default;
 
         // Rank are grade from 0 to 1, 0 being the last, 1 being the first
         void setAreaRank(float rank);
 
         void setLengthRank(float rank);
 
-        float getAreaRank();
+        [[maybe_unused]] float getAreaRank() const;
 
-        float getLengthRank();
+        [[maybe_unused]] float getLengthRank() const;
 
     private:
-        float area_rank_;
-        float length_rank_;
+        float area_rank_, length_rank_;
     };
 
     inline void ObjectRankingData::setAreaRank(float rank) { area_rank_ = rank; }
 
-    inline void ObjectRankingData::setLengthRank(float rank) {
-        length_rank_ = rank;
-    }
+    inline void ObjectRankingData::setLengthRank(float rank) { length_rank_ = rank; }
 
-    inline float ObjectRankingData::getAreaRank() { return area_rank_; }
+    [[maybe_unused]] inline float ObjectRankingData::getAreaRank() const { return area_rank_; }
 
-    inline float ObjectRankingData::getLengthRank() { return length_rank_; }
+    [[maybe_unused]] inline float ObjectRankingData::getLengthRank() const { return length_rank_; }
 
 }  // namespace proc_image_processing
 

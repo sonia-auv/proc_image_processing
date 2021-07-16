@@ -53,8 +53,8 @@ namespace proc_image_processing {
         setValueInReferenceVector(second_value, getValueInReferenceVector(first_value));
     }
 
-    cv::Mat MajorEdgeExtractor::ExtractEdge(const cv::Mat &image,
-                                            int extreme_minimum) {
+    [[maybe_unused]] cv::Mat MajorEdgeExtractor::ExtractEdge(const cv::Mat &image,
+                                                             int extreme_minimum) {
         if (image.channels() != 1 || image.type() != CV_32F) {
             std::cout << "Bad image type or number of channel" << std::endl;
             return cv::Mat::zeros(1, 1, CV_8UC1);
