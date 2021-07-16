@@ -42,9 +42,9 @@ namespace proc_image_processing {
             // area_rank,length_rank,circularity,convexity,ratio,presence,percent_filled,hueMean,
         }
 
-        virtual ~HandleDetector() {}
+        ~HandleDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (debug_contour_()) {
                     image.copyTo(output_image_);
@@ -107,12 +107,12 @@ namespace proc_image_processing {
                 }
 
                 std::sort(objVec.begin(), objVec.end(),
-                          [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
                               return a->getArea() > b->getArea();
                           });
 
                 // Since we search only one buoy, get the biggest from sort function
-                if (objVec.size() > 0) {
+                if (!objVec.empty()) {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
@@ -148,4 +148,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_FILTERS_OBJECT_FINDER_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_HANDLE_DETECTOR_H_

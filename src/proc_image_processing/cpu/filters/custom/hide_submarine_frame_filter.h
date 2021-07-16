@@ -28,9 +28,9 @@ namespace proc_image_processing {
             bottom_mask_ = cv::imread(mask_name, CV_LOAD_IMAGE_GRAYSCALE);
         }
 
-        virtual ~HideSubmarineFrameFilter() {}
+        ~HideSubmarineFrameFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (prev_rot_value_ != rotate_type_()) {
                     prev_rot_value_ = rotate_type_();

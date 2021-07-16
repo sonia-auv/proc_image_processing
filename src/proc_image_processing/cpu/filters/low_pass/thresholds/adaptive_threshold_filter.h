@@ -26,9 +26,9 @@ namespace proc_image_processing {
             setName("AdaptiveThresholdFilter");
         }
 
-        virtual ~AdaptiveThresholdFilter() {}
+        ~AdaptiveThresholdFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (image.channels() > 1) {
                     cv::cvtColor(image, image, CV_BGR2GRAY);
@@ -52,4 +52,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_FILTERS_INRANGE_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_ADAPTIVE_THRESHOLD_H_

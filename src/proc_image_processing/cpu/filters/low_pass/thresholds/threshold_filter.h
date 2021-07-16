@@ -24,9 +24,9 @@ namespace proc_image_processing {
             setName("ThresholdFilter");
         }
 
-        virtual ~ThresholdFilter() {}
+        ~ThresholdFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (image.channels() > 1) {
                     cv::cvtColor(image, image, CV_BGR2GRAY);
@@ -35,7 +35,7 @@ namespace proc_image_processing {
                     image.convertTo(image, CV_8U);
                 }
 
-                int threshold_type = CV_THRESH_BINARY;
+                int threshold_type;
                 switch (type_()) {
                     case 0:
                         threshold_type = CV_THRESH_BINARY;

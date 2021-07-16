@@ -31,9 +31,9 @@ namespace proc_image_processing {
             setName("AccumulatorFilter");
         }
 
-        virtual ~AccumulatorFilter() {}
+        ~AccumulatorFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 // Is there any change in the type of images
                 // we input to the accumulator?

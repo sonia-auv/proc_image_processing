@@ -24,9 +24,9 @@ namespace proc_image_processing {
             setName("SquareDetector");
         }
 
-        virtual ~SquareDetector() {}
+        ~SquareDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             std::vector<std::vector<cv::Point> > squares;
 
             squares.clear();
@@ -66,11 +66,14 @@ namespace proc_image_processing {
                     std::vector<cv::Point> approx;
 
                     // test each contour
-                    for (size_t i = 0; i < contours.size(); i++) {
+                    for (auto &contour : contours) {
                         // approximate contour with accuracy proportional
                         // to the contour perimeter
-                        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true) * 0.02,
-                                         true);
+                        cv::approxPolyDP(
+                                cv::Mat(contour),
+                                approx,
+                                cv::arcLength(cv::Mat(contour), true) * 0.02,
+                                true);
 
                         // square contours should have 4 vertices after approximation
                         // relatively large area (to filter out noisy contours)
@@ -98,17 +101,18 @@ namespace proc_image_processing {
                     }
                 }
             }
-            for (size_t i = 0; i < squares.size(); i++) {
-                const cv::Point *p = &squares[i][0];
+            for (auto &square : squares) {
+                const cv::Point *p = &square[0];
 
-                int n = (int) squares[i].size();
+                int n = (int) square.size();
                 //dont detect the border
                 if (p->x > 3 && p->y > 3)
                     cv::polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 3, cv::LINE_AA);
             }
         }
 
-        static double getAngle(cv::Point pt1, cv::Point pt2, cv::Point pt0) {
+        // TODO Use the one from general function!
+        static double getAngle(const cv::Point &pt1, const cv::Point &pt2, const cv::Point &pt0) {
             double dx1 = pt1.x - pt0.x;
             double dy1 = pt1.y - pt0.y;
             double dx2 = pt2.x - pt0.x;

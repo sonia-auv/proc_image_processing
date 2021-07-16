@@ -20,9 +20,9 @@ namespace proc_image_processing {
             setName("OriginalImageFilter");
         }
 
-        virtual ~OriginalImageFilter() {}
+        ~OriginalImageFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 image = global_params_.getOriginalImage();
             }

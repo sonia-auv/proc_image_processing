@@ -30,11 +30,11 @@ namespace proc_image_processing {
             setName("TestFilter");
         }
 
-        virtual ~TestFilter() {}
+        ~TestFilter() override = default;
 
-        virtual void init() {}
+        [[maybe_unused]] virtual void init() {}
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 target_.setTarget("test_filter", x_.getValue() - 1000 / 2, y_.getValue(),
                                   w_.getValue(), h_.getValue(), angle_.getValue(), 1000,

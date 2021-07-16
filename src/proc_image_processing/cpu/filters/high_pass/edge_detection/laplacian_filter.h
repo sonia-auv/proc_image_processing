@@ -25,9 +25,9 @@ namespace proc_image_processing {
             setName("LaplacianFilter");
         }
 
-        virtual ~LaplacianFilter() {}
+        ~LaplacianFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (image.channels() > 1) {
                     cv::cvtColor(image, image, CV_BGR2GRAY);
@@ -52,4 +52,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_FILTERS_SOBEL_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_LAPLACIAN_H_

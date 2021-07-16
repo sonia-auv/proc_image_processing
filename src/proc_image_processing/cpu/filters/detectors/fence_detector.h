@@ -41,9 +41,9 @@ namespace proc_image_processing {
             setName("FenceDetector");
         }
 
-        virtual ~FenceDetector() {}
+        ~FenceDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (!enable_()) {
                 return;
             }
@@ -93,7 +93,7 @@ namespace proc_image_processing {
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 3);
                 }
-                feat_factory_.percentFilledFeature(object);
+                ObjectFeatureFactory::percentFilledFeature(object);
 
                 if (int(object->getPercentFilled() * 100.0f) < min_percent_filled_())
                     continue;
@@ -113,7 +113,7 @@ namespace proc_image_processing {
             // Sort the bars with different criteria
             // Here we look for horizontal bar because it's
             std::sort(horizontalBar.begin(), horizontalBar.end(),
-                      [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                      [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
                           return a->getRotRect().size.height >
                                  b->getRotRect().size.height;
                       });
@@ -170,7 +170,7 @@ namespace proc_image_processing {
                 } else  // Gets the two best vertical bar to compute our y center.
                 {
                     std::sort(verticalBars.begin(), verticalBars.end(),
-                              [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                              [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
                                   return a->getRotRect().size.height >
                                          b->getRotRect().size.height;
                               });
@@ -236,12 +236,12 @@ namespace proc_image_processing {
         }
 
     private:
-        inline int getYFromBottomBar(float bar_size, int bar_y) {
+        static inline int getYFromBottomBar(float bar_size, int bar_y) {
             int offset = static_cast<int>((bar_size) / 5.0f);
             return bar_y - offset;
         }
 
-        inline void getBottomBarXExtremum(ObjectFullData::Ptr bottom_bar, int &leftX, int &rightX) {
+        static inline void getBottomBarXExtremum(const ObjectFullData::Ptr &bottom_bar, int &leftX, int &rightX) {
             leftX = 20000;
             rightX = -1;
             contour_t contour = bottom_bar->getContourCopy().getContour();
@@ -267,7 +267,7 @@ namespace proc_image_processing {
             return left_ok && right_ok;
         }
 
-        inline bool isSplitBar(ObjectFullData::Ptr ref, ObjectFullData::Ptr &comp) {
+        static inline bool isSplitBar(const ObjectFullData::Ptr &ref, ObjectFullData::Ptr &comp) {
             float ratio_diff =
                     std::abs(comp->getRatio() - ref->getRatio()) / ref->getRatio();
             float y_diff =
@@ -280,12 +280,15 @@ namespace proc_image_processing {
 
         Parameter<bool> enable_, debug_contour_, search_only_bottom_;
         // tbca = To Be Consider As
-        RangedParameter<int> min_length_, max_distance_from_bottom_bar_extremum_,
-                min_area_, max_diff_from_90_tbca_horizontal_,
-                max_diff_from_0_tbca_vertical_, min_percent_filled_;
+        RangedParameter<int> min_length_,
+                max_distance_from_bottom_bar_extremum_,
+                min_area_,
+                max_diff_from_90_tbca_horizontal_,
+                max_diff_from_0_tbca_vertical_,
+                min_percent_filled_;
 
         cv::Mat output_image_;
-        ObjectFeatureFactory feat_factory_;
+        [[maybe_unused]] ObjectFeatureFactory feat_factory_;
     };
 
 }  // namespace proc_image_processing

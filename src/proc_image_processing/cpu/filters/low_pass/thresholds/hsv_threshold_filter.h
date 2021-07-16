@@ -38,9 +38,9 @@ namespace proc_image_processing {
             setName("HSVThresholdFilter");
         }
 
-        virtual ~HSVThresholdFilter() {}
+        ~HSVThresholdFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (CV_MAT_CN(image.type()) != 3) {
                     return;

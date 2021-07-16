@@ -35,9 +35,9 @@ namespace proc_image_processing {
             setName("ScharrAddingFilter");
         }
 
-        virtual ~ScharrAddingFilter() {}
+        ~ScharrAddingFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (image.channels() != 3) return;
                 if (run_small_image_()) {

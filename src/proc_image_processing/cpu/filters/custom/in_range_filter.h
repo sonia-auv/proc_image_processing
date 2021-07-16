@@ -40,7 +40,7 @@ namespace proc_image_processing {
             setName("InRangeFilter");
         }
 
-        virtual ~InRangeFilter() {}
+        ~InRangeFilter() override = default;
 
         /**
          * Overrides the execute function from the Filter class.

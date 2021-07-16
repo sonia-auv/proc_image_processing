@@ -22,9 +22,9 @@ namespace proc_image_processing {
             setName("MissionTestFakeStringFilter");
         }
 
-        virtual ~MissionTestFakeStringFilter() {}
+        ~MissionTestFakeStringFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 notify(Target());
             }

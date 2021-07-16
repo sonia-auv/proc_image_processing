@@ -38,9 +38,9 @@ namespace proc_image_processing {
             setName("Deep2019Filter");
         };
 
-        virtual ~Deep2019Filter() { image_subscriber_.shutdown(); }
+        ~Deep2019Filter() override { image_subscriber_.shutdown(); }
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 Target target;
                 image_width_ = image.size().width;
@@ -92,12 +92,12 @@ namespace proc_image_processing {
         const int BBOX_INFO_FONT = cv::FONT_HERSHEY_TRIPLEX;
 
         ros::Subscriber image_subscriber_;
-        ros::NodeHandle nh_;
+        [[maybe_unused]] ros::NodeHandle nh_;
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
         Parameter<bool> enable_, debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
-        int image_width_;
-        int image_height_;
+        int image_width_{};
+        int image_height_{};
         cv::Scalar color_;
 
         void boundingBoxCallback(const sonia_common::DetectionArrayConstPtr &msg) {
@@ -107,7 +107,7 @@ namespace proc_image_processing {
 
         }
 
-        inline std::string convertFloatToString(float value) {
+        static inline std::string convertFloatToString(float value) {
             value = value * 100;
             std::ostringstream ss;
             ss << std::setprecision(4);
@@ -115,7 +115,7 @@ namespace proc_image_processing {
             return ss.str();
         }
 
-        inline void buildTarget(Target &target, const sonia_common::Detection &object) {
+        inline void buildTarget(Target &target, const sonia_common::Detection &object) const {
             int image_central_x;
             int image_central_y;
             int bounding_box_center_x;
@@ -158,7 +158,7 @@ namespace proc_image_processing {
             cv::putText(image, text, cv::Point(origin_x, origin_y), BBOX_INFO_FONT, 1, BBOX_INFO_TEXT_COLOR, 2, CV_AA);
         }
 
-        inline std::string createTextBoundingBox(const sonia_common::Detection &object) {
+        static inline std::string createTextBoundingBox(const sonia_common::Detection &object) {
             std::stringstream ss;
             ss << object.class_name.data << ":" << convertFloatToString(object.confidence) << "%";
             return ss.str();
@@ -176,6 +176,5 @@ namespace proc_image_processing {
 
 } //proc_image_processing
 
-#endif //PROC_IMAGE_PROCESSING_DEEP_DICE_H
-;
+#endif //PROC_IMAGE_PROCESSING_DEEP_2019_H
 

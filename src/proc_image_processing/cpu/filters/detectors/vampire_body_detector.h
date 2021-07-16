@@ -27,9 +27,9 @@ namespace proc_image_processing {
             setName("VampireBodyDetector");
         }
 
-        virtual ~VampireBodyDetector() {}
+        ~VampireBodyDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 std::string objective;
                 image.copyTo(output_image_);
@@ -86,13 +86,14 @@ namespace proc_image_processing {
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                    return
-                            a->getArea() >
-                            b->getArea();
-                });
+                std::sort(objVec.begin(), objVec.end(),
+                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                              return
+                                      a->getArea() >
+                                      b->getArea();
+                          });
 
-                if (objVec.size() > 0) {
+                if (!objVec.empty()) {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();

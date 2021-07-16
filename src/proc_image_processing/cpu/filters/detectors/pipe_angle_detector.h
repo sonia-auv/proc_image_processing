@@ -30,9 +30,9 @@ namespace proc_image_processing {
             setName("PipeAngleDetector");
         }
 
-        virtual ~PipeAngleDetector() {}
+        ~PipeAngleDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 intersectionPoint_.clear();
                 if (debug_contour_()) {
@@ -143,12 +143,12 @@ namespace proc_image_processing {
                 }
 
                 std::sort(objVec.begin(), objVec.end(),
-                          [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
                               return a->getArea() > b->getArea();
                           });
 
                 // Since we search only one buoy, get the biggest from sort function
-                if (objVec.size() > 0) {
+                if (!objVec.empty()) {
                     if (firstObject != nullptr && lastObject != nullptr) {
                         angle_ = firstObject->getCenterPoint().y > lastObject->getCenterPoint().y
                                  ? lastObject->getRotRect().angle : firstObject->getRotRect().angle;

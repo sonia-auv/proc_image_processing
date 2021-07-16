@@ -31,11 +31,11 @@ namespace proc_image_processing {
             setName("VampireTorpedoesCloseDetector");
         }
 
-        virtual ~VampireTorpedoesCloseDetector() {}
+        ~VampireTorpedoesCloseDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
-                std::string objectif;
+                std::string objective;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
                     cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -102,7 +102,7 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        objectif = "vampire_torpedoes";
+                        objective = "vampire_torpedoes";
                     }
 
                     if (look_for_heart_()) {
@@ -123,22 +123,23 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        objectif = "heart_torpedoes";
+                        objective = "heart_torpedoes";
                     }
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                    return
-                            a->getArea() >
-                            b->getArea();
-                });
+                std::sort(objVec.begin(), objVec.end(),
+                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                              return
+                                      a->getArea() >
+                                      b->getArea();
+                          });
 
-                if (objVec.size() > 0) {
+                if (!objVec.empty()) {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
-                    target.setTarget(objectif, center.x, center.y, object->getWidth(), object->getHeight(),
+                    target.setTarget(objective, center.x, center.y, object->getWidth(), object->getHeight(),
                                      object->getRotRect().angle, image.rows, image.cols);
                     notify(target);
                     if (debug_contour_()) {

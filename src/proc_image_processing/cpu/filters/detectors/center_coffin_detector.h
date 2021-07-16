@@ -27,11 +27,11 @@ namespace proc_image_processing {
             setName("CenterCoffinDetector");
         }
 
-        virtual ~CenterCoffinDetector() {}
+        ~CenterCoffinDetector() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
-                std::string objectif;
+                std::string objective;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
                     cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -66,18 +66,18 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        objectif = "surface";
+                        objective = "surface";
 
                     }
 
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
-                    return
-                            a->getArea() >
-                            b->getArea();
-                });
+                std::sort(objVec.begin(), objVec.end(),
+                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                              return a->getArea() >
+                                     b->getArea();
+                          });
 
                 if (objVec.size() > 1) {
                     Target target;
@@ -91,7 +91,7 @@ namespace proc_image_processing {
                     target_center.x = (center_1.x + center_2.x) / 2;
                     target_center.y = (center_1.y + center_2.y) / 2;
 
-                    target.setTarget(objectif, target_center.x, target_center.y, object_1->getWidth(),
+                    target.setTarget(objective, target_center.x, target_center.y, object_1->getWidth(),
                                      object_1->getHeight(), object_1->getRotRect().angle, image.rows, image.cols);
                     notify(target);
                     if (debug_contour_()) {
