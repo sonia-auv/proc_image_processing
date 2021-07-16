@@ -3,8 +3,8 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#ifndef PROVIDER_VISION_FILTER_GLOBAL_PARAM_HANDLER_H_
-#define PROVIDER_VISION_FILTER_GLOBAL_PARAM_HANDLER_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_GLOBAL_PARAM_HANDLER_H_
+#define PROC_IMAGE_PROCESSING_FILTER_GLOBAL_PARAM_HANDLER_H_
 
 #include "parameter.h"
 #include "ranged_parameter.h"
@@ -96,4 +96,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTER_GLOBAL_PARAM_HANDLER_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTER_GLOBAL_PARAM_HANDLER_H_

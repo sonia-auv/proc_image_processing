@@ -4,8 +4,8 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=GateDetector
 
-#ifndef PROVIDER_VISION_GATE_DETECTOR_H
-#define PROVIDER_VISION_GATE_DETECTOR_H
+#ifndef PROC_IMAGE_PROCESSING_GATE_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_GATE_DETECTOR_H
 
 #include <proc_image_processing/cpu/algorithm/general_function.h>
 #include <proc_image_processing/cpu/algorithm/object_feature_factory.h>
@@ -435,4 +435,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif //PROVIDER_VISION_GATE_DETECTOR_H
+#endif //PROC_IMAGE_PROCESSING_GATE_DETECTOR_H

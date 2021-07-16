@@ -3,8 +3,8 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=PipeAngleDetector
 
-#ifndef PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
-#define PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTERS_PIPE_ANGLE_DETECTOR_H_
+#define PROC_IMAGE_PROCESSING_FILTERS_PIPE_ANGLE_DETECTOR_H_
 
 #include <proc_image_processing/cpu/algorithm/general_function.h>
 #include <proc_image_processing/cpu/algorithm/object_full_data.h>
@@ -195,4 +195,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_PIPE_ANGLE_DETECTOR_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_PIPE_ANGLE_DETECTOR_H_

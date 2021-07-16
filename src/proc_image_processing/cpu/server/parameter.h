@@ -3,8 +3,8 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#ifndef PROVIDER_VISION_FILTER_PARAMETER_H_
-#define PROVIDER_VISION_FILTER_PARAMETER_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_
+#define PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_
 
 #include <sonia_common/macros.h>
 #include "parameter_interface.h"
@@ -137,4 +137,4 @@ namespace proc_image_processing {
 
 #include "parameter_inl.h"
 
-#endif  // PROVIDER_VISION_FILTER_PARAMETER_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_

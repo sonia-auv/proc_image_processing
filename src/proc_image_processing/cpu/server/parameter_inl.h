@@ -3,7 +3,7 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#ifndef PROVIDER_VISION_FILTER_PARAMETER_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_
 #error This file may only be included from parameter.h
 #endif
 

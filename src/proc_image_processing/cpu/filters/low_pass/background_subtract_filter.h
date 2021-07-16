@@ -3,8 +3,8 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=BackgroundSubtractFilter
 
-#ifndef PROVIDER_VISION_FILTERS_BACKGROUND_SUBSTRACT_H_
-#define PROVIDER_VISION_FILTERS_BACKGROUND_SUBSTRACT_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTERS_BACKGROUND_SUBSTRACT_H_
+#define PROC_IMAGE_PROCESSING_FILTERS_BACKGROUND_SUBSTRACT_H_
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
@@ -69,4 +69,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_BLURR_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_BLURR_H_

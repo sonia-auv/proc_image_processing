@@ -2,7 +2,7 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
 
-#ifndef PROVIDER_VISION_FILTER_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_H_
 #error This file may only be included from filter.h
 #endif
 

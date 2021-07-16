@@ -3,8 +3,8 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#ifndef PROVIDER_VISION_SERVER_VISION_SERVER_H_
-#define PROVIDER_VISION_SERVER_VISION_SERVER_H_
+#ifndef PROC_IMAGE_PROCESSING_SERVER_VISION_SERVER_H_
+#define PROC_IMAGE_PROCESSING_SERVER_VISION_SERVER_H_
 
 #include <sonia_common/CopyFilterchain.h>
 #include <sonia_common/ExecuteCmd.h>
@@ -371,4 +371,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_SERVER_VISION_SERVER_H_
+#endif  // PROC_IMAGE_PROCESSING_SERVER_VISION_SERVER_H_

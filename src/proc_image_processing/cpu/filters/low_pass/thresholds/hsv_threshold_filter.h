@@ -3,8 +3,8 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=HSVThresholdFilter
 
-#ifndef PROVIDER_VISION_FILTERS_HSV_THRESHOLD_H_
-#define PROVIDER_VISION_FILTERS_HSV_THRESHOLD_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTERS_HSV_THRESHOLD_H_
+#define PROC_IMAGE_PROCESSING_FILTERS_HSV_THRESHOLD_H_
 
 #include <proc_image_processing/cpu/algorithm/general_function.h>
 #include "proc_image_processing/cpu/filters/filter.h"
@@ -100,4 +100,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_HSV_THRESHOLD_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_HSV_THRESHOLD_H_

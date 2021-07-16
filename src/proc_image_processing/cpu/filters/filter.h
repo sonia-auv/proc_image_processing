@@ -2,8 +2,8 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
 
-#ifndef PROVIDER_VISION_FILTER_H_
-#define PROVIDER_VISION_FILTER_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_H_
+#define PROC_IMAGE_PROCESSING_FILTER_H_
 
 #include <proc_image_processing/cpu/server/global_param_handler.h>
 #include <proc_image_processing/cpu/server/parameter.h>
@@ -62,4 +62,4 @@ namespace proc_image_processing {
 
 #include "filter_inl.h"
 
-#endif  // PROVIDER_VISION_FILTER_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTER_H_

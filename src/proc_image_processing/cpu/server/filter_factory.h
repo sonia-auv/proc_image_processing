@@ -3,8 +3,8 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#ifndef PROVIDER_VISION_FILTER_FACTORY_H_
-#define PROVIDER_VISION_FILTER_FACTORY_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_FACTORY_H_
+#define PROC_IMAGE_PROCESSING_FILTER_FACTORY_H_
 
 // <FACTORY_GENERATOR_HEADER_INCLUDES>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/adaptive_threshold_filter.h>
@@ -72,4 +72,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTER_FACTORY_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTER_FACTORY_H_

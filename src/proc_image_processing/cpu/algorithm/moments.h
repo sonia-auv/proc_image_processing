@@ -2,8 +2,8 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
 
-#ifndef PROVIDER_VISION_ALGORITHM_MOMENTS_H_
-#define PROVIDER_VISION_ALGORITHM_MOMENTS_H_
+#ifndef PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_
+#define PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_
 
 #include <math.h>
 #include <memory>
@@ -39,4 +39,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_ALGORITHM_MOMENTS_H_
+#endif  // PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_

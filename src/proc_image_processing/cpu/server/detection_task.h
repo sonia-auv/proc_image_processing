@@ -3,8 +3,8 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#ifndef PROVIDER_VISION_PROC_DETECTION_TASK_H_
-#define PROVIDER_VISION_PROC_DETECTION_TASK_H_
+#ifndef PROC_IMAGE_PROCESSING_PROC_DETECTION_TASK_H_
+#define PROC_IMAGE_PROCESSING_PROC_DETECTION_TASK_H_
 
 #include <sonia_common/ros/image_publisher.h>
 #include <mutex>
@@ -121,4 +121,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_PROC_DETECTION_TASK_H_
+#endif  // PROC_IMAGE_PROCESSING_PROC_DETECTION_TASK_H_

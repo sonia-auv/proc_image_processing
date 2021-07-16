@@ -3,8 +3,8 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=AccumulatorFilter
 
-#ifndef PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
-#define PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTERS_IMAGE_ACCUMULATOR_H_
+#define PROC_IMAGE_PROCESSING_FILTERS_IMAGE_ACCUMULATOR_H_
 
 #include <proc_image_processing/cpu/algorithm/image_accumulator_buffer.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
@@ -86,4 +86,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_IMAGE_ACCUMULATOR_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_IMAGE_ACCUMULATOR_H_

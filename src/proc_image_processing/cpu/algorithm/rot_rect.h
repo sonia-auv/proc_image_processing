@@ -2,8 +2,8 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
 
-#ifndef PROVIDER_VISION_ALGORITHM_ROT_RECT_H_
-#define PROVIDER_VISION_ALGORITHM_ROT_RECT_H_
+#ifndef PROC_IMAGE_PROCESSING_ALGORITHM_ROT_RECT_H_
+#define PROC_IMAGE_PROCESSING_ALGORITHM_ROT_RECT_H_
 
 #include <math.h>
 #include <memory>
@@ -12,10 +12,10 @@
 
 namespace proc_image_processing {
 
-#define PROVIDER_VISION_TOP_LEFT 0
-#define PROVIDER_VISION_TOP_RIGHT 4
-#define PROVIDER_VISION_BOTTOM_LEFT 1
-#define PROVIDER_VISION_BOTTOM_RIGHT 2
+#define PROC_IMAGE_PROCESSING_TOP_LEFT 0
+#define PROC_IMAGE_PROCESSING_TOP_RIGHT 4
+#define PROC_IMAGE_PROCESSING_BOTTOM_LEFT 1
+#define PROC_IMAGE_PROCESSING_BOTTOM_RIGHT 2
 
     // Rotated rect ensure that the height member is the longest one
     // and the getAngle is in the direction of the height
@@ -56,4 +56,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_ALGORITHM_ROT_RECT_H_
+#endif  // PROC_IMAGE_PROCESSING_ALGORITHM_ROT_RECT_H_

@@ -3,8 +3,8 @@
 
 // FACTORY_GENERATOR_CLASS_NAME=ScharrFilter
 
-#ifndef PROVIDER_VISION_FILTERS_SCHARR_H_
-#define PROVIDER_VISION_FILTERS_SCHARR_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTERS_SCHARR_H_
+#define PROC_IMAGE_PROCESSING_FILTERS_SCHARR_H_
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
@@ -28,9 +28,9 @@ namespace proc_image_processing {
             setName("ScharrFilter");
         }
 
-        virtual ~ScharrFilter() {}
+        ~ScharrFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (image.channels() > 1) {
                     cv::cvtColor(image, image, CV_BGR2GRAY);
@@ -47,7 +47,7 @@ namespace proc_image_processing {
 
                 if (use_pixel_intensity_correction_()) {
                     for (int y = 0; y < image.rows; y++) {
-                        float *ptr = image.ptr<float>(y);
+                        auto *ptr = image.ptr<float>(y);
                         for (int x = 0; x < image.cols; x++) {
                             ptr[x] = pow(ptr[x], power_pixel_correction_());
                         }
@@ -67,4 +67,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_FILTERS_SCHARR_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_SCHARR_H_

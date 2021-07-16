@@ -2,8 +2,8 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
 
-#ifndef PROVIDER_VISION_ALGORITHM_GENERAL_FUNCTION_H_
-#define PROVIDER_VISION_ALGORITHM_GENERAL_FUNCTION_H_
+#ifndef PROC_IMAGE_PROCESSING_ALGORITHM_GENERAL_FUNCTION_H_
+#define PROC_IMAGE_PROCESSING_ALGORITHM_GENERAL_FUNCTION_H_
 
 #include "rot_rect.h"
 #include "type_and_const.h"
@@ -30,44 +30,44 @@ namespace proc_image_processing {
 
     // Image splitting
     // Return vector with blue,green,red,hue,saturation,intensity,gray (in order)
-    std::vector<cv::Mat> getColorPlanes(cv::Mat image);
+    std::vector<cv::Mat> getColorPlanes(const cv::Mat &image);
 
     // Camera offset
     void setCameraOffset(cv::Point &pt, int rows, int cols);
 
     // Contours getter
-    void retrieveContours(cv::Mat image, contourList_t &contours);
+    void retrieveContours(const cv::Mat &image, contourList_t &contours);
 
-    void retrieveInnerContours(cv::Mat image, contourList_t &contours);
+    void retrieveInnerContours(const cv::Mat &image, contourList_t &contours);
 
-    void retrieveAllInnerContours(cv::Mat image, contourList_t &contours);
+    void retrieveAllInnerContours(const cv::Mat &image, contourList_t &contours);
 
-    void retrieveOuterContours(cv::Mat image, contourList_t &contours);
+    void retrieveOuterContours(const cv::Mat &image, contourList_t &contours);
 
-    void retrieveAllContours(cv::Mat image, contourList_t &contours);
+    void retrieveAllContours(const cv::Mat &image, contourList_t &contours);
 
-    void retrieveHierarchyContours(cv::Mat image, contourList_t &contours, hierarchy_t &hierarchy);
+    void retrieveHierarchyContours(const cv::Mat &image, contourList_t &contours, hierarchy_t &hierarchy);
 
-    void retrieveNoChildAndParentContours(cv::Mat image, contourList_t &contours);
+    void retrieveNoChildAndParentContours(const cv::Mat &image, contourList_t &contours);
 
-    void retrieveContourRotRect(cv::RotatedRect rect, contour_t &contour);
+    void retrieveContourRotRect(const cv::RotatedRect &rect, contour_t &contour);
 
-    Line getLineOnPolygon(contour_t contour, int cols);
+    Line getLineOnPolygon(const contour_t &contour, int cols);
 
-    Line getPerpendicularLine(Line line, cv::Point2f center);
+    Line getPerpendicularLine(Line line, const cv::Point2f &center);
 
     void retrieveContourRotRect(RotRect rect, contour_t &contour);
 
     // Features calculation
     float getResolutionRatio(float width, float height);
 
-    float getConvexityRatio(contour_t contour);
+    float getConvexityRatio(const contour_t &contour);
 
-    float getConvexHullArea(contour_t contour);
+    float getConvexHullArea(const contour_t &contour);
 
     float getCircleIndex(float area, float perimeter);
 
-    float getCircleIndex(contour_t contour);
+    float getCircleIndex(const contour_t &contour);
 
     // Receive a binary input and calculates the number of white pixel over the
     // total number of pixel in the upright rectangle
@@ -75,34 +75,36 @@ namespace proc_image_processing {
 
     float getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle);
 
-    cv::Scalar getMeans(contour_t contour, cv::Mat image, bool middle = true);
+    cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle = true);
 
     bool isRectangle(contour_t &contour, unsigned int accuracy = 5);
 
     bool isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max);
 
-    cv::Mat getImageFromRotatedRect(cv::RotatedRect rect, cv::Mat image);
+    cv::Mat getImageFromRotatedRect(const cv::RotatedRect &rect, const cv::Mat &image);
 
-    cv::Mat getImageFromContour(contour_t rect, cv::Mat image);
+    cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image);
 
     // Uses the enum given in type_and_const.h to control the rotation
-    cv::Mat rotateImage(cv::Mat in, rotationType rotation, symmetryType symmetry);
+    cv::Mat rotateImage(const cv::Mat &in, rotationType rotation, symmetryType symmetry);
 
     // Inverse a single channel image.
     void inverseImage(const cv::Mat &in, cv::Mat &out);
 
+    void pcaAnalysis(std::vector<cv::Point> &pts, cv::PCA &pca);
+
     // Process PCA
-    cv::Point getEigenPosition(std::vector<cv::Point> &pts);
+    [[maybe_unused]] cv::Point getEigenPosition(std::vector<cv::Point> &pts);
 
     std::vector<double> getEigenValues(std::vector<cv::Point> &pts);
 
-    std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts);
+    [[maybe_unused]] std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts);
 
-    double getAngleBetweenPoints(cv::Point pt1, cv::Point pt2, cv::Point pt0);
+    double getAngleBetweenPoints(const cv::Point &pt1, const cv::Point &pt2, const cv::Point &pt0);
 
-    void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares);
+    [[maybe_unused]] void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares);
 
-    bool compareCoordinates(const cv::Point &p1, const cv::Point &p2);
+    [[maybe_unused]] bool compareCoordinates(const cv::Point &p1, const cv::Point &p2);
 
     float getMedian(std::vector<float> values);
 
@@ -116,10 +118,10 @@ namespace proc_image_processing {
         return a.first < b.first;
     }
 
-    inline float getEuclideanDistance(const cv::Point2f &pt1, const cv::Point2f &pt2) {
+    inline double getEuclideanDistance(const cv::Point2f &pt1, const cv::Point2f &pt2) {
         return sqrt(pow((pt1.x - pt2.x), 2) + pow((pt1.y - pt2.y), 2));
     }
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_ALGORITHM_GENERAL_FUNCTION_H_
+#endif  // PROC_IMAGE_PROCESSING_ALGORITHM_GENERAL_FUNCTION_H_

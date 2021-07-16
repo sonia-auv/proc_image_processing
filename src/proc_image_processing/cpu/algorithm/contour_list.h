@@ -2,8 +2,8 @@
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
 
-#ifndef PROVIDER_VISION_ALGORITHM_CONTOUR_LIST_H_
-#define PROVIDER_VISION_ALGORITHM_CONTOUR_LIST_H_
+#ifndef PROC_IMAGE_PROCESSING_ALGORITHM_CONTOUR_LIST_H_
+#define PROC_IMAGE_PROCESSING_ALGORITHM_CONTOUR_LIST_H_
 
 #include <memory>
 #include <opencv2/opencv.hpp>
@@ -36,16 +36,16 @@ namespace proc_image_processing {
 
         Contour operator[](size_t index);
 
-        void drawContours(cv::Mat &img, const cv::Scalar &color, int thickness = 2);
+        void drawContours(cv::Mat &img, const cv::Scalar &color, int thickness = 2) const;
 
         // Vector overload
-        size_t getSize();
+        size_t getSize() const;
 
-        std::vector<std::vector<cv::Point>> getAsPoints();
+        std::vector<std::vector<cv::Point>> getAsPoints() const;
 
-        std::vector<Contour> getAsContour();
+        std::vector<Contour> getAsContour() const;
 
-        std::vector<cv::Vec4i> getHierarchy();
+        std::vector<cv::Vec4i> getHierarchy() const;
 
         ContourListVector contour_list_point_;
 
@@ -56,9 +56,9 @@ namespace proc_image_processing {
 
 
     private:
-        bool hasChild(const cv::Vec4i &hierarchy_def);
+        static bool hasChild(const cv::Vec4i &hierarchy_def);
 
-        bool hasParent(const cv::Vec4i &hierarchy_def);
+        static bool hasParent(const cv::Vec4i &hierarchy_def);
 
         // Retrieval method
         void retrieveAllContours(const cv::Mat &image);
@@ -79,15 +79,15 @@ namespace proc_image_processing {
         void retrieveNoChildAndParentContours(const cv::Mat &image);
     };
 
-    inline size_t ContourList::getSize() { return contour_vec_.size(); }
+    inline size_t ContourList::getSize() const { return contour_vec_.size(); }
 
-    inline std::vector<std::vector<cv::Point>> ContourList::getAsPoints() {
+    inline std::vector<std::vector<cv::Point>> ContourList::getAsPoints() const {
         return contour_list_point_;
     }
 
-    inline std::vector<Contour> ContourList::getAsContour() { return contour_vec_; }
+    inline std::vector<Contour> ContourList::getAsContour() const { return contour_vec_; }
 
-    inline std::vector<cv::Vec4i> ContourList::getHierarchy() { return hierarchy_; }
+    inline std::vector<cv::Vec4i> ContourList::getHierarchy() const { return hierarchy_; }
 
     inline Contour ContourList::operator[](size_t index) {
         return contour_vec_[index];
@@ -101,11 +101,10 @@ namespace proc_image_processing {
         return hierarchy_def[PARENT] != -1;
     }
 
-    inline void ContourList::drawContours(cv::Mat &img, const cv::Scalar &color,
-                                          int thickness) {
+    inline void ContourList::drawContours(cv::Mat &img, const cv::Scalar &color, int thickness) const {
         cv::drawContours(img, contour_list_point_, -1, color, thickness);
     }
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_ALGORITHM_CONTOUR_LIST_H_
+#endif  // PROC_IMAGE_PROCESSING_ALGORITHM_CONTOUR_LIST_H_
