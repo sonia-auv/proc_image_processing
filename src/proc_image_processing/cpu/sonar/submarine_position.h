@@ -24,7 +24,7 @@ namespace proc_image_processing {
         const size_t YAW = 2;
 
         // Constructor
-        SubmarinePosition(const ros::NodeHandlePtr &nh);
+        explicit SubmarinePosition(const ros::NodeHandlePtr &nh);
 
 
         // Return submarine's orientation. Specifying the type,
@@ -41,7 +41,7 @@ namespace proc_image_processing {
 
 
     private:
-        void odometryCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
+        void callbackOdometry(const nav_msgs::Odometry::ConstPtr &odo_in);
 
     private:
 
@@ -54,7 +54,7 @@ namespace proc_image_processing {
 
 
     inline void
-    SubmarinePosition::odometryCallback(const nav_msgs::Odometry::ConstPtr &odo_in) {
+    SubmarinePosition::callbackOdometry(const nav_msgs::Odometry::ConstPtr &odo_in) {
         position_xyz_[X] = odo_in->pose.pose.position.x;
         position_xyz_[Y] = odo_in->pose.pose.position.y;
         position_xyz_[Z] = odo_in->pose.pose.position.z;

@@ -36,7 +36,7 @@ namespace proc_image_processing {
     void setCameraOffset(cv::Point &pt, int rows, int cols);
 
     // Contours getter
-    [[maybe_unused]] void retrieveContours(const cv::Mat &image, contourList_t &contours);
+    void retrieveContours(const cv::Mat &image, contourList_t &contours);
 
     void retrieveInnerContours(const cv::Mat &image, contourList_t &contours);
 
@@ -56,12 +56,12 @@ namespace proc_image_processing {
 
     Line getPerpendicularLine(Line line, const cv::Point2f &center);
 
-    [[maybe_unused]] void retrieveContourRotRect(RotRect rect, contour_t &contour);
+    void retrieveContourRotRect(RotRect rect, contour_t &contour);
 
     // Features calculation
-    [[maybe_unused]] float getResolutionRatio(float width, float height);
+    float getResolutionRatio(float width, float height);
 
-    [[maybe_unused]] float getConvexityRatio(const contour_t &contour);
+    float getConvexityRatio(const contour_t &contour);
 
     float getConvexHullArea(const contour_t &contour);
 
@@ -75,16 +75,16 @@ namespace proc_image_processing {
 
     float getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle);
 
-    [[maybe_unused]] cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle = true);
+    cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle = true);
 
     bool isRectangle(contour_t &contour, unsigned int accuracy = 5);
 
-    [[maybe_unused]] bool
+    bool
     isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max);
 
     cv::Mat getImageFromRotatedRect(const cv::RotatedRect &rect, const cv::Mat &image);
 
-    [[maybe_unused]] cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image);
+    cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image);
 
     // Uses the enum given in type_and_const.h to control the rotation
     cv::Mat rotateImage(const cv::Mat &in, rotationType rotation, symmetryType symmetry);
@@ -95,17 +95,17 @@ namespace proc_image_processing {
     void pcaAnalysis(std::vector<cv::Point> &pts, cv::PCA &pca);
 
     // Process PCA
-    [[maybe_unused]] cv::Point getEigenPosition(std::vector<cv::Point> &pts);
+    cv::Point getEigenPosition(std::vector<cv::Point> &pts);
 
     std::vector<double> getEigenValues(std::vector<cv::Point> &pts);
 
-    [[maybe_unused]] std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts);
+    std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts);
 
     double getAngleBetweenPoints(const cv::Point &pt1, const cv::Point &pt2, const cv::Point &pt0);
 
-    [[maybe_unused]] void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares);
+    void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares);
 
-    [[maybe_unused]] bool compareCoordinates(const cv::Point &p1, const cv::Point &p2);
+    bool compareCoordinates(const cv::Point &p1, const cv::Point &p2);
 
     float getMedian(std::vector<float> values);
 

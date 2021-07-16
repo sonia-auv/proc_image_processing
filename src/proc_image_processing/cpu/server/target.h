@@ -18,10 +18,7 @@ namespace proc_image_processing {
 
     class Target {
     public:
-
-
         using Ptr = std::shared_ptr<Target>;
-
 
         Target();
 
@@ -30,8 +27,7 @@ namespace proc_image_processing {
                const std::string &spec_field_1 = "",
                const std::string &spec_field_2 = "");
 
-        ~Target() {};
-
+        ~Target() = default;
 
         // Setting target will use offseted center.
         void setTarget(const std::string &header, int x, int y, float width,
@@ -39,7 +35,7 @@ namespace proc_image_processing {
                        const std::string &spec_field_1 = "",
                        const std::string &spec_field_2 = "");
 
-        void setTarget(ObjectFullData::Ptr obj, const std::string &header,
+        void setTarget(const ObjectFullData::Ptr &obj, const std::string &header,
                        const std::string &spec_field_1 = "",
                        const std::string &spec_field_2 = "");
 
@@ -68,12 +64,9 @@ namespace proc_image_processing {
         void setMessage(sonia_common::VisionTarget &msg);
 
     private:
-
         cv::Point center_;
-
         cv::Size_<float> dimension_;
-
-        float angle_;
+        float angle_{};
 
         // Bins name, buoy colors, etc.
         std::string header_;
@@ -100,7 +93,7 @@ namespace proc_image_processing {
         setCameraOffset(center_, image_height, image_width);
     }
 
-    inline void Target::setTarget(ObjectFullData::Ptr obj,
+    inline void Target::setTarget(const ObjectFullData::Ptr &obj,
                                   const std::string &header,
                                   const std::string &spec_field_1,
                                   const std::string &spec_field_2) {

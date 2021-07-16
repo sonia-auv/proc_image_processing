@@ -43,9 +43,9 @@ namespace proc_image_processing {
             setName("SubtractPlaneAdderFilter");
         }
 
-        virtual ~SubtractPlaneAdderFilter() {}
+        ~SubtractPlaneAdderFilter() override = default;
 
-        virtual void execute(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 cv::Mat original = global_params_.getOriginalImage();
                 if (CV_MAT_CN(original.type()) != 3) {
@@ -115,4 +115,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_FILTERS_SUBTRACT_ALL_PLANES_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_SUBTRACT_PLANES_ADDER_H_

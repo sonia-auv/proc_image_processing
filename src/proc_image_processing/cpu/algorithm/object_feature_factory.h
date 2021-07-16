@@ -29,12 +29,12 @@ namespace proc_image_processing {
 
         ~ObjectFeatureFactory() = default;
 
-        [[maybe_unused]] void computeAllFeature(const ObjectFullData::FullObjectPtrVec &objects);
+        void computeAllFeature(const ObjectFullData::FullObjectPtrVec &objects);
 
         void computeAllFeature(const ObjectFullData::Ptr &object);
 
-        [[maybe_unused]] void computeSelectedFeature(const ObjectFullData::FullObjectPtrVec &objects,
-                                                     const std::vector<ObjectFeatureData::Feature> &feature);
+        void computeSelectedFeature(const ObjectFullData::FullObjectPtrVec &objects,
+                                    const std::vector<ObjectFeatureData::Feature> &feature);
 
         void computeSelectedFeature(const ObjectFullData::Ptr &object,
                                     const std::vector<ObjectFeatureData::Feature> &feature);
@@ -74,7 +74,7 @@ namespace proc_image_processing {
         ObjectFrameMemory frame_memory_;
     };
 
-    [[maybe_unused]] inline void ObjectFeatureFactory::computeAllFeature(
+    inline void ObjectFeatureFactory::computeAllFeature(
             const ObjectFullData::FullObjectPtrVec &objects) {
         for (auto &object : objects) {
             computeAllFeature(object);
@@ -88,7 +88,7 @@ namespace proc_image_processing {
         }
     }
 
-    [[maybe_unused]] inline void ObjectFeatureFactory::computeSelectedFeature(
+    inline void ObjectFeatureFactory::computeSelectedFeature(
             const ObjectFullData::FullObjectPtrVec &objects,
             const std::vector<ObjectFeatureData::Feature> &feature) {
         for (auto &object : objects) {

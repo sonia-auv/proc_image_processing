@@ -25,7 +25,7 @@ namespace proc_image_processing {
 
     RotRect::~RotRect() {}
 
-    [[maybe_unused]] void RotRect::drawRect(cv::Mat &out, cv::Scalar color, int thickness) {
+    void RotRect::drawRect(cv::Mat &out, cv::Scalar color, int thickness) {
         cv::line(out, pts_[0], pts_[1], color, thickness);
         cv::line(out, pts_[1], pts_[2], color, thickness);
         cv::line(out, pts_[2], pts_[3], color, thickness);
@@ -81,6 +81,6 @@ namespace proc_image_processing {
         return result;
     }
 
-    [[maybe_unused]] cv::Point2f *RotRect::getCorners() { return pts_; }
+    cv::Point2f *RotRect::getCorners() { return pts_; }
 
 }  // namespace proc_image_processing

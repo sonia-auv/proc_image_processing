@@ -25,29 +25,29 @@ namespace proc_image_processing {
         /**
          * Approximate contours and merges vertex together
          */
-        [[maybe_unused]] void approximate(double accuracy);
+        void approximate(double accuracy);
 
-        [[maybe_unused]] void approximateBySize();
+        void approximateBySize();
 
         /**
          * draw contour in the image.
          */
         void drawContours(cv::Mat &image, const cv::Scalar &color, int thickness) const;
 
-        [[maybe_unused]] size_t getSize() const;
+        size_t getSize() const;
 
         std::vector<cv::Point> getContour() const;
 
         std::vector<cv::Point> contour_;
     };
 
-    [[maybe_unused]] inline void Contour::approximate(double accuracy) {
+    inline void Contour::approximate(double accuracy) {
         std::vector<cv::Point> output;
         cv::approxPolyDP(contour_, output, accuracy, false);
         std::swap(contour_, output);
     }
 
-    [[maybe_unused]] inline void Contour::approximateBySize() {
+    inline void Contour::approximateBySize() {
         double arc_length = 0.1 * cv::arcLength(contour_, true);
         std::vector<cv::Point> output;
         cv::approxPolyDP(contour_, output, arc_length, false);
@@ -60,7 +60,7 @@ namespace proc_image_processing {
         cv::drawContours(image, contours, -1, color, thickness);
     }
 
-    [[maybe_unused]] inline size_t Contour::getSize() const { return contour_.size(); }
+    inline size_t Contour::getSize() const { return contour_.size(); }
 
     inline std::vector<cv::Point> Contour::getContour() const { return contour_; }
 

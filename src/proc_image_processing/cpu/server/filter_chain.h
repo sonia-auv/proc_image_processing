@@ -23,7 +23,7 @@ namespace proc_image_processing {
 
         explicit FilterChain(const std::string &name);
 
-        explicit FilterChain(const FilterChain &filterChain);
+        explicit FilterChain(const FilterChain &filter_chain);
 
         ~FilterChain();
 
@@ -45,11 +45,11 @@ namespace proc_image_processing {
 
         bool deserialize();
 
-        proc_image_processing::Filter::Ptr getFilter(const size_t &index) const;
+        Filter::Ptr getFilter(const size_t &index) const;
 
-        std::vector<proc_image_processing::Filter::Ptr> getFilters(const std::string &filter_name) const;
+        std::vector<Filter::Ptr> getFilters(const std::string &filter_name) const;
 
-        std::vector<proc_image_processing::Filter::Ptr> getFilters() const;
+        std::vector<Filter::Ptr> getFilters() const;
 
         /**
          * Check if there is a filter with the same name than the given parameter.
@@ -71,36 +71,34 @@ namespace proc_image_processing {
 
         void moveFilterUp(const size_t &filterIndex);
 
-        std::string getFilterParameterValue(const size_t &index, const std::string &param_name);
+        std::string getFilterParameterValue(const size_t &index, const std::string &name);
 
-        void setFilterParameterValue(const size_t &index,
-                                     const std::string &param_name,
-                                     const std::string &param_value);
+        void setFilterParameterValue(const size_t &index, const std::string &name, const std::string &value);
 
-        std::vector<proc_image_processing::ParameterInterface *> getFilterParameters(const size_t &index);
+        std::vector<ParameterInterface *> getFilterParameters(const size_t &index);
 
-        proc_image_processing::GlobalParamHandler &getParameterHandler();
+        GlobalParamHandler &getParameterHandler();
 
     private:
         std::string filepath_;
 
         std::string name_;
 
-        proc_image_processing::GlobalParamHandler param_handler_;
+        GlobalParamHandler param_handler_;
 
-        std::vector<proc_image_processing::Filter::Ptr> filters_;
+        std::vector<Filter::Ptr> filters_;
 
         size_t observer_index_;
     };
 
-    inline proc_image_processing::Filter::Ptr FilterChain::getFilter(
+    inline Filter::Ptr FilterChain::getFilter(
             const size_t &index) const {
         return filters_.at(index);
     }
 
-    inline std::vector<proc_image_processing::Filter::Ptr>
+    inline std::vector<Filter::Ptr>
     FilterChain::getFilters(const std::string &filter_name) const {
-        std::vector<proc_image_processing::Filter::Ptr> filters;
+        std::vector<Filter::Ptr> filters;
         for (const auto &filter : filters_) {
             if (filter->getName() == filter_name) {
                 filters.push_back(filter);
@@ -109,7 +107,7 @@ namespace proc_image_processing {
         return filters;
     }
 
-    inline std::vector<proc_image_processing::Filter::Ptr> FilterChain::getFilters()
+    inline std::vector<Filter::Ptr> FilterChain::getFilters()
     const {
         return filters_;
     }
@@ -128,7 +126,7 @@ namespace proc_image_processing {
         observer_index_ = index;
     }
 
-    inline proc_image_processing::GlobalParamHandler &FilterChain::getParameterHandler() {
+    inline GlobalParamHandler &FilterChain::getParameterHandler() {
         return param_handler_;
     }
 

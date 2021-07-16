@@ -40,12 +40,12 @@ namespace proc_image_processing {
 
         bool operator==(const RotRect &rotRect);
 
-        [[maybe_unused]] void drawRect(cv::Mat &out, cv::Scalar color, int thickness = 1);
+        void drawRect(cv::Mat &out, cv::Scalar color, int thickness = 1);
 
         // Create the class with another rotated rect
         void swap(RotRect &a);
 
-        [[maybe_unused]] cv::Point2f *getCorners();
+        cv::Point2f *getCorners();
 
     private:
         // Set height to the longest side of the rectangle and

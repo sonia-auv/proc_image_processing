@@ -51,7 +51,7 @@ namespace proc_image_processing {
         return planes_[planesID];
     }
 
-    [[maybe_unused]] const cv::Moments &ObjectBasicData::getMoments(bool binary) {
+    const cv::Moments &ObjectBasicData::getMoments(bool binary) {
         if (!is_calculated_map_[MOMENTS]) {
             if (binary)
                 cv_moments_ = cv::moments(binary_image_, binary);

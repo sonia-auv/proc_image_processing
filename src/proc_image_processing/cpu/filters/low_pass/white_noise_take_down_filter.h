@@ -29,9 +29,9 @@ namespace proc_image_processing {
             setName("WhiteNoiseTakeDownFilter");
         }
 
-        virtual ~WhiteNoiseTakeDownFilter() {}
+        ~WhiteNoiseTakeDownFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 std::vector<cv::Mat> channels;
                 cv::Mat original_image(global_params_.getOriginalImage());

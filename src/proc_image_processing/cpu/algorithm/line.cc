@@ -35,7 +35,7 @@ namespace proc_image_processing {
         length_ = sqrt(pow((start_.y - end_.y), 2) + pow((start_.y - end_.y), 2));
     }
 
-    [[maybe_unused]] void Line::draw(cv::Mat &img, cv::Scalar color) {
+    void Line::draw(cv::Mat &img, cv::Scalar color) {
         cv::line(img, start_, end_, color, 4, 8);
     }
 
@@ -75,18 +75,18 @@ namespace proc_image_processing {
 
     cv::Point Line::getCenter() { return center_; }
 
-    [[maybe_unused]] cv::Point Line::getStart() { return start_; }
+    cv::Point Line::getStart() { return start_; }
 
-    [[maybe_unused]] cv::Point Line::getEnd() { return end_; }
+    cv::Point Line::getEnd() { return end_; }
 
     float Line::getAngle() { return angle_; }
 
     float Line::getLength() { return length_; }
 
-    [[maybe_unused]] bool lengthSort(Line a, Line b) { return a.getLength() > b.getLength(); }
+    bool lengthSort(Line a, Line b) { return a.getLength() > b.getLength(); }
 
-    [[maybe_unused]] bool centerXSort(Line a, Line b) { return a.getCenter().x > b.getCenter().x; }
+    bool centerXSort(Line a, Line b) { return a.getCenter().x > b.getCenter().x; }
 
-    [[maybe_unused]] bool centerYSort(Line a, Line b) { return a.getCenter().y > b.getCenter().y; }
+    bool centerYSort(Line a, Line b) { return a.getCenter().y > b.getCenter().y; }
 
 }  // namespace proc_image_processing

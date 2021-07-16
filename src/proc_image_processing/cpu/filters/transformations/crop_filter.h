@@ -12,7 +12,7 @@ namespace proc_image_processing {
 
     class CropFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<BlurrFilter>;
+        using Ptr = std::shared_ptr<BlurFilter>;
 
         explicit CropFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
@@ -24,9 +24,9 @@ namespace proc_image_processing {
             setName("CropFilter");
         }
 
-        virtual ~CropFilter() {}
+        ~CropFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if ((x_offset_() + x_reduction_() < image.size[1]) |
                     (y_offset_() + y_reduction_() < image.size[0])) {

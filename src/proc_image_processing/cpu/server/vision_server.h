@@ -50,21 +50,21 @@ namespace proc_image_processing {
 
         explicit VisionServer(const ros::NodeHandle &nh);
 
-        ~VisionServer();
+        ~VisionServer() override;
 
     private:
         /**
          * Return a string of each execution separated by the current
          * COMPONENT_SEPARATOR given a list of the executions.
          */
-        std::string BuildRosMessage(const std::vector<std::string> &name_vec) const;
+        static std::string buildRosMessage(const std::vector<std::string> &name_vec);
 
         /**
          * When the vision client returns a filter name, it contains the index
          * of the filter in the filterchain. This methods aims to extract
          * the index of the filter given it's full name.
          */
-        size_t ExtractFilterIndexFromUIName(const std::string &name) const;
+        static size_t extractFilterIndexFromUIName(const std::string &name);
 
         /**
          * Given a filter, this will return the name of the filter that the vision
@@ -72,8 +72,7 @@ namespace proc_image_processing {
          * is expecting (the name of the filter with its index of the filter in the
          * filterchain).
          */
-        std::string ConstructFilterUIName(const std::string &name,
-                                          const size_t &index) const;
+        static std::string constructFilterUIName(const std::string &name, const size_t &index);
 
         /**
          * \brief Copies a filterchain which is not used by a running execution.
@@ -90,8 +89,8 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackCopyFc(sonia_common::CopyFilterchain::Request &rqst,
-                            sonia_common::CopyFilterchain::Response &rep);
+        bool callbackCopyFilterChain(sonia_common::CopyFilterchain::Request &rqst,
+                                     sonia_common::CopyFilterchain::Response &rep);
 
         /**
          * \brief Gets the parameters for a filter.
@@ -109,7 +108,7 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackGetFilterParam(sonia_common::GetFilterchainFilterParam::Request &rqst,
+        bool callbackGetFilterParam(sonia_common::GetFilterchainFilterParam::Request &rqst,
                                     sonia_common::GetFilterchainFilterParam::Response &rep);
 
         /**
@@ -131,7 +130,7 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackGetFilterAllParam(
+        bool callbackGetFilterAllParam(
                 sonia_common::GetFilterchainFilterAllParam::Request &rqst,
                 sonia_common::GetFilterchainFilterAllParam::Response &rep);
 
@@ -154,7 +153,7 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackSetFilterParam(sonia_common::SetFilterchainFilterParam::Request &rqst,
+        bool callbackSetFilterParam(sonia_common::SetFilterchainFilterParam::Request &rqst,
                                     sonia_common::SetFilterchainFilterParam::Response &rep);
 
         /**
@@ -173,7 +172,7 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackGetFilter(sonia_common::GetFilterchainFilter::Request &rqst,
+        bool callbackGetFilter(sonia_common::GetFilterchainFilter::Request &rqst,
                                sonia_common::GetFilterchainFilter::Response &rep);
 
         /**
@@ -193,7 +192,7 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackManageFilter(sonia_common::ManageFilterchainFilter::Request &rqst,
+        bool callbackManageFilter(sonia_common::ManageFilterchainFilter::Request &rqst,
                                   sonia_common::ManageFilterchainFilter::Response &rep);
 
         /**
@@ -211,8 +210,8 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackManageFc(sonia_common::ManageFilterchain::Request &rqst,
-                              sonia_common::ManageFilterchain::Response &rep);
+        bool callbackManageFilterChain(sonia_common::ManageFilterchain::Request &rqst,
+                                       sonia_common::ManageFilterchain::Response &rep);
 
         /**
          * \brief Saves a filterchain.
@@ -240,8 +239,8 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackSaveFc(sonia_common::SaveFilterchain::Request &rqst,
-                            sonia_common::SaveFilterchain::Response &rep);
+        bool callbackSaveFilterChain(sonia_common::SaveFilterchain::Request &rqst,
+                                     sonia_common::SaveFilterchain::Response &rep);
 
         /**
          * \brief Change the order of a filter in a filterchain.
@@ -261,8 +260,8 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackSetFcOrder(sonia_common::SetFilterchainFilterOrder::Request &rqst,
-                                sonia_common::SetFilterchainFilterOrder::Response &rep);
+        bool callbackSetFilterChainOrder(sonia_common::SetFilterchainFilterOrder::Request &rqst,
+                                         sonia_common::SetFilterchainFilterOrder::Response &rep);
 
         /**
          * \brief Get the filterchain used by the running execution given as
@@ -279,8 +278,8 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackGetFcFromExec(sonia_common::GetFilterchainFromExecution::Request &rqst,
-                                   sonia_common::GetFilterchainFromExecution::Response &rep);
+        bool callbackGetFilterChainExecution(sonia_common::GetFilterchainFromExecution::Request &rqst,
+                                             sonia_common::GetFilterchainFromExecution::Response &rep);
 
         /**
          * \brief Get the media used by the running execution given as parameter.
@@ -296,8 +295,8 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackGetMediaFromExec(sonia_common::GetMediaFromExecution::Request &rqst,
-                                      sonia_common::GetMediaFromExecution::Response &rep);
+        bool callbackGetMediaExecution(sonia_common::GetMediaFromExecution::Request &rqst,
+                                       sonia_common::GetMediaFromExecution::Response &rep);
 
         /**
          * \brief Sets the observer to the filter given as parameter.
@@ -320,13 +319,13 @@ namespace proc_image_processing {
          *            It set values such as success for the service return state.
          * \return True if the imageCallback has succesfully processed the service call.
          */
-        bool CallbackSetObserver(sonia_common::SetFilterchainFilterObserver::Request &rqst,
+        bool callbackSetObserver(sonia_common::SetFilterchainFilterObserver::Request &rqst,
                                  sonia_common::SetFilterchainFilterObserver::Response &rep);
 
-        bool CallbackExecutionCMD(sonia_common::ExecuteCmd::Request &rqst,
+        bool callbackExecutionCmd(sonia_common::ExecuteCmd::Request &rqst,
                                   sonia_common::ExecuteCmd::Response &rep);
 
-        bool CallbackInfoListCMD(
+        bool callbackInfoListCmd(
                 sonia_common::GetInformationList::Request &rqst,
                 sonia_common::GetInformationList::Response &rep);
 
@@ -338,15 +337,14 @@ namespace proc_image_processing {
          */
         ros::NodeHandle nh_;
 
-        FilterChainManager filterchain_mgr_;
+        FilterChainManager filter_chain_mgr_;
 
         DetectionTaskManager detection_task_mgr_;
 
         ros::ServiceClient deep_network_service;
     };
 
-    inline std::string VisionServer::BuildRosMessage(
-            const std::vector<std::string> &name_vec) const {
+    inline std::string VisionServer::buildRosMessage(const std::vector<std::string> &name_vec) {
         std::string msg("");
         for (const auto &name : name_vec) {
             msg += name + ";";
@@ -354,9 +352,8 @@ namespace proc_image_processing {
         return msg;
     }
 
-    inline size_t VisionServer::ExtractFilterIndexFromUIName(
-            const std::string &name) const {
-        size_t pos = name.find("_");
+    inline size_t VisionServer::extractFilterIndexFromUIName(const std::string &name) {
+        size_t pos = name.find('_');
         if (pos == std::string::npos) {
             throw std::invalid_argument("The name of the filter could not be parsed");
         }
@@ -364,8 +361,7 @@ namespace proc_image_processing {
         return size_t(atoi(position.c_str()));
     }
 
-    inline std::string VisionServer::ConstructFilterUIName(
-            const std::string &name, const size_t &index) const {
+    inline std::string VisionServer::constructFilterUIName(const std::string &name, const size_t &index) {
         return name + "_" + std::to_string(index);
     }
 

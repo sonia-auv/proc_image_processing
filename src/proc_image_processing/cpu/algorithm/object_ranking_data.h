@@ -26,9 +26,9 @@ namespace proc_image_processing {
 
         void setLengthRank(float rank);
 
-        [[maybe_unused]] float getAreaRank() const;
+        float getAreaRank() const;
 
-        [[maybe_unused]] float getLengthRank() const;
+        float getLengthRank() const;
 
     private:
         float area_rank_, length_rank_;
@@ -38,9 +38,9 @@ namespace proc_image_processing {
 
     inline void ObjectRankingData::setLengthRank(float rank) { length_rank_ = rank; }
 
-    [[maybe_unused]] inline float ObjectRankingData::getAreaRank() const { return area_rank_; }
+    inline float ObjectRankingData::getAreaRank() const { return area_rank_; }
 
-    [[maybe_unused]] inline float ObjectRankingData::getLengthRank() const { return length_rank_; }
+    inline float ObjectRankingData::getLengthRank() const { return length_rank_; }
 
 }  // namespace proc_image_processing
 

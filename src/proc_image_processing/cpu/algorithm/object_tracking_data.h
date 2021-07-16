@@ -21,9 +21,9 @@ namespace proc_image_processing {
 
         virtual ~ObjectTrackingData() = default;
 
-        [[maybe_unused]] void setPresenceCount(float presenceCount);
+        void setPresenceCount(float presenceCount);
 
-        [[maybe_unused]] float getPresenceCount() const;
+        float getPresenceCount() const;
 
     private:
         // In percent, nb of presence/ nb of frame in memory
@@ -33,11 +33,11 @@ namespace proc_image_processing {
         // float _ratio_variation;
     };
 
-    [[maybe_unused]] inline void ObjectTrackingData::setPresenceCount(float presenceCount) {
+    inline void ObjectTrackingData::setPresenceCount(float presenceCount) {
         presence_count_ = presenceCount;
     }
 
-    [[maybe_unused]] inline float ObjectTrackingData::getPresenceCount() const { return presence_count_; }
+    inline float ObjectTrackingData::getPresenceCount() const { return presence_count_; }
 
 }  // namespace proc_image_processing
 

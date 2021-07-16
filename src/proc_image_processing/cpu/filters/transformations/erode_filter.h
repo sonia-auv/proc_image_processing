@@ -27,9 +27,9 @@ namespace proc_image_processing {
             setName("ErodeFilter");
         }
 
-        virtual ~ErodeFilter() {}
+        ~ErodeFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 int kernel_type = 0;
                 switch (kernel_type_()) {

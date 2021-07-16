@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
         ~TestFilter() override = default;
 
-        [[maybe_unused]] virtual void init() {}
+        virtual void init() {}
 
         void apply(cv::Mat &image) override {
             if (enable_()) {

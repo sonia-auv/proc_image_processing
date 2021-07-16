@@ -47,7 +47,7 @@ namespace proc_image_processing {
 
         int getVoteCount() const;
 
-        [[maybe_unused]] void resetVotes();
+        void resetVotes();
 
         // All getters calculate their element if they are not already calculated.
         // If they are, simply return them.
@@ -69,12 +69,12 @@ namespace proc_image_processing {
 
         const cv::Rect &getUprightRect();
 
-        [[maybe_unused]] const cv::Moments &getMoments(bool binary);
+        const cv::Moments &getMoments(bool binary);
 
         // Images are already reference in opencv...
         const cv::Mat &getPlanes(int planesID);
 
-        [[maybe_unused]] cv::Mat getBinaryImageAtUprightRect();
+        cv::Mat getBinaryImageAtUprightRect();
 
         Contour getContourCopy();
 
@@ -103,7 +103,7 @@ namespace proc_image_processing {
 
     inline int ObjectBasicData::getVoteCount() const { return vote_count_; }
 
-    [[maybe_unused]] inline void ObjectBasicData::resetVotes() { vote_count_ = 0; }
+    inline void ObjectBasicData::resetVotes() { vote_count_ = 0; }
 
     inline float ObjectBasicData::getArea() {
         if (!is_calculated_map_[AREA]) {
@@ -179,7 +179,7 @@ namespace proc_image_processing {
         return up_right_rect_;
     }
 
-    [[maybe_unused]] inline cv::Mat ObjectBasicData::getBinaryImageAtUprightRect() {
+    inline cv::Mat ObjectBasicData::getBinaryImageAtUprightRect() {
         // Making sure we have calculated the rectangle.
         cv::Rect uprightRect = getUprightRect();
         // Clone is necessary since the object is created now

@@ -16,7 +16,7 @@
 
 class ImageProvider {
 public:
-    ImageProvider(const std::string &topic_name)
+    explicit ImageProvider(const std::string &topic_name)
             : topic_name_(topic_name),
               it_(ros::NodeHandle("~")),
               image_id_(0) {

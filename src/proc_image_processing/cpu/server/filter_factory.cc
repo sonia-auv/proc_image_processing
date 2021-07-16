@@ -14,8 +14,8 @@ namespace proc_image_processing {
             return std::move(std::make_unique<BackgroundSubtractFilter>(globalParams));
         } else if (name == "BilateralFilter") {
             return std::move(std::make_unique<BilateralFilter>(globalParams));
-        } else if (name == "BlurrFilter") {
-            return std::move(std::make_unique<BlurrFilter>(globalParams));
+        } else if (name == "BlurFilter") {
+            return std::move(std::make_unique<BlurFilter>(globalParams));
         } else if (name == "CannyFilter") {
             return std::move(std::make_unique<CannyFilter>(globalParams));
         } else if (name == "CenterCoffinDetector") {
@@ -104,7 +104,7 @@ namespace proc_image_processing {
         return "AdaptiveThresholdFilter;"
                "BackgroundSubtractFilter;"
                "BilateralFilter;"
-               "BlurrFilter;"
+               "BlurFilter;"
                "CannyFilter;"
                "CenterCoffinDetector;"
                "ContrastAndBrightnessFilter;"

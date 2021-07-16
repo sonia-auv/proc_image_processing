@@ -41,9 +41,9 @@ namespace proc_image_processing {
             setName("SubtractAllPlanesFilter");
         }
 
-        virtual ~SubtractAllPlanesFilter() {}
+        ~SubtractAllPlanesFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (CV_MAT_CN(image.type()) != 3) {
                     return;

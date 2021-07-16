@@ -24,9 +24,9 @@ namespace proc_image_processing {
             setName("RotateFilter");
         }
 
-        virtual ~RotateFilter() {}
+        ~RotateFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 if (transpose_()) cv::transpose(image, image);
                 switch (rotate_type_()) {

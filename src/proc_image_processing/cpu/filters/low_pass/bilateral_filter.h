@@ -28,7 +28,7 @@ namespace proc_image_processing {
             setName("BilateralFilter");
         }
 
-        virtual ~BilateralFilter() {}
+        ~BilateralFilter() override = default;
 
         /**
          * Override the execute function from the Filter class.

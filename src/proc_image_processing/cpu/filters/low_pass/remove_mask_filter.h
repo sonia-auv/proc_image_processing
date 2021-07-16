@@ -31,9 +31,9 @@ namespace proc_image_processing {
             setName("RemoveMaskFilter");
         }
 
-        virtual ~RemoveMaskFilter() {}
+        ~RemoveMaskFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 global_params_.getOriginalImage().copyTo(image, image);
             }

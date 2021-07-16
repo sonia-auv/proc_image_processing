@@ -30,9 +30,9 @@ namespace proc_image_processing {
             setName("ContrastAndBrightnessFilter");
         }
 
-        virtual ~ContrastAndBrightnessFilter() {}
+        ~ContrastAndBrightnessFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 rows_ = image.rows;
                 cols_ = image.cols;

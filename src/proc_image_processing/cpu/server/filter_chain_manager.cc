@@ -39,24 +39,24 @@ namespace proc_image_processing {
         return availableFilterchains;
     }
 
-    void FilterChainManager::addFilterChain(const std::string &filterchain) {
-        if (!filterChainExists(filterchain)) {
+    void FilterChainManager::addFilterChain(const std::string &filter_chain) {
+        if (!filterChainExists(filter_chain)) {
             YAML::Node node;
-            node["name"] = filterchain;
+            node["name"] = filter_chain;
 
-            auto filepath = kFilterChainPath + filterchain + kFilterChainExt;
+            auto filepath = kFilterChainPath + filter_chain + kFilterChainExt;
             std::ofstream fout(filepath);
             fout << node;
         }
     }
 
-    void FilterChainManager::deleteFilterChain(const std::string &filterchain) {
-        remove(getFilterChainPath(filterchain).c_str());
+    void FilterChainManager::deleteFilterChain(const std::string &filter_chain) {
+        remove(getFilterChainPath(filter_chain).c_str());
     }
 
-    bool FilterChainManager::filterChainExists(const std::string &filterchain) {
+    bool FilterChainManager::filterChainExists(const std::string &filter_chain) {
         for (const auto &existing_filterchain : getFilterChainsNames()) {
-            if (filterchain == existing_filterchain) {
+            if (filter_chain == existing_filterchain) {
                 return true;
             }
         }
@@ -67,7 +67,7 @@ namespace proc_image_processing {
             const std::string &filterchainName) {
         if (filterChainExists(filterchainName)) {
             auto filterchain = std::make_shared<FilterChain>(filterchainName);
-            running_filterchains_.push_back(filterchain);
+            running_filter_chains_.push_back(filterchain);
             ROS_INFO("FilterChain is ready.");
             return filterchain;
         }
@@ -82,21 +82,21 @@ namespace proc_image_processing {
         return getRunningFilterChains();
     }
 
-    void FilterChainManager::stopFilterChain(const FilterChain::Ptr &filterchain) {
-        auto instance = std::find(running_filterchains_.begin(),
-                                  running_filterchains_.end(), filterchain);
-        running_filterchains_.erase(instance);
+    void FilterChainManager::stopFilterChain(const FilterChain::Ptr &filter_chain) {
+        auto instance = std::find(running_filter_chains_.begin(),
+                                  running_filter_chains_.end(), filter_chain);
+        running_filter_chains_.erase(instance);
         ROS_INFO("FilterChain is stopped.");
     }
 
     std::string FilterChainManager::getFilterChainPath(
-            const std::string &filterchain) const {
-        return kConfigPath + filterchain + kFilterChainExt;
+            const std::string &filter_chain) const {
+        return kConfigPath + filter_chain + kFilterChainExt;
     }
 
     const std::vector<FilterChain::Ptr>
     &FilterChainManager::getRunningFilterChains() const {
-        return running_filterchains_;
+        return running_filter_chains_;
     }
 
 }  // namespace proc_image_processing

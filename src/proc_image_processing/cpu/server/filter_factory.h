@@ -10,7 +10,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/adaptive_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/background_subtract_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
-#include <proc_image_processing/cpu/filters/low_pass/blurr_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/blur_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/canny_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/center_coffin_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/contrast_and_brightness_filter.h>

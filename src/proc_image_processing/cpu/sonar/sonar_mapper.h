@@ -22,7 +22,6 @@ namespace proc_image_processing {
 
     class SonarMapper : public BaseObjectMapperInterface {
     public:
-
         const int NB_PIXEL_BY_METER = 20;
         const int MAP_WIDTH_METER = 60;
         const int MAP_HEIGHT_METER = 30;
@@ -39,17 +38,17 @@ namespace proc_image_processing {
         void addScanLineToMap(const sensor_msgs::PointCloud2::ConstPtr &msg);
 
     private:
-        void extractNewPoint(const sensor_msgs::PointCloud2::ConstPtr &msg, int i,
-                             float &intensity, float &x, float &y, float &z) const;
-
-    private:
         cv::Mat sonar_map_;
+
         MapObjectVector object_list_;
         const SubmarinePosition &submarine_position_;
         int scanline_count_;
         ros::Subscriber scanline_subscriber_;
         AsyncImagePublisher image_publisher_;
         const ros::NodeHandlePtr nh_;
+
+        void extractNewPoint(const sensor_msgs::PointCloud2::ConstPtr &msg, int i,
+                             float &intensity, float &x, float &y, float &z) const;
     };
 
 //=============================================================================

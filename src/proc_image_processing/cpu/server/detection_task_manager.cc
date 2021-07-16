@@ -13,7 +13,7 @@ namespace proc_image_processing {
     DetectionTaskManager::~DetectionTaskManager() {}
 
     std::string DetectionTaskManager::StartDetectionTask(
-            const std::string &topic_name, FilterChain::Ptr filterchain,
+            const std::string &topic_name, FilterChain::Ptr filter_chain,
             const std::string &execution_name) {
         if (execution_name.empty()) {
             throw std::invalid_argument("The detection task name is not valid");
@@ -21,14 +21,14 @@ namespace proc_image_processing {
         if (topic_name.empty()) {
             throw std::invalid_argument("The topic name is not valid");
         }
-        if (!filterchain) {
-            throw std::invalid_argument("The filterchain is empty is not valid");
+        if (!filter_chain) {
+            throw std::invalid_argument("The filter_chain is empty is not valid");
         }
         // Makes sure we have no detection task of that name.
         DetectionTask::Ptr task = getDetectionTask(execution_name);
 
         if (task == nullptr) {
-            task = std::make_shared<DetectionTask>(topic_name, filterchain,
+            task = std::make_shared<DetectionTask>(topic_name, filter_chain,
                                                    execution_name);
             task->start();
             detection_tasks_.push_back(task);

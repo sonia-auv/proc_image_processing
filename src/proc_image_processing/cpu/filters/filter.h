@@ -27,7 +27,7 @@ namespace proc_image_processing {
         virtual void apply(cv::Mat &image) = 0;
 
         // Name of the filter handlers
-        inline const std::string getName();
+        inline std::string getName();
 
         inline void setName(const std::string &name);
 
@@ -35,7 +35,7 @@ namespace proc_image_processing {
 
         std::string getParameterValue(const std::string &name);
 
-        void setParameterValue(const std::string &name, std::string value);
+        void setParameterValue(const std::string &name, const std::string &value);
 
         // Wrapper for a call to _globalParms
         // notify, to be put on the result topic

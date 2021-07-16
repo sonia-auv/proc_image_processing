@@ -10,7 +10,7 @@ namespace proc_image_processing {
             : ObjectBasicData(originalImage, binaryImage, contour) {
     }
 
-    [[maybe_unused]] cv::Point objectVecMedian(const ObjectFullData::FullObjectPtrVec &objVec) {
+    cv::Point objectVecMedian(const ObjectFullData::FullObjectPtrVec &objVec) {
         std::vector<float> xVec;
         std::vector<float> yVec;
         for (auto &elem : objVec) {

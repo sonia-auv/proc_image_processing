@@ -347,9 +347,9 @@ namespace proc_image_processing {
         cv::Mat output_image_;
 
         Parameter<bool> enable_, debug_contour_, use_convex_hull_;
-        [[maybe_unused]] Parameter<bool> offset_y_for_fence_;
+        Parameter<bool> offset_y_for_fence_;
 
-        [[maybe_unused]] RangedParameter<double> offset_y_for_fence_fraction;
+        RangedParameter<double> offset_y_for_fence_fraction;
 
         Parameter<bool> check_max_y_;
 

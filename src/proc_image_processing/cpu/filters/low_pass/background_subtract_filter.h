@@ -30,9 +30,9 @@ namespace proc_image_processing {
             setName("BackgroundSubtractFilter");
         }
 
-        virtual ~BackgroundSubtractFilter() {}
+        ~BackgroundSubtractFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 std::vector<cv::Mat> channels;
                 split(image, channels);
@@ -69,4 +69,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_FILTERS_BLURR_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_BACKGROUND_SUBSTRACT_H_

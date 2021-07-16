@@ -18,19 +18,14 @@
 
 class AsyncImagePublisher {
 public:
-
-
     explicit AsyncImagePublisher(const std::string &topic_name);
 
     ~AsyncImagePublisher();
 
-
     void publish(const cv::Mat &image);
 
 private:
-
     void threadFunction();
-
 
     std::string topic_name_;
     // Flag to stop the thread

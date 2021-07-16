@@ -34,7 +34,7 @@ namespace proc_image_processing {
                 wolf_("wolf", true, &parameters_),
                 color_(0, 0, 0) {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100,
-                                                               &Deep2019Filter::boundingBoxCallback, this);
+                                                               &Deep2019Filter::callbackBoundingBox, this);
             setName("Deep2019Filter");
         };
 
@@ -92,7 +92,7 @@ namespace proc_image_processing {
         const int BBOX_INFO_FONT = cv::FONT_HERSHEY_TRIPLEX;
 
         ros::Subscriber image_subscriber_;
-        [[maybe_unused]] ros::NodeHandle nh_;
+        ros::NodeHandle nh_;
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
         Parameter<bool> enable_, debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
@@ -100,11 +100,10 @@ namespace proc_image_processing {
         int image_height_{};
         cv::Scalar color_;
 
-        void boundingBoxCallback(const sonia_common::DetectionArrayConstPtr &msg) {
+        void callbackBoundingBox(const sonia_common::DetectionArrayConstPtr &msg) {
             if (bounding_box_.empty())
                 bounding_box_.clear();
             bounding_box_ = msg->detected_object;
-
         }
 
         static inline std::string convertFloatToString(float value) {

@@ -13,6 +13,7 @@
 #include <queue>
 #include <sstream>
 #include <string>
+#include <utility>
 
 namespace proc_image_processing {
 
@@ -41,7 +42,7 @@ namespace proc_image_processing {
 
         // WE WANT A COPY BECAUSE THE ORIGINAL IMAGE IS PROBABLY GOING TO BE ALTERED
         // BY THE FILTERS.
-        inline void setOriginalImage(cv::Mat image) { _original_image = image; }
+        inline void setOriginalImage(cv::Mat image) { _original_image = std::move(image); }
 
         // Target related
         inline void addTarget(const Target &target) { _vision_target.push(target); }
@@ -80,7 +81,7 @@ namespace proc_image_processing {
                     return i;
                 }
             }
-            return 0;
+            return nullptr;
         }
 
         // Util

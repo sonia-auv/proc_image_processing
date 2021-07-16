@@ -8,7 +8,7 @@
 
 
 #include "proc_image_processing/cpu/filters/filter.h"
-#include <math.h>
+#include <cmath>
 #include <memory>
 
 namespace proc_image_processing {
@@ -28,10 +28,9 @@ namespace proc_image_processing {
             setName("WhiteFilter");
         }
 
-        virtual ~WhiteFilter() {}
+        ~WhiteFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
-
+        void apply(cv::Mat &image) override {
             cv::Mat mask;
 
             cv::Scalar min_pixel_range = cv::Scalar(minimal_1pixel_range_(), minimal_2pixel_range_(),
@@ -40,9 +39,7 @@ namespace proc_image_processing {
                                                     maximal_3pixel_range_());
 
             cv::inRange(image, min_pixel_range, max_pixel_range, mask);
-
             mask.copyTo(image);
-
         }
 
     private:

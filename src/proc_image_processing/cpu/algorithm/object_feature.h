@@ -33,7 +33,7 @@ namespace proc_image_processing {
             GRAY_MEAN
         };
 
-        [[maybe_unused]] typedef std::vector<ObjectFeatureData::Ptr> ObjectFeatureVector;
+        typedef std::vector<ObjectFeatureData::Ptr> ObjectFeatureVector;
 
         ObjectFeatureData()
                 : ratio_(-1.0f),

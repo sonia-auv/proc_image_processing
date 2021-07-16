@@ -1,10 +1,10 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=BlurrFilter
+// FACTORY_GENERATOR_CLASS_NAME=BlurFilter
 
-#ifndef PROC_IMAGE_PROCESSING_FILTERS_BLURR_H_
-#define PROC_IMAGE_PROCESSING_FILTERS_BLURR_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTERS_BLUR_H_
+#define PROC_IMAGE_PROCESSING_FILTERS_BLUR_H_
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
@@ -17,23 +17,23 @@ namespace proc_image_processing {
     // This is a program to execute image filter other than erode, dilate and
     // morphologicalEx. Those are more blur function than pixelizer
     // settings are for the differents type of filters, and does not apply to all
-    class BlurrFilter : public Filter {
+    class BlurFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<BlurrFilter>;
+        using Ptr = std::shared_ptr<BlurFilter>;
 
-        explicit BlurrFilter(const GlobalParamHandler &globalParams)
+        explicit BlurFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   type_("Type", 2, 0, 3, &parameters_,
                         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
                   kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
                   anchor_(-1, -1) {
-            setName("BlurrFilter");
+            setName("BlurFilter");
         }
 
-        virtual ~BlurrFilter() {}
+        ~BlurFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 cv::Size2i kernelSize((int) kernel_size_() * 2 + 1,
                                       (int) (kernel_size_() * 2 + 1));
@@ -63,4 +63,4 @@ namespace proc_image_processing {
 
 }  // namespace proc_image_processing
 
-#endif  // PROC_IMAGE_PROCESSING_FILTERS_BLURR_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTERS_BLUR_H_

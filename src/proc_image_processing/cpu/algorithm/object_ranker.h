@@ -12,12 +12,12 @@ namespace proc_image_processing {
 
     // Class that simply rank the object
     // with different value.
-    class [[maybe_unused]] ObjectRanker {
+    class ObjectRanker {
     public:
         // sort and set the value in each objects.
-        [[maybe_unused]] static void rankByArea(ObjectFullData::FullObjectPtrVec objects);
+        static void rankByArea(ObjectFullData::FullObjectPtrVec objects);
 
-        [[maybe_unused]] static void rankByLength(ObjectFullData::FullObjectPtrVec objects);
+        static void rankByLength(ObjectFullData::FullObjectPtrVec objects);
 
         // Function for std::sort function
         static bool areaSortFunction(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b);

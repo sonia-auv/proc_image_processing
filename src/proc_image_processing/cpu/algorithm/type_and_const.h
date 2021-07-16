@@ -19,7 +19,7 @@ namespace proc_image_processing {
 #define FIRST_CHILD_CTR 2
 #define PARENT_CTR 3
 
-    [[maybe_unused]] typedef std::vector<cv::Vec4i> defectuosity_t;
+    typedef std::vector<cv::Vec4i> defectuosity_t;
 
     // Enum for the rotation function
     enum rotationType {

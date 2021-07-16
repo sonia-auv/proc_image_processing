@@ -31,7 +31,7 @@ namespace proc_image_processing {
         /**
          * @return the execution time in seconds.
          */
-        [[maybe_unused]] double getExecutionTime() const;
+        double getExecutionTime() const;
 
         /**
          * Resets the start time to now.
@@ -43,7 +43,7 @@ namespace proc_image_processing {
         double start_tick_count_;
     };
 
-    [[maybe_unused]] inline double PerformanceEvaluator::getExecutionTime() const {
+    inline double PerformanceEvaluator::getExecutionTime() const {
         return (cv::getTickCount() - start_tick_count_) / tick_frequency_;
     }
 

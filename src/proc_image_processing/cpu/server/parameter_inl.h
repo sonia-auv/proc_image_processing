@@ -12,6 +12,7 @@
 #include <opencv/cv.h>
 #include <cstdlib>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace proc_image_processing {
@@ -24,7 +25,7 @@ namespace proc_image_processing {
                 int status;
                 std::string tname = typeid(Tp_).name();
                 char *demangled_name =
-                        abi::__cxa_demangle(tname.c_str(), NULL, NULL, &status);
+                        abi::__cxa_demangle(tname.c_str(), nullptr, nullptr, &status);
                 if (status == 0) {
                     tname = demangled_name;
                     std::free(demangled_name);
@@ -103,9 +104,9 @@ namespace proc_image_processing {
 
     template<class Tp_>
     ATLAS_INLINE Parameter<Tp_>::Parameter(
-            const std::string &name, const Tp_ &value,
-            std::vector<ParameterInterface *> *vector, const std::string &description)
-            : name_(name), value_(value), description_(description) {
+            std::string name, const Tp_ &value,
+            std::vector<ParameterInterface *> *vector, std::string description)
+            : name_(std::move(name)), value_(value), description_(std::move(description)) {
         if (vector != nullptr) {
             vector->push_back(dynamic_cast<ParameterInterface *>(this));
         }

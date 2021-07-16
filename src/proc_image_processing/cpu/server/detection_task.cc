@@ -14,7 +14,7 @@ namespace proc_image_processing {
     const std::string DetectionTask::EXEC_TAG = "[EXECUTION]";
 
     DetectionTask::DetectionTask(const std::string &topic_name,
-                                 FilterChain::Ptr filterchain,
+                                 FilterChain::Ptr filter_chain,
                                  const std::string &execution_name)
             : detection_task_name_(execution_name),
               topic_name_(topic_name),
@@ -22,7 +22,7 @@ namespace proc_image_processing {
               it_(ros::NodeHandle("~")),
               result_publisher_(),
               image_provider_(topic_name),
-              filterchain_(filterchain),
+              filterchain_(filter_chain),
               param_handler_(filterchain_->getParameterHandler()),
               returning_original_image_(false) {
         result_publisher_ = ros::NodeHandle().advertise<sonia_common::VisionTarget>(
@@ -100,7 +100,7 @@ namespace proc_image_processing {
 
     void DetectionTask::publishAllTarget() {
         // All the target are in the param_handler's queue
-        proc_image_processing::TargetQueue targetQueue = param_handler_.getTargetQueue();
+        TargetQueue targetQueue = param_handler_.getTargetQueue();
         sonia_common::VisionTarget msg;
         while (!targetQueue.empty()) {
             // Set the message and delete the element

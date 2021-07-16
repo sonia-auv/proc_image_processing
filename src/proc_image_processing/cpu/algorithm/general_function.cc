@@ -30,7 +30,7 @@ namespace proc_image_processing {
         pt.y = -(pt.y - (rows / 2));
     }
 
-    [[maybe_unused]] void retrieveContours(const cv::Mat &image, contourList_t &contours) {
+    void retrieveContours(const cv::Mat &image, contourList_t &contours) {
         retrieveOuterContours(image, contours);
     }
 
@@ -189,12 +189,12 @@ namespace proc_image_processing {
 
     }
 
-    [[maybe_unused]] float getResolutionRatio(float width, float height) {
+    float getResolutionRatio(float width, float height) {
         if (width == 0 && height == 0) return 0;
         return std::min((height / width), (width / height)) * 100;
     }
 
-    [[maybe_unused]] float getConvexityRatio(const contour_t &contour) {
+    float getConvexityRatio(const contour_t &contour) {
         if (contour.size() <= 2) return -1;
         float convexHullArea = getConvexHullArea(contour);
         if (convexHullArea == 0) return 0;
@@ -221,7 +221,7 @@ namespace proc_image_processing {
                               cv::arcLength(contour, true));
     }
 
-    [[maybe_unused]] cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle) {
+    cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle) {
         cv::Mat opImage;
         if (image.channels() > 1)
             cv::cvtColor(image, opImage, CV_BGR2GRAY);
@@ -241,7 +241,7 @@ namespace proc_image_processing {
         return cv::mean(matRoi);
     }
 
-    [[maybe_unused]] cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image) {
+    cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image) {
         return getImageFromRotatedRect(RotRect(rect), image);
     }
 
@@ -446,7 +446,7 @@ namespace proc_image_processing {
         return trueSquareAngleCount == 4;
     }
 
-    [[maybe_unused]] bool
+    bool
     isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max) {
         if (approx.size() == 4 &&
             std::fabs(cv::contourArea(cv::Mat(approx))) > min_area &&
@@ -488,7 +488,7 @@ namespace proc_image_processing {
         pca = cv::PCA(data_pts, cv::Mat(), CV_PCA_DATA_AS_ROW);
     }
 
-    [[maybe_unused]] cv::Point getEigenPosition(std::vector<cv::Point> &pts) {
+    cv::Point getEigenPosition(std::vector<cv::Point> &pts) {
         cv::PCA pca;
         pcaAnalysis(pts, pca);
 
@@ -513,7 +513,7 @@ namespace proc_image_processing {
         return eigen_val;
     }
 
-    [[maybe_unused]] std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts) {
+    std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts) {
         cv::PCA pca;
         pcaAnalysis(pts, pca);
 
@@ -535,7 +535,7 @@ namespace proc_image_processing {
                sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10);
     }
 
-    [[maybe_unused]] void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares) {
+    void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares) {
         for (const auto &square : squares) {
             const cv::Point *p = &square[0];
             int n = (int) square.size();
@@ -543,7 +543,7 @@ namespace proc_image_processing {
         }
     }
 
-    [[maybe_unused]] bool compareCoordinates(const cv::Point &p1, const cv::Point &p2) {
+    bool compareCoordinates(const cv::Point &p1, const cv::Point &p2) {
         return std::tie(p1.x, p1.y) < std::tie(p2.x, p2.y);
     }
 

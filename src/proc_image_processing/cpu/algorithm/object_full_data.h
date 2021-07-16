@@ -39,15 +39,15 @@ namespace proc_image_processing {
         ~ObjectFullData() override = default;
     };
 
-    [[maybe_unused]] inline bool areaSorts(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
+    inline bool areaSorts(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
         return a->getArea() < b->getArea();
     }
 
-    [[maybe_unused]] inline bool ratioSorts(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
+    inline bool ratioSorts(const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) {
         return a->getRatio() < b->getRatio();
     }
 
-    [[maybe_unused]] cv::Point objectVecMedian(const ObjectFullData::FullObjectPtrVec &);
+    cv::Point objectVecMedian(const ObjectFullData::FullObjectPtrVec &);
 
 }  // namespace proc_image_processing
 

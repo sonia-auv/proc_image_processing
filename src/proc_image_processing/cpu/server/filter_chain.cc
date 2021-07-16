@@ -19,12 +19,12 @@ namespace proc_image_processing {
         observer_index_ = filters_.size() - 1;
     }
 
-    FilterChain::FilterChain(const FilterChain &filterChain)
-            : filepath_(kFilterChainPath + filterChain.name_ + "_copy" +
+    FilterChain::FilterChain(const FilterChain &filter_chain)
+            : filepath_(kFilterChainPath + filter_chain.name_ + "_copy" +
                         kFilterChainExt),
-              name_(filterChain.name_ + "_copy"),
-              param_handler_(filterChain.param_handler_),
-              observer_index_(filterChain.observer_index_) {
+              name_(filter_chain.name_ + "_copy"),
+              param_handler_(filter_chain.param_handler_),
+              observer_index_(filter_chain.observer_index_) {
     }
 
     FilterChain::~FilterChain() {}
@@ -164,25 +164,25 @@ namespace proc_image_processing {
     }
 
     std::string FilterChain::getFilterParameterValue(
-            const size_t &index, const std::string &param_name) {
-        return getFilter(index)->getParameterValue(param_name);
+            const size_t &index, const std::string &name) {
+        return getFilter(index)->getParameterValue(name);
     }
 
     void FilterChain::setFilterParameterValue(const size_t &index,
-                                              const std::string &param_name,
-                                              const std::string &param_value) {
-        getFilter(index)->setParameterValue(param_name, param_value);
+                                              const std::string &name,
+                                              const std::string &value) {
+        getFilter(index)->setParameterValue(name, value);
     }
 
-    std::vector<proc_image_processing::ParameterInterface *>
+    std::vector<ParameterInterface *>
     FilterChain::getFilterParameters(const size_t &index) {
         return getFilter(index)->getParameters();
     }
 
     void FilterChain::addFilter(const std::string &filter_name) {
-        auto filter = proc_image_processing::Filter::Ptr(
-                proc_image_processing::FilterFactory::createInstance(filter_name,
-                                                                     param_handler_));
+        auto filter = Filter::Ptr(
+                FilterFactory::createInstance(filter_name,
+                                              param_handler_));
         if (filter != nullptr) {
             filters_.push_back(filter);
         } else {

@@ -66,46 +66,46 @@ namespace proc_image_processing {
          * \param filterchainName std::string
          * \return FilterChain*
          */
-        void stopFilterChain(const FilterChain::Ptr &filterchain);
+        void stopFilterChain(const FilterChain::Ptr &filter_chain);
 
         /**
-         * If the does not filterchain exists, create it.
+         * If the does not filter_chain exists, create it.
          *
-         * \param filterchain The name of the filterchain to create.
-         * \return Either if the filterchain was added or not.
+         * \param filter_chain The name of the filter_chain to create.
+         * \return Either if the filter_chain was added or not.
          */
-        void addFilterChain(const std::string &filterchain);
+        void addFilterChain(const std::string &filter_chain);
 
         /**
-         * If the filterchain exists, delete it.
+         * If the filter_chain exists, delete it.
          *
-         * \param filterchain The name of the filterchain to delete.
-         * \return Either if the filterchain was delete or not.
+         * \param filter_chain The name of the filter_chain to delete.
+         * \return Either if the filter_chain was delete or not.
          */
-        void deleteFilterChain(const std::string &filterchain);
+        void deleteFilterChain(const std::string &filter_chain);
 
         /**
-         * Check if a filterchain exist or not.
+         * Check if a filter_chain exist or not.
          *
-         * This will check on the list of the available filterchain provided by
+         * This will check on the list of the available filter_chain provided by
          * GetAvailableFilterchain if the file exists or not.
          *
-         * \param filterchain The name of the filterchain to check.
+         * \param filter_chain The name of the filter_chain to check.
          * \return Either if the file exist or not
          */
-        bool filterChainExists(const std::string &filterchain);
+        bool filterChainExists(const std::string &filter_chain);
 
         /**
          * With the constants defining the config directory path and the
-         * extension, return the true path of a filterchain.
+         * extension, return the true path of a filter_chain.
          */
-        std::string getFilterChainPath(const std::string &filterchain) const;
+        std::string getFilterChainPath(const std::string &filter_chain) const;
 
     private:
         /**
          * List of current instances of filterchains
          */
-        std::vector<FilterChain::Ptr> running_filterchains_;
+        std::vector<FilterChain::Ptr> running_filter_chains_;
 
     };
 

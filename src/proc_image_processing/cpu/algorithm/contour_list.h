@@ -11,15 +11,15 @@
 
 namespace proc_image_processing {
 
-    class [[maybe_unused]] ContourList {
+    class ContourList {
     public:
         using Ptr = std::shared_ptr<ContourList>;
 
         typedef std::vector<Contour::ContourVec> ContourListVector;
 
         // Contour navigation constant
-        [[maybe_unused]] static const unsigned int NEXT = 0;
-        [[maybe_unused]] static const unsigned int PREVIOUS = 1;
+        static const unsigned int NEXT = 0;
+        static const unsigned int PREVIOUS = 1;
         static const unsigned int FIRST_CHILD = 2;
         static const unsigned int PARENT = 3;
 
@@ -39,13 +39,13 @@ namespace proc_image_processing {
         void drawContours(cv::Mat &img, const cv::Scalar &color, int thickness = 2) const;
 
         // Vector overload
-        [[maybe_unused]] size_t getSize() const;
+        size_t getSize() const;
 
-        [[maybe_unused]] std::vector<std::vector<cv::Point>> getAsPoints() const;
+        std::vector<std::vector<cv::Point>> getAsPoints() const;
 
-        [[maybe_unused]] std::vector<Contour> getAsContour() const;
+        std::vector<Contour> getAsContour() const;
 
-        [[maybe_unused]] std::vector<cv::Vec4i> getHierarchy() const;
+        std::vector<cv::Vec4i> getHierarchy() const;
 
         ContourListVector contour_list_point_;
 
@@ -79,15 +79,15 @@ namespace proc_image_processing {
         void retrieveNoChildAndParentContours(const cv::Mat &image);
     };
 
-    [[maybe_unused]] inline size_t ContourList::getSize() const { return contour_vec_.size(); }
+    inline size_t ContourList::getSize() const { return contour_vec_.size(); }
 
-    [[maybe_unused]] inline std::vector<std::vector<cv::Point>> ContourList::getAsPoints() const {
+    inline std::vector<std::vector<cv::Point>> ContourList::getAsPoints() const {
         return contour_list_point_;
     }
 
-    [[maybe_unused]] inline std::vector<Contour> ContourList::getAsContour() const { return contour_vec_; }
+    inline std::vector<Contour> ContourList::getAsContour() const { return contour_vec_; }
 
-    [[maybe_unused]] inline std::vector<cv::Vec4i> ContourList::getHierarchy() const { return hierarchy_; }
+    inline std::vector<cv::Vec4i> ContourList::getHierarchy() const { return hierarchy_; }
 
     inline Contour ContourList::operator[](size_t index) {
         return contour_vec_[index];

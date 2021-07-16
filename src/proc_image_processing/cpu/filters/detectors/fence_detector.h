@@ -288,7 +288,7 @@ namespace proc_image_processing {
                 min_percent_filled_;
 
         cv::Mat output_image_;
-        [[maybe_unused]] ObjectFeatureFactory feat_factory_;
+        ObjectFeatureFactory feat_factory_;
     };
 
 }  // namespace proc_image_processing

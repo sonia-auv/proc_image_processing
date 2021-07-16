@@ -33,17 +33,17 @@ namespace proc_image_processing {
         ~RefKernel() = default;
         RefPointPtr _north;
         RefPointPtr _west;
-        [[maybe_unused]] RefPointPtr _center;
+        RefPointPtr _center;
     };
 
 
-    class [[maybe_unused]] MajorEdgeExtractor {
+    class MajorEdgeExtractor {
     public:
         using Ptr = std::shared_ptr<MajorEdgeExtractor>;
 
         static const float PERCENT_OF_VAL_FOR_VALUE_CONNECTION;
 
-        [[maybe_unused]] cv::Mat ExtractEdge(const cv::Mat &image, int extreme_minimum);
+        cv::Mat ExtractEdge(const cv::Mat &image, int extreme_minimum);
 
     private:
         void init(const cv::Size &size);
@@ -86,7 +86,7 @@ namespace proc_image_processing {
 
         std::vector<float> max_value_reference_;
 
-        [[maybe_unused]] cv::Size img_size_;
+        cv::Size img_size_;
 
         friend class MajorEdgeExtractorUT;
     };

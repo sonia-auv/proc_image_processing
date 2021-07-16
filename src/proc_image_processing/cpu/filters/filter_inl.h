@@ -18,18 +18,13 @@ namespace proc_image_processing {
               parameters_() {
     }
 
-    ATLAS_INLINE const std::vector<ParameterInterface *> &Filter::getParameters()
-    const {
-        return parameters_;
-    }
+    ATLAS_INLINE const std::vector<ParameterInterface *> &Filter::getParameters() const { return parameters_; }
 
     ATLAS_INLINE std::string Filter::getParameterValue(const std::string &name) {
-        std::string returnString("");
-        for (int i = 0; i < int(parameters_.size()); i++) {
+        std::string returnString;
+        for (auto param : parameters_) {
             // Here we give it a local value to limit the
             // access to the vector (optimisation)
-            ParameterInterface *param = parameters_[i];
-
             // nullptr element should never append since the vector's object
             // are added by the said object (which cannot be null if
             // it gets to the constructor) and which are member of
@@ -45,51 +40,42 @@ namespace proc_image_processing {
         return returnString;
     }
 
-    ATLAS_INLINE void Filter::setParameterValue(const std::string &name,
-                                                std::string value) {
-        for (int i = 0; i < int(parameters_.size()); i++) {
+    ATLAS_INLINE void Filter::setParameterValue(const std::string &name, const std::string &value) {
+        for (auto param : parameters_) {
             // Here we give it a local value to limit the
             // access to the vector (optimisation)
-            ParameterInterface *param = parameters_[i];
-
             if (param != nullptr && param->getName() == name) {
                 param->setStringValue(value);
             }
         }
     }
 
-    ATLAS_INLINE const std::string Filter::getName() { return name_; }
+    ATLAS_INLINE std::string Filter::getName() { return name_; }
 
     ATLAS_INLINE void Filter::setName(const std::string &name) { name_ = name; }
 
-    ATLAS_INLINE void Filter::notify(const Target &target) {
-        global_params_.addTarget(target);
-    }
+    ATLAS_INLINE void Filter::notify(const Target &target) { global_params_.addTarget(target); }
 
     ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
-                                                 const int value, const int min,
+                                                 const int value,
+                                                 const int min,
                                                  const int max) {
-        global_params_.addParameter(
-                new RangedParameter<int>(name, value, max, min, &parameters_));
+        global_params_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
     }
 
     ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
                                                  const double value,
                                                  const double min,
                                                  const double max) {
-        global_params_.addParameter(
-                new RangedParameter<double>(name, value, max, min, &parameters_));
+        global_params_.addParameter(new RangedParameter<double>(name, value, min, max, &parameters_));
     }
 
-    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
-                                                 const bool value) {
+    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name, const bool value) {
         global_params_.addParameter(new Parameter<bool>(name, value, &parameters_));
     }
 
-    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
-                                                 const std::string &value) {
-        global_params_.addParameter(
-                new Parameter<std::string>(name, value, &parameters_));
+    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name, const std::string &value) {
+        global_params_.addParameter(new Parameter<std::string>(name, value, &parameters_));
     }
 
 }  // namespace proc_image_processing

@@ -24,11 +24,11 @@ namespace proc_image_processing {
 
         static const char SEPARATOR = '|';
 
-        explicit Parameter(const std::string &name, const Tp_ &value,
+        explicit Parameter(std::string name, const Tp_ &value,
                            std::vector<ParameterInterface *> *vector = nullptr,
-                           const std::string &description = "");
+                           std::string description = "");
 
-        virtual ~Parameter() = default;
+        ~Parameter() override = default;
 
         template<class Ut_>
         bool operator>(const Ut_ &rhs) {
@@ -119,7 +119,7 @@ namespace proc_image_processing {
 
         std::string getName() const override;
 
-        virtual std::string toString() const override;
+        std::string toString() const override;
 
         std::string getType() const override;
 

@@ -21,9 +21,9 @@ namespace proc_image_processing {
             setName("EqualizeFilter");
         }
 
-        virtual ~EqualizeFilter() {}
+        ~EqualizeFilter() override = default;
 
-        virtual void apply(cv::Mat &image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
                 cv::equalizeHist(image, image);
             }
