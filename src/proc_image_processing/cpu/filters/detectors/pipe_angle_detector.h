@@ -53,7 +53,7 @@ namespace proc_image_processing {
                 ObjectFullData::FullObjectPtrVec objVec;
                 ObjectFullData::Ptr firstObject = nullptr;
                 ObjectFullData::Ptr lastObject = nullptr;
-                for (int i = 0, size = contours.size(); i < size; i++) {
+                for (int i = 0; i < contours.size(); i++) {
                     ObjectFullData::Ptr object =
                             std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 

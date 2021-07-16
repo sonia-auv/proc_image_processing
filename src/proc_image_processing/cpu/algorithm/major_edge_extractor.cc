@@ -3,6 +3,7 @@
 
 
 #include "major_edge_extractor.h"
+#include "utility"
 
 namespace proc_image_processing {
 
@@ -28,7 +29,7 @@ namespace proc_image_processing {
         max_value_reference_.clear();
         for (int y = 0, rows = ref_image_.rows, cols = ref_image_.cols; y < rows;
              y++) {
-            RefPointPtr *ptr = ref_image_.ptr<RefPointPtr>(y);
+            auto *ptr = ref_image_.ptr<RefPointPtr>(y);
             for (int x = 0; x < cols; x++) {
                 if (ptr[x] != nullptr) {
                     free(ptr[x]);
@@ -68,9 +69,9 @@ namespace proc_image_processing {
 
         for (int y = 1, rows = working_image.rows, cols = working_image.cols;
              y < rows - 1; y++) {
-            float *ptr = working_image.ptr<float>(y);
-            RefPointPtr *ref_up_line = ref_image_.ptr<RefPointPtr>(y - 1);
-            RefPointPtr *ref_center_line = ref_image_.ptr<RefPointPtr>(y);
+            auto *ptr = working_image.ptr<float>(y);
+            auto *ref_up_line = ref_image_.ptr<RefPointPtr>(y - 1);
+            auto *ref_center_line = ref_image_.ptr<RefPointPtr>(y);
             for (int x = 1; x < cols - 1; x++) {
                 RefKernel ref_kernel(ref_up_line[x], ref_center_line[x - 1],
                                      ref_center_line[x]);
@@ -106,8 +107,8 @@ namespace proc_image_processing {
 
         for (int y = 0, rows = final_image.rows, cols = final_image.cols; y < rows;
              y++) {
-            float *val_ptr = final_image.ptr<float>(y);
-            RefPointPtr *ref_ptr = ref_image_.ptr<RefPointPtr>(y + 1);
+            auto *val_ptr = final_image.ptr<float>(y);
+            auto *ref_ptr = ref_image_.ptr<RefPointPtr>(y + 1);
 
             for (int x = 0; x < cols; x++) {
                 if (ref_ptr[x + 1] != nullptr) {

@@ -8,12 +8,13 @@
 
 namespace proc_image_processing {
 
-    DetectionTaskManager::DetectionTaskManager() {}
+    DetectionTaskManager::DetectionTaskManager() = default;
 
-    DetectionTaskManager::~DetectionTaskManager() {}
+    DetectionTaskManager::~DetectionTaskManager() = default;
 
     std::string DetectionTaskManager::StartDetectionTask(
-            const std::string &topic_name, FilterChain::Ptr filter_chain,
+            const std::string &topic_name,
+            const FilterChain::Ptr &filter_chain,
             const std::string &execution_name) {
         if (execution_name.empty()) {
             throw std::invalid_argument("The detection task name is not valid");
@@ -63,13 +64,11 @@ namespace proc_image_processing {
         return names;
     }
 
-    void DetectionTaskManager::changeReturnImageToFilter(const std::string &name,
-                                                         const size_t &index) {
+    void DetectionTaskManager::changeReturnImageToFilter(const std::string &name, const size_t &index) {
         getDetectionTask(name)->changeReturnImageToFilter(index);
     }
 
-    void DetectionTaskManager::changeReturnImageToFilterChain(
-            const std::string &name) {
+    void DetectionTaskManager::changeReturnImageToFilterChain(const std::string &name) {
         getDetectionTask(name)->changeReturnImageToFilterChain();
     }
 
@@ -81,8 +80,7 @@ namespace proc_image_processing {
         return detection_tasks_.size();
     }
 
-    FilterChain::Ptr DetectionTaskManager::getFilterChainFromDetectionTask(
-            const std::string &name) const {
+    FilterChain::Ptr DetectionTaskManager::getFilterChainFromDetectionTask(const std::string &name) const {
         auto detectTsk = getDetectionTask(name);
         if (detectTsk == nullptr) {
             return nullptr;
@@ -90,8 +88,7 @@ namespace proc_image_processing {
         return detectTsk->getFilterChain();
     }
 
-    DetectionTask::Ptr DetectionTaskManager::getDetectionTask(
-            const std::string &execution_name) const {
+    DetectionTask::Ptr DetectionTaskManager::getDetectionTask(const std::string &execution_name) const {
         for (const auto &task : detection_tasks_) {
             if (task->getName().compare(execution_name) == 0) {
                 return task;
@@ -100,13 +97,13 @@ namespace proc_image_processing {
         return nullptr;
     }
 
-    std::vector<std::string> DetectionTaskManager::getMediasNames() const {
+    std::vector<std::string> DetectionTaskManager::getMediasNames() {
 
         ros::master::V_TopicInfo info;
         ros::master::getTopics(info);
         std::vector<std::string> image_topic;
 
-        for (auto i : info) {
+        for (const auto &i : info) {
             if (i.datatype.find("sensor_msgs/Image") != std::string::npos) {
                 image_topic.push_back(i.name);
             }

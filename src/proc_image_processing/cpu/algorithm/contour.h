@@ -18,7 +18,7 @@ namespace proc_image_processing {
 
         Contour(std::vector<cv::Point> ctr);
 
-        Contour(const cv::RotatedRect &rect);
+        explicit Contour(const cv::RotatedRect &rect);
 
         cv::Point operator[](unsigned int index);
 

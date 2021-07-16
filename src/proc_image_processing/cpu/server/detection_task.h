@@ -27,7 +27,7 @@ namespace proc_image_processing {
         static const std::string EXEC_TAG;
 
         explicit DetectionTask(const std::string &topic_name, FilterChain::Ptr filter_chain,
-                               const std::string &execution_name);
+                               std::string execution_name);
 
         ~DetectionTask() override;
 
@@ -70,7 +70,7 @@ namespace proc_image_processing {
 
         void publishClientImage();
 
-        bool prepareForPublishing(cv::Mat &image);
+        static bool prepareForPublishing(cv::Mat &image);
 
         void Run() override;
 

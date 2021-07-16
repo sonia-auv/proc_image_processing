@@ -23,7 +23,7 @@ namespace proc_image_processing {
 
         explicit FilterChain(const std::string &name);
 
-        explicit FilterChain(const FilterChain &filter_chain);
+        FilterChain(const FilterChain &filter_chain);
 
         ~FilterChain();
 
@@ -71,11 +71,11 @@ namespace proc_image_processing {
 
         void moveFilterUp(const size_t &filterIndex);
 
-        std::string getFilterParameterValue(const size_t &index, const std::string &name);
+        std::string getFilterParameterValue(const size_t &index, const std::string &name) const;
 
-        void setFilterParameterValue(const size_t &index, const std::string &name, const std::string &value);
+        void setFilterParameterValue(const size_t &index, const std::string &name, const std::string &value) const;
 
-        std::vector<ParameterInterface *> getFilterParameters(const size_t &index);
+        std::vector<ParameterInterface *> getFilterParameters(const size_t &index) const;
 
         GlobalParamHandler &getParameterHandler();
 
@@ -114,12 +114,11 @@ namespace proc_image_processing {
 
     inline bool FilterChain::containsFilter(const std::string &filter_name) const {
         // TODO a map where filters are stored by their name could be better
-        for (const auto &filter : filters_) {
-            if (filter->getName() == filter_name) {
-                return true;
-            }
-        }
-        return false;
+        return std::any_of(
+                filters_.begin(),
+                filters_.end(),
+                [filter_name](auto f) { return f->getName() == filter_name; }
+        );
     }
 
     inline void FilterChain::setObserver(const size_t &index) {

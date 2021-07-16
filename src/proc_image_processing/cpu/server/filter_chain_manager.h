@@ -37,7 +37,7 @@ namespace proc_image_processing {
          *
          * \return vector<std::string>
          */
-        std::vector<std::string> getFilterChainsNames() const;
+        static std::vector<std::string> getFilterChainsNames();
 
         /**
          * Get the list of all running filterchains
@@ -82,7 +82,7 @@ namespace proc_image_processing {
          * \param filter_chain The name of the filter_chain to delete.
          * \return Either if the filter_chain was delete or not.
          */
-        void deleteFilterChain(const std::string &filter_chain);
+        void deleteFilterChain(const std::string &filter_chain) const;
 
         /**
          * Check if a filter_chain exist or not.
@@ -93,13 +93,13 @@ namespace proc_image_processing {
          * \param filter_chain The name of the filter_chain to check.
          * \return Either if the file exist or not
          */
-        bool filterChainExists(const std::string &filter_chain);
+        static bool filterChainExists(const std::string &filter_chain);
 
         /**
          * With the constants defining the config directory path and the
          * extension, return the true path of a filter_chain.
          */
-        std::string getFilterChainPath(const std::string &filter_chain) const;
+        static std::string getFilterChainPath(const std::string &filter_chain);
 
     private:
         /**

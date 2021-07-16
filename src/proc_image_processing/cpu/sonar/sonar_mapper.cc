@@ -9,8 +9,7 @@
 
 namespace proc_image_processing {
 
-    SonarMapper::SonarMapper(const SubmarinePosition &submarine_position,
-                             const ros::NodeHandlePtr &nh)
+    SonarMapper::SonarMapper(const SubmarinePosition &submarine_position, const ros::NodeHandlePtr &nh)
             : sonar_map_(MAP_HEIGHT_METER * NB_PIXEL_BY_METER, MAP_WIDTH_METER * NB_PIXEL_BY_METER, CV_8UC1),
               object_list_(0),
               submarine_position_(submarine_position),
@@ -47,7 +46,9 @@ namespace proc_image_processing {
             Eigen::Vector3d point_cloud_coords(x, y, z);
             Eigen::Vector3d image_coords = transform * point_cloud_coords;
 
-            int image_x = std::round(image_coords.x()), image_y = std::round(image_coords.y());
+            // TODO Ambiguous call to x() and y()
+            double image_x = std::round(image_coords.x());
+            double image_y = std::round(image_coords.y());
             if (0 <= image_x && image_x < sonar_map_.cols &&
                 0 <= image_y && image_y < sonar_map_.rows) {
                 // Can do this because <at> function returns a reference.

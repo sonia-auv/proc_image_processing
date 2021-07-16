@@ -4,25 +4,23 @@
 
 
 #include "detection_task.h"
-#include <ros/ros.h>
-#include <sonia_common/VisionTarget.h>
-#include <std_msgs/String.h>
+#include <utility>
 #include "target.h"
 
 namespace proc_image_processing {
-
+    // TODO Initialization of 'EXEC_TAG' with static storage duration may throw an exception that cannot be caught
     const std::string DetectionTask::EXEC_TAG = "[EXECUTION]";
 
     DetectionTask::DetectionTask(const std::string &topic_name,
                                  FilterChain::Ptr filter_chain,
-                                 const std::string &execution_name)
-            : detection_task_name_(execution_name),
+                                 std::string execution_name)
+            : detection_task_name_(std::move(execution_name)),
               topic_name_(topic_name),
               image_publisher_(),
               it_(ros::NodeHandle("~")),
               result_publisher_(),
               image_provider_(topic_name),
-              filterchain_(filter_chain),
+              filterchain_(std::move(filter_chain)),
               param_handler_(filterchain_->getParameterHandler()),
               returning_original_image_(false) {
         result_publisher_ = ros::NodeHandle().advertise<sonia_common::VisionTarget>(
@@ -112,21 +110,21 @@ namespace proc_image_processing {
     }
 
     void DetectionTask::publishClientImage() {
-        cv::Mat image_to_pubish;
+        cv::Mat image;
         cv_bridge::CvImage ros_image;
         // Get the image to publish, depending on client's demand
         if (returning_original_image_) {
-            image_to_pubish = param_handler_.getOriginalImage();
+            image = param_handler_.getOriginalImage();
         } else {
-            image_to_pubish = image_being_processed_;
+            image = image_being_processed_;
         }
         // Prepare it to be always the same format
-        if (!prepareForPublishing(image_to_pubish)) {
+        if (!prepareForPublishing(image)) {
             ROS_ERROR("Detection task %s could not format image for client", detection_task_name_.c_str());
         }
         // publish it
         try {
-            ros_image.image = image_to_pubish;
+            ros_image.image = image;
             ros_image.encoding = sensor_msgs::image_encodings::BGR8;
             image_publisher_.publish(ros_image.toImageMsg());
         }

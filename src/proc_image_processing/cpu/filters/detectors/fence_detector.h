@@ -72,7 +72,7 @@ namespace proc_image_processing {
             cv::Mat originalImage = global_params_.getOriginalImage();
 
             // Parse contours into 2 categories, vertical or horizontal.
-            for (int i = 0, size = contours.size(); i < size; i++) {
+            for (int i = 0; i < contours.size(); i++) {
                 ObjectFullData::Ptr object =
                         std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 

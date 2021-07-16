@@ -24,7 +24,7 @@ namespace proc_image_processing {
         ~DetectionTaskManager();
 
         std::string StartDetectionTask(const std::string &topic_name,
-                                       FilterChain::Ptr filter_chain,
+                                       const FilterChain::Ptr &filter_chain,
                                        const std::string &execution_name);
 
         void stopDetectionTask(const std::string &execution_name);
@@ -73,7 +73,7 @@ namespace proc_image_processing {
          */
         size_t getDetectionTasksCount() const;
 
-        std::vector<std::string> getMediasNames() const;
+        static std::vector<std::string> getMediasNames();
 
         /**
          * Get the filter chain object from the detection task.

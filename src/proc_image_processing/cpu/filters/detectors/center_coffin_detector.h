@@ -8,7 +8,7 @@
 
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
-#include <math.h>
+#include <cmath>
 #include <memory>
 
 namespace proc_image_processing {
@@ -46,7 +46,7 @@ namespace proc_image_processing {
 
                 retrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
-                for (int i = 0, size = contours.size(); i < size; i++) {
+                for (int i = 0; i < contours.size(); i++) {
                     ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
                     if (object.get() == nullptr) {
                         continue;

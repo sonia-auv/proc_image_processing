@@ -9,16 +9,14 @@
 #include <fstream>
 
 namespace proc_image_processing {
+    // TODO Initialization of 'FILTER_CHAIN_MANAGER_TAG' with static storage duration may throw an exception that cannot be caught
+    const std::string FilterChainManager::FILTER_CHAIN_MANAGER_TAG = "FILTERCHAIN_MANAGER";
 
-    const std::string FilterChainManager::FILTER_CHAIN_MANAGER_TAG =
-            "FILTERCHAIN_MANAGER";
+    FilterChainManager::FilterChainManager() = default;
 
-    FilterChainManager::FilterChainManager() {
-    };
+    FilterChainManager::~FilterChainManager() = default;
 
-    FilterChainManager::~FilterChainManager() {}
-
-    std::vector<std::string> FilterChainManager::getFilterChainsNames() const {
+    std::vector<std::string> FilterChainManager::getFilterChainsNames() {
         auto availableFilterchains = std::vector<std::string>{};
         std::stringstream ss;
         ss << kConfigPath << "filterchain/";
@@ -50,21 +48,20 @@ namespace proc_image_processing {
         }
     }
 
-    void FilterChainManager::deleteFilterChain(const std::string &filter_chain) {
+    void FilterChainManager::deleteFilterChain(const std::string &filter_chain) const {
         remove(getFilterChainPath(filter_chain).c_str());
     }
 
     bool FilterChainManager::filterChainExists(const std::string &filter_chain) {
-        for (const auto &existing_filterchain : getFilterChainsNames()) {
-            if (filter_chain == existing_filterchain) {
-                return true;
-            }
-        }
-        return false;
+        std::vector<std::string> filter_chains_names = getFilterChainsNames();
+        return std::any_of(
+                filter_chains_names.begin(),
+                filter_chains_names.end(),
+                [filter_chain](auto n) { return n == filter_chain; }
+        );
     }
 
-    FilterChain::Ptr FilterChainManager::createFilterChain(
-            const std::string &filterchainName) {
+    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filterchainName) {
         if (filterChainExists(filterchainName)) {
             auto filterchain = std::make_shared<FilterChain>(filterchainName);
             running_filter_chains_.push_back(filterchain);
@@ -76,8 +73,8 @@ namespace proc_image_processing {
 
     const std::vector<FilterChain::Ptr>
     &FilterChainManager::createAllFilterChains() {
-        for (const auto &filterchain : getFilterChainsNames()) {
-            createFilterChain(filterchain);
+        for (const auto &filter_chain : getFilterChainsNames()) {
+            createFilterChain(filter_chain);
         }
         return getRunningFilterChains();
     }
@@ -89,8 +86,7 @@ namespace proc_image_processing {
         ROS_INFO("FilterChain is stopped.");
     }
 
-    std::string FilterChainManager::getFilterChainPath(
-            const std::string &filter_chain) const {
+    std::string FilterChainManager::getFilterChainPath(const std::string &filter_chain) {
         return kConfigPath + filter_chain + kFilterChainExt;
     }
 

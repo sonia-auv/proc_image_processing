@@ -27,7 +27,7 @@ namespace proc_image_processing {
               observer_index_(filter_chain.observer_index_) {
     }
 
-    FilterChain::~FilterChain() {}
+    FilterChain::~FilterChain() = default;
 
     bool FilterChain::serialize() {
         YAML::Emitter out;
@@ -35,7 +35,7 @@ namespace proc_image_processing {
         out << YAML::Key << "name";
         out << YAML::Value << getName();
 
-        if (filters_.size() > 0) {
+        if (!filters_.empty()) {
             out << YAML::Key << "filters";
             out << YAML::Value << YAML::BeginSeq;
             for (auto &filter : filters_) {
@@ -44,7 +44,7 @@ namespace proc_image_processing {
                 out << YAML::Value << filter->getName();
 
                 auto parameters = filter->getParameters();
-                if (parameters.size() > 0) {
+                if (!parameters.empty()) {
                     out << YAML::Key << "parameters";
                     out << YAML::Value << YAML::BeginSeq;
                     for (const auto &parameter : parameters) {
@@ -88,8 +88,8 @@ namespace proc_image_processing {
                     auto parameters = filter_node["parameters"];
                     assert(parameters.Type() == YAML::NodeType::Sequence);
 
-                    for (std::size_t j = 0; j < parameters.size(); j++) {
-                        auto param_node = parameters[j];
+                    for (auto &&parameter : parameters) {
+                        auto param_node = parameter;
 
                         auto param_name = param_node["name"].as<std::string>();
                         auto param_value = param_node["value"].as<std::string>();
@@ -108,9 +108,9 @@ namespace proc_image_processing {
 
             try {
                 size_t index = 0;
-                for (size_t i = 0; i < filters_.size(); i++) {
+                for (auto &filter : filters_) {
                     if (!imageToProcess.empty()) {
-                        (filters_.at(i))->apply(imageToProcess);
+                        filter->apply(imageToProcess);
                     }
 
                     if (index == observer_index_) {
@@ -144,7 +144,7 @@ namespace proc_image_processing {
             std::swap(*itFilter, *itFilterBellow);
         } else {
             std::string filterchainID = {"[FILTERCHAIN " + name_ + "]"};
-            ROS_WARN_NAMED(filterchainID.c_str(), "Can't move this filter down");
+            ROS_WARN_NAMED(filterchainID, "Can't move this filter down");
         }
     }
 
@@ -159,23 +159,22 @@ namespace proc_image_processing {
             std::swap(*itFilter, *itFilterAbove);
         } else {
             std::string filterchainID = {"[FILTERCHAIN " + name_ + "]"};
-            ROS_WARN_NAMED(filterchainID.c_str(), "Can't move this filter down");
+            ROS_WARN_NAMED(filterchainID, "Can't move this filter down");
         }
     }
 
-    std::string FilterChain::getFilterParameterValue(
-            const size_t &index, const std::string &name) {
+    std::string FilterChain::getFilterParameterValue(const size_t &index, const std::string &name) const {
         return getFilter(index)->getParameterValue(name);
     }
 
     void FilterChain::setFilterParameterValue(const size_t &index,
                                               const std::string &name,
-                                              const std::string &value) {
+                                              const std::string &value) const {
         getFilter(index)->setParameterValue(name, value);
     }
 
     std::vector<ParameterInterface *>
-    FilterChain::getFilterParameters(const size_t &index) {
+    FilterChain::getFilterParameters(const size_t &index) const {
         return getFilter(index)->getParameters();
     }
 

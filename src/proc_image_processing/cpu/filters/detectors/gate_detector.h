@@ -100,7 +100,7 @@ namespace proc_image_processing {
                 }
 
                 ObjectFullData::FullObjectPtrVec objVec;
-                for (int i = 0, size = contours.size(); i < size; i++) {
+                for (int i = 0; i < contours.size(); i++) {
                     if (use_convex_hull_()) {
                         cv::convexHull(contours[i], contours[i]);
                     }
@@ -173,7 +173,7 @@ namespace proc_image_processing {
                     if (vote_most_centered_()) {
                         std::sort(
                                 objVec.begin(), objVec.end(),
-                                [this](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                                [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
                                     return getDistanceFromCenter(a) < getDistanceFromCenter(b);
                                 });
                         objVec[0]->vote();
