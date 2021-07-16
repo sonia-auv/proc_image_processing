@@ -25,7 +25,7 @@ namespace proc_image_processing {
             setName("IntervalThresholdFilter");
         }
 
-        ~IntervalThresholdFilter() override {}
+        ~IntervalThresholdFilter() override = default;
 
         void apply(cv::Mat &image) override {
             if (enable_()) {

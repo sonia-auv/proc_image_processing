@@ -5,8 +5,8 @@
 #ifndef PROC_IMAGE_PROCESSING_ALGORITHM_LINE_H_
 #define PROC_IMAGE_PROCESSING_ALGORITHM_LINE_H_
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <memory>
 #include <opencv2/imgproc.hpp>
 #include <eigen3/Eigen/Eigen>
@@ -23,7 +23,7 @@ namespace proc_image_processing {
         Line(const cv::Point &start, const cv::Point &end);
 
         // Debug
-        void draw(cv::Mat &img, cv::Scalar color);
+        void draw(cv::Mat &img, const cv::Scalar &color);
 
         cv::Point getPerpendicularLine();
 
@@ -35,9 +35,9 @@ namespace proc_image_processing {
 
         std::vector<cv::Point> getPoints(cv::Mat &img);
 
-        float getAngle();
+        float getAngle() const;
 
-        float getLength();
+        float getLength() const;
 
     private:
         // start point is leftmost point, end id rightmost point
@@ -54,7 +54,7 @@ namespace proc_image_processing {
         bool isSwap_;
     };
 
-    bool lengthSort(Line a, Line b);
+    bool lengthSort(const Line &a, const Line &b);
 
     bool centerXSort(Line a, Line b);
 

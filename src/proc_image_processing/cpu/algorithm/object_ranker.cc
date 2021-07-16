@@ -8,18 +8,20 @@ namespace proc_image_processing {
 
     void ObjectRanker::rankByArea(ObjectFullData::FullObjectPtrVec objects) {
         std::sort(objects.begin(), objects.end(), ObjectRanker::areaSortFunction);
-        for (int i = 0, size = objects.size(); i < size; i++) {
+        auto s = objects.size();
+        for (int i = 0; i < objects.size(); i++) {
             if (objects[i].get() != nullptr) {
-                objects[i]->setAreaRank((float(size - i)) / float(size));
+                objects[i]->setAreaRank((float(s - i)) / float(s));
             }
         }
     }
 
     void ObjectRanker::rankByLength(ObjectFullData::FullObjectPtrVec objects) {
         std::sort(objects.begin(), objects.end(), ObjectRanker::lengthSortFunction);
-        for (int i = 0, size = objects.size(); i < size; i++) {
+        auto s = objects.size();
+        for (int i = 0; i < objects.size(); i++) {
             if (objects[i].get() != nullptr) {
-                objects[i]->setLengthRank(float((size - i)) / float(size));
+                objects[i]->setLengthRank(float((s - i)) / float(s));
             }
         }
     }

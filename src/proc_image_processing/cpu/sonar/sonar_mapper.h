@@ -27,7 +27,7 @@ namespace proc_image_processing {
         const int MAP_HEIGHT_METER = 30;
         const int MAX_SCANLINE = 50;
 
-        SonarMapper(const SubmarinePosition &submarine_position, const ros::NodeHandlePtr &nh);
+        SonarMapper(const SubmarinePosition &submarine_position, ros::NodeHandlePtr nh);
 
         // Override BaseObjectMapperInterface
         void getMapObject(MapObjectVector &list) override;
@@ -47,8 +47,8 @@ namespace proc_image_processing {
         AsyncImagePublisher image_publisher_;
         const ros::NodeHandlePtr nh_;
 
-        void extractNewPoint(const sensor_msgs::PointCloud2::ConstPtr &msg, int i,
-                             float &intensity, float &x, float &y, float &z) const;
+        static void extractNewPoint(const sensor_msgs::PointCloud2::ConstPtr &msg, int i,
+                                    float &intensity, float &x, float &y, float &z);
     };
 
 //=============================================================================
@@ -65,7 +65,7 @@ namespace proc_image_processing {
     }
 
     inline void SonarMapper::extractNewPoint(const sensor_msgs::PointCloud2::ConstPtr &msg, int i,
-                                             float &intensity, float &x, float &y, float &z) const {
+                                             float &intensity, float &x, float &y, float &z) {
         int step = i * msg->point_step;
         memcpy(&x, &msg->data[step + msg->fields[0].offset], sizeof(float));
         memcpy(&y, &msg->data[step + msg->fields[1].offset], sizeof(float));

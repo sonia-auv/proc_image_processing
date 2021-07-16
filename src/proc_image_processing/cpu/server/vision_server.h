@@ -345,7 +345,7 @@ namespace proc_image_processing {
     };
 
     inline std::string VisionServer::buildRosMessage(const std::vector<std::string> &name_vec) {
-        std::string msg("");
+        std::string msg;
         for (const auto &name : name_vec) {
             msg += name + ";";
         }

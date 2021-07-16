@@ -5,7 +5,7 @@
 #ifndef PROC_IMAGE_PROCESSING_ALGORITHM_OBJECT_FEATURE_H_
 #define PROC_IMAGE_PROCESSING_ALGORITHM_OBJECT_FEATURE_H_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
 #include <string>
 #include <vector>

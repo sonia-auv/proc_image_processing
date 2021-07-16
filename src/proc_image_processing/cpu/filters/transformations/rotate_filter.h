@@ -30,8 +30,6 @@ namespace proc_image_processing {
             if (enable_()) {
                 if (transpose_()) cv::transpose(image, image);
                 switch (rotate_type_()) {
-                    case 0:
-                        break;
                     case 1:
                         cv::flip(image, image, 0);
                         break;
@@ -40,6 +38,8 @@ namespace proc_image_processing {
                         break;
                     case 3:
                         cv::flip(image, image, -1);
+                        break;
+                    default:
                         break;
                 }
             }

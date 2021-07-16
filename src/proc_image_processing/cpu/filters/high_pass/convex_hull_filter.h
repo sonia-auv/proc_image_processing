@@ -34,9 +34,6 @@ namespace proc_image_processing {
             if (enable_()) {
                 int mode, method;
                 switch (mode_()) {
-                    case 0:
-                        mode = char(CV_RETR_EXTERNAL);
-                        break;
                     case 1:
                         mode = char(CV_RETR_LIST);
                         break;
@@ -46,11 +43,11 @@ namespace proc_image_processing {
                     case 3:
                         mode = char(CV_RETR_TREE);
                         break;
+                    default:
+                        mode = char(CV_RETR_EXTERNAL);
+                        break;
                 }
                 switch (method_()) {
-                    case 0:
-                        method = char(CV_CHAIN_APPROX_NONE);
-                        break;
                     case 1:
                         method = char(CV_CHAIN_APPROX_SIMPLE);
                         break;
@@ -59,6 +56,9 @@ namespace proc_image_processing {
                         break;
                     case 3:
                         method = char(CV_CHAIN_APPROX_TC89_KCOS);
+                        break;
+                    default:
+                        method = char(CV_CHAIN_APPROX_NONE);
                         break;
                 }
                 std::vector<std::vector<cv::Point>> contours;

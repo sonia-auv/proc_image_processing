@@ -44,6 +44,8 @@ namespace proc_image_processing {
                         case 3:
                             cv::flip(bottom_mask_, bottom_mask_, -1);
                             break;
+                        default:
+                            break;
                     }
                 }
                 if (image.size() == bottom_mask_.size())

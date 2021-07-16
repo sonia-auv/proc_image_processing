@@ -24,7 +24,7 @@ namespace proc_image_processing {
         const size_t YAW = 2;
 
         // Constructor
-        explicit SubmarinePosition(const ros::NodeHandlePtr &nh);
+        explicit SubmarinePosition(ros::NodeHandlePtr nh);
 
 
         // Return submarine's orientation. Specifying the type,
@@ -55,16 +55,14 @@ namespace proc_image_processing {
 
     inline void
     SubmarinePosition::callbackOdometry(const nav_msgs::Odometry::ConstPtr &odo_in) {
-        // TODO Reviewer: not sure about these
-        position_xyz_(X, odo_in->pose.pose.position.x);
-        position_xyz_(Y, odo_in->pose.pose.position.y);
-        position_xyz_(Z, odo_in->pose.pose.position.z);
-        orientation_rpy_(ROLL, odo_in->pose.pose.orientation.x);
-        orientation_rpy_(PITCH, odo_in->pose.pose.orientation.y);
-        orientation_rpy_(YAW, odo_in->pose.pose.orientation.z);
+        position_xyz_[X] = odo_in->pose.pose.position.x;
+        position_xyz_[Y] = odo_in->pose.pose.position.y;
+        position_xyz_[Z] = odo_in->pose.pose.position.z;
+        orientation_rpy_[ROLL] = odo_in->pose.pose.orientation.x;
+        orientation_rpy_[PITCH] = odo_in->pose.pose.orientation.y;
+        orientation_rpy_[YAW] = odo_in->pose.pose.orientation.z;
 
         orientation_quaternion_ = sonia_common::EulerToQuat(orientation_rpy_);
-
     }
 
     inline Eigen::Matrix3d SubmarinePosition::getRotationMatrix() const {

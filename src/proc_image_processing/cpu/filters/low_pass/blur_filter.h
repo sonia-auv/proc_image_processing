@@ -39,8 +39,6 @@ namespace proc_image_processing {
                                       (int) (kernel_size_() * 2 + 1));
                 switch (type_()) {
                     // Could be optimized via function pointer maybe?
-                    case 0:
-                        break;
                     case 1:
                         cv::blur(image, image, kernelSize, anchor_);
                         break;
@@ -49,6 +47,8 @@ namespace proc_image_processing {
                         break;
                     case 3:
                         cv::medianBlur(image, image, kernel_size_() * 2 + 1);
+                        break;
+                    default:
                         break;
                 }
             }

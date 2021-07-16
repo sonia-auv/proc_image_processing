@@ -8,7 +8,7 @@
 
 
 #include "proc_image_processing/cpu/filters/filter.h"
-#include <math.h>
+#include <cmath>
 #include <memory>
 
 namespace proc_image_processing {

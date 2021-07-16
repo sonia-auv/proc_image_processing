@@ -35,7 +35,7 @@ namespace proc_image_processing {
         length_ = sqrt(pow((start_.y - end_.y), 2) + pow((start_.y - end_.y), 2));
     }
 
-    void Line::draw(cv::Mat &img, cv::Scalar color) {
+    void Line::draw(cv::Mat &img, const cv::Scalar &color) {
         cv::line(img, start_, end_, color, 4, 8);
     }
 
@@ -79,11 +79,11 @@ namespace proc_image_processing {
 
     cv::Point Line::getEnd() { return end_; }
 
-    float Line::getAngle() { return angle_; }
+    float Line::getAngle() const { return angle_; }
 
-    float Line::getLength() { return length_; }
+    float Line::getLength() const { return length_; }
 
-    bool lengthSort(Line a, Line b) { return a.getLength() > b.getLength(); }
+    bool lengthSort(const Line &a, const Line &b) { return a.getLength() > b.getLength(); }
 
     bool centerXSort(Line a, Line b) { return a.getCenter().x > b.getCenter().x; }
 

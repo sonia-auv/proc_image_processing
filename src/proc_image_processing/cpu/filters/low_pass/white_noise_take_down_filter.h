@@ -45,7 +45,16 @@ namespace proc_image_processing {
                 std::vector<cv::Mat> res;
 
                 switch (view_channel_()) {
-                    case 0:
+                    case 1:
+                        channels[0].copyTo(image);
+                        break;
+                    case 2:
+                        channels[1].copyTo(image);
+                        break;
+                    case 3:
+                        channels[2].copyTo(image);
+                        break;
+                    default:
                         if (image.channels() == 3) {
                             res.push_back(result);
                             res.push_back(result);
@@ -55,15 +64,6 @@ namespace proc_image_processing {
                         } else {
                             cv::bitwise_and(image, result, image);
                         }
-                        break;
-                    case 1:
-                        channels[0].copyTo(image);
-                        break;
-                    case 2:
-                        channels[1].copyTo(image);
-                        break;
-                    case 3:
-                        channels[2].copyTo(image);
                         break;
                 }
             }

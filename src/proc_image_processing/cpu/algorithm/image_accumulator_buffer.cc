@@ -6,9 +6,7 @@
 
 namespace proc_image_processing {
 
-    ImageAccumulatorBuffer::ImageAccumulatorBuffer(int bufferLength,
-                                                   cv::Size imgSize, int type,
-                                                   METHOD method)
+    ImageAccumulatorBuffer::ImageAccumulatorBuffer(int bufferLength, const cv::Size &imgSize, int type, METHOD method)
             : buffer_size_(bufferLength),
               individual_weight_(0.0f),
               buffer_current_index_(0),
@@ -51,8 +49,7 @@ namespace proc_image_processing {
 
     void ImageAccumulatorBuffer::resetBuffer() { fillWithBlankImages(); }
 
-    void ImageAccumulatorBuffer::resetBuffer(int bufferLength, cv::Size imgSize,
-                                             int type) {
+    void ImageAccumulatorBuffer::resetBuffer(int bufferLength, const cv::Size &imgSize, int type) {
         buffer_size_ = bufferLength;
         image_size_ = imgSize;
         image_type_ = type;

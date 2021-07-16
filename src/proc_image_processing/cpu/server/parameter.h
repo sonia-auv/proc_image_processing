@@ -100,6 +100,7 @@ namespace proc_image_processing {
             return value_ / rhs;
         }
 
+        // TODO Operator=() should return 'Parameter&'
         template<class Ut_>
         void operator=(const Ut_ &rhs) {
             setStringValue(rhs);

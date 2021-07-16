@@ -11,7 +11,7 @@ public:
     image_transport::ImageTransport it_;
     image_transport::Subscriber sub;
     image_transport::Publisher pub;
-    uint last_seq;
+    uint last_seq{};
 
     void imageCallback(const sensor_msgs::ImageConstPtr &msg) {
         if (last_seq < msg->header.seq) {
@@ -20,13 +20,13 @@ public:
         }
     }
 
-    Images(ros::NodeHandle nh) : nh_(), it_(nh_) {
+    Images(const ros::NodeHandle &nh) : nh_(), it_(nh_) {
         service = nh_.advertiseService("image_republisher_node/republish", &Images::republish, this);
     }
 
     bool republish(sonia_common::Republish::Request &req,
                    sonia_common::Republish::Response &res) {
-        if (sub != NULL) {
+        if (sub != nullptr) {
             sub.shutdown();
             pub.shutdown();
         }
@@ -35,8 +35,8 @@ public:
         std::string in_transport = "compressed";
         char *val;
         val = std::getenv("ROS_IP");
-        std::string ip_address = "";
-        if (val == NULL) {
+        std::string ip_address;
+        if (val == nullptr) {
             ip_address = "127.0.0.1";
         } else {
             ip_address = std::string(val);
@@ -54,8 +54,8 @@ public:
 int main(int argc, char **argv) {
     char *val;
     val = std::getenv("ROS_IP");
-    std::string ip_address = "";
-    if (val == NULL) {
+    std::string ip_address;
+    if (val == nullptr) {
         ip_address = "127.0.0.1";
     } else {
         ip_address = std::string(val);

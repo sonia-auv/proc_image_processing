@@ -35,9 +35,10 @@ namespace proc_image_processing {
         y_distance_from_center_ = 0.0f;
     }
 
-    Moments::~Moments() {}
+    Moments::~Moments() = default;
 
-    void Moments::operator=(Moments moments) {
+    // TODO Operator=() should return 'Moments&'
+    void Moments::operator=(const Moments &moments) {
         cv_moments_ = moments.cv_moments_;
         mass_center_ = moments.mass_center_;
         real_center_ = moments.real_center_;

@@ -33,14 +33,14 @@ namespace proc_image_processing {
             if (enable_()) {
                 int kernel_type = 0;
                 switch (kernel_type_()) {
-                    case 0:
-                        kernel_type = cv::MORPH_RECT;
-                        break;
                     case 1:
                         kernel_type = cv::MORPH_ELLIPSE;
                         break;
                     case 2:
                         kernel_type = cv::MORPH_CROSS;
+                        break;
+                    default:
+                        kernel_type = cv::MORPH_RECT;
                         break;
                 }
 

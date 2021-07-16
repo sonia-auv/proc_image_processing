@@ -4,11 +4,11 @@
 
 #include "object_basic_data.h"
 
+#include <utility>
+
 namespace proc_image_processing {
 
-    ObjectBasicData::ObjectBasicData(const cv::Mat &originalImage,
-                                     const cv::Mat &binaryImage,
-                                     const Contour &contour)
+    ObjectBasicData::ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage, Contour contour)
             : area_(0.0f),
               convex_hull_area_(0.0f),
               circumference_(0.0f),
@@ -16,7 +16,7 @@ namespace proc_image_processing {
               original_image_(originalImage),
               binary_image_(binaryImage),
               vote_count_(0),
-              contour_(contour) {
+              contour_(std::move(contour)) {
         is_calculated_map_.insert(std::pair<OBJECT_DATA, bool>(AREA, false));
         is_calculated_map_.insert(std::pair<OBJECT_DATA, bool>(CONVEX_HULL, false));
         is_calculated_map_.insert(std::pair<OBJECT_DATA, bool>(CIRCUMFERENCE, false));

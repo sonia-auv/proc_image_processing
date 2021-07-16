@@ -23,9 +23,9 @@ namespace proc_image_processing {
         for (int i = 0; i < 4; i++) pts_[i] = a.pts_[i];
     }
 
-    RotRect::~RotRect() {}
+    RotRect::~RotRect() = default;
 
-    void RotRect::drawRect(cv::Mat &out, cv::Scalar color, int thickness) {
+    void RotRect::drawRect(cv::Mat &out, const cv::Scalar &color, int thickness) {
         cv::line(out, pts_[0], pts_[1], color, thickness);
         cv::line(out, pts_[1], pts_[2], color, thickness);
         cv::line(out, pts_[2], pts_[3], color, thickness);
@@ -61,7 +61,7 @@ namespace proc_image_processing {
         return *this;
     }
 
-    RotRect &RotRect::operator=(cv::RotatedRect rotRect) {
+    RotRect &RotRect::operator=(const cv::RotatedRect &rotRect) {
         RotRect slRotRect(rotRect);
         swap(slRotRect);
         return *this;

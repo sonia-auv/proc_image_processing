@@ -38,8 +38,7 @@ namespace proc_image_processing {
                 cv::Scalar mean, stdDev;
 
                 cv::meanStdDev(image, mean, stdDev);
-                int thresh_val =
-                        mean[0] * mean_multiplier_() + stdDev[0] * std_dev_multiplier_();
+                int thresh_val = mean[0] * mean_multiplier_() + stdDev[0] * std_dev_multiplier_();
                 thresh_val = thresh_val < min_thresh_() ? min_thresh_() : thresh_val;
                 cv::threshold(image, image, thresh_val, 255, CV_THRESH_BINARY);
             }

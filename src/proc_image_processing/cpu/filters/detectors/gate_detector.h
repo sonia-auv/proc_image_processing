@@ -82,9 +82,6 @@ namespace proc_image_processing {
 
                 contourList_t contours;
                 switch (contour_retrieval_()) {
-                    case 0:
-                        retrieveAllContours(image, contours);
-                        break;
                     case 1:
                         retrieveOuterContours(image, contours);
                         break;
@@ -97,6 +94,9 @@ namespace proc_image_processing {
                     case 4:
                         retrieveNoChildAndParentContours(image, contours);
                         break;
+                    default:
+                        retrieveAllContours(image, contours);
+                        break;
                 }
 
                 ObjectFullData::FullObjectPtrVec objVec;
@@ -107,7 +107,6 @@ namespace proc_image_processing {
 
                     ObjectFullData::Ptr object =
                             std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
-
 
                     if (object.get() == nullptr) {
                         continue;
@@ -236,7 +235,7 @@ namespace proc_image_processing {
                     if (vote_less_difference_from_targeted_ratio_()) {
                         std::sort(
                                 objVec.begin(), objVec.end(),
-                                [this](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool {
+                                [this](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
                                     return fabs(a->getRatio() - targeted_ratio_()) <
                                            fabs(b->getRatio() - targeted_ratio_());
                                 });
@@ -253,7 +252,7 @@ namespace proc_image_processing {
                     if (vote_higher_()) {
                         std::sort(
                                 objVec.begin(), objVec.end(),
-                                [this](ObjectFullData::Ptr a, ObjectFullData::Ptr b)
+                                [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
                                         -> bool { return a->getCenterPoint().y < b->getCenterPoint().y; });
                         objVec[0]->vote();
                         if (num_of_objects > 2) {

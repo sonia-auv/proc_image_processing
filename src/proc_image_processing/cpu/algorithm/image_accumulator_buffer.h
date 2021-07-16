@@ -5,8 +5,8 @@
 #ifndef PROC_IMAGE_PROCESSING_ALGORITHM_IMAGE_ACCUMULATOR_BUFFER_H_
 #define PROC_IMAGE_PROCESSING_ALGORITHM_IMAGE_ACCUMULATOR_BUFFER_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <memory>
 #include <opencv2/opencv.hpp>
 
@@ -33,7 +33,7 @@ namespace proc_image_processing {
          * NO CHECK IS MADE ON IMGSIZE AND TYPE, MAKE SURE YOU GIVE
          * TO THE FUNCTION PARAMETERS THAT WORK
          */
-        ImageAccumulatorBuffer(int bufferLength, cv::Size imgSize, int type,
+        ImageAccumulatorBuffer(int bufferLength, const cv::Size &imgSize, int type,
                                METHOD method = ACC_ALL_SAME_WEIGHT);
 
         ~ImageAccumulatorBuffer() = default;
@@ -52,7 +52,7 @@ namespace proc_image_processing {
          * No check is made on bufferLength.
          * Resize the accumulator and reset it.
          */
-        void resetBuffer(int bufferLength, cv::Size imgSize, int type);
+        void resetBuffer(int bufferLength, const cv::Size &imgSize, int type);
 
         /**
          * Set the average method via the Enum.

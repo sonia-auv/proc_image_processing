@@ -60,10 +60,6 @@ namespace proc_image_processing {
 
                 // Selecting with _morph_type wich operation to use
                 switch (morph_type_()) {
-                    case 0:
-                        cv::morphologyEx(image, image, cv::MORPH_GRADIENT, kernel, anchor_,
-                                         iteration_(), CV_8U);
-                        break;
                     case 1:
                         cv::morphologyEx(image, image, cv::MORPH_TOPHAT, kernel, anchor_,
                                          iteration_(), CV_8U);
@@ -79,6 +75,9 @@ namespace proc_image_processing {
                     case 4:
                         cv::morphologyEx(image, image, cv::MORPH_CLOSE, kernel, anchor_,
                                          iteration_(), CV_8U);
+                        break;
+                    default:
+                        cv::morphologyEx(image, image, cv::MORPH_GRADIENT, kernel, anchor_, iteration_(), CV_8U);
                         break;
                 }
             }
