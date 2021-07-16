@@ -2,7 +2,7 @@ name: Docker Image CI - Feature Branch
 
 on:
   push:
-    branches: [feature/**]
+    branches: [ feature/** ]
 
 jobs:
   build-ros-perception-x86-64:
@@ -37,6 +37,8 @@ jobs:
           docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   build-ros-perception-arm64:
+    # TODO fix this typo (AMR -> ARM).
+    # CI is blocked when we try to fix this typo. Probably a settings in the repository that uses that typo as requirements...
     name: "Build ROS perception AMR64"
     runs-on: ubuntu-latest
     env:
@@ -67,7 +69,7 @@ jobs:
       - name: Build the docker image (perception based)
         run: |
           docker build . --tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
-      
+
       - name: Create Docker Image Tag
         run: |
           docker tag build-feature-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
@@ -79,7 +81,7 @@ jobs:
   notify-success:
     name: "Notify Slack - Success"
     runs-on: ubuntu-latest
-    needs: [build-ros-perception-x86-64, build-ros-perception-arm64]
+    needs: [ build-ros-perception-x86-64, build-ros-perception-arm64 ]
     if: success()
     steps:
       - name: Notify Slack Success
@@ -94,7 +96,7 @@ jobs:
   notify-fail:
     name: "Notify Slack - Failure"
     runs-on: ubuntu-latest
-    needs: [build-ros-perception-x86-64, build-ros-perception-arm64]
+    needs: [ build-ros-perception-x86-64, build-ros-perception-arm64 ]
     if: failure()
     steps:
       - name: Notify Slack Fail
