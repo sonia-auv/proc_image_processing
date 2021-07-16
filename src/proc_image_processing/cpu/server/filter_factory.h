@@ -35,7 +35,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/remove_mask_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_adding_filter.h>
-#include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr.h>
+#include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/sobel_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/square_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/statistical_threshold_filter.h>
