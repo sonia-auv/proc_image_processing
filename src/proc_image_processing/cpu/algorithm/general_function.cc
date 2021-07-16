@@ -246,11 +246,7 @@ namespace proc_image_processing {
     }
 
     cv::Mat ExtractImageFromRect(cv::RotatedRect rect, cv::Mat image) {
-        /*
-         *
-         *  thanks to http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
-         *
-         */
+        // thanks to http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
 
         cv::Mat rotated, rotationMat, originalOut;
         cv::Mat returnImage =

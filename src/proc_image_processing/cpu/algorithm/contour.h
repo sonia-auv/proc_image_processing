@@ -38,6 +38,7 @@ namespace proc_image_processing {
 
         std::vector<cv::Point> GetContour();
 
+    private:
         std::vector<cv::Point> contour_;
     };
 
