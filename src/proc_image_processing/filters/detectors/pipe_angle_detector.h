@@ -1,6 +1,5 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
 
 // FACTORY_GENERATOR_CLASS_NAME=PipeAngleDetector
 
@@ -170,9 +169,7 @@ namespace proc_image_processing {
                         image.rows, image.cols);
                     notifyTarget(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3,
-                            CV_RGB(0, 255, 0), 3);
-
+                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0, 255, 0), 3);
                     }
                 }
                 if (debug_contour_()) {

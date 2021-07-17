@@ -24,6 +24,8 @@ namespace proc_image_processing {
 
     void operator=(Moments moments);
 
+
+  private:
     // Points are in local coordinate, meaning that if the image was taken
     // from a rotated rectangle, the x and y a rotated too!
     cv::Point real_center_;

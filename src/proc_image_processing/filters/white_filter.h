@@ -10,26 +10,30 @@
 #include <math.h>
 #include <memory>
 
-namespace proc_image_processing {
+namespace proc_image_processing
+{
 
-    class WhiteFilter : public Filter {
+    class WhiteFilter : public Filter
+    {
     public:
         using Ptr = std::shared_ptr<WhiteFilter>;
 
-        explicit WhiteFilter(const GlobalParamHandler& globalParams)
+        explicit WhiteFilter(const GlobalParamHandler &globalParams)
             : Filter(globalParams),
-            minimal_1pixel_range_("minimal 1 pixel range", 0, 0, 255, &parameters_),
-            minimal_2pixel_range_("minimal 2 pixel range", 0, 0, 255, &parameters_),
-            minimal_3pixel_range_("minimal 3 pixel range", 0, 0, 255, &parameters_),
-            maximal_1pixel_range_("maximal 1 pixel range", 0, 0, 255, &parameters_),
-            maximal_2pixel_range_("maximal 2 pixel range", 0, 0, 255, &parameters_),
-            maximal_3pixel_range_("maximal 3 pixel range", 0, 0, 255, &parameters_) {
+              minimal_1pixel_range_("minimal 1 pixel range", 0, 0, 255, &parameters_),
+              minimal_2pixel_range_("minimal 2 pixel range", 0, 0, 255, &parameters_),
+              minimal_3pixel_range_("minimal 3 pixel range", 0, 0, 255, &parameters_),
+              maximal_1pixel_range_("maximal 1 pixel range", 0, 0, 255, &parameters_),
+              maximal_2pixel_range_("maximal 2 pixel range", 0, 0, 255, &parameters_),
+              maximal_3pixel_range_("maximal 3 pixel range", 0, 0, 255, &parameters_)
+        {
             setName("WhiteFilter");
         }
 
         virtual ~WhiteFilter() {}
 
-        void apply(cv::Mat& image) override {
+        void apply(cv::Mat &image) override
+        {
 
             cv::Mat mask;
 
@@ -39,7 +43,6 @@ namespace proc_image_processing {
             cv::inRange(image, min_pixel_range, max_pixel_range, mask);
 
             mask.copyTo(image);
-
         }
 
     private:
@@ -55,6 +58,6 @@ namespace proc_image_processing {
         const cv::Point anchor_;
     };
 
-}  // namespace proc_image_processing
+} // namespace proc_image_processing
 
 #endif //PROC_IMAGE_PROCESSING_WHITE_FILTER_H
