@@ -127,16 +127,15 @@ std::unique_ptr<Filter> FilterFactory::createInstance(const std::string &name, c
 	else if(name == "VampireTorpedoesDetector"){
 		return std::move(std::make_unique<VampireTorpedoesDetector>(globalParams));
 	}
-	else if(name == "WhiteFilter"){
-		return std::move(std::make_unique<WhiteFilter>(globalParams));
-	}
-	else if(name == "WhiteNoiseTakeDown"){
-		return std::move(std::make_unique<WhiteNoiseTakeDown>(globalParams));
-	}
-    // <FACTORY_GENERATOR_INSTANCE_CREATION/>
+	else if (name == "WhiteFilter") {
+        return std::move(std::make_unique<WhiteFilter>(globalParams));
+    } else if (name == "WhiteNoiseRemoval") {
+        return std::move(std::make_unique<WhiteNoiseRemoval>(globalParams));
+    }
+        // <FACTORY_GENERATOR_INSTANCE_CREATION/>
     else {
-    return nullptr;
-  }
+        return nullptr;
+    }
 }
 
 std::string FilterFactory::GetFilterList() {
@@ -172,17 +171,17 @@ std::string FilterFactory::GetFilterList() {
 		"Scharr;"
 		"Sobel;"
 		"SquareDetection;"
-		"StatsThreshold;"
-		"SubmarineFrameMasker;"
-		"SubtractAllPlanes;"
-		"TestFilter;"
-		"Threshold;"
-		"ThresholdBetween;"
-		"VampireBodyDetector;"
-		"VampireTorpedoesDetectorClose;"
-		"VampireTorpedoesDetector;"
-		"WhiteFilter;"
-		"WhiteNoiseTakeDown";
+           "StatsThreshold;"
+           "SubmarineFrameMasker;"
+           "SubtractAllPlanes;"
+           "TestFilter;"
+           "Threshold;"
+           "ThresholdBetween;"
+           "VampireBodyDetector;"
+           "VampireTorpedoesDetectorClose;"
+           "VampireTorpedoesDetector;"
+           "WhiteFilter;"
+           "WhiteNoiseRemoval";
   // <FACTORY_GENERATOR_ITEMS_LIST/>
 }
 
