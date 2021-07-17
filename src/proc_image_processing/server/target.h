@@ -63,7 +63,6 @@ namespace proc_image_processing {
     void SetMessage(sonia_common::VisionTarget& msg);
 
   private:
-
     cv::Point center_;
 
     cv::Size_<float> dimension_;
