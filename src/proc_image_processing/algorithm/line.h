@@ -18,22 +18,15 @@ namespace proc_image_processing {
    */
   class Line {
   public:
-
-
     using Ptr = std::shared_ptr<Line>;
 
-
-
     Line(const cv::Point& start, const cv::Point& end);
-
-
 
     // Debug
     void Draw(cv::Mat& img, cv::Scalar color);
 
     cv::Point PerpendicularLine();
 
-    // Getters
     cv::Point GetCenter();
 
     cv::Point GetStart();
