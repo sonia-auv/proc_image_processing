@@ -102,7 +102,7 @@ namespace proc_image_processing {
     }  // namespace details
 
     template<class Tp_>
-    ATLAS_INLINE Parameter<Tp_>::Parameter(
+    inline Parameter<Tp_>::Parameter(
             std::string name, const Tp_ &value,
             std::vector<ParameterInterface *> *vector, std::string description)
             : name_(std::move(name)), value_(value), description_(std::move(description)) {
@@ -112,28 +112,28 @@ namespace proc_image_processing {
     }
 
     template<class Tp_>
-    ATLAS_INLINE void Parameter<Tp_>::setDescription(
+    inline void Parameter<Tp_>::setDescription(
             const std::string &description) {
         description_ = description;
     }
 
     template<class Tp_>
-    ATLAS_INLINE std::string Parameter<Tp_>::getDescription() const {
+    inline std::string Parameter<Tp_>::getDescription() const {
         return description_;
     }
 
     template<class Tp_>
-    ATLAS_INLINE void Parameter<Tp_>::setName(const std::string &name) {
+    inline void Parameter<Tp_>::setName(const std::string &name) {
         name_ = name;
     }
 
     template<class Tp_>
-    ATLAS_INLINE std::string Parameter<Tp_>::getName() const {
+    inline std::string Parameter<Tp_>::getName() const {
         return name_;
     }
 
     template<class Tp_>
-    ATLAS_INLINE std::string Parameter<Tp_>::toString() const {
+    inline std::string Parameter<Tp_>::toString() const {
         std::stringstream ss;
         ss << getName() << SEPARATOR;
         ss << getType() << SEPARATOR;
@@ -144,27 +144,27 @@ namespace proc_image_processing {
     }
 
     template<class Tp_>
-    ATLAS_INLINE void Parameter<Tp_>::setValue(const Tp_ &value) {
+    inline void Parameter<Tp_>::setValue(const Tp_ &value) {
         value_ = value;
     }
 
     template<class Tp_>
-    ATLAS_INLINE const Tp_ &Parameter<Tp_>::getValue() const {
+    inline const Tp_ &Parameter<Tp_>::getValue() const {
         return value_;
     }
 
     template<class Tp_>
-    ATLAS_INLINE std::string Parameter<Tp_>::getType() const {
+    inline std::string Parameter<Tp_>::getType() const {
         return details::StringConvertor<Tp_>::getTypeName();
     }
 
     template<class Tp_>
-    ATLAS_INLINE std::string Parameter<Tp_>::getStringValue() const {
+    inline std::string Parameter<Tp_>::getStringValue() const {
         return details::StringConvertor<Tp_>::getString(value_);
     }
 
     template<class Tp_>
-    ATLAS_INLINE void Parameter<Tp_>::setStringValue(const std::string &value) {
+    inline void Parameter<Tp_>::setStringValue(const std::string &value) {
         value_ = details::StringConvertor<Tp_>::getValue(value);
     }
 

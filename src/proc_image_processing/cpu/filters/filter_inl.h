@@ -11,16 +11,16 @@
 
 namespace proc_image_processing {
 
-    ATLAS_INLINE Filter::Filter(const GlobalParamHandler &globalParams)
+    inline Filter::Filter(const GlobalParamHandler &globalParams)
             : global_params_(const_cast<GlobalParamHandler &>(globalParams)),
             // enable_("Enable", false, &parameters_),
             // Explicit construction not needed here... Just reminder it exist.
               parameters_() {
     }
 
-    ATLAS_INLINE const std::vector<ParameterInterface *> &Filter::getParameters() const { return parameters_; }
+    inline const std::vector<ParameterInterface *> &Filter::getParameters() const { return parameters_; }
 
-    ATLAS_INLINE std::string Filter::getParameterValue(const std::string &name) {
+    inline std::string Filter::getParameterValue(const std::string &name) {
         std::string returnString;
         for (auto param : parameters_) {
             // Here we give it a local value to limit the
@@ -40,7 +40,7 @@ namespace proc_image_processing {
         return returnString;
     }
 
-    ATLAS_INLINE void Filter::setParameterValue(const std::string &name, const std::string &value) {
+    inline void Filter::setParameterValue(const std::string &name, const std::string &value) {
         for (auto param : parameters_) {
             // Here we give it a local value to limit the
             // access to the vector (optimisation)
@@ -50,31 +50,31 @@ namespace proc_image_processing {
         }
     }
 
-    ATLAS_INLINE std::string Filter::getName() { return name_; }
+    inline std::string Filter::getName() { return name_; }
 
-    ATLAS_INLINE void Filter::setName(const std::string &name) { name_ = name; }
+    inline void Filter::setName(const std::string &name) { name_ = name; }
 
-    ATLAS_INLINE void Filter::notify(const Target &target) { global_params_.addTarget(target); }
+    inline void Filter::notify(const Target &target) { global_params_.addTarget(target); }
 
-    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
-                                                 const int value,
-                                                 const int min,
-                                                 const int max) {
+    inline void Filter::addGlobalParameter(const std::string &name,
+                                           const int value,
+                                           const int min,
+                                           const int max) {
         global_params_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
     }
 
-    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name,
-                                                 const double value,
-                                                 const double min,
-                                                 const double max) {
+    inline void Filter::addGlobalParameter(const std::string &name,
+                                           const double value,
+                                           const double min,
+                                           const double max) {
         global_params_.addParameter(new RangedParameter<double>(name, value, min, max, &parameters_));
     }
 
-    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name, const bool value) {
+    inline void Filter::addGlobalParameter(const std::string &name, const bool value) {
         global_params_.addParameter(new Parameter<bool>(name, value, &parameters_));
     }
 
-    ATLAS_INLINE void Filter::addGlobalParameter(const std::string &name, const std::string &value) {
+    inline void Filter::addGlobalParameter(const std::string &name, const std::string &value) {
         global_params_.addParameter(new Parameter<std::string>(name, value, &parameters_));
     }
 

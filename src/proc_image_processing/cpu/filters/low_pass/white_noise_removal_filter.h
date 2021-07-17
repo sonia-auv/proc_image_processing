@@ -1,7 +1,7 @@
 /// \author	Pierluc Bédard <pierlucbed@gmail.com>
 /// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
 
-// FACTORY_GENERATOR_CLASS_NAME=WhiteNoiseTakeDownFilter
+// FACTORY_GENERATOR_CLASS_NAME=WhiteNoiseRemovalFilter
 
 #ifndef PROC_IMAGE_PROCESSING_FILTERS_WHITE_NOISE_TAKE_DOWN_H_
 #define PROC_IMAGE_PROCESSING_FILTERS_WHITE_NOISE_TAKE_DOWN_H_
@@ -11,11 +11,11 @@
 
 namespace proc_image_processing {
 
-    class WhiteNoiseTakeDownFilter : public Filter {
+    class WhiteNoiseRemovalFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<WhiteNoiseTakeDownFilter>;
+        using Ptr = std::shared_ptr<WhiteNoiseRemovalFilter>;
 
-        explicit WhiteNoiseTakeDownFilter(const GlobalParamHandler &globalParams)
+        explicit WhiteNoiseRemovalFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   low_b_("LowB", 0, 0, 255, &parameters_),
@@ -26,10 +26,10 @@ namespace proc_image_processing {
                   high_r_("HighR", 0, 0, 255, &parameters_),
                   view_channel_("Channel_view", 0, 0, 3, &parameters_,
                                 "0=ALL, 1=Blue, 2=Green, 3=Red") {
-            setName("WhiteNoiseTakeDownFilter");
+            setName("WhiteNoiseRemovalFilter");
         }
 
-        ~WhiteNoiseTakeDownFilter() override = default;
+        ~WhiteNoiseRemovalFilter() override = default;
 
         void apply(cv::Mat &image) override {
             if (enable_()) {

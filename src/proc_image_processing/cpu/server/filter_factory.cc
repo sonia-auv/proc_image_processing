@@ -90,8 +90,8 @@ namespace proc_image_processing {
             return std::move(std::make_unique<VampireTorpedoesDetector>(globalParams));
         } else if (name == "WhiteFilter") {
             return std::move(std::make_unique<WhiteFilter>(globalParams));
-        } else if (name == "WhiteNoiseTakeDownFilter") {
-            return std::move(std::make_unique<WhiteNoiseTakeDownFilter>(globalParams));
+        } else if (name == "WhiteNoiseRemovalFilter") {
+            return std::move(std::make_unique<WhiteNoiseRemovalFilter>(globalParams));
         }
             // <FACTORY_GENERATOR_INSTANCE_CREATION/>
         else {
@@ -142,7 +142,7 @@ namespace proc_image_processing {
                "VampireTorpedoesCloseDetector;"
                "VampireTorpedoesDetector;"
                "WhiteFilter;"
-               "WhiteNoiseTakeDownFilter";
+               "WhiteNoiseRemovalFilter";
         // <FACTORY_GENERATOR_ITEMS_LIST/>
     }
 
