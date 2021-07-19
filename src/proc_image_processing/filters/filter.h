@@ -44,7 +44,7 @@ namespace proc_image_processing {
     void setParameterValue(const std::string& name, std::string value);
 
     // Wrapper for a call to _globalParms
-    // NotifyTarget, to be put on the result topic
+    // notifyTarget, to be put on the result topic
     void notifyTarget(const Target& target);
 
     void globalParamInteger(const std::string& name, const int value,

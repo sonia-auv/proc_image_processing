@@ -65,7 +65,7 @@ namespace proc_image_processing {
     global_params_.addTarget(target);
   }
 
-  inline void Filter::GlobalParamInteger(const std::string& name,
+  inline void Filter::globalParamInteger(const std::string& name,
     const int value, const int min,
     const int max) {
     global_params_.addParam(
