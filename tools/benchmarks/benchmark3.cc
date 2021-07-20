@@ -1,23 +1,17 @@
-#include <opencv2/opencv.hpp>
+#include "tools.h"
 #include <opencv2/imgcodecs.hpp>
 #include <thread>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/cudaimgproc.hpp>
 #include <boost/program_options.hpp>
-#include <boost/filesystem/operations.hpp>
-#include "tools.h"
 
-using namespace std;
 namespace gpu = cv::cuda;
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
 
 
 /**
  * Benchmark to measure efficiency of filters
  */
-
-using namespace std;
 
 long benchmarkCPU(const string &inputDirectory, const string &cpuOutputDirectory) {
     // Load all in memory to simulate receiving messages from the ROS provider
@@ -54,7 +48,7 @@ long benchmarkCPU(const string &inputDirectory, const string &cpuOutputDirectory
 
 
         chrono::steady_clock::time_point boxFilterStart = chrono::steady_clock::now();
-        cv::boxFilter(resized, boxFilterMat, resized.depth(),cv::Size(3,3));
+        cv::boxFilter(resized, boxFilterMat, resized.depth(), cv::Size(3, 3));
         chrono::steady_clock::time_point boxFilterEnd = chrono::steady_clock::now();
         totalBoxFilter += chrono::duration_cast<chrono::nanoseconds>(boxFilterEnd - boxFilterStart).count();
         outputImages.emplace_back(make_pair("boxfilter-" + loadedImage.first, boxFilterMat));
@@ -62,10 +56,14 @@ long benchmarkCPU(const string &inputDirectory, const string &cpuOutputDirectory
 
     long totalAverageTime = (totalBilateral + totalThreshold + totalHistogram + totalBoxFilter) / loadedImages.size();
     cout << "OpenCV runtime (CPU) - Total Average Time Per Image: " << totalAverageTime << " nanoseconds" << endl;
-    cout << "OpenCV runtime (CPU) - Bilateral Average: " << totalBilateral / loadedImages.size() << " nanoseconds" << endl;
-    cout << "OpenCV runtime (CPU) - Threshold Average: " << totalThreshold / loadedImages.size() << " nanoseconds" << endl;
-    cout << "OpenCV runtime (CPU) - Histogram Average: " << totalHistogram / loadedImages.size() << " nanoseconds" << endl;
-    cout << "OpenCV runtime (CPU) - Box Filter Average: " << totalBoxFilter / loadedImages.size() << " nanoseconds" << endl;
+    cout << "OpenCV runtime (CPU) - Bilateral Average: " << totalBilateral / loadedImages.size() << " nanoseconds"
+         << endl;
+    cout << "OpenCV runtime (CPU) - Threshold Average: " << totalThreshold / loadedImages.size() << " nanoseconds"
+         << endl;
+    cout << "OpenCV runtime (CPU) - Histogram Average: " << totalHistogram / loadedImages.size() << " nanoseconds"
+         << endl;
+    cout << "OpenCV runtime (CPU) - Box Filter Average: " << totalBoxFilter / loadedImages.size() << " nanoseconds"
+         << endl;
     tools::writeImages(cpuOutputDirectory, outputImages);
     loadedImages.clear();
     return totalAverageTime;
@@ -120,10 +118,14 @@ long benchmarkGPU(const string &directory, const string &gpuOutputDirectory) {
     }
     long totalAverageTime = (totalBilateral + totalThreshold + totalHistogram + totalBoxFilter) / loadedImages.size();
     cout << "OpenCV runtime (GPU) - Total Average Time Per Image: " << totalAverageTime << " nanoseconds" << endl;
-    cout << "OpenCV runtime (GPU) - Bilateral Average: " << totalBilateral / loadedImages.size() << " nanoseconds" << endl;
-    cout << "OpenCV runtime (GPU) - Threshold Average: " << totalThreshold / loadedImages.size() << " nanoseconds" << endl;
-    cout << "OpenCV runtime (GPU) - Histogram Average: " << totalHistogram / loadedImages.size() << " nanoseconds" << endl;
-    cout << "OpenCV runtime (GPU) - Box Filter Average: " << totalBoxFilter / loadedImages.size() << " nanoseconds" << endl;
+    cout << "OpenCV runtime (GPU) - Bilateral Average: " << totalBilateral / loadedImages.size() << " nanoseconds"
+         << endl;
+    cout << "OpenCV runtime (GPU) - Threshold Average: " << totalThreshold / loadedImages.size() << " nanoseconds"
+         << endl;
+    cout << "OpenCV runtime (GPU) - Histogram Average: " << totalHistogram / loadedImages.size() << " nanoseconds"
+         << endl;
+    cout << "OpenCV runtime (GPU) - Box Filter Average: " << totalBoxFilter / loadedImages.size() << " nanoseconds"
+         << endl;
     tools::writeImages(gpuOutputDirectory, outputImages);
     loadedImages.clear();
     return totalAverageTime;
@@ -177,7 +179,7 @@ int main(int argc, char *argv[]) {
             gpu::printCudaDeviceInfo(gpu::getDevice());
             long cpuTime = benchmarkCPU(inputDirectory.generic_string(), cpuOutputDirectory.generic_string());
             long gpuTime = benchmarkGPU(inputDirectory.generic_string(), gpuOutputDirectory.generic_string());
-            double gain = cpuTime/gpuTime;
+            double gain = cpuTime / gpuTime;
             cout << "GPU Speed Factor Gain Over CPU: " << gain << endl;
         } else {
             cout << "Invalid parameters." << endl;

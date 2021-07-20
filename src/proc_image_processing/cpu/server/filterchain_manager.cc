@@ -3,7 +3,7 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#include <proc_image_processing/cpu/server/filterchain_manager.h>
+#include "filterchain_manager.h"
 #include <dirent.h>
 #include <yaml-cpp/yaml.h>
 #include <fstream>

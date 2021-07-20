@@ -3,7 +3,6 @@
 
 
 #include "contour.h"
-
 #include <utility>
 
 namespace proc_image_processing {
