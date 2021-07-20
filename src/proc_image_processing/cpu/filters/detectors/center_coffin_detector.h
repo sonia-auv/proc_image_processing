@@ -58,23 +58,21 @@ namespace proc_image_processing {
                     }
 
                     if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
-
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
-
                         objective = "surface";
-
                     }
-
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(),
-                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                              return a->getArea() >
-                                     b->getArea();
-                          });
+                std::sort(
+                        objVec.begin(),
+                        objVec.end(),
+                        [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                            return a->getArea() > b->getArea();
+                        }
+                );
 
                 if (objVec.size() > 1) {
                     Target target;
@@ -88,8 +86,16 @@ namespace proc_image_processing {
                     target_center.x = (center_1.x + center_2.x) / 2;
                     target_center.y = (center_1.y + center_2.y) / 2;
 
-                    target.setTarget(objective, target_center.x, target_center.y, object_1->getWidth(),
-                                     object_1->getHeight(), object_1->getRotRect().angle, image.rows, image.cols);
+                    target.setTarget(
+                            objective,
+                            target_center.x,
+                            target_center.y,
+                            object_1->getWidth(),
+                            object_1->getHeight(),
+                            object_1->getRotRect().angle,
+                            image.rows,
+                            image.cols
+                    );
                     notify(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, target_center, 100, CV_RGB(0, 255, 0), 3);
