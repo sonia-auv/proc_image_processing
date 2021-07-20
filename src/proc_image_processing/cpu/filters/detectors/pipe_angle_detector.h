@@ -51,8 +51,7 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr firstObject = nullptr;
                 ObjectFullData::Ptr lastObject = nullptr;
                 for (int i = 0; i < contours.size(); i++) {
-                    ObjectFullData::Ptr object =
-                            std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 
                     std::vector<cv::Point> realContour = contours[i];
 
@@ -92,7 +91,6 @@ namespace proc_image_processing {
                                 intersectionPoint_.push_back(pointAndId1);
                                 oneTime = true;
                             }
-
                         }
                     }
 
@@ -102,7 +100,6 @@ namespace proc_image_processing {
                     if (intersectionPoint_.size() == 2) {
                         int idMax = std::max(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
                         int idMin = std::min(std::get<1>(intersectionPoint_[0]), std::get<1>(intersectionPoint_[1]));
-
 
                         for (int idLastContour = idMin; idLastContour <= idMax; idLastContour++) {
                             lastContourId.push_back(idLastContour);
@@ -139,10 +136,13 @@ namespace proc_image_processing {
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(),
-                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                              return a->getArea() > b->getArea();
-                          });
+                std::sort(
+                        objVec.begin(),
+                        objVec.end(),
+                        [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                            return a->getArea() > b->getArea();
+                        }
+                );
 
                 // Since we search only one buoy, get the biggest from sort function
                 if (!objVec.empty()) {
@@ -153,7 +153,6 @@ namespace proc_image_processing {
                         if (debug_contour_()) {
                             if (firstObject->getCenterPoint().y > lastObject->getCenterPoint().y) {
                                 cv::circle(output_image_, lastObject->getCenterPoint(), 3, CV_RGB(0, 0, 255), 3);
-
                             } else {
                                 cv::circle(output_image_, firstObject->getCenterPoint(), 3, CV_RGB(0, 0, 255), 3);
                             }
@@ -162,14 +161,24 @@ namespace proc_image_processing {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
-                    target.setTarget("pipe", center.x, center.y, object->getWidth(),
-                                     object->getHeight(), angle_,
-                                     image.rows, image.cols);
+                    target.setTarget("pipe",
+                                     center.x,
+                                     center.y,
+                                     object->getWidth(),
+                                     object->getHeight(),
+                                     angle_,
+                                     image.rows,
+                                     image.cols
+                    );
                     notify(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,
-                                   CV_RGB(0, 255, 0), 3);
-
+                        cv::circle(
+                                output_image_,
+                                objVec[0]->getCenterPoint(),
+                                3,
+                                CV_RGB(0, 255, 0),
+                                3
+                        );
                     }
                 }
                 if (debug_contour_()) {

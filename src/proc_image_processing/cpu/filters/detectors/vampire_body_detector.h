@@ -83,19 +83,28 @@ namespace proc_image_processing {
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(),
-                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                              return
-                                      a->getArea() >
-                                      b->getArea();
-                          });
+                std::sort(
+                        objVec.begin(),
+                        objVec.end(),
+                        [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                            return a->getArea() > b->getArea();
+                        }
+                );
 
                 if (!objVec.empty()) {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
                     cv::Point center = object->getCenterPoint();
-                    target.setTarget(objective, center.x, center.y, object->getWidth(), object->getHeight(),
-                                     object->getRotRect().angle, image.rows, image.cols);
+                    target.setTarget(
+                            objective,
+                            center.x,
+                            center.y,
+                            object->getWidth(),
+                            object->getHeight(),
+                            object->getRotRect().angle,
+                            image.rows,
+                            image.cols
+                    );
                     notify(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);

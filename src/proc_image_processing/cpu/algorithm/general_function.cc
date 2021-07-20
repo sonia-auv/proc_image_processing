@@ -414,8 +414,7 @@ namespace proc_image_processing {
         // Then take the four first and resort them in order of index to keep cross
         // product
         // valid.
-        std::sort(sortedVertices.begin(), (sortedVertices.begin() + 4),
-                  compareVerticesIndex);
+        std::sort(sortedVertices.begin(), (sortedVertices.begin() + 4), compareVerticesIndex);
         // Get the four first vertices, the longest because of the sort
         for (j = 0; j < 4; j++) {
             longestVertices.push_back(sortedVertices[j].second);
