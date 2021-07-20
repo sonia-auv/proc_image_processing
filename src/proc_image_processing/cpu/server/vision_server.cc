@@ -1,8 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-
-
 #include <fstream>
 #include <proc_image_processing/cpu/server/vision_server.h>
 #include <sonia_common/ChangeNetwork.h>

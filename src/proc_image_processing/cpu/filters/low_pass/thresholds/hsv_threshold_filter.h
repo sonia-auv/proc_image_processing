@@ -1,6 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
 // FACTORY_GENERATOR_CLASS_NAME=HSVThresholdFilter
 
 #ifndef PROC_IMAGE_PROCESSING_FILTERS_HSV_THRESHOLD_H_

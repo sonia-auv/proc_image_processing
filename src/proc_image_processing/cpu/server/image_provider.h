@@ -1,7 +1,3 @@
-/// \author	Jeremie 
-/// \date 2/22/17
-
-
 #ifndef PROC_IMAGE_PROCESSING_IMAGE_PROVIDER_H
 #define PROC_IMAGE_PROCESSING_IMAGE_PROVIDER_H
 

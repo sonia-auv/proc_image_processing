@@ -1,7 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
-
 #include "object_frame_memory.h"
 
 namespace proc_image_processing {

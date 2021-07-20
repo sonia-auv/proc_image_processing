@@ -1,8 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-
-
 #include <proc_image_processing/cpu/server/detection_task_manager.h>
 #include "image_provider.h"
 

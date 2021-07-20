@@ -1,6 +1,3 @@
-/// \author csauvain
-/// \date 20/07/19
-
 // FACTORY_GENERATOR_CLASS_NAME=VampireBodyDetector
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_BODY_DETECTOR_H

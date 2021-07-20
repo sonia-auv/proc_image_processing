@@ -1,7 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
-
 #ifndef PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_
 #define PROC_IMAGE_PROCESSING_ALGORITHM_MOMENTS_H_
 

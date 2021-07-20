@@ -1,5 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-
 // FACTORY_GENERATOR_CLASS_NAME=CropFilter
 
 #ifndef PROC_IMAGE_PROCESSING_FILTERS_IMAGE_CROPPER_H_

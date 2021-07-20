@@ -1,7 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-
 #include <sonia_common/ros/service_server_manager.h>
 #include <proc_image_processing/cpu/sonar/submarine_position.h>
 #include <proc_image_processing/cpu/sonar/sonar_mapper.h>

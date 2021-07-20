@@ -1,9 +1,3 @@
-/**
- * \file	AsyncImagePublisher.cc
- * \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
- * \date	27/07/2016
- */
-
 #include "async_image_publisher.h"
 #include <cv_bridge/cv_bridge.h>
 

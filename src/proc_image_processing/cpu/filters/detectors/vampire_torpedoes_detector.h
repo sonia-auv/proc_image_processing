@@ -1,7 +1,3 @@
-/// \author csauvain
-/// \date 20/07/19
-/// TODO: Refactor code repetition
-
 // FACTORY_GENERATOR_CLASS_NAME=VampireTorpedoesDetector
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_DETECTOR_H

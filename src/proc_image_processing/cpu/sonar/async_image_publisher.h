@@ -1,9 +1,3 @@
-/**
- * \file	AsyncImagePublisher.h
- * \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
- * \date	27/07/2016
- */
-
 #ifndef PROC_IMAGE_PROCESSING_ASYNC_IMAGE_PUBLISHER_H_
 #define PROC_IMAGE_PROCESSING_ASYNC_IMAGE_PUBLISHER_H_
 

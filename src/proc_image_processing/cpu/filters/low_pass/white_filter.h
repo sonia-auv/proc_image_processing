@@ -1,6 +1,3 @@
-/// \author olavoie
-/// \date 12/07/17
-
 // FACTORY_GENERATOR_CLASS_NAME=WhiteFilter
 
 #ifndef PROC_IMAGE_PROCESSING_WHITE_FILTER_H

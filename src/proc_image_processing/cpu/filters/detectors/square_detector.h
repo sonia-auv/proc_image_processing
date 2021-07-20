@@ -1,6 +1,3 @@
-/// \author olavoie
-/// \date 11/29/17
-
 // FACTORY_GENERATOR_CLASS_NAME=SquareDetector
 
 #ifndef PROC_IMAGE_PROCESSING_SQUARE_DETECTOR_H

@@ -1,7 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
-
 #ifndef PROC_IMAGE_PROCESSING_ALGORITHM_TYPE_AND_CONST_H_
 #define PROC_IMAGE_PROCESSING_ALGORITHM_TYPE_AND_CONST_H_
 
@@ -10,15 +6,14 @@
 
 namespace proc_image_processing {
 
-    typedef std::vector<cv::Point> contour_t;
-    typedef std::vector<contour_t> contourList_t;
-    typedef std::vector<cv::Vec4i> hierarchy_t;
-
 #define NEXT_CTR 0
 #define PREV_CTR 1
 #define FIRST_CHILD_CTR 2
 #define PARENT_CTR 3
 
+    typedef std::vector<cv::Point> contour_t;
+    typedef std::vector<contour_t> contourList_t;
+    typedef std::vector<cv::Vec4i> hierarchy_t;
     typedef std::vector<cv::Vec4i> defectuosity_t;
 
     // Enum for the rotation function

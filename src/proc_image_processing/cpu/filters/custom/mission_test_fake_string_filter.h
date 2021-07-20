@@ -1,6 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
 // FACTORY_GENERATOR_CLASS_NAME=MissionTestFakeStringFilter
 
 #ifndef PROC_IMAGE_PROCESSING_FILTERS_MISSION_TEST_FAKE_STRING_H_

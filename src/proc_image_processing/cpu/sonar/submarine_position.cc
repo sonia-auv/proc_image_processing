@@ -1,9 +1,3 @@
-/**
- * \file	SubmarinePosition.cc
- * \author	Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
- * \date	06/02/2016
- */
-
 #include "submarine_position.h"
 
 #include <utility>

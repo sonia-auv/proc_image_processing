@@ -1,9 +1,3 @@
-/**
- * \file	SonarMapper.h
- * \author	Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
- * \date	06/02/2016
- */
-
 #ifndef PROC_IMAGE_PROCESSING_RAW_MAP_H_
 #define PROC_IMAGE_PROCESSING_RAW_MAP_H_
 

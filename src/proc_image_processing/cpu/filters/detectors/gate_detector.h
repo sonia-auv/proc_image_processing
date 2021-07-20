@@ -1,7 +1,3 @@
-/// \author sonia
-/// \date 7/27/16
-
-
 // FACTORY_GENERATOR_CLASS_NAME=GateDetector
 
 #ifndef PROC_IMAGE_PROCESSING_GATE_DETECTOR_H

@@ -1,6 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
 // FACTORY_GENERATOR_CLASS_NAME=IntervalThresholdFilter
 
 #ifndef PROC_IMAGE_PROCESSING_FILTERS_THRESHOLD_BETWEEN_H_
