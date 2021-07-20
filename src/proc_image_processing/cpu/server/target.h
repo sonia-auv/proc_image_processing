@@ -22,22 +22,41 @@ namespace proc_image_processing {
 
         Target();
 
-        Target(const std::string &header, int x, int y, float width, float height,
-               float angle, int image_height, int image_width,
-               const std::string &spec_field_1 = "",
-               const std::string &spec_field_2 = "");
+        Target(
+                const std::string &header,
+                int x,
+                int y,
+                float width,
+                float height,
+                float angle,
+                int image_height,
+                int image_width,
+                const std::string &spec_field_1 = "",
+                const std::string &spec_field_2 = ""
+        );
 
         ~Target() = default;
 
         // Setting target will use offseted center.
-        void setTarget(const std::string &header, int x, int y, float width,
-                       float height, float angle, int image_height, int image_width,
-                       const std::string &spec_field_1 = "",
-                       const std::string &spec_field_2 = "");
+        void setTarget(
+                const std::string &header,
+                int x,
+                int y,
+                float width,
+                float height,
+                float angle,
+                int image_height,
+                int image_width,
+                const std::string &spec_field_1 = "",
+                const std::string &spec_field_2 = ""
+        );
 
-        void setTarget(const ObjectFullData::Ptr &obj, const std::string &header,
-                       const std::string &spec_field_1 = "",
-                       const std::string &spec_field_2 = "");
+        void setTarget(
+                const ObjectFullData::Ptr &obj,
+                const std::string &header,
+                const std::string &spec_field_1 = "",
+                const std::string &spec_field_2 = ""
+        );
 
         void setHeader(const std::string &header);
 
@@ -77,11 +96,18 @@ namespace proc_image_processing {
     typedef std::queue<Target> TargetQueue;
 
 
-    inline void Target::setTarget(const std::string &header, int x, int y,
-                                  float width, float height, float angle,
-                                  int image_height, int image_width,
-                                  const std::string &spec_field_1,
-                                  const std::string &spec_field_2) {
+    inline void Target::setTarget(
+            const std::string &header,
+            int x,
+            int y,
+            float width,
+            float height,
+            float angle,
+            int image_height,
+            int image_width,
+            const std::string &spec_field_1,
+            const std::string &spec_field_2
+    ) {
         header_ = header;
         center_.x = x;
         center_.y = y;
@@ -93,18 +119,19 @@ namespace proc_image_processing {
         setCameraOffset(center_, image_height, image_width);
     }
 
-    inline void Target::setTarget(const ObjectFullData::Ptr &obj,
-                                  const std::string &header,
-                                  const std::string &spec_field_1,
-                                  const std::string &spec_field_2) {
+    inline void Target::setTarget(
+            const ObjectFullData::Ptr &obj,
+            const std::string &header,
+            const std::string &spec_field_1,
+            const std::string &spec_field_2
+    ) {
         header_ = header;
         center_ = obj->getCenterPoint();
         dimension_ = obj->getRotRect().size;
         angle_ = obj->getAngle();
         special_field_1_ = spec_field_1;
         special_field_2_ = spec_field_2;
-        setCameraOffset(center_, obj->getImageSize().height,
-                        obj->getImageSize().width);
+        setCameraOffset(center_, obj->getImageSize().height, obj->getImageSize().width);
     }
 
     inline void Target::setHeader(const std::string &header) { header_ = header; }
@@ -125,16 +152,11 @@ namespace proc_image_processing {
 
     inline void Target::setAngle(float angle) { angle_ = angle; }
 
-    inline void Target::setSpecField1(const std::string &field) {
-        special_field_1_ = field;
-    }
+    inline void Target::setSpecField1(const std::string &field) { special_field_1_ = field; }
 
-    inline void Target::setSpecField2(const std::string &field) {
-        special_field_2_ = field;
-    }
+    inline void Target::setSpecField2(const std::string &field) { special_field_2_ = field; }
 
-    inline void Target::setSpecFields(const std::string &field1,
-                                      const std::string &field2) {
+    inline void Target::setSpecFields(const std::string &field1, const std::string &field2) {
         special_field_1_ = field1;
         special_field_2_ = field2;
     }

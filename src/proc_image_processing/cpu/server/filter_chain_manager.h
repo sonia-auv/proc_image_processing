@@ -74,7 +74,7 @@ namespace proc_image_processing {
          * \param filter_chain The name of the filter_chain to create.
          * \return Either if the filter_chain was added or not.
          */
-        void addFilterChain(const std::string &filter_chain);
+        static void addFilterChain(const std::string &filter_chain);
 
         /**
          * If the filter_chain exists, delete it.
@@ -82,7 +82,7 @@ namespace proc_image_processing {
          * \param filter_chain The name of the filter_chain to delete.
          * \return Either if the filter_chain was delete or not.
          */
-        void deleteFilterChain(const std::string &filter_chain) const;
+        static void deleteFilterChain(const std::string &filter_chain);
 
         /**
          * Check if a filter_chain exist or not.

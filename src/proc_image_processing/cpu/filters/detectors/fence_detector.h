@@ -66,15 +66,13 @@ namespace proc_image_processing {
 
             contourList_t contours;
             retrieveOuterContours(in, contours);
-            std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar,
-                    merged_horizontal_bar;
+            std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar, merged_horizontal_bar;
 
             cv::Mat originalImage = global_params_.getOriginalImage();
 
             // Parse contours into 2 categories, vertical or horizontal.
             for (int i = 0; i < contours.size(); i++) {
-                ObjectFullData::Ptr object =
-                        std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 
                 if (object.get() == nullptr) {
                     continue;
@@ -112,16 +110,16 @@ namespace proc_image_processing {
 
             // Sort the bars with different criteria
             // Here we look for horizontal bar because it's
-            std::sort(horizontalBar.begin(), horizontalBar.end(),
-                      [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                          return a->getRotRect().size.height >
-                                 b->getRotRect().size.height;
-                      });
+            std::sort(
+                    horizontalBar.begin(), horizontalBar.end(),
+                    [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                        return a->getRotRect().size.height > b->getRotRect().size.height;
+                    }
+            );
 
             if (horizontalBar.size() >= 2) {
                 std::vector<std::pair<int, int>> pairs;
-                for (int ref_idx = 0, size_ref = horizontalBar.size(); ref_idx < size_ref;
-                     ref_idx++) {
+                for (int i = 0; i < horizontalBar.size(); i++) {
                     if (isSplitBar(horizontalBar[0], horizontalBar[1])) {
                         contour_t tmp, a, b;
                         a = horizontalBar[0]->getContourCopy().getContour();
@@ -130,8 +128,7 @@ namespace proc_image_processing {
                         tmp.reserve(a.size() + b.size());
                         tmp.insert(tmp.end(), a.begin(), a.end());
                         tmp.insert(tmp.end(), b.begin(), b.end());
-                        horizontalBar[0] =
-                                std::make_shared<ObjectFullData>(originalImage, image, tmp);
+                        horizontalBar[0] = std::make_shared<ObjectFullData>(originalImage, image, tmp);
                     }
                 }
             }
@@ -139,24 +136,37 @@ namespace proc_image_processing {
             // the easiest to find... if you did not find this one...
             // you probably didn't find any other... by experience.
             // Also, you need to return a size to AUV6 so...
-            if (horizontalBar.size() != 0) {
+            if (!horizontalBar.empty()) {
                 // Gets bottom bar info.
                 ObjectFullData::Ptr final_horizontal_bar = horizontalBar[0];
                 RotRect rect_from_hori_bar = final_horizontal_bar->getRotRect();
                 if (debug_contour_()) {
-                    cv::circle(output_image_, rect_from_hori_bar.center, 3,
-                               CV_RGB(0, 0, 255), 3);
+                    cv::circle(
+                            output_image_,
+                            rect_from_hori_bar.center,
+                            3,
+                            CV_RGB(0, 0, 255),
+                            3
+                    );
                 }
 
                 Target fence;
                 cv::Point center = (rect_from_hori_bar.center);
-                fence.setTarget("fence", center.x, center.y,
-                                rect_from_hori_bar.size.width,
-                                rect_from_hori_bar.size.height, rect_from_hori_bar.angle,
-                                image.rows, image.cols);
+                fence.setTarget(
+                        "fence",
+                        center.x,
+                        center.y,
+                        rect_from_hori_bar.size.width,
+                        rect_from_hori_bar.size.height,
+                        rect_from_hori_bar.angle,
+                        image.rows,
+                        image.cols
+                );
 
                 int y_coord_from_bottom = getYFromBottomBar(
-                        rect_from_hori_bar.size.height, rect_from_hori_bar.center.y);
+                        rect_from_hori_bar.size.height,
+                        rect_from_hori_bar.center.y
+                );
 
                 if (search_only_bottom_()) {
                     center = cv::Point(rect_from_hori_bar.center.x, y_coord_from_bottom);
@@ -169,11 +179,13 @@ namespace proc_image_processing {
 
                 } else  // Gets the two best vertical bar to compute our y center.
                 {
-                    std::sort(verticalBars.begin(), verticalBars.end(),
-                              [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                                  return a->getRotRect().size.height >
-                                         b->getRotRect().size.height;
-                              });
+                    std::sort(
+                            verticalBars.begin(),
+                            verticalBars.end(),
+                            [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                                return a->getRotRect().size.height > b->getRotRect().size.height;
+                            }
+                    );
 
                     std::vector<cv::Point2f> final_vert_bar;
                     int leftX, rightX;
@@ -183,13 +195,15 @@ namespace proc_image_processing {
                     // post.
                     int i = 0, size = verticalBars.size(), bar_founded = 0;
                     for (; i < size && bar_founded != 2; i++) {
-                        if (isNearExtremum(verticalBars[i]->getRotRect().center.x, leftX,
-                                           rightX)) {
+                        if (isNearExtremum(verticalBars[i]->getRotRect().center.x, leftX, rightX)) {
                             final_vert_bar.push_back(verticalBars[i]->getRotRect().center);
                             if (debug_contour_()) {
                                 cv::circle(output_image_,
-                                           verticalBars[i]->getRotRect().center, 5,
-                                           CV_RGB(0, 255, 255), 20);
+                                           verticalBars[i]->getRotRect().center,
+                                           5,
+                                           CV_RGB(0, 255, 255),
+                                           20
+                                );
                             }
                             bar_founded++;
                         }
@@ -198,13 +212,9 @@ namespace proc_image_processing {
                     if (bar_founded == 2) {
                         int x = 0, y = 0;
                         // X from bottom bar plus
-                        x = (rect_from_hori_bar.center.x +
-                             (final_vert_bar[0].x + final_vert_bar[1].x) / 2) /
-                            2;
+                        x = (rect_from_hori_bar.center.x + (final_vert_bar[0].x + final_vert_bar[1].x) / 2) / 2;
 
-                        y = (y_coord_from_bottom + final_vert_bar[0].y +
-                             final_vert_bar[1].y) /
-                            3;
+                        y = (y_coord_from_bottom + final_vert_bar[0].y + final_vert_bar[1].y) / 3;
                         center = cv::Point(x, y);
                         if (debug_contour_()) {
                             cv::circle(output_image_, center, 5, CV_RGB(0, 255, 255), 20);

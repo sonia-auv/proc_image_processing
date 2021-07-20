@@ -3,10 +3,9 @@
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 
 
-#include <proc_image_processing/cpu/server/filter_chain_manager.h>
+#include "filter_chain_manager.h"
 #include <dirent.h>
 #include <yaml-cpp/yaml.h>
-#include <fstream>
 
 namespace proc_image_processing {
     // TODO Initialization of 'FILTER_CHAIN_MANAGER_TAG' with static storage duration may throw an exception that cannot be caught
@@ -48,7 +47,7 @@ namespace proc_image_processing {
         }
     }
 
-    void FilterChainManager::deleteFilterChain(const std::string &filter_chain) const {
+    void FilterChainManager::deleteFilterChain(const std::string &filter_chain) {
         remove(getFilterChainPath(filter_chain).c_str());
     }
 
@@ -71,8 +70,7 @@ namespace proc_image_processing {
         throw std::invalid_argument("Could not find the given filterchain");
     }
 
-    const std::vector<FilterChain::Ptr>
-    &FilterChainManager::createAllFilterChains() {
+    const std::vector<FilterChain::Ptr> &FilterChainManager::createAllFilterChains() {
         for (const auto &filter_chain : getFilterChainsNames()) {
             createFilterChain(filter_chain);
         }
