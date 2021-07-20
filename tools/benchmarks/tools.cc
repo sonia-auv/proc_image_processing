@@ -1,9 +1,5 @@
 #include "tools.h"
-#include <opencv2/opencv.hpp>
 #include <dirent.h>
-
-using namespace std;
-namespace fs = boost::filesystem;
 
 namespace tools {
     void addTrailingSlash(fs::path &path) {

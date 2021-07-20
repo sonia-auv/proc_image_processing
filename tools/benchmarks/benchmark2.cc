@@ -1,22 +1,16 @@
-#include <opencv2/opencv.hpp>
+#include "tools.h"
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/cudaimgproc.hpp>
 #include <boost/program_options.hpp>
-#include <boost/filesystem/operations.hpp>
-#include "tools.h"
 
-using namespace std;
 namespace gpu = cv::cuda;
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
 
 
 /**
  * Benchmark without GPU streams (1:1 comparison)
  */
-
-using namespace std;
 
 void benchmarkCPU(const string &inputDirectory, const string &cpuOutputDirectory) {
     // Load all in memory to simulate receiving messages from the ROS provider

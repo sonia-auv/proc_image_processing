@@ -1,16 +1,12 @@
-#include <opencv2/opencv.hpp>
+#include "tools.h"
 #include <opencv2/imgcodecs.hpp>
 #include <thread>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/cudaimgproc.hpp>
 #include <boost/program_options.hpp>
-#include <boost/filesystem/operations.hpp>
-#include "tools.h"
 
-using namespace std;
 namespace gpu = cv::cuda;
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
 
 /**
  * Benchmark using GPU streams (Async calls with callbacks)
