@@ -1,6 +1,4 @@
 #include "detection_task.h"
-#include <utility>
-#include "target.h"
 
 namespace proc_image_processing {
     // TODO Initialization of 'EXEC_TAG' with static storage duration may throw an exception that cannot be caught

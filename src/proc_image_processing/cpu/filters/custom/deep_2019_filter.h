@@ -118,8 +118,8 @@ namespace proc_image_processing {
             int vision_bounding_box_center_x;
             int vision_bounding_box_center_y;
 
-            image_central_x = (int) (image_width_ / 2);
-            image_central_y = (int) (image_height_ / 2);
+            image_central_x = image_width_ / 2;
+            image_central_y = image_height_ / 2;
 
             bounding_box_center_x = (int) object.bbox.center.x;
             bounding_box_center_y = (int) object.bbox.center.y;

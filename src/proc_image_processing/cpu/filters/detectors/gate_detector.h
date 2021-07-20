@@ -54,7 +54,7 @@ namespace proc_image_processing {
                   id_("ID", "buoy", &parameters_),
                   spec_1_("spec1", "red", &parameters_),
                   spec_2_("spec2", "blue", &parameters_),
-                  contour_retrieval_("Contour_retreval", 0, 0, 4, &parameters_,
+                  contour_retrieval_("Contour_retrieval", 0, 0, 4, &parameters_,
                                      "0=All, 1=Out, 2=Inner, 3=InnerMost, 4=OutNoChild"),
                   feature_factory_(5) {
             setName("GateDetector");

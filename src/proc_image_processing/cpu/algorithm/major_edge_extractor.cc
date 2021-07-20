@@ -1,5 +1,4 @@
 #include "major_edge_extractor.h"
-#include "utility"
 
 namespace proc_image_processing {
 

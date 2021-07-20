@@ -1,7 +1,5 @@
 #include "sonar_mapper.h"
 
-#include <utility>
-
 namespace proc_image_processing {
 
     SonarMapper::SonarMapper(const SubmarinePosition &submarine_position, ros::NodeHandlePtr nh)

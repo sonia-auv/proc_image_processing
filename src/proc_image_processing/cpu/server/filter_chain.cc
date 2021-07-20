@@ -1,6 +1,5 @@
 #include "filter_chain.h"
 #include <yaml-cpp/yaml.h>
-#include <fstream>
 #include "proc_image_processing/cpu/config.h"
 
 namespace proc_image_processing {

@@ -1,7 +1,5 @@
 #include "submarine_position.h"
 
-#include <utility>
-
 namespace proc_image_processing {
 
     SubmarinePosition::SubmarinePosition(ros::NodeHandlePtr nh) :

@@ -32,8 +32,8 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             if (enable_()) {
-                cv::Size2i kernelSize((int) kernel_size_() * 2 + 1,
-                                      (int) (kernel_size_() * 2 + 1));
+                cv::Size2i kernelSize(kernel_size_() * 2 + 1,
+                                      kernel_size_() * 2 + 1);
                 switch (type_()) {
                     // Could be optimized via function pointer maybe?
                     case 1:

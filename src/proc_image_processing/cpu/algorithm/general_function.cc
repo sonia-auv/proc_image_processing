@@ -1,6 +1,4 @@
 #include "general_function.h"
-#include <tuple>
-#include <utility>
 
 namespace proc_image_processing {
 

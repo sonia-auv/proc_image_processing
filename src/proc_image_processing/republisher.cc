@@ -2,7 +2,6 @@
 #include "image_transport/publisher_plugin.h"
 #include <pluginlib/class_loader.h>
 #include <sonia_common/Republish.h>
-#include <cstdlib>
 
 class Images {
 public:

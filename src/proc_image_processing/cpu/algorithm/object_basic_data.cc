@@ -1,7 +1,5 @@
 #include "object_basic_data.h"
 
-#include <utility>
-
 namespace proc_image_processing {
 
     ObjectBasicData::ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage, Contour contour)

@@ -124,7 +124,7 @@ namespace proc_image_processing {
 
     inline bool MajorEdgeExtractor::isValueConnected(RefPointPtr ref, float value) {
         if (ref != nullptr)
-            return float(ref->_pix_value) * PERCENT_OF_VAL_FOR_VALUE_CONNECTION <= value;
+            return ref->_pix_value * PERCENT_OF_VAL_FOR_VALUE_CONNECTION <= value;
         return false;
     }
 
