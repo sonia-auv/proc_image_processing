@@ -88,7 +88,6 @@ namespace proc_image_processing {
             cv::Mat one(rows_, cols_, CV_16SC1, cv::Scalar(1));
 
             // Thightly couple with parameter, but putting safety...
-            // Thightly couple with parameter, but putting safety...
             int index = choice < 0 ? 0 : (choice > 6 ? 6 : choice);
             channel_vec_[index].copyTo(out);
 

@@ -10,7 +10,7 @@ namespace proc_image_processing {
 
     class CropFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<BlurFilter>;
+        using Ptr = std::shared_ptr<CropFilter>;
 
         explicit CropFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),

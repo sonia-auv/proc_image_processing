@@ -70,7 +70,7 @@ namespace proc_image_processing {
         }
 
         inline ParameterInterface *getParameter(const std::string &name) const {
-            // Using [] accessor for optimisation.
+#
             for (auto i : _params_vec) {
                 if (i->getName() == name) {
                     return i;
