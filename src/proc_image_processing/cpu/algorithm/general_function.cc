@@ -1,13 +1,8 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-
-
 #include "general_function.h"
-#include <tuple>
 
 namespace proc_image_processing {
 
-    std::vector<cv::Mat> GetColorPlanes(cv::Mat image) {
+    std::vector<cv::Mat> getColorPlanes(const cv::Mat &image) {
         cv::Mat gray, hsi;
         std::vector<cv::Mat> planes(7);
 
@@ -24,20 +19,20 @@ namespace proc_image_processing {
         return planes;
     }
 
-    void SetCameraOffset(cv::Point &pt, int rows, int cols) {
+    void setCameraOffset(cv::Point &pt, int rows, int cols) {
         pt.x = pt.x - (cols / 2);
         pt.y = -(pt.y - (rows / 2));
     }
 
-    void RetrieveContours(cv::Mat image, contourList_t &contours) {
-        RetrieveOuterContours(image, contours);
+    void retrieveContours(const cv::Mat &image, contourList_t &contours) {
+        retrieveOuterContours(image, contours);
     }
 
-    void RetrieveInnerContours(cv::Mat image, contourList_t &contours) {
+    void retrieveInnerContours(const cv::Mat &image, contourList_t &contours) {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
-        hierachy_t hierarchy;
+        hierarchy_t hierarchy;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         cv::findContours(temp, contourVect, hierarchy, CV_RETR_TREE,
@@ -54,11 +49,11 @@ namespace proc_image_processing {
         }
     }
 
-    void RetrieveAllInnerContours(cv::Mat image, contourList_t &contours) {
+    void retrieveAllInnerContours(const cv::Mat &image, contourList_t &contours) {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
-        hierachy_t hierarchy;
+        hierarchy_t hierarchy;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         cv::findContours(temp, contourVect, hierarchy, CV_RETR_TREE,
@@ -75,30 +70,30 @@ namespace proc_image_processing {
         }
     }
 
-    void RetrieveOuterContours(cv::Mat image, contourList_t &contours) {
+    void retrieveOuterContours(const cv::Mat &image, contourList_t &contours) {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         cv::findContours(temp, contourVect, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-        for (int i = 0; i < (int) contourVect.size(); i++) {
+        for (auto &i : contourVect) {
             // TO CHECK : New tempContour each time?
             std::vector<cv::Point> tempContour;
             // Three is normal value... Purely hardcoded from xp.
-            cv::approxPolyDP(contourVect[i], tempContour, 3, true);
+            cv::approxPolyDP(i, tempContour, 3, true);
             contours.push_back(tempContour);
         }
     }
 
-    void RetrieveOutNoChildContours(cv::Mat image, contourList_t &contours) {
+    void retrieveNoChildAndParentContours(const cv::Mat &image, contourList_t &contours) {
         if (image.channels() != 1) return;
 
         contourList_t contourVect;
-        hierachy_t hierachy;
+        hierarchy_t hierachy;
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
-        RetrieveHiearchyContours(image, contourVect, hierachy);
+        retrieveHierarchyContours(image, contourVect, hierachy);
         for (int i = 0; i < (int) contourVect.size(); i++) {
             // TO CHECK : New tempContour each time?
             // If no child and no parent, good
@@ -111,24 +106,23 @@ namespace proc_image_processing {
         }
     }
 
-    void RetrieveAllContours(cv::Mat image, contourList_t &contours) {
+    void retrieveAllContours(const cv::Mat &image, contourList_t &contours) {
         if (image.channels() != 1) return;
         contourList_t contourVect;
 
         // CLone beacause find contour modifies the image.
         cv::Mat temp = image.clone();
         cv::findContours(temp, contourVect, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-        for (int i = 0; i < (int) contourVect.size(); i++) {
+        for (auto &i : contourVect) {
             // TO CHECK : New tempContour each time?
             std::vector<cv::Point> tempContour;
             // Three is normal value... Purely hardcoded from xp.
-            cv::approxPolyDP(contourVect[i], tempContour, 3, true);
+            cv::approxPolyDP(i, tempContour, 3, true);
             contours.push_back(tempContour);
         }
     }
 
-    void RetrieveHiearchyContours(cv::Mat image, contourList_t &contours,
-                                  hierachy_t &hierarchy) {
+    void retrieveHierarchyContours(const cv::Mat &image, contourList_t &contours, hierarchy_t &hierarchy) {
         if (image.channels() != 1) return;
 
         // CLone beacause find contour modifies the image.
@@ -141,16 +135,16 @@ namespace proc_image_processing {
         }
     }
 
-    void RetrieveContourRotRect(cv::RotatedRect rect, contour_t &contour) {
+    void retrieveContourRotRect(const cv::RotatedRect &rect, contour_t &contour) {
         cv::Point2f pts[4];
         rect.points(pts);
 
-        for (int j = 0; j < 4; j++) {
-            contour.push_back(pts[j]);
+        for (auto &pt : pts) {
+            contour.push_back(pt);
         }
     }
 
-    Line FitLineOnPolygone(contour_t contour, int cols) {
+    Line getLineOnPolygon(const contour_t &contour, int cols) {
         cv::Vec4d line;
         cv::fitLine(contour, line, cv::DIST_L2, 0, 0.01, 0.01);
 
@@ -170,11 +164,11 @@ namespace proc_image_processing {
         return lineFit;
     }
 
-    Line GetPerpendicularLine(Line line, cv::Point2f center) {
+    Line getPerpendicularLine(Line line, const cv::Point2f &center) {
         cv::Point p1;
         cv::Point p2;
 
-        cv::Point2f vector = line.PerpendicularLine();
+        cv::Point2f vector = line.getPerpendicularLine();
 
         p1 = center;
         p2 = vector + center;
@@ -189,26 +183,26 @@ namespace proc_image_processing {
 
     }
 
-    float CalculateRatio(float width, float height) {
+    float getResolutionRatio(float width, float height) {
         if (width == 0 && height == 0) return 0;
         return std::min((height / width), (width / height)) * 100;
     }
 
-    float CalculateConvexityRatio(contour_t contour) {
+    float getConvexityRatio(const contour_t &contour) {
         if (contour.size() <= 2) return -1;
-        float convexHullArea = CalculateConvexHullArea(contour);
+        float convexHullArea = getConvexHullArea(contour);
         if (convexHullArea == 0) return 0;
         return (cv::contourArea(contour) / convexHullArea) * 100;
     }
 
-    float CalculateConvexHullArea(contour_t contour) {
+    float getConvexHullArea(const contour_t &contour) {
         if (contour.size() <= 2) return -1;
         contour_t convexHull;
         cv::convexHull(contour, convexHull, false, true);
         return cv::contourArea(convexHull, false);
     }
 
-    float CalculateCircleIndex(float area, float perimeter) {
+    float getCircleIndex(float area, float perimeter) {
         float radiusCircum = perimeter / (2 * M_PI);
         float radiusArea = sqrt(area / (M_PI));
         if (radiusCircum == 0 && radiusArea) return 0;
@@ -216,12 +210,12 @@ namespace proc_image_processing {
                                          : radiusCircum / radiusArea;
     }
 
-    float CalculateCircleIndex(contour_t contour) {
-        return CalculateCircleIndex(cv::contourArea(contour, false),
-                                    cv::arcLength(contour, true));
+    float getCircleIndex(const contour_t &contour) {
+        return getCircleIndex(cv::contourArea(contour, false),
+                              cv::arcLength(contour, true));
     }
 
-    cv::Scalar CalculateMeans(contour_t contour, cv::Mat image, bool middle) {
+    cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle) {
         cv::Mat opImage;
         if (image.channels() > 1)
             cv::cvtColor(image, opImage, CV_BGR2GRAY);
@@ -241,16 +235,15 @@ namespace proc_image_processing {
         return cv::mean(matRoi);
     }
 
-    cv::Mat ExtractImageFromRect(contour_t rect, cv::Mat image) {
-        return ExtractImageFromRect(RotRect(rect), image);
+    cv::Mat getImageFromContour(const contour_t &rect, const cv::Mat &image) {
+        return getImageFromRotatedRect(RotRect(rect), image);
     }
 
-    cv::Mat ExtractImageFromRect(cv::RotatedRect rect, cv::Mat image) {
+    cv::Mat getImageFromRotatedRect(const cv::RotatedRect &rect, const cv::Mat &image) {
         // thanks to http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
 
         cv::Mat rotated, rotationMat, originalOut;
-        cv::Mat returnImage =
-                cv::Mat::zeros(rect.size.height, rect.size.width, image.type());
+        cv::Mat returnImage = cv::Mat::zeros(rect.size.height, rect.size.width, image.type());
 
         // Gets the rotation matrix
         rotationMat = cv::getRotationMatrix2D(rect.center, rect.angle, 1.0);
@@ -265,7 +258,7 @@ namespace proc_image_processing {
         return returnImage;
     }
 
-    float CalculatePercentFilled(const cv::Mat &image, const cv::Rect &rectangle) {
+    float getPercentFilled(const cv::Mat &image, const cv::Rect &rectangle) {
         cv::Mat opImage;
         if (image.channels() > 1)
             cv::cvtColor(image, opImage, CV_BGR2GRAY);
@@ -278,8 +271,7 @@ namespace proc_image_processing {
         return 0.0f;
     }
 
-    float CalculatePercentFilled(const cv::Mat &image,
-                                 const cv::RotatedRect &rectangle) {
+    float getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle) {
         cv::Mat opImage;
         if (image.channels() > 1)
             cv::cvtColor(image, opImage, CV_BGR2GRAY);
@@ -289,7 +281,7 @@ namespace proc_image_processing {
         cv::Mat rotRectDraw = cv::Mat::zeros(opImage.size(), CV_8UC1);
         // Got the rotated rect and its points
         contour_t rectContour;
-        RetrieveContourRotRect(rectangle, rectContour);
+        retrieveContourRotRect(rectangle, rectContour);
         // The rotated rect is filled and draw
         cv::fillConvexPoly(rotRectDraw, rectContour, cv::Scalar(255));
 
@@ -319,7 +311,7 @@ namespace proc_image_processing {
         return (1 - (countNonZeroResult / rotRectPix)) * 100;
     }
 
-    cv::Mat RotateImage(cv::Mat in, rotationType rotation, symmetryType symmetry) {
+    cv::Mat rotateImage(const cv::Mat &in, rotationType rotation, symmetryType symmetry) {
         // Could use extractRotation function with rotated rect?
         cv::Size size(in.cols, in.rows);
         cv::Point2f origin(0, 0);
@@ -363,7 +355,7 @@ namespace proc_image_processing {
         return out;
     }
 
-    void drawRectangle(cv::Point2f *pts, cv::Mat &image, cv::Scalar color) {
+    void drawRectangle(cv::Point2f *pts, cv::Mat &image, const cv::Scalar &color) {
         if (sizeof(pts) != 8 || image.data == nullptr) return;
 
         cv::line(image, pts[0], pts[1], color, 3);
@@ -372,7 +364,7 @@ namespace proc_image_processing {
         cv::line(image, pts[3], pts[0], color, 3);
     }
 
-    void InverseImage(const cv::Mat &in, cv::Mat &out) {
+    void inverseImage(const cv::Mat &in, cv::Mat &out) {
         cv::Mat temp(in.rows, in.cols, CV_16SC1);
 
         // Enables negative numbers
@@ -389,11 +381,11 @@ namespace proc_image_processing {
         temp.convertTo(out, CV_8UC1);
     }
 
-    bool IsRectangle(contour_t &contour, unsigned int degreeAcuracy) {
+    bool isRectangle(contour_t &contour, unsigned int accuracy) {
         // Clip to make sure we have a good index.
         // unsigned, so no check for negative.
-        if (degreeAcuracy >= ACCURACY_TABLE_SIZE)
-            degreeAcuracy = ACCURACY_TABLE_SIZE - 1;
+        if (accuracy >= ACCURACY_TABLE_SIZE)
+            accuracy = ACCURACY_TABLE_SIZE - 1;
 
         // If less than 4 points, cannot be a rectangle
         if (contour.size() < 4) return false;
@@ -409,20 +401,18 @@ namespace proc_image_processing {
             size_t k = j + 1;
             if (k >= size) k = 0;
             cv::Point val = contour[k] - contour[j];
-            sortedVertices.push_back(
-                    std::pair<unsigned int, cv::Vec3f>(j, cv::Vec3f(val.x, val.y, 0.0f)));
+            sortedVertices.emplace_back(j, cv::Vec3f(val.x, val.y, 0.0f));
             //		vertices.push_back(cv::Vec3f(val.x , val.y, 0.0f));
         }
         // X point means X vertices with this implementation.
         // Since we know it cannot be smaller than 4, no need to double
         // check the size.
         // Set the longest vertices first.
-        std::sort(sortedVertices.begin(), sortedVertices.end(), SortVerticesLength);
+        std::sort(sortedVertices.begin(), sortedVertices.end(), compareVerticesLength);
         // Then take the four first and resort them in order of index to keep cross
         // product
         // valid.
-        std::sort(sortedVertices.begin(), (sortedVertices.begin() + 4),
-                  SortVerticesIndex);
+        std::sort(sortedVertices.begin(), (sortedVertices.begin() + 4), compareVerticesIndex);
         // Get the four first vertices, the longest because of the sort
         for (j = 0; j < 4; j++) {
             longestVertices.push_back(sortedVertices[j].second);
@@ -430,34 +420,34 @@ namespace proc_image_processing {
 
         // to have a single loop and less if statement,
         // we add the first contours to the end, so we can get the last
-        // angle value.
+        // getAngle value.
         longestVertices.push_back(longestVertices[0]);
         for (j = 0, size = longestVertices.size() - 1; j < size; j++) {
             cv::Vec3f A = longestVertices[j];
             cv::Vec3f B = -longestVertices[j + 1];
             cv::Vec3f C = A.cross(B);
-            float ninetyNorm = (norm(C)) / (norm(A) * norm(B));
+            float ninetyNorm = norm(C) / (norm(A) * norm(B));
             // Do not check for negativity because inner contour runs
             // clockwise, so they always give negative.
-            if (ninetyNorm >= ACCURACY_TABLE[degreeAcuracy]) trueSquareAngleCount++;
+            if (ninetyNorm >= ACCURACY_TABLE[accuracy]) trueSquareAngleCount++;
         }
 
         return trueSquareAngleCount == 4;
     }
 
-    bool IsSquare(std::vector<cv::Point> &approx, double min_area, double angle,
-                  double ratio_min, double ratio_max) {
+    bool
+    isSquare(std::vector<cv::Point> &approx, double min_area, double angle, double ratio_min, double ratio_max) {
         if (approx.size() == 4 &&
             std::fabs(cv::contourArea(cv::Mat(approx))) > min_area &&
             cv::isContourConvex(cv::Mat(approx))) {
             double maxCosine = 0;
             std::vector<double> eigenValues;
-            eigenValues = GetEigenValues(approx);
+            eigenValues = getEigenValues(approx);
             double ratio = fabs(eigenValues[0] / eigenValues[1]);
 
             for (int j = 2; j < 5; j++) {
                 double cosine = std::fabs(
-                        AngleBetweenThreePoints(approx[j % 4], approx[j - 2], approx[j - 1]));
+                        getAngleBetweenPoints(approx[j % 4], approx[j - 2], approx[j - 1]));
                 maxCosine = MAX(maxCosine, cosine);
             }
 
@@ -474,67 +464,58 @@ namespace proc_image_processing {
         }
     }
 
-    cv::Point GetEigenPos(std::vector<cv::Point> &pts) {
+    void pcaAnalysis(std::vector<cv::Point> &pts, cv::PCA &pca) {
         // Construct a buffer used by the pca analysis
         cv::Mat data_pts = cv::Mat((int) pts.size(), 2, CV_64FC1);
+
         for (int i = 0; i < data_pts.rows; ++i) {
             data_pts.at<double>(i, 0) = pts[i].x;
             data_pts.at<double>(i, 1) = pts[i].y;
         }
 
-        // Perform PCA analysis
-        cv::PCA pca_analysis(data_pts, cv::Mat(), CV_PCA_DATA_AS_ROW);
+        // Perform PCA
+        pca = cv::PCA(data_pts, cv::Mat(), CV_PCA_DATA_AS_ROW);
+    }
+
+    cv::Point getEigenPosition(std::vector<cv::Point> &pts) {
+        cv::PCA pca;
+        pcaAnalysis(pts, pca);
 
         // Store the position of the object
         cv::Point pos;
-        pos.x = (int) pca_analysis.mean.at<double>(0, 0);
-        pos.y = (int) pca_analysis.mean.at<double>(0, 1);
+        pos.x = (int) pca.mean.at<double>(0, 0);
+        pos.y = (int) pca.mean.at<double>(0, 1);
 
         return pos;
     }
 
-    std::vector<double> GetEigenValues(std::vector<cv::Point> &pts) {
-        // Construct a buffer used by the pca analysis
-        cv::Mat data_pts = cv::Mat((int) pts.size(), 2, CV_64FC1);
-        for (int i = 0; i < data_pts.rows; ++i) {
-            data_pts.at<double>(i, 0) = pts[i].x;
-            data_pts.at<double>(i, 1) = pts[i].y;
-        }
-
-        // Perform PCA analysis
-        cv::PCA pca_analysis(data_pts, cv::Mat(), CV_PCA_DATA_AS_ROW);
+    std::vector<double> getEigenValues(std::vector<cv::Point> &pts) {
+        cv::PCA pca;
+        pcaAnalysis(pts, pca);
 
         // Store the eigenvalues
         std::vector<double> eigen_val(2);
         for (int i = 0; i < 2; ++i) {
-            eigen_val[i] = pca_analysis.eigenvalues.at<double>(0, i);
+            eigen_val[i] = pca.eigenvalues.at<double>(0, i);
         }
 
         return eigen_val;
     }
 
-    std::vector<cv::Point2d> GetEigenVectors(std::vector<cv::Point> &pts) {
-        // Construct a buffer used by the pca analysis
-        cv::Mat data_pts = cv::Mat((int) pts.size(), 2, CV_64FC1);
-        for (int i = 0; i < data_pts.rows; ++i) {
-            data_pts.at<double>(i, 0) = pts[i].x;
-            data_pts.at<double>(i, 1) = pts[i].y;
-        }
-
-        // Perform PCA analysis
-        cv::PCA pca_analysis(data_pts, cv::Mat(), CV_PCA_DATA_AS_ROW);
+    std::vector<cv::Point2d> getEigenVectors(std::vector<cv::Point> &pts) {
+        cv::PCA pca;
+        pcaAnalysis(pts, pca);
 
         // Store the eigenvectors
         std::vector<cv::Point2d> eigen_vecs(2);
         for (int i = 0; i < 2; ++i) {
-            eigen_vecs[i] = cv::Point2d(pca_analysis.eigenvectors.at<double>(i, 0),
-                                        pca_analysis.eigenvectors.at<double>(i, 1));
+            eigen_vecs[i] = cv::Point2d(pca.eigenvectors.at<double>(i, 0), pca.eigenvectors.at<double>(i, 1));
         }
 
         return eigen_vecs;
     }
 
-    double AngleBetweenThreePoints(cv::Point pt1, cv::Point pt2, cv::Point pt0) {
+    double getAngleBetweenPoints(const cv::Point &pt1, const cv::Point &pt2, const cv::Point &pt0) {
         double dx1 = pt1.x - pt0.x;
         double dy1 = pt1.y - pt0.y;
         double dx2 = pt2.x - pt0.x;
@@ -543,20 +524,19 @@ namespace proc_image_processing {
                sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10);
     }
 
-    void DrawSquares(cv::Mat &image,
-                     const std::vector<std::vector<cv::Point>> &squares) {
-        for (size_t i = 0; i < squares.size(); i++) {
-            const cv::Point *p = &squares[i][0];
-            int n = (int) squares[i].size();
+    void drawSquares(cv::Mat &image, const std::vector<std::vector<cv::Point>> &squares) {
+        for (const auto &square : squares) {
+            const cv::Point *p = &square[0];
+            int n = (int) square.size();
             polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 10, CV_AA);
         }
     }
 
-    bool CompareYX(const cv::Point &p1, const cv::Point &p2) {
+    bool compareCoordinates(const cv::Point &p1, const cv::Point &p2) {
         return std::tie(p1.x, p1.y) < std::tie(p2.x, p2.y);
     }
 
-    float Median(std::vector<float> values) {
+    float getMedian(std::vector<float> values) {
         float median;
         size_t size = values.size();
 

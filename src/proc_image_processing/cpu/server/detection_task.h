@@ -1,121 +1,119 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-
-
-#ifndef PROVIDER_VISION_PROC_DETECTION_TASK_H_
-#define PROVIDER_VISION_PROC_DETECTION_TASK_H_
+#ifndef PROC_IMAGE_PROCESSING_PROC_DETECTION_TASK_H_
+#define PROC_IMAGE_PROCESSING_PROC_DETECTION_TASK_H_
 
 #include <sonia_common/ros/image_publisher.h>
 #include <mutex>
 #include "proc_image_processing/cpu/config.h"
-#include "filterchain.h"
+#include "filter_chain.h"
 #include "sonia_common/pattern/runnable.h"
-#include "ImageProvider.h"
+#include "image_provider.h"
 
 namespace proc_image_processing {
 
-  /**
-   * DetectionTask class is responsible of taking the image from an acquisition
-   * loop,
-   * broadcast it on topic and apply the given filterchain.
-   */
-  class DetectionTask : private sonia_common::Runnable {
-  public:
-    using Ptr = std::shared_ptr<DetectionTask>;
-
-    static const std::string EXEC_TAG;
-
-    explicit DetectionTask(const std::string& topic_name, Filterchain::Ptr filterchain,
-      const std::string& execution_name);
-
-    virtual ~DetectionTask();
-
-    void StartDetectionTask();
-
-    void StopDetectionTask();
-
     /**
-     * Change the image returned by the detection task to the result of a
-     * specific filter.
-     * This behavior is being handled by the filterchain so this method is
-     * a wrapper around the filterchain method that set the observed filter.
+     * DetectionTask class is responsible of taking the image from an acquisition
+     * loop,
+     * broadcast it on topic and apply the given filterchain.
      */
-    void ChangeReturnImageToFilter(const size_t& index);
+    class DetectionTask : private sonia_common::Runnable {
+    public:
+        using Ptr = std::shared_ptr<DetectionTask>;
 
-    /**
-     * Change the image returned by the detection task to the filterchain returned
-     * image.
-     * This is the default behavior, the image returned is the result of the
-     * whole pipeline of filters.
-     */
-    void ChangeReturnImageToFilterchain();
+        static const std::string EXEC_TAG;
 
-    /**
-     * Change the image returned by the detection task to the original image.
-     * If this parameters is enables, the image is not being processed and
-     * the image that is being sent on the network is the original image
-     * from the media.
-     */
-    void ChangeReturnImageToOrigin();
+        explicit DetectionTask(const std::string &topic_name, FilterChain::Ptr filter_chain,
+                               std::string execution_name);
 
-    Filterchain::Ptr GetFilterchain() const;
+        ~DetectionTask() override;
 
-    const std::string& GetDetectionTaskName() const;
+        void start();
 
-    const std::string& GetMediaName() const;
+        void stop();
 
-  protected:
-    void PublishAllTarget();
-    void PublishClientImage();
-    bool PrepareImageForPublishing(cv::Mat& image);
-    void Run() override;
+        /**
+         * Change the image returned by the detection task to the result of a
+         * specific filter.
+         * This behavior is being handled by the filterchain so this method is
+         * a wrapper around the filterchain method that set the observed filter.
+         */
+        void changeReturnImageToFilter(const size_t &index);
 
-  private:
-    std::string detection_task_name_;
-    std::string topic_name_;
+        /**
+         * Change the image returned by the detection task to the filterchain returned
+         * image.
+         * This is the default behavior, the image returned is the result of the
+         * whole pipeline of filters.
+         */
+        void changeReturnImageToFilterChain();
 
-    image_transport::Publisher image_publisher_;
-    image_transport::ImageTransport it_;
+        /**
+         * Change the image returned by the detection task to the original image.
+         * If this parameters is enables, the image is not being processed and
+         * the image that is being sent on the network is the original image
+         * from the media.
+         */
+        void changeReturnImageToOrigin();
 
-    /**
-     * This publisher will send the result of the image processing of the
-     * filterchain onto the ROS pipeline. It will contain informations about
-     * a potentially found object.
-     *
-     * This is a simple string separated by comma in this way:
-     * obstacle_name:x,y,width,height,specific_message;
-     * This could also return several objects this way:
-     * obstacle_name:x,y,width,height,specific_message;
-     * x2,y2,width2,height2,specific_message2;
-     */
-    ros::Publisher result_publisher_;
+        FilterChain::Ptr getFilterChain() const;
 
-    ImageProvider image_provider_;
+        const std::string &getName() const;
 
-    Filterchain::Ptr filterchain_;
+        const std::string &getMediaName() const;
 
-    proc_image_processing::GlobalParamHandler& param_handler_;
+    protected:
+        void publishAllTarget();
 
-    std::mutex newest_image_mutex_;
+        void publishClientImage();
 
-    cv::Mat image_being_processed_;
+        static bool prepareForPublishing(cv::Mat &image);
 
-    bool returning_original_image_;
-  };
+        void Run() override;
 
-  inline Filterchain::Ptr DetectionTask::GetFilterchain() const {
-    return filterchain_;
-  }
+    private:
+        std::string detection_task_name_;
+        std::string topic_name_;
 
-  inline const std::string& DetectionTask::GetDetectionTaskName() const {
-    return detection_task_name_;
-  }
+        image_transport::Publisher image_publisher_;
+        image_transport::ImageTransport it_;
 
-  inline const std::string& DetectionTask::GetMediaName() const {
-    return topic_name_;
-  }
+        /**
+         * This publisher will send the result of the image processing of the
+         * filterchain onto the ROS pipeline. It will contain informations about
+         * a potentially found object.
+         *
+         * This is a simple string separated by comma in this way:
+         * obstacle_name:x,y,width,height,specific_message;
+         * This could also return several objects this way:
+         * obstacle_name:x,y,width,height,specific_message;
+         * x2,y2,width2,height2,specific_message2;
+         */
+        ros::Publisher result_publisher_;
+
+        ImageProvider image_provider_;
+
+        FilterChain::Ptr filterchain_;
+
+        GlobalParamHandler &param_handler_;
+
+        std::mutex newest_image_mutex_;
+
+        cv::Mat image_being_processed_;
+
+        bool returning_original_image_;
+    };
+
+    inline FilterChain::Ptr DetectionTask::getFilterChain() const {
+        return filterchain_;
+    }
+
+    inline const std::string &DetectionTask::getName() const {
+        return detection_task_name_;
+    }
+
+    inline const std::string &DetectionTask::getMediaName() const {
+        return topic_name_;
+    }
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_PROC_DETECTION_TASK_H_
+#endif  // PROC_IMAGE_PROCESSING_PROC_DETECTION_TASK_H_

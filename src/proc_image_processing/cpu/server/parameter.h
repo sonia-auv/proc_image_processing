@@ -1,10 +1,5 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-
-
-#ifndef PROVIDER_VISION_FILTER_PARAMETER_H_
-#define PROVIDER_VISION_FILTER_PARAMETER_H_
+#ifndef PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_
+#define PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_
 
 #include <sonia_common/macros.h>
 #include "parameter_interface.h"
@@ -17,124 +12,125 @@
 
 namespace proc_image_processing {
 
-  template <typename Tp_>
-  class Parameter : public ParameterInterface {
-  public:
-    using Ptr = std::shared_ptr<Parameter<Tp_>>;
+    template<typename Tp_>
+    class Parameter : public ParameterInterface {
+    public:
+        using Ptr = std::shared_ptr<Parameter<Tp_>>;
 
-    static const char SEPARATOR = '|';
+        static const char SEPARATOR = '|';
 
-    explicit Parameter(const std::string& name, const Tp_& value,
-      std::vector<ParameterInterface*>* vector = nullptr,
-      const std::string& description = "");
+        explicit Parameter(std::string name, const Tp_ &value,
+                           std::vector<ParameterInterface *> *vector = nullptr,
+                           std::string description = "");
 
-    virtual ~Parameter() = default;
+        ~Parameter() override = default;
 
-    template <class Ut_>
-    bool operator>(const Ut_& rhs) {
-      return value_ > rhs;
-    }
+        template<class Ut_>
+        bool operator>(const Ut_ &rhs) {
+            return value_ > rhs;
+        }
 
-    template <class Ut_>
-    bool operator<(const Ut_& rhs) {
-      return value_ < rhs;
-    }
+        template<class Ut_>
+        bool operator<(const Ut_ &rhs) {
+            return value_ < rhs;
+        }
 
-    template <class Ut_>
-    bool operator==(const Ut_& rhs) {
-      return rhs == value_;
-    }
+        template<class Ut_>
+        bool operator==(const Ut_ &rhs) {
+            return rhs == value_;
+        }
 
-    template <class Ut_>
-    bool operator!=(const Ut_& rhs) {
-      return rhs != value_;
-    }
+        template<class Ut_>
+        bool operator!=(const Ut_ &rhs) {
+            return rhs != value_;
+        }
 
-    template <class Ut_>
-    void operator+=(const Ut_& rhs) {
-      value_ += rhs;
-    }
+        template<class Ut_>
+        void operator+=(const Ut_ &rhs) {
+            value_ += rhs;
+        }
 
-    template <class Ut_>
-    void operator++() {
-      value_++;
-    }
+        template<class Ut_>
+        void operator++() {
+            value_++;
+        }
 
-    template <class Ut_>
-    void operator-=(const Ut_& rhs) {
-      value_ -= rhs;
-    }
+        template<class Ut_>
+        void operator-=(const Ut_ &rhs) {
+            value_ -= rhs;
+        }
 
-    template <class Ut_>
-    void operator--() {
-      value_--;
-    }
+        template<class Ut_>
+        void operator--() {
+            value_--;
+        }
 
-    template <class Ut_>
-    void operator*=(const Ut_& rhs) {
-      value_ *= rhs;
-    }
+        template<class Ut_>
+        void operator*=(const Ut_ &rhs) {
+            value_ *= rhs;
+        }
 
-    template <class Ut_>
-    void operator/=(const Ut_& rhs) {
-      value_ /= rhs;
-    }
+        template<class Ut_>
+        void operator/=(const Ut_ &rhs) {
+            value_ /= rhs;
+        }
 
-    template <class Ut_>
-    int operator+(const Ut_& rhs) {
-      return value_ + rhs;
-    }
+        template<class Ut_>
+        int operator+(const Ut_ &rhs) {
+            return value_ + rhs;
+        }
 
-    template <class Ut_>
-    int operator-(const Ut_& rhs) {
-      return value_ - rhs;
-    }
+        template<class Ut_>
+        int operator-(const Ut_ &rhs) {
+            return value_ - rhs;
+        }
 
-    template <class Ut_>
-    int operator*(const Ut_& rhs) {
-      return value_ * rhs;
-    }
+        template<class Ut_>
+        int operator*(const Ut_ &rhs) {
+            return value_ * rhs;
+        }
 
-    template <class Ut_>
-    int operator/(const Ut_& rhs) {
-      return value_ / rhs;
-    }
+        template<class Ut_>
+        int operator/(const Ut_ &rhs) {
+            return value_ / rhs;
+        }
 
-    template <class Ut_>
-    void operator=(const Ut_& rhs) {
-      SetValue(rhs);
-    }
+        // TODO Operator=() should return 'Parameter&'
+        template<class Ut_>
+        void operator=(const Ut_ &rhs) {
+            setStringValue(rhs);
+        }
 
-    Tp_ operator()() { return GetValue(); }
+        Tp_ operator()() { return getValue(); }
 
-    void SetValue(const Tp_& value);
+        void setValue(const Tp_ &value);
 
-    const Tp_& GetValue() const;
+        const Tp_ &getValue() const;
 
-    void SetDescription(const std::string& description) override;
+        void setDescription(const std::string &description) override;
 
-    std::string GetDescription() const override;
+        std::string getDescription() const override;
 
-    void SetName(const std::string& name) override;
+        void setName(const std::string &name) override;
 
-    std::string GetName() const override;
+        std::string getName() const override;
 
-    virtual std::string ToString() const override;
+        std::string toString() const override;
 
-    std::string GetType() const override;
+        std::string getType() const override;
 
-    std::string GetStringValue() const override;
+        std::string getStringValue() const override;
 
-    void SetStringValue(const std::string& value) override;
+        void setStringValue(const std::string &value) override;
 
-  protected:
-    std::string name_;
-    Tp_ value_;
-    std::string description_;
-  };
+    protected:
+        std::string name_;
+        Tp_ value_;
+        std::string description_;
+    };
 
 }  // namespace proc_image_processing
 
 #include "parameter_inl.h"
 
-#endif  // PROVIDER_VISION_FILTER_PARAMETER_H_
+#endif  // PROC_IMAGE_PROCESSING_FILTER_PARAMETER_H_

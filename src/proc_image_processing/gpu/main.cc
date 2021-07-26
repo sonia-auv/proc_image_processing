@@ -1,8 +1,3 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-
-
 #include <sonia_common/ros/service_server_manager.h>
 #include <opencv2/opencv.hpp>
 

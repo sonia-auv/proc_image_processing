@@ -1,65 +1,61 @@
-/// \author	Pierluc Bédard <pierlucbed@gmail.com>
-/// \author	Jérémie St-Jules Prévôt <jeremie.st.jules.prevost@gmail.com>
+#ifndef PROC_IMAGE_PROCESSING_ALGORITHM_LINE_H_
+#define PROC_IMAGE_PROCESSING_ALGORITHM_LINE_H_
 
-
-#ifndef PROVIDER_VISION_ALGORITHM_LINE_H_
-#define PROVIDER_VISION_ALGORITHM_LINE_H_
-
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <memory>
 #include <opencv2/imgproc.hpp>
 #include <eigen3/Eigen/Eigen>
 
 namespace proc_image_processing {
 
-  /**
-   * Basic definitnion of a line
-   */
-  class Line {
-  public:
-    using Ptr = std::shared_ptr<Line>;
+    /**
+     * Basic definitnion of a line
+     */
+    class Line {
+    public:
+        using Ptr = std::shared_ptr<Line>;
 
-    Line(const cv::Point& start, const cv::Point& end);
+        Line(const cv::Point &start, const cv::Point &end);
 
-    // Debug
-    void Draw(cv::Mat& img, cv::Scalar color);
+        // Debug
+        void draw(cv::Mat &img, const cv::Scalar &color);
 
-    cv::Point PerpendicularLine();
+        cv::Point getPerpendicularLine();
 
-    cv::Point GetCenter();
+        cv::Point getCenter();
 
-    cv::Point GetStart();
+        cv::Point getStart();
 
-    cv::Point GetEnd();
+        cv::Point getEnd();
 
-    std::vector<cv::Point> GenerateLine(cv::Mat& img);
+        std::vector<cv::Point> getPoints(cv::Mat &img);
 
-    float GetAngle();
+        float getAngle() const;
 
-    float GetLength();
+        float getLength() const;
 
-  private:
-    // start point is leftmosst point, end id farrigth point
-    cv::Point center_;
+    private:
+        // start point is leftmost point, end id rightmost point
+        cv::Point center_;
 
-    cv::Point start_;
+        cv::Point start_;
 
-    cv::Point end_;
+        cv::Point end_;
 
-    // Degree
-    float angle_;
+        // Degree
+        float angle_;
 
-    float length_;
-    bool  isSwap_;
-  };
+        float length_;
+        bool isSwap_;
+    };
 
-  bool lengthSort(Line a, Line b);
+    bool lengthSort(const Line &a, const Line &b);
 
-  bool centerXSort(Line a, Line b);
+    bool centerXSort(Line a, Line b);
 
-  bool centerYSort(Line a, Line b);
+    bool centerYSort(Line a, Line b);
 
 }  // namespace proc_image_processing
 
-#endif  // PROVIDER_VISION_ALGORITHM_LINE_H_
+#endif  // PROC_IMAGE_PROCESSING_ALGORITHM_LINE_H_

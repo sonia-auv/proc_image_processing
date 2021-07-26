@@ -1,41 +1,37 @@
-/// \author csauvain
-/// \date 20/07/19
 /// TODO: Refactor code repetition
 
-// FACTORY_GENERATOR_CLASS_NAME=VampireTorpedoesDetectorClose
+// FACTORY_GENERATOR_CLASS_NAME=VampireTorpedoesCloseDetector
 
 #ifndef PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_CLOSE_DETECTOR_H
 #define PROC_IMAGE_PROCESSING_VAMPIRE_TORPEDOES_CLOSE_DETECTOR_H
 
 #include <proc_image_processing/cpu/filters/filter.h>
-#include <math.h>
+#include <cmath>
 #include <memory>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
-//#include "opencv2/highgui/highgui.hpp"
-//#include "opencv2/imgproc/imgproc.hpp"
 
 namespace proc_image_processing {
 
-    class VampireTorpedoesDetectorClose : public Filter {
+    class VampireTorpedoesCloseDetector : public Filter {
     public:
-        using Ptr = std::shared_ptr<VampireTorpedoesDetectorClose>;
+        using Ptr = std::shared_ptr<VampireTorpedoesCloseDetector>;
 
-        explicit VampireTorpedoesDetectorClose(const GlobalParamHandler& globalParams)
-            : Filter(globalParams),
-            enable_("Enable", false, &parameters_),
-            debug_contour_("Debug_contour", false, &parameters_),
-            look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
-            look_for_heart_("Look_for_Heart", false, &parameters_),
-            min_area_("Min_area", 5000, 1, 50000, &parameters_),
-            max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
-            SetName("VampireTorpedoesDetectorClose");
+        explicit VampireTorpedoesCloseDetector(const GlobalParamHandler &globalParams)
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
+                  debug_contour_("Debug_contour", false, &parameters_),
+                  look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
+                  look_for_heart_("Look_for_Heart", false, &parameters_),
+                  min_area_("Min_area", 5000, 1, 50000, &parameters_),
+                  max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+            setName("VampireTorpedoesCloseDetector");
         }
 
-        virtual ~VampireTorpedoesDetectorClose() {}
+        ~VampireTorpedoesCloseDetector() override = default;
 
-        virtual void Execute(cv::Mat& image) {
+        void apply(cv::Mat &image) override {
             if (enable_()) {
-                std::string objectif;
+                std::string objective;
                 image.copyTo(output_image_);
                 if (output_image_.channels() == 1) {
                     cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -45,29 +41,29 @@ namespace proc_image_processing {
                 //cv::Mat originalImage = global_params_.getOriginalImage();
 
                 PerformanceEvaluator timer;
-                timer.UpdateStartTime();
+                timer.resetStartTime();
 
                 contourList_t contours;
 
-                //RetrieveContours(image, contours);
+                //retrieveContours(image, contours);
                 //std::cout << "Contours : " << contours.size() << std::endl;
 
-                //RetrieveOuterContours(image, contours);
+                //retrieveOuterContours(image, contours);
                 //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
-                RetrieveAllContours(image, contours);
+                retrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
                 //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
-                for (int i = 0, size = contours.size(); i < size; i++) {
+                for (int i = 0; i < contours.size(); i++) {
                     ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
                     if (object.get() == nullptr) {
                         continue;
                     }
 
                     //AREA
-                   // std::cout << object->GetArea();
+                    // std::cout << object->getArea();
 
-                    if (object->GetArea() < min_area_() || object->GetArea() > max_area_()) {
+                    if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
                         continue;
                     }
 
@@ -80,11 +76,10 @@ namespace proc_image_processing {
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
 
                     float circleIndex;
-                    float percentageFilled;
+                    float percentFilled;
 
                     if (look_for_ellipse_()) {
-
-                        circleIndex = CalculateCircleIndex(contours[i]);
+                        circleIndex = getCircleIndex(contours[i]);
 
                         //std::cout << circleIndex << std::endl;
 
@@ -92,9 +87,9 @@ namespace proc_image_processing {
                             continue;
                         }
 
-                        percentageFilled = CalculatePercentFilled(output_image_, box);
+                        percentFilled = getPercentFilled(output_image_, box);
 
-                        if (percentageFilled > 25) {
+                        if (percentFilled > 25) {
                             continue;
                         }
 
@@ -102,20 +97,19 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        objectif = "vampire_torpedoes";
+                        objective = "vampire_torpedoes";
                     }
 
                     if (look_for_heart_()) {
-
-                        circleIndex = CalculateCircleIndex(contours[i]);
+                        circleIndex = getCircleIndex(contours[i]);
 
                         if (circleIndex > 0.9) {
                             continue;
                         }
 
-                        percentageFilled = CalculatePercentFilled(output_image_, box);
+                        percentFilled = getPercentFilled(output_image_, box);
 
-                        if (percentageFilled > 50) {
+                        if (percentFilled > 50) {
                             continue;
                         }
 
@@ -123,21 +117,36 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        objectif = "heart_torpedoes";
+                        objective = "heart_torpedoes";
                     }
                     objVec.push_back(object);
                 }
 
-                std::sort(objVec.begin(), objVec.end(), [](ObjectFullData::Ptr a, ObjectFullData::Ptr b) -> bool { return a->GetArea() > b->GetArea();});
+                std::sort(
+                        objVec.begin(),
+                        objVec.end(),
+                        [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                            return a->getArea() > b->getArea();
+                        }
+                );
 
-                if (objVec.size() > 0) {
+                if (!objVec.empty()) {
                     Target target;
                     ObjectFullData::Ptr object = objVec[0];
-                    cv::Point center = object->GetCenter();
-                    target.SetTarget(objectif, center.x, center.y, object->GetWidth(), object->GetHeight(), object->GetRotatedRect().angle, image.rows, image.cols);
-                    NotifyTarget(target);
+                    cv::Point center = object->getCenterPoint();
+                    target.setTarget(
+                            objective,
+                            center.x,
+                            center.y,
+                            object->getWidth(),
+                            object->getHeight(),
+                            object->getRotRect().angle,
+                            image.rows,
+                            image.cols
+                    );
+                    notify(target);
                     if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->GetCenter(), 3, CV_RGB(0, 255, 0), 3);
+                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
                     }
                 }
 
