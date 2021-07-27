@@ -1,11 +1,11 @@
 import unittest
+from factory import load, Factory
+from factory_generator_exception import FactoryGeneratorException
+from item_header import ItemHeader
 from pathlib import Path
 from unittest import TestCase
 
 import tools
-from factory import load, Factory
-from factory_generator_exception import FactoryGeneratorException
-from item_header import ItemHeader
 
 
 class TestFactory(TestCase):

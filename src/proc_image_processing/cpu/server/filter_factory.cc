@@ -4,7 +4,9 @@ namespace proc_image_processing {
     std::unique_ptr<Filter>
     FilterFactory::createInstance(const std::string &name, const GlobalParamHandler &globalParams) {
         // <FACTORY_GENERATOR_INSTANCE_CREATION>
-        if (name == "AdaptiveThresholdFilter") {
+        if (name == "AccumulatorFilter") {
+            return std::move(std::make_unique<AccumulatorFilter>(globalParams));
+        } else if (name == "AdaptiveThresholdFilter") {
             return std::move(std::make_unique<AdaptiveThresholdFilter>(globalParams));
         } else if (name == "BackgroundSubtractFilter") {
             return std::move(std::make_unique<BackgroundSubtractFilter>(globalParams));
@@ -20,6 +22,8 @@ namespace proc_image_processing {
             return std::move(std::make_unique<ContrastAndBrightnessFilter>(globalParams));
         } else if (name == "ConvexHullFilter") {
             return std::move(std::make_unique<ConvexHullFilter>(globalParams));
+        } else if (name == "CropFilter") {
+            return std::move(std::make_unique<CropFilter>(globalParams));
         } else if (name == "Deep2019Filter") {
             return std::move(std::make_unique<Deep2019Filter>(globalParams));
         } else if (name == "DilateFilter") {
@@ -34,16 +38,16 @@ namespace proc_image_processing {
             return std::move(std::make_unique<GateDetector>(globalParams));
         } else if (name == "HandleDetector") {
             return std::move(std::make_unique<HandleDetector>(globalParams));
+        } else if (name == "HideSubmarineFrameFilter") {
+            return std::move(std::make_unique<HideSubmarineFrameFilter>(globalParams));
         } else if (name == "HoughLineFilter") {
             return std::move(std::make_unique<HoughLineFilter>(globalParams));
         } else if (name == "HSVThresholdFilter") {
             return std::move(std::make_unique<HSVThresholdFilter>(globalParams));
-        } else if (name == "AccumulatorFilter") {
-            return std::move(std::make_unique<AccumulatorFilter>(globalParams));
-        } else if (name == "CropFilter") {
-            return std::move(std::make_unique<CropFilter>(globalParams));
         } else if (name == "InRangeFilter") {
             return std::move(std::make_unique<InRangeFilter>(globalParams));
+        } else if (name == "IntervalThresholdFilter") {
+            return std::move(std::make_unique<IntervalThresholdFilter>(globalParams));
         } else if (name == "LaplacianFilter") {
             return std::move(std::make_unique<LaplacianFilter>(globalParams));
         } else if (name == "MissionTestFakeStringFilter") {
@@ -68,16 +72,14 @@ namespace proc_image_processing {
             return std::move(std::make_unique<SquareDetector>(globalParams));
         } else if (name == "StatisticalThresholdFilter") {
             return std::move(std::make_unique<StatisticalThresholdFilter>(globalParams));
-        } else if (name == "HideSubmarineFrameFilter") {
-            return std::move(std::make_unique<HideSubmarineFrameFilter>(globalParams));
         } else if (name == "SubtractAllPlanesFilter") {
             return std::move(std::make_unique<SubtractAllPlanesFilter>(globalParams));
+        } else if (name == "SubtractPlaneAdderFilter") {
+            return std::move(std::make_unique<SubtractPlaneAdderFilter>(globalParams));
         } else if (name == "TestFilter") {
             return std::move(std::make_unique<TestFilter>(globalParams));
         } else if (name == "ThresholdFilter") {
             return std::move(std::make_unique<ThresholdFilter>(globalParams));
-        } else if (name == "IntervalThresholdFilter") {
-            return std::move(std::make_unique<IntervalThresholdFilter>(globalParams));
         } else if (name == "VampireBodyDetector") {
             return std::move(std::make_unique<VampireBodyDetector>(globalParams));
         } else if (name == "VampireTorpedoesCloseDetector") {
@@ -97,7 +99,8 @@ namespace proc_image_processing {
 
     std::string FilterFactory::getFilters() {
         // <FACTORY_GENERATOR_ITEMS_LIST>
-        return "AdaptiveThresholdFilter;"
+        return "AccumulatorFilter;"
+               "AdaptiveThresholdFilter;"
                "BackgroundSubtractFilter;"
                "BilateralFilter;"
                "BlurFilter;"
@@ -105,6 +108,7 @@ namespace proc_image_processing {
                "CenterCoffinDetector;"
                "ContrastAndBrightnessFilter;"
                "ConvexHullFilter;"
+               "CropFilter;"
                "Deep2019Filter;"
                "DilateFilter;"
                "EqualizeFilter;"
@@ -112,11 +116,11 @@ namespace proc_image_processing {
                "FenceDetector;"
                "GateDetector;"
                "HandleDetector;"
+               "HideSubmarineFrameFilter;"
                "HoughLineFilter;"
                "HSVThresholdFilter;"
-               "AccumulatorFilter;"
-               "CropFilter;"
                "InRangeFilter;"
+               "IntervalThresholdFilter;"
                "LaplacianFilter;"
                "MissionTestFakeStringFilter;"
                "MorphologyFilter;"
@@ -129,11 +133,10 @@ namespace proc_image_processing {
                "SobelFilter;"
                "SquareDetector;"
                "StatisticalThresholdFilter;"
-               "HideSubmarineFrameFilter;"
                "SubtractAllPlanesFilter;"
+               "SubtractPlaneAdderFilter;"
                "TestFilter;"
                "ThresholdFilter;"
-               "IntervalThresholdFilter;"
                "VampireBodyDetector;"
                "VampireTorpedoesCloseDetector;"
                "VampireTorpedoesDetector;"

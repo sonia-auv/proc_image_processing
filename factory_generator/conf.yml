@@ -1,4 +1,4 @@
-project-path: "../proc_image_processing/"
+project-path: "../src/proc_image_processing/"
 factories:
   - name: "FilterFactory"
     path: "cpu/server/"
@@ -12,7 +12,6 @@ factories:
     excluded-items:
       - "filter.h"
       - "filter_inl.h"
-      - "subtract_plane_adder.h"
 tags:
   factory-header:
     includes-start: "<FACTORY_GENERATOR_HEADER_INCLUDES>"

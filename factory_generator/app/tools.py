@@ -1,8 +1,7 @@
 import json
-from pathlib import Path
-
 import yaml
 from jsonschema import validate
+from pathlib import Path
 
 from factory_generator_exception import FactoryGeneratorException
 

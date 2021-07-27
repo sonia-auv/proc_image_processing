@@ -4,31 +4,31 @@
 
 #include <gtest/gtest.h>
 #include <opencv2/opencv.hpp>
-#include <fstream>
 #include <ros/ros.h>
 #include <thread>
 #include "sonia_common/ros/image_publisher.h"
-#include "sonia_common/ros/service_client_manager.h"
-#include "proc_image_processing/server/vision_server.h"
-#include "proc_image_processing/config.h"
+#include "proc_image_processing/cpu/server/vision_server.h"
+#include "proc_image_processing/cpu/config.h"
 
-ros::NodeHandle* nhp;
+ros::NodeHandle *nhp;
 
-class ImagePulishingThread {
+class ImagePublishingThread {
 public:
-    ImagePulishingThread(const std::string& topic_name) :
-        image_publisher_(),
-        exit_thread_(false),
-        pause_thread_(false),
-        thread_(std::bind(&ImagePulishingThread::PublishingThread, this)),
-        it_(*nhp) {
+    explicit ImagePublishingThread(const std::string &topic_name) :
+            image_publisher_(),
+            exit_thread_(false),
+            pause_thread_(false),
+            thread_([this] { PublishingThread(); }),
+            it_(*nhp) {
         image_publisher_ = it_.advertise(topic_name, 100);
     }
-    ~ImagePulishingThread() {
+
+    ~ImagePublishingThread() {
         StopThread();
         thread_.join();
         image_publisher_.shutdown();
     }
+
     inline void StopThread() { exit_thread_ = true; }
     inline void PauseThread() { pause_thread_ = true; }
     inline void RestartThread() { pause_thread_ = false; }
@@ -76,7 +76,7 @@ TEST(BlackBoxTest, test) {
     ros::ServiceClient list_service = nhp->serviceClient<sonia_common::GetInformationList>(list_name);
     ros::ServiceClient media_service = nhp->serviceClient<sonia_common::GetMediaFromExecution>(media_exec_name);
 
-    ImagePulishingThread thread_1("/provider_camera/test1"), thread_2("/provider_camera/test2");
+ImagePublishingThread thread_1("/provider_camera/test1"), thread_2("/provider_camera/test2");
 
     // Make sure the feed are seen by the system
     sonia_common::GetInformationListRequest informationListRequest;
