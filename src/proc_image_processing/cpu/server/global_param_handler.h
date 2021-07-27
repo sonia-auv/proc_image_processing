@@ -16,9 +16,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<GlobalParamHandler>;
 
-        explicit GlobalParamHandler()
-                : _vision_target(), _params_vec(), _original_image() {
-        }
+        explicit GlobalParamHandler() : _vision_target(), _params_vec(), _original_image() {}
 
         // Since we erase everything, it is easier to delete objet first
         // then calling clear method, since erase invalidate pointer AND
@@ -70,10 +68,9 @@ namespace proc_image_processing {
         }
 
         inline ParameterInterface *getParameter(const std::string &name) const {
-#
-            for (auto i : _params_vec) {
-                if (i->getName() == name) {
-                    return i;
+            for (auto param : _params_vec) {
+                if (param->getName() == name) {
+                    return param;
                 }
             }
             return nullptr;
