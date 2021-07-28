@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "ros/ros.h"
-#include "proc_image_processing/cpu/server/global_param_handler.h"
+#include "proc_image_processing/cpu/server/global_parameter_handler.h"
 #include "proc_image_processing/cpu/server/filter_factory.h"
 
 TEST(FilterFactoryTest, TestCreateInstance) {

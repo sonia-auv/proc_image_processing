@@ -116,8 +116,8 @@ namespace proc_image_processing {
                     target.setTarget(id_(), center.x, center.y, object->getWidth(),
                                      object->getHeight(), object->getRotRect().angle,
                                      image.rows, image.cols);
-                    target.setSpecField1(spec_1_());
-                    target.setSpecField2(spec_2_());
+                    target.setSpecialField1(spec_1_());
+                    target.setSpecialField2(spec_2_());
                     notify(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,

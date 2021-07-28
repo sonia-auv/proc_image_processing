@@ -43,10 +43,10 @@ namespace proc_image_processing {
          * If the filterchain exists, this method will create
          * an ins
          *
-         * \param filterchainName std::string
+         * \param filter_chain_name std::string
          * \return FilterChain*
          */
-        FilterChain::Ptr createFilterChain(const std::string &filterchainName);
+        FilterChain::Ptr createFilterChain(const std::string &filter_chain_name);
 
         /**
          * Pass through the list of all the filterchains and instanciate them

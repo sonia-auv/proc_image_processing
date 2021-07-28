@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "ros/ros.h"
 #include "opencv2/opencv.hpp"
-#include "proc_image_processing/cpu/server/global_param_handler.h"
+#include "proc_image_processing/cpu/server/global_parameter_handler.h"
 #include "proc_image_processing/cpu/filters/filter.h"
 
 class MockFilter : public proc_image_processing::Filter {

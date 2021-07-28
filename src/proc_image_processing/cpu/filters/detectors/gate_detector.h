@@ -315,8 +315,8 @@ namespace proc_image_processing {
                     cv::Point center((int) round(x), (int) round(y));
                     target.setTarget(
                             id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
-                    target.setSpecField1(spec_1_());
-                    target.setSpecField2(spec_2_());
+                    target.setSpecialField1(spec_1_());
+                    target.setSpecialField2(spec_2_());
                     notify(target);
                     if (debug_contour_()) {
                         cv::circle(output_image_,

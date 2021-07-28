@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 3.10)
 project(proc_image_processing)
 
+# Use optimized build by default
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif ()
+
+message("##### - Build type: ${CMAKE_BUILD_TYPE} - #####")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(proc_image_processing_SRC_DIR "src/")
-
 set(proc_image_processing_CPU_SRC_DIR "src/proc_image_processing/cpu")
 set(proc_image_processing_GPU_SRC_DIR "src/proc_image_processing/gpu")
 
@@ -28,6 +34,8 @@ if (CUDA_FOUND)
     else ()
         message("##### - ${RUN_OUTPUT_VAR} Build anyway since CUDA is present. - #####")
     endif ()
+
+    message("##### - Using GPU mode - #####")
 
     # GPU Mode, use custom OpenCV
     set(OpenCV_DIR /usr/local)

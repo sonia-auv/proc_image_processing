@@ -4,22 +4,20 @@
 
 namespace proc_image_processing {
 
-    FilterChain::FilterChain(const std::string &name)
-            : filepath_(kFilterChainPath + name + kFilterChainExt),
-              name_(name),
-              param_handler_(),
-              observer_index_(0) {
+    FilterChain::FilterChain(const std::string &name) :
+            filepath_(kFilterChainPath + name + kFilterChainExt),
+            name_(name),
+            param_handler_(),
+            observer_index_(0) {
         deserialize();
         observer_index_ = filters_.size() - 1;
     }
 
-    FilterChain::FilterChain(const FilterChain &filter_chain)
-            : filepath_(kFilterChainPath + filter_chain.name_ + "_copy" +
-                        kFilterChainExt),
-              name_(filter_chain.name_ + "_copy"),
-              param_handler_(filter_chain.param_handler_),
-              observer_index_(filter_chain.observer_index_) {
-    }
+    FilterChain::FilterChain(const FilterChain &filter_chain) :
+            filepath_(kFilterChainPath + filter_chain.name_ + "_copy" + kFilterChainExt),
+            name_(filter_chain.name_ + "_copy"),
+            param_handler_(filter_chain.param_handler_),
+            observer_index_(filter_chain.observer_index_) {}
 
     FilterChain::~FilterChain() = default;
 
@@ -161,21 +159,20 @@ namespace proc_image_processing {
         return getFilter(index)->getParameterValue(name);
     }
 
-    void FilterChain::setFilterParameterValue(const size_t &index,
-                                              const std::string &name,
-                                              const std::string &value) const {
+    void FilterChain::setFilterParameterValue(
+            const size_t &index,
+            const std::string &name,
+            const std::string &value
+    ) const {
         getFilter(index)->setParameterValue(name, value);
     }
 
-    std::vector<ParameterInterface *>
-    FilterChain::getFilterParameters(const size_t &index) const {
+    std::vector<ParameterInterface *> FilterChain::getFilterParameters(const size_t &index) const {
         return getFilter(index)->getParameters();
     }
 
     void FilterChain::addFilter(const std::string &filter_name) {
-        auto filter = Filter::Ptr(
-                FilterFactory::createInstance(filter_name,
-                                              param_handler_));
+        auto filter = Filter::Ptr(FilterFactory::createInstance(filter_name, param_handler_));
         if (filter != nullptr) {
             filters_.push_back(filter);
         } else {

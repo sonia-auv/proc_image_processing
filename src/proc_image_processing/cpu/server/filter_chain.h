@@ -7,7 +7,7 @@
 
 #include <proc_image_processing/cpu/filters/filter.h>
 #include "filter_factory.h"
-#include "global_param_handler.h"
+#include "global_parameter_handler.h"
 #include "target.h"
 
 namespace proc_image_processing {
@@ -91,8 +91,7 @@ namespace proc_image_processing {
         return filters_.at(index);
     }
 
-    inline std::vector<Filter::Ptr>
-    FilterChain::getFilters(const std::string &filter_name) const {
+    inline std::vector<Filter::Ptr> FilterChain::getFilters(const std::string &filter_name) const {
         std::vector<Filter::Ptr> filters;
         for (const auto &filter : filters_) {
             if (filter->getName() == filter_name) {
@@ -102,10 +101,7 @@ namespace proc_image_processing {
         return filters;
     }
 
-    inline std::vector<Filter::Ptr> FilterChain::getFilters()
-    const {
-        return filters_;
-    }
+    inline std::vector<Filter::Ptr> FilterChain::getFilters() const { return filters_; }
 
     inline bool FilterChain::containsFilter(const std::string &filter_name) const {
         // TODO a map where filters are stored by their name could be better
@@ -116,13 +112,9 @@ namespace proc_image_processing {
         );
     }
 
-    inline void FilterChain::setObserver(const size_t &index) {
-        observer_index_ = index;
-    }
+    inline void FilterChain::setObserver(const size_t &index) { observer_index_ = index; }
 
-    inline GlobalParamHandler &FilterChain::getParameterHandler() {
-        return param_handler_;
-    }
+    inline GlobalParamHandler &FilterChain::getParameterHandler() { return param_handler_; }
 
     inline const std::string &FilterChain::getName() const { return name_; }
 

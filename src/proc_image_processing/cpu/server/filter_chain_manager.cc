@@ -11,7 +11,7 @@ namespace proc_image_processing {
     FilterChainManager::~FilterChainManager() = default;
 
     std::vector<std::string> FilterChainManager::getFilterChainsNames() {
-        auto availableFilterchains = std::vector<std::string>{};
+        auto availableFilterChains = std::vector<std::string>{};
         std::stringstream ss;
         ss << kConfigPath << "filterchain/";
         if (auto dir = opendir(ss.str().c_str())) {
@@ -19,16 +19,14 @@ namespace proc_image_processing {
             while ((ent = readdir(dir)) != nullptr) {
                 auto filename = std::string{ent->d_name};
                 if (filename.length() > kFilterChainExt.length() &&
-                    filename.substr(filename.length() - kFilterChainExt.length()) ==
-                    kFilterChainExt) {
-                    filename.replace(filename.end() - kFilterChainExt.length(),
-                                     filename.end(), "");
-                    availableFilterchains.push_back(filename);
+                    filename.substr(filename.length() - kFilterChainExt.length()) == kFilterChainExt) {
+                    filename.replace(filename.end() - kFilterChainExt.length(), filename.end(), "");
+                    availableFilterChains.push_back(filename);
                 }
             }
             closedir(dir);
         }
-        return availableFilterchains;
+        return availableFilterChains;
     }
 
     void FilterChainManager::addFilterChain(const std::string &filter_chain) {
@@ -55,12 +53,12 @@ namespace proc_image_processing {
         );
     }
 
-    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filterchainName) {
-        if (filterChainExists(filterchainName)) {
-            auto filterchain = std::make_shared<FilterChain>(filterchainName);
-            running_filter_chains_.push_back(filterchain);
+    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filter_chain_name) {
+        if (filterChainExists(filter_chain_name)) {
+            auto filter_chain = std::make_shared<FilterChain>(filter_chain_name);
+            running_filter_chains_.push_back(filter_chain);
             ROS_INFO("FilterChain is ready.");
-            return filterchain;
+            return filter_chain;
         }
         throw std::invalid_argument("Could not find the given filterchain");
     }

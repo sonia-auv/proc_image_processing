@@ -32,6 +32,18 @@ namespace proc_image_processing {
 
         ~Target() = default;
 
+        const cv::Point &getCenter() const;
+
+        const cv::Size_<float> &getDimension() const;
+
+        float getAngle() const;
+
+        const std::string &getHeader() const;
+
+        const std::string &getSpecialField1() const;
+
+        const std::string &getSpecialField2() const;
+
         // Setting target will use offseted center.
         void setTarget(
                 const std::string &header,
@@ -65,15 +77,11 @@ namespace proc_image_processing {
 
         void setAngle(float angle);
 
-        void setSpecField1(const std::string &field);
+        void setSpecialField1(const std::string &field);
 
-        void setSpecField2(const std::string &field);
+        void setSpecialField2(const std::string &field);
 
-        void setSpecFields(const std::string &field1, const std::string &field2);
-
-        std::string getSpecField1();
-
-        std::string getSpecField2();
+        void setSpecialFields(const std::string &field1, const std::string &field2);
 
         void setMessage(sonia_common::VisionTarget &msg);
 
@@ -90,6 +98,17 @@ namespace proc_image_processing {
 
     typedef std::queue<Target> TargetQueue;
 
+    inline const cv::Point &Target::getCenter() const { return center_; }
+
+    inline const cv::Size_<float> &Target::getDimension() const { return dimension_; }
+
+    inline float Target::getAngle() const { return angle_; }
+
+    inline const std::string &Target::getHeader() const { return header_; }
+
+    inline const std::string &Target::getSpecialField1() const { return special_field_1_; }
+
+    inline const std::string &Target::getSpecialField2() const { return special_field_2_; }
 
     inline void Target::setTarget(
             const std::string &header,
@@ -147,18 +166,14 @@ namespace proc_image_processing {
 
     inline void Target::setAngle(float angle) { angle_ = angle; }
 
-    inline void Target::setSpecField1(const std::string &field) { special_field_1_ = field; }
+    inline void Target::setSpecialField1(const std::string &field) { special_field_1_ = field; }
 
-    inline void Target::setSpecField2(const std::string &field) { special_field_2_ = field; }
+    inline void Target::setSpecialField2(const std::string &field) { special_field_2_ = field; }
 
-    inline void Target::setSpecFields(const std::string &field1, const std::string &field2) {
+    inline void Target::setSpecialFields(const std::string &field1, const std::string &field2) {
         special_field_1_ = field1;
         special_field_2_ = field2;
     }
-
-    inline std::string Target::getSpecField1() { return special_field_1_; }
-
-    inline std::string Target::getSpecField2() { return special_field_2_; }
 
     inline void Target::setMessage(sonia_common::VisionTarget &msg) {
         msg.header = header_;

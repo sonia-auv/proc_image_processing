@@ -129,8 +129,8 @@ namespace proc_image_processing {
 
             target.setCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
             target.setSize((int) object.bbox.size_x, (int) object.bbox.size_y);
-            target.setSpecField1(object.class_name.data);
-            target.setSpecField2(convertFloatToString(object.confidence));
+            target.setSpecialField1(object.class_name.data);
+            target.setSpecialField2(convertFloatToString(object.confidence));
         }
 
         inline void drawTarget(cv::Mat &image, const sonia_common::Detection &object, int thickness = 3,

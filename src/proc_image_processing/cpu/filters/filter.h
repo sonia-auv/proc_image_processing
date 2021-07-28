@@ -1,7 +1,7 @@
 #ifndef PROC_IMAGE_PROCESSING_FILTER_H_
 #define PROC_IMAGE_PROCESSING_FILTER_H_
 
-#include <proc_image_processing/cpu/server/global_param_handler.h>
+#include <proc_image_processing/cpu/server/global_parameter_handler.h>
 #include <proc_image_processing/cpu/server/parameter.h>
 #include <proc_image_processing/cpu/server/ranged_parameter.h>
 #include <proc_image_processing/cpu/server/target.h>
@@ -52,4 +52,4 @@ namespace proc_image_processing {
 
 #include "filter_inl.h"
 
-#endif  // PROC_IMAGE_PROCESSING_FILTER_H_
+#endif //PROC_IMAGE_PROCESSING_FILTER_H_
