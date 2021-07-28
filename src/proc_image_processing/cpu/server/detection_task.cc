@@ -17,7 +17,7 @@ namespace proc_image_processing {
               param_handler_(filterchain_->getParameterHandler()),
               returning_original_image_(false) {
         result_publisher_ = ros::NodeHandle().advertise<sonia_common::VisionTarget>(
-                kRosNodeName + detection_task_name_ + "_result", 50);
+                kRosNodeName + "/" + detection_task_name_ + "_result", 50);
 
         image_publisher_ = it_.advertise(detection_task_name_ + "_image", 100);
     }

@@ -5,9 +5,9 @@
 #include <string>
 
 namespace proc_image_processing {
-    const std::string kRosNodeName = "/proc_image_processing/";
+    const std::string kRosNodeName = "/" + std::string(std::getenv("NODE_NAME"));
 
-    const std::string kProjectPath = std::string(std::getenv("SONIA_HOME")) + "/ros_sonia_ws/src/proc_image_processing";
+    const std::string kProjectPath = std::string(std::getenv("NODE_PATH"));
 
     const std::string kConfigPath = kProjectPath + "/config";
 
