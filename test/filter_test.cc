@@ -16,20 +16,43 @@ public:
     ~MockFilter() override = default;
 
     void apply(cv::Mat &image) override {
-
+        cv::threshold(image, image, 128.0, 255.0, CV_8UC1);
     }
 };
 
-TEST(FilterTest, test) {
+TEST(FilterTest, TestFilterName) {
     proc_image_processing::GlobalParamHandler handler;
     std::unique_ptr<proc_image_processing::Filter> f = std::move(std::make_unique<MockFilter>(handler));
-    ASSERT_EQ(f->getName(), "MockFilter");
 
+    // Test name
+    ASSERT_EQ(f->getName(), "MockFilter");
     std::string expectedName = "MockFilterModified";
     f->setName(expectedName);
     ASSERT_EQ(f->getName(), expectedName);
+}
 
-    // == Integer params
+TEST(FilterTest, TestFilterApply) {
+    proc_image_processing::GlobalParamHandler handler;
+    std::unique_ptr<proc_image_processing::Filter> f = std::move(std::make_unique<MockFilter>(handler));
+
+    cv::Mat in(4, 4, CV_8UC1);
+    cv::randu(in, cv::Scalar(0), cv::Scalar(255));
+    cv::Mat before;
+    in.copyTo(before);
+
+    f->apply(in);
+
+    cv::Mat diff;
+    cv::compare(in, before, diff, cv::CmpTypes::CMP_EQ);
+    ASSERT_TRUE(cv::countNonZero(diff) == 0);
+}
+
+
+TEST(FilterTest, TestFilterGlobalParams) {
+    proc_image_processing::GlobalParamHandler handler;
+    std::unique_ptr<proc_image_processing::Filter> f = std::move(std::make_unique<MockFilter>(handler));
+
+    // == Integer actualParams
     // Test min/max limits
     f->addGlobalParameter("param1", 0, 0, 4);
     ASSERT_EQ(f->getParameterValue("param1"), "param1|Integer|0|0|4|");
@@ -51,7 +74,7 @@ TEST(FilterTest, test) {
         ASSERT_EQ(*e.what(), *"Value can't be more than maximum!");
     }
 
-    // == Double params
+    // == Double actualParams
     // Test min/max limits
     f->addGlobalParameter("param3", 0.01, 0.01, 3.4);
     ASSERT_EQ(f->getParameterValue("param3"), "param3|Double|0.010000|0.010000|3.400000|");
@@ -73,18 +96,20 @@ TEST(FilterTest, test) {
         ASSERT_EQ(*e.what(), *"Value can't be more than maximum!");
     }
 
-    // == Boolean params
+    // == Boolean actualParams
     f->addGlobalParameter("param5", true);
     ASSERT_EQ(f->getParameterValue("param5"), "param5|Boolean|1|||");
     f->addGlobalParameter("param6", false);
     ASSERT_EQ(f->getParameterValue("param6"), "param6|Boolean|0|||");
 
 
-    // == String params
-//    f->addGlobalParameter("param7", "stringValue1");
-//    ASSERT_EQ(f->getParameterValue("param7"), "param7|String|stringValue1|||");
-//    f->addGlobalParameter("param8", "stringValue2");
-//    ASSERT_EQ(f->getParameterValue("param8"), "param8|String|stringValue2|||");
+    // == String actualParams
+    // f->addGlobalParameter("param7", "stringValue1");
+    // ASSERT_EQ(f->getParameterValue("param7"), "param7|String|stringValue1|||");
+    // f->addGlobalParameter("param8", "stringValue2");
+    // ASSERT_EQ(f->getParameterValue("param8"), "param8|String|stringValue2|||");
+
+    ASSERT_EQ(f->getParameters().size(), 6);
 }
 
 int main(int argc, char **argv) {

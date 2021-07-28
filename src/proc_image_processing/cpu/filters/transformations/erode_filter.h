@@ -55,7 +55,6 @@ namespace proc_image_processing {
         RangedParameter<int> kernel_type_;
         RangedParameter<int> kernel_size_x_, kernel_size_y_;
         RangedParameter<int> iteration_;
-
         const cv::Point anchor_;
     };
 

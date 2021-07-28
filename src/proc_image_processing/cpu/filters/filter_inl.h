@@ -14,6 +14,8 @@ namespace proc_image_processing {
               parameters_() {
     }
 
+    inline std::string Filter::getName() { return name_; }
+
     inline const std::vector<ParameterInterface *> &Filter::getParameters() const { return parameters_; }
 
     inline std::string Filter::getParameterValue(const std::string &name) {
@@ -36,22 +38,6 @@ namespace proc_image_processing {
         return returnString;
     }
 
-    inline void Filter::setParameterValue(const std::string &name, const std::string &value) {
-        for (auto param : parameters_) {
-            // Here we give it a local value to limit the
-            // access to the vector (optimisation)
-            if (param != nullptr && param->getName() == name) {
-                param->setStringValue(value);
-            }
-        }
-    }
-
-    inline std::string Filter::getName() { return name_; }
-
-    inline void Filter::setName(const std::string &name) { name_ = name; }
-
-    inline void Filter::notify(const Target &target) { global_params_.addTarget(target); }
-
     inline void Filter::addGlobalParameter(const std::string &name, const int value, const int min, const int max) {
         if (value < min) {
             throw std::invalid_argument("Value can't be less than minimum!");
@@ -62,8 +48,12 @@ namespace proc_image_processing {
         global_params_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
     }
 
-    inline void
-    Filter::addGlobalParameter(const std::string &name, const double value, const double min, const double max) {
+    inline void Filter::addGlobalParameter(
+            const std::string &name,
+            const double value,
+            const double min,
+            const double max
+    ) {
         if (value < min) {
             throw std::invalid_argument("Value can't be less than minimum!");
         }
@@ -79,6 +69,20 @@ namespace proc_image_processing {
 
     inline void Filter::addGlobalParameter(const std::string &name, const std::string &value) {
         global_params_.addParameter(new Parameter<std::string>(name, value, &parameters_));
+    }
+
+    inline void Filter::notify(const Target &target) { global_params_.addTarget(target); }
+
+    inline void Filter::setName(const std::string &name) { name_ = name; }
+
+    inline void Filter::setParameterValue(const std::string &name, const std::string &value) {
+        for (auto param : parameters_) {
+            // Here we give it a local value to limit the
+            // access to the vector (optimisation)
+            if (param != nullptr && param->getName() == name) {
+                param->setStringValue(value);
+            }
+        }
     }
 
 }  // namespace proc_image_processing
