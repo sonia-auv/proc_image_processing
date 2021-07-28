@@ -3,7 +3,7 @@
 
 #include <sonia_common/ros/image_publisher.h>
 #include <mutex>
-#include "proc_image_processing/cpu/config.h"
+#include "proc_image_processing/config.h"
 #include "filter_chain.h"
 #include "sonia_common/pattern/runnable.h"
 #include "image_provider.h"
