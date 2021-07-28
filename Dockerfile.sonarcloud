@@ -26,11 +26,9 @@ WORKDIR /sonarcloud
 RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip build-wrapper-linux-x86.zip
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip && unzip sonar-scanner-cli-4.6.2.2472-linux.zip
 
-WORKDIR ${SONIA_WS}/src/proc_image_processing
+COPY . ${NODE_PATH}
 
-COPY sonarcloud.properties .
-COPY scripts/sonarcloud-build.sh .
-RUN chmod +x sonarcloud-build.sh
+WORKDIR ${NODE_PATH}
 
 RUN /sonarcloud/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output ./sonarcloud-build.sh
 
