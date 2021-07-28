@@ -7,13 +7,6 @@ jobs:
   sonarcloud:
     name: "SonarCloud"
     runs-on: ubuntu-latest
-    env:
-      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
-      ARCH: x86
-      TARGET_TYPE: perception
-      TARGET_VERSION: feature
-      IMAGE_NAME: proc_image_processing
-      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
