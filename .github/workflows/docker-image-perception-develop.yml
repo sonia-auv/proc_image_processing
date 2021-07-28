@@ -20,6 +20,7 @@ jobs:
       - name: Login to Github Package Registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
       - name: Build the docker image (perception based)
         run: |
           docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
@@ -27,15 +28,10 @@ jobs:
       - name: Run Module Unit Test
         run: |
           docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
 
       - name: Create Docker Image Tag
         run: |
           docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}
-
-      - name: Run Sonarcloud
-        run: |
-          docker build -f Dockerfile.sonarcloud --build-arg BASE_IMAGE=build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} --build-arg SONAR_TOKEN=${{secrets.SONAR_TOKEN}} --build-arg BRANCH=${GITHUB_REF#refs/heads/} .
 
       - name: Push Image to Github Packages Registry
         run: |
@@ -78,7 +74,6 @@ jobs:
       - name: Run Module Unit Test
         run: |
           docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
 
       - name: Create Docker Image Tag
         run: |
