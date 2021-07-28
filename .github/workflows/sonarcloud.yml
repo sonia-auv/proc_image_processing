@@ -31,6 +31,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set environment variables
+        id: vars
+        run: |
+          echo "::set-output name=branch::${GITHUB_REF##*/}"
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -43,7 +48,7 @@ jobs:
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             SONAR_TOKEN=${{secrets.SONAR_TOKEN}}
-            BRANCH=${GITHUB_REF#refs/heads/}
+            BRANCH=${{ steps.vars.outputs.branch-name }}
 
       - # Temp fix
         # https://github.com/docker/build-push-action/issues/252
