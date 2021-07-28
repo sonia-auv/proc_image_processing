@@ -1,0 +1,61 @@
+name: SonarCloud
+
+on:
+  push:
+
+jobs:
+  sonarcloud:
+    name: "SonarCloud"
+    runs-on: ubuntu-latest
+    env:
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
+      ARCH: x86
+      TARGET_TYPE: perception
+      TARGET_VERSION: feature
+      IMAGE_NAME: proc_image_processing
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile.sonarcloud
+          push: false
+          tags: ghcr.io/sonia-auv/proc_image_processing/sonarcloud:cache
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            SONAR_TOKEN=${{secrets.SONAR_TOKEN}}
+            BRANCH=${GITHUB_REF#refs/heads/}
+
+      - # Temp fix
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+        name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache

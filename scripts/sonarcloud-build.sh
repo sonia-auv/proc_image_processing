@@ -1,5 +1,6 @@
 #!/bin/bash
 source "${ROS_WS_SETUP}"
 source "${BASE_LIB_WS_SETUP}"
-catkin_make --use-ninja
-catkin_make run_tests
+cmake -GNinja .
+ninja
+ninja run_tests
