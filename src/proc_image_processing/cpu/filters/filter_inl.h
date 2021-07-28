@@ -52,17 +52,24 @@ namespace proc_image_processing {
 
     inline void Filter::notify(const Target &target) { global_params_.addTarget(target); }
 
-    inline void Filter::addGlobalParameter(const std::string &name,
-                                           const int value,
-                                           const int min,
-                                           const int max) {
+    inline void Filter::addGlobalParameter(const std::string &name, const int value, const int min, const int max) {
+        if (value < min) {
+            throw std::invalid_argument("Value can't be less than minimum!");
+        }
+        if (value > max) {
+            throw std::invalid_argument("Value can't be more than maximum!");
+        }
         global_params_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
     }
 
-    inline void Filter::addGlobalParameter(const std::string &name,
-                                           const double value,
-                                           const double min,
-                                           const double max) {
+    inline void
+    Filter::addGlobalParameter(const std::string &name, const double value, const double min, const double max) {
+        if (value < min) {
+            throw std::invalid_argument("Value can't be less than minimum!");
+        }
+        if (value > max) {
+            throw std::invalid_argument("Value can't be more than maximum!");
+        }
         global_params_.addParameter(new RangedParameter<double>(name, value, min, max, &parameters_));
     }
 

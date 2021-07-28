@@ -3,7 +3,7 @@
 #include "proc_image_processing/cpu/server/global_param_handler.h"
 #include "proc_image_processing/cpu/server/filter_factory.h"
 
-TEST(FilterFactoryTest, test) {
+TEST(FilterFactoryTest, TestCreateInstance) {
     proc_image_processing::GlobalParamHandler handler;
     std::shared_ptr<proc_image_processing::Filter> f;
 
@@ -135,6 +135,68 @@ TEST(FilterFactoryTest, test) {
 
     f = proc_image_processing::FilterFactory::createInstance("WhiteNoiseRemovalFilter", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::WhiteNoiseRemovalFilter *>(f.get()), nullptr);
+}
+
+TEST(FilterFactoryTest, GetFiltersTest) {
+    std::vector<std::string> expectedFilters{
+            "AccumulatorFilter",
+            "AdaptiveThresholdFilter",
+            "BackgroundSubtractFilter",
+            "BilateralFilter",
+            "BlurFilter",
+            "CannyFilter",
+            "CenterCoffinDetector",
+            "ContrastAndBrightnessFilter",
+            "ConvexHullFilter",
+            "CropFilter",
+            "Deep2019Filter",
+            "DilateFilter",
+            "EqualizeFilter",
+            "ErodeFilter",
+            "FenceDetector",
+            "GateDetector",
+            "HandleDetector",
+            "HideSubmarineFrameFilter",
+            "HoughLineFilter",
+            "HSVThresholdFilter",
+            "InRangeFilter",
+            "IntervalThresholdFilter",
+            "LaplacianFilter",
+            "MissionTestFakeStringFilter",
+            "MorphologyFilter",
+            "OriginalImageFilter",
+            "PipeAngleDetector",
+            "RemoveMaskFilter",
+            "RotateFilter",
+            "ScharrAddingFilter",
+            "ScharrFilter",
+            "SobelFilter",
+            "SquareDetector",
+            "StatisticalThresholdFilter",
+            "SubtractAllPlanesFilter",
+            "SubtractPlaneAdderFilter",
+            "TestFilter",
+            "ThresholdFilter",
+            "VampireBodyDetector",
+            "VampireTorpedoesCloseDetector",
+            "VampireTorpedoesDetector",
+            "WhiteFilter",
+            "WhiteNoiseRemovalFilter"
+    };
+
+
+    std::string filtersString = proc_image_processing::FilterFactory::getFilters();
+    std::stringstream stream(filtersString);
+    std::set<std::string> actualFilters;
+    while (stream.good()) {
+        std::string s;
+        getline(stream, s, ';');
+        actualFilters.emplace(s);
+    }
+
+    for (auto &f:expectedFilters) {
+        ASSERT_TRUE(actualFilters.find(f) != actualFilters.end());
+    }
 }
 
 int main(int argc, char **argv) {
