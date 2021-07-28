@@ -65,7 +65,7 @@ namespace proc_image_processing {
             retrieveOuterContours(in, contours);
             std::vector<ObjectFullData::Ptr> verticalBars, horizontalBar, merged_horizontal_bar;
 
-            cv::Mat originalImage = global_params_.getOriginalImage();
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             // Parse contours into 2 categories, vertical or horizontal.
             for (int i = 0; i < contours.size(); i++) {

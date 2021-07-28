@@ -43,7 +43,7 @@ namespace proc_image_processing {
         inline void setParameterValue(const std::string &name, const std::string &value);
 
     protected:
-        GlobalParamHandler &global_params_;
+        GlobalParamHandler &global_param_handler_;
         std::vector<ParameterInterface *> parameters_;
         std::string name_;
     };

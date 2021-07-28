@@ -21,7 +21,7 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             if (enable_()) {
-                image = global_params_.getOriginalImage();
+                image = global_param_handler_.getOriginalImage();
             }
         }
 

@@ -32,7 +32,7 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             if (enable_()) {
-                global_params_.getOriginalImage().copyTo(image, image);
+                global_param_handler_.getOriginalImage().copyTo(image, image);
             }
         }
 

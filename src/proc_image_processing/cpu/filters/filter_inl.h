@@ -4,11 +4,13 @@
 
 #include <sonia_common/macros.h>
 #include <proc_image_processing/cpu/server/target.h>
+#include "filter.h"
+
 
 namespace proc_image_processing {
 
     inline Filter::Filter(const GlobalParamHandler &globalParams)
-            : global_params_(const_cast<GlobalParamHandler &>(globalParams)),
+            : global_param_handler_(const_cast<GlobalParamHandler &>(globalParams)),
             // enable_("Enable", false, &parameters_),
             // Explicit construction not needed here... Just reminder it exist.
               parameters_() {
@@ -45,7 +47,7 @@ namespace proc_image_processing {
         if (value > max) {
             throw std::invalid_argument("Value can't be more than maximum!");
         }
-        global_params_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
+        global_param_handler_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
     }
 
     inline void Filter::addGlobalParameter(
@@ -60,18 +62,18 @@ namespace proc_image_processing {
         if (value > max) {
             throw std::invalid_argument("Value can't be more than maximum!");
         }
-        global_params_.addParameter(new RangedParameter<double>(name, value, min, max, &parameters_));
+        global_param_handler_.addParameter(new RangedParameter<double>(name, value, min, max, &parameters_));
     }
 
     inline void Filter::addGlobalParameter(const std::string &name, const bool value) {
-        global_params_.addParameter(new Parameter<bool>(name, value, &parameters_));
+        global_param_handler_.addParameter(new Parameter<bool>(name, value, &parameters_));
     }
 
     inline void Filter::addGlobalParameter(const std::string &name, const std::string &value) {
-        global_params_.addParameter(new Parameter<std::string>(name, value, &parameters_));
+        global_param_handler_.addParameter(new Parameter<std::string>(name, value, &parameters_));
     }
 
-    inline void Filter::notify(const Target &target) { global_params_.addTarget(target); }
+    inline void Filter::notify(const Target &target) { global_param_handler_.addTarget(target); }
 
     inline void Filter::setName(const std::string &name) { name_ = name; }
 

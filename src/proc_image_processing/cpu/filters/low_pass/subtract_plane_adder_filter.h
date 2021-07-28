@@ -44,7 +44,7 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             if (enable_()) {
-                cv::Mat original = global_params_.getOriginalImage();
+                cv::Mat original = global_param_handler_.getOriginalImage();
                 if (CV_MAT_CN(original.type()) != 3) {
                     return;
                 }

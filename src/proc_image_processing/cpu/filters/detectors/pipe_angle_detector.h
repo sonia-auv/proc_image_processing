@@ -40,7 +40,7 @@ namespace proc_image_processing {
                 }
 
                 if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-                cv::Mat originalImage = global_params_.getOriginalImage();
+                cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
                 PerformanceEvaluator timer;
                 timer.resetStartTime();

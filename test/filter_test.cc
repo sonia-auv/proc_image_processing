@@ -20,9 +20,15 @@ public:
     }
 };
 
-TEST(FilterTest, TestFilterName) {
+// TEST(FilterTest, TestNotify){
+// TODO
+// proc_image_processing::GlobalParamHandler handler;
+// auto f = std::move(std::make_unique<MockFilter>(handler));
+// }
+
+TEST(FilterTest, TestName) {
     proc_image_processing::GlobalParamHandler handler;
-    std::unique_ptr<proc_image_processing::Filter> f = std::move(std::make_unique<MockFilter>(handler));
+    auto f = std::move(std::make_unique<MockFilter>(handler));
 
     // Test name
     ASSERT_EQ(f->getName(), "MockFilter");
@@ -31,9 +37,9 @@ TEST(FilterTest, TestFilterName) {
     ASSERT_EQ(f->getName(), expectedName);
 }
 
-TEST(FilterTest, TestFilterApply) {
+TEST(FilterTest, TestApply) {
     proc_image_processing::GlobalParamHandler handler;
-    std::unique_ptr<proc_image_processing::Filter> f = std::move(std::make_unique<MockFilter>(handler));
+    auto f = std::move(std::make_unique<MockFilter>(handler));
 
     cv::Mat in(4, 4, CV_8UC1);
     cv::randu(in, cv::Scalar(0), cv::Scalar(255));
@@ -48,9 +54,9 @@ TEST(FilterTest, TestFilterApply) {
 }
 
 
-TEST(FilterTest, TestFilterGlobalParams) {
+TEST(FilterTest, TestGlobalParams) {
     proc_image_processing::GlobalParamHandler handler;
-    std::unique_ptr<proc_image_processing::Filter> f = std::move(std::make_unique<MockFilter>(handler));
+    auto f = std::move(std::make_unique<MockFilter>(handler));
 
     // == Integer actualParams
     // Test min/max limits

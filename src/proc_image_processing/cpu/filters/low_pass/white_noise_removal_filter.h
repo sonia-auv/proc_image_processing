@@ -31,7 +31,7 @@ namespace proc_image_processing {
         void apply(cv::Mat &image) override {
             if (enable_()) {
                 std::vector<cv::Mat> channels;
-                cv::Mat original_image(global_params_.getOriginalImage());
+                cv::Mat original_image(global_param_handler_.getOriginalImage());
                 cv::split(original_image, channels);
                 cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
                 cv::inRange(channels[1], low_g_(), high_g_(), channels[1]);
