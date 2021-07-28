@@ -27,6 +27,7 @@ RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip && unzip b
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip && unzip sonar-scanner-cli-4.6.2.2472-linux.zip
 
 WORKDIR ${NODE_PATH}
+COPY scripts/sonarcloud-build.sh .
 COPY . .
 
 RUN /sonarcloud/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output ./sonarcloud-build.sh
