@@ -10,7 +10,7 @@
 #include "sonia_common/ros/image_publisher.h"
 #include "sonia_common/ros/service_client_manager.h"
 #include "proc_image_processing/server/vision_server.h"
-#include "proc_image_processing/config.h"
+#include "proc_image_processing/cpu/config.h"
 
 ros::NodeHandle* nhp;
 

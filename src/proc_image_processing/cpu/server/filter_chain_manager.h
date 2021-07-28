@@ -6,7 +6,7 @@
 #include <functional>
 #include <string>
 #include <vector>
-#include "proc_image_processing/config.h"
+#include "proc_image_processing/cpu/config.h"
 #include "filter_chain.h"
 
 namespace proc_image_processing {

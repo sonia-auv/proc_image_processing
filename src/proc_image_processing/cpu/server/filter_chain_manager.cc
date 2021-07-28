@@ -12,7 +12,7 @@ namespace proc_image_processing {
 
     std::vector<std::string> FilterChainManager::getFilterChainsNames() {
         auto availableFilterchains = std::vector<std::string>{};
-        if (auto dir = opendir(kFilterchainPath.c_str())) {
+        if (auto dir = opendir(kFilterChainPath.c_str())) {
             struct dirent *ent;
             while ((ent = readdir(dir)) != nullptr) {
                 auto filename = std::string{ent->d_name};
@@ -34,7 +34,7 @@ namespace proc_image_processing {
             YAML::Node node;
             node["name"] = filter_chain;
 
-            auto filepath = kFilterchainPath + "/" + filter_chain + kFilterChainExt;
+            auto filepath = kFilterChainPath + "/" + filter_chain + kFilterChainExt;
             std::ofstream fout(filepath);
             fout << node;
         }
@@ -78,7 +78,7 @@ namespace proc_image_processing {
     }
 
     std::string FilterChainManager::getFilterChainPath(const std::string &filter_chain) {
-        return kFilterchainPath + "/" + filter_chain + kFilterChainExt;
+        return kFilterChainPath + "/" + filter_chain + kFilterChainExt;
     }
 
     const std::vector<FilterChain::Ptr>
