@@ -5,40 +5,40 @@ namespace proc_image_processing {
     ObjectFeatureFactory::ObjectFeatureFactory(unsigned int memorySize)
             : frame_memory_(memorySize) {
         using namespace std::placeholders;
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::RATIO,
                 std::bind(&ObjectFeatureFactory::ratioFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::CONVEXITY,
                 std::bind(&ObjectFeatureFactory::convexityFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::PERCENT_FILLED,
                 std::bind(&ObjectFeatureFactory::percentFilledFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::CIRCULARITY,
                 std::bind(&ObjectFeatureFactory::circularityFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::PRESENCE_CONSISTENCY,
                 std::bind(&ObjectFeatureFactory::presenceConsistencyFeature, this, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::HUE_MEAN,
                 std::bind(&ObjectFeatureFactory::hueMeanFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::SAT_MEAN,
                 std::bind(&ObjectFeatureFactory::saturationMeanFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::INTENSITY_MEAN,
                 std::bind(&ObjectFeatureFactory::intensityMeanFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::RED_MEAN,
                 std::bind(&ObjectFeatureFactory::redMeanFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::GREEN_MEAN,
                 std::bind(&ObjectFeatureFactory::greenMeanFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::BLUE_MEAN,
                 std::bind(&ObjectFeatureFactory::blueMeanFeature, _1));
-        feature_fct_map_.emplace(
+        feature_fct_map_.try_emplace(
                 ObjectFeatureData::Feature::GRAY_MEAN,
                 std::bind(&ObjectFeatureFactory::grayMeanFeature, _1));
     }
