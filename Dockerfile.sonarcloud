@@ -28,6 +28,7 @@ RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-s
 
 WORKDIR ${NODE_PATH}
 COPY scripts/sonarcloud-build.sh .
+RUN chmod +x sonarcloud-build.sh
 COPY . .
 
 RUN /sonarcloud/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output ./sonarcloud-build.sh
