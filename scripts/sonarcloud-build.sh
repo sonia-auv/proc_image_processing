@@ -3,4 +3,4 @@ source "${ROS_WS_SETUP}"
 source "${BASE_LIB_WS_SETUP}"
 cmake -GNinja .
 ninja
-ninja run_tests
+ninja tests
