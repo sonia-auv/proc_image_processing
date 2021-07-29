@@ -9,17 +9,17 @@ jobs:
     name: "Build ROS perception X86/64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: develop
       IMAGE_NAME: proc_image_processing
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build the docker image (perception based)
         run: |
@@ -43,17 +43,17 @@ jobs:
     name: "Build ROS perception AMR64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
       ARCH: arm64
       TARGET_TYPE: perception
       TARGET_VERSION: develop
       IMAGE_NAME: proc_image_processing
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Enable Docker Daemon Experimental Features
         run: |
           sudo rm /etc/docker/daemon.json
@@ -87,17 +87,17 @@ jobs:
     name: "Build ROS perception CUDA X86/64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest"
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: develop
       IMAGE_NAME: proc_image_processing_cuda
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build the docker image (perception based)
         run: |
           docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
@@ -114,17 +114,17 @@ jobs:
     name: "Build ROS perception CUDA ARM64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:arm64-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:arm64-perception-latest"
       ARCH: arm64
       TARGET_TYPE: perception
       TARGET_VERSION: develop
       IMAGE_NAME: proc_image_processing_cuda
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Enable Docker Daemon Experimental Features
         run: |
           sudo rm /etc/docker/daemon.json

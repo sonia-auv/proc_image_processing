@@ -9,54 +9,33 @@ jobs:
     name: "Build ROS perception X86/64"
     runs-on: ubuntu-latest
     env:
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: feature
-      IMAGE_REPOSITORY: ghcr.io/sonia-auv/proc_image_processing/proc_image_processing
-      BASE_IMAGE: ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
-      NODE_NAME: proc_image_processing
+      IMAGE_NAME: proc_image_processing
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set environment variables
-        id: vars
+      - uses: actions/checkout@v2
+      - name: Login to Github Package Registry
         run: |
-          echo "::set-output name=branch-name::${GITHUB_REF##*/}"
-          echo "::set-output name=branch-fullname::${GITHUB_REF#refs/heads/}"
-          echo "::set-output name=tag::${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}"
-          echo "::set-output name=build-tag::build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}"
-          echo "::set-output name=date::$(date '+%Y-%m-%d_%H:%M:%S')"
-
-      - name: Build, Analyze and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          cache-from: type=registry,ref=${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
-          cache-to: type=inline
-          tags: |
-            ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
-            ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.build-tag }}
-          build-args: |
-            BASE_IMAGE=${{env.BASE_IMAGE}}
-          labels: |
-            net.etsmtl.sonia-auv.node.build-date=${{ steps.vars.outputs.date }}
-            net.etsmtl.sonia-auv.node.version=${{ steps.vars.outputs.branch-name }}-${{ steps.vars.outputs.date }}
-            net.etsmtl.sonia-auv.node.name=${{env.NODE_NAME}}
-
-      - name: Run Unit Tests
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build the docker image (perception based)
         run: |
-          docker run ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
-          docker run ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
+          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+
+      - name: Run Module Unit Test
+        run: |
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
+          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
+
+      - name: Create Docker Image Tag
+        run: |
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
+
+      - name: Push Image to Github Packages Registry
+        run: |
+          docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   build-ros-perception-arm64:
     # TODO fix this typo (AMR -> ARM).
@@ -64,17 +43,17 @@ jobs:
     name: "Build ROS perception AMR64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common:arm64-perception-latest"
       ARCH: arm64
       TARGET_TYPE: perception
       TARGET_VERSION: feature
       IMAGE_NAME: proc_image_processing
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Enable Docker Daemon Experimental Features
         run: |
           sudo rm /etc/docker/daemon.json
@@ -104,17 +83,17 @@ jobs:
     name: "Build ROS perception CUDA X86/64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest"
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: feature
       IMAGE_NAME: proc_image_processing_cuda
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build the docker image (perception based)
         run: |
           docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
@@ -131,17 +110,17 @@ jobs:
     name: "Build ROS perception CUDA ARM64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:arm64-perception-latest"
+      BASE_IMAGE: "ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:arm64-perception-latest"
       ARCH: arm64
       TARGET_TYPE: perception
       TARGET_VERSION: feature
       IMAGE_NAME: proc_image_processing_cuda
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Enable Docker Daemon Experimental Features
         run: |
           sudo rm /etc/docker/daemon.json

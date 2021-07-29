@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - BASE_IMAGE=docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest
+        - BASE_IMAGE=ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
     cap_add:
       - SYS_PTRACE
 

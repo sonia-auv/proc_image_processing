@@ -91,11 +91,11 @@ In order to do this:
 - Generate a personal access token on
   GitHub ([Settings | Developper Settings | Personal acces tokens](https://github.com/settings/tokens/new)) with at
   least the scope `read:packages`.
-- Type `docker login docker.pkg.github.com -u YOUR_GITHUB_USERNAME` and use your generated access token as password.
+- Type `docker login ghcr.io -u YOUR_GITHUB_USERNAME` and use your generated access token as password.
 
 - Pull sonia_common image:
-    - CPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
-    - GPU mode: `docker pull docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
+    - CPU mode: `docker pull ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
+    - GPU mode: `docker pull ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
 
 ---
 
