@@ -7,17 +7,16 @@
 #include <opencv2/opencv.hpp>
 
 namespace proc_image_processing {
-
-#define PROC_IMAGE_PROCESSING_TOP_LEFT 0
-#define PROC_IMAGE_PROCESSING_TOP_RIGHT 4
-#define PROC_IMAGE_PROCESSING_BOTTOM_LEFT 1
-#define PROC_IMAGE_PROCESSING_BOTTOM_RIGHT 2
-
     // Rotated rect ensure that the height member is the longest one
     // and the getAngle is in the direction of the height
     // it also contains useful method to play with rotated rectangle
     class RotRect : public cv::RotatedRect {
     public:
+        static constexpr int TOP_LEFT = 0;
+        static constexpr int BOTTOM_LEFT = 1;
+        static constexpr int BOTTOM_RIGHT = 2;
+        static constexpr int TOP_RIGHT = 4;
+
         using Ptr = std::shared_ptr<RotRect>;
 
         explicit RotRect(const std::vector<cv::Point> &edges);

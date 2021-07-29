@@ -39,7 +39,9 @@ namespace proc_image_processing {
 
         static const float PERCENT_OF_VAL_FOR_VALUE_CONNECTION;
 
-        cv::Mat ExtractEdge(const cv::Mat &image, int extreme_minimum);
+        explicit MajorEdgeExtractor(const RefImage &refImage);
+
+        cv::Mat extractEdge(const cv::Mat &image, int extreme_minimum);
 
     private:
         void init(const cv::Size &size);
@@ -165,6 +167,8 @@ namespace proc_image_processing {
     inline void MajorEdgeExtractor::setValueInReferenceVector(RefPointPtr ptr, float value) {
         setValueInReferenceVector(ptr->_reference_max_index, value);
     }
+
+    MajorEdgeExtractor::MajorEdgeExtractor(const RefImage &refImage) : ref_image_(refImage) {}
 
 }  // namespace proc_image_processing
 
