@@ -41,22 +41,22 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          cache-from: type=registry,ref=${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
+          cache-from: type=registry,ref=${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
           cache-to: type=inline
           tags: |
-            ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
-            ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.build-tag }}
+            ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
+            ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.build-tag }}
           build-args: |
-            BASE_IMAGE=${{BASE_IMAGE}}
+            BASE_IMAGE=${{env.BASE_IMAGE}}
           labels: |
             net.etsmtl.sonia-auv.node.build-date=${{ steps.vars.outputs.date }}
             net.etsmtl.sonia-auv.node.version=${{ steps.vars.outputs.branch-name }}-${{ steps.vars.outputs.date }}
-            net.etsmtl.sonia-auv.node.name=${{NODE_NAME}}
+            net.etsmtl.sonia-auv.node.name=${{env.NODE_NAME}}
 
       - name: Run Module Unit Test
         run: |
-          docker run ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
-          docker run ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
+          docker run ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
+          docker run ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
 
   build-ros-perception-arm64:
     # TODO fix this typo (AMR -> ARM).
