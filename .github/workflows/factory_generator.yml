@@ -2,11 +2,6 @@ name: Factory Generator
 
 on:
   push:
-    branches:
-      - "feature/**"
-      - "develop"
-      - "master"
-      - "main"
 
 jobs:
   factory-generator:
