@@ -168,7 +168,7 @@ namespace proc_image_processing {
         return true;
     }
 
-    const bool VisionServer::callbackInfoListCmd(
+    bool VisionServer::callbackInfoListCmd(
             sonia_common::GetInformationList::Request &req,
             sonia_common::GetInformationList::Response &res
     ) {
