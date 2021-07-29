@@ -201,5 +201,6 @@ TEST(FilterFactoryTest, GetFiltersTest) {
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     ros::init(argc, argv, "proc_image_processing");
+    ros::NodeHandle nh("proc_image_processing");
     return RUN_ALL_TESTS();
 }
