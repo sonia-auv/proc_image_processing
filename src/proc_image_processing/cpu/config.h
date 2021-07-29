@@ -5,13 +5,13 @@
 #include <string>
 
 namespace proc_image_processing {
-    const std::string kRosNodeName = "/proc_image_processing/";
+    const std::string kRosNodeName = "/" + std::string(std::getenv("NODE_NAME"));
 
-    const std::string kProjectPath = sonia_common::kWorkspaceRoot + "/src/proc_image_processing/";
+    const std::string kProjectPath = std::string(std::getenv("NODE_PATH"));
 
-    const std::string kConfigPath = kProjectPath + "/config/";
+    const std::string kConfigPath = kProjectPath + "/config";
 
-    const std::string kFilterChainPath = kConfigPath + "/filterchain/";
+    const std::string kFilterChainPath = kConfigPath + "/filterchain";
 
     const std::string kFilterChainExt = ".yaml";
 

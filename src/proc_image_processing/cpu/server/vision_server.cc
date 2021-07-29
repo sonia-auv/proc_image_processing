@@ -10,56 +10,56 @@ namespace proc_image_processing {
               filter_chain_mgr_() {
         auto base_node_name = std::string{kRosNodeName};
 
-        RegisterService<sonia_common::ExecuteCmd>(base_node_name + "execute_cmd",
+        RegisterService<sonia_common::ExecuteCmd>(base_node_name + "/execute_cmd",
                                                   &VisionServer::callbackExecutionCmd, *this);
 
-        RegisterService<sonia_common::GetInformationList>(base_node_name + "get_information_list",
+        RegisterService<sonia_common::GetInformationList>(base_node_name + "/get_information_list",
                                                           &VisionServer::callbackInfoListCmd,
                                                           *this);
 
-        RegisterService<sonia_common::CopyFilterchain>(base_node_name + "copy_filterchain",
+        RegisterService<sonia_common::CopyFilterchain>(base_node_name + "/copy_filterchain",
                                                        &VisionServer::callbackCopyFilterChain, *this);
 
         RegisterService<sonia_common::GetFilterchainFilterAllParam>(
-                base_node_name + "get_filterchain_filter_all_param",
+                base_node_name + "/get_filterchain_filter_all_param",
                 &VisionServer::callbackGetFilterAllParam, *this);
 
         RegisterService<sonia_common::GetFilterchainFilterParam>(
-                base_node_name + "get_filterchain_filter_param",
+                base_node_name + "/get_filterchain_filter_param",
                 &VisionServer::callbackGetFilterParam, *this);
 
         RegisterService<sonia_common::SetFilterchainFilterParam>(
-                base_node_name + "set_filterchain_filter_param",
+                base_node_name + "/set_filterchain_filter_param",
                 &VisionServer::callbackSetFilterParam, *this);
 
         RegisterService<sonia_common::GetFilterchainFilter>(
-                base_node_name + "get_filterchain_filter",
+                base_node_name + "/get_filterchain_filter",
                 &VisionServer::callbackGetFilter, *this);
 
         RegisterService<sonia_common::ManageFilterchainFilter>(
-                base_node_name + "manage_filterchain_filter",
+                base_node_name + "/manage_filterchain_filter",
                 &VisionServer::callbackManageFilter, *this);
 
-        RegisterService<sonia_common::ManageFilterchain>(base_node_name + "manage_filterchain",
+        RegisterService<sonia_common::ManageFilterchain>(base_node_name + "/manage_filterchain",
                                                          &VisionServer::callbackManageFilterChain, *this);
 
-        RegisterService<sonia_common::SaveFilterchain>(base_node_name + "save_filterchain",
+        RegisterService<sonia_common::SaveFilterchain>(base_node_name + "/save_filterchain",
                                                        &VisionServer::callbackSaveFilterChain, *this);
 
         RegisterService<sonia_common::SetFilterchainFilterOrder>(
-                base_node_name + "set_filterchain_filter_order",
+                base_node_name + "/set_filterchain_filter_order",
                 &VisionServer::callbackSetFilterChainOrder, *this);
 
         RegisterService<sonia_common::GetFilterchainFromExecution>(
-                base_node_name + "get_filterchain_from_execution",
+                base_node_name + "/get_filterchain_from_execution",
                 &VisionServer::callbackGetFilterChainExecution, *this);
 
         RegisterService<sonia_common::GetMediaFromExecution>(
-                base_node_name + "get_media_from_execution",
+                base_node_name + "/get_media_from_execution",
                 &VisionServer::callbackGetMediaExecution, *this);
 
         RegisterService<sonia_common::SetFilterchainFilterObserver>(
-                base_node_name + "set_filterchain_filter_observer",
+                base_node_name + "/set_filterchain_filter_observer",
                 &VisionServer::callbackSetObserver, *this);
 
         deep_network_service = ros::NodeHandle("~").serviceClient<sonia_common::ChangeNetwork>(
