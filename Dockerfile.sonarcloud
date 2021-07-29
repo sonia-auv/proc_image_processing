@@ -22,10 +22,8 @@ ENV ENTRYPOINT_FILE=sonia_entrypoint.sh
 ENV LAUNCH_ABSPATH=${NODE_PATH}/launch/${LAUNCH_FILE}
 ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
 
+USER root
 COPY --from=sonarcloud /sonarcloud/build-wrapper /sonarcloud/sonar-scanner /sonarcloud/
-
-USER ${SONIA_USER}
-# RUN echo "source $SONIA_WS_SETUP" >> ~/.bashrc
 
 WORKDIR ${NODE_PATH}
 COPY scripts/sonarcloud-build.sh .
