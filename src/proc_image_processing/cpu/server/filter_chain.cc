@@ -2,6 +2,8 @@
 #include <yaml-cpp/yaml.h>
 #include "proc_image_processing/cpu/config.h"
 
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>  //test
+
 namespace proc_image_processing {
 
     FilterChain::FilterChain(const std::string &name)
@@ -96,6 +98,8 @@ namespace proc_image_processing {
     }
 
     void FilterChain::executeFilterChain(cv::Mat &image) {
+        PerformanceEvaluator timer;
+
         cv::Mat imageToProcess = image.clone();
         if (!imageToProcess.empty()) {
             param_handler_.setOriginalImage(imageToProcess);
@@ -118,6 +122,7 @@ namespace proc_image_processing {
                 ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s", name_.c_str(), e.what());
             };
         }
+        ROS_INFO("Filterchain exec time: %f", timer.getExecutionTime());
     }
 
     void FilterChain::removeFilter(const size_t &index) {

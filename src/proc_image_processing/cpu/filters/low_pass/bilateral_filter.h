@@ -36,8 +36,11 @@ namespace proc_image_processing {
          */
         void apply(cv::Mat &image) override {
             if (enable_()) {
-                cv::bilateralFilter(image, image, diameter_.getValue(),
+                cv::Mat blurred;
+                cv::bilateralFilter(image, blurred, diameter_.getValue(),
                                     sigma_color_.getValue(), sigma_space_.getValue());
+
+                blurred.copyTo(image);
             }
         }
 

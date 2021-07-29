@@ -8,7 +8,22 @@
 #include <memory>
 
 namespace proc_image_processing {
+    /*
+    class LambdaBody : public cv::ParallelLoopBody {    
+    public:
+        typedef void(*LambdaParallelLoopBody)(const cv::Range & range);
+        LambdaBody(LambdaParallelLoopBody body){
+            _body = body;
+        }
 
+        void operator() (const cv::Range & range) const
+        {
+            _body(range);
+        }    
+    private:
+        LambdaParallelLoopBody _body;
+    };
+    */
     // Filter showing planes of different analysis (gray, _hsi, _bgr)
     // No threshold
     class ContrastAndBrightnessFilter : public Filter {
@@ -38,6 +53,19 @@ namespace proc_image_processing {
                                     contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
                     }
                 }
+               /*
+               // Apply filter to pixels in parallel
+               cv::parallel_for_(cv::Range(0, 10), LambdaBody([&](const cv::Range & range){
+                   for(int r = range.start; r < range.end; r++) {
+                        int y = r / image.cols;
+                        int x = r % image.cols;
+                        
+                        for (int c = 0; c < image.channels(); c++)
+                            image.at<cv::Vec3b>(y, x)[c] = cv::saturate_cast<uchar>(
+                                    contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
+                   }
+                }));
+                */
             }
         }
 
