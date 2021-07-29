@@ -41,7 +41,7 @@ jobs:
         with:
           context: .
           file: Dockerfile.sonarcloud
-          push: true
+          push: false
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           tags: ghcr.io/sonia-auv/proc_image_processing/sonarcloud:cache

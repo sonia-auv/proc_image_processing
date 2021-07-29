@@ -25,11 +25,7 @@ ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
 COPY --from=sonarcloud /sonarcloud/build-wrapper /sonarcloud/sonar-scanner /sonarcloud/
 
 USER ${SONIA_USER}
-RUN echo "source $SONIA_WS_SETUP" >> ~/.bashrc
-
-USER root
-
-RUN apt update && apt install -y unzip wget
+# RUN echo "source $SONIA_WS_SETUP" >> ~/.bashrc
 
 WORKDIR ${NODE_PATH}
 COPY scripts/sonarcloud-build.sh .
