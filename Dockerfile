@@ -4,13 +4,6 @@ FROM ${BASE_IMAGE}
 
 USER root
 
-ARG BUILD_DATE
-ARG VERSION
-
-LABEL net.etsmtl.sonia-auv.node.build-date=${BUILD_DATE}
-LABEL net.etsmtl.sonia-auv.node.version=${VERSION}
-LABEL net.etsmtl.sonia-auv.node.name=${NODE_NAME}
-
 ENV NODE_NAME=proc_image_processing
 ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
 ENV NODE_NAME=${NODE_NAME}

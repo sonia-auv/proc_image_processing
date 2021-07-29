@@ -9,33 +9,54 @@ jobs:
     name: "Build ROS perception X86/64"
     runs-on: ubuntu-latest
     env:
-      BASE_IMAGE: "docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: feature
-      IMAGE_NAME: proc_image_processing
-      GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
+      IMAGE_REPOSITORY: ghcr.io/sonia-auv/proc_image_processing/proc_image_processing
+      BASE_IMAGE: ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Login to Github Package Registry
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set environment variables
+        id: vars
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-      - name: Build the docker image (perception based)
-        run: |
-          docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+          echo "::set-output name=branch-name::${GITHUB_REF##*/}"
+          echo "::set-output name=branch-fullname::${GITHUB_REF#refs/heads/}"
+          echo "::set-output name=tag::${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}"
+          echo "::set-output name=build-tag::build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}"
+          echo "::set-output name=date::$(date '+%Y-%m-%d_%H:%M:%S')"
+          echo "::set-output name=image-fullname::${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}
+
+      - name: Build, Analyze and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          cache-from: type=registry,ref=${{ steps.vars.outputs.image-fullname }}
+          cache-to: type=inline
+          tags: |
+            ${{ steps.vars.outputs.image-fullname }}
+            ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.build-tag }}
+          build-args: |
+            BASE_IMAGE=${BASE_IMAGE}
+          labels: |
+            net.etsmtl.sonia-auv.node.build-date=${{ steps.vars.outputs.date }}
+            net.etsmtl.sonia-auv.node.version=${{ steps.vars.outputs.branch-name }}-${{ steps.vars.outputs.date }}
+            net.etsmtl.sonia-auv.node.name=proc_image_processing
 
       - name: Run Module Unit Test
         run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
-
-      - name: Create Docker Image Tag
-        run: |
-          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}
-
-      - name: Push Image to Github Packages Registry
-        run: |
-          docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
+          docker run ${{ steps.vars.outputs.image-fullname }} catkin_make --use-ninja run_tests
+          docker run ${{ steps.vars.outputs.image-fullname }} catkin_make --use-ninja tests
 
   build-ros-perception-arm64:
     # TODO fix this typo (AMR -> ARM).
@@ -70,11 +91,6 @@ jobs:
       - name: Build the docker image (perception based)
         run: |
           docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
-
-      - name: Run Module Unit Test
-        run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja tests
 
       - name: Create Docker Image Tag
         run: |
