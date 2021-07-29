@@ -33,7 +33,6 @@ jobs:
           echo "::set-output name=tag::${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}"
           echo "::set-output name=build-tag::build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}"
           echo "::set-output name=date::$(date '+%Y-%m-%d_%H:%M:%S')"
-          echo "::set-output name=image-fullname::${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}"
 
       - name: Build, Analyze and Push
         uses: docker/build-push-action@v2
@@ -41,10 +40,10 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          cache-from: type=registry,ref=${{ steps.vars.outputs.image-fullname }}
+          cache-from: type=registry,ref=${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}
           cache-to: type=inline
           tags: |
-            ${{ steps.vars.outputs.image-fullname }}
+            ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}
             ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.build-tag }}
           build-args: |
             BASE_IMAGE=${BASE_IMAGE}
@@ -55,8 +54,8 @@ jobs:
 
       - name: Run Module Unit Test
         run: |
-          docker run ${{ steps.vars.outputs.image-fullname }} catkin_make --use-ninja run_tests
-          docker run ${{ steps.vars.outputs.image-fullname }} catkin_make --use-ninja tests
+          docker run ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
+          docker run ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
 
   build-ros-perception-arm64:
     # TODO fix this typo (AMR -> ARM).
