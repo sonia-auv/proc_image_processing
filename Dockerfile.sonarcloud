@@ -1,8 +1,6 @@
 FROM ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
 
-ARG GITHUB_TOKEN=""
 ARG SONAR_TOKEN=""
-ARG BRANCH="master"
 
 ENV NODE_NAME=proc_image_processing
 ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
@@ -32,6 +30,10 @@ RUN chmod +x sonarcloud-build.sh
 COPY . .
 
 RUN /sonarcloud/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output ./sonarcloud-build.sh
+
+# ARGs invalidates caching when value is different
+ARG GITHUB_TOKEN=""
+ARG BRANCH="master"
 
 RUN export PATH="/sonarcloud/sonar-scanner-4.6.2.2472-linux/bin/:$PATH" && \
     export GITHUB_TOKEN=${GITHUB_TOKEN} && \
