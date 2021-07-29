@@ -14,6 +14,7 @@ jobs:
       TARGET_VERSION: feature
       IMAGE_REPOSITORY: ghcr.io/sonia-auv/proc_image_processing/proc_image_processing
       BASE_IMAGE: ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
+      NODE_NAME: proc_image_processing
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,22 +41,22 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          cache-from: type=registry,ref=${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}
+          cache-from: type=registry,ref=${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
           cache-to: type=inline
           tags: |
-            ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}
-            ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.build-tag }}
+            ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }}
+            ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.build-tag }}
           build-args: |
-            BASE_IMAGE=${BASE_IMAGE}
+            BASE_IMAGE=${{BASE_IMAGE}}
           labels: |
             net.etsmtl.sonia-auv.node.build-date=${{ steps.vars.outputs.date }}
             net.etsmtl.sonia-auv.node.version=${{ steps.vars.outputs.branch-name }}-${{ steps.vars.outputs.date }}
-            net.etsmtl.sonia-auv.node.name=proc_image_processing
+            net.etsmtl.sonia-auv.node.name=${{NODE_NAME}}
 
       - name: Run Module Unit Test
         run: |
-          docker run ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
-          docker run ${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
+          docker run ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
+          docker run ${{IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
 
   build-ros-perception-arm64:
     # TODO fix this typo (AMR -> ARM).
