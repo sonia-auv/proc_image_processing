@@ -39,11 +39,8 @@ namespace proc_image_processing {
      */
     void Execute(cv::Mat& image) override {
       if (enable_()) {
-        cv::Mat blurred;
-        cv::bilateralFilter(image, blurred, diameter_.GetValue(),
+        cv::bilateralFilter(image, image, diameter_.GetValue(),
           sigma_color_.GetValue(), sigma_space_.GetValue());
-
-        blurred.copyTo(image);
       }
     }
 

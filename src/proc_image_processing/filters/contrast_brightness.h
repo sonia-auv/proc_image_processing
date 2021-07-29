@@ -34,23 +34,12 @@ namespace proc_image_processing {
 
     virtual void Execute(cv::Mat& image) {
       if (enable_()) {
-        rows_ = image.rows;
-        cols_ = image.cols;
-        // Set final matrices
-
-        cv::Mat final = cv::Mat::zeros(rows_, cols_, image.type());
-
-        // Replace with new images
-
         for (int y = 0; y < image.rows; y++) {
           for (int x = 0; x < image.cols; x++) {
             for (int c = 0;c < image.channels(); c++)
-              final.at<cv::Vec3b>(y, x)[c] = cv::saturate_cast<uchar>(contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
-
+              image.at<cv::Vec3b>(y, x)[c] = cv::saturate_cast<uchar>(contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
           }
         }
-
-        final.copyTo(image);
       }
     }
 
