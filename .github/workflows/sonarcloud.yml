@@ -23,7 +23,7 @@ jobs:
       - name: Set environment variables
         id: vars
         run: |
-          echo "::set-output name=branch::${GITHUB_REF##*/}"
+          echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
       - name: Build, Analyze and Push
         uses: docker/build-push-action@v2
