@@ -102,7 +102,11 @@ namespace proc_image_processing {
                     }
 
                     ObjectFullData::Ptr object =
-                            std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                            std::make_shared<ObjectFullData>(
+                                    output_image_,
+                                    image,
+                                    reinterpret_cast<Contour &&>(contours[i])
+                            );;
 
                     if (object.get() == nullptr) {
                         continue;

@@ -51,7 +51,11 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr firstObject = nullptr;
                 ObjectFullData::Ptr lastObject = nullptr;
                 for (int i = 0; i < contours.size(); i++) {
-                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
+                            output_image_,
+                            image,
+                            reinterpret_cast<Contour &&>(contours[i])
+                    );;
 
                     std::vector<cv::Point> realContour = contours[i];
 
@@ -126,8 +130,10 @@ namespace proc_image_processing {
                             lastContour.push_back(realContour[id]);
                         }
 
-                        firstObject = std::make_shared<ObjectFullData>(originalImage, image, firstContour);
-                        lastObject = std::make_shared<ObjectFullData>(originalImage, image, lastContour);
+                        firstObject = std::make_shared<ObjectFullData>(originalImage, image,
+                                                                       reinterpret_cast<Contour &&>(firstContour));
+                        lastObject = std::make_shared<ObjectFullData>(originalImage, image,
+                                                                      reinterpret_cast<Contour &&>(lastContour));
                     }
 
                     if (debug_contour_()) {

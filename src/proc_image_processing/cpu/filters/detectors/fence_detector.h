@@ -69,7 +69,11 @@ namespace proc_image_processing {
 
             // Parse contours into 2 categories, vertical or horizontal.
             for (int i = 0; i < contours.size(); i++) {
-                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
+                        output_image_,
+                        image,
+                        reinterpret_cast<Contour &&>(contours[i])
+                );;
 
                 if (object.get() == nullptr) {
                     continue;
@@ -125,7 +129,11 @@ namespace proc_image_processing {
                         tmp.reserve(a.size() + b.size());
                         tmp.insert(tmp.end(), a.begin(), a.end());
                         tmp.insert(tmp.end(), b.begin(), b.end());
-                        horizontalBar[0] = std::make_shared<ObjectFullData>(originalImage, image, tmp);
+                        horizontalBar[0] = std::make_shared<ObjectFullData>(
+                                originalImage,
+                                image,
+                                reinterpret_cast<Contour &&>(tmp)
+                        );
                     }
                 }
             }

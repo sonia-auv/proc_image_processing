@@ -12,7 +12,7 @@ namespace proc_image_processing {
 
         using ContourVec = std::vector<cv::Point>;
 
-        Contour(std::vector<cv::Point> ctr);
+        explicit Contour(std::vector<cv::Point> ctr);
 
         explicit Contour(const cv::RotatedRect &rect);
 

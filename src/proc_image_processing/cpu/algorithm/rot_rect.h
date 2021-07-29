@@ -39,7 +39,7 @@ namespace proc_image_processing {
         void drawRect(cv::Mat &out, const cv::Scalar &color, int thickness = 1);
 
         // Create the class with another rotated rect
-        void swap(RotRect &a);
+        void swap(RotRect &a) noexcept;
 
         cv::Point2f *getCorners();
 

@@ -45,7 +45,7 @@ namespace proc_image_processing {
         angle = out_angle;
     }
 
-    void RotRect::swap(RotRect &a) {
+    void RotRect::swap(RotRect &a) noexcept {
         std::swap(a.angle, angle);
         std::swap(a.center, center);
         std::swap(a.pts_, pts_);
