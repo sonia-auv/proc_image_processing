@@ -24,6 +24,31 @@ namespace proc_image_processing {
         LambdaParallelLoopBody _body;
     };
     */
+    /*
+    class ParallelCABF : public ParallelLoopBody {
+    	cv::Mat img;
+        double contrast, brightness;
+
+    public:
+    	ParallelCABF(cv::Mat& img, double contrast, double brightness) : 
+            img(img),
+            contrast(contrast),
+            brightness(brightness)
+    	    { }
+
+    	void operator()(const cv::Range& range) const override
+    	{
+            for(int r = range.start; r < range.end; r++) {
+                int y = r / img.cols;
+                int x = r % img.cols;
+                
+                for (int c = 0; c < img.channels(); c++)
+                    img.at<cv::Vec3b>(y, x)[c] = cv::saturate_cast<uchar>(
+                            contrast * (img.at<cv::Vec3b>(y, x)[c]) + brightness);
+            }
+    	}
+    };
+    */
     // Filter showing planes of different analysis (gray, _hsi, _bgr)
     // No threshold
     class ContrastAndBrightnessFilter : public Filter {
@@ -46,6 +71,7 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             if (enable_()) {
+                
                 for (int y = 0; y < image.rows; y++) {
                     for (int x = 0; x < image.cols; x++) {
                         for (int c = 0; c < image.channels(); c++)
@@ -53,9 +79,10 @@ namespace proc_image_processing {
                                     contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
                     }
                 }
+                
                /*
                // Apply filter to pixels in parallel
-               cv::parallel_for_(cv::Range(0, 10), LambdaBody([&](const cv::Range & range){
+               cv::parallel_for_(cv::Range(0, image.rows * image.cols), LambdaBody([&](const cv::Range & range){
                    for(int r = range.start; r < range.end; r++) {
                         int y = r / image.cols;
                         int x = r % image.cols;
@@ -65,6 +92,9 @@ namespace proc_image_processing {
                                     contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
                    }
                 }));
+                */
+                /*
+                cv::parallel_for_(cv::Range(0, image.rows * image.cols), ParallelCABF(image, contrast_(), brightness_()));
                 */
             }
         }
