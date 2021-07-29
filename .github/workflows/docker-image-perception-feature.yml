@@ -53,7 +53,7 @@ jobs:
             net.etsmtl.sonia-auv.node.version=${{ steps.vars.outputs.branch-name }}-${{ steps.vars.outputs.date }}
             net.etsmtl.sonia-auv.node.name=${{env.NODE_NAME}}
 
-      - name: Run Module Unit Test
+      - name: Run Unit Tests
         run: |
           docker run ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja run_tests
           docker run ${{env.IMAGE_REPOSITORY}}:${{ steps.vars.outputs.tag }} catkin_make --use-ninja tests
