@@ -1,6 +1,6 @@
 name: simple_bin_handle
 filters:
-  - name: ImageCropper
+  - name: CropFilter
     parameters:
       - name: Enable
         value: 0
@@ -12,7 +12,7 @@ filters:
         value: 234
       - name: Y Reduction
         value: 0
-  - name: SubtractAllPlanes
+  - name: SubtractAllPlanesFilter
     parameters:
       - name: enable
         value: 1
@@ -34,7 +34,7 @@ filters:
         value: 1.000000
       - name: Weight_Plane_3
         value: 1.000000
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
@@ -42,7 +42,7 @@ filters:
         value: 1
       - name: Max_value
         value: 42
-  - name: Canny
+  - name: CannyFilter
     parameters:
       - name: Enable
         value: 0
@@ -54,7 +54,7 @@ filters:
         value: 200
       - name: Aperture_size
         value: 3
-  - name: Erode
+  - name: ErodeFilter
     parameters:
       - name: Enable
         value: 1
@@ -68,7 +68,7 @@ filters:
         value: 1
       - name: Iteration
         value: 1
-  - name: Dilate
+  - name: DilateFilter
     parameters:
       - name: Enable
         value: 1
@@ -82,7 +82,7 @@ filters:
         value: 2
       - name: Iteration
         value: 5
-  - name: Blurr
+  - name: BlurFilter
     parameters:
       - name: Enable
         value: 1
