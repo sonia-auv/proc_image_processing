@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include "ros/ros.h"
 #include "proc_image_processing/cpu/server/global_parameter_handler.h"
 #include "proc_image_processing/cpu/server/parameter_interface.h"
 #include "proc_image_processing/cpu/server/parameter.h"
@@ -73,6 +72,5 @@ TEST(GlobalParameterHandler, TestImage) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-    ros::init(argc, argv, "proc_image_processing");
     return RUN_ALL_TESTS();
 }

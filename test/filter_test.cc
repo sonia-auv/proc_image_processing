@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include "ros/ros.h"
 #include "opencv2/opencv.hpp"
 #include "proc_image_processing/cpu/server/global_parameter_handler.h"
 #include "proc_image_processing/cpu/filters/filter.h"
@@ -120,6 +119,5 @@ TEST(FilterTest, TestGlobalParams) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-    ros::init(argc, argv, "proc_image_processing");
     return RUN_ALL_TESTS();
 }
