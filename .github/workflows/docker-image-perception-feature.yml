@@ -33,7 +33,7 @@ jobs:
           echo "::set-output name=tag::${ARCH}-${TARGET_TYPE}-${TARGET_VERSION}-${GITHUB_REF##*/}"
           echo "::set-output name=build-tag::build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}"
           echo "::set-output name=date::$(date '+%Y-%m-%d_%H:%M:%S')"
-          echo "::set-output name=image-fullname::${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}
+          echo "::set-output name=image-fullname::${IMAGE_REPOSITORY}:${{ steps.vars.outputs.tag }}"
 
       - name: Build, Analyze and Push
         uses: docker/build-push-action@v2
