@@ -6,7 +6,7 @@ RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip \
     && mv build-wrapper-linux-x86 build-wrapper
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip \
     && unzip sonar-scanner-cli-4.6.2.2472-linux.zip \
-    && mv sonar-scanner-cli-4.6.2.2472-linux sonar-scanner-cli
+    && mv sonar-scanner-4.6.2.2472-linux sonar-scanner
 
 FROM ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
 
@@ -22,7 +22,7 @@ ENV ENTRYPOINT_FILE=sonia_entrypoint.sh
 ENV LAUNCH_ABSPATH=${NODE_PATH}/launch/${LAUNCH_FILE}
 ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
 
-COPY --from=sonarcloud /sonarcloud/build-wrapper /sonarcloud/sonar-scanner-cli /sonarcloud/
+COPY --from=sonarcloud /sonarcloud/build-wrapper /sonarcloud/sonar-scanner /sonarcloud/
 
 USER ${SONIA_USER}
 RUN echo "source $SONIA_WS_SETUP" >> ~/.bashrc
