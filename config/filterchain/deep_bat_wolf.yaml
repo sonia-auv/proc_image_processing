@@ -1,6 +1,6 @@
 name: deep_bottom
 filters:
-  - name: Deep2019
+  - name: Deep2019Filter
     parameters:
       - name: Enable
         value: 1

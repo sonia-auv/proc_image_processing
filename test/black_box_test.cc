@@ -10,7 +10,7 @@
 #include "sonia_common/ros/image_publisher.h"
 #include "sonia_common/ros/service_client_manager.h"
 #include "proc_image_processing/server/vision_server.h"
-#include "proc_image_processing/config.h"
+#include "proc_image_processing/cpu/config.h"
 
 ros::NodeHandle* nhp;
 
@@ -69,9 +69,9 @@ TEST(BlackBoxTest, test) {
     std::thread vsthd(&VisionServerThread);
 
     std::string base_node_name = proc_image_processing::kRosNodeName;
-    std::string exec_cmd_name = base_node_name + std::string("execute_cmd");
-    std::string list_name = base_node_name + std::string("get_information_list");
-    std::string media_exec_name = base_node_name + std::string("get_media_from_execution");
+    std::string exec_cmd_name = base_node_name + std::string("/execute_cmd");
+    std::string list_name = base_node_name + std::string("/get_information_list");
+    std::string media_exec_name = base_node_name + std::string("/get_media_from_execution");
     ros::ServiceClient execute_service = nhp->serviceClient<sonia_common::ExecuteCmd>(exec_cmd_name);
     ros::ServiceClient list_service = nhp->serviceClient<sonia_common::GetInformationList>(list_name);
     ros::ServiceClient media_service = nhp->serviceClient<sonia_common::GetMediaFromExecution>(media_exec_name);

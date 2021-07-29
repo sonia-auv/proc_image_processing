@@ -1,8 +1,8 @@
 project-path: "../proc_image_processing/"
 factories:
   - name: "FilterFactory"
-    path: "server/"
-    items-path: "filters/"
+    path: "cpu/server/"
+    items-path: "cpu/filters/"
     recurse: true
     filename: "filter_factory.cc"
     header-filename: "filter_factory.h"
