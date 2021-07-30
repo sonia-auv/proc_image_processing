@@ -18,6 +18,8 @@ namespace proc_image_processing {
             return std::make_unique<CannyFilter>(globalParams);
         } else if (name == "CenterCoffinDetector") {
             return std::make_unique<CenterCoffinDetector>(globalParams);
+        } else if (name == "CLAHEFilter") {
+            return std::make_unique<CLAHEFilter>(globalParams);
         } else if (name == "ContrastAndBrightnessFilter") {
             return std::make_unique<ContrastAndBrightnessFilter>(globalParams);
         } else if (name == "ConvexHullFilter") {
@@ -106,6 +108,7 @@ namespace proc_image_processing {
                "BlurFilter;"
                "CannyFilter;"
                "CenterCoffinDetector;"
+               "CLAHEFilter;"
                "ContrastAndBrightnessFilter;"
                "ConvexHullFilter;"
                "CropFilter;"

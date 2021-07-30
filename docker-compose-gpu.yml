@@ -34,5 +34,9 @@ services:
         reservations:
           devices:
             - capabilities: [ gpu ]
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
     cap_add:
       - SYS_PTRACE
+    volumes:
+      - ./bags:/bags:ro
