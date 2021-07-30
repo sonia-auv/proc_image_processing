@@ -214,6 +214,15 @@ To get your environment setup with it, follow these steps:
   then sent to your remote environment. In other words, you won't lose your changes if you don't commit them since your
   remote environment behaves like a server where stuff is compiled and executed.
 
+#### Running bags
+
+- docker-compose -f docker-compose-bags.yml up octopus-telemetry
+- docker-compose up clion_remote_env
+- docker exec -it clion_remote_env /bin/bash
+- cd /bags/
+- rosbag play -l something.bag
+- rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw
+
 ---
 
 ## Code Quality
