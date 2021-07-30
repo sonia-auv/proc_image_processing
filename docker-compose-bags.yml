@@ -8,9 +8,11 @@ services:
 
   ros-bridge:
     container_name: ros-bridge
-    image: docker.pkg.github.com/sonia-auv/sonia-ros-bridge/sonia-ros-bridge:x86-perception-latest
+    image: ghcr.io/sonia-auv/sonia-ros-bridge/sonia-ros-bridge:x86-perception-latest
     environment:
-      - ROS_MASTER_URI=http://ros-master:11311
+      - ROS_MASTER_URI=$ROS_MASTER_URI
+    ports:
+      - 9090:9090
     depends_on:
       - ros-master
 
@@ -19,8 +21,6 @@ services:
     image: ghcr.io/sonia-auv/octopus-telemetry:latest
     ports:
       - 3000:3000
-    environment:
-      - ROS_MASTER_URI=ws://ros-master:9090
     depends_on:
       - ros-bridge
 
@@ -31,7 +31,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ROS_MASTER_URI=http://ros-master:11311
+      - ROS_MASTER_URI=$ROS_MASTER_URI
     depends_on:
       - ros-master
     volumes:
