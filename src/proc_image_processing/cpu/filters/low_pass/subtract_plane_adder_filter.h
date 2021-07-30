@@ -18,7 +18,7 @@ namespace proc_image_processing {
 
         explicit SubtractPlaneAdderFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_),
+                  enable_("Enable", false, &parameters_),
                   show_adding_result_("show_adding_result", false, &parameters_),
                   plane_one_("Plane_1", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "

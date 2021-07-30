@@ -17,7 +17,7 @@ namespace proc_image_processing {
 
         explicit HSVThresholdFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_),
+                  enable_("Enable", false, &parameters_),
                   hue_min_("Hue Min", 0, 0, 256, &parameters_,
                            "Minimum Hue to threshold. Keep values higher or equal to this value."),
                   hue_max_("Hue Max", 255, 0, 256, &parameters_,

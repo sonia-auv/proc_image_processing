@@ -2,7 +2,7 @@ name: simple_test
 filters:
   - name: ContrastAndBrightnessFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 0
       - name: Contrast
         value: 0.000000
@@ -10,7 +10,7 @@ filters:
         value: 0.000000
   - name: SubtractAllPlanesFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 1
       - name: Plane_1
         value: 4
@@ -50,7 +50,7 @@ filters:
         value: 55
   - name: SubtractAllPlanesFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 1
       - name: Plane_1
         value: 7
