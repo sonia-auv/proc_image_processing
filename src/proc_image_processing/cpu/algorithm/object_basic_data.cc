@@ -2,13 +2,13 @@
 
 namespace proc_image_processing {
 
-    ObjectBasicData::ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage, Contour contour)
+    ObjectBasicData::ObjectBasicData(cv::Mat originalImage, cv::Mat binaryImage, Contour contour)
             : area_(0.0f),
               convex_hull_area_(0.0f),
               circumference_(0.0f),
               planes_(NB_OF_PLANE),
-              original_image_(originalImage),
-              binary_image_(binaryImage),
+              original_image_(std::move(originalImage)),
+              binary_image_(std::move(binaryImage)),
               vote_count_(0),
               contour_(std::move(contour)) {
         is_calculated_map_.insert(std::pair<OBJECT_DATA, bool>(AREA, false));
@@ -30,9 +30,9 @@ namespace proc_image_processing {
             cv::cvtColor(original_image_, gray, CV_BGR2GRAY);
             cv::cvtColor(original_image_, hsi, CV_BGR2HSV);
             // Set to zeros
-            for (int i = 0; i < 7; i++)
-                planes_[i] =
-                        cv::Mat::zeros(original_image_.rows, original_image_.cols, CV_8UC1);
+            for (int i = 0; i < 7; i++) {
+                planes_[i] = cv::Mat::zeros(original_image_.rows, original_image_.cols, CV_8UC1);
+            }
 
             cv::split(original_image_, &planes_[0]);
             cv::split(hsi, &planes_[3]);

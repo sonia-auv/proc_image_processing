@@ -51,6 +51,7 @@ namespace proc_image_processing {
                 cv::Mat hsv;
                 cv::Mat luv;
 
+                // TODO
                 cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
                 cv::inRange(
                         hsv,

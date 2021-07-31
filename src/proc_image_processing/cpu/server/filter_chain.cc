@@ -166,7 +166,10 @@ namespace proc_image_processing {
             const std::string &name,
             const std::string &value
     ) const {
-        getFilter(index)->setParameterValue(name, value);
+        auto filter = getFilter(index);
+        if (filter != nullptr) {
+            filter->setParameterValue(name, value);
+        }
     }
 
     std::vector<ParameterInterface *> FilterChain::getFilterParameters(const size_t &index) const {
