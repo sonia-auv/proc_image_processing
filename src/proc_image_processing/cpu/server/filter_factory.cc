@@ -30,8 +30,8 @@ namespace proc_image_processing {
             return std::make_unique<Deep2019Filter>(globalParams);
         } else if (name == "DilateFilter") {
             return std::make_unique<DilateFilter>(globalParams);
-        } else if (name == "EqualizeFilter") {
-            return std::make_unique<EqualizeFilter>(globalParams);
+        } else if (name == "EqualizeHistogramFilter") {
+            return std::make_unique<EqualizeHistogramFilter>(globalParams);
         } else if (name == "ErodeFilter") {
             return std::make_unique<ErodeFilter>(globalParams);
         } else if (name == "FenceDetector") {
@@ -114,7 +114,7 @@ namespace proc_image_processing {
                "CropFilter;"
                "Deep2019Filter;"
                "DilateFilter;"
-               "EqualizeFilter;"
+               "EqualizeHistogramFilter;"
                "ErodeFilter;"
                "FenceDetector;"
                "GateDetector;"

@@ -132,9 +132,6 @@ namespace proc_image_processing {
             catch (const std::exception &e) {
                 ROS_ERROR("Starting execution error: %s", e.what());
                 res.response = "";
-                // WHAAATTT IT FAILED BUT YOU RETURN TRUE!?!?!?
-                // If we return false, ROS consider the call failed and do not update the response field,
-                // so if you reuse the same variable (like in black_box_test.cc, it does not get updated.
                 // Here the call did not fail, we simply deny the service.
                 return true;
             }
@@ -388,8 +385,7 @@ namespace proc_image_processing {
         std::string execution_name(req.exec_name);
         std::string filter_chain_name(req.filterchain);
         if (req.cmd == req.SAVE) {
-            detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name)->serialize();
-            res.success = res.SUCCESS;
+            res.success = detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name)->serialize();
         }
         return true;
     }

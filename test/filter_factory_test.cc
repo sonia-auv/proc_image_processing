@@ -27,6 +27,9 @@ TEST(FilterFactoryTest, TestCreateInstance) {
     f = proc_image_processing::FilterFactory::createInstance("CenterCoffinDetector", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::CenterCoffinDetector *>(f.get()), nullptr);
 
+    f = proc_image_processing::FilterFactory::createInstance("CLAHEFilter", handler);
+    ASSERT_NE(dynamic_cast<proc_image_processing::CLAHEFilter *>(f.get()), nullptr);
+
     f = proc_image_processing::FilterFactory::createInstance("ContrastAndBrightnessFilter", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::ContrastAndBrightnessFilter *>(f.get()), nullptr);
 
@@ -42,8 +45,8 @@ TEST(FilterFactoryTest, TestCreateInstance) {
     f = proc_image_processing::FilterFactory::createInstance("DilateFilter", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::DilateFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("EqualizeFilter", handler);
-    ASSERT_NE(dynamic_cast<proc_image_processing::EqualizeFilter *>(f.get()), nullptr);
+    f = proc_image_processing::FilterFactory::createInstance("EqualizeHistogramFilter", handler);
+    ASSERT_NE(dynamic_cast<proc_image_processing::EqualizeHistogramFilter *>(f.get()), nullptr);
 
     f = proc_image_processing::FilterFactory::createInstance("ErodeFilter", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::ErodeFilter *>(f.get()), nullptr);
@@ -145,12 +148,13 @@ TEST(FilterFactoryTest, GetFiltersTest) {
             "BlurFilter",
             "CannyFilter",
             "CenterCoffinDetector",
+            "CLAHEFilter",
             "ContrastAndBrightnessFilter",
             "ConvexHullFilter",
             "CropFilter",
             "Deep2019Filter",
             "DilateFilter",
-            "EqualizeFilter",
+            "EqualizeHistogramFilter",
             "ErodeFilter",
             "FenceDetector",
             "GateDetector",

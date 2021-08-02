@@ -16,9 +16,9 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   greyscale_("Greyscale", true, &parameters_),
-                  clip_limit_("ClipLimit", 40.0, &parameters_, "Threshold for contrast limiting."),
-                  tile_width_("TileWidth", 8, &parameters_, "Width of grid for histogram equalization."),
-                  tile_height_("TileHeight", 8, &parameters_, "Height of grid for histogram equalization.") {
+                  clip_limit_("Clip limit", 40.0, &parameters_, "Threshold for contrast limiting."),
+                  tile_width_("Tile width", 8, &parameters_, "Width of tile used for histogram equalization."),
+                  tile_height_("Tile height", 8, &parameters_, "Height of tile used for histogram equalization.") {
             setName("CLAHEFilter");
         }
 

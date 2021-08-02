@@ -1,4 +1,4 @@
-// FACTORY_GENERATOR_CLASS_NAME=EqualizeFilter
+// FACTORY_GENERATOR_CLASS_NAME=EqualizeHistogramFilter
 
 #ifndef PROC_IMAGE_PROCESSING_FILTERS_EQUALIZE_H_
 #define PROC_IMAGE_PROCESSING_FILTERS_EQUALIZE_H_
@@ -8,17 +8,17 @@
 
 namespace proc_image_processing {
 
-    class EqualizeFilter : public Filter {
+    class EqualizeHistogramFilter : public Filter {
     public:
-        using Ptr = std::shared_ptr<EqualizeFilter>;
+        using Ptr = std::shared_ptr<EqualizeHistogramFilter>;
 
-        explicit EqualizeFilter(const GlobalParamHandler &globalParams)
+        explicit EqualizeHistogramFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("enable", false, &parameters_) {
-            setName("EqualizeFilter");
+            setName("EqualizeHistogramFilter");
         }
 
-        ~EqualizeFilter() override = default;
+        ~EqualizeHistogramFilter() override = default;
 
         void apply(cv::Mat &image) override {
             if (enable_()) {

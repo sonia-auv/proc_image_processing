@@ -16,8 +16,7 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   mode_("Mode", 0, 0, 3, &parameters_,
-                        "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "
-                        "3=CV_RETR_TREE"),
+                        "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, 3=CV_RETR_TREE"),
                   method_("Method", 0, 0, 3, &parameters_,
                           "0=CV_CHAIN_APPROX_NONE, 1=CV_CHAIN_APPROX_SIMPLE, "
                           "2=CV_CHAIN_APPROX_TC89_L1, "

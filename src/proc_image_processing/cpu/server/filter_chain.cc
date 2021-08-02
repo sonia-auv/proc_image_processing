@@ -14,8 +14,7 @@ namespace proc_image_processing {
     }
 
     FilterChain::FilterChain(const FilterChain &filter_chain)
-            : filepath_(kFilterChainPath + "/" + filter_chain.name_ + "_copy" +
-                        kFilterChainExt),
+            : filepath_(kFilterChainPath + "/" + filter_chain.name_ + "_copy" + kFilterChainExt),
               name_(filter_chain.name_ + "_copy"),
               param_handler_(filter_chain.param_handler_),
               observer_index_(filter_chain.observer_index_) {
@@ -58,41 +57,51 @@ namespace proc_image_processing {
         out << YAML::EndMap;
 
         auto filepath = kFilterChainPath + "/" + getName() + kFilterChainExt;
-        std::ofstream fout(filepath);
-        fout << out.c_str();
+        try {
+            std::ofstream fout(filepath);
+            fout << out.c_str();
+        } catch (std::exception &e) {
+            ROS_WARN("Cannot write filter chain %s to %s", getName().c_str(), filepath.c_str());
+            return false;
+        }
         return true;
     }
 
     bool FilterChain::deserialize() {
-        YAML::Node node = YAML::LoadFile(filepath_);
+        try {
+            YAML::Node node = YAML::LoadFile(filepath_);
 
-        if (node["name"]) {
-            setName(node["name"].as<std::string>());
-        }
+            if (node["name"]) {
+                setName(node["name"].as<std::string>());
+            }
 
-        if (node["filters"]) {
-            auto filters = node["filters"];
-            assert(filters.Type() == YAML::NodeType::Sequence);
+            if (node["filters"]) {
+                auto filters = node["filters"];
+                assert(filters.Type() == YAML::NodeType::Sequence);
 
-            for (std::size_t i = 0; i < filters.size(); i++) {
-                auto filter_node = filters[i];
-                addFilter(filter_node["name"].as<std::string>());
+                for (auto i = 0; i < filters.size(); i++) {
+                    auto filter_node = filters[i];
+                    addFilter(filter_node["name"].as<std::string>());
 
-                if (filter_node["parameters"]) {
-                    auto parameters = filter_node["parameters"];
-                    assert(parameters.Type() == YAML::NodeType::Sequence);
+                    if (filter_node["parameters"]) {
+                        auto parameters = filter_node["parameters"];
+                        assert(parameters.Type() == YAML::NodeType::Sequence);
 
-                    for (auto &&parameter : parameters) {
-                        auto param_node = parameter;
+                        for (auto &&parameter : parameters) {
+                            auto param_node = parameter;
 
-                        auto param_name = param_node["name"].as<std::string>();
-                        auto param_value = param_node["value"].as<std::string>();
-                        setFilterParameterValue(i, param_name, param_value);
+                            auto param_name = param_node["name"].as<std::string>();
+                            auto param_value = param_node["value"].as<std::string>();
+                            setFilterParameterValue(i, param_name, param_value);
+                        }
                     }
                 }
             }
+            return true;
+        } catch (const std::exception &e) {
+            ROS_WARN("Cannot load filter chain with path %s", filepath_.c_str());
+            return false;
         }
-        return true;
     }
 
     void FilterChain::executeFilterChain(cv::Mat &image) {

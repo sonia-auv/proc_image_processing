@@ -42,7 +42,7 @@ namespace proc_image_processing {
 
         Filter::Ptr getFilter(const size_t &index) const;
 
-        std::vector<Filter::Ptr> getFilters(const std::string &filter_name) const;
+        std::map<int, Filter::Ptr> getFilters(const std::string &filter_name) const;
 
         std::vector<Filter::Ptr> getFilters() const;
 
@@ -86,16 +86,20 @@ namespace proc_image_processing {
         size_t observer_index_;
     };
 
-    inline Filter::Ptr FilterChain::getFilter(
-            const size_t &index) const {
+    inline Filter::Ptr FilterChain::getFilter(const size_t &index) const {
         return filters_.at(index);
     }
 
-    inline std::vector<Filter::Ptr> FilterChain::getFilters(const std::string &filter_name) const {
-        std::vector<Filter::Ptr> filters;
-        for (const auto &filter : filters_) {
-            if (filter->getName() == filter_name) {
-                filters.push_back(filter);
+    /**
+     * Get all filters with same name
+     * @param filter_name
+     * @return a map where it's key is the index of the filter and it's value the filter
+     */
+    inline std::map<int, Filter::Ptr> FilterChain::getFilters(const std::string &filter_name) const {
+        std::map<int, Filter::Ptr> filters;
+        for (auto i = 0; i < filters_.size(); i++) {
+            if (filters_[i]->getName() == filter_name) {
+                filters.emplace(i, filters_[i]);
             }
         }
         return filters;

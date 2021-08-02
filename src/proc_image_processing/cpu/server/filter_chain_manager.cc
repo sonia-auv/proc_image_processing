@@ -1,6 +1,9 @@
 #include "filter_chain_manager.h"
+#include "boost/filesystem.hpp"
 #include <dirent.h>
 #include <yaml-cpp/yaml.h>
+
+namespace fs = boost::filesystem;
 
 namespace proc_image_processing {
     // TODO Initialization of 'FILTER_CHAIN_MANAGER_TAG' with static storage duration may throw an exception that cannot be caught
@@ -11,20 +14,16 @@ namespace proc_image_processing {
     FilterChainManager::~FilterChainManager() = default;
 
     std::vector<std::string> FilterChainManager::getFilterChainsNames() {
-        auto availableFilterChains = std::vector<std::string>{};
-        if (auto dir = opendir(kFilterChainPath.c_str())) {
-            struct dirent *ent;
-            while ((ent = readdir(dir)) != nullptr) {
-                auto filename = std::string{ent->d_name};
-                if (filename.length() > kFilterChainExt.length() &&
-                    filename.substr(filename.length() - kFilterChainExt.length()) == kFilterChainExt) {
-                    filename.replace(filename.end() - kFilterChainExt.length(), filename.end(), "");
-                    availableFilterChains.push_back(filename);
+        std::vector<std::string> filter_chains;
+        auto filter_chains_dir(kFilterChainPath);
+        if (fs::is_directory(filter_chains_dir)) {
+            for (fs::path file : fs::directory_iterator(filter_chains_dir)) {
+                if (file.extension().string<std::string>() == kFilterChainPath) {
+                    filter_chains.push_back(file.filename().string());
                 }
             }
-            closedir(dir);
         }
-        return availableFilterChains;
+        return filter_chains;
     }
 
     void FilterChainManager::addFilterChain(const std::string &filter_chain) {
@@ -55,10 +54,10 @@ namespace proc_image_processing {
         if (filterChainExists(filter_chain_name)) {
             auto filter_chain = std::make_shared<FilterChain>(filter_chain_name);
             running_filter_chains_.push_back(filter_chain);
-            ROS_INFO("FilterChain is ready.");
+            ROS_INFO("Filter chain %s is ready.", filter_chain_name.c_str());
             return filter_chain;
         }
-        throw std::invalid_argument("Could not find the given filterchain");
+        throw std::invalid_argument("Could not find the given filter chain");
     }
 
     const std::vector<FilterChain::Ptr> &FilterChainManager::createAllFilterChains() {
@@ -69,8 +68,11 @@ namespace proc_image_processing {
     }
 
     void FilterChainManager::stopFilterChain(const FilterChain::Ptr &filter_chain) {
-        auto instance = std::find(running_filter_chains_.begin(),
-                                  running_filter_chains_.end(), filter_chain);
+        auto instance = std::find(
+                running_filter_chains_.begin(),
+                running_filter_chains_.end(),
+                filter_chain
+        );
         running_filter_chains_.erase(instance);
         ROS_INFO("FilterChain is stopped.");
     }

@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(project_path ${CMAKE_CURRENT_SOURCE_DIR})
 set(proc_image_processing_SRC_DIR "src/")
 set(proc_image_processing_CPU_SRC_DIR "src/proc_image_processing/cpu")
 set(proc_image_processing_GPU_SRC_DIR "src/proc_image_processing/gpu")
@@ -22,7 +23,7 @@ if (CUDA_FOUND)
     include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
     try_run(RUN_RESULT_VAR COMPILE_RESULT_VAR
-            ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tools/detect_gpu.c
+            ${CMAKE_BINARY_DIR} ${project_path}/tools/detect_gpu.c
             CMAKE_FLAGS
             -DINCLUDE_DIRECTORIES=${CUDA_TOOLKIT_INCLUDE}
             -DLINK_LIBRARIES=${CUDA_CUDART_LIBRARY}
@@ -54,11 +55,11 @@ if (CUDA_FOUND)
             "${proc_image_processing_CPU_SRC_DIR}/*.cc"
             "${proc_image_processing_CPU_SRC_DIR}/*.h"
     )
-    set(main ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
+    set(main ${project_path}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
 
     # TODO fix major_edge_extractor implementation for GPU mode. Likely due to incompatibility.
-    list(REMOVE_ITEM proc_image_processing_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
-    list(REMOVE_ITEM proc_image_processing_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
+    list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
+    list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
 else ()
     message("##### - Using CPU mode, CUDA not found - #####")
 
@@ -72,13 +73,13 @@ else ()
             "${proc_image_processing_CPU_SRC_DIR}/*.cc"
             "${proc_image_processing_CPU_SRC_DIR}/*.h"
     )
-    set(main ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
+    set(main ${project_path}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
 endif (CUDA_FOUND)
 
 # Exclude mains
-list(REMOVE_ITEM proc_image_processing_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
-list(REMOVE_ITEM proc_image_processing_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_CPU_SRC_DIR}/republisher.cc)
-list(REMOVE_ITEM proc_image_processing_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
+list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
+list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/republisher.cc)
+list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
 
 catkin_package(
         INCLUDE_DIRS ${proc_image_processing_SRC_DIR}
@@ -117,6 +118,7 @@ target_link_libraries(
 )
 
 add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
+
 if (CATKIN_ENABLE_TESTING)
     add_subdirectory(test)
 endif ()

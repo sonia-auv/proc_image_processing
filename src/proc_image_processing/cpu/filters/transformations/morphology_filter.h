@@ -20,7 +20,7 @@ namespace proc_image_processing {
                   kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
                                "0=Rect, 1=Elipse, 2=Cross"),
                   iteration_("Iteration", 1, 1, 20, &parameters_),
-                  kernel_size_("Kernel_size", 1, 1, 40, &parameters_),
+                  kernel_size_("Kernel size", 1, 1, 40, &parameters_),
                   anchor_(-1, -1) {
             setName("MorphologyFilter");
         }

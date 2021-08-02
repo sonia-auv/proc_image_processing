@@ -21,9 +21,8 @@ namespace proc_image_processing {
         explicit BlurFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  type_("Type", 2, 0, 3, &parameters_,
-                        "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
-                  kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
+                  type_("Type", 2, 0, 3, &parameters_, "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
+                  kernel_size_("Kernel size", 1, 0, 35, &parameters_),
                   anchor_(-1, -1) {
             setName("BlurFilter");
         }
