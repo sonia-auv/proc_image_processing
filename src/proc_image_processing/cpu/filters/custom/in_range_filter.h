@@ -21,7 +21,6 @@ namespace proc_image_processing {
 
         explicit InRangeFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
                   upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
                   lower_saturation_("HSVLowS", 0, 0, 255, &parameters_),
@@ -70,13 +69,6 @@ namespace proc_image_processing {
         }
 
     private:
-        /**
-         * State if the filter is enabled or not.
-         * This is being used by the vision server for calling the filter in the
-         * filterchain.
-         */
-        Parameter<bool> enable_;
-
         /** Inclusive Hue lower boundary. */
         RangedParameter<int> lower_hue_;
 

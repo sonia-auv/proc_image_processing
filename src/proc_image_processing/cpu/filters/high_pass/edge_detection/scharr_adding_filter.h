@@ -15,7 +15,6 @@ namespace proc_image_processing {
 
         explicit ScharrAddingFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   run_small_image_("Run_small_image", true, &parameters_,
                                    "Resize image to run on smaller image"),
                   convert_to_uchar_("Convert_to_uchar", false, &parameters_),
@@ -35,31 +34,29 @@ namespace proc_image_processing {
         ~ScharrAddingFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (image.channels() != 3) return;
-                if (run_small_image_()) {
-                    cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
-                }
+            if (image.channels() != 3) return;
+            if (run_small_image_()) {
+                cv::resize(image, image, cv::Size(image.cols / 2, image.rows / 2));
+            }
 
-                std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
-                cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
+            std::vector<cv::Mat> colorPlanes = getColorPlanes(image);
+            cv::Mat sum = cv::Mat::zeros(image.rows, image.cols, CV_32FC1);
 
-                if (plane_blue_()) cv::add(getScharr(colorPlanes[0]), sum, sum);
-                if (plane_green_()) cv::add(getScharr(colorPlanes[1]), sum, sum);
-                if (plane_red_()) cv::add(getScharr(colorPlanes[2]), sum, sum);
-                if (plane_hue_()) cv::add(getScharr(colorPlanes[3]), sum, sum);
-                if (plane_saturation_()) cv::add(getScharr(colorPlanes[4]), sum, sum);
-                if (plane_intensity_()) cv::add(getScharr(colorPlanes[5]), sum, sum);
-                if (plane_gray_()) cv::add(getScharr(colorPlanes[6]), sum, sum);
+            if (plane_blue_()) cv::add(getScharr(colorPlanes[0]), sum, sum);
+            if (plane_green_()) cv::add(getScharr(colorPlanes[1]), sum, sum);
+            if (plane_red_()) cv::add(getScharr(colorPlanes[2]), sum, sum);
+            if (plane_hue_()) cv::add(getScharr(colorPlanes[3]), sum, sum);
+            if (plane_saturation_()) cv::add(getScharr(colorPlanes[4]), sum, sum);
+            if (plane_intensity_()) cv::add(getScharr(colorPlanes[5]), sum, sum);
+            if (plane_gray_()) cv::add(getScharr(colorPlanes[6]), sum, sum);
 
-                sum.copyTo(image);
-                if (run_small_image_()) {
-                    cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
-                }
+            sum.copyTo(image);
+            if (run_small_image_()) {
+                cv::resize(image, image, cv::Size(image.cols * 2, image.rows * 2));
+            }
 
-                if (convert_to_uchar_() && image.channels() < 3) {
-                    cv::cvtColor(image, image, CV_GRAY2BGR);
-                }
+            if (convert_to_uchar_() && image.channels() < 3) {
+                cv::cvtColor(image, image, CV_GRAY2BGR);
             }
         }
 
@@ -87,7 +84,7 @@ namespace proc_image_processing {
         // reducing the image size by two (in each direction)
         // so that the scharr computation does not take to much time
         // when multiple images.
-        Parameter<bool> enable_, run_small_image_, convert_to_uchar_;
+        Parameter<bool> run_small_image_, convert_to_uchar_;
         // _mean_multiplier act as threshold for noise.
         // When set, it remove everything under the mean to keep only
         // proeminent contours.

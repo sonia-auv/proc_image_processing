@@ -15,7 +15,6 @@ namespace proc_image_processing {
 
         explicit TestFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", true, &parameters_),
                   x_("X", 0, -512, 512, &parameters_),
                   y_("Y", 0, -512, 512, &parameters_),
                   w_("Width", 200, 0, 1024, &parameters_),
@@ -32,18 +31,15 @@ namespace proc_image_processing {
         virtual void init() {}
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                target_.setTarget("test_filter", x_.getValue() - 1000 / 2, y_.getValue(),
-                                  w_.getValue(), h_.getValue(), angle_.getValue(), 1000,
-                                  -1000 - (1000 / 2), specField1_.getValue(),
-                                  specField2_.getValue());
+            target_.setTarget("test_filter", x_.getValue() - 1000 / 2, y_.getValue(),
+                                w_.getValue(), h_.getValue(), angle_.getValue(), 1000,
+                                -1000 - (1000 / 2), specField1_.getValue(),
+                                specField2_.getValue());
 
-                notify(target_);
-            }
+            notify(target_);
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> x_, y_, w_, h_, angle_;
         Parameter <std::string> header_, specField1_, specField2_;
 

@@ -17,7 +17,6 @@ namespace proc_image_processing {
 
         explicit SubtractAllPlanesFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_),
                   plane_one_("Plane_1", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                              "6=Intensity, 7=Gray"),
@@ -41,38 +40,36 @@ namespace proc_image_processing {
         ~SubtractAllPlanesFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (CV_MAT_CN(image.type()) != 3) {
-                    return;
-                }
-
-                rows_ = image.rows;
-                cols_ = image.cols;
-                // Set result matrices
-                cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-
-                // Replace with new images
-                channel_vec_ = getColorPlanes(image);
-
-                // Set subtraction
-                if (plane_one_() != 0)
-                    setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
-
-                if (plane_two_() != 0)
-                    setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
-
-                if (plane_three_() != 0)
-                    setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
-
-                cv::subtract(one, two, result);
-                cv::subtract(result, three, result);
-
-                result.copyTo(image);
+            if (CV_MAT_CN(image.type()) != 3) {
+                return;
             }
+
+            rows_ = image.rows;
+            cols_ = image.cols;
+            // Set result matrices
+            cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+
+            // Replace with new images
+            channel_vec_ = getColorPlanes(image);
+
+            // Set subtraction
+            if (plane_one_() != 0)
+                setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
+
+            if (plane_two_() != 0)
+                setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
+
+            if (plane_three_() != 0)
+                setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
+
+            cv::subtract(one, two, result);
+            cv::subtract(result, three, result);
+
+            result.copyTo(image);
         }
 
     private:
@@ -91,7 +88,6 @@ namespace proc_image_processing {
             cv::multiply(out, one, out, weight, CV_8UC1);
         }
 
-        Parameter<bool> enable_;
         RangedParameter<int> plane_one_, plane_two_, plane_three_;
         Parameter<bool> invert_one_, invert_two_, invert_three_;
         RangedParameter<double> weight_one_, weight_two_, weight_three_;

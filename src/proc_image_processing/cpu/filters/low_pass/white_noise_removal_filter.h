@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit WhiteNoiseRemovalFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   low_b_("LowB", 0, 0, 255, &parameters_),
                   high_b_("HighB", 0, 0, 255, &parameters_),
                   low_g_("LowG", 0, 0, 255, &parameters_),
@@ -29,45 +28,42 @@ namespace proc_image_processing {
         ~WhiteNoiseRemovalFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                std::vector<cv::Mat> channels;
-                cv::Mat original_image(global_params_.getOriginalImage());
-                cv::split(original_image, channels);
-                cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
-                cv::inRange(channels[1], low_g_(), high_g_(), channels[1]);
-                cv::inRange(channels[2], low_r_(), high_r_(), channels[2]);
-                cv::Mat result;
-                cv::bitwise_or(channels[0], channels[1], result);
-                cv::bitwise_or(channels[2], result, result);
-                std::vector<cv::Mat> res;
+            std::vector<cv::Mat> channels;
+            cv::Mat original_image(global_params_.getOriginalImage());
+            cv::split(original_image, channels);
+            cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
+            cv::inRange(channels[1], low_g_(), high_g_(), channels[1]);
+            cv::inRange(channels[2], low_r_(), high_r_(), channels[2]);
+            cv::Mat result;
+            cv::bitwise_or(channels[0], channels[1], result);
+            cv::bitwise_or(channels[2], result, result);
+            std::vector<cv::Mat> res;
 
-                switch (view_channel_()) {
-                    case 1:
-                        channels[0].copyTo(image);
-                        break;
-                    case 2:
-                        channels[1].copyTo(image);
-                        break;
-                    case 3:
-                        channels[2].copyTo(image);
-                        break;
-                    default:
-                        if (image.channels() == 3) {
-                            res.push_back(result);
-                            res.push_back(result);
-                            res.push_back(result);
-                            cv::merge(res, result);
-                            cv::bitwise_and(image, result, image);
-                        } else {
-                            cv::bitwise_and(image, result, image);
-                        }
-                        break;
-                }
+            switch (view_channel_()) {
+                case 1:
+                    channels[0].copyTo(image);
+                    break;
+                case 2:
+                    channels[1].copyTo(image);
+                    break;
+                case 3:
+                    channels[2].copyTo(image);
+                    break;
+                default:
+                    if (image.channels() == 3) {
+                        res.push_back(result);
+                        res.push_back(result);
+                        res.push_back(result);
+                        cv::merge(res, result);
+                        cv::bitwise_and(image, result, image);
+                    } else {
+                        cv::bitwise_and(image, result, image);
+                    }
+                    break;
             }
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> low_b_, high_b_, low_g_, high_g_, low_r_, high_r_;
         RangedParameter<int> view_channel_;
     };

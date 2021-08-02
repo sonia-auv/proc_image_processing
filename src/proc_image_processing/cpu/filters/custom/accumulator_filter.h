@@ -17,7 +17,6 @@ namespace proc_image_processing {
         explicit AccumulatorFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   accumulator_(3, cv::Size(0, 0), CV_8UC1),
-                  enable_("Enable", false, &parameters_),
                   nb_image_("NB_of_images", 3, 1, 20, &parameters_),
                   method_("Method_to_use", 1, 0, 2, &parameters_,
                           "Method: 1=SameWeight, 2=Adding50Percent, 3=Adjusted"),
@@ -31,7 +30,6 @@ namespace proc_image_processing {
         ~AccumulatorFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
                 // Is there any change in the type of images
                 // we input to the accumulator?
                 // If yes, reset it.
@@ -67,12 +65,10 @@ namespace proc_image_processing {
                 accumulator_.addImage(image);
                 // Change the input for the newest averaging.
                 accumulator_.convertImage(image);
-            }
         }
 
     private:
         ImageAccumulatorBuffer accumulator_;
-        Parameter<bool> enable_;
         RangedParameter<int> nb_image_, method_;
         // Here we need some sorte of remembering
         // so we can reset the accumulator on

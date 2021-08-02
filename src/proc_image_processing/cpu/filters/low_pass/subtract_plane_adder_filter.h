@@ -18,7 +18,6 @@ namespace proc_image_processing {
 
         explicit SubtractPlaneAdderFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_),
                   show_adding_result_("show_adding_result", false, &parameters_),
                   plane_one_("Plane_1", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
@@ -43,42 +42,40 @@ namespace proc_image_processing {
         ~SubtractPlaneAdderFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                cv::Mat original = global_params_.getOriginalImage();
-                if (CV_MAT_CN(original.type()) != 3) {
-                    return;
-                }
-
-                rows_ = image.rows;
-                cols_ = image.cols;
-                // Set final matrices
-                cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat final = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-
-                // Replace with new images
-                channel_vec_ = getColorPlanes(original);
-
-                // Set subtraction
-                if (plane_one_() != 0)
-                    setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
-
-                if (plane_two_() != 0)
-                    setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
-
-                if (plane_three_() != 0)
-                    setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
-
-                cv::subtract(one, two, final);
-                cv::subtract(final, three, final);
-
-                if (!show_adding_result_()) {
-                    cv::add(final, image, final);
-                }
-                final.copyTo(image);
+            cv::Mat original = global_params_.getOriginalImage();
+            if (CV_MAT_CN(original.type()) != 3) {
+                return;
             }
+
+            rows_ = image.rows;
+            cols_ = image.cols;
+            // Set final matrices
+            cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat final = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+
+            // Replace with new images
+            channel_vec_ = getColorPlanes(original);
+
+            // Set subtraction
+            if (plane_one_() != 0)
+                setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
+
+            if (plane_two_() != 0)
+                setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
+
+            if (plane_three_() != 0)
+                setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
+
+            cv::subtract(one, two, final);
+            cv::subtract(final, three, final);
+
+            if (!show_adding_result_()) {
+                cv::add(final, image, final);
+            }
+            final.copyTo(image);
         }
 
     private:
@@ -97,7 +94,7 @@ namespace proc_image_processing {
             cv::multiply(out, one, out, weight, CV_8UC1);
         }
 
-        Parameter<bool> enable_, show_adding_result_;
+        Parameter<bool> show_adding_result_;
         RangedParameter<int> plane_one_, plane_two_, plane_three_;
         Parameter<bool> invert_one_, invert_two_, invert_three_;
         RangedParameter<double> weight_one_, weight_two_, weight_three_;
