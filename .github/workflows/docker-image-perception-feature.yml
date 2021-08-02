@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Module Unit Test
         run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} -e NODE_CONFIG_PATH=${NODE_CONFIG_PATH} catkin_make --use-ninja run_tests
+          docker run -e NODE_CONFIG_PATH=${NODE_CONFIG_PATH} build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
 
       - name: Create Docker Image Tag
         run: |

@@ -35,7 +35,7 @@ services:
           devices:
             - capabilities: [ gpu ]
     environment:
-      - ROS_MASTER_URI=http://ros-master:11311
+      - ROS_MASTER_URI=$ROS_MASTER_URI
     cap_add:
       - SYS_PTRACE
     volumes:

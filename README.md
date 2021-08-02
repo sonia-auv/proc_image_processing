@@ -243,7 +243,11 @@ Although, a manual analysis can also be performed and submitted on SonarCloud by
 
 ### Running the tests
 
-Explain how to run the automated tests for this system
+First of all, the environment variable `NODE_CONFIG_PATH` must be set to in order for to execute some tests. For
+example, since configuration files are read from disk, setting this variable allows us to use filter chain
+configurations file assets for testing purposes. As such, you can either add this variable
+using `export NODE_CONFIG_PATH=/test/assets/config` or by adding `NODE_CONFIG_PATH=/test/assets/config`
+before `catkin_make --use-ninja run_tests`: `NODE_CONFIG_PATH=/test/assets/config catkin_make --use-ninja run_tests`.
 
 ---
 

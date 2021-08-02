@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: Dockerfile.clion
     environment:
-      - ROS_MASTER_URI=http://ros-master:11311
+      - ROS_MASTER_URI=$ROS_MASTER_URI
     ports:
       - 127.0.0.1:$CLION_SSH_PORT:22
     cap_add:
