@@ -15,7 +15,8 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<SquareDetector>;
 
         explicit SquareDetector(const GlobalParamHandler &globalParams)
-                : Filter(globalParams), enable_("Enable", false, &parameters_),
+                : Filter(globalParams),
+                  enable_("Enable", false, &parameters_),
                   N("N", 100, 0, 100, &parameters_),
                   thresh("threshold", 100, 0, 100, &parameters_) {
             setName("SquareDetector");

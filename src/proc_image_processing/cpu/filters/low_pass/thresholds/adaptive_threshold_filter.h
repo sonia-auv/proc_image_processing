@@ -16,7 +16,7 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
-                  threshold_type_("Threshold_type", 0, 0, 1, &parameters_,
+                  threshold_type_("Threshold type", 0, 0, 1, &parameters_,
                                   "0=BIN, 1=BIN_INV"),
                   _block_size("Size", 1, 1, 40, &parameters_),
                   c_param_("C_param", 0.0f, -255.0f, 255.0f, &parameters_) {

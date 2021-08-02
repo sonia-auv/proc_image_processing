@@ -21,9 +21,8 @@ namespace proc_image_processing {
         explicit BackgroundSubtractFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  show_blurred_("Show_blurred", false, &parameters_),
-                  blur_size_("Blur_size", 255, 0, 1000, &parameters_),
-                  sigma_("Sigma", 10, 0, 100, &parameters_) {
+                  show_blurred_("Show blurred", false, &parameters_),
+                  blur_size_("Blur size", 255, 0, 1000, &parameters_) {
             setName("BackgroundSubtractFilter");
         }
 
@@ -37,12 +36,10 @@ namespace proc_image_processing {
                 cv::Mat g = channels[1];
                 cv::Mat r = channels[2];
                 cv::Mat blurB, blurG, blurR;
-                cv::blur(b, blurB,
-                         cv::Size(blur_size_.getValue(), blur_size_.getValue()));
-                cv::blur(g, blurG,
-                         cv::Size(blur_size_.getValue(), blur_size_.getValue()));
-                cv::blur(r, blurR,
-                         cv::Size(blur_size_.getValue(), blur_size_.getValue()));
+                cv::blur(b, blurB, cv::Size(blur_size_.getValue(), blur_size_.getValue()));
+                cv::blur(g, blurG, cv::Size(blur_size_.getValue(), blur_size_.getValue()));
+                cv::blur(r, blurR, cv::Size(blur_size_.getValue(), blur_size_.getValue()));
+
                 if (show_blurred_()) {
                     b = blurB;
                     g = blurG;
@@ -52,6 +49,7 @@ namespace proc_image_processing {
                     g = g - blurG;
                     r = r - blurR;
                 }
+
                 channels[0] = b;
                 channels[1] = g;
                 channels[2] = r;
@@ -61,7 +59,7 @@ namespace proc_image_processing {
 
     private:
         Parameter<bool> enable_, show_blurred_;
-        RangedParameter<int> blur_size_, sigma_;
+        RangedParameter<int> blur_size_;
     };
 
 }  // namespace proc_image_processing

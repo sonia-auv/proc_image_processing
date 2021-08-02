@@ -14,7 +14,7 @@ namespace proc_image_processing {
 
         explicit EqualizeHistogramFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_) {
+                  enable_("Enable", false, &parameters_) {
             setName("EqualizeHistogramFilter");
         }
 

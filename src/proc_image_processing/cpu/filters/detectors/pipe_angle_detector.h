@@ -21,9 +21,9 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   angle_(0.0f),
                   enable_("Enable", false, &parameters_),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  min_area_("Min_area", 200, 0, 10000, &parameters_),
-                  min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
+                  debug_contour_("Debug contour", false, &parameters_),
+                  min_area_("Minimum area", 200, 0, 10000, &parameters_),
+                  min_pixel_("Minimum pixel", 0, 20, 100, &parameters_) {
             setName("PipeAngleDetector");
         }
 

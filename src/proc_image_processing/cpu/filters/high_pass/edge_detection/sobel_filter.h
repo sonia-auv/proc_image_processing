@@ -15,13 +15,11 @@ namespace proc_image_processing {
         explicit SobelFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
-                  use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
-                                                  &parameters_),
+                  convert_to_uchar_("Convert to uchar", true, &parameters_),
+                  use_pixel_intensity_correction_("Pixel intensity correction", false, &parameters_),
                   delta_("Delta", 0, 0, 255, &parameters_),
                   scale_("Scale", 1, 0, 255, &parameters_),
-                  power_pixel_correction_("pixel_correction_power", 1, -10, 10,
-                                          &parameters_),
+                  power_pixel_correction_("Pixel correction power", 1, -10, 10, &parameters_),
                   size_("Size", 2, 1, 20, &parameters_) {
             setName("SobelFilter");
         }

@@ -15,10 +15,9 @@ namespace proc_image_processing {
         explicit MorphologyFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  morph_type_("Morphology_type", 0, 0, 4, &parameters_,
+                  morph_type_("Morphology type", 0, 0, 4, &parameters_,
                               "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
-                  kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
-                               "0=Rect, 1=Elipse, 2=Cross"),
+                  kernel_type_("Kernel type", 0, 0, 2, &parameters_, "0=Rect, 1=Elipse, 2=Cross"),
                   iteration_("Iteration", 1, 1, 20, &parameters_),
                   kernel_size_("Kernel size", 1, 1, 40, &parameters_),
                   anchor_(-1, -1) {

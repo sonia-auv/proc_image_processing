@@ -16,9 +16,9 @@ filters:
     parameters:
       - name: Enable
         value: 1
-      - name: Threshold_type
+      - name: Threshold type
         value: 1
-      - name: Max_value
+      - name: Maximum value
         value: 0
   - name: CLAHEFilter
     parameters:

@@ -15,7 +15,7 @@ namespace proc_image_processing {
         explicit MissionTestFakeStringFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  _string("String_to_return", "test", &parameters_) {
+                  _string("String to return", "test", &parameters_) {
             setName("MissionTestFakeStringFilter");
         }
 

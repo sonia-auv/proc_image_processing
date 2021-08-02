@@ -19,21 +19,20 @@ namespace proc_image_processing {
         explicit FenceDetector(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  search_only_bottom_("Search_only_bottom", false, &parameters_,
+                  debug_contour_("Debug contour", false, &parameters_),
+                  search_only_bottom_("Search only bottom", false, &parameters_,
                                       "Enables searching only for bottom bar"),
-                  min_length_("Minimum_length", 50, 0, 2000, &parameters_),
+                  min_length_("Minimum length", 50, 0, 2000, &parameters_),
                   max_distance_from_bottom_bar_extremum_("Max_dist_from_extremum", 50, 0,
                                                          2000, &parameters_),
-                  min_area_("Minimum_area", 300, 0, 10000, &parameters_),
+                  min_area_("Minimum area", 300, 0, 10000, &parameters_),
                   max_diff_from_90_tbca_horizontal_(
-                          "Max_diff_horizontal", 20, 0, 90, &parameters_,
+                          "Maximum horizontal difference", 20, 0, 90, &parameters_,
                           "Maximum difference from 90 to be consider as horizontal"),
                   max_diff_from_0_tbca_vertical_(
-                          "Max_diff_vertical", 20, 0, 90, &parameters_,
+                          "Maximum vertical difference", 20, 0, 90, &parameters_,
                           "Maximum difference from 0 to be consider as vertical"),
-                  min_percent_filled_("Minimum_percent_filled", 70, 0, 1000,
-                                      &parameters_),
+                  min_percent_filled_("Minimum percent filled", 70, 0, 1000, &parameters_),
                   feat_factory_(3) {
             setName("FenceDetector");
         }

@@ -22,18 +22,18 @@ namespace proc_image_processing {
         explicit InRangeFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
-                  upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
-                  lower_saturation_("HSVLowS", 0, 0, 255, &parameters_),
-                  upper_saturation_("HSVHighS", 255, 0, 255, &parameters_),
-                  lower_value_("HSVLowV", 0, 0, 255, &parameters_),
-                  upper_value_("HSVHighV", 255, 0, 255, &parameters_),
-                  lower_lightness_("LUVlowL", 0, 0, 255, &parameters_),
-                  upper_lightness_("LUVhighL", 255, 0, 255, &parameters_),
-                  lower_u_("LUVlowU", 0, 0, 255, &parameters_),
-                  upper_u_("LUVhighU", 255, 0, 255, &parameters_),
-                  lower_v_("LUVlowV", 0, 0, 255, &parameters_),
-                  upper_v_("LUVhighV", 255, 0, 255, &parameters_) {
+                  lower_hue_("HSV Lower H", 0, 0, 255, &parameters_),
+                  upper_hue_("HSV Upper H", 255, 0, 255, &parameters_),
+                  lower_saturation_("HSV Lower S", 0, 0, 255, &parameters_),
+                  upper_saturation_("HSV Upper S", 255, 0, 255, &parameters_),
+                  lower_value_("HSV Lower V", 0, 0, 255, &parameters_),
+                  upper_value_("HSV Upper V", 255, 0, 255, &parameters_),
+                  lower_lightness_("LUV Lower L", 0, 0, 255, &parameters_),
+                  upper_lightness_("LUV Upper L", 255, 0, 255, &parameters_),
+                  lower_u_("LUV Lower U", 0, 0, 255, &parameters_),
+                  upper_u_("LUV Upper U", 255, 0, 255, &parameters_),
+                  lower_v_("LUV Lower V", 0, 0, 255, &parameters_),
+                  upper_v_("LUV Upper V", 255, 0, 255, &parameters_) {
             setName("InRangeFilter");
         }
 

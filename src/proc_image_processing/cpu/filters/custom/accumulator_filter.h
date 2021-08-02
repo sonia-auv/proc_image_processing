@@ -18,8 +18,8 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   accumulator_(3, cv::Size(0, 0), CV_8UC1),
                   enable_("Enable", false, &parameters_),
-                  nb_image_("NB_of_images", 3, 1, 20, &parameters_),
-                  method_("Method_to_use", 1, 0, 2, &parameters_,
+                  nb_image_("Number of images", 3, 1, 20, &parameters_),
+                  method_("Method", 1, 0, 2, &parameters_,
                           "Method: 1=SameWeight, 2=Adding50Percent, 3=Adjusted"),
                   last_size_(0, 0),
                   last_method_(CV_8UC1),
@@ -44,20 +44,16 @@ namespace proc_image_processing {
 
                     switch (method_()) {
                         case 0:
-                            accumulator_.setAverageMethod(
-                                    ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
                             break;
                         case 1:
-                            accumulator_.setAverageMethod(
-                                    ImageAccumulatorBuffer::ACC_50_PERCENT);
+                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_50_PERCENT);
                             break;
                         case 2:
-                            accumulator_.setAverageMethod(
-                                    ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
+                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
                             break;
                         default:
-                            accumulator_.setAverageMethod(
-                                    ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
                             break;
                     }
                     last_method_ = method_();

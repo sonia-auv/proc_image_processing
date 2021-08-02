@@ -15,7 +15,7 @@ namespace proc_image_processing {
         explicit LaplacianFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
+                  convert_to_uchar_("Convert to uchar", true, &parameters_),
                   delta_("Delta", 0, 0, 255, &parameters_),
                   scale_("Scale", 1, 0, 255, &parameters_),
                   size_("Size", 2, 1, 20, &parameters_) {

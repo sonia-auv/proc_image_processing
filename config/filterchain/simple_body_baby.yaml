@@ -16,39 +16,39 @@ filters:
     parameters:
       - name: enable
         value: 1
-      - name: Plane_1
+      - name: Plane 1
         value: 6
-      - name: Plane_2
+      - name: Plane 2
         value: 4
-      - name: Plane_3
+      - name: Plane 3
         value: 0
-      - name: Invert_plane_1
+      - name: Invert plane 1
         value: 0
-      - name: Invert_plane_2
+      - name: Invert plane 2
         value: 0
-      - name: Invert_plane_3
+      - name: Invert plane 3
         value: 0
-      - name: Weight_Plane_1
+      - name: Weight plane 1
         value: 1.000000
-      - name: Weight_Plane_2
+      - name: Weight plane 2
         value: 1.000000
-      - name: Weight_Plane_3
+      - name: Weight plane 3
         value: 1.000000
   - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Threshold_type
+      - name: Threshold type
         value: 1
-      - name: Max_value
+      - name: Maximum value
         value: 20
   - name: ErodeFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Square_kernel
+      - name: Square kernel
         value: 1
-      - name: Kernel_type
+      - name: Kernel type
         value: 0
       - name: Width
         value: 2
@@ -60,9 +60,9 @@ filters:
     parameters:
       - name: Enable
         value: 1
-      - name: Square_kernel
+      - name: Square kernel
         value: 1
-      - name: Kernel_type
+      - name: Kernel type
         value: 0
       - name: Width
         value: 1
@@ -76,17 +76,17 @@ filters:
         value: 1
       - name: Type
         value: 3
-      - name: Kernel_size
+      - name: Kernel size
         value: 10
   - name: VampireBodyDetector
     parameters:
       - name: Enable
         value: 1
-      - name: Debug_contour
+      - name: Debug contour
         value: 1
-      - name: Look_for_Rectangle
+      - name: Look for rectangle
         value: 1
-      - name: Min_area
+      - name: Minimum area
         value: 4000.000000
-      - name: Max_area
+      - name: Maximum area
         value: 10000.000000

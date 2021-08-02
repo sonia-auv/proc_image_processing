@@ -16,12 +16,12 @@ namespace proc_image_processing {
         explicit ScharrAddingFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  run_small_image_("Run_small_image", true, &parameters_,
+                  run_small_image_("Run small image", true, &parameters_,
                                    "Resize image to run on smaller image"),
-                  convert_to_uchar_("Convert_to_uchar", false, &parameters_),
+                  convert_to_uchar_("Convert to uchar", false, &parameters_),
                   delta_("Delta", 0, 0, 255, &parameters_),
                   scale_("Scale", 1, 0, 255, &parameters_),
-                  mean_multiplier_("Mean_multiplier", 1.0f, 0.0f, 10.0f, &parameters_),
+                  mean_factor_("Mean factor", 1.0f, 0.0f, 10.0f, &parameters_),
                   plane_blue_("Blue", false, &parameters_),
                   plane_green_("Green", false, &parameters_),
                   plane_red_("Red", false, &parameters_),
@@ -77,7 +77,7 @@ namespace proc_image_processing {
             cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, diff, CV_32F);
 
             cv::Scalar mean = cv::mean(diff);
-            cv::threshold(diff, diff, (mean[0] * mean_multiplier_()), 0,
+            cv::threshold(diff, diff, (mean[0] * mean_factor_()), 0,
                           CV_THRESH_TOZERO);
 
             return diff;
@@ -91,7 +91,7 @@ namespace proc_image_processing {
         // _mean_multiplier act as threshold for noise.
         // When set, it remove everything under the mean to keep only
         // proeminent contours.
-        RangedParameter<double> delta_, scale_, mean_multiplier_;
+        RangedParameter<double> delta_, scale_, mean_factor_;
         Parameter<bool> plane_blue_, plane_green_, plane_red_;
         Parameter<bool> plane_hue_, plane_saturation_, plane_intensity_;
         Parameter<bool> plane_gray_;

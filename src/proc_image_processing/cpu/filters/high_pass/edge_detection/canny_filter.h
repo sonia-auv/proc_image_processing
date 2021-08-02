@@ -15,10 +15,10 @@ namespace proc_image_processing {
         explicit CannyFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  l2_gradiant_("l2_gradient", false, &parameters_),
-                  thresh_one_("thres_one", 100, 0, 255, &parameters_),
-                  thresh_two_("thres_two", 200, 0, 255, &parameters_),
-                  aperture_size_("Aperture_size", 3, 0, 20, &parameters_) {
+                  l2_gradiant_("L2 gradient", false, &parameters_),
+                  thresh_one_("Threshold 1", 100, 0, 255, &parameters_),
+                  thresh_two_("Threshold 2", 200, 0, 255, &parameters_),
+                  aperture_size_("Aperture size", 3, 0, 20, &parameters_) {
             setName("CannyFilter");
         }
 

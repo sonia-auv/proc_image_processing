@@ -19,20 +19,18 @@ namespace proc_image_processing {
         explicit HandleDetector(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-                  disable_ratio_("disable_ratio_check", false, &parameters_),
-                  disable_angle_("disable_angle_check", false, &parameters_),
+                  debug_contour_("Debug contour", false, &parameters_),
+                  look_for_rectangle_("Look for rectangle", false, &parameters_),
+                  disable_ratio_("Disable ratio check", false, &parameters_),
+                  disable_angle_("Disable angle check", false, &parameters_),
                   id_("ID", "buoy", &parameters_),
                   spec_1_("spec1", "red", &parameters_),
                   spec_2_("spec2", "blue", &parameters_),
-                  min_area_("Min_area", 200, 0, 10000, &parameters_),
-                  targeted_ratio_("Ratio_target", 0.5f, 0.0f, 1.0f, &parameters_),
-                  difference_from_target_ratio_("Diff_from_ratio_target", 0.10f, 0.0f,
-                                                1.0f, &parameters_),
+                  min_area_("Minimum area", 200, 0, 10000, &parameters_),
+                  targeted_ratio_("Ratio target", 0.5f, 0.0f, 1.0f, &parameters_),
+                  difference_from_target_ratio_("Difference from ratio target", 0.10f, 0.0f, 1.0f, &parameters_),
                   targeted_angle_("angle_target", 0.0f, 0.0f, 90.0f, &parameters_),
-                  difference_from_target_angle_("Diff_from_angle_target", 30.0f, 0.0f,
-                                                90.0f, &parameters_),
+                  difference_from_target_angle_("Difference from angle target", 30.0f, 0.0f, 90.0f, &parameters_),
                   feature_factory_(5) {
             setName("HandleDetector");
             // Little goodies for cvs

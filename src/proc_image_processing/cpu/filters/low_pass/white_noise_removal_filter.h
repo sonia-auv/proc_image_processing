@@ -15,14 +15,13 @@ namespace proc_image_processing {
         explicit WhiteNoiseRemovalFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  low_b_("LowB", 0, 0, 255, &parameters_),
-                  high_b_("HighB", 0, 0, 255, &parameters_),
-                  low_g_("LowG", 0, 0, 255, &parameters_),
-                  high_g_("HighG", 0, 0, 255, &parameters_),
-                  low_r_("LowR", 0, 0, 255, &parameters_),
-                  high_r_("HighR", 0, 0, 255, &parameters_),
-                  view_channel_("Channel_view", 0, 0, 3, &parameters_,
-                                "0=ALL, 1=Blue, 2=Green, 3=Red") {
+                  lower_b_("Lower B", 0, 0, 255, &parameters_),
+                  upper_b_("Upper B", 0, 0, 255, &parameters_),
+                  lower_g_("Lower G", 0, 0, 255, &parameters_),
+                  upper_g_("Upper G", 0, 0, 255, &parameters_),
+                  lower_r_("Lower R", 0, 0, 255, &parameters_),
+                  upper_r_("Upper R", 0, 0, 255, &parameters_),
+                  view_channel_("View channel", 0, 0, 3, &parameters_, "0=ALL, 1=Blue, 2=Green, 3=Red") {
             setName("WhiteNoiseRemovalFilter");
         }
 
@@ -33,9 +32,9 @@ namespace proc_image_processing {
                 std::vector<cv::Mat> channels;
                 cv::Mat original_image(global_param_handler_.getOriginalImage());
                 cv::split(original_image, channels);
-                cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
-                cv::inRange(channels[1], low_g_(), high_g_(), channels[1]);
-                cv::inRange(channels[2], low_r_(), high_r_(), channels[2]);
+                cv::inRange(channels[0], lower_b_(), upper_b_(), channels[0]);
+                cv::inRange(channels[1], lower_g_(), upper_g_(), channels[1]);
+                cv::inRange(channels[2], lower_r_(), upper_r_(), channels[2]);
                 cv::Mat result;
                 cv::bitwise_or(channels[0], channels[1], result);
                 cv::bitwise_or(channels[2], result, result);
@@ -68,8 +67,7 @@ namespace proc_image_processing {
 
     private:
         Parameter<bool> enable_;
-        RangedParameter<int> low_b_, high_b_, low_g_, high_g_, low_r_, high_r_;
-        RangedParameter<int> view_channel_;
+        RangedParameter<int> lower_b_, upper_b_, lower_g_, upper_g_, lower_r_, upper_r_, view_channel_;
     };
 
 }  // namespace proc_image_processing

@@ -19,11 +19,11 @@ namespace proc_image_processing {
         explicit VampireTorpedoesDetector(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
+                  debug_contour_("Debug contour", false, &parameters_),
+                  look_for_ellipse_("Look for ellipse", false, &parameters_),
                   look_for_heart_("Look_for_Heart", false, &parameters_),
-                  min_area_("Min_area", 5000, 1, 100000, &parameters_),
-                  max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+                  min_area_("Minimum area", 5000, 1, 100000, &parameters_),
+                  max_area_("Maximum area", 100000, 1, 1000000, &parameters_) {
             setName("VampireTorpedoesDetector");
         }
 

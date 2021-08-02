@@ -12,18 +12,18 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<HideSubmarineFrameFilter>;
 
-        explicit HideSubmarineFrameFilter(const GlobalParamHandler &globalParams) : Filter(globalParams),
-                                                                                    enable_("Enable", false,
-                                                                                            &parameters_),
-                                                                                    rotate_type_(
-                                                                                            "Rotation_type",
-                                                                                            0,
-                                                                                            0,
-                                                                                            3,
-                                                                                            &parameters_,
-                                                                                            std::string(
-                                                                                                    "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis")
-                                                                                    ) {
+        explicit HideSubmarineFrameFilter(const GlobalParamHandler &globalParams) :
+                Filter(globalParams),
+                enable_("Enable", false, &parameters_),
+                rotate_type_(
+                        "Rotation type",
+                        0,
+                        0,
+                        3,
+                        &parameters_,
+                        std::string(
+                                "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis")
+                ) {
             setName("HideSubmarineFrameFilter");
             // TODO Fix this hardcoded file that isn't part of the project
             //std::string mask_name = std::string(getenv("SONIA_WORKSPACE_ROOT")) +

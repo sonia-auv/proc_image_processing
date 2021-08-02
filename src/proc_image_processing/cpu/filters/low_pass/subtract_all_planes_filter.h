@@ -17,22 +17,22 @@ namespace proc_image_processing {
 
         explicit SubtractAllPlanesFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_),
-                  plane_one_("Plane_1", 1, 0, 7, &parameters_,
+                  enable_("Enable", false, &parameters_),
+                  plane_one_("Plane 1", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                              "6=Intensity, 7=Gray"),
-                  plane_two_("Plane_2", 1, 0, 7, &parameters_,
+                  plane_two_("Plane 2", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                              "6=Intensity, 7=Gray"),
-                  plane_three_("Plane_3", 1, 0, 7, &parameters_,
+                  plane_three_("Plane 3", 1, 0, 7, &parameters_,
                                "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                                "6=Intensity, 7=Gray"),
-                  invert_one_("Invert_plane_1", false, &parameters_),
-                  invert_two_("Invert_plane_2", false, &parameters_),
-                  invert_three_("Invert_plane_3", false, &parameters_),
-                  weight_one_("Weight_Plane_1", 1.0, 0.0, 10.0, &parameters_),
-                  weight_two_("Weight_Plane_2", 1.0, 0.0, 10.0, &parameters_),
-                  weight_three_("Weight_Plane_3", 1.0, 0.0, 10.0, &parameters_),
+                  invert_one_("Invert plane 1", false, &parameters_),
+                  invert_two_("Invert plane 2", false, &parameters_),
+                  invert_three_("Invert plane 3", false, &parameters_),
+                  weight_one_("Weight plane 1", 1.0, 0.0, 10.0, &parameters_),
+                  weight_two_("Weight plane 2", 1.0, 0.0, 10.0, &parameters_),
+                  weight_three_("Weight plane 3", 1.0, 0.0, 10.0, &parameters_),
                   rows_(0),
                   cols_(0) {
             setName("SubtractAllPlanesFilter");

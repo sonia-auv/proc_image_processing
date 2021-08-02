@@ -15,8 +15,8 @@ namespace proc_image_processing {
         explicit DilateFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  use_square_kernel_("Square_kernel", true, &parameters_),
-                  kernel_type_("Kernel_type", 0, 0, 2, &parameters_),
+                  use_square_kernel_("Square kernel", true, &parameters_),
+                  kernel_type_("Kernel type", 0, 0, 2, &parameters_),
                   kernel_size_x_("Width", 1, 0, 20, &parameters_),
                   kernel_size_y_("Height", 1, 0, 20, &parameters_),
                   iteration_("Iteration", 1, 0, 20, &parameters_),

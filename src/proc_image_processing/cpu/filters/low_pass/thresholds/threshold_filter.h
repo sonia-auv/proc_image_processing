@@ -15,9 +15,9 @@ namespace proc_image_processing {
         explicit ThresholdFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
-                  type_("Threshold_type", 1, 0, 5, &parameters_,
+                  type_("Threshold type", 1, 0, 5, &parameters_,
                         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
-                  max_("Max_value", 100, 0, 255, &parameters_) {
+                  max_("Maximum value", 100, 0, 255, &parameters_) {
             setName("ThresholdFilter");
         }
 
