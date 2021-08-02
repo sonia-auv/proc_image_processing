@@ -1,6 +1,6 @@
 name: simple_jiangshi_backup
 filters:
-  - name: SubtractAllPlanes
+  - name: SubtractAllPlanesFilter
     parameters:
       - name: enable
         value: 1
@@ -22,7 +22,7 @@ filters:
         value: 1.000000
       - name: Weight_Plane_3
         value: 1.000000
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1

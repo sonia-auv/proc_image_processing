@@ -1,6 +1,6 @@
 name: simple_sonar_vampire
 filters:
-  - name: Dilate
+  - name: DilateFilter
     parameters:
       - name: Enable
         value: 1
@@ -14,7 +14,7 @@ filters:
         value: 5
       - name: Iteration
         value: 5
-  - name: Blurr
+  - name: BlurFilter
     parameters:
       - name: Enable
         value: 1
@@ -22,7 +22,7 @@ filters:
         value: 3
       - name: Kernel_size
         value: 14
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1

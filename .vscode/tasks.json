@@ -7,7 +7,8 @@
             "type": "catkin_make",
             "args": [
                 "--directory",
-                "/home/sonia/ros_sonia_ws"
+                "/home/sonia/ros_sonia_ws",
+                "--use-ninja"
             ],
             "group": {
                 "kind": "build",

@@ -1,6 +1,6 @@
 name: simple_test
 filters:
-  - name: ContrastBrightness
+  - name: ContrastAndBrightnessFilter
     parameters:
       - name: enable
         value: 0
@@ -8,7 +8,7 @@ filters:
         value: 0.000000
       - name: Brightness
         value: 0.000000
-  - name: SubtractAllPlanes
+  - name: SubtractAllPlanesFilter
     parameters:
       - name: enable
         value: 1
@@ -30,7 +30,7 @@ filters:
         value: 1.000000
       - name: Weight_Plane_3
         value: 1.000000
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 0
@@ -38,7 +38,7 @@ filters:
         value: 1
       - name: Max_value
         value: 50
-  - name: ThresholdBetween
+  - name: IntervalThresholdFilter
     parameters:
       - name: Enable
         value: 1
@@ -48,7 +48,7 @@ filters:
         value: 50
       - name: Min_value_2
         value: 55
-  - name: SubtractAllPlanes
+  - name: SubtractAllPlanesFilter
     parameters:
       - name: enable
         value: 1

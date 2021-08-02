@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  proc_image_processing:
+    container_name: proc_image_processing
+    restart: unless-stopped
+    image: sonia-auv/proc_image_processing:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BASE_IMAGE=docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest
+    cap_add:
+      - SYS_PTRACE
+
+  clion_remote_env:
+    container_name: clion_remote_env
+    restart: unless-stopped
+    image: sonia-auv/proc_image_processing:local-clion
+    build:
+      context: .
+      dockerfile: Dockerfile.clion
+    ports:
+      - 127.0.0.1:$CLION_SSH_PORT:22
+    cap_add:
+      - SYS_PTRACE
+
+  sonarcloud:
+    container_name: sonarcloud
+    image: sonia-auv/proc_image_processing:sonarcloud
+    build:
+      context: .
+      dockerfile: Dockerfile.sonarcloud
+      args:
+        - BASE_IMAGE=sonia-auv/proc_image_processing:local
+        - GITHUB_TOKEN=$GITHUB_TOKEN
+        - SONAR_TOKEN=$SONAR_TOKEN
+        - BRANCH=$BRANCH
