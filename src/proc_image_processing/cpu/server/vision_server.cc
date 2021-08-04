@@ -4,8 +4,8 @@
 
 namespace proc_image_processing {
 
-    VisionServer::VisionServer(const ros::NodeHandle &nh) :
-            sonia_common::ServiceServerManager<VisionServer>(), nh_(nh) {
+    VisionServer::VisionServer(const ros::NodeHandle &nh)
+            : sonia_common::ServiceServerManager<VisionServer>(), nh_(nh) {
         auto base_node_name = std::string{kRosNodeName};
 
         RegisterService<sonia_common::ExecuteCmd>(
@@ -196,8 +196,8 @@ namespace proc_image_processing {
                 std::ios::binary
         );
         dst << src.rdbuf();
-        res.success = true;
-        return res.success;
+        res.success = res.SUCCESS;
+        return true;
     }
 
     bool VisionServer::callbackGetFilterParam(
@@ -210,9 +210,17 @@ namespace proc_image_processing {
         FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(execution_name);
 
         if (filter_chain != nullptr) {
-            res.list = filter_chain->getFilterParameterValue(extractFilterIndexFromUIName(req.filter), req.parameter);
-            return true;
+            auto index = extractFilterIndexFromUIName(req.filter);
+            try {
+                res.list = filter_chain->getFilterParameterValue(index, req.parameter);
+                return true;
+            } catch (const std::exception &e) {
+                ROS_ERROR("Cannot get parameter %s value for filter at index %zu! Cause: %s", req.parameter.c_str(),
+                          index, e.what());
+                return false;
+            }
         }
+
         ROS_ERROR(
                 "DetectionTask %s does not exist or does not use this filter chain: %s on get filter's param request.",
                 execution_name.c_str(),
@@ -231,13 +239,18 @@ namespace proc_image_processing {
         FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(execution_name);
 
         if (filter_chain != nullptr) {
-            auto parameters = filter_chain->getFilterParameters(extractFilterIndexFromUIName(req.filter));
-            std::vector<std::string> parameter_names;
-            for (const auto &parameter : parameters) {
-                parameter_names.push_back(parameter->toString());
+            try {
+                auto parameters = filter_chain->getFilterParameters(extractFilterIndexFromUIName(req.filter));
+                std::vector<std::string> parameter_names;
+                for (const auto &parameter : parameters) {
+                    parameter_names.push_back(parameter->toString());
+                }
+                res.list = buildRosMessage(parameter_names);
+                return true;
+            } catch (const std::exception &e) {
+                ROS_ERROR("Cannot get filter parameters! Cause: %s", e.what());
+                return false;
             }
-            res.list = buildRosMessage(parameter_names);
-            return true;
         }
         ROS_ERROR(
                 "DetectionTask %s does not exist or does not use this filter chain: %s on get filter's param request.",
@@ -257,9 +270,18 @@ namespace proc_image_processing {
         FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(execution_name);
 
         if (filter_chain != nullptr) {
-            filter_chain->setFilterParameterValue(extractFilterIndexFromUIName(req.filter), req.parameter, req.value);
-            res.success = res.SUCCESS;
-            return true;
+            try {
+                filter_chain->setFilterParameterValue(
+                        extractFilterIndexFromUIName(req.filter),
+                        req.parameter,
+                        req.value
+                );
+                res.success = res.SUCCESS;
+                return true;
+            } catch (const std::exception &e) {
+                ROS_ERROR("Cannot set filter parameter value! Cause: %s", e.what());
+                return false;
+            }
         }
         ROS_ERROR(
                 "DetectionTask %s does not exist or does not use this filter chain: %s on get filter's param request.",
@@ -325,33 +347,31 @@ namespace proc_image_processing {
             sonia_common::ManageFilterchainFilter::Response &res
     ) {
         const auto &filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name);
-        res.success = res.SUCCESS;
+        res.success = res.FAIL;
         if (filter_chain != nullptr) {
             if (req.cmd == req.ADD) {
                 try {
                     filter_chain->addFilter(req.filter);
+                    res.success = res.SUCCESS;
                 } catch (const std::exception &e) {
                     ROS_ERROR(
                             "Cannot add filter %s to filter chain %s!",
                             req.filter.c_str(),
                             filter_chain->getName().c_str()
                     );
-                    res.success = res.success = res.FAIL;
                 }
             } else if (req.cmd == req.DELETE) {
                 try {
                     filter_chain->removeFilter(extractFilterIndexFromUIName(req.filter));
+                    res.success = res.SUCCESS;
                 } catch (const std::exception &e) {
                     ROS_ERROR(
                             "Cannot remove filter %s from filter chain %s!",
                             req.filter.c_str(),
                             filter_chain->getName().c_str()
                     );
-                    res.success = res.FAIL;
                 }
             }
-        } else {
-            res.success = res.FAIL;
         }
 
         return res.success;
@@ -362,7 +382,8 @@ namespace proc_image_processing {
             sonia_common::ManageFilterchain::Response &res
     ) {
         std::string filter_chain_name(req.filterchain);
-        res.success = res.SUCCESS;
+        res.success = res.FAIL;
+
         if (req.cmd == req.ADD) {
             proc_image_processing::FilterChainManager::addFilterChain(filter_chain_name);
             res.success = res.SUCCESS;
@@ -372,7 +393,6 @@ namespace proc_image_processing {
                 res.success = res.SUCCESS;
             } catch (const std::exception &e) {
                 ROS_ERROR("Cannot delete filter chain %s!", filter_chain_name.c_str());
-                res.success = res.FAIL;
             }
         }
         return res.success;
@@ -387,7 +407,7 @@ namespace proc_image_processing {
         if (req.cmd == req.SAVE) {
             res.success = detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name)->serialize();
         }
-        return true;
+        return res.success;
     }
 
     bool VisionServer::callbackSetFilterChainOrder(
@@ -396,15 +416,24 @@ namespace proc_image_processing {
     ) {
         ROS_INFO("Call to set_filterchain_filter_order.");
 
-        res.success = res.SUCCESS;
+        res.success = res.FAIL;
         auto filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name);
-        if (req.cmd == req.UP) {
-            filter_chain->moveFilterUp(req.filter_index);
-        } else if (req.cmd == req.DOWN) {
-            filter_chain->moveFilterDown(req.filter_index);
+        if (filter_chain != nullptr) {
+            try {
+                if (req.cmd == req.UP) {
+                    filter_chain->moveFilterUp(req.filter_index);
+                    res.success = res.SUCCESS;
+                    return res.success;
+                } else if (req.cmd == req.DOWN) {
+                    filter_chain->moveFilterDown(req.filter_index);
+                    res.success = res.SUCCESS;
+                    return res.success;
+                }
+            } catch (const std::invalid_argument &e) {
+                ROS_ERROR("Cannot move filter! Cause: %s", e.what());
+            }
         } else {
-            ROS_ERROR("Filter index provided was invalid");
-            res.success = res.FAIL;
+            ROS_ERROR("Cannot get filter chain %s!", req.exec_name.c_str());
         }
 
         return res.success;

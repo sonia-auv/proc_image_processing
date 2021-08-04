@@ -75,7 +75,7 @@ namespace proc_image_processing {
                     image_id_old = image_id_new;
                 }
                 // Process the image
-                filterchain_->executeFilterChain(image_being_processed_);
+                filterchain_->applyFilterChain(image_being_processed_);
                 // Send the image of the filterchain
                 publishClientImage();
                 // Send the target

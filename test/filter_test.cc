@@ -69,14 +69,14 @@ TEST(FilterTest, TestGlobalParams) {
     try {
         f->addGlobalParameter("badParam", 0, 1, 3);
     } catch (std::invalid_argument &e) {
-        ASSERT_EQ(*e.what(), *"Value can't be less than minimum!");
+        ASSERT_EQ(std::string(e.what()), "Value can't be less than minimum!");
     }
 
     ASSERT_THROW(f->addGlobalParameter("badParam", 4, 1, 3), std::invalid_argument);
     try {
         f->addGlobalParameter("badParam", 4, 1, 3);
     } catch (std::invalid_argument &e) {
-        ASSERT_EQ(*e.what(), *"Value can't be more than maximum!");
+        ASSERT_EQ(std::string(e.what()), "Value can't be more than maximum!");
     }
 
     // == Double actualParams
@@ -91,14 +91,14 @@ TEST(FilterTest, TestGlobalParams) {
     try {
         f->addGlobalParameter("badParam", 0.009, 0.01, 3.4);
     } catch (std::invalid_argument &e) {
-        ASSERT_EQ(*e.what(), *"Value can't be less than minimum!");
+        ASSERT_EQ(std::string(e.what()), "Value can't be less than minimum!");
     }
 
     ASSERT_THROW(f->addGlobalParameter("badParam", 3.41, 0.01, 3.4), std::invalid_argument);
     try {
         f->addGlobalParameter("badParam", 3.41, 0.01, 3.4);
     } catch (std::invalid_argument &e) {
-        ASSERT_EQ(*e.what(), *"Value can't be more than maximum!");
+        ASSERT_EQ(std::string(e.what()), "Value can't be more than maximum!");
     }
 
     // == Boolean actualParams

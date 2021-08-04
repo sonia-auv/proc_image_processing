@@ -19,7 +19,7 @@ TEST(GlobalParameterHandlerTest, TestParameters) {
     try {
         gph.addParameter(&expected2);
     } catch (std::invalid_argument &e) {
-        ASSERT_EQ(*e.what(), *"A parameter with the same name already exists!");
+        ASSERT_EQ(std::string(e.what()), "A parameter with the same name already exists!");
     }
 
     auto actual = gph.getParameter("param1");

@@ -1,4 +1,4 @@
-name: filter_chain_test_2
+name: filter_chain_test_3
 filters:
   - name: BilateralFilter
     parameters:
@@ -15,22 +15,6 @@ filters:
       - name: Enable
         value: 1
       - name: Type
-        value: 1
-      - name: Kernel size
-        value: 12
-  - name: ConvexHullFilter
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Mode
-        value: 2
-      - name: Method
-        value: 3
-  - name: BlurFilter
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Type
         value: 2
       - name: Kernel size
         value: 23
@@ -40,14 +24,6 @@ filters:
         value: 1
       - name: Mode
         value: 1
-      - name: Method
-        value: 2
-  - name: ConvexHullFilter
-    parameters:
-      - name: Enable
-        value: 1
-      - name: Mode
-        value: 2
       - name: Method
         value: 2
   - name: EqualizeHistogramFilter

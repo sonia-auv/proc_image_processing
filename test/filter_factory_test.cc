@@ -139,7 +139,7 @@ TEST(FilterFactoryTest, TestCreateInstance) {
     ASSERT_NE(dynamic_cast<proc_image_processing::WhiteNoiseRemovalFilter *>(f.get()), nullptr);
 }
 
-TEST(FilterFactoryTest, GetFiltersTest) {
+TEST(FilterFactoryTest, TestGetFilters) {
     std::vector<std::string> expectedFilters{
             "AccumulatorFilter",
             "AdaptiveThresholdFilter",

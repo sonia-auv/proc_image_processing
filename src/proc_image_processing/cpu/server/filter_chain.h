@@ -18,58 +18,119 @@ namespace proc_image_processing {
 
         explicit FilterChain(const std::string &name);
 
+        /**
+         * Instantiate a filter chain from another one. In other words, this is a copy constructor.
+         * @param filter_chain the filter chain from which to copy
+         */
         FilterChain(const FilterChain &filter_chain);
 
         ~FilterChain();
 
-        /**
-         * Get the name of the filterchain.
-         *
-         * \return The name of the filterchain.
-         */
         const std::string &getName() const;
 
-        /**
-         * Set the name of the filterchain.
-         *
-         * \param name The new name of the filterchain.
-         */
         void setName(const std::string &name);
 
+        void setFilepath(const std::string &filepath);
+
+        /**
+         * Save current filter chain as a YAML config file
+         * @return false if the operation was a success
+         */
         bool serialize();
 
+        /**
+         * Load filter chain YAML config file
+         * @return true if the operation was a success
+         */
         bool deserialize();
 
+        /**
+         * Get filter from it's index in the filter chain
+         * @param index the filter's index
+         * @return nullptr if outside the index range
+         */
         Filter::Ptr getFilter(const size_t &index) const;
 
+        /**
+         * Get all filters with same name
+         * @param filter_name
+         * @return a map where it's key is the index of the filter and it's value the filter
+         */
         std::map<int, Filter::Ptr> getFilters(const std::string &filter_name) const;
 
+        /**
+         * Get all filters from the filter chain
+         * @return a vector with all the filters pointers
+         */
         std::vector<Filter::Ptr> getFilters() const;
 
         /**
-         * Check if there is a filter with the same name than the given parameter.
-         *
-         * \param filter_name The name of the filter to check.
-         * \return Either if a filter with the same name exists or not.
+         * Check if filter chain contains a particular type of filter
+         * @param name the filter's name
+         * @return true if found
          */
-        bool containsFilter(const std::string &filter_name) const;
+        bool containsFilter(const std::string &name) const;
 
-        void executeFilterChain(cv::Mat &image);
+        /**
+         * Apply the filter chain onto the image
+         * @param image the image on which to apply the filter chain
+         */
+        void applyFilterChain(cv::Mat &image);
 
         void setObserver(const size_t &index);
 
-        void addFilter(const std::string &filter_name);
+        /**
+         * Add a filter to the filter chain
+         * @param name the filter's name
+         * @throws std::invalid_argument if filter name is invalid
+         */
+        void addFilter(const std::string &name);
 
+        /**
+         * Remove a filter from the filter chain
+         * @param index the filter's index
+         * @throws std::invalid_argument if the filter's index is out of range
+         */
         void removeFilter(const size_t &index);
 
-        void moveFilterDown(const size_t &filterIndex);
+        /**
+         * Move a filter towards the beginning of the filter chain (towards the first filter)
+         * @param index the filter's index to move
+         * @throws std::invalid_argument if the filter is already at the end
+         */
+        void moveFilterDown(const size_t &index);
 
-        void moveFilterUp(const size_t &filterIndex);
+        /**
+         * Move a filter towards the end of the filter chain (towards the last filter)
+         * @param index the filter's index to move
+         * @throws std::invalid_argument if the filter is already at the beginning
+         */
+        void moveFilterUp(const size_t &index);
 
+        /**
+         * Get a filter's parameter value
+         * @param index the filter's index
+         * @param name the parameter's name
+         * @return the parameter's value
+         * @throws std::invalid_argument if the filter's index is invalid
+         */
         std::string getFilterParameterValue(const size_t &index, const std::string &name) const;
 
+        /**
+         * Set a filter's parameter value
+         * @param index the filter's index
+         * @param name the parameter's name
+         * @param value the parameter's value
+         * @throws std::invalid_argument if the filter's index is invalid
+         */
         void setFilterParameterValue(const size_t &index, const std::string &name, const std::string &value) const;
 
+        /**
+         * Get a filter's parameters
+         * @param index the filter's index in the filter chain
+         * @return the parameters
+         * @throws std::invalid_argument if filter cannot be found
+         */
         std::vector<ParameterInterface *> getFilterParameters(const size_t &index) const;
 
         GlobalParamHandler &getParameterHandler();
@@ -87,14 +148,13 @@ namespace proc_image_processing {
     };
 
     inline Filter::Ptr FilterChain::getFilter(const size_t &index) const {
-        return filters_.at(index);
+        try {
+            return filters_.at(index);
+        } catch (const std::out_of_range &e) {
+            return nullptr;
+        }
     }
 
-    /**
-     * Get all filters with same name
-     * @param filter_name
-     * @return a map where it's key is the index of the filter and it's value the filter
-     */
     inline std::map<int, Filter::Ptr> FilterChain::getFilters(const std::string &filter_name) const {
         std::map<int, Filter::Ptr> filters;
         for (auto i = 0; i < filters_.size(); i++) {
@@ -107,12 +167,11 @@ namespace proc_image_processing {
 
     inline std::vector<Filter::Ptr> FilterChain::getFilters() const { return filters_; }
 
-    inline bool FilterChain::containsFilter(const std::string &filter_name) const {
-        // TODO a map where filters are stored by their name could be better
+    inline bool FilterChain::containsFilter(const std::string &name) const {
         return std::any_of(
                 filters_.begin(),
                 filters_.end(),
-                [filter_name](auto f) { return f->getName() == filter_name; }
+                [name](auto f) { return f->getName() == name; }
         );
     }
 
@@ -123,6 +182,8 @@ namespace proc_image_processing {
     inline const std::string &FilterChain::getName() const { return name_; }
 
     inline void FilterChain::setName(const std::string &name) { name_ = name; }
+
+    inline void FilterChain::setFilepath(const std::string &filepath) { filepath_ = filepath; }
 
 }  // namespace proc_image_processing
 

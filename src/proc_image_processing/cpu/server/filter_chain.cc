@@ -16,6 +16,7 @@ namespace proc_image_processing {
     FilterChain::FilterChain(const FilterChain &filter_chain)
             : filepath_(kFilterChainPath + "/" + filter_chain.name_ + "_copy" + kFilterChainExt),
               name_(filter_chain.name_ + "_copy"),
+              filters_(filter_chain.getFilters()),
               param_handler_(filter_chain.param_handler_),
               observer_index_(filter_chain.observer_index_) {
     }
@@ -79,6 +80,11 @@ namespace proc_image_processing {
                 auto filters = node["filters"];
                 assert(filters.Type() == YAML::NodeType::Sequence);
 
+                // Would duplicate filters if filter chain is deserialized after being instantiated
+                if (!filters_.empty()) {
+                    filters_.clear();
+                }
+
                 for (auto i = 0; i < filters.size(); i++) {
                     auto filter_node = filters[i];
                     addFilter(filter_node["name"].as<std::string>());
@@ -88,10 +94,8 @@ namespace proc_image_processing {
                         assert(parameters.Type() == YAML::NodeType::Sequence);
 
                         for (auto &&parameter : parameters) {
-                            auto param_node = parameter;
-
-                            auto param_name = param_node["name"].as<std::string>();
-                            auto param_value = param_node["value"].as<std::string>();
+                            auto param_name = parameter["name"].as<std::string>();
+                            auto param_value = parameter["value"].as<std::string>();
                             setFilterParameterValue(i, param_name, param_value);
                         }
                     }
@@ -99,12 +103,12 @@ namespace proc_image_processing {
             }
             return true;
         } catch (const std::exception &e) {
-            ROS_WARN("Cannot load filter chain with path %s", filepath_.c_str());
+            ROS_WARN("Cannot load filter chain with path %s. Cause: %s", filepath_.c_str(), e.what());
             return false;
         }
     }
 
-    void FilterChain::executeFilterChain(cv::Mat &image) {
+    void FilterChain::applyFilterChain(cv::Mat &image) {
         cv::Mat imageToProcess = image.clone();
         if (!imageToProcess.empty()) {
             param_handler_.setOriginalImage(imageToProcess);
@@ -130,44 +134,48 @@ namespace proc_image_processing {
     }
 
     void FilterChain::removeFilter(const size_t &index) {
-        if (index <= filters_.size()) {
+        if (index >= 0 && index < filters_.size()) {
             auto it = filters_.begin() + index;
             filters_.erase(it);
+        } else {
+            throw std::invalid_argument("Cannot remove filter with an outside range index!");
         }
     }
 
-    void FilterChain::moveFilterDown(const size_t &filterIndex) {
-        if (filterIndex < (filters_.size() - 1)) {
+    void FilterChain::moveFilterDown(const size_t &index) {
+        if (index >= 0 && index < (filters_.size() - 1)) {
             auto itFilter = filters_.begin();
-            std::advance(itFilter, filterIndex);
+            std::advance(itFilter, index);
 
             auto itFilterBellow = filters_.begin();
-            std::advance(itFilterBellow, filterIndex + 1);
+            std::advance(itFilterBellow, index + 1);
 
             std::swap(*itFilter, *itFilterBellow);
         } else {
-            std::string filterchainID = {"[FILTERCHAIN " + name_ + "]"};
-            ROS_WARN_NAMED(filterchainID, "Can't move this filter down");
+            throw std::invalid_argument("Cannot move filter down, it is already at the end of the filter chain!");
         }
     }
 
-    void FilterChain::moveFilterUp(const size_t &filterIndex) {
-        if ((filterIndex > 0) && (filterIndex <= (filters_.size() - 1))) {
+    void FilterChain::moveFilterUp(const size_t &index) {
+        if (index > 0 && index <= (filters_.size() - 1)) {
             auto itFilter = filters_.begin();
-            std::advance(itFilter, filterIndex);
+            std::advance(itFilter, index);
 
             auto itFilterAbove = filters_.begin();
-            std::advance(itFilterAbove, filterIndex - 1);
+            std::advance(itFilterAbove, index - 1);
 
             std::swap(*itFilter, *itFilterAbove);
         } else {
-            std::string filterchainID = {"[FILTERCHAIN " + name_ + "]"};
-            ROS_WARN_NAMED(filterchainID, "Can't move this filter down");
+            throw std::invalid_argument("Cannot move filter up, it is already at the beginning of the filter chain!");
         }
     }
 
     std::string FilterChain::getFilterParameterValue(const size_t &index, const std::string &name) const {
-        return getFilter(index)->getParameterValue(name);
+        auto filter = getFilter(index);
+        if (filter != nullptr) {
+            return filter->getParameterValue(name);
+        }
+        throw std::invalid_argument("Cannot fetch " + name + "'s value!");
     }
 
     void FilterChain::setFilterParameterValue(
@@ -178,19 +186,25 @@ namespace proc_image_processing {
         auto filter = getFilter(index);
         if (filter != nullptr) {
             filter->setParameterValue(name, value);
+        } else {
+            throw std::invalid_argument("Cannot set filter parameter value!");
         }
     }
 
     std::vector<ParameterInterface *> FilterChain::getFilterParameters(const size_t &index) const {
-        return getFilter(index)->getParameters();
+        auto filter = getFilter(index);
+        if (filter != nullptr) {
+            return filter->getParameters();
+        }
+        throw std::invalid_argument("Cannot fetch filter parameters!");
     }
 
-    void FilterChain::addFilter(const std::string &filter_name) {
-        auto filter = Filter::Ptr(FilterFactory::createInstance(filter_name, param_handler_));
+    void FilterChain::addFilter(const std::string &name) {
+        auto filter = Filter::Ptr(FilterFactory::createInstance(name, param_handler_));
         if (filter != nullptr) {
             filters_.push_back(filter);
         } else {
-            throw std::invalid_argument("This filter does not exist in the library");
+            throw std::invalid_argument("Filter " + name + " does not exist!");
         }
     }
 
