@@ -1,0 +1,30 @@
+name: filter_chain_test_3
+filters:
+  - name: BlurFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel size
+        value: 5
+  - name: ContrastAndBrightnessFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Contrast
+        value: 10
+      - name: Brightness
+        value: -5
+  - name: CannyFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: L2 gradient
+        value: 1
+      - name: Threshold 1
+        value: 50
+      - name: Threshold 2
+        value: 100
+      - name: Aperture size
+        value: 3
