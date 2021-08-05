@@ -125,23 +125,6 @@ TODO document how to run this module with VSCode
     - `ctrl+shift+p`
     - Type `ROS: Start Core` (command id: `ros.startCore`)
 
-- Manage and execute filterchains with bags from telemetry:
-    - Run the dockers for ros-master, ros-bridge and octopus-telemetry (only on linux for now)
-    - Make sure proc_image_processing is launch. (`ctrl+shift+p` + `ROS: Show Core Status` to see services)
-    - In the proc_image_processing docker, go in the folder /bags where you put the bag(s) to run
-    - Execute `rosbag play -l <name-of-the-bag>`
-    - Execute in another terminal in the docker 
-      `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw`
-      to uncompress the feed
-    - Open a web browser on `localhost:3000` to access the telemetry
-    - In the _Image Viewer_ module, refresh and select the compressed feed of the bag to see it (wow)
-    - In the _Vision UI_ module, create a new execution by refreshing and selecting the filterchain to apply
-      and the media as input (the raw video feed in this case)
-    - In the _filter_ tab of the _Vision UI_ module, refresh and select your execution to manage filters of your 
-      filterchain
-    - Click on them to see the parameters and adjust them, etc
-    - To see the result, in the _Image Viewer_ module, refresh and select the output of the execution compressed
-
 ---
 
 #### CLion
@@ -230,6 +213,26 @@ To get your environment setup with it, follow these steps:
 - No need to commit from your remote environment contrary to VSCode. Truth is, everything you modify is done locally and
   then sent to your remote environment. In other words, you won't lose your changes if you don't commit them since your
   remote environment behaves like a server where stuff is compiled and executed.
+
+---
+
+### Manage and execute filterchains with bags from telemetry:
+    - Run the dockers for ros-master, ros-bridge and octopus-telemetry (only on linux for now)
+    - Make sure proc_image_processing is launch. 
+      (in VScode `ctrl+shift+p` + `ROS: Show Core Status` to see services)
+    - In the proc_image_processing docker, go in the folder /bags where you put the bag(s) to run
+    - Execute `rosbag play -l <name-of-the-bag>`
+    - Execute in another terminal in the docker 
+      `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw`
+      to uncompress the feed
+    - Open a web browser on `localhost:3000` to access the telemetry
+    - In the _Image Viewer_ module, refresh and select the compressed feed of the bag to see it (wow)
+    - In the _Vision UI_ module, create a new execution by refreshing and selecting the filterchain to apply
+      and the media as input (the raw video feed in this case)
+    - In the _filter_ tab of the _Vision UI_ module, refresh and select your execution to manage filters of your 
+      filterchain
+    - Click on them to see the parameters and adjust them, etc
+    - To see the result, in the _Image Viewer_ module, refresh and select the output of the execution compressed
 
 ---
 
