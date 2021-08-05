@@ -216,23 +216,23 @@ To get your environment setup with it, follow these steps:
 
 ---
 
-### Manage and execute filterchains with bags from telemetry:
-    - Run the dockers for ros-master, ros-bridge and octopus-telemetry (only on linux for now)
-    - Make sure proc_image_processing is launch. 
-      (in VScode `ctrl+shift+p` + `ROS: Show Core Status` to see services)
-    - In the proc_image_processing docker, go in the folder /bags where you put the bag(s) to run
-    - Execute `rosbag play -l <name-of-the-bag>`
-    - Execute in another terminal in the docker 
-      `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw`
-      to uncompress the feed
-    - Open a web browser on `localhost:3000` to access the telemetry
-    - In the _Image Viewer_ module, refresh and select the compressed feed of the bag to see it (wow)
-    - In the _Vision UI_ module, create a new execution by refreshing and selecting the filterchain to apply
-      and the media as input (the raw video feed in this case)
-    - In the _filter_ tab of the _Vision UI_ module, refresh and select your execution to manage filters of your 
-      filterchain
-    - Click on them to see the parameters and adjust them, etc
-    - To see the result, in the _Image Viewer_ module, refresh and select the output of the execution compressed
+### Manage and execute filterchains with bags from telemetry
+- Run the dockers for ros-master, ros-bridge and octopus-telemetry (only on linux for now)
+- Make sure proc_image_processing is launch. 
+  (in VScode `ctrl+shift+p` + `ROS: Show Core Status` to see services)
+- In the proc_image_processing docker, go in the folder /bags where you put the bag(s) to run
+- Execute `rosbag play -l <name-of-the-bag>`
+- Execute in another terminal in the docker 
+  `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_arracam0/image_raw`
+  to uncompress the feed
+- Open a web browser on `localhost:3000` to access the telemetry
+- In the _Image Viewer_ module, refresh and select the compressed feed of the bag to see it (wow)
+- In the _Vision UI_ module, create a new execution by refreshing and selecting the filterchain to apply
+  and the media as input (the raw video feed in this case)
+- In the _filter_ tab of the _Vision UI_ module, refresh and select your execution to manage filters oyour 
+  filterchain
+- Click on them to see the parameters and adjust them, etc
+- To see the result, in the _Image Viewer_ module, refresh and select the output of the executiocompressed
 
 ---
 
