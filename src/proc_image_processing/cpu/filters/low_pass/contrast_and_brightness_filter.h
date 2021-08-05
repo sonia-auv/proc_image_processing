@@ -4,32 +4,37 @@
 #define PROC_IMAGE_PROCESSING_FILTERS_CONTRAST_BRIGHTNESS_H_
 
 #include <proc_image_processing/cpu/algorithm/general_function.h>
+#include <proc_image_processing/cpu/algorithm/parallel_loop_body_wrapper.h>
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
 
 namespace proc_image_processing {
 
-    class ParallelCABF : public cv::ParallelLoopBody {
-        cv::Mat img;
-        RangedParameter<double> contrast_, brightness_;
-
+    class ParallelCABF : public ParallelLoopBodyWrapper {
     public:
-        ParallelCABF(cv::Mat &img, RangedParameter<double> &contrast, RangedParameter<double> &brightness) :
-                img(img),
+        explicit ParallelCABF(cv::Mat &image, RangedParameter<double> &contrast, RangedParameter<double> &brightness) :
+                image(image),
                 contrast_(contrast),
                 brightness_(brightness) {}
+        
+        ~ParallelCABF() override = default;
 
         void operator()(const cv::Range &range) const override {
             for (auto r = range.start; r < range.end; r++) {
-                int y = r / img.cols;
-                int x = r % img.cols;
+                int y = r / image.cols;
+                int x = r % image.cols;
 
-                auto& vec = const_cast<cv::Vec3b &>(img.at<cv::Vec3b>(y, x));
-                for (auto c = 0; c < img.channels(); c++) {
+                auto& vec = const_cast<cv::Vec3b &>(image.at<cv::Vec3b>(y, x));
+                for (auto c = 0; c < image.channels(); c++) {
                     vec[c] = cv::saturate_cast<uchar>(contrast_.getValue() * (vec[c]) + brightness_.getValue());
                 }
             }
         }
+
+    private:
+        cv::Mat image;
+        
+        RangedParameter<double> contrast_, brightness_;
     };
 
     // Filter showing planes of different analysis (gray, _hsi, _bgr)
