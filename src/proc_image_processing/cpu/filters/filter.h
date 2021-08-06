@@ -5,6 +5,8 @@
 #include <proc_image_processing/cpu/server/parameter.h>
 #include <proc_image_processing/cpu/server/ranged_parameter.h>
 #include <proc_image_processing/cpu/server/target.h>
+#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
+#include <ros/console.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
 #include <string>
@@ -22,8 +24,13 @@ namespace proc_image_processing {
 
         void execute(cv::Mat &image) {
             if(!enable_()) return;
+            
+            PerformanceEvaluator timer;
 
             apply(image);
+            
+            if(execTime_())
+                ROS_INFO("Exec time of %s : %f s", name_.c_str(), timer.getExecutionTime());
         }
 
         // Name of the filter handlers
@@ -61,6 +68,7 @@ namespace proc_image_processing {
         virtual void apply(cv::Mat &image) = 0;
 
         Parameter<bool> enable_{"Enable", false, &parameters_};
+        Parameter<bool> execTime_{"ExecTime", false, &parameters_};
     };
 
 }  // namespace proc_image_processing
