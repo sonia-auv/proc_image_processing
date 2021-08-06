@@ -9,34 +9,6 @@
 #include <memory>
 
 namespace proc_image_processing {
-
-    class ParallelCABF : public ParallelLoopBodyWrapper {
-    public:
-        explicit ParallelCABF(cv::Mat &image, RangedParameter<double> &contrast, RangedParameter<double> &brightness) :
-                image(image),
-                contrast_(contrast),
-                brightness_(brightness) {}
-        
-        ~ParallelCABF() override = default;
-
-        void operator()(const cv::Range &range) const override {
-            for (auto r = range.start; r < range.end; r++) {
-                int y = r / image.cols;
-                int x = r % image.cols;
-
-                auto& vec = const_cast<cv::Vec3b &>(image.at<cv::Vec3b>(y, x));
-                for (auto c = 0; c < image.channels(); c++) {
-                    vec[c] = cv::saturate_cast<uchar>(contrast_.getValue() * (vec[c]) + brightness_.getValue());
-                }
-            }
-        }
-
-    private:
-        cv::Mat image;
-        
-        RangedParameter<double> contrast_, brightness_;
-    };
-
     // Filter showing planes of different analysis (gray, _hsi, _bgr)
     // No threshold
     class ContrastAndBrightnessFilter : public Filter {
@@ -63,6 +35,32 @@ namespace proc_image_processing {
 
 
     private:
+        class ParallelCABF : public ParallelLoopBodyWrapper {
+        public:
+            explicit ParallelCABF(cv::Mat &image, RangedParameter<double> &contrast, RangedParameter<double> &brightness) :
+                    image(image),
+                    contrast_(contrast),
+                    brightness_(brightness) {}
+            
+            ~ParallelCABF() override = default;
+    
+            void operator()(const cv::Range &range) const override {
+                for (auto r = range.start; r < range.end; r++) {
+                    int y = r / image.cols;
+                    int x = r % image.cols;
+    
+                    auto& vec = const_cast<cv::Vec3b &>(image.at<cv::Vec3b>(y, x));
+                    for (auto c = 0; c < image.channels(); c++) {
+                        vec[c] = cv::saturate_cast<uchar>(contrast_.getValue() * (vec[c]) + brightness_.getValue());
+                    }
+                }
+            }
+    
+        private:
+            cv::Mat image;
+            RangedParameter<double> contrast_, brightness_;
+        };
+
         Parameter<bool> enable_;
         RangedParameter<double> contrast_, brightness_;
     };
