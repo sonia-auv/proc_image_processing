@@ -29,8 +29,12 @@ namespace proc_image_processing {
                 bat_("Bat", true, &parameters_),
                 wolf_("Wolf", true, &parameters_),
                 color_(0, 0, 0) {
-            image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100,
-                                                               &Deep2019Filter::callbackBoundingBox, this);
+            image_subscriber_ = ros::NodeHandle("~").subscribe(
+                    "/deep_detector/bounding_box",
+                    100,
+                    &Deep2019Filter::callbackBoundingBox,
+                    this
+            );
             setName("Deep2019Filter");
         };
 
@@ -134,8 +138,12 @@ namespace proc_image_processing {
             target.setSpecialField2(convertFloatToString(object.confidence));
         }
 
-        inline void drawTarget(cv::Mat &image, const sonia_common::Detection &object, int thickness = 3,
-                               const cv::Scalar &color_box = cv::Scalar(0, 255, 0)) {
+        inline void drawTarget(
+                cv::Mat &image,
+                const sonia_common::Detection &object,
+                int thickness = 3,
+                const cv::Scalar &color_box = cv::Scalar(0, 255, 0)
+        ) {
             int origin_x = (int) (object.bbox.center.x - (object.bbox.size_x / 2));
             int origin_y = (int) (object.bbox.center.y - (int) (object.bbox.size_y / 2));
 

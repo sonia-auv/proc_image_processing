@@ -15,6 +15,7 @@ jobs:
       TARGET_VERSION: develop
       IMAGE_NAME: proc_image_processing
       GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
+      NODE_CONFIG_PATH: test/assets/config
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
@@ -27,7 +28,7 @@ jobs:
 
       - name: Run Module Unit Test
         run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
+          docker run -e NODE_CONFIG_PATH=${NODE_CONFIG_PATH} build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
 
       - name: Create Docker Image Tag
         run: |
@@ -73,7 +74,7 @@ jobs:
 
       - name: Run Module Unit Test
         run: |
-          docker run build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
+          docker run -e NODE_CONFIG_PATH=${NODE_CONFIG_PATH} build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
 
       - name: Create Docker Image Tag
         run: |

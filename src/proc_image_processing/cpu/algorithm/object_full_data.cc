@@ -13,8 +13,7 @@ namespace proc_image_processing {
             xVec.insert(xVec.begin(), elem->getCenterPoint().x);
             yVec.insert(yVec.begin(), elem->getCenterPoint().y);
         }
-        return cv::Point((int) (getMedian(xVec)),
-                         (int) (getMedian(yVec)));
+        return {(int) (getMedian(xVec)), (int) (getMedian(yVec))};
     }
 
 }  // namespace proc_image_processing

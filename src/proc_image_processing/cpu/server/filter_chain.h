@@ -16,13 +16,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<FilterChain>;
 
-        explicit FilterChain(const std::string &name);
+        explicit FilterChain(std::string name, const std::string &path);
 
         /**
          * Instantiate a filter chain from another one. In other words, this is a copy constructor.
          * @param filter_chain the filter chain from which to copy
          */
-        FilterChain(const FilterChain &filter_chain);
+        FilterChain(const FilterChain &filter_chain, const std::string &path);
 
         ~FilterChain();
 

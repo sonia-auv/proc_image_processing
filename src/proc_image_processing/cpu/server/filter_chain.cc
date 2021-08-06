@@ -1,25 +1,26 @@
 #include "filter_chain.h"
 #include <yaml-cpp/yaml.h>
+
+#include <utility>
 #include "proc_image_processing/cpu/config.h"
 
 namespace proc_image_processing {
 
-    FilterChain::FilterChain(const std::string &name)
-            : filepath_(kFilterChainPath + "/" + name + kFilterChainExt),
-              name_(name),
+    FilterChain::FilterChain(std::string name, const std::string &path)
+            : filepath_(path + "/" + name + kFilterChainExt),
+              name_(std::move(name)),
               param_handler_(),
               observer_index_(0) {
         deserialize();
         observer_index_ = filters_.size() - 1;
     }
 
-    FilterChain::FilterChain(const FilterChain &filter_chain)
-            : filepath_(kFilterChainPath + "/" + filter_chain.name_ + "_copy" + kFilterChainExt),
+    FilterChain::FilterChain(const FilterChain &filter_chain, const std::string &path)
+            : filepath_(path + "/" + filter_chain.name_ + "_copy" + kFilterChainExt),
               name_(filter_chain.name_ + "_copy"),
               filters_(filter_chain.getFilters()),
               param_handler_(filter_chain.param_handler_),
-              observer_index_(filter_chain.observer_index_) {
-    }
+              observer_index_(filter_chain.observer_index_) {}
 
     FilterChain::~FilterChain() = default;
 
@@ -57,12 +58,14 @@ namespace proc_image_processing {
         }
         out << YAML::EndMap;
 
+        // If filter chain is renamed
         auto filepath = kFilterChainPath + "/" + getName() + kFilterChainExt;
+
         try {
-            std::ofstream fout(filepath);
+            std::ofstream fout(filepath_);
             fout << out.c_str();
         } catch (std::exception &e) {
-            ROS_WARN("Cannot write filter chain %s to %s", getName().c_str(), filepath.c_str());
+            ROS_WARN("Cannot write filter chain %s to %s", getName().c_str(), filepath_.c_str());
             return false;
         }
         return true;
@@ -116,7 +119,7 @@ namespace proc_image_processing {
             try {
                 size_t index = 0;
                 for (auto &filter : filters_) {
-                    if (!imageToProcess.empty()) {
+                    if (filter != nullptr && !imageToProcess.empty()) {
                         filter->apply(imageToProcess);
                     }
 

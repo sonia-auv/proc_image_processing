@@ -32,7 +32,7 @@ namespace proc_image_processing {
             PLANES
         };
 
-        ObjectBasicData(cv::Mat originalImage, cv::Mat binaryImage, Contour contour);
+        ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage, Contour contour);
 
         virtual ~ObjectBasicData() = default;
 

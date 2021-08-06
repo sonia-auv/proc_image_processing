@@ -15,7 +15,7 @@ jobs:
       TARGET_VERSION: feature
       IMAGE_NAME: proc_image_processing
       GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
-      NODE_CONFIG_PATH: /test/assets/config
+      NODE_CONFIG_PATH: test/assets/config
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry
@@ -70,6 +70,10 @@ jobs:
       - name: Build the docker image (perception based)
         run: |
           docker build . --tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} --build-arg BUILD_DATE=$(date '+%Y-%m-%d_%H:%M:%S') --build-arg VERSION=${GITHUB_REF##*/}-$(date '  +%Y-%m-%d_%H:%M:%S') --build-arg BASE_IMAGE=${BASE_IMAGE}
+
+      - name: Run Module Unit Test
+        run: |
+          docker run -e NODE_CONFIG_PATH=${NODE_CONFIG_PATH} build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} catkin_make --use-ninja run_tests
 
       - name: Create Docker Image Tag
         run: |

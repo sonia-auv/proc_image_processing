@@ -18,8 +18,8 @@ namespace proc_image_processing {
         auto filter_chains_dir(kFilterChainPath);
         if (fs::is_directory(filter_chains_dir)) {
             for (fs::path file : fs::directory_iterator(filter_chains_dir)) {
-                if (file.extension().string<std::string>() == kFilterChainPath) {
-                    filter_chains.push_back(file.filename().string());
+                if (file.extension().generic_string() == kFilterChainExt) {
+                    filter_chains.push_back(file.stem().generic_string());
                 }
             }
         }
@@ -52,7 +52,10 @@ namespace proc_image_processing {
 
     FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filter_chain_name) {
         if (filterChainExists(filter_chain_name)) {
-            auto filter_chain = std::make_shared<FilterChain>(filter_chain_name);
+            auto filter_chain = std::make_shared<FilterChain>(
+                    filter_chain_name,
+                    kFilterChainPath
+            );
             running_filter_chains_.push_back(filter_chain);
             ROS_INFO("Filter chain %s is ready.", filter_chain_name.c_str());
             return filter_chain;

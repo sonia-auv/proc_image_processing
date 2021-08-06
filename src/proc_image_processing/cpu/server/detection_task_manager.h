@@ -18,9 +18,11 @@ namespace proc_image_processing {
 
         ~DetectionTaskManager();
 
-        std::string StartDetectionTask(const std::string &topic_name,
-                                       const FilterChain::Ptr &filter_chain,
-                                       const std::string &execution_name);
+        std::string StartDetectionTask(
+                const std::string &topic_name,
+                const FilterChain::Ptr &filter_chain,
+                const std::string &execution_name
+        );
 
         void stopDetectionTask(const std::string &execution_name);
 

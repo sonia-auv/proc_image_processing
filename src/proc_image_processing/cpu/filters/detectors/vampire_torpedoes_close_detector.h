@@ -75,53 +75,56 @@ namespace proc_image_processing {
                         cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                     }
 
-                    cv::Mat pointfs;
-                    cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
-                    cv::RotatedRect box = cv::fitEllipse(pointfs);
+                    // At least 5 points are required
+                    if (contours[i].size() >= 5) {
+                        cv::Mat pointfs;
+                        cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
+                        cv::RotatedRect box = cv::fitEllipse(pointfs);
 
-                    float circleIndex;
-                    float percentFilled;
+                        float circleIndex;
+                        float percentFilled;
 
-                    if (look_for_ellipse_()) {
-                        circleIndex = getCircleIndex(contours[i]);
+                        if (look_for_ellipse_()) {
+                            circleIndex = getCircleIndex(contours[i]);
 
-                        //std::cout << circleIndex << std::endl;
+                            //std::cout << circleIndex << std::endl;
 
-                        if (circleIndex < 0.7) {
-                            continue;
+                            if (circleIndex < 0.7) {
+                                continue;
+                            }
+
+                            percentFilled = getPercentFilled(output_image_, box);
+
+                            if (percentFilled > 25) {
+                                continue;
+                            }
+
+                            if (debug_contour_()) {
+                                cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                            }
+
+                            objective = "vampire_torpedoes";
                         }
 
-                        percentFilled = getPercentFilled(output_image_, box);
+                        if (look_for_heart_()) {
+                            circleIndex = getCircleIndex(contours[i]);
 
-                        if (percentFilled > 25) {
-                            continue;
+                            if (circleIndex > 0.9) {
+                                continue;
+                            }
+
+                            percentFilled = getPercentFilled(output_image_, box);
+
+                            if (percentFilled > 50) {
+                                continue;
+                            }
+
+                            if (debug_contour_()) {
+                                cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                            }
+
+                            objective = "heart_torpedoes";
                         }
-
-                        if (debug_contour_()) {
-                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                        }
-
-                        objective = "vampire_torpedoes";
-                    }
-
-                    if (look_for_heart_()) {
-                        circleIndex = getCircleIndex(contours[i]);
-
-                        if (circleIndex > 0.9) {
-                            continue;
-                        }
-
-                        percentFilled = getPercentFilled(output_image_, box);
-
-                        if (percentFilled > 50) {
-                            continue;
-                        }
-
-                        if (debug_contour_()) {
-                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                        }
-
-                        objective = "heart_torpedoes";
                     }
                     objVec.push_back(object);
                 }

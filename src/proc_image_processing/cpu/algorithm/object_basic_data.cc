@@ -2,13 +2,13 @@
 
 namespace proc_image_processing {
 
-    ObjectBasicData::ObjectBasicData(cv::Mat originalImage, cv::Mat binaryImage, Contour contour)
+    ObjectBasicData::ObjectBasicData(const cv::Mat &originalImage, const cv::Mat &binaryImage, Contour contour)
             : area_(0.0f),
               convex_hull_area_(0.0f),
               circumference_(0.0f),
               planes_(NB_OF_PLANE),
-              original_image_(std::move(originalImage)),
-              binary_image_(std::move(binaryImage)),
+              original_image_(originalImage),
+              binary_image_(binaryImage),
               vote_count_(0),
               contour_(std::move(contour)) {
         is_calculated_map_.insert(std::pair<OBJECT_DATA, bool>(AREA, false));
