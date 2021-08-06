@@ -19,7 +19,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<InRangeFilter>;
 
-        explicit InRangeFilter(const GlobalParamHandler &globalParams)
+        explicit InRangeFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   lower_hue_("HSV Lower H", 0, 0, 255, &parameters_),

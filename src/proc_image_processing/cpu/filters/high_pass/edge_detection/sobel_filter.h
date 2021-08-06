@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<SobelFilter>;
 
-        explicit SobelFilter(const GlobalParamHandler &globalParams)
+        explicit SobelFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   convert_to_uchar_("Convert to uchar", true, &parameters_),

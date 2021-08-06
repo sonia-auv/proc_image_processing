@@ -17,7 +17,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<PipeAngleDetector>;
 
-        explicit PipeAngleDetector(const GlobalParamHandler &globalParams)
+        explicit PipeAngleDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   angle_(0.0f),
                   enable_("Enable", false, &parameters_),

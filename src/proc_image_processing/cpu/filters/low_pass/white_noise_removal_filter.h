@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<WhiteNoiseRemovalFilter>;
 
-        explicit WhiteNoiseRemovalFilter(const GlobalParamHandler &globalParams)
+        explicit WhiteNoiseRemovalFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   lower_b_("Lower B", 0, 0, 255, &parameters_),

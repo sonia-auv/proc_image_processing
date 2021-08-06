@@ -14,7 +14,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<AccumulatorFilter>;
 
-        explicit AccumulatorFilter(const GlobalParamHandler &globalParams)
+        explicit AccumulatorFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   accumulator_(3, cv::Size(0, 0), CV_8UC1),
                   enable_("Enable", false, &parameters_),

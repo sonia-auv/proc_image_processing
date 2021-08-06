@@ -1,9 +1,23 @@
 ARG MODE=""
 FROM sonia-auv/proc_image_processing:local${MODE}
 
-RUN echo "test" | sudo -S apt update
-RUN echo "test" | sudo -S apt install -y ssh gcc g++ gdb clang rsync tar libxmlrpcpp-dev librosconsole-dev librospack-dev libmessage-filters-dev
+USER root
+RUN apt update && apt install -y ssh \
+    gcc \
+    g++ \
+    gdb \
+    clang \
+    rsync \
+    tar \
+    libxmlrpcpp-dev \
+    librosconsole-dev \
+    librospack-dev \
+    libmessage-filters-dev \
+    valgrind \
+    linux-tools-common
 COPY scripts/sonia_clion_entrypoint.sh /entrypoint.sh
-RUN echo "test" | sudo -S chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+USER ${SONIA_USER}
 
 ENTRYPOINT ["/entrypoint.sh"]

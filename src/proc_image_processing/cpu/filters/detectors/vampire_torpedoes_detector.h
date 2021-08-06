@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<VampireTorpedoesDetector>;
 
-        explicit VampireTorpedoesDetector(const GlobalParamHandler &globalParams)
+        explicit VampireTorpedoesDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   debug_contour_("Debug contour", false, &parameters_),

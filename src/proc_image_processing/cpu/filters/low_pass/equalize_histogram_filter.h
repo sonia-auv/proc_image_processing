@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<EqualizeHistogramFilter>;
 
-        explicit EqualizeHistogramFilter(const GlobalParamHandler &globalParams)
+        explicit EqualizeHistogramFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_) {
             setName("EqualizeHistogramFilter");

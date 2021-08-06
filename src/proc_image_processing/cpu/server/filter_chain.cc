@@ -1,7 +1,5 @@
 #include "filter_chain.h"
 #include <yaml-cpp/yaml.h>
-
-#include <utility>
 #include "proc_image_processing/cpu/config.h"
 
 namespace proc_image_processing {
@@ -112,19 +110,19 @@ namespace proc_image_processing {
     }
 
     void FilterChain::applyFilterChain(cv::Mat &image) {
-        cv::Mat imageToProcess = image.clone();
-        if (!imageToProcess.empty()) {
-            param_handler_.setOriginalImage(imageToProcess);
+        cv::Mat clone = image.clone();
+        if (!clone.empty()) {
+            param_handler_.setOriginalImage(clone);
 
             try {
                 size_t index = 0;
                 for (auto &filter : filters_) {
-                    if (filter != nullptr && !imageToProcess.empty()) {
-                        filter->apply(imageToProcess);
+                    if (filter != nullptr && !clone.empty()) {
+                        filter->apply(clone);
                     }
 
                     if (index == observer_index_) {
-                        imageToProcess.copyTo(image);
+                        clone.copyTo(image);
                     }
 
                     index++;
@@ -132,7 +130,7 @@ namespace proc_image_processing {
             }
             catch (cv::Exception &e) {
                 ROS_ERROR("[FILTERCHAIN %s ], Error in image processing: %s", name_.c_str(), e.what());
-            };
+            }
         }
     }
 

@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<Filter>;
 
-        explicit Filter(const GlobalParamHandler &globalParams);
+        explicit Filter(const GlobalParameterHandler &globalParams);
 
         virtual ~Filter() = default;
 
@@ -26,13 +26,7 @@ namespace proc_image_processing {
 
         inline std::string getParameterValue(const std::string &name);
 
-        inline void addGlobalParameter(const std::string &name, int value, int min, int max);
-
-        inline void addGlobalParameter(const std::string &name, double value, double min, double max);
-
-        inline void addGlobalParameter(const std::string &name, bool value);
-
-        inline void addGlobalParameter(const std::string &name, const std::string &value);
+        inline const GlobalParameterHandler &getGlobalParamHandler() const;
 
         virtual void apply(cv::Mat &image) = 0;
 
@@ -43,7 +37,7 @@ namespace proc_image_processing {
         inline void setParameterValue(const std::string &name, const std::string &value);
 
     protected:
-        GlobalParamHandler &global_param_handler_;
+        GlobalParameterHandler &global_param_handler_;
         std::vector<ParameterInterface *> parameters_;
         std::string name_;
     };

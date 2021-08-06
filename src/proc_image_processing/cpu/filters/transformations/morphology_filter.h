@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<MorphologyFilter>;
 
-        explicit MorphologyFilter(const GlobalParamHandler &globalParams)
+        explicit MorphologyFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   morph_type_("Morphology type", 0, 0, 4, &parameters_,

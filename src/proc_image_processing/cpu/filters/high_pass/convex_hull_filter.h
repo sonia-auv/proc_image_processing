@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ConvexHullFilter>;
 
-        explicit ConvexHullFilter(const GlobalParamHandler &globalParams)
+        explicit ConvexHullFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   mode_("Mode", 0, 0, 3, &parameters_,

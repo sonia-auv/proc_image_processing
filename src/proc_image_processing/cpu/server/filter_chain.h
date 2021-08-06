@@ -133,14 +133,14 @@ namespace proc_image_processing {
          */
         std::vector<ParameterInterface *> getFilterParameters(const size_t &index) const;
 
-        GlobalParamHandler &getParameterHandler();
+        GlobalParameterHandler &getParameterHandler();
 
     private:
         std::string filepath_;
 
         std::string name_;
 
-        GlobalParamHandler param_handler_;
+        GlobalParameterHandler param_handler_;
 
         std::vector<Filter::Ptr> filters_;
 
@@ -177,7 +177,7 @@ namespace proc_image_processing {
 
     inline void FilterChain::setObserver(const size_t &index) { observer_index_ = index; }
 
-    inline GlobalParamHandler &FilterChain::getParameterHandler() { return param_handler_; }
+    inline GlobalParameterHandler &FilterChain::getParameterHandler() { return param_handler_; }
 
     inline const std::string &FilterChain::getName() const { return name_; }
 

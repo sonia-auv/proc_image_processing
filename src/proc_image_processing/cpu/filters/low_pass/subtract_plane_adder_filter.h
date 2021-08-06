@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<SubtractPlaneAdderFilter>;
 
-        explicit SubtractPlaneAdderFilter(const GlobalParamHandler &globalParams)
+        explicit SubtractPlaneAdderFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   show_adding_result_("show_adding_result", false, &parameters_),

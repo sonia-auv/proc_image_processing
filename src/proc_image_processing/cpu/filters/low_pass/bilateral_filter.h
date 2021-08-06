@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BilateralFilter>;
 
-        explicit BilateralFilter(const GlobalParamHandler &globalParams)
+        explicit BilateralFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   diameter_("Diameter", -100, 0, 100, &parameters_),

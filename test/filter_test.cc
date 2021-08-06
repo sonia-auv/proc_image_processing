@@ -7,7 +7,7 @@ class MockFilter : public proc_image_processing::Filter {
 public:
     using Ptr = std::shared_ptr<MockFilter>;
 
-    explicit MockFilter(const proc_image_processing::GlobalParamHandler &handler) : proc_image_processing::Filter(
+    explicit MockFilter(const proc_image_processing::GlobalParameterHandler &handler) : proc_image_processing::Filter(
             handler) {
         setName("MockFilter");
     }
@@ -25,8 +25,8 @@ public:
 // auto f = std::move(std::make_unique<MockFilter>(handler));
 // }
 
-TEST(FilterTest, TestName) {
-    proc_image_processing::GlobalParamHandler handler;
+TEST(FilterTest, TestBaseFeatures) {
+    proc_image_processing::GlobalParameterHandler handler;
     auto f = std::move(std::make_unique<MockFilter>(handler));
 
     // Test name
@@ -37,7 +37,7 @@ TEST(FilterTest, TestName) {
 }
 
 TEST(FilterTest, TestApply) {
-    proc_image_processing::GlobalParamHandler handler;
+    proc_image_processing::GlobalParameterHandler handler;
     auto f = std::move(std::make_unique<MockFilter>(handler));
 
     cv::Mat in(4, 4, CV_8UC1);
@@ -50,71 +50,6 @@ TEST(FilterTest, TestApply) {
     cv::Mat diff;
     cv::compare(in, before, diff, cv::CmpTypes::CMP_EQ);
     ASSERT_TRUE(cv::countNonZero(diff) == 0);
-}
-
-
-TEST(FilterTest, TestGlobalParams) {
-    proc_image_processing::GlobalParamHandler handler;
-    auto f = std::move(std::make_unique<MockFilter>(handler));
-
-    // == Integer actualParams
-    // Test min/max limits
-    f->addGlobalParameter("param1", 0, 0, 4);
-    ASSERT_EQ(f->getParameterValue("param1"), "param1|Integer|0|0|4|");
-    f->addGlobalParameter("param2", 4, 0, 4);
-    ASSERT_EQ(f->getParameterValue("param2"), "param2|Integer|4|0|4|");
-
-    // Test min/max errors
-    ASSERT_THROW(f->addGlobalParameter("badParam", 0, 1, 3), std::invalid_argument);
-    try {
-        f->addGlobalParameter("badParam", 0, 1, 3);
-    } catch (std::invalid_argument &e) {
-        ASSERT_EQ(std::string(e.what()), "Value can't be less than minimum!");
-    }
-
-    ASSERT_THROW(f->addGlobalParameter("badParam", 4, 1, 3), std::invalid_argument);
-    try {
-        f->addGlobalParameter("badParam", 4, 1, 3);
-    } catch (std::invalid_argument &e) {
-        ASSERT_EQ(std::string(e.what()), "Value can't be more than maximum!");
-    }
-
-    // == Double actualParams
-    // Test min/max limits
-    f->addGlobalParameter("param3", 0.01, 0.01, 3.4);
-    ASSERT_EQ(f->getParameterValue("param3"), "param3|Double|0.010000|0.010000|3.400000|");
-    f->addGlobalParameter("param4", 3.4, 0.01, 3.4);
-    ASSERT_EQ(f->getParameterValue("param4"), "param4|Double|3.400000|0.010000|3.400000|");
-
-    // Test min/max errors
-    ASSERT_THROW(f->addGlobalParameter("badParam", 0.009, 0.01, 3.4), std::invalid_argument);
-    try {
-        f->addGlobalParameter("badParam", 0.009, 0.01, 3.4);
-    } catch (std::invalid_argument &e) {
-        ASSERT_EQ(std::string(e.what()), "Value can't be less than minimum!");
-    }
-
-    ASSERT_THROW(f->addGlobalParameter("badParam", 3.41, 0.01, 3.4), std::invalid_argument);
-    try {
-        f->addGlobalParameter("badParam", 3.41, 0.01, 3.4);
-    } catch (std::invalid_argument &e) {
-        ASSERT_EQ(std::string(e.what()), "Value can't be more than maximum!");
-    }
-
-    // == Boolean actualParams
-    f->addGlobalParameter("param5", true);
-    ASSERT_EQ(f->getParameterValue("param5"), "param5|Boolean|1|||");
-    f->addGlobalParameter("param6", false);
-    ASSERT_EQ(f->getParameterValue("param6"), "param6|Boolean|0|||");
-
-
-    // == String actualParams
-    // f->addGlobalParameter("param7", "stringValue1");
-    // ASSERT_EQ(f->getParameterValue("param7"), "param7|String|stringValue1|||");
-    // f->addGlobalParameter("param8", "stringValue2");
-    // ASSERT_EQ(f->getParameterValue("param8"), "param8|String|stringValue2|||");
-
-    ASSERT_EQ(f->getParameters().size(), 6);
 }
 
 int main(int argc, char **argv) {

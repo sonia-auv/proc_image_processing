@@ -96,7 +96,7 @@ namespace proc_image_processing {
 
         FilterChain::Ptr filterchain_;
 
-        GlobalParamHandler &param_handler_;
+        GlobalParameterHandler &param_handler_;
 
         std::mutex newest_image_mutex_;
 

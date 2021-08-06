@@ -2,7 +2,7 @@
 
 namespace proc_image_processing {
     std::unique_ptr<Filter>
-    FilterFactory::createInstance(const std::string_view &name, const GlobalParamHandler &globalParams) {
+    FilterFactory::createInstance(const std::string_view &name, const GlobalParameterHandler &globalParams) {
         // <FACTORY_GENERATOR_INSTANCE_CREATION>
         if (name == "AccumulatorFilter") {
             return std::make_unique<AccumulatorFilter>(globalParams);

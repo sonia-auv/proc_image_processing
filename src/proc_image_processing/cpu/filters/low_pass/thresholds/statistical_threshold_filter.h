@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<StatisticalThresholdFilter>;
 
-        explicit StatisticalThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit StatisticalThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   min_thresh_("Minimum threshold", 0, 0, 255, &parameters_),

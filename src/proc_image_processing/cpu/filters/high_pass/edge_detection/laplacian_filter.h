@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<LaplacianFilter>;
 
-        explicit LaplacianFilter(const GlobalParamHandler &globalParams)
+        explicit LaplacianFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   convert_to_uchar_("Convert to uchar", true, &parameters_),

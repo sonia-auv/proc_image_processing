@@ -13,11 +13,11 @@
 
 namespace proc_image_processing {
 
-    class GlobalParamHandler {
+    class GlobalParameterHandler {
     public:
-        using Ptr = std::shared_ptr<GlobalParamHandler>;
+        using Ptr = std::shared_ptr<GlobalParameterHandler>;
 
-        explicit GlobalParamHandler() : target_queue_(), params_(), original_image_() {}
+        explicit GlobalParameterHandler() : target_queue_(), params_(), original_image_() {}
 
         // Since we erase everything, it is easier to delete objet first
         // then calling clear method, since erase invalidate pointer AND
@@ -25,7 +25,7 @@ namespace proc_image_processing {
         // that they are consecutive in memory... on long vector it
         // is "very" long to do. To prevent that, we can use reverse
         // iterator, but erase does not take it...
-        ~GlobalParamHandler() { params_.clear(); }
+        ~GlobalParameterHandler() { params_.clear(); }
 
         // Original image handling
         // WE WANT TO RETURN A COPY, ELSE THE IMAGE WILL BE ALTERATE
@@ -36,7 +36,7 @@ namespace proc_image_processing {
 
         // WE WANT A COPY BECAUSE THE ORIGINAL IMAGE IS PROBABLY GOING TO BE ALTERED
         // BY THE FILTERS.
-        inline void setOriginalImage(cv::Mat image) { original_image_ = std::move(image); }
+        inline void setOriginalImage(cv::Mat &image) { original_image_ = image; }
 
         // Target related
         inline void addTarget(const Target &target) { target_queue_.push(target); }
@@ -50,12 +50,18 @@ namespace proc_image_processing {
             }
         }
 
-        // Params
+        /**
+         * Add a parameter
+         * @param param the parameter
+         * @throws std::invalid_argument if the parameter name already exists
+         */
         inline void addParameter(ParameterInterface *param) {
-            if (params_.find(param->getName()) != params_.end()) {
-                throw std::invalid_argument("A parameter with the same name already exists!");
+            if (param != nullptr) {
+                if (params_.find(param->getName()) != params_.end()) {
+                    throw std::invalid_argument("A parameter with the same name already exists!");
+                }
+                params_.emplace(std::pair<std::string, ParameterInterface *>(param->getName(), param));
             }
-            params_.emplace(std::pair<std::string, ParameterInterface *>(param->getName(), param));
         }
 
         void removeParameter(const std::string &name) {

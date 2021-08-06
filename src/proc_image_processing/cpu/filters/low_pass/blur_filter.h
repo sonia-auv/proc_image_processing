@@ -18,7 +18,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BlurFilter>;
 
-        explicit BlurFilter(const GlobalParamHandler &globalParams)
+        explicit BlurFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   type_("Type", 2, 0, 3, &parameters_, "1=Blur, 2=GaussianBlur, 3=MedianBlur"),

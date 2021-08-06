@@ -5,12 +5,13 @@
 #include <sonia_common/macros.h>
 #include <proc_image_processing/cpu/server/target.h>
 #include "filter.h"
+#include "ros/console.h"
 
 
 namespace proc_image_processing {
 
-    inline Filter::Filter(const GlobalParamHandler &globalParams)
-            : global_param_handler_(const_cast<GlobalParamHandler &>(globalParams)),
+    inline Filter::Filter(const GlobalParameterHandler &globalParams)
+            : global_param_handler_(const_cast<GlobalParameterHandler &>(globalParams)),
             // enable_("Enable", false, &parameters_),
             // Explicit construction not needed here... Just reminder it exist.
               parameters_() {
@@ -40,39 +41,6 @@ namespace proc_image_processing {
         return returnString;
     }
 
-    inline void Filter::addGlobalParameter(const std::string &name, const int value, const int min, const int max) {
-        if (value < min) {
-            throw std::invalid_argument("Value can't be less than minimum!");
-        }
-        if (value > max) {
-            throw std::invalid_argument("Value can't be more than maximum!");
-        }
-        global_param_handler_.addParameter(new RangedParameter<int>(name, value, min, max, &parameters_));
-    }
-
-    inline void Filter::addGlobalParameter(
-            const std::string &name,
-            const double value,
-            const double min,
-            const double max
-    ) {
-        if (value < min) {
-            throw std::invalid_argument("Value can't be less than minimum!");
-        }
-        if (value > max) {
-            throw std::invalid_argument("Value can't be more than maximum!");
-        }
-        global_param_handler_.addParameter(new RangedParameter<double>(name, value, min, max, &parameters_));
-    }
-
-    inline void Filter::addGlobalParameter(const std::string &name, const bool value) {
-        global_param_handler_.addParameter(new Parameter<bool>(name, value, &parameters_));
-    }
-
-    inline void Filter::addGlobalParameter(const std::string &name, const std::string &value) {
-        global_param_handler_.addParameter(new Parameter<std::string>(name, value, &parameters_));
-    }
-
     inline void Filter::notify(const Target &target) { global_param_handler_.addTarget(target); }
 
     inline void Filter::setName(const std::string &name) { name_ = name; }
@@ -85,6 +53,10 @@ namespace proc_image_processing {
                 param->setStringValue(value);
             }
         }
+    }
+
+    inline const GlobalParameterHandler &Filter::getGlobalParamHandler() const {
+        return global_param_handler_;
     }
 
 }  // namespace proc_image_processing

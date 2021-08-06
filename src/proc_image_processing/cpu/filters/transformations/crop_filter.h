@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<CropFilter>;
 
-        explicit CropFilter(const GlobalParamHandler &globalParams)
+        explicit CropFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   x_offset_("X Offset", 0, 0, 2000, &parameters_),

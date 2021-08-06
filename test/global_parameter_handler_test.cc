@@ -5,7 +5,7 @@
 #include "proc_image_processing/cpu/server/target.h"
 
 TEST(GlobalParameterHandlerTest, TestParameters) {
-    proc_image_processing::GlobalParamHandler gph;
+    proc_image_processing::GlobalParameterHandler gph;
     std::vector<proc_image_processing::ParameterInterface *> v1;
     std::vector<proc_image_processing::ParameterInterface *> v2;
 
@@ -38,7 +38,7 @@ TEST(GlobalParameterHandlerTest, TestParameters) {
 }
 
 TEST(GlobalParameterHandlerTest, TestTargets) {
-    proc_image_processing::GlobalParamHandler gph;
+    proc_image_processing::GlobalParameterHandler gph;
     proc_image_processing::Target expected("header", 1, 1, 1, 1, 1, 1, 1, "spec1", "spec2");
     gph.addTarget(expected);
     std::queue<proc_image_processing::Target> targets = gph.getTargetQueue();
@@ -60,7 +60,7 @@ TEST(GlobalParameterHandlerTest, TestTargets) {
 }
 
 TEST(GlobalParameterHandler, TestImage) {
-    proc_image_processing::GlobalParamHandler gph;
+    proc_image_processing::GlobalParameterHandler gph;
     cv::Mat image(4, 4, CV_8UC1);
     cv::randu(image, cv::Scalar(0), cv::Scalar(255));
     gph.setOriginalImage(image);

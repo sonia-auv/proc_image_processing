@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ThresholdFilter>;
 
-        explicit ThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit ThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   type_("Threshold type", 1, 0, 5, &parameters_,

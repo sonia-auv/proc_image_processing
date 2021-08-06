@@ -15,7 +15,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ContrastAndBrightnessFilter>;
 
-        explicit ContrastAndBrightnessFilter(const GlobalParamHandler &globalParams)
+        explicit ContrastAndBrightnessFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   contrast_("Contrast", 0, 0, 256, &parameters_, "Contrast"),

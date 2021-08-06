@@ -14,7 +14,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<WhiteFilter>;
 
-        explicit WhiteFilter(const GlobalParamHandler &globalParams)
+        explicit WhiteFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams), enable_("Enable", false, &parameters_),
                   minimal_1pixel_range_("Minimal 1 pixel range", 0, 0, 255, &parameters_),
                   minimal_2pixel_range_("Minimal 2 pixel range", 0, 0, 255, &parameters_),

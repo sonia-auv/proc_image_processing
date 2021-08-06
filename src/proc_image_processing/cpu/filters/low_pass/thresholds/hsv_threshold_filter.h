@@ -15,7 +15,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<HSVThresholdFilter>;
 
-        explicit HSVThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit HSVThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   hue_min_("Minimum H", 0, 0, 256, &parameters_,

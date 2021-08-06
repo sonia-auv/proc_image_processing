@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<RemoveMaskFilter>;
 
-        explicit RemoveMaskFilter(const GlobalParamHandler &globalParams)
+        explicit RemoveMaskFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_) {
             setName("RemoveMaskFilter");

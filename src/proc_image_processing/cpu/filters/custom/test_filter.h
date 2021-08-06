@@ -13,7 +13,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<TestFilter>;
 
-        explicit TestFilter(const GlobalParamHandler &globalParams)
+        explicit TestFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", true, &parameters_),
                   x_("X", 0, -512, 512, &parameters_),

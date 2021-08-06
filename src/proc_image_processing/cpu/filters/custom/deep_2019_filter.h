@@ -16,7 +16,7 @@ namespace proc_image_processing {
     class Deep2019Filter : public Filter {
 
     public:
-        explicit Deep2019Filter(const GlobalParamHandler &globalParams) :
+        explicit Deep2019Filter(const GlobalParameterHandler &globalParams) :
                 Filter(globalParams),
                 nh_(ros::NodeHandle("proc_image_processing")),
                 enable_("Enable", false, &parameters_),

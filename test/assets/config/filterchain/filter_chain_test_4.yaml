@@ -1,4 +1,4 @@
-name: filter_chain_test_3
+name: filter_chain_test_4
 filters:
   - name: BlurFilter
     parameters:

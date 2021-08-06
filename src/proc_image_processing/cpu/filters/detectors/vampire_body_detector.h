@@ -14,7 +14,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<VampireBodyDetector>;
 
-        explicit VampireBodyDetector(const GlobalParamHandler &globalParams)
+        explicit VampireBodyDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   debug_contour_("Debug contour", false, &parameters_),

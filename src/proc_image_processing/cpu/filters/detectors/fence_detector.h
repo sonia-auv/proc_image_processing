@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<FenceDetector>;
 
-        explicit FenceDetector(const GlobalParamHandler &globalParams)
+        explicit FenceDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   enable_("Enable", false, &parameters_),
                   debug_contour_("Debug contour", false, &parameters_),
