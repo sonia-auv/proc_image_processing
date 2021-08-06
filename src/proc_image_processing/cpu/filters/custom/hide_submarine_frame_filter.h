@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit HideSubmarineFrameFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
                                "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
                   prev_rot_value_(0) {
@@ -28,30 +27,27 @@ namespace proc_image_processing {
         ~HideSubmarineFrameFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (prev_rot_value_ != rotate_type_()) {
-                    prev_rot_value_ = rotate_type_();
-                    switch (rotate_type_()) {
-                        case 1:
-                            cv::flip(bottom_mask_, bottom_mask_, 0);
-                            break;
-                        case 2:
-                            cv::flip(bottom_mask_, bottom_mask_, 1);
-                            break;
-                        case 3:
-                            cv::flip(bottom_mask_, bottom_mask_, -1);
-                            break;
-                        default:
-                            break;
-                    }
+            if (prev_rot_value_ != rotate_type_()) {
+                prev_rot_value_ = rotate_type_();
+                switch (rotate_type_()) {
+                    case 1:
+                        cv::flip(bottom_mask_, bottom_mask_, 0);
+                        break;
+                    case 2:
+                        cv::flip(bottom_mask_, bottom_mask_, 1);
+                        break;
+                    case 3:
+                        cv::flip(bottom_mask_, bottom_mask_, -1);
+                        break;
+                    default:
+                        break;
                 }
-                if (image.size() == bottom_mask_.size())
-                    cv::bitwise_and(image, bottom_mask_, image);
             }
+            if (image.size() == bottom_mask_.size())
+                cv::bitwise_and(image, bottom_mask_, image);
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> rotate_type_;
         cv::Mat bottom_mask_;
         int prev_rot_value_;

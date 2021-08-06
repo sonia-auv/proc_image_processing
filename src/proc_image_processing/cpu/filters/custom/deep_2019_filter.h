@@ -19,7 +19,6 @@ namespace proc_image_processing {
         explicit Deep2019Filter(const GlobalParamHandler &globalParams) :
                 Filter(globalParams),
                 nh_(ros::NodeHandle("proc_image_processing")),
-                enable_("Enable", false, &parameters_),
                 debug_contour_("Debug contour", false, &parameters_),
                 vetalas_("vetalas", true, &parameters_),
                 draugr_("draugr", true, &parameters_),
@@ -37,46 +36,44 @@ namespace proc_image_processing {
         ~Deep2019Filter() override { image_subscriber_.shutdown(); }
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                Target target;
-                image_width_ = image.size().width;
-                image_height_ = image.size().height;
+            Target target;
+            image_width_ = image.size().width;
+            image_height_ = image.size().height;
 
-                for (auto &object : bounding_box_) {
-                    if (vetalas_.getValue() && object.class_name.data == vetalas_.getName()) {
-                        color_ = cv::Scalar(0, 0, 255);
-                        handleObject(target, object, image, color_);
-                    }
-                    if (draugr_.getValue() && object.class_name.data == draugr_.getName()) {
-                        color_ = cv::Scalar(0, 255, 0);
-                        handleObject(target, object, image, color_);
-                    }
-                    if (jiangshi_.getValue() && object.class_name.data == jiangshi_.getName()) {
-                        color_ = cv::Scalar(255, 0, 0);
-                        handleObject(target, object, image, color_);
-                    }
-                    if (answag_.getValue() && object.class_name.data == answag_.getName()) {
-                        color_ = cv::Scalar(244, 185, 66);
-                        handleObject(target, object, image, color_);
-                    }
-                    if (vampire_.getValue() && object.class_name.data == vampire_.getName()) {
-                        color_ = cv::Scalar(200, 185, 66);
-                        handleObject(target, object, image, color_);
-                    }
-                    if (bat_.getValue() && object.class_name.data == bat_.getName()) {
-                        color_ = cv::Scalar(217, 244, 66);
-                        handleObject(target, object, image, color_);
-                    }
-                    if (wolf_.getValue() && object.class_name.data == wolf_.getName()) {
-                        color_ = cv::Scalar(66, 244, 223);
-                        handleObject(target, object, image, color_);
-                    }
+            for (auto &object : bounding_box_) {
+                if (vetalas_.getValue() && object.class_name.data == vetalas_.getName()) {
+                    color_ = cv::Scalar(0, 0, 255);
+                    handleObject(target, object, image, color_);
                 }
+                if (draugr_.getValue() && object.class_name.data == draugr_.getName()) {
+                    color_ = cv::Scalar(0, 255, 0);
+                    handleObject(target, object, image, color_);
+                }
+                if (jiangshi_.getValue() && object.class_name.data == jiangshi_.getName()) {
+                    color_ = cv::Scalar(255, 0, 0);
+                    handleObject(target, object, image, color_);
+                }
+                if (answag_.getValue() && object.class_name.data == answag_.getName()) {
+                    color_ = cv::Scalar(244, 185, 66);
+                    handleObject(target, object, image, color_);
+                }
+                if (vampire_.getValue() && object.class_name.data == vampire_.getName()) {
+                    color_ = cv::Scalar(200, 185, 66);
+                    handleObject(target, object, image, color_);
+                }
+                if (bat_.getValue() && object.class_name.data == bat_.getName()) {
+                    color_ = cv::Scalar(217, 244, 66);
+                    handleObject(target, object, image, color_);
+                }
+                if (wolf_.getValue() && object.class_name.data == wolf_.getName()) {
+                    color_ = cv::Scalar(66, 244, 223);
+                    handleObject(target, object, image, color_);
+                }
+            }
 
-                for (int i = 0; i < (int) objects_.size(); ++i) {
-                    notify(objects_.back());
-                    objects_.pop_back();
-                }
+            for (int i = 0; i < (int) objects_.size(); ++i) {
+                notify(objects_.back());
+                objects_.pop_back();
             }
         };
 
@@ -89,9 +86,9 @@ namespace proc_image_processing {
 
         ros::Subscriber image_subscriber_;
         ros::NodeHandle nh_;
-        std::vector<sonia_common::Detection> bounding_box_;
-        std::vector<Target> objects_;
-        Parameter<bool> enable_, debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
+        std::vector <sonia_common::Detection> bounding_box_;
+        std::vector <Target> objects_;
+        Parameter<bool> debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
         int image_width_{};
         int image_height_{};
         cv::Scalar color_;

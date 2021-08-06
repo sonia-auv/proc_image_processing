@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit StatisticalThresholdFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   min_thresh_("Min_thresh", 0, 0, 255, &parameters_),
                   mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
                   std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
@@ -25,24 +24,21 @@ namespace proc_image_processing {
         ~StatisticalThresholdFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (image.channels() > 1) {
-                    cv::cvtColor(image, image, CV_BGR2GRAY);
-                }
-                if (image.depth() != CV_8U) {
-                    image.convertTo(image, CV_8U);
-                }
-                cv::Scalar mean, stdDev;
-
-                cv::meanStdDev(image, mean, stdDev);
-                int thresh_val = mean[0] * mean_multiplier_() + stdDev[0] * std_dev_multiplier_();
-                thresh_val = thresh_val < min_thresh_() ? min_thresh_() : thresh_val;
-                cv::threshold(image, image, thresh_val, 255, CV_THRESH_BINARY);
+            if (image.channels() > 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
             }
+            if (image.depth() != CV_8U) {
+                image.convertTo(image, CV_8U);
+            }
+            cv::Scalar mean, stdDev;
+
+            cv::meanStdDev(image, mean, stdDev);
+            int thresh_val = mean[0] * mean_multiplier_() + stdDev[0] * std_dev_multiplier_();
+            thresh_val = thresh_val < min_thresh_() ? min_thresh_() : thresh_val;
+            cv::threshold(image, image, thresh_val, 255, CV_THRESH_BINARY);
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> min_thresh_;
         RangedParameter<double> mean_multiplier_, std_dev_multiplier_;
     };

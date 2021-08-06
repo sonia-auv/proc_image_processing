@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit MorphologyFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   morph_type_("Morphology_type", 0, 0, 4, &parameters_,
                               "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
                   kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
@@ -28,60 +27,57 @@ namespace proc_image_processing {
         ~MorphologyFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (image.channels() > 1) {
-                    cv::cvtColor(image, image, CV_BGR2GRAY);
-                }
+            if (image.channels() > 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
 
-                // Kernel selection
-                int kernelType;
-                switch (kernel_type_()) {
-                    case 0:
-                        kernelType = cv::MORPH_RECT;
-                        break;
-                    case 1:
-                        kernelType = cv::MORPH_ELLIPSE;
-                        break;
-                    case 2:
-                        kernelType = cv::MORPH_CROSS;
-                        break;
-                    default:
-                        kernelType = cv::MORPH_RECT;
-                        break;
-                }
+            // Kernel selection
+            int kernelType;
+            switch (kernel_type_()) {
+                case 0:
+                    kernelType = cv::MORPH_RECT;
+                    break;
+                case 1:
+                    kernelType = cv::MORPH_ELLIPSE;
+                    break;
+                case 2:
+                    kernelType = cv::MORPH_CROSS;
+                    break;
+                default:
+                    kernelType = cv::MORPH_RECT;
+                    break;
+            }
 
-                // Creating the kernel
-                cv::Mat kernel = cv::getStructuringElement(
-                        kernelType, cv::Size(kernel_size_() * 2 + 1, kernel_size_() * 2 + 1),
-                        anchor_);
+            // Creating the kernel
+            cv::Mat kernel = cv::getStructuringElement(
+                    kernelType, cv::Size(kernel_size_() * 2 + 1, kernel_size_() * 2 + 1),
+                    anchor_);
 
-                // Selecting with _morph_type wich operation to use
-                switch (morph_type_()) {
-                    case 1:
-                        cv::morphologyEx(image, image, cv::MORPH_TOPHAT, kernel, anchor_,
-                                         iteration_(), CV_8U);
-                        break;
-                    case 2:
-                        cv::morphologyEx(image, image, cv::MORPH_BLACKHAT, kernel, anchor_,
-                                         iteration_(), CV_8U);
-                        break;
-                    case 3:
-                        cv::morphologyEx(image, image, cv::MORPH_OPEN, kernel, anchor_,
-                                         iteration_(), CV_8U);
-                        break;
-                    case 4:
-                        cv::morphologyEx(image, image, cv::MORPH_CLOSE, kernel, anchor_,
-                                         iteration_(), CV_8U);
-                        break;
-                    default:
-                        cv::morphologyEx(image, image, cv::MORPH_GRADIENT, kernel, anchor_, iteration_(), CV_8U);
-                        break;
-                }
+            // Selecting with _morph_type wich operation to use
+            switch (morph_type_()) {
+                case 1:
+                    cv::morphologyEx(image, image, cv::MORPH_TOPHAT, kernel, anchor_,
+                                     iteration_(), CV_8U);
+                    break;
+                case 2:
+                    cv::morphologyEx(image, image, cv::MORPH_BLACKHAT, kernel, anchor_,
+                                     iteration_(), CV_8U);
+                    break;
+                case 3:
+                    cv::morphologyEx(image, image, cv::MORPH_OPEN, kernel, anchor_,
+                                     iteration_(), CV_8U);
+                    break;
+                case 4:
+                    cv::morphologyEx(image, image, cv::MORPH_CLOSE, kernel, anchor_,
+                                     iteration_(), CV_8U);
+                    break;
+                default:
+                    cv::morphologyEx(image, image, cv::MORPH_GRADIENT, kernel, anchor_, iteration_(), CV_8U);
+                    break;
             }
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> morph_type_, kernel_type_, iteration_, kernel_size_;
         const cv::Point anchor_;
     };

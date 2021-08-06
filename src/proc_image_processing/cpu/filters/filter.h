@@ -20,7 +20,11 @@ namespace proc_image_processing {
 
         virtual ~Filter() = default;
 
-        virtual void apply(cv::Mat &image) = 0;
+        void execute(cv::Mat &image) {
+            if(!enable_()) return;
+
+            apply(image);
+        }
 
         // Name of the filter handlers
         inline std::string getName();
@@ -44,6 +48,11 @@ namespace proc_image_processing {
         void addGlobalParameter(const std::string &name, bool value);
 
         void addGlobalParameter(const std::string &name, const std::string &value);
+
+    private:
+        virtual void apply(cv::Mat &image) = 0;
+
+        Parameter<bool> enable_{"Enable", false, &parameters_};
 
     protected:
         GlobalParamHandler &global_params_;

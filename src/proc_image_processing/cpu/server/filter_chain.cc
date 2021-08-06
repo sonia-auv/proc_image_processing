@@ -104,7 +104,7 @@ namespace proc_image_processing {
                 size_t index = 0;
                 for (auto &filter : filters_) {
                     if (!imageToProcess.empty()) {
-                        filter->apply(imageToProcess);
+                        filter->execute(imageToProcess);
                     }
 
                     if (index == observer_index_) {
