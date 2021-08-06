@@ -73,7 +73,7 @@ void benchmarkGPU(const string &directory, const string &gpuOutputDirectory) {
 
         gpu::resize((*gpuSrcArray)[i], resized, cv::Size(1280, 720), 0, 0, cv::INTER_CUBIC, (*cudaStreams)[i]);
 
-        gaussian->execute(resized, blurred, (*cudaStreams)[i]);
+        gaussian->apply(resized, blurred, (*cudaStreams)[i]);
 
         canny->detect(blurred, (*gpuDstArray)[i]);
 

@@ -84,7 +84,7 @@ void benchmarkGPU(const string &directory, const string &gpuOutputDirectory) {
         totalTimeResize += chrono::duration_cast<chrono::nanoseconds>(resizeEnd - resizeStart).count();
 
         chrono::steady_clock::time_point blurStart = chrono::steady_clock::now();
-        gaussian->execute(resized, blurred);
+        gaussian->apply(resized, blurred);
         chrono::steady_clock::time_point blurEnd = chrono::steady_clock::now();
         totalTimeBlur += chrono::duration_cast<chrono::nanoseconds>(blurEnd - blurStart).count();
 

@@ -110,7 +110,7 @@ long benchmarkGPU(const string &directory, const string &gpuOutputDirectory) {
 
 
         chrono::steady_clock::time_point boxFilterStart = chrono::steady_clock::now();
-        boxFilter->execute(resized, boxFilterGpuMat);
+        boxFilter->apply(resized, boxFilterGpuMat);
         chrono::steady_clock::time_point boxFilterEnd = chrono::steady_clock::now();
         totalBoxFilter += chrono::duration_cast<chrono::nanoseconds>(boxFilterEnd - boxFilterStart).count();
         boxFilterGpuMat.download(boxFilterMat);
