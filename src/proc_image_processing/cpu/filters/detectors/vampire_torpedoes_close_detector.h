@@ -162,7 +162,6 @@ namespace proc_image_processing {
         Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
 
         RangedParameter<double> min_area_, max_area_;
-
     };
 
 }  // namespace proc_image_processing

@@ -223,8 +223,9 @@ To get your environment setup with it, follow these steps:
 - In the proc_image_processing docker, go in the folder /bags where you put the bag(s) to run
 - Execute `rosbag play -l <name-of-the-bag>`
 - Execute in another terminal in the docker 
-  `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_arracam0/image_raw`
+  `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
   to uncompress the feed
+  (the input feed name can be check in the _Image Viewer_ module of the telemetry by refreshing and looking at the dropdown menu)
 - Open a web browser on `localhost:3000` to access the telemetry
 - In the _Image Viewer_ module, refresh and select the compressed feed of the bag to see it (wow)
 - In the _Vision UI_ module, create a new execution by refreshing and selecting the filterchain to apply
