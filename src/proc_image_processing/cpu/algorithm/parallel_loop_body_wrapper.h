@@ -10,11 +10,11 @@ namespace proc_image_processing {
      */
     class ParallelLoopBodyWrapper : public cv::ParallelLoopBody {
     public:
-        ParallelLoopBodyWrapper() {}
+        ParallelLoopBodyWrapper() = default;
 
-        virtual ~ParallelLoopBodyWrapper() = default;
+        ~ParallelLoopBodyWrapper() override = default;
 
-        virtual void operator()(const cv::Range &range) const = 0;
+        void operator()(const cv::Range &range) const override = 0;
     };
 
 }  // namespace proc_image_processing

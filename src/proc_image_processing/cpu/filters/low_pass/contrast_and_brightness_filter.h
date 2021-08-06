@@ -37,7 +37,7 @@ namespace proc_image_processing {
     private:
         class ParallelCABF : public ParallelLoopBodyWrapper {
         public:
-            explicit ParallelCABF(cv::Mat &image, RangedParameter<double> &contrast, RangedParameter<double> &brightness) :
+            explicit ParallelCABF(cv::Mat &image, const RangedParameter<double> &contrast, const RangedParameter<double> &brightness) :
                     image(image),
                     contrast_(contrast),
                     brightness_(brightness) {}
