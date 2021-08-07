@@ -56,15 +56,15 @@ namespace proc_image_processing {
                     method = char(CV_CHAIN_APPROX_NONE);
                     break;
             }
-            std::vector <std::vector<cv::Point>> contours;
-            std::vector <cv::Vec4i> hierarchy;
+            std::vector<std::vector<cv::Point>> contours;
+            std::vector<cv::Vec4i> hierarchy;
 
             // Find contours
             cv::findContours(image, contours, hierarchy, mode, method,
                              cv::Point(0, 0));
 
             // Find the convex hull object for each contour
-            std::vector <std::vector<cv::Point>> hull(contours.size());
+            std::vector<std::vector<cv::Point>> hull(contours.size());
             for (size_t i = 0; i < contours.size(); i++) {
                 cv::convexHull(cv::Mat(contours[i]), hull[i], false);
             }

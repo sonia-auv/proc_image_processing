@@ -51,7 +51,7 @@ namespace proc_image_processing {
             for (int i = 0; i < contours.size(); i++) {
                 ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
 
-                std::vector <cv::Point> realContour = contours[i];
+                std::vector<cv::Point> realContour = contours[i];
 
                 if (object.get() == nullptr) {
                     continue;
@@ -66,9 +66,9 @@ namespace proc_image_processing {
 
                 Line linePer = getPerpendicularLine(lineFit, object->getCenterPoint());
 
-                std::vector <cv::Point> perpendicularLine = linePer.getPoints(output_image_);
+                std::vector<cv::Point> perpendicularLine = linePer.getPoints(output_image_);
 
-                std::vector <std::tuple<cv::Point, int>> intersectionPoint;
+                std::vector<std::tuple<cv::Point, int>> intersectionPoint;
 
                 for (cv::Point &linePoint : perpendicularLine) {
                     for (size_t id = 0; id < realContour.size(); id++) {
@@ -113,8 +113,8 @@ namespace proc_image_processing {
                         }
                     }
 
-                    std::vector <cv::Point> firstContour;
-                    std::vector <cv::Point> lastContour;
+                    std::vector<cv::Point> firstContour;
+                    std::vector<cv::Point> lastContour;
 
                     for (int &id : firstContourId) {
                         firstContour.push_back(realContour[id]);
@@ -191,7 +191,7 @@ namespace proc_image_processing {
 
         Parameter<bool> debug_contour_;
 
-        std::vector <std::tuple<cv::Point, int>> intersectionPoint_;
+        std::vector<std::tuple<cv::Point, int>> intersectionPoint_;
 
         RangedParameter<double> min_area_, min_pixel_;
     };

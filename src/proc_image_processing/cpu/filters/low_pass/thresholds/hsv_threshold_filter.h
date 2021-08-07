@@ -82,7 +82,7 @@ namespace proc_image_processing {
 
         RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;
         // Color matrices
-        std::vector <cv::Mat> channel_vec_;
+        std::vector<cv::Mat> channel_vec_;
 
         int rows_;
         int cols_;

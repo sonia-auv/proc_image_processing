@@ -68,7 +68,7 @@ namespace proc_image_processing {
         virtual void apply(cv::Mat &image) = 0;
 
         Parameter<bool> enable_{"Enable", false, &parameters_};
-        Parameter<bool> execTime_{"ExecTime", false, &parameters_};
+        Parameter<bool> execTime_{"ExecutionTime", false, &parameters_};
     };
 
 }  // namespace proc_image_processing

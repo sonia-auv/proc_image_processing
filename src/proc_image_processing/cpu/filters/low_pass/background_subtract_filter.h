@@ -29,7 +29,7 @@ namespace proc_image_processing {
         ~BackgroundSubtractFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            std::vector <cv::Mat> channels;
+            std::vector<cv::Mat> channels;
             split(image, channels);
             cv::Mat b = channels[0];
             cv::Mat g = channels[1];

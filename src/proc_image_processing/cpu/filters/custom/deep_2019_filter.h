@@ -86,8 +86,8 @@ namespace proc_image_processing {
 
         ros::Subscriber image_subscriber_;
         ros::NodeHandle nh_;
-        std::vector <sonia_common::Detection> bounding_box_;
-        std::vector <Target> objects_;
+        std::vector<sonia_common::Detection> bounding_box_;
+        std::vector<Target> objects_;
         Parameter<bool> debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
         int image_width_{};
         int image_height_{};

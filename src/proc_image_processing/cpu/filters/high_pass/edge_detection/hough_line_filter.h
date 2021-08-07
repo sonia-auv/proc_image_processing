@@ -29,7 +29,7 @@ namespace proc_image_processing {
                 cv::cvtColor(image, image, CV_BGR2GRAY);
             }
 
-            std::vector <cv::Vec4i> lines;
+            std::vector<cv::Vec4i> lines;
             cv::HoughLinesP(image, lines, rho_(), theta_(), threshold_(),
                             min_length_(), max_gap_());
 

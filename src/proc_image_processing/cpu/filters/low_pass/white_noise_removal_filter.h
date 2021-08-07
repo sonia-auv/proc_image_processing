@@ -28,7 +28,7 @@ namespace proc_image_processing {
         ~WhiteNoiseRemovalFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            std::vector <cv::Mat> channels;
+            std::vector<cv::Mat> channels;
             cv::Mat original_image(global_params_.getOriginalImage());
             cv::split(original_image, channels);
             cv::inRange(channels[0], low_b_(), high_b_(), channels[0]);
@@ -37,7 +37,7 @@ namespace proc_image_processing {
             cv::Mat result;
             cv::bitwise_or(channels[0], channels[1], result);
             cv::bitwise_or(channels[2], result, result);
-            std::vector <cv::Mat> res;
+            std::vector<cv::Mat> res;
 
             switch (view_channel_()) {
                 case 1:

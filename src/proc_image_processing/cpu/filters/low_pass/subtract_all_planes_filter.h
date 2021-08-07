@@ -93,7 +93,7 @@ namespace proc_image_processing {
         RangedParameter<double> weight_one_, weight_two_, weight_three_;
 
         // Color matrices
-        std::vector <cv::Mat> channel_vec_;
+        std::vector<cv::Mat> channel_vec_;
 
         int rows_;
         int cols_;
