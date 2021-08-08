@@ -167,9 +167,9 @@ To get your environment setup with it, follow these steps:
 - Configure CMake:
     - Go to `File | Settings | Build, Execution, Deployment | CMake`.
     - Add a new profile:
-        - Use `Debug` as the `Build type` value.
+        - Use `Debug` or `Release` as the `Build type` value. Take note that `Release` is an optimized build, which does
+          not allow you to debug.
         - Use the toolchain name you just configured as the `Toolchain` value.
-        - Use `build` as the `Build directory` value.
         - Hit `Apply` button (you will need to close the window in order to do the next step).
         - Copy and paste the contents from the [clion.env.vars](clion.env.vars) file as the `Environment` value.
         - Make sure that `Include system environment variables` is checked when you click on the small icon at the end
