@@ -31,8 +31,7 @@ namespace proc_image_processing {
                   max_diff_from_0_tbca_vertical_(
                           "Maximum vertical difference", 20, 0, 90, &parameters_,
                           "Maximum difference from 0 to be consider as vertical"),
-                  min_percent_filled_("Minimum percent filled", 70, 0, 1000, &parameters_),
-                  feat_factory_(3) {
+                  min_percent_filled_("Minimum percent filled", 70, 0, 1000, &parameters_) {
             setName("FenceDetector");
         }
 
