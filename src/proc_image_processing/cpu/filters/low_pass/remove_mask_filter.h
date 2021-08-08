@@ -20,7 +20,6 @@ namespace proc_image_processing {
 
         explicit RemoveMaskFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   type_("Type", 2, 0, 3, &parameters_,
                         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
                   kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
@@ -31,13 +30,10 @@ namespace proc_image_processing {
         ~RemoveMaskFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                global_params_.getOriginalImage().copyTo(image, image);
-            }
+            global_params_.getOriginalImage().copyTo(image, image);
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> type_, kernel_size_;
 
         const cv::Point anchor_;

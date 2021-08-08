@@ -21,7 +21,6 @@ namespace proc_image_processing {
 
         explicit InRangeFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
                   upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
                   lower_saturation_("HSVLowS", 0, 0, 255, &parameters_),
@@ -47,36 +46,27 @@ namespace proc_image_processing {
          * \param image The image to process.
          */
         void apply(cv::Mat &image) override {
-            if (enable_.getValue()) {
-                cv::Mat hsv;
-                cv::Mat luv;
+            cv::Mat hsv;
+            cv::Mat luv;
 
-                cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
-                cv::inRange(
-                        hsv, cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(),
-                                        lower_value_.getValue()),
-                        cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(),
-                                   upper_value_.getValue()),
-                        hsv);
+            cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
+            cv::inRange(
+                    hsv, cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(),
+                                    lower_value_.getValue()),
+                    cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(),
+                               upper_value_.getValue()),
+                    hsv);
 
-                cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
-                cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
-                                            lower_u_.getValue(), lower_v_.getValue()),
-                            cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
-                                       upper_v_.getValue()),
-                            luv);
-                cv::bitwise_and(hsv, luv, image);
-            }
+            cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
+            cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
+                                        lower_u_.getValue(), lower_v_.getValue()),
+                        cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
+                                   upper_v_.getValue()),
+                        luv);
+            cv::bitwise_and(hsv, luv, image);
         }
 
     private:
-        /**
-         * State if the filter is enabled or not.
-         * This is being used by the vision server for calling the filter in the
-         * filterchain.
-         */
-        Parameter<bool> enable_;
-
         /** Inclusive Hue lower boundary. */
         RangedParameter<int> lower_hue_;
 

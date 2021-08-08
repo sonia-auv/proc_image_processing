@@ -17,7 +17,6 @@ namespace proc_image_processing {
 
         explicit ContrastAndBrightnessFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   contrast_("Contrast", 0, 0, 256, &parameters_,
                             "Contrast"),
                   brightness_("Brightness", 0, -256, 256, &parameters_,
@@ -28,11 +27,8 @@ namespace proc_image_processing {
         ~ContrastAndBrightnessFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                cv::parallel_for_(cv::Range(0, image.rows * image.cols), ParallelCABF(image, contrast_, brightness_));
-            }
+            cv::parallel_for_(cv::Range(0, image.rows * image.cols), ParallelCABF(image, contrast_, brightness_));
         }
-
 
     private:
         class ParallelCABF : public ParallelLoopBodyWrapper {
@@ -41,21 +37,21 @@ namespace proc_image_processing {
                     image(image),
                     contrast_(contrast),
                     brightness_(brightness) {}
-            
+
             ~ParallelCABF() override = default;
-    
+
             void operator()(const cv::Range &range) const override {
                 for (auto r = range.start; r < range.end; r++) {
                     int y = r / image.cols;
                     int x = r % image.cols;
-    
+
                     auto& vec = const_cast<cv::Vec3b &>(image.at<cv::Vec3b>(y, x));
                     for (auto c = 0; c < image.channels(); c++) {
                         vec[c] = cv::saturate_cast<uchar>(contrast_.getValue() * (vec[c]) + brightness_.getValue());
                     }
                 }
             }
-    
+
         private:
             cv::Mat image;
             RangedParameter<double> contrast_, brightness_;
