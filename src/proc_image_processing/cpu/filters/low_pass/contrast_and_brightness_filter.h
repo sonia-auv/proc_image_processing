@@ -57,7 +57,6 @@ namespace proc_image_processing {
             RangedParameter<double> contrast_, brightness_;
         };
 
-        Parameter<bool> enable_;
         RangedParameter<double> contrast_, brightness_;
     };
 
