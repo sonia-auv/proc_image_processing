@@ -18,9 +18,7 @@ namespace proc_image_processing {
         explicit ContrastAndBrightnessFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   contrast_("Contrast", 0, 0, 256, &parameters_, "Contrast"),
-                  brightness_("Brightness", 0, -256, 256, &parameters_, "Set Brightness"),
-                  rows_(0),
-                  cols_(0) {
+                  brightness_("Brightness", 0, -256, 256, &parameters_, "Set Brightness") {
             setName("ContrastAndBrightnessFilter");
         }
 
