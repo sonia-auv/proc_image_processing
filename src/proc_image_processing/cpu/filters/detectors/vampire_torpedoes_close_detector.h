@@ -35,8 +35,10 @@ namespace proc_image_processing {
                 cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
             }
 
-                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
-                //cv::Mat originalImage = global_param_handler_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+            //cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
@@ -49,18 +51,18 @@ namespace proc_image_processing {
             //retrieveOuterContours(image, contours);
             //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
-                retrieveAllContours(image, contours);
-                ObjectFullData::FullObjectPtrVec objVec;
-                //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
-                for (int i = 0; i < contours.size(); i++) {
-                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
-                            output_image_,
-                            image,
-                            reinterpret_cast<Contour &&>(contours[i])
-                    );
-                    if (object.get() == nullptr) {
-                        continue;
-                    }
+            retrieveAllContours(image, contours);
+            ObjectFullData::FullObjectPtrVec objVec;
+            //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
+            for (int i = 0; i < contours.size(); i++) {
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
+                        output_image_,
+                        image,
+                        reinterpret_cast<Contour &&>(contours[i])
+                );
+                if (object.get() == nullptr) {
+                    continue;
+                }
 
                 //AREA
                 // std::cout << object->getArea();
@@ -73,59 +75,59 @@ namespace proc_image_processing {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                 }
 
-                    // At least 5 points are required
-                    if (contours[i].size() >= 5) {
-                        cv::Mat pointfs;
-                        cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
-                        cv::RotatedRect box = cv::fitEllipse(pointfs);
+                // At least 5 points are required
+                if (contours[i].size() >= 5) {
+                    cv::Mat pointfs;
+                    cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
+                    cv::RotatedRect box = cv::fitEllipse(pointfs);
 
-                        float circleIndex;
-                        float percentFilled;
+                    float circleIndex;
+                    float percentFilled;
 
-                        if (look_for_ellipse_()) {
-                            circleIndex = getCircleIndex(contours[i]);
+                    if (look_for_ellipse_()) {
+                        circleIndex = getCircleIndex(contours[i]);
 
-                            //std::cout << circleIndex << std::endl;
+                        //std::cout << circleIndex << std::endl;
 
-                            if (circleIndex < 0.7) {
-                                continue;
-                            }
-
-                            percentFilled = getPercentFilled(output_image_, box);
-
-                            if (percentFilled > 25) {
-                                continue;
-                            }
-
-                            if (debug_contour_()) {
-                                cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                            }
-
-                            objective = "vampire_torpedoes";
+                        if (circleIndex < 0.7) {
+                            continue;
                         }
 
-                        if (look_for_heart_()) {
-                            circleIndex = getCircleIndex(contours[i]);
+                        percentFilled = getPercentFilled(output_image_, box);
 
-                            if (circleIndex > 0.9) {
-                                continue;
-                            }
-
-                            percentFilled = getPercentFilled(output_image_, box);
-
-                            if (percentFilled > 50) {
-                                continue;
-                            }
-
-                            if (debug_contour_()) {
-                                cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                            }
-
-                            objective = "heart_torpedoes";
+                        if (percentFilled > 25) {
+                            continue;
                         }
+
+                        if (debug_contour_()) {
+                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                        }
+
+                        objective = "vampire_torpedoes";
                     }
-                    objVec.push_back(object);
+
+                    if (look_for_heart_()) {
+                        circleIndex = getCircleIndex(contours[i]);
+
+                        if (circleIndex > 0.9) {
+                            continue;
+                        }
+
+                        percentFilled = getPercentFilled(output_image_, box);
+
+                        if (percentFilled > 50) {
+                            continue;
+                        }
+
+                        if (debug_contour_()) {
+                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                        }
+
+                        objective = "heart_torpedoes";
+                    }
                 }
+                objVec.push_back(object);
+            }
 
             std::sort(
                     objVec.begin(),

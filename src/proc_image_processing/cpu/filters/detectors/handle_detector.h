@@ -46,25 +46,28 @@ namespace proc_image_processing {
                 }
             }
 
-                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
-                cv::Mat originalImage = global_param_handler_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
 
-                contourList_t contours;
-                retrieveAllContours(image, contours);
-                ObjectFullData::FullObjectPtrVec objVec;
-                for (int i = 0; i < contours.size(); i++) {
-                    ObjectFullData::Ptr object =
-                            std::make_shared<ObjectFullData>(
-                                    output_image_,
-                                    image,
-                                    reinterpret_cast<Contour &&>(contours[i])
-                            );;
-                    if (object.get() == nullptr) {
-                        continue;
-                    }
+            contourList_t contours;
+            retrieveAllContours(image, contours);
+            ObjectFullData::FullObjectPtrVec objVec;
+            for (int i = 0; i < contours.size(); i++) {
+                ObjectFullData::Ptr object =
+                        std::make_shared<ObjectFullData>(
+                                output_image_,
+                                image,
+                                reinterpret_cast<Contour &&>(contours[i])
+                        );;
+                if (object.get() == nullptr) {
+                    continue;
+                }
 
                 // AREA
                 if (object->getArea() < min_area_()) {
@@ -108,25 +111,25 @@ namespace proc_image_processing {
                           return a->getArea() > b->getArea();
                       });
 
-                // Since we search only one buoy, get the biggest from sort function
-                if (!objVec.empty()) {
-                    Target target;
-                    ObjectFullData::Ptr object = objVec[0];
-                    cv::Point center = object->getCenterPoint();
-                    target.setTarget(id_(), center.x, center.y, object->getWidth(),
-                                     object->getHeight(), object->getRotRect().angle,
-                                     image.rows, image.cols);
-                    target.setSpecialField1(spec_1_());
-                    target.setSpecialField2(spec_2_());
-                    notify(target);
-                    if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,
-                                   CV_RGB(0, 255, 0), 3);
-                    }
-                }
+            // Since we search only one buoy, get the biggest from sort function
+            if (!objVec.empty()) {
+                Target target;
+                ObjectFullData::Ptr object = objVec[0];
+                cv::Point center = object->getCenterPoint();
+                target.setTarget(id_(), center.x, center.y, object->getWidth(),
+                                 object->getHeight(), object->getRotRect().angle,
+                                 image.rows, image.cols);
+                target.setSpecialField1(spec_1_());
+                target.setSpecialField2(spec_2_());
+                notify(target);
                 if (debug_contour_()) {
-                    output_image_.copyTo(image);
+                    cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,
+                               CV_RGB(0, 255, 0), 3);
                 }
+            }
+            if (debug_contour_()) {
+                output_image_.copyTo(image);
+            }
         }
 
     private:
@@ -136,9 +139,9 @@ namespace proc_image_processing {
         Parameter<bool> look_for_rectangle_;
         Parameter<bool> disable_ratio_;
         Parameter<bool> disable_angle_;
-        Parameter<std::string> id_;
-        Parameter<std::string> spec_1_;
-        Parameter<std::string> spec_2_;
+        Parameter <std::string> id_;
+        Parameter <std::string> spec_1_;
+        Parameter <std::string> spec_2_;
 
         RangedParameter<double> min_area_;
         RangedParameter<double> targeted_ratio_;

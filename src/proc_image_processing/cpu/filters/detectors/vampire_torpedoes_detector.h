@@ -35,8 +35,10 @@ namespace proc_image_processing {
                 cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
             }
 
-                if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-                //cv::Mat originalImage = global_param_handler_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+            //cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
@@ -49,15 +51,15 @@ namespace proc_image_processing {
             //retrieveOuterContours(image, contours);
             //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
-                //retrieveAllContours(image, contours);
-                ObjectFullData::FullObjectPtrVec objVec;
-                //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
-                for (int i = 0; i < contours.size(); i++) {
-                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image,
-                                                                                  reinterpret_cast<Contour &&>(contours[i]));
-                    if (object.get() == nullptr) {
-                        continue;
-                    }
+            //retrieveAllContours(image, contours);
+            ObjectFullData::FullObjectPtrVec objVec;
+            //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
+            for (int i = 0; i < contours.size(); i++) {
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image,
+                                                                              reinterpret_cast<Contour &&>(contours[i]));
+                if (object.get() == nullptr) {
+                    continue;
+                }
 
                 //AREA
                 //std::cout << object->getArea();

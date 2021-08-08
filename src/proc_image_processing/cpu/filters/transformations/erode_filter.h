@@ -42,7 +42,7 @@ namespace proc_image_processing {
             cv::Size size(
                     kernel_size_x_() * 2 + 1,
                     (use_square_kernel_() ? kernel_size_x_() * 2 + 1 : kernel_size_y_() * 2 + 1)
-              );
+            );
             cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
 
             cv::erode(image, image, kernel, anchor_, iteration_());

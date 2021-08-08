@@ -277,10 +277,10 @@ namespace proc_image_processing {
         }
 
         static inline bool isSplitBar(const ObjectFullData::Ptr &ref, ObjectFullData::Ptr &comp) {
-            float ratio_diff =
-                    std::abs(comp->getRatio() - ref->getRatio()) / ref->getRatio();
-            float y_diff =
-                    std::abs(comp->getCenterPoint().y - ref->getCenterPoint().y) / ref->getCenterPoint().y;
+            float ratio_diff = std::abs(comp->getRatio() - ref->getRatio()) / ref->getRatio();
+            float y_diff = std::abs(
+                    comp->getCenterPoint().y - ref->getCenterPoint().y
+            ) / ref->getCenterPoint().y;
 
             bool ratio_ok = ratio_diff < 0.1;
             bool y_diff_ok = y_diff < 0.1;
@@ -291,13 +291,13 @@ namespace proc_image_processing {
         Parameter<bool> search_only_bottom_;
         // tbca = To Be Consider As
         RangedParameter<int> min_length_;
-                RangedParameter<int> max_distance_from_bottom_bar_extremum_;
-                RangedParameter<int> min_area_;
-                RangedParameter<int> max_diff_from_90_tbca_horizontal_;
-                RangedParameter<int> max_diff_from_0_tbca_vertical_;
-                RangedParameter<int> min_percent_filled_;
+        RangedParameter<int> max_distance_from_bottom_bar_extremum_;
+        RangedParameter<int> min_area_;
+        RangedParameter<int> max_diff_from_90_tbca_horizontal_;
+        RangedParameter<int> max_diff_from_0_tbca_vertical_;
+        RangedParameter<int> min_percent_filled_;
+
         cv::Mat output_image_;
-        ObjectFeatureFactory feat_factory_;
     };
 
 }  // namespace proc_image_processing

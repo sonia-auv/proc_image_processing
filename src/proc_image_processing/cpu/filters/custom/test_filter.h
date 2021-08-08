@@ -29,26 +29,26 @@ namespace proc_image_processing {
         ~TestFilter() override = default;
 
         void apply(cv::Mat &image) override {
-                target_.setTarget(
-                        header_.getValue(),
-                        x_.getValue() - 1000 / 2,
-                        y_.getValue(),
-                        w_.getValue(),
-                        h_.getValue(),
-                        angle_.getValue(),
-                        1000,
-                        -1000 - (1000 / 2),
-                        specField1_.getValue(),
-                        specField2_.getValue()
-                );
+            target_.setTarget(
+                    header_.getValue(),
+                    x_.getValue() - 1000 / 2,
+                    y_.getValue(),
+                    w_.getValue(),
+                    h_.getValue(),
+                    angle_.getValue(),
+                    1000,
+                    -1000 - (1000 / 2),
+                    specField1_.getValue(),
+                    specField2_.getValue()
+            );
 
             notify(target_);
         }
 
     private:
-        Parameter<std::string> header_;
-        Parameter<std::string> specField1_;
-        Parameter<std::string> specField2_;
+        Parameter <std::string> header_;
+        Parameter <std::string> specField1_;
+        Parameter <std::string> specField2_;
 
         RangedParameter<int> x_;
         RangedParameter<int> y_;

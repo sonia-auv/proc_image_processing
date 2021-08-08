@@ -49,21 +49,22 @@ namespace proc_image_processing {
             cv::Mat hsv;
             cv::Mat luv;
 
-                // TODO
-                cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
-                cv::inRange(
-                        hsv,
-                        cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(), lower_value_.getValue()),
-                        cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(), upper_value_.getValue()),
-                        hsv
-                );
+            // TODO
+            cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
+            cv::inRange(
+                    hsv,
+                    cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(), lower_value_.getValue()),
+                    cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(), upper_value_.getValue()),
+                    hsv
+            );
 
             cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
-            cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
-                                        lower_u_.getValue(), lower_v_.getValue()),
-                        cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
-                                   upper_v_.getValue()),
-                        luv);
+            cv::inRange(
+                    luv,
+                    cv::Scalar(lower_lightness_.getValue(), lower_u_.getValue(), lower_v_.getValue()),
+                    cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(), upper_v_.getValue()),
+                    luv
+            );
             cv::bitwise_and(hsv, luv, image);
         }
 

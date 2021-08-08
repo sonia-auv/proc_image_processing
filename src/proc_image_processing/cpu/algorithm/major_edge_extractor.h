@@ -27,6 +27,7 @@ namespace proc_image_processing {
                   const RefPointPtr &center);
 
         ~RefKernel() = default;
+
         RefPointPtr _north;
         RefPointPtr _west;
         RefPointPtr _center;

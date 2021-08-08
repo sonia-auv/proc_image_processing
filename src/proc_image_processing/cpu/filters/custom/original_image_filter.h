@@ -12,7 +12,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<OriginalImageFilter>;
 
-        explicit OriginalImageFilter(const GlobalParameterHandler &globalParams): Filter(globalParams) {
+        explicit OriginalImageFilter(const GlobalParameterHandler &globalParams) : Filter(globalParams) {
             setName("OriginalImageFilter");
         }
 

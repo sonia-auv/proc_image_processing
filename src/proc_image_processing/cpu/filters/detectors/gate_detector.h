@@ -64,8 +64,11 @@ namespace proc_image_processing {
                 }
             }
 
-                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
-                cv::Mat originalImage = global_param_handler_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             contourList_t contours;
             switch (contour_retrieval_()) {
@@ -92,12 +95,12 @@ namespace proc_image_processing {
                     cv::convexHull(contours[i], contours[i]);
                 }
 
-                    ObjectFullData::Ptr object =
-                            std::make_shared<ObjectFullData>(
-                                    output_image_,
-                                    image,
-                                    reinterpret_cast<Contour &&>(contours[i])
-                            );;
+                ObjectFullData::Ptr object =
+                        std::make_shared<ObjectFullData>(
+                                output_image_,
+                                image,
+                                reinterpret_cast<Contour &&>(contours[i])
+                        );;
 
                 if (object.get() == nullptr) {
                     continue;
@@ -307,21 +310,21 @@ namespace proc_image_processing {
 
                 y = y / y_count;
 
-                    cv::Point center((int) round(x), (int) round(y));
-                    target.setTarget(
-                            id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
-                    target.setSpecialField1(spec_1_());
-                    target.setSpecialField2(spec_2_());
-                    notify(target);
-                    if (debug_contour_()) {
-                        cv::circle(output_image_,
-                                   cv::Point((int) round(x), (int) round(y)),
-                                   3, CV_RGB(0, 255, 0), 3);
-                    }
-                }
+                cv::Point center((int) round(x), (int) round(y));
+                target.setTarget(
+                        id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
+                target.setSpecialField1(spec_1_());
+                target.setSpecialField2(spec_2_());
+                notify(target);
                 if (debug_contour_()) {
-                    output_image_.copyTo(image);
+                    cv::circle(output_image_,
+                               cv::Point((int) round(x), (int) round(y)),
+                               3, CV_RGB(0, 255, 0), 3);
                 }
+            }
+            if (debug_contour_()) {
+                output_image_.copyTo(image);
+            }
         }
 
         static float getDistanceFromCenter(const ObjectFullData::Ptr &object) {
@@ -344,15 +347,15 @@ namespace proc_image_processing {
         Parameter<bool> disable_angle_;
         Parameter<bool> eliminate_same_x_targets_;
         Parameter<bool> vote_most_centered_;
-                Parameter<bool> vote_most_upright_;
-                Parameter<bool> vote_less_difference_from_targeted_ratio_;
-                Parameter<bool> vote_length_;
-                Parameter<bool> vote_higher_;
-                Parameter<bool> vote_most_horizontal_;
+        Parameter<bool> vote_most_upright_;
+        Parameter<bool> vote_less_difference_from_targeted_ratio_;
+        Parameter<bool> vote_length_;
+        Parameter<bool> vote_higher_;
+        Parameter<bool> vote_most_horizontal_;
 
-        Parameter<std::string> id_;
-        Parameter<std::string> spec_1_;
-        Parameter<std::string> spec_2_;
+        Parameter <std::string> id_;
+        Parameter <std::string> spec_1_;
+        Parameter <std::string> spec_2_;
 
         RangedParameter<double> offset_y_for_fence_fraction;
         RangedParameter<double> max_y_;

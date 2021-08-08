@@ -31,8 +31,8 @@ namespace proc_image_processing {
             }
             cv::Mat sobelX, sobelY;
             int size = size_() * 2 + 1;
-            cv::Sobel(image, sobelX, CV_32F, 1, 0, size, scale_(), delta_(),cv::BORDER_DEFAULT);
-            cv::Sobel(image, sobelY, CV_32F, 0, 1, size, scale_(), delta_(),cv::BORDER_DEFAULT);
+            cv::Sobel(image, sobelX, CV_32F, 1, 0, size, scale_(), delta_(), cv::BORDER_DEFAULT);
+            cv::Sobel(image, sobelY, CV_32F, 0, 1, size, scale_(), delta_(), cv::BORDER_DEFAULT);
 
             cv::absdiff(sobelX, 0, sobelX);
             cv::absdiff(sobelY, 0, sobelY);

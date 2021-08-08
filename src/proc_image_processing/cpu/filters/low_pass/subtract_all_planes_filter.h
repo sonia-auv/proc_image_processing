@@ -73,7 +73,7 @@ namespace proc_image_processing {
         }
 
     private:
-        void setImage(const int choice, cv::Mat &out, const double weight,const bool inverse) {
+        void setImage(const int choice, cv::Mat &out, const double weight, const bool inverse) {
             cv::Mat two_five_five(rows_, cols_, CV_16SC1, cv::Scalar(255));
             cv::Mat one(rows_, cols_, CV_16SC1, cv::Scalar(1));
 

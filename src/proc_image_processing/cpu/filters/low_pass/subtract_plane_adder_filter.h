@@ -60,29 +60,29 @@ namespace proc_image_processing {
             channel_vec_ = getColorPlanes(original);
 
             // Set subtraction
-            if (plane_one_() != 0){
+            if (plane_one_() != 0) {
                 setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
             }
 
 
-            if (plane_two_() != 0){
+            if (plane_two_() != 0) {
                 setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
             }
 
 
-            if (plane_three_() != 0){
+            if (plane_three_() != 0) {
                 setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
             }
 
 
-                cv::subtract(one, two, result);
-                cv::subtract(result, three, result);
+            cv::subtract(one, two, result);
+            cv::subtract(result, three, result);
 
-                if (!show_adding_result_()) {
-                    cv::add(result, image, result);
-                }
-                // TODO might not be the best to copy
-                result.copyTo(image);
+            if (!show_adding_result_()) {
+                cv::add(result, image, result);
+            }
+            // TODO might not be the best to copy
+            result.copyTo(image);
         }
 
     private:

@@ -103,7 +103,7 @@ namespace proc_image_processing {
 
                 int n = (int) square.size();
                 //dont detect the border
-                if (p->x > 3 && p->y > 3){
+                if (p->x > 3 && p->y > 3) {
                     cv::polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 3, cv::LINE_AA);
                 }
             }

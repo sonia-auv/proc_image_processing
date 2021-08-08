@@ -37,23 +37,26 @@ namespace proc_image_processing {
                 }
             }
 
-                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
-                cv::Mat originalImage = global_param_handler_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
 
-                contourList_t contours;
-                retrieveOuterContours(image, contours);
-                ObjectFullData::FullObjectPtrVec objVec;
-                ObjectFullData::Ptr firstObject = nullptr;
-                ObjectFullData::Ptr lastObject = nullptr;
-                for (int i = 0; i < contours.size(); i++) {
-                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
-                            output_image_,
-                            image,
-                            reinterpret_cast<Contour &&>(contours[i])
-                    );;
+            contourList_t contours;
+            retrieveOuterContours(image, contours);
+            ObjectFullData::FullObjectPtrVec objVec;
+            ObjectFullData::Ptr firstObject = nullptr;
+            ObjectFullData::Ptr lastObject = nullptr;
+            for (int i = 0; i < contours.size(); i++) {
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
+                        output_image_,
+                        image,
+                        reinterpret_cast<Contour &&>(contours[i])
+                );;
 
                 std::vector<cv::Point> realContour = contours[i];
 
@@ -128,11 +131,11 @@ namespace proc_image_processing {
                         lastContour.push_back(realContour[id]);
                     }
 
-                        firstObject = std::make_shared<ObjectFullData>(originalImage, image,
-                                                                       reinterpret_cast<Contour &&>(firstContour));
-                        lastObject = std::make_shared<ObjectFullData>(originalImage, image,
-                                                                      reinterpret_cast<Contour &&>(lastContour));
-                    }
+                    firstObject = std::make_shared<ObjectFullData>(originalImage, image,
+                                                                   reinterpret_cast<Contour &&>(firstContour));
+                    lastObject = std::make_shared<ObjectFullData>(originalImage, image,
+                                                                  reinterpret_cast<Contour &&>(lastContour));
+                }
 
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);

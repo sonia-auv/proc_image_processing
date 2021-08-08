@@ -23,14 +23,17 @@ namespace proc_image_processing {
         virtual ~Filter() = default;
 
         void execute(cv::Mat &image) {
-            if(!enable_()) return;
+            if (!enable_()) {
+                return;
+            }
 
             PerformanceEvaluator timer;
 
             apply(image);
 
-            if(execTime_())
+            if (execTime_()) {
                 ROS_INFO("Exec time of %s : %f s", name_.c_str(), timer.getExecutionTime());
+            }
         }
 
         // Name of the filter handlers

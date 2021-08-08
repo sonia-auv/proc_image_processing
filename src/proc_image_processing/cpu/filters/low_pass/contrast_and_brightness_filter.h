@@ -31,10 +31,11 @@ namespace proc_image_processing {
     private:
         class ParallelCABF : public ParallelLoopBodyWrapper {
         public:
-            explicit ParallelCABF(cv::Mat &image, const RangedParameter<double> &contrast, const RangedParameter<double> &brightness) :
-                    image(image),
-                    contrast_(contrast),
-                    brightness_(brightness) {}
+            explicit ParallelCABF(
+                    cv::Mat &image,
+                    const RangedParameter<double> &contrast,
+                    const RangedParameter<double> &brightness
+            ) : image(image), contrast_(contrast), brightness_(brightness) {}
 
             ~ParallelCABF() override = default;
 
@@ -43,7 +44,7 @@ namespace proc_image_processing {
                     int y = r / image.cols;
                     int x = r % image.cols;
 
-                    auto& vec = const_cast<cv::Vec3b &>(image.at<cv::Vec3b>(y, x));
+                    auto &vec = const_cast<cv::Vec3b &>(image.at<cv::Vec3b>(y, x));
                     for (auto c = 0; c < image.channels(); c++) {
                         vec[c] = cv::saturate_cast<uchar>(contrast_.getValue() * (vec[c]) + brightness_.getValue());
                     }

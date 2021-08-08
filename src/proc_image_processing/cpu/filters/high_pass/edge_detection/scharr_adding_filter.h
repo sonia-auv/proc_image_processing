@@ -68,8 +68,8 @@ namespace proc_image_processing {
             cv::Mat scharrY;
             cv::Mat diff;
 
-            cv::Scharr(img, scharrX, CV_32F, 1, 0, scale_(), delta_(),cv::BORDER_REPLICATE);
-            cv::Scharr(img, scharrY, CV_32F, 0, 1, scale_(), delta_(),cv::BORDER_REPLICATE);
+            cv::Scharr(img, scharrX, CV_32F, 1, 0, scale_(), delta_(), cv::BORDER_REPLICATE);
+            cv::Scharr(img, scharrY, CV_32F, 0, 1, scale_(), delta_(), cv::BORDER_REPLICATE);
 
             // TODO Is this an error? Shouldn'y we use abs_x and abs_y?
             cv::absdiff(scharrX, 0, scharrX);
@@ -78,7 +78,7 @@ namespace proc_image_processing {
             cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, diff, CV_32F);
 
             cv::Scalar mean = cv::mean(diff);
-            cv::threshold(diff, diff, (mean[0] * mean_factor_()), 0,CV_THRESH_TOZERO);
+            cv::threshold(diff, diff, (mean[0] * mean_factor_()), 0, CV_THRESH_TOZERO);
 
             return diff;
         }

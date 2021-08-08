@@ -29,29 +29,29 @@ namespace proc_image_processing {
                 cv::cvtColor(image, image, CV_BGR2GRAY);
             }
 
-                std::vector<cv::Vec4i> lines;
-                cv::HoughLinesP(
-                        image,
-                        lines,
-                        rho_(),
-                        theta_(),
-                        threshold_(),
-                        min_length_(),
-                        max_gap_()
-                );
+            std::vector<cv::Vec4i> lines;
+            cv::HoughLinesP(
+                    image,
+                    lines,
+                    rho_(),
+                    theta_(),
+                    threshold_(),
+                    min_length_(),
+                    max_gap_()
+            );
 
-                cv::Mat drawing_image(image.rows, image.cols, CV_8UC3,
-                                      cv::Scalar::all(0));
-                for (const auto &line : lines) {
-                    cv::line(
-                            drawing_image,
-                            cv::Point(line[0], line[1]),
-                            cv::Point(line[2], line[3]),
-                            cv::Scalar(255, 255, 255),
-                            3
-                    );
-                }
-                cv::cvtColor(drawing_image, image, CV_BGR2GRAY);
+            cv::Mat drawing_image(image.rows, image.cols, CV_8UC3,
+                                  cv::Scalar::all(0));
+            for (const auto &line : lines) {
+                cv::line(
+                        drawing_image,
+                        cv::Point(line[0], line[1]),
+                        cv::Point(line[2], line[3]),
+                        cv::Scalar(255, 255, 255),
+                        3
+                );
+            }
+            cv::cvtColor(drawing_image, image, CV_BGR2GRAY);
         }
 
     private:

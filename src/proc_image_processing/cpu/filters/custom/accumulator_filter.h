@@ -40,27 +40,27 @@ namespace proc_image_processing {
                 last_nb_image_ = nb_image_();
                 last_size_ = image.size();
 
-                    switch (method_()) {
-                        case 0:
-                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
-                            break;
-                        case 1:
-                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_50_PERCENT);
-                            break;
-                        case 2:
-                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
-                            break;
-                        default:
-                            accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
-                            break;
-                    }
-                    last_method_ = method_();
-                    last_type_ = image.type();
+                switch (method_()) {
+                    case 0:
+                        accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+                        break;
+                    case 1:
+                        accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_50_PERCENT);
+                        break;
+                    case 2:
+                        accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ADJUST_WEIGHT);
+                        break;
+                    default:
+                        accumulator_.setAverageMethod(ImageAccumulatorBuffer::ACC_ALL_SAME_WEIGHT);
+                        break;
                 }
-                // Add the newest frame
-                accumulator_.addImage(image);
-                // Change the input for the newest averaging.
-                accumulator_.convertImage(image);
+                last_method_ = method_();
+                last_type_ = image.type();
+            }
+            // Add the newest frame
+            accumulator_.addImage(image);
+            // Change the input for the newest averaging.
+            accumulator_.convertImage(image);
         }
 
     private:
