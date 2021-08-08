@@ -20,7 +20,6 @@ namespace proc_image_processing {
 
         explicit BlurFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   type_("Type", 2, 0, 3, &parameters_,
                         "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
                   kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
@@ -31,28 +30,25 @@ namespace proc_image_processing {
         ~BlurFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                cv::Size2i kernelSize(kernel_size_() * 2 + 1,
-                                      kernel_size_() * 2 + 1);
-                switch (type_()) {
-                    // Could be optimized via function pointer maybe?
-                    case 1:
-                        cv::blur(image, image, kernelSize, anchor_);
-                        break;
-                    case 2:
-                        cv::GaussianBlur(image, image, kernelSize, 0, 0);
-                        break;
-                    case 3:
-                        cv::medianBlur(image, image, kernel_size_() * 2 + 1);
-                        break;
-                    default:
-                        break;
-                }
+            cv::Size2i kernelSize(kernel_size_() * 2 + 1,
+                                  kernel_size_() * 2 + 1);
+            switch (type_()) {
+                // Could be optimized via function pointer maybe?
+                case 1:
+                    cv::blur(image, image, kernelSize, anchor_);
+                    break;
+                case 2:
+                    cv::GaussianBlur(image, image, kernelSize, 0, 0);
+                    break;
+                case 3:
+                    cv::medianBlur(image, image, kernel_size_() * 2 + 1);
+                    break;
+                default:
+                    break;
             }
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> type_, kernel_size_;
 
         const cv::Point anchor_;

@@ -18,7 +18,6 @@ namespace proc_image_processing {
 
         explicit FenceDetector(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   debug_contour_("Debug_contour", false, &parameters_),
                   search_only_bottom_("Search_only_bottom", false, &parameters_,
                                       "Enables searching only for bottom bar"),
@@ -41,10 +40,6 @@ namespace proc_image_processing {
         ~FenceDetector() override = default;
 
         void apply(cv::Mat &image) override {
-            if (!enable_()) {
-                return;
-            }
-
             cv::Mat in;
             if (debug_contour_()) {
                 // Case we receive a color or gray scale image.
@@ -285,7 +280,7 @@ namespace proc_image_processing {
             return ratio_ok && y_diff_ok;
         }
 
-        Parameter<bool> enable_, debug_contour_, search_only_bottom_;
+        Parameter<bool> debug_contour_, search_only_bottom_;
         // tbca = To Be Consider As
         RangedParameter<int> min_length_,
                 max_distance_from_bottom_bar_extremum_,

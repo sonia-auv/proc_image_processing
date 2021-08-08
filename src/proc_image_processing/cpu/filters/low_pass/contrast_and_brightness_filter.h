@@ -17,7 +17,6 @@ namespace proc_image_processing {
 
         explicit ContrastAndBrightnessFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("enable", false, &parameters_),
                   contrast_("Contrast", 0, 0, 256, &parameters_,
                             "Contrast"),
                   brightness_("Brightness", 0, -256, 256, &parameters_,
@@ -30,28 +29,25 @@ namespace proc_image_processing {
         ~ContrastAndBrightnessFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                rows_ = image.rows;
-                cols_ = image.cols;
+            rows_ = image.rows;
+            cols_ = image.cols;
 
-                // Set result matrices
-                cv::Mat result = cv::Mat::zeros(rows_, cols_, image.type());
+            // Set result matrices
+            cv::Mat result = cv::Mat::zeros(rows_, cols_, image.type());
 
-                // Replace with new images
-                for (int y = 0; y < image.rows; y++) {
-                    for (int x = 0; x < image.cols; x++) {
-                        for (int c = 0; c < image.channels(); c++)
-                            result.at<cv::Vec3b>(y, x)[c] = cv::saturate_cast<uchar>(
-                                    contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
-                    }
+            // Replace with new images
+            for (int y = 0; y < image.rows; y++) {
+                for (int x = 0; x < image.cols; x++) {
+                    for (int c = 0; c < image.channels(); c++)
+                        result.at<cv::Vec3b>(y, x)[c] = cv::saturate_cast<uchar>(
+                                contrast_() * (image.at<cv::Vec3b>(y, x)[c]) + brightness_());
                 }
-                result.copyTo(image);
             }
+            result.copyTo(image);
         }
 
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<double> contrast_, brightness_;
         // Color matrices
         int rows_;
