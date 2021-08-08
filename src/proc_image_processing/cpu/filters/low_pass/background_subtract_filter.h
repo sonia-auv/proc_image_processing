@@ -55,7 +55,6 @@ namespace proc_image_processing {
     private:
         Parameter<bool> show_blurred_;
         RangedParameter<int> blur_size_;
-        RangedParameter<int> sigma_;
     };
 
 }  // namespace proc_image_processing
