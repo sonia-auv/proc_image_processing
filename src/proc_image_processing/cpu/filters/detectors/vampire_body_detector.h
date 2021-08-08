@@ -16,7 +16,6 @@ namespace proc_image_processing {
 
         explicit VampireBodyDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_),
@@ -27,26 +26,25 @@ namespace proc_image_processing {
         ~VampireBodyDetector() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                std::string objective;
-                image.copyTo(output_image_);
-                if (output_image_.channels() == 1) {
-                    cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
-                }
+            std::string objective;
+            image.copyTo(output_image_);
+            if (output_image_.channels() == 1) {
+                cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
+            }
 
-                if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
+                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
                 //cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
-                PerformanceEvaluator timer;
-                timer.resetStartTime();
+            PerformanceEvaluator timer;
+            timer.resetStartTime();
 
-                contourList_t contours;
+            contourList_t contours;
 
-                //retrieveContours(image, contours);
-                //std::cout << "Contours : " << contours.size() << std::endl;
+            //retrieveContours(image, contours);
+            //std::cout << "Contours : " << contours.size() << std::endl;
 
-                //retrieveOuterContours(image, contours);
-                //std::cout << "Outer Contours : " << contours.size() << std::endl;
+            //retrieveOuterContours(image, contours);
+            //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
                 retrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
@@ -58,72 +56,72 @@ namespace proc_image_processing {
                         continue;
                     }
 
-                    //AREA
-                    //std::cout << "Area : " << object->getArea() << std::endl;
+                //AREA
+                //std::cout << "Area : " << object->getArea() << std::endl;
 
-                    if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
-                        continue;
-                    }
-
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-                    }
-
-                    //std::cout << "Is rectangle : " << isRectangle(contours[i],20) << std::endl;
-
-                    if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
-
-                        if (debug_contour_()) {
-                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                        }
-
-                        objective = "vampire_torpedoes";
-
-                    }
-
-                    objVec.push_back(object);
-                }
-
-                std::sort(
-                        objVec.begin(),
-                        objVec.end(),
-                        [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                            return a->getArea() > b->getArea();
-                        }
-                );
-
-                if (!objVec.empty()) {
-                    Target target;
-                    ObjectFullData::Ptr object = objVec[0];
-                    cv::Point center = object->getCenterPoint();
-                    target.setTarget(
-                            objective,
-                            center.x,
-                            center.y,
-                            object->getWidth(),
-                            object->getHeight(),
-                            object->getRotRect().angle,
-                            image.rows,
-                            image.cols
-                    );
-                    notify(target);
-                    if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
-                    }
+                if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
+                    continue;
                 }
 
                 if (debug_contour_()) {
-                    output_image_.copyTo(image);
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                 }
+
+                //std::cout << "Is rectangle : " << isRectangle(contours[i],20) << std::endl;
+
+                if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
+
+                    if (debug_contour_()) {
+                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                    }
+
+                    objective = "vampire_torpedoes";
+
+                }
+
+                objVec.push_back(object);
+            }
+
+            std::sort(
+                    objVec.begin(),
+                    objVec.end(),
+                    [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                        return a->getArea() > b->getArea();
+                    }
+            );
+
+            if (!objVec.empty()) {
+                Target target;
+                ObjectFullData::Ptr object = objVec[0];
+                cv::Point center = object->getCenterPoint();
+                target.setTarget(
+                        objective,
+                        center.x,
+                        center.y,
+                        object->getWidth(),
+                        object->getHeight(),
+                        object->getRotRect().angle,
+                        image.rows,
+                        image.cols
+                );
+                notify(target);
+                if (debug_contour_()) {
+                    cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
+                }
+            }
+
+            if (debug_contour_()) {
+                output_image_.copyTo(image);
             }
         }
 
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_, debug_contour_, look_for_rectangle_;
-
-        RangedParameter<double> min_area_, max_area_;
+        Parameter<bool> debug_contour_;
+        Parameter<bool> look_for_rectangle_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> max_area_;
     };
 
 }  // namespace proc_image_processing

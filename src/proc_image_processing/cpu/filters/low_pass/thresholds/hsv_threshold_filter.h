@@ -17,7 +17,6 @@ namespace proc_image_processing {
 
         explicit HSVThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   hue_min_("Minimum H", 0, 0, 256, &parameters_,
                            "Minimum Hue to threshold. Keep values higher or equal to this value."),
                   hue_max_("Maximum H", 255, 0, 256, &parameters_,
@@ -38,41 +37,39 @@ namespace proc_image_processing {
         ~HSVThresholdFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (CV_MAT_CN(image.type()) != 3) {
-                    return;
-                }
-
-                rows_ = image.rows;
-                cols_ = image.cols;
-                // Set result matrices
-                cv::Mat hue = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat hue_res1 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat hue_res2 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat hue_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat saturation = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat saturation_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat value = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat value_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-
-                // Replace with new images
-                channel_vec_ = getColorPlanes(image);
-                setImage(H_INDEX, hue);
-                setImage(S_INDEX, saturation);
-                setImage(V_INDEX, value);
-                cv::inRange(hue, cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
-                //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
-                //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
-                //cv::bitwise_and(hue_res1, hue_res2, hue_res);
-                cv::inRange(saturation, cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
-                cv::inRange(value, cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
-
-                cv::bitwise_and(hue_res, saturation_res, result);
-                cv::bitwise_and(result, value_res, result);
-
-                result.copyTo(image);
+            if (CV_MAT_CN(image.type()) != 3) {
+                return;
             }
+
+            rows_ = image.rows;
+            cols_ = image.cols;
+            // Set result matrices
+            cv::Mat hue = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat hue_res1 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat hue_res2 = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat hue_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat saturation = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat saturation_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat value = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat value_res = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+
+            // Replace with new images
+            channel_vec_ = getColorPlanes(image);
+            setImage(H_INDEX, hue);
+            setImage(S_INDEX, saturation);
+            setImage(V_INDEX, value);
+            cv::inRange(hue, cv::Scalar(hue_min_()), cv::Scalar(hue_max_()), hue_res);
+            //cv::threshold(hue,hue_res1,hue_min_(),255,cv::THRESH_BINARY);
+            //cv::threshold(hue,hue_res2,hue_max_(),255,cv::THRESH_BINARY_INV);
+            //cv::bitwise_and(hue_res1, hue_res2, hue_res);
+            cv::inRange(saturation, cv::Scalar(saturation_min_()), cv::Scalar(saturation_max_()), saturation_res);
+            cv::inRange(value, cv::Scalar(value_min_()), cv::Scalar(value_max_()), value_res);
+
+            cv::bitwise_and(hue_res, saturation_res, result);
+            cv::bitwise_and(result, value_res, result);
+
+            result.copyTo(image);
         }
 
     private:
@@ -83,8 +80,12 @@ namespace proc_image_processing {
 
         }
 
-        Parameter<bool> enable_;
-        RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;
+        RangedParameter<int> hue_min_;
+        RangedParameter<int> hue_max_;
+        RangedParameter<int> saturation_min_;
+        RangedParameter<int> saturation_max_;
+        RangedParameter<int> value_min_;
+        RangedParameter<int> value_max_;
         // Color matrices
         std::vector<cv::Mat> channel_vec_;
 

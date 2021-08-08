@@ -21,7 +21,6 @@ namespace proc_image_processing {
 
         explicit InRangeFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   lower_hue_("HSV Lower H", 0, 0, 255, &parameters_),
                   upper_hue_("HSV Upper H", 255, 0, 255, &parameters_),
                   lower_saturation_("HSV Lower S", 0, 0, 255, &parameters_),
@@ -47,9 +46,8 @@ namespace proc_image_processing {
          * \param image The image to process.
          */
         void apply(cv::Mat &image) override {
-            if (enable_.getValue()) {
-                cv::Mat hsv;
-                cv::Mat luv;
+            cv::Mat hsv;
+            cv::Mat luv;
 
                 // TODO
                 cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
@@ -60,24 +58,16 @@ namespace proc_image_processing {
                         hsv
                 );
 
-                cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
-                cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
-                                            lower_u_.getValue(), lower_v_.getValue()),
-                            cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
-                                       upper_v_.getValue()),
-                            luv);
-                cv::bitwise_and(hsv, luv, image);
-            }
+            cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
+            cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
+                                        lower_u_.getValue(), lower_v_.getValue()),
+                        cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
+                                   upper_v_.getValue()),
+                        luv);
+            cv::bitwise_and(hsv, luv, image);
         }
 
     private:
-        /**
-         * State if the filter is enabled or not.
-         * This is being used by the vision server for calling the filter in the
-         * filterchain.
-         */
-        Parameter<bool> enable_;
-
         /** Inclusive Hue lower boundary. */
         RangedParameter<int> lower_hue_;
 

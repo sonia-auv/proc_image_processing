@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit CropFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   x_offset_("X Offset", 0, 0, 2000, &parameters_),
                   y_offset_("Y Offset", 0, 0, 2000, &parameters_),
                   x_reduction_("X Reduction", 0, 0, 2000, &parameters_),
@@ -25,18 +24,15 @@ namespace proc_image_processing {
         ~CropFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if ((x_offset_() + x_reduction_() < image.size[1]) |
-                    (y_offset_() + y_reduction_() < image.size[0])) {
-                    image = image(cv::Rect(x_offset_(), y_offset_(),
-                                           image.size[1] - x_reduction_() - x_offset_(),
-                                           image.size[0] - y_reduction_() - y_offset_()));
-                }
+            if ((x_offset_() + x_reduction_() < image.size[1]) |
+                (y_offset_() + y_reduction_() < image.size[0])) {
+                image = image(cv::Rect(x_offset_(), y_offset_(),
+                                       image.size[1] - x_reduction_() - x_offset_(),
+                                       image.size[0] - y_reduction_() - y_offset_()));
             }
         }
 
     private:
-        Parameter<bool> enable_;
         RangedParameter<int> x_offset_, y_offset_, x_reduction_, y_reduction_;
     };
 

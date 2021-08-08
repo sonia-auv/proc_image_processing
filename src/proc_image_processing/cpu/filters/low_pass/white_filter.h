@@ -15,7 +15,7 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<WhiteFilter>;
 
         explicit WhiteFilter(const GlobalParameterHandler &globalParams)
-                : Filter(globalParams), enable_("Enable", false, &parameters_),
+                : Filter(globalParams),
                   minimal_1pixel_range_("Minimal 1 pixel range", 0, 0, 255, &parameters_),
                   minimal_2pixel_range_("Minimal 2 pixel range", 0, 0, 255, &parameters_),
                   minimal_3pixel_range_("Minimal 3 pixel range", 0, 0, 255, &parameters_),
@@ -41,12 +41,12 @@ namespace proc_image_processing {
                     maximal_3pixel_range_()
             );
 
-            cv::inRange(image, min_pixel_range, max_pixel_range, mask);
-            mask.copyTo(image);
+            cv::inRange(image, min_pixel_range, max_pixel_range, image);
         }
 
     private:
-        Parameter<bool> enable_;
+        cv::Mat output_image_;
+
         RangedParameter<int> minimal_1pixel_range_;
         RangedParameter<int> minimal_2pixel_range_;
         RangedParameter<int> minimal_3pixel_range_;

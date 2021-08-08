@@ -12,22 +12,15 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<EqualizeHistogramFilter>;
 
-        explicit EqualizeHistogramFilter(const GlobalParameterHandler &globalParams)
-                : Filter(globalParams),
-                  enable_("Enable", false, &parameters_) {
+        explicit EqualizeHistogramFilter(const GlobalParameterHandler &globalParams): Filter(globalParams) {
             setName("EqualizeHistogramFilter");
         }
 
         ~EqualizeHistogramFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                cv::equalizeHist(image, image);
-            }
+            cv::equalizeHist(image, image);
         }
-
-    private:
-        Parameter<bool> enable_;
     };
 
 }  // namespace proc_image_processing

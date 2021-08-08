@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit ErodeFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   use_square_kernel_("Square kernel", true, &parameters_),
                   kernel_type_("Kernel type", 0, 0, 2, &parameters_),
                   kernel_size_x_("Width", 1, 0, 20, &parameters_),
@@ -27,33 +26,33 @@ namespace proc_image_processing {
         ~ErodeFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                int kernel_type = 0;
-                switch (kernel_type_()) {
-                    case 1:
-                        kernel_type = cv::MORPH_ELLIPSE;
-                        break;
-                    case 2:
-                        kernel_type = cv::MORPH_CROSS;
-                        break;
-                    default:
-                        kernel_type = cv::MORPH_RECT;
-                        break;
-                }
-
-                cv::Size size(kernel_size_x_() * 2 + 1,
-                              (use_square_kernel_() ? kernel_size_x_() * 2 + 1
-                                                    : kernel_size_y_() * 2 + 1));
-                cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
-
-                cv::erode(image, image, kernel, anchor_, iteration_());
+            int kernel_type = 0;
+            switch (kernel_type_()) {
+                case 1:
+                    kernel_type = cv::MORPH_ELLIPSE;
+                    break;
+                case 2:
+                    kernel_type = cv::MORPH_CROSS;
+                    break;
+                default:
+                    kernel_type = cv::MORPH_RECT;
+                    break;
             }
+
+            cv::Size size(
+                    kernel_size_x_() * 2 + 1,
+                    (use_square_kernel_() ? kernel_size_x_() * 2 + 1 : kernel_size_y_() * 2 + 1)
+              );
+            cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
+
+            cv::erode(image, image, kernel, anchor_, iteration_());
         }
 
     private:
-        Parameter<bool> enable_, use_square_kernel_;
+        Parameter<bool> use_square_kernel_;
         RangedParameter<int> kernel_type_;
-        RangedParameter<int> kernel_size_x_, kernel_size_y_;
+        RangedParameter<int> kernel_size_x_;
+        RangedParameter<int> kernel_size_y_;
         RangedParameter<int> iteration_;
         const cv::Point anchor_;
     };

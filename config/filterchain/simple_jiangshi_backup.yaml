@@ -2,7 +2,7 @@ name: simple_jiangshi_backup
 filters:
   - name: SubtractAllPlanesFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 1
       - name: Plane 1
         value: 7

@@ -18,7 +18,6 @@ namespace proc_image_processing {
 
         explicit VampireTorpedoesCloseDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_ellipse_("Look for ellipse", false, &parameters_),
                   look_for_heart_("Look_for_Heart", false, &parameters_),
@@ -30,26 +29,25 @@ namespace proc_image_processing {
         ~VampireTorpedoesCloseDetector() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                std::string objective;
-                image.copyTo(output_image_);
-                if (output_image_.channels() == 1) {
-                    cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
-                }
+            std::string objective;
+            image.copyTo(output_image_);
+            if (output_image_.channels() == 1) {
+                cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
+            }
 
-                if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
+                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
                 //cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
-                PerformanceEvaluator timer;
-                timer.resetStartTime();
+            PerformanceEvaluator timer;
+            timer.resetStartTime();
 
-                contourList_t contours;
+            contourList_t contours;
 
-                //retrieveContours(image, contours);
-                //std::cout << "Contours : " << contours.size() << std::endl;
+            //retrieveContours(image, contours);
+            //std::cout << "Contours : " << contours.size() << std::endl;
 
-                //retrieveOuterContours(image, contours);
-                //std::cout << "Outer Contours : " << contours.size() << std::endl;
+            //retrieveOuterContours(image, contours);
+            //std::cout << "Outer Contours : " << contours.size() << std::endl;
 
                 retrieveAllContours(image, contours);
                 ObjectFullData::FullObjectPtrVec objVec;
@@ -64,16 +62,16 @@ namespace proc_image_processing {
                         continue;
                     }
 
-                    //AREA
-                    // std::cout << object->getArea();
+                //AREA
+                // std::cout << object->getArea();
 
-                    if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
-                        continue;
-                    }
+                if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
+                    continue;
+                }
 
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-                    }
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+                }
 
                     // At least 5 points are required
                     if (contours[i].size() >= 5) {
@@ -129,47 +127,48 @@ namespace proc_image_processing {
                     objVec.push_back(object);
                 }
 
-                std::sort(
-                        objVec.begin(),
-                        objVec.end(),
-                        [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                            return a->getArea() > b->getArea();
-                        }
-                );
-
-                if (!objVec.empty()) {
-                    Target target;
-                    ObjectFullData::Ptr object = objVec[0];
-                    cv::Point center = object->getCenterPoint();
-                    target.setTarget(
-                            objective,
-                            center.x,
-                            center.y,
-                            object->getWidth(),
-                            object->getHeight(),
-                            object->getRotRect().angle,
-                            image.rows,
-                            image.cols
-                    );
-                    notify(target);
-                    if (debug_contour_()) {
-                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
+            std::sort(
+                    objVec.begin(),
+                    objVec.end(),
+                    [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                        return a->getArea() > b->getArea();
                     }
-                }
+            );
 
+            if (!objVec.empty()) {
+                Target target;
+                ObjectFullData::Ptr object = objVec[0];
+                cv::Point center = object->getCenterPoint();
+                target.setTarget(
+                        objective,
+                        center.x,
+                        center.y,
+                        object->getWidth(),
+                        object->getHeight(),
+                        object->getRotRect().angle,
+                        image.rows,
+                        image.cols
+                );
+                notify(target);
                 if (debug_contour_()) {
-                    output_image_.copyTo(image);
+                    cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
                 }
+            }
+
+            if (debug_contour_()) {
+                output_image_.copyTo(image);
             }
         }
 
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_, debug_contour_, look_for_ellipse_, look_for_heart_;
+        Parameter<bool> debug_contour_;
+        Parameter<bool> look_for_ellipse_;
+        Parameter<bool> look_for_heart_;
 
-        RangedParameter<double> min_area_, max_area_;
-
+        RangedParameter<double> min_area_;
+        RangedParameter<double> max_area_;
     };
 
 }  // namespace proc_image_processing

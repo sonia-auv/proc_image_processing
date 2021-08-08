@@ -12,23 +12,16 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<RemoveMaskFilter>;
 
-        explicit RemoveMaskFilter(const GlobalParameterHandler &globalParams)
-                : Filter(globalParams),
-                  enable_("Enable", false, &parameters_) {
+        explicit RemoveMaskFilter(const GlobalParameterHandler &globalParams): Filter(globalParams){
             setName("RemoveMaskFilter");
         }
 
         ~RemoveMaskFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                // TODO isn't this the same as Original image filter?
-                global_param_handler_.getOriginalImage().copyTo(image, image);
-            }
+            // TODO isn't this the same as Original image filter?
+            global_param_handler_.getOriginalImage().copyTo(image, image);
         }
-
-    private:
-        Parameter<bool> enable_;
     };
 
 }  // namespace proc_image_processing

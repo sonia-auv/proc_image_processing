@@ -118,7 +118,7 @@ namespace proc_image_processing {
                 size_t index = 0;
                 for (auto &filter : filters_) {
                     if (filter != nullptr && !clone.empty()) {
-                        filter->apply(clone);
+                        filter->execute(clone);
                     }
 
                     if (index == observer_index_) {

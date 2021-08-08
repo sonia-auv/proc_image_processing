@@ -20,7 +20,6 @@ namespace proc_image_processing {
 
         explicit GateDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   debug_contour_("Debug contour", false, &parameters_),
                   use_convex_hull_("Use convex hull", false, &parameters_),
                   offset_y_for_fence_("Offset Y for fence", false, &parameters_),
@@ -58,41 +57,40 @@ namespace proc_image_processing {
         ~GateDetector() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                if (debug_contour_()) {
-                    image.copyTo(output_image_);
-                    if (output_image_.channels() == 1) {
-                        cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
-                    }
+            if (debug_contour_()) {
+                image.copyTo(output_image_);
+                if (output_image_.channels() == 1) {
+                    cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
                 }
+            }
 
-                if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
+                if (image.channels() != 1) {cv::cvtColor(image, image, CV_BGR2GRAY);}
                 cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
-                contourList_t contours;
-                switch (contour_retrieval_()) {
-                    case 1:
-                        retrieveOuterContours(image, contours);
-                        break;
-                    case 2:
-                        retrieveAllInnerContours(image, contours);
-                        break;
-                    case 3:
-                        retrieveInnerContours(image, contours);
-                        break;
-                    case 4:
-                        retrieveNoChildAndParentContours(image, contours);
-                        break;
-                    default:
-                        retrieveAllContours(image, contours);
-                        break;
-                }
+            contourList_t contours;
+            switch (contour_retrieval_()) {
+                case 1:
+                    retrieveOuterContours(image, contours);
+                    break;
+                case 2:
+                    retrieveAllInnerContours(image, contours);
+                    break;
+                case 3:
+                    retrieveInnerContours(image, contours);
+                    break;
+                case 4:
+                    retrieveNoChildAndParentContours(image, contours);
+                    break;
+                default:
+                    retrieveAllContours(image, contours);
+                    break;
+            }
 
-                ObjectFullData::FullObjectPtrVec objVec;
-                for (int i = 0; i < contours.size(); i++) {
-                    if (use_convex_hull_()) {
-                        cv::convexHull(contours[i], contours[i]);
-                    }
+            ObjectFullData::FullObjectPtrVec objVec;
+            for (int i = 0; i < contours.size(); i++) {
+                if (use_convex_hull_()) {
+                    cv::convexHull(contours[i], contours[i]);
+                }
 
                     ObjectFullData::Ptr object =
                             std::make_shared<ObjectFullData>(
@@ -101,213 +99,213 @@ namespace proc_image_processing {
                                     reinterpret_cast<Contour &&>(contours[i])
                             );;
 
-                    if (object.get() == nullptr) {
-                        continue;
-                    }
-
-                    // AREA
-                    if (object->getCenterPoint().y > max_y_() && check_max_y_()) {
-                        continue;
-                    }
-
-                    if (object->getArea() < min_area_()) {
-                        continue;
-                    }
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-                    }
-
-                    // RATIO
-                    //feature_factory_.computeAllFeature(object);
-                    feature_factory_.ratioFeature(object);
-                    if (!disable_ratio_() && (fabs(object->getRatio() - targeted_ratio_()) >
-                                              fabs(difference_from_target_ratio_()))) {
-                        continue;
-                    }
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
-                    }
-
-                    // PERCENT FILLED
-                    ObjectFeatureFactory::percentFilledFeature(object);
-                    float percent_filled = getPercentFilled(image, object->getUprightRect());
-                    if ((percent_filled) < min_percent_filled_()) {
-                        continue;
-                    }
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 2);
-                    }
-
-                    // ANGLE
-                    if (!disable_angle_() &&
-                        (fabs(fabs(object->getRotRect().angle) - targeted_angle_()) >
-                         fabs(difference_from_target_angle_()))) {
-                        continue;
-                    }
-
-                    // RECTANGLE
-                    if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
-                        // if (look_for_rectangle_() && !isSquare(contours[i], min_area_(),
-                        // 80.0f, 0.0f, 100.0f)) {
-                        continue;
-                    }
-
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                    }
-
-                    objVec.push_back(object);
+                if (object.get() == nullptr) {
+                    continue;
                 }
 
-                int num_of_objects = objVec.size();
+                // AREA
+                if (object->getCenterPoint().y > max_y_() && check_max_y_()) {
+                    continue;
+                }
 
-                if (num_of_objects > 1) {
-                    if (vote_most_centered_()) {
-                        std::sort(
-                                objVec.begin(), objVec.end(),
-                                [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                                    return getDistanceFromCenter(a) < getDistanceFromCenter(b);
-                                });
-                        objVec[0]->vote();
-                        if (num_of_objects > 2) {
-                            objVec[1]->vote();
-                        }
-                        cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
-                                                            objVec[0]->getCenterPoint().y) -
-                                                  cv::Point(12, 12),
-                                   6, CV_RGB(255, 0, 0), -1);
-                    }
+                if (object->getArea() < min_area_()) {
+                    continue;
+                }
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
+                }
 
-                    if (vote_length_()) {
-                        std::sort(objVec.begin(), objVec.end(),
-                                  [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                                      return fabs(a->getHeight()) > fabs(b->getHeight());
-                                  });
-                        objVec[0]->vote();
-                        if (num_of_objects > 2) {
-                            objVec[1]->vote();
-                        }
-                        cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
-                                                            objVec[0]->getCenterPoint().y) -
-                                                  cv::Point(12, 6),
-                                   6, CV_RGB(0, 0, 255), -1);
-                    }
+                // RATIO
+                //feature_factory_.computeAllFeature(object);
+                feature_factory_.ratioFeature(object);
+                if (!disable_ratio_() && (fabs(object->getRatio() - targeted_ratio_()) >
+                                          fabs(difference_from_target_ratio_()))) {
+                    continue;
+                }
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
+                }
 
-                    if (vote_most_upright_()) {
-                        std::sort(objVec.begin(), objVec.end(),
-                                  [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                                      return fabs(a->getRotRect().angle) <
-                                             fabs(b->getRotRect().angle);
-                                  });
-                        objVec[0]->vote();
-                        if (num_of_objects > 2) {
-                            objVec[1]->vote();
-                        }
-                        cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
-                                                            objVec[0]->getCenterPoint().y) -
-                                                  cv::Point(12, 0),
-                                   6, CV_RGB(255, 0, 255), -1);
-                    }
+                // PERCENT FILLED
+                ObjectFeatureFactory::percentFilledFeature(object);
+                float percent_filled = getPercentFilled(image, object->getUprightRect());
+                if ((percent_filled) < min_percent_filled_()) {
+                    continue;
+                }
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(255, 255, 0), 2);
+                }
 
-                    if (vote_most_horizontal_()) {
-                        std::sort(objVec.begin(), objVec.end(),
-                                  [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                                      return fabs(a->getRotRect().angle) >
-                                             fabs(b->getRotRect().angle);
-                                  });
-                        objVec[0]->vote();
-                        if (num_of_objects > 2) {
-                            objVec[1]->vote();
-                        }
-                        cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
-                                                            objVec[0]->getCenterPoint().y) -
-                                                  cv::Point(12, 0),
-                                   6, CV_RGB(255, 0, 255), -1);
-                    }
+                // ANGLE
+                if (!disable_angle_() &&
+                    (fabs(fabs(object->getRotRect().angle) - targeted_angle_()) >
+                     fabs(difference_from_target_angle_()))) {
+                    continue;
+                }
 
-                    if (vote_less_difference_from_targeted_ratio_()) {
-                        std::sort(
-                                objVec.begin(), objVec.end(),
-                                [this](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
-                                    return fabs(a->getRatio() - targeted_ratio_()) <
-                                           fabs(b->getRatio() - targeted_ratio_());
-                                });
-                        objVec[0]->vote();
-                        if (num_of_objects > 2) {
-                            objVec[1]->vote();
-                        }
-                        cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
-                                                            objVec[0]->getCenterPoint().y) -
-                                                  cv::Point(12, -6),
-                                   6, CV_RGB(0, 255, 255), -1);
-                    }
+                // RECTANGLE
+                if (look_for_rectangle_() && !isRectangle(contours[i], 10)) {
+                    // if (look_for_rectangle_() && !isSquare(contours[i], min_area_(),
+                    // 80.0f, 0.0f, 100.0f)) {
+                    continue;
+                }
 
-                    if (vote_higher_()) {
-                        std::sort(
-                                objVec.begin(), objVec.end(),
-                                [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
-                                        -> bool { return a->getCenterPoint().y < b->getCenterPoint().y; });
-                        objVec[0]->vote();
-                        if (num_of_objects > 2) {
-                            objVec[1]->vote();
-                        }
+                if (debug_contour_()) {
+                    cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                }
 
-                        cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
-                                                            objVec[0]->getCenterPoint().y) -
-                                                  cv::Point(12, -12),
-                                   6, CV_RGB(255, 255, 0), -1);
-                    }
+                objVec.push_back(object);
+            }
 
-                    std::sort(objVec.begin(), objVec.end(),
-                              [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
-                                      -> bool { return a->getArea() > b->getArea(); });
+            int num_of_objects = objVec.size();
 
+            if (num_of_objects > 1) {
+                if (vote_most_centered_()) {
+                    std::sort(
+                            objVec.begin(), objVec.end(),
+                            [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                                return getDistanceFromCenter(a) < getDistanceFromCenter(b);
+                            });
                     objVec[0]->vote();
                     if (num_of_objects > 2) {
                         objVec[1]->vote();
                     }
                     cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
                                                         objVec[0]->getCenterPoint().y) -
-                                              cv::Point(12, -18),
-                               6, CV_RGB(255, 150, 150), -1);
+                                              cv::Point(12, 12),
+                               6, CV_RGB(255, 0, 0), -1);
+                }
+
+                if (vote_length_()) {
+                    std::sort(objVec.begin(), objVec.end(),
+                              [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                                  return fabs(a->getHeight()) > fabs(b->getHeight());
+                              });
+                    objVec[0]->vote();
+                    if (num_of_objects > 2) {
+                        objVec[1]->vote();
+                    }
+                    cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
+                                                        objVec[0]->getCenterPoint().y) -
+                                              cv::Point(12, 6),
+                               6, CV_RGB(0, 0, 255), -1);
+                }
+
+                if (vote_most_upright_()) {
+                    std::sort(objVec.begin(), objVec.end(),
+                              [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                                  return fabs(a->getRotRect().angle) <
+                                         fabs(b->getRotRect().angle);
+                              });
+                    objVec[0]->vote();
+                    if (num_of_objects > 2) {
+                        objVec[1]->vote();
+                    }
+                    cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
+                                                        objVec[0]->getCenterPoint().y) -
+                                              cv::Point(12, 0),
+                               6, CV_RGB(255, 0, 255), -1);
+                }
+
+                if (vote_most_horizontal_()) {
+                    std::sort(objVec.begin(), objVec.end(),
+                              [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                                  return fabs(a->getRotRect().angle) >
+                                         fabs(b->getRotRect().angle);
+                              });
+                    objVec[0]->vote();
+                    if (num_of_objects > 2) {
+                        objVec[1]->vote();
+                    }
+                    cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
+                                                        objVec[0]->getCenterPoint().y) -
+                                              cv::Point(12, 0),
+                               6, CV_RGB(255, 0, 255), -1);
+                }
+
+                if (vote_less_difference_from_targeted_ratio_()) {
+                    std::sort(
+                            objVec.begin(), objVec.end(),
+                            [this](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b) -> bool {
+                                return fabs(a->getRatio() - targeted_ratio_()) <
+                                       fabs(b->getRatio() - targeted_ratio_());
+                            });
+                    objVec[0]->vote();
+                    if (num_of_objects > 2) {
+                        objVec[1]->vote();
+                    }
+                    cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
+                                                        objVec[0]->getCenterPoint().y) -
+                                              cv::Point(12, -6),
+                               6, CV_RGB(0, 255, 255), -1);
+                }
+
+                if (vote_higher_()) {
+                    std::sort(
+                            objVec.begin(), objVec.end(),
+                            [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
+                                    -> bool { return a->getCenterPoint().y < b->getCenterPoint().y; });
+                    objVec[0]->vote();
+                    if (num_of_objects > 2) {
+                        objVec[1]->vote();
+                    }
+
+                    cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
+                                                        objVec[0]->getCenterPoint().y) -
+                                              cv::Point(12, -12),
+                               6, CV_RGB(255, 255, 0), -1);
                 }
 
                 std::sort(objVec.begin(), objVec.end(),
                           [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
-                                  -> bool { return a->getVoteCount() > b->getVoteCount(); });
+                                  -> bool { return a->getArea() > b->getArea(); });
+
+                objVec[0]->vote();
+                if (num_of_objects > 2) {
+                    objVec[1]->vote();
+                }
+                cv::circle(output_image_, cv::Point(objVec[0]->getCenterPoint().x,
+                                                    objVec[0]->getCenterPoint().y) -
+                                          cv::Point(12, -18),
+                           6, CV_RGB(255, 150, 150), -1);
+            }
+
+            std::sort(objVec.begin(), objVec.end(),
+                      [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
+                              -> bool { return a->getVoteCount() > b->getVoteCount(); });
 
 
-                if (eliminate_same_x_targets_() && objVec.size() > 1) {
-                    removeSameXTarget(objVec);
+            if (eliminate_same_x_targets_() && objVec.size() > 1) {
+                removeSameXTarget(objVec);
+            }
+
+            ObjectFullData::FullObjectPtrVec finalists;
+            if (!objVec.empty()) {
+                finalists.push_back(objVec[0]);
+                if (objVec.size() > 1) {
+                    finalists.push_back(objVec[1]);
+                }
+            }
+
+            std::sort(finalists.begin(), finalists.end(),
+                      [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
+                              -> bool { return a->getCenterPoint().y < b->getCenterPoint().y; });
+
+            if (!finalists.empty()) {
+                Target target;
+                //        ObjectFullData::Ptr object = objVec[0];
+                float x;
+                for (auto &finalist : finalists)
+                    x = x + finalist->getCenterPoint().x;
+                x = x / finalists.size();
+                float y;
+                int y_count = 0;
+                for (size_t j = 0; j < 2 && j < finalists.size(); j++) {
+                    y = y + finalists[j]->getCenterPoint().y;
+                    y_count++;
                 }
 
-                ObjectFullData::FullObjectPtrVec finalists;
-                if (!objVec.empty()) {
-                    finalists.push_back(objVec[0]);
-                    if (objVec.size() > 1) {
-                        finalists.push_back(objVec[1]);
-                    }
-                }
-
-                std::sort(finalists.begin(), finalists.end(),
-                          [](const ObjectFullData::Ptr &a, const ObjectFullData::Ptr &b)
-                                  -> bool { return a->getCenterPoint().y < b->getCenterPoint().y; });
-
-                if (!finalists.empty()) {
-                    Target target;
-                    //        ObjectFullData::Ptr object = objVec[0];
-                    float x;
-                    for (auto &finalist : finalists)
-                        x = x + finalist->getCenterPoint().x;
-                    x = x / finalists.size();
-                    float y;
-                    int y_count = 0;
-                    for (size_t j = 0; j < 2 && j < finalists.size(); j++) {
-                        y = y + finalists[j]->getCenterPoint().y;
-                        y_count++;
-                    }
-
-                    y = y / y_count;
+                y = y / y_count;
 
                     cv::Point center((int) round(x), (int) round(y));
                     target.setTarget(
@@ -324,7 +322,6 @@ namespace proc_image_processing {
                 if (debug_contour_()) {
                     output_image_.copyTo(image);
                 }
-            }
         }
 
         static float getDistanceFromCenter(const ObjectFullData::Ptr &object) {
@@ -338,36 +335,34 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> enable_, debug_contour_, use_convex_hull_;
+        Parameter<bool> debug_contour_;
+        Parameter<bool> use_convex_hull_;
         Parameter<bool> offset_y_for_fence_;
+        Parameter<bool> check_max_y_;
+        Parameter<bool> disable_ratio_;
+        Parameter<bool> look_for_rectangle_;
+        Parameter<bool> disable_angle_;
+        Parameter<bool> eliminate_same_x_targets_;
+        Parameter<bool> vote_most_centered_;
+                Parameter<bool> vote_most_upright_;
+                Parameter<bool> vote_less_difference_from_targeted_ratio_;
+                Parameter<bool> vote_length_;
+                Parameter<bool> vote_higher_;
+                Parameter<bool> vote_most_horizontal_;
+
+        Parameter<std::string> id_;
+        Parameter<std::string> spec_1_;
+        Parameter<std::string> spec_2_;
 
         RangedParameter<double> offset_y_for_fence_fraction;
-
-        Parameter<bool> check_max_y_;
-
-        RangedParameter<double> max_y_, min_area_;
-
-        Parameter<bool> disable_ratio_;
-
-        RangedParameter<double> targeted_ratio_, difference_from_target_ratio_, min_percent_filled_;
-
-        Parameter<bool> look_for_rectangle_, disable_angle_;
-
-        RangedParameter<double> targeted_angle_, difference_from_target_angle_;
-
-        Parameter<bool> eliminate_same_x_targets_;
-
+        RangedParameter<double> max_y_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> targeted_ratio_;
+        RangedParameter<double> difference_from_target_ratio_;
+        RangedParameter<double> min_percent_filled_;
+        RangedParameter<double> targeted_angle_;
+        RangedParameter<double> difference_from_target_angle_;
         RangedParameter<double> max_x_difference_for_elimination_;
-
-        Parameter<bool> vote_most_centered_,
-                vote_most_upright_,
-                vote_less_difference_from_targeted_ratio_,
-                vote_length_,
-                vote_higher_,
-                vote_most_horizontal_;
-
-        Parameter <std::string> id_, spec_1_, spec_2_;
-
         RangedParameter<int> contour_retrieval_;
 
         ObjectFeatureFactory feature_factory_;

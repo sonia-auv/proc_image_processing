@@ -18,7 +18,6 @@ namespace proc_image_processing {
 
         explicit SubtractPlaneAdderFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   show_adding_result_("show_adding_result", false, &parameters_),
                   plane_one_("Plane 1", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
@@ -43,33 +42,38 @@ namespace proc_image_processing {
         ~SubtractPlaneAdderFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
-                cv::Mat original = global_param_handler_.getOriginalImage();
-                if (CV_MAT_CN(original.type()) != 3) {
-                    return;
-                }
+            cv::Mat original = global_param_handler_.getOriginalImage();
+            if (CV_MAT_CN(original.type()) != 3) {
+                return;
+            }
 
-                rows_ = image.rows;
-                cols_ = image.cols;
-                // Set result matrices
-                cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
-                cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            rows_ = image.rows;
+            cols_ = image.cols;
+            // Set result matrices
+            cv::Mat zero = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat one = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat two = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat three = cv::Mat::zeros(rows_, cols_, CV_8UC1);
+            cv::Mat result = cv::Mat::zeros(rows_, cols_, CV_8UC1);
 
-                // Replace with new images
-                channel_vec_ = getColorPlanes(original);
+            // Replace with new images
+            channel_vec_ = getColorPlanes(original);
 
-                // Set subtraction
-                if (plane_one_() != 0)
-                    setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
+            // Set subtraction
+            if (plane_one_() != 0){
+                setImage(plane_one_() - 1, one, weight_one_(), invert_one_());
+            }
 
-                if (plane_two_() != 0)
-                    setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
 
-                if (plane_three_() != 0)
-                    setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
+            if (plane_two_() != 0){
+                setImage(plane_two_() - 1, two, weight_two_(), invert_two_());
+            }
+
+
+            if (plane_three_() != 0){
+                setImage(plane_three_() - 1, three, weight_three_(), invert_three_());
+            }
+
 
                 cv::subtract(one, two, result);
                 cv::subtract(result, three, result);
@@ -77,8 +81,8 @@ namespace proc_image_processing {
                 if (!show_adding_result_()) {
                     cv::add(result, image, result);
                 }
+                // TODO might not be the best to copy
                 result.copyTo(image);
-            }
         }
 
     private:
@@ -97,10 +101,17 @@ namespace proc_image_processing {
             cv::multiply(out, one, out, weight, CV_8UC1);
         }
 
-        Parameter<bool> enable_, show_adding_result_;
-        RangedParameter<int> plane_one_, plane_two_, plane_three_;
-        Parameter<bool> invert_one_, invert_two_, invert_three_;
-        RangedParameter<double> weight_one_, weight_two_, weight_three_;
+        Parameter<bool> show_adding_result_;
+        Parameter<bool> invert_one_;
+        Parameter<bool> invert_two_;
+        Parameter<bool> invert_three_;
+
+        RangedParameter<int> plane_one_;
+        RangedParameter<int> plane_two_;
+        RangedParameter<int> plane_three_;
+        RangedParameter<double> weight_one_;
+        RangedParameter<double> weight_two_;
+        RangedParameter<double> weight_three_;
 
         // Color matrices
         std::vector<cv::Mat> channel_vec_;
