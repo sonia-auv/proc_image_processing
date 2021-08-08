@@ -14,7 +14,7 @@ namespace proc_image_processing {
 
         explicit RotateFilter(const GlobalParamHandler &globalParams)
                 : Filter(globalParams),
-                  transpose_("transpose", false, &parameters_),
+                  transpose_("Transpose", false, &parameters_),
                   rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
                                "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis") {
             setName("RotateFilter");

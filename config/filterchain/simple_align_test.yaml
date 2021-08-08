@@ -2,7 +2,7 @@ name: simple_align_test
 filters:
   - name: SubtractAllPlanesFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 1
       - name: Plane_1
         value: 5

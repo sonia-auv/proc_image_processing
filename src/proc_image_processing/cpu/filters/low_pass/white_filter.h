@@ -28,15 +28,12 @@ namespace proc_image_processing {
         ~WhiteFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            cv::Mat mask;
-
             cv::Scalar min_pixel_range = cv::Scalar(minimal_1pixel_range_(), minimal_2pixel_range_(),
                                                     minimal_3pixel_range_());
             cv::Scalar max_pixel_range = cv::Scalar(maximal_1pixel_range_(), maximal_2pixel_range_(),
                                                     maximal_3pixel_range_());
 
-            cv::inRange(image, min_pixel_range, max_pixel_range, mask);
-            mask.copyTo(image);
+            cv::inRange(image, min_pixel_range, max_pixel_range, image);
         }
 
     private:

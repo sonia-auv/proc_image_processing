@@ -6,17 +6,17 @@ filters:
         value: 1
       - name: Debug contour
         value: 1
-      - name: bat
+      - name: Bat
         value: 0
-      - name: wolf
+      - name: Wolf
         value: 0
-      - name: vetalas
+      - name: Vetalas
         value: 0
-      - name: draugr
+      - name: Draugr
         value: 0
-      - name: jiangshi
+      - name: Jiangshi
         value: 1
-      - name: answag
+      - name: Answag
         value: 0
-      - name: vampire
+      - name: Vampire
         value: 0
