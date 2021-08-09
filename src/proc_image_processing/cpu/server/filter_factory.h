@@ -62,8 +62,10 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<FilterFactory>;
 
         // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT
-        static std::unique_ptr<Filter>
-        createInstance(const std::string_view &name, const GlobalParameterHandler &globalParams);
+        static std::unique_ptr<Filter> createInstance(
+                const std::string_view &name,
+                const GlobalParameterHandler &gph
+        );
 
         static std::string getFilters();
     };

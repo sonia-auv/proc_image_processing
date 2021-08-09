@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "ros/ros.h"
 #include "proc_image_processing/cpu/server/filter_factory.h"
+#include "proc_image_processing/cpu/server/global_parameter_handler.h"
 
 TEST(FilterFactoryTest, TestCreateInstance) {
     proc_image_processing::GlobalParameterHandler handler;
@@ -204,5 +205,7 @@ TEST(FilterFactoryTest, TestGetFilters) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
+    ros::init(argc, argv, "proc_image_processing");
+    ros::NodeHandle nh("~");
     return RUN_ALL_TESTS();
 }
