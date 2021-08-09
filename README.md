@@ -240,9 +240,6 @@ VSCode to be part of the same Docker stack using a docker-compose file, which me
 
 - Start the telemetry and it's requirements with
   using `docker-compose -f docker-compose-bags-vscode.yml up octopus-telemetry`.
-- Start proc_image_processing with VSCode or, if you don't plan on making modifications to the code simply run:
-    - `docker-compose -f docker-compose-bags-vscode.yml build proc_image_processing`.
-    - `docker-compose -f docker-compose-bags-vscode.yml up proc_image_processing`.
 - From a terminal in the remote container on VSCode, go to the `/bags` folder (`cd /bags`) and start playback of your
   bag with `rosbag play -l name_of_your_bag`.
 - In another terminal in the remote container on VSCode, uncompress the feed
