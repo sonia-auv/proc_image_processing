@@ -88,8 +88,10 @@ namespace proc_image_processing {
         const cv::Scalar BBOX_INFO_TEXT_COLOR = cv::Scalar(255, 255, 255);
         const int BBOX_INFO_FONT = cv::FONT_HERSHEY_TRIPLEX;
 
+        // TODO why do we need this here? Every other filters doesn't need a NodeHandle/Subscriber
         ros::Subscriber image_subscriber_;
         ros::NodeHandle nh_;
+
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
         Parameter<bool> debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
