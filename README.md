@@ -97,11 +97,7 @@ In order to do this:
     - CPU mode: `docker pull ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest`.
     - GPU mode: `docker pull ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest`.
 
----
-
-#### VSCode
-
-TODO document how to run this module with VSCode
+#### IDE Configuration - VSCode
 
 - Install these extensions:
     - C/C++ (extension id: `ms-vscode.cpptools`)
@@ -125,9 +121,7 @@ TODO document how to run this module with VSCode
     - `ctrl+shift+p`
     - Type `ROS: Start Core` (command id: `ros.startCore`)
 
----
-
-#### CLion
+#### IDE Configuration - CLion
 
 CLion provides more features than VSCode and is typically more powerful in several use case.
 
@@ -146,8 +140,8 @@ To get your environment setup with it, follow these steps:
     - CPU mode: `docker-compose up clion_remote_env`.
     - GPU mode: `docker-compose -f docker-compose-gpu.yml up clion_remote_env`.
     - If this error happens: ` standard_init_linux.go:228: exec user process caused: no such file or directory`, you are
-      probably using a Windows host, and you need to make sur end of lines for `sonia_entrypoint.sh`
-      and `sonia_clion_entrypoint.sh` are `LF`.
+      probably using a Windows host, and you need to make sur end of lines (`EOL`) for `sonia_entrypoint.sh`
+      and `sonia_clion_entrypoint.sh` are `LF` (linux).
 - Configure your Toolchain:
     - Go to `File | Settings | Build, Execution, Deployment | Toolchains`.
     - Add a new `Remote Host` Toolchain:
@@ -214,89 +208,86 @@ To get your environment setup with it, follow these steps:
   then sent to your remote environment. In other words, you won't lose your changes if you don't commit them since your
   remote environment behaves like a server where stuff is compiled and executed.
 
-#### Running bags
-
-- docker-compose -f docker-compose-bags.yml up octopus-telemetry
-- docker-compose up clion_remote_env
-- docker exec -it clion_remote_env /bin/bash
-- cd /bags/
-- rosbag play -l something.bag
-- rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw
-
 ---
 
-### Manage and execute filterchains with bags from telemetry
-- Run the dockers for ros-master, ros-bridge and octopus-telemetry (only on linux for now)
-- Make sure proc_image_processing is launch. 
-  (in VScode `ctrl+shift+p` + `ROS: Show Core Status` to see services)
-- In the proc_image_processing docker, go to the 'bags' folder (`cd /bags`) 
-  This is where the bag(s) should be place to be used
+## Running ROS bags
+
+### VSCode
+
+**Only supported on linux for now (Windows does not support host mode networking) and remote containers doesn't allow
+VSCode to be part of the same Docker stack using a docker-compose file, which means we must use host mode networking.**
+
+- Start the telemetry and it's requirements with using `docker-compose -f docker-compose-bags.yml up octopus-telemetry`.
+- Start proc_image_processing with VSCode or, if you don't plan on making modifications to the code simply run:
+    - `docker-compose -f docker-compose-bags.yml build proc_image_processing`.
+    - `docker-compose -f docker-compose-bags.yml up proc_image_processing`.
+- From a terminal in the remote container on VSCode, go to the `bags` folder (`cd bags`) of the project. This is where
+  you should add your bags.
 - Execute `rosbag play -l <name-of-the-bag>`
-- Execute in another terminal in the docker
-  `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
-  to uncompress the feed
-  (the input feed name can be check in the _Image Viewer_ module of the telemetry by refreshing and looking at the dropdown menu)
-- Open a web browser on `localhost:3000` to access the telemetry
+- In another terminal in the remote container on VSCode, uncompress the feed
+  using `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`(the
+  input feed name can be seen in the _Image Viewer_ module of the telemetry by refreshing and looking at the dropdown
+  menu).
+
+### CLion
+
+**Windows is supported when using CLion**
+
+- Add the bags you want to replay in the `bags` folder of the project
+- Start the telemetry and it's requirements with `docker-compose -f docker-compose-bags.yml up octopus-telemetry`.
+- Start your CLion remote environment with `docker-compose up clion_remote_env` if not already done.
+- Open two terminal shells using `docker exec -it clion_remote_env /bin/bash`.
+    - From the first terminal shell, go to the `/bags` folder (`cd /bags`) and start playback of your bag
+      with `rosbag play -l name_of_your_bag`
+    - From the second terminal shell, uncompress the feed
+      with `rosrun image_transport republish compressed in:=name-of-input-feed raw out:=name-of-output-feed` (
+      ex: `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw`)
+- Start proc_image_processing with CLion (make sure you include the environment
+  variable `ROS_MASTER_URI=http://ros-master:13111` by editing run configuration for `proc_image_processing_node` in
+  CLion)
+- Open your browser and navigate to `localhost:3000` to access the telemetry. You should now be good to go!
+
+### Octopus Telemetry configuration and usage
+
 - In the _Image Viewer_ module, refresh and select the compressed feed of the bag to see it (wow)
-- In the _Vision UI_ module, create a new execution by refreshing and selecting the filterchain to apply
-  and the media as input (the raw video feed in this case)
-- In the _filter_ tab of the _Vision UI_ module, refresh and select your execution to manage filters oyour 
-  filterchain
-- Click on them to see the parameters and adjust them, etc
-- To see the result, in the _Image Viewer_ module, refresh and select the output of the executiocompressed
+- In the _Vision UI_ module, create a new execution by refreshing and selecting the filter chain to apply and the media
+  as input (the raw video feed in this case)
+- In the _filter_ tab of the _Vision UI_ module, refresh and select your execution to manage filters of your filter
+  chain.
+- Click on them to see their parameters and manage them.
+- To see the result, in the _Image Viewer_ module, refresh and select the output containing your execution name and
+  the `compressed` mention.
 
 ---
 
 ## Code Quality
 
-This project uses [SonarCloud](https://sonarcloud.io/) to analyze the code base quality continuously using a GitHub
-Actions Workflow.
+This project uses [SonarCloud](https://sonarcloud.io/) to analyze the code base quality continuously using
+a [GitHub Actions Workflow](.github/workflows/sonarcloud.yml).
 
 Although, a manual analysis can also be performed and submitted on SonarCloud by following these steps:
 
 - Copy `.env.example` a template for a `.env` file. In that file, you must specify your GitHub Token (`GITHUB_TOKEN`)
   with the necessary privileges, your SonarCloud token (`SONAR_TOKEN`) and the branch name that you are currently
   on (`BRANCH`).
-- Build the SonarCloud container with: `docker-compose build proc_image_processing sonarcloud`.
+- Build the SonarCloud container with: `docker-compose build sonarcloud`.
 - Launch the SonarCloud analysis with: `docker-compose up sonarcloud`.
 - Go to [SonarCloud](https://sonarcloud.io/) and see the results for your branch.
 
 ---
 
-### Running the tests
+## Running tests
 
-First of all, the environment variable `NODE_CONFIG_PATH` must be set in order to execute some tests. For
-example, since configuration files are read from disk, setting this variable allows us to use filter chain
-configurations file assets for testing purposes. As such, you can either add this variable
-using `export NODE_CONFIG_PATH=test/assets/config` or by adding `NODE_CONFIG_PATH=test/assets/config`
-before `catkin_make --use-ninja run_tests`: `NODE_CONFIG_PATH=test/assets/config catkin_make --use-ninja run_tests`.
-Take note that the path is relative to this project's path.
+First of all, the environment variable `NODE_CONFIG_PATH` must be set in order to execute some tests. For example, since
+configuration files are read from disk, setting this variable allows us to use filter chain configurations file assets
+for testing purposes.
 
----
+As such, you can either add this variable using `export NODE_CONFIG_PATH=test/assets/config` or by
+adding `NODE_CONFIG_PATH=test/assets/config`
+before `catkin_make --use-ninja run_tests` (ex: `NODE_CONFIG_PATH=test/assets/config catkin_make --use-ninja run_tests`)
+.
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
----
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
----
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+**Take note that the path is relative to this project's path.**
 
 ---
 

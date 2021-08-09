@@ -51,6 +51,7 @@ jobs:
       TARGET_TYPE: perception
       IMAGE_NAME: proc_image_processing
       GITHUB_REMOTE_URL: ghcr.io/${{ github.repository }}
+      NODE_CONFIG_PATH: test/assets/config
     steps:
       - uses: actions/checkout@v2
       - name: Login to Github Package Registry

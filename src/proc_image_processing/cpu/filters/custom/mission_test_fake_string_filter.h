@@ -13,8 +13,7 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<MissionTestFakeStringFilter>;
 
         explicit MissionTestFakeStringFilter(const GlobalParameterHandler &globalParams)
-                : Filter(globalParams),
-                  _string("String to return", "test", &parameters_) {
+                : Filter(globalParams), _string("String to return", "test", &parameters_) {
             setName("MissionTestFakeStringFilter");
         }
 
