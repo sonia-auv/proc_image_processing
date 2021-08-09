@@ -153,7 +153,7 @@ TEST(FilterFactoryTest, TestGetFilters) {
             "ContrastAndBrightnessFilter",
             "ConvexHullFilter",
             "CropFilter",
-            "Deep2019Filter",
+            // "Deep2019Filter",
             "DilateFilter",
             "EqualizeHistogramFilter",
             "ErodeFilter",
@@ -189,8 +189,7 @@ TEST(FilterFactoryTest, TestGetFilters) {
     };
 
 
-    std::string filtersString = proc_image_processing::FilterFactory::getFilters();
-    std::stringstream stream(filtersString);
+    std::stringstream stream(proc_image_processing::FilterFactory::getFilters());
     std::set<std::string> actualFilters;
     while (stream.good()) {
         std::string s;
