@@ -216,14 +216,18 @@ To get your environment setup with it, follow these steps:
 
 **Windows is supported**
 
-- Setup environment variables by copying `.env.example` to a file named `.env`
+- Setup environment variables by copying `.env.example` to a file named `.env`.
 - Start the telemetry and proc_image_processing containers with:
-    - `docker-compose -f docker-compose-bags.yml build proc_image_processing`
-    - `docker-compose -f docker-compose-bags.yml up proc_image_processing octopus-telemetry`
+    - `docker-compose -f docker-compose-bags.yml build proc_image_processing`.
+    - `docker-compose -f docker-compose-bags.yml up proc_image_processing octopus-telemetry`.
 - Open two proc_image_processing's shells using `docker exec -it proc_image_processing /bin/bash`:
-    - On the first shell, go to `/bags` (`cd /bags`) and start the bag playback with `rosbag play -l your-bag-name`
-    - On the second shell, uncompress the feed using `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
-- Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be good to go!
+    - On the first shell, go to `/bags` (`cd /bags`) and start the bag playback with `rosbag play -l your-bag-name`.
+    - On the second shell, uncompress the feed
+      using `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>` (
+      ex: `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw`)
+      .
+- Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be
+  good to go!
 
 ### With VSCode
 
@@ -235,14 +239,14 @@ VSCode to be part of the same Docker stack using a docker-compose file, which me
 - Start proc_image_processing with VSCode or, if you don't plan on making modifications to the code simply run:
     - `docker-compose -f docker-compose-bags-vscode.yml build proc_image_processing`.
     - `docker-compose -f docker-compose-bags-vscode.yml up proc_image_processing`.
-- From a terminal in the remote container on VSCode, go to the `bags` folder (`cd bags`) of the project. This is where
-  you should add your bags.
-- Execute `rosbag play -l <name-of-the-bag>`
+- From a terminal in the remote container on VSCode, go to the `/bags` folder (`cd /bags`) and start playback of your
+  bag with `rosbag play -l name_of_your_bag`.
 - In another terminal in the remote container on VSCode, uncompress the feed
-  using `rosrun image_transport republish compressed in:=name-of-input-feed raw out:=name-of-output-feed`(the
-  input feed name can be seen in the _Image Viewer_ module of the telemetry by refreshing and looking at the dropdown
-  menu).
-- Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be good to go!
+  using `rosrun image_transport republish compressed in:=name-of-input-feed raw out:=name-of-output-feed` (
+  ex: `rosrun image_transport republish compressed in:=/camera_array/cam0/image_raw raw out:=/camera_array/cam0/image_raw`)
+  .
+- Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be
+  good to go!
 
 ### With CLion
 
@@ -260,7 +264,8 @@ VSCode to be part of the same Docker stack using a docker-compose file, which me
 - Start proc_image_processing with CLion (make sure you include the environment
   variable `ROS_MASTER_URI=http://ros-master:13111` by editing run configuration for `proc_image_processing_node` in
   CLion)
-- Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be good to go!
+- Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be
+  good to go!
 
 ### Octopus Telemetry configuration and usage
 
