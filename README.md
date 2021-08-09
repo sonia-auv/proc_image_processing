@@ -227,7 +227,7 @@ To get your environment setup with it, follow these steps:
     - On the third shell, uncompress the feed using `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
 - Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be good to go!
 
-### VSCode
+### With VSCode
 
 **Only supported on linux for now (Windows does not support host mode networking) and remote containers doesn't allow
 VSCode to be part of the same Docker stack using a docker-compose file, which means we must use host mode networking.**
@@ -246,7 +246,7 @@ VSCode to be part of the same Docker stack using a docker-compose file, which me
   menu).
 - Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be good to go!
 
-### CLion
+### With CLion
 
 **Windows is supported**
 
