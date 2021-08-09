@@ -17,7 +17,7 @@ namespace proc_image_processing {
         explicit SquareDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   N("N", 100, 0, 100, &parameters_),
-                  thresh("threshold", 100, 0, 100, &parameters_) {
+                  thresh("Threshold", 100, 0, 100, &parameters_) {
             setName("SquareDetector");
         }
 
@@ -121,7 +121,8 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        RangedParameter<int> N, thresh;
+        RangedParameter<int> N;
+        RangedParameter<int> thresh;
 
         const cv::Point anchor_;
     };
