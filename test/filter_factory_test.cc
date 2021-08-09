@@ -3,7 +3,7 @@
 #include "proc_image_processing/cpu/server/filter_factory.h"
 
 TEST(FilterFactoryTest, TestCreateInstance) {
-    proc_image_processing::GlobalParamHandler handler;
+    proc_image_processing::GlobalParameterHandler handler;
     std::shared_ptr<proc_image_processing::Filter> f;
 
     f = proc_image_processing::FilterFactory::createInstance("AccumulatorFilter", handler);
@@ -204,7 +204,5 @@ TEST(FilterFactoryTest, TestGetFilters) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-    ros::init(argc, argv, "proc_image_processing");
-    ros::NodeHandle nh("proc_image_processing");
     return RUN_ALL_TESTS();
 }
