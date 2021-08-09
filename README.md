@@ -117,9 +117,13 @@ In order to do this:
     - Type `Remote-Containers: Reopen in Container` (command id: `remote-containers.reopenInContainer`)
 
 
-- Start ROS core:
+- Verify that ROS core is online:
     - `ctrl+shift+p`
-    - Type `ROS: Start Core` (command id: `ros.startCore`)
+    - Type `ROS: Show Core Statustart Core` (command id: `ros.showCoreStatus`)
+
+- If ROS core isn't started automatically, start ROS core:
+  - `ctrl+shift+p`
+  - Type `ROS: Start Core` (command id: `ros.startCore`)
 
 #### IDE Configuration - CLion
 

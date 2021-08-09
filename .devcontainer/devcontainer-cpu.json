@@ -25,6 +25,7 @@
 	"mounts": [
 		"source=vscode-server-extension,target=/home/sonia/.vscode-server/extensions,type=volume"
 	],
+	"postAttachCommand": "bash -c 'source $ROS_WS_SETUP; roscore'",
 	"workspaceMount": "target=/home/sonia/ros_sonia_ws/src/proc_image_processing,type=volume",
 	"workspaceFolder": "/home/sonia/ros_sonia_ws/src/proc_image_processing"
 }
