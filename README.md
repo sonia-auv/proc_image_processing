@@ -229,9 +229,10 @@ To get your environment setup with it, follow these steps:
 - Run the dockers for ros-master, ros-bridge and octopus-telemetry (only on linux for now)
 - Make sure proc_image_processing is launch. 
   (in VScode `ctrl+shift+p` + `ROS: Show Core Status` to see services)
-- In the proc_image_processing docker, go in the folder /bags where you put the bag(s) to run
+- In the proc_image_processing docker, go to the 'bags' folder (`cd /bags`) 
+  This is where the bag(s) should be place to be used
 - Execute `rosbag play -l <name-of-the-bag>`
-- Execute in another terminal in the docker 
+- Execute in another terminal in the docker
   `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
   to uncompress the feed
   (the input feed name can be check in the _Image Viewer_ module of the telemetry by refreshing and looking at the dropdown menu)
@@ -264,7 +265,7 @@ Although, a manual analysis can also be performed and submitted on SonarCloud by
 
 ### Running the tests
 
-First of all, the environment variable `NODE_CONFIG_PATH` must be set to in order for to execute some tests. For
+First of all, the environment variable `NODE_CONFIG_PATH` must be set in order to execute some tests. For
 example, since configuration files are read from disk, setting this variable allows us to use filter chain
 configurations file assets for testing purposes. As such, you can either add this variable
 using `export NODE_CONFIG_PATH=test/assets/config` or by adding `NODE_CONFIG_PATH=test/assets/config`
