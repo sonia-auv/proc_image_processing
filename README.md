@@ -220,11 +220,9 @@ To get your environment setup with it, follow these steps:
 - Start the telemetry and proc_image_processing containers with:
     - `docker-compose -f docker-compose-bags.yml build proc_image_processing`
     - `docker-compose -f docker-compose-bags.yml up proc_image_processing octopus-telemetry`
-- Open three proc_image_processing's shells using `docker exec -it proc_image_processing /bin/bash`:
-    - On the first shell, start the ROS core with `roscore`
-    - On the second shell, start proc_image_processing with `sh scripts/launch.sh` then go to `/bags` (`cd /bags`) and
-      start the bag playback with `rosbag play -l your-bag-name`
-    - On the third shell, uncompress the feed using `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
+- Open two proc_image_processing's shells using `docker exec -it proc_image_processing /bin/bash`:
+    - On the first shell, go to `/bags` (`cd /bags`) and start the bag playback with `rosbag play -l your-bag-name`
+    - On the second shell, uncompress the feed using `rosrun image_transport republish compressed in:=<name-of-input-feed> raw out:=<give-a-name-to-the-output>`
 - Open your browser and navigate to [localhost:3000](http://localhost:3000) to access the telemetry. You should now be good to go!
 
 ### With VSCode
