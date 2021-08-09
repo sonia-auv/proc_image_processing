@@ -217,7 +217,7 @@ To get your environment setup with it, follow these steps:
 **Windows is supported**
 
 - Setup environment variables by copying `.env.example` to a file named `.env`
-- Start the telemetry and proc_image_processing container with:
+- Start the telemetry and proc_image_processing containers with:
     - `docker-compose -f docker-compose-bags.yml build proc_image_processing`
     - `docker-compose -f docker-compose-bags.yml up proc_image_processing octopus-telemetry`
 - Open three proc_image_processing's shells using `docker exec -it proc_image_processing`:
