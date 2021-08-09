@@ -217,10 +217,10 @@ To get your environment setup with it, follow these steps:
 **Only supported on linux for now (Windows does not support host mode networking) and remote containers doesn't allow
 VSCode to be part of the same Docker stack using a docker-compose file, which means we must use host mode networking.**
 
-- Start the telemetry and it's requirements with using `docker-compose -f docker-compose-bags.yml up octopus-telemetry`.
+- Start the telemetry and it's requirements with using `docker-compose -f docker-compose-bags-vscode.yml up octopus-telemetry`.
 - Start proc_image_processing with VSCode or, if you don't plan on making modifications to the code simply run:
-    - `docker-compose -f docker-compose-bags.yml build proc_image_processing`.
-    - `docker-compose -f docker-compose-bags.yml up proc_image_processing`.
+    - `docker-compose -f docker-compose-bags-vscode.yml build proc_image_processing`.
+    - `docker-compose -f docker-compose-bags-vscode.yml up proc_image_processing`.
 - From a terminal in the remote container on VSCode, go to the `bags` folder (`cd bags`) of the project. This is where
   you should add your bags.
 - Execute `rosbag play -l <name-of-the-bag>`

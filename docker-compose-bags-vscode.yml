@@ -4,38 +4,30 @@ services:
   ros-master:
     container_name: ros-master
     image: ros:melodic-ros-core
-    restart: unless-stopped
     command: stdbuf -o L roscore
+    network_mode: host
 
   ros-bridge:
     container_name: ros-bridge
-    image: ghcr.io/sonia-auv/sonia-ros-bridge/sonia-ros-bridge:x86-perception-latest
-    restart: unless-stopped
-    environment:
-      - ROS_MASTER_URI=$ROS_MASTER_URI
-    ports:
-      - 9090:9090
+    image: docker.pkg.github.com/sonia-auv/sonia-ros-bridge/sonia-ros-bridge:x86-perception-latest
+    network_mode: host
     depends_on:
       - ros-master
 
   octopus-telemetry:
     container_name: octopus-telemetry
     image: ghcr.io/sonia-auv/octopus-telemetry:latest
-    restart: unless-stopped
-    ports:
-      - 3000:3000
+    network_mode: host
     depends_on:
       - ros-bridge
 
   proc_image_processing:
     container_name: proc_image_processing
     image: sonia-auv/proc_image_processing:local
-    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - ROS_MASTER_URI=$ROS_MASTER_URI
+    network_mode: host
     depends_on:
       - ros-master
     volumes:
