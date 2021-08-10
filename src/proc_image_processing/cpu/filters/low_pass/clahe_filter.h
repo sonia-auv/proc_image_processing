@@ -14,7 +14,6 @@ namespace proc_image_processing {
 
         explicit CLAHEFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  enable_("Enable", false, &parameters_),
                   greyscale_("Greyscale", true, &parameters_),
                   clip_limit_("Clip limit", 40.0, &parameters_, "Threshold for contrast limiting."),
                   tile_width_("Tile width", 8, &parameters_, "Width of tile used for histogram equalization."),
@@ -25,7 +24,6 @@ namespace proc_image_processing {
         ~CLAHEFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            if (enable_()) {
                 auto width = image.cols < tile_width_() ? image.cols : tile_width_();
                 auto height = image.rows < tile_height_() ? image.rows : tile_height_();
                 auto clahe = cv::createCLAHE(clip_limit_(), cv::Size(width, height));
@@ -52,13 +50,13 @@ namespace proc_image_processing {
 
                     cv::cvtColor(lab, image, CV_Lab2BGR);
                 }
-            }
         }
 
     private:
-        Parameter<bool> enable_, greyscale_;
+        Parameter<bool> greyscale_;
         Parameter<double> clip_limit_;
-        Parameter<int> tile_width_, tile_height_;
+        Parameter<int> tile_width_;
+        Parameter<int> tile_height_;
     };
 
 }  // namespace proc_image_processing
