@@ -28,8 +28,6 @@ namespace proc_image_processing {
         ~WhiteFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            cv::Mat mask;
-
             cv::Scalar min_pixel_range = cv::Scalar(
                     minimal_1pixel_range_(),
                     minimal_2pixel_range_(),
