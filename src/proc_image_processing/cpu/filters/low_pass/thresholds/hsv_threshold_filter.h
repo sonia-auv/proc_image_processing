@@ -15,19 +15,19 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<HSVThresholdFilter>;
 
-        explicit HSVThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit HSVThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  hue_min_("Hue Min", 0, 0, 256, &parameters_,
+                  hue_min_("Minimum H", 0, 0, 256, &parameters_,
                            "Minimum Hue to threshold. Keep values higher or equal to this value."),
-                  hue_max_("Hue Max", 255, 0, 256, &parameters_,
+                  hue_max_("Maximum H", 255, 0, 256, &parameters_,
                            "Maximum Hue to threshold. Keep values lower or equal to this value."),
-                  saturation_min_("saturation Min", 0, 0, 256, &parameters_,
+                  saturation_min_("Minimum S", 0, 0, 256, &parameters_,
                                   "Minimum saturation to threshold. Keep values higher or equal to this value."),
-                  saturation_max_("saturation Max", 255, 0, 256, &parameters_,
+                  saturation_max_("Maximum S", 255, 0, 256, &parameters_,
                                   "Maximum saturation to threshold. Keep values lower or equal to this value."),
-                  value_min_("value Min", 0, 0, 256, &parameters_,
+                  value_min_("Minimum V", 0, 0, 256, &parameters_,
                              "Minimum value to threshold. Keep values higher or equal to this value."),
-                  value_max_("value Max", 255, 0, 256, &parameters_,
+                  value_max_("Maximum V", 255, 0, 256, &parameters_,
                              "Maximum value to threshold. Keep values lower or equal to this value."),
                   rows_(0),
                   cols_(0) {
@@ -80,7 +80,12 @@ namespace proc_image_processing {
 
         }
 
-        RangedParameter<int> hue_min_, hue_max_, saturation_min_, saturation_max_, value_min_, value_max_;
+        RangedParameter<int> hue_min_;
+        RangedParameter<int> hue_max_;
+        RangedParameter<int> saturation_min_;
+        RangedParameter<int> saturation_max_;
+        RangedParameter<int> value_min_;
+        RangedParameter<int> value_max_;
         // Color matrices
         std::vector<cv::Mat> channel_vec_;
 

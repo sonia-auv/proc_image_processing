@@ -8,35 +8,20 @@
 
 namespace proc_image_processing {
 
-    // see http://docs.opencv.org/modules/imgproc/doc/filtering.html
-    // for more detail on how and why
-    //
-    // This is a program to execute image filter other than erode, dilate and
-    // morphologicalEx. Those are more blur function than pixelizer
-    // settings are for the differents type of filters, and does not apply to all
     class RemoveMaskFilter : public Filter {
     public:
         using Ptr = std::shared_ptr<RemoveMaskFilter>;
 
-        explicit RemoveMaskFilter(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                  type_("Type", 2, 0, 3, &parameters_,
-                        "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
-                  kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
-                  anchor_(-1, -1) {
+        explicit RemoveMaskFilter(const GlobalParameterHandler &globalParams) : Filter(globalParams) {
             setName("RemoveMaskFilter");
         }
 
         ~RemoveMaskFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            global_params_.getOriginalImage().copyTo(image, image);
+            // TODO isn't this the same as Original image filter?
+            global_param_handler_.getOriginalImage().copyTo(image, image);
         }
-
-    private:
-        RangedParameter<int> type_, kernel_size_;
-
-        const cv::Point anchor_;
     };
 
 }  // namespace proc_image_processing

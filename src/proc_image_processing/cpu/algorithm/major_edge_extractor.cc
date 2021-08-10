@@ -27,7 +27,7 @@ namespace proc_image_processing {
             auto *ptr = ref_image_.ptr<RefPointPtr>(y);
             for (int x = 0; x < cols; x++) {
                 if (ptr[x] != nullptr) {
-                    free(ptr[x]);
+                    delete ptr[x];
                 }
             }
         }
@@ -49,27 +49,27 @@ namespace proc_image_processing {
         setValueInReferenceVector(second_value, getValueInReferenceVector(first_value));
     }
 
-    cv::Mat MajorEdgeExtractor::ExtractEdge(const cv::Mat &image,
-                                            int extreme_minimum) {
+    cv::Mat MajorEdgeExtractor::extractEdge(
+            const cv::Mat &image,
+            int extreme_minimum
+    ) {
         if (image.channels() != 1 || image.type() != CV_32F) {
             std::cout << "Bad image type or number of channel" << std::endl;
             return cv::Mat::zeros(1, 1, CV_8UC1);
         }
 
         // Image creation
-        cv::Mat final_image(image.size(), CV_8UC1, 0);
+        cv::Mat final_image(image.size(), CV_8UC1, nullptr);
         cv::Mat working_image;
         cv::copyMakeBorder(image, working_image, 1, 1, 1, 1, cv::BORDER_DEFAULT);
         init(working_image.size());
 
-        for (int y = 1, rows = working_image.rows, cols = working_image.cols;
-             y < rows - 1; y++) {
+        for (int y = 1, rows = working_image.rows, cols = working_image.cols; y < rows - 1; y++) {
             auto *ptr = working_image.ptr<float>(y);
             auto *ref_up_line = ref_image_.ptr<RefPointPtr>(y - 1);
             auto *ref_center_line = ref_image_.ptr<RefPointPtr>(y);
             for (int x = 1; x < cols - 1; x++) {
-                RefKernel ref_kernel(ref_up_line[x], ref_center_line[x - 1],
-                                     ref_center_line[x]);
+                RefKernel ref_kernel(ref_up_line[x], ref_center_line[x - 1], ref_center_line[x]);
                 float pix_val = ptr[x];
                 // Pixel is too low in value, does not workt being looked at...
                 if (pix_val < extreme_minimum) {
@@ -81,21 +81,15 @@ namespace proc_image_processing {
                     continue;
                 }
 
-                if (isNorthAndWestExist(ref_kernel)) {
-                    if (isJunction(ref_kernel, pix_val)) {
-                        setJunction(ref_kernel, pix_val, x, y);
-                        continue;
-                    }
+                if (isNorthAndWestExist(ref_kernel) && isJunction(ref_kernel, pix_val)) {
+                    setJunction(ref_kernel, pix_val, x, y);
+                    continue;
                 }
 
-                if (isWestExist(ref_kernel)) {
-                    if (isValueConnected(ref_kernel._west, pix_val)) {
-                        setLink(ref_kernel._west, pix_val, x, y);
-                    }
-                } else if (isNorthExist(ref_kernel)) {
-                    if (isValueConnected(ref_kernel._north, pix_val)) {
-                        setLink(ref_kernel._north, pix_val, x, y);
-                    }
+                if (isWestExist(ref_kernel) && isValueConnected(ref_kernel._west, pix_val)) {
+                    setLink(ref_kernel._west, pix_val, x, y);
+                } else if (isNorthExist(ref_kernel) && isValueConnected(ref_kernel._north, pix_val)) {
+                    setLink(ref_kernel._north, pix_val, x, y);
                 }
             }
         }

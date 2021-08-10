@@ -1,7 +1,6 @@
 import unittest
-from unittest import TestCase
-
 from factory_generator_exception import FactoryGeneratorException, raise_cannot_find_tag
+from unittest import TestCase
 
 
 class TestFactoryGeneratorException(TestCase):

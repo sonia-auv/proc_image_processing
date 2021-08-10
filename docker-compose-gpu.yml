@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - BASE_IMAGE=docker.pkg.github.com/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest
+        - BASE_IMAGE=ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest
     deploy:
       resources:
         reservations:
@@ -34,5 +34,9 @@ services:
         reservations:
           devices:
             - capabilities: [ gpu ]
+    environment:
+      - ROS_MASTER_URI=$ROS_MASTER_URI
     cap_add:
       - SYS_PTRACE
+    volumes:
+      - ./bags:/bags:ro

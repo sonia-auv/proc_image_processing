@@ -1,15 +1,12 @@
-ARG BASE_IMAGE="docker.pkg.github.com/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
+ARG BASE_IMAGE="ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
 
 FROM ${BASE_IMAGE}
 
 USER root
 
-ARG BUILD_DATE
-ARG VERSION
-
 LABEL net.etsmtl.sonia-auv.node.build-date=${BUILD_DATE}
 LABEL net.etsmtl.sonia-auv.node.version=${VERSION}
-LABEL net.etsmtl.sonia-auv.node.name=${NODE_NAME}
+LABEL net.etsmtl.sonia-auv.node.name=proc_image_processing
 
 ENV NODE_NAME=proc_image_processing
 ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws

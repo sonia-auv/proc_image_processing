@@ -19,12 +19,11 @@ public:
         }
     }
 
-    Images(const ros::NodeHandle &nh) : nh_(), it_(nh_) {
+    explicit Images(const ros::NodeHandle &nh) : nh_(), it_(nh_) {
         service = nh_.advertiseService("image_republisher_node/republish", &Images::republish, this);
     }
 
-    bool republish(sonia_common::Republish::Request &req,
-                   sonia_common::Republish::Response &res) {
+    bool republish(sonia_common::Republish::Request &req, sonia_common::Republish::Response &res) {
         if (sub != nullptr) {
             sub.shutdown();
             pub.shutdown();

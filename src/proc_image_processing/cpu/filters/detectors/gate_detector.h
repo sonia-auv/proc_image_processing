@@ -18,42 +18,35 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<GateDetector>;
 
-        explicit GateDetector(const GlobalParamHandler &globalParams)
+        explicit GateDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  use_convex_hull_("Use_convex_hull", false, &parameters_),
+                  debug_contour_("Debug contour", false, &parameters_),
+                  use_convex_hull_("Use convex hull", false, &parameters_),
                   offset_y_for_fence_("Offset Y for fence", false, &parameters_),
-                  offset_y_for_fence_fraction("Offset Y for fence fraction", 0.3f, 0.0f,
-                                              1.0f, &parameters_),
+                  offset_y_for_fence_fraction("Offset Y for fence fraction", 0.3f, 0.0f, 1.0f, &parameters_),
                   check_max_y_("0. Check max y", false, &parameters_),
                   max_y_("0. Maximum y coordinate", 0.0f, 0.0f, 2000.0f, &parameters_),
-                  min_area_("1. Min_area : red", 200, 0, 10000, &parameters_),
-                  disable_ratio_("2. disable_ratio_check : blue", false, &parameters_),
+                  min_area_("1. Minimum area : red", 200, 0, 10000, &parameters_),
+                  disable_ratio_("2. Disable ratio check : blue", false, &parameters_),
                   targeted_ratio_("2. Ratio_target", 0.5f, 0.0f, 1.0f, &parameters_),
-                  difference_from_target_ratio_("2. Diff_from_ratio_target", 0.10f, 0.0f,
-                                                1.0f, &parameters_),
-                  min_percent_filled_("3. Min_percent_filled : yellow", 50, 0, 100,
-                                      &parameters_),
-                  look_for_rectangle_("4.1 Look_for_Rectangle : green", false,
-                                      &parameters_),
-                  disable_angle_("4.2 disable_angle_check : green", false, &parameters_),
-                  targeted_angle_("4.2 angle_target", 0.0f, 0.0f, 90.0f, &parameters_),
-                  difference_from_target_angle_("4.2 Diff_from_angle_target", 30.0f, 0.0f,
-                                                90.0f, &parameters_),
-                  eliminate_same_x_targets_("5. Eliminate_same_x", false, &parameters_),
-                  max_x_difference_for_elimination_("5. Min_x_difference", 50.0f, 0.0f,
-                                                    1000.0f, &parameters_),
-                  vote_most_centered_("Vote_most_centered", false, &parameters_),
-                  vote_most_upright_("Vote_most_upright", false, &parameters_),
-                  vote_less_difference_from_targeted_ratio_(
-                          "Vote_less_diff_from_target_ratio", false, &parameters_),
-                  vote_length_("Vote_length", false, &parameters_),
-                  vote_higher_("Vote_higher", false, &parameters_),
+                  difference_from_target_ratio_("2. Difference from ratio target", 0.10f, 0.0f, 1.0f, &parameters_),
+                  min_percent_filled_("3. Minimum percent filled : yellow", 50, 0, 100, &parameters_),
+                  look_for_rectangle_("4.1 Look for rectangle : green", false, &parameters_),
+                  disable_angle_("4.2 Disable angle check : green", false, &parameters_),
+                  targeted_angle_("4.2 Angle target", 0.0f, 0.0f, 90.0f, &parameters_),
+                  difference_from_target_angle_("4.2 Difference from angle target", 30.0f, 0.0f, 90.0f, &parameters_),
+                  eliminate_same_x_targets_("5. Eliminate same x", false, &parameters_),
+                  max_x_difference_for_elimination_("5. Minimum x difference", 50.0f, 0.0f, 1000.0f, &parameters_),
+                  vote_most_centered_("Vote most centered", false, &parameters_),
+                  vote_most_upright_("Vote most upright", false, &parameters_),
+                  vote_less_difference_from_targeted_ratio_("Vote less diff from target ratio", false, &parameters_),
+                  vote_length_("Vote length", false, &parameters_),
+                  vote_higher_("Vote higher", false, &parameters_),
                   vote_most_horizontal_("Vote most horizontal", false, &parameters_),
                   id_("ID", "buoy", &parameters_),
                   spec_1_("spec1", "red", &parameters_),
                   spec_2_("spec2", "blue", &parameters_),
-                  contour_retrieval_("Contour_retrieval", 0, 0, 4, &parameters_,
+                  contour_retrieval_("Method", 0, 0, 4, &parameters_,
                                      "0=All, 1=Out, 2=Inner, 3=InnerMost, 4=OutNoChild"),
                   feature_factory_(5) {
             setName("GateDetector");
@@ -71,8 +64,11 @@ namespace proc_image_processing {
                 }
             }
 
-            if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-            cv::Mat originalImage = global_params_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             contourList_t contours;
             switch (contour_retrieval_()) {
@@ -100,7 +96,11 @@ namespace proc_image_processing {
                 }
 
                 ObjectFullData::Ptr object =
-                        std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                        std::make_shared<ObjectFullData>(
+                                output_image_,
+                                image,
+                                reinterpret_cast<Contour &&>(contours[i])
+                        );;
 
                 if (object.get() == nullptr) {
                     continue;
@@ -313,8 +313,8 @@ namespace proc_image_processing {
                 cv::Point center((int) round(x), (int) round(y));
                 target.setTarget(
                         id_(), center.x, center.y, 0, 0, 0, image.rows, image.cols);
-                target.setSpecField1(spec_1_());
-                target.setSpecField2(spec_2_());
+                target.setSpecialField1(spec_1_());
+                target.setSpecialField2(spec_2_());
                 notify(target);
                 if (debug_contour_()) {
                     cv::circle(output_image_,
@@ -338,36 +338,34 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> debug_contour_, use_convex_hull_;
+        Parameter<bool> debug_contour_;
+        Parameter<bool> use_convex_hull_;
         Parameter<bool> offset_y_for_fence_;
+        Parameter<bool> check_max_y_;
+        Parameter<bool> disable_ratio_;
+        Parameter<bool> look_for_rectangle_;
+        Parameter<bool> disable_angle_;
+        Parameter<bool> eliminate_same_x_targets_;
+        Parameter<bool> vote_most_centered_;
+        Parameter<bool> vote_most_upright_;
+        Parameter<bool> vote_less_difference_from_targeted_ratio_;
+        Parameter<bool> vote_length_;
+        Parameter<bool> vote_higher_;
+        Parameter<bool> vote_most_horizontal_;
+
+        Parameter <std::string> id_;
+        Parameter <std::string> spec_1_;
+        Parameter <std::string> spec_2_;
 
         RangedParameter<double> offset_y_for_fence_fraction;
-
-        Parameter<bool> check_max_y_;
-
-        RangedParameter<double> max_y_, min_area_;
-
-        Parameter<bool> disable_ratio_;
-
-        RangedParameter<double> targeted_ratio_, difference_from_target_ratio_, min_percent_filled_;
-
-        Parameter<bool> look_for_rectangle_, disable_angle_;
-
-        RangedParameter<double> targeted_angle_, difference_from_target_angle_;
-
-        Parameter<bool> eliminate_same_x_targets_;
-
+        RangedParameter<double> max_y_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> targeted_ratio_;
+        RangedParameter<double> difference_from_target_ratio_;
+        RangedParameter<double> min_percent_filled_;
+        RangedParameter<double> targeted_angle_;
+        RangedParameter<double> difference_from_target_angle_;
         RangedParameter<double> max_x_difference_for_elimination_;
-
-        Parameter<bool> vote_most_centered_,
-                vote_most_upright_,
-                vote_less_difference_from_targeted_ratio_,
-                vote_length_,
-                vote_higher_,
-                vote_most_horizontal_;
-
-        Parameter <std::string> id_, spec_1_, spec_2_;
-
         RangedParameter<int> contour_retrieval_;
 
         ObjectFeatureFactory feature_factory_;

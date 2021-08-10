@@ -15,23 +15,23 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<SubtractAllPlanesFilter>;
 
-        explicit SubtractAllPlanesFilter(const GlobalParamHandler &globalParams)
+        explicit SubtractAllPlanesFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  plane_one_("Plane_1", 1, 0, 7, &parameters_,
+                  plane_one_("Plane 1", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                              "6=Intensity, 7=Gray"),
-                  plane_two_("Plane_2", 1, 0, 7, &parameters_,
+                  plane_two_("Plane 2", 1, 0, 7, &parameters_,
                              "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                              "6=Intensity, 7=Gray"),
-                  plane_three_("Plane_3", 1, 0, 7, &parameters_,
+                  plane_three_("Plane 3", 1, 0, 7, &parameters_,
                                "0=None, 1=Blue, 2=Green, 3=Red, 4=Hue, 5=Saturation, "
                                "6=Intensity, 7=Gray"),
-                  invert_one_("Invert_plane_1", false, &parameters_),
-                  invert_two_("Invert_plane_2", false, &parameters_),
-                  invert_three_("Invert_plane_3", false, &parameters_),
-                  weight_one_("Weight_Plane_1", 1.0, 0.0, 10.0, &parameters_),
-                  weight_two_("Weight_Plane_2", 1.0, 0.0, 10.0, &parameters_),
-                  weight_three_("Weight_Plane_3", 1.0, 0.0, 10.0, &parameters_),
+                  invert_one_("Invert plane 1", false, &parameters_),
+                  invert_two_("Invert plane 2", false, &parameters_),
+                  invert_three_("Invert plane 3", false, &parameters_),
+                  weight_one_("Weight plane 1", 1.0, 0.0, 10.0, &parameters_),
+                  weight_two_("Weight plane 2", 1.0, 0.0, 10.0, &parameters_),
+                  weight_three_("Weight plane 3", 1.0, 0.0, 10.0, &parameters_),
                   rows_(0),
                   cols_(0) {
             setName("SubtractAllPlanesFilter");
@@ -73,8 +73,7 @@ namespace proc_image_processing {
         }
 
     private:
-        void setImage(const int choice, cv::Mat &out, const double weight,
-                      const bool inverse) {
+        void setImage(const int choice, cv::Mat &out, const double weight, const bool inverse) {
             cv::Mat two_five_five(rows_, cols_, CV_16SC1, cv::Scalar(255));
             cv::Mat one(rows_, cols_, CV_16SC1, cv::Scalar(1));
 
@@ -88,9 +87,16 @@ namespace proc_image_processing {
             cv::multiply(out, one, out, weight, CV_8UC1);
         }
 
-        RangedParameter<int> plane_one_, plane_two_, plane_three_;
-        Parameter<bool> invert_one_, invert_two_, invert_three_;
-        RangedParameter<double> weight_one_, weight_two_, weight_three_;
+        Parameter<bool> invert_one_;
+        Parameter<bool> invert_two_;
+        Parameter<bool> invert_three_;
+
+        RangedParameter<int> plane_one_;
+        RangedParameter<int> plane_two_;
+        RangedParameter<int> plane_three_;
+        RangedParameter<double> weight_one_;
+        RangedParameter<double> weight_two_;
+        RangedParameter<double> weight_three_;
 
         // Color matrices
         std::vector<cv::Mat> channel_vec_;

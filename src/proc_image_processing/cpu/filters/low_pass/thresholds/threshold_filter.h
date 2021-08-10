@@ -12,11 +12,11 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ThresholdFilter>;
 
-        explicit ThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit ThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  type_("Threshold_type", 1, 0, 5, &parameters_,
+                  type_("Threshold type", 1, 0, 5, &parameters_,
                         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
-                  max_("Max_value", 100, 0, 255, &parameters_) {
+                  max_("Maximum value", 100, 0, 255, &parameters_) {
             setName("ThresholdFilter");
         }
 
@@ -58,7 +58,8 @@ namespace proc_image_processing {
         }
 
     private:
-        RangedParameter<int> type_, max_;
+        RangedParameter<int> type_;
+        RangedParameter<int> max_;
     };
 
 }  // namespace proc_image_processing

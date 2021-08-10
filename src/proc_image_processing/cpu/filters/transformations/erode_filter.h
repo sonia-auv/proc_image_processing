@@ -12,10 +12,10 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ErodeFilter>;
 
-        explicit ErodeFilter(const GlobalParamHandler &globalParams)
+        explicit ErodeFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  use_square_kernel_("Square_kernel", true, &parameters_),
-                  kernel_type_("Kernel_type", 0, 0, 2, &parameters_),
+                  use_square_kernel_("Square kernel", true, &parameters_),
+                  kernel_type_("Kernel type", 0, 0, 2, &parameters_),
                   kernel_size_x_("Width", 1, 0, 20, &parameters_),
                   kernel_size_y_("Height", 1, 0, 20, &parameters_),
                   iteration_("Iteration", 1, 0, 20, &parameters_),
@@ -39,9 +39,10 @@ namespace proc_image_processing {
                     break;
             }
 
-            cv::Size size(kernel_size_x_() * 2 + 1,
-                          (use_square_kernel_() ? kernel_size_x_() * 2 + 1
-                                                : kernel_size_y_() * 2 + 1));
+            cv::Size size(
+                    kernel_size_x_() * 2 + 1,
+                    (use_square_kernel_() ? kernel_size_x_() * 2 + 1 : kernel_size_y_() * 2 + 1)
+            );
             cv::Mat kernel = cv::getStructuringElement(kernel_type, size, anchor_);
 
             cv::erode(image, image, kernel, anchor_, iteration_());
@@ -50,9 +51,9 @@ namespace proc_image_processing {
     private:
         Parameter<bool> use_square_kernel_;
         RangedParameter<int> kernel_type_;
-        RangedParameter<int> kernel_size_x_, kernel_size_y_;
+        RangedParameter<int> kernel_size_x_;
+        RangedParameter<int> kernel_size_y_;
         RangedParameter<int> iteration_;
-
         const cv::Point anchor_;
     };
 

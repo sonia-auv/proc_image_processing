@@ -1,9 +1,8 @@
 import unittest
-from pathlib import Path
-from unittest import TestCase
-
 from factory_generator_exception import FactoryGeneratorException
 from item_header import load, ItemHeader, load_all
+from pathlib import Path
+from unittest import TestCase
 
 
 class TestFilterHeader(TestCase):

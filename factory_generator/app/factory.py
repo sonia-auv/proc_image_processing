@@ -31,7 +31,7 @@ class Factory:
                         if_stmt = '\tif(' + self.equality_variable + ' == "' + class_name + '"){\n'
                     else:
                         if_stmt = '\telse if(' + self.equality_variable + ' == "' + class_name + '"){\n'
-                    return_stmt = '\t\treturn std::move(std::make_unique<' + class_name + '>(' + params + '));\n'
+                    return_stmt = '\t\treturn std::make_unique<' + class_name + '>(' + params + ');\n'
                     end_stmt = '\t}\n'
                     self.content.insert(idx + j, if_stmt + return_stmt + end_stmt)
                 return

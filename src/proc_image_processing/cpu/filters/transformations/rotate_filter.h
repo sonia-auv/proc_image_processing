@@ -12,10 +12,10 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<RotateFilter>;
 
-        explicit RotateFilter(const GlobalParamHandler &globalParams)
+        explicit RotateFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   transpose_("Transpose", false, &parameters_),
-                  rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
+                  rotate_type_("Rotation type", 0, 0, 3, &parameters_,
                                "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis") {
             setName("RotateFilter");
         }
@@ -41,7 +41,6 @@ namespace proc_image_processing {
 
     private:
         Parameter<bool> transpose_;
-
         RangedParameter<int> rotate_type_;
     };
 

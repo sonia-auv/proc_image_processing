@@ -16,7 +16,7 @@ namespace proc_image_processing {
     class Deep2019Filter : public Filter {
 
     public:
-        explicit Deep2019Filter(const GlobalParamHandler &globalParams) :
+        explicit Deep2019Filter(const GlobalParameterHandler &globalParams) :
                 Filter(globalParams),
                 nh_(ros::NodeHandle("proc_image_processing")),
                 debug_contour_("Debug contour", false, &parameters_),
@@ -28,8 +28,12 @@ namespace proc_image_processing {
                 bat_("Bat", true, &parameters_),
                 wolf_("Wolf", true, &parameters_),
                 color_(0, 0, 0) {
-            image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100,
-                                                               &Deep2019Filter::callbackBoundingBox, this);
+            image_subscriber_ = ros::NodeHandle("~").subscribe(
+                    "/deep_detector/bounding_box",
+                    100,
+                    &Deep2019Filter::callbackBoundingBox,
+                    this
+            );
             setName("Deep2019Filter");
         };
 
@@ -84,8 +88,10 @@ namespace proc_image_processing {
         const cv::Scalar BBOX_INFO_TEXT_COLOR = cv::Scalar(255, 255, 255);
         const int BBOX_INFO_FONT = cv::FONT_HERSHEY_TRIPLEX;
 
+        // TODO why do we need this here? Every other filters doesn't need a NodeHandle/Subscriber
         ros::Subscriber image_subscriber_;
         ros::NodeHandle nh_;
+
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
         Parameter<bool> debug_contour_, vetalas_, draugr_, jiangshi_, answag_, vampire_, bat_, wolf_;
@@ -94,8 +100,9 @@ namespace proc_image_processing {
         cv::Scalar color_;
 
         void callbackBoundingBox(const sonia_common::DetectionArrayConstPtr &msg) {
-            if (bounding_box_.empty())
+            if (bounding_box_.empty()) {
                 bounding_box_.clear();
+            }
             bounding_box_ = msg->detected_object;
         }
 
@@ -126,12 +133,16 @@ namespace proc_image_processing {
 
             target.setCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
             target.setSize((int) object.bbox.size_x, (int) object.bbox.size_y);
-            target.setSpecField1(object.class_name.data);
-            target.setSpecField2(convertFloatToString(object.confidence));
+            target.setSpecialField1(object.class_name.data);
+            target.setSpecialField2(convertFloatToString(object.confidence));
         }
 
-        inline void drawTarget(cv::Mat &image, const sonia_common::Detection &object, int thickness = 3,
-                               const cv::Scalar &color_box = cv::Scalar(0, 255, 0)) {
+        inline void drawTarget(
+                cv::Mat &image,
+                const sonia_common::Detection &object,
+                int thickness = 3,
+                const cv::Scalar &color_box = cv::Scalar(0, 255, 0)
+        ) {
             int origin_x = (int) (object.bbox.center.x - (object.bbox.size_x / 2));
             int origin_y = (int) (object.bbox.center.y - (int) (object.bbox.size_y / 2));
 

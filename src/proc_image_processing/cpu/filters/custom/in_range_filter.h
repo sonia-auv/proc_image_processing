@@ -19,20 +19,20 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<InRangeFilter>;
 
-        explicit InRangeFilter(const GlobalParamHandler &globalParams)
+        explicit InRangeFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  lower_hue_("HSVLowH", 0, 0, 255, &parameters_),
-                  upper_hue_("HSVHighH", 255, 0, 255, &parameters_),
-                  lower_saturation_("HSVLowS", 0, 0, 255, &parameters_),
-                  upper_saturation_("HSVHighS", 255, 0, 255, &parameters_),
-                  lower_value_("HSVLowV", 0, 0, 255, &parameters_),
-                  upper_value_("HSVHighV", 255, 0, 255, &parameters_),
-                  lower_lightness_("LUVlowL", 0, 0, 255, &parameters_),
-                  upper_lightness_("LUVhighL", 255, 0, 255, &parameters_),
-                  lower_u_("LUVlowU", 0, 0, 255, &parameters_),
-                  upper_u_("LUVhighU", 255, 0, 255, &parameters_),
-                  lower_v_("LUVlowV", 0, 0, 255, &parameters_),
-                  upper_v_("LUVhighV", 255, 0, 255, &parameters_) {
+                  lower_hue_("HSV Lower H", 0, 0, 255, &parameters_),
+                  upper_hue_("HSV Upper H", 255, 0, 255, &parameters_),
+                  lower_saturation_("HSV Lower S", 0, 0, 255, &parameters_),
+                  upper_saturation_("HSV Upper S", 255, 0, 255, &parameters_),
+                  lower_value_("HSV Lower V", 0, 0, 255, &parameters_),
+                  upper_value_("HSV Upper V", 255, 0, 255, &parameters_),
+                  lower_lightness_("LUV Lower L", 0, 0, 255, &parameters_),
+                  upper_lightness_("LUV Upper L", 255, 0, 255, &parameters_),
+                  lower_u_("LUV Lower U", 0, 0, 255, &parameters_),
+                  upper_u_("LUV Upper U", 255, 0, 255, &parameters_),
+                  lower_v_("LUV Lower V", 0, 0, 255, &parameters_),
+                  upper_v_("LUV Upper V", 255, 0, 255, &parameters_) {
             setName("InRangeFilter");
         }
 
@@ -51,18 +51,19 @@ namespace proc_image_processing {
 
             cv::cvtColor(image, hsv, cv::COLOR_RGB2HSV_FULL);
             cv::inRange(
-                    hsv, cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(),
-                                    lower_value_.getValue()),
-                    cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(),
-                               upper_value_.getValue()),
-                    hsv);
+                    hsv,
+                    cv::Scalar(lower_hue_.getValue(), lower_saturation_.getValue(), lower_value_.getValue()),
+                    cv::Scalar(upper_hue_.getValue(), upper_saturation_.getValue(), upper_value_.getValue()),
+                    hsv
+            );
 
             cv::cvtColor(image, luv, cv::COLOR_RGB2Luv);
-            cv::inRange(luv, cv::Scalar(lower_lightness_.getValue(),
-                                        lower_u_.getValue(), lower_v_.getValue()),
-                        cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(),
-                                   upper_v_.getValue()),
-                        luv);
+            cv::inRange(
+                    luv,
+                    cv::Scalar(lower_lightness_.getValue(), lower_u_.getValue(), lower_v_.getValue()),
+                    cv::Scalar(upper_lightness_.getValue(), upper_u_.getValue(), upper_v_.getValue()),
+                    luv
+            );
             cv::bitwise_and(hsv, luv, image);
         }
 

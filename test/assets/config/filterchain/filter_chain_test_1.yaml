@@ -1,0 +1,34 @@
+name: filter_chain_test_1
+filters:
+  - name: CropFilter
+    parameters:
+      - name: Enable
+        value: 0
+      - name: X Offset
+        value: 264
+      - name: Y Offset
+        value: 0
+      - name: X Reduction
+        value: 251
+      - name: Y Reduction
+        value: 0
+  - name: ThresholdFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Threshold type
+        value: 1
+      - name: Maximum value
+        value: 0
+  - name: CLAHEFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Grayscale
+        value: 1
+      - name: Clip limit
+        value: 40.0
+      - name: Tile width
+        value: 8
+      - name: Tile height
+        value: 8

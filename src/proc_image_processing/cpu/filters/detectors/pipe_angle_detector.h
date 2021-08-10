@@ -17,12 +17,12 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<PipeAngleDetector>;
 
-        explicit PipeAngleDetector(const GlobalParamHandler &globalParams)
+        explicit PipeAngleDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   angle_(0.0f),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  min_area_("Min_area", 200, 0, 10000, &parameters_),
-                  min_pixel_("Min_pixel", 0, 20, 100, &parameters_) {
+                  debug_contour_("Debug contour", false, &parameters_),
+                  min_area_("Minimum area", 200, 0, 10000, &parameters_),
+                  min_pixel_("Minimum pixel", 0, 20, 100, &parameters_) {
             setName("PipeAngleDetector");
         }
 
@@ -37,8 +37,11 @@ namespace proc_image_processing {
                 }
             }
 
-            if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-            cv::Mat originalImage = global_params_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
@@ -49,7 +52,11 @@ namespace proc_image_processing {
             ObjectFullData::Ptr firstObject = nullptr;
             ObjectFullData::Ptr lastObject = nullptr;
             for (int i = 0; i < contours.size(); i++) {
-                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
+                        output_image_,
+                        image,
+                        reinterpret_cast<Contour &&>(contours[i])
+                );;
 
                 std::vector<cv::Point> realContour = contours[i];
 
@@ -124,8 +131,10 @@ namespace proc_image_processing {
                         lastContour.push_back(realContour[id]);
                     }
 
-                    firstObject = std::make_shared<ObjectFullData>(originalImage, image, firstContour);
-                    lastObject = std::make_shared<ObjectFullData>(originalImage, image, lastContour);
+                    firstObject = std::make_shared<ObjectFullData>(originalImage, image,
+                                                                   reinterpret_cast<Contour &&>(firstContour));
+                    lastObject = std::make_shared<ObjectFullData>(originalImage, image,
+                                                                  reinterpret_cast<Contour &&>(lastContour));
                 }
 
                 if (debug_contour_()) {
@@ -185,15 +194,13 @@ namespace proc_image_processing {
         }
 
     private:
-        cv::Mat output_image_;
-
-        float angle_;
-
         Parameter<bool> debug_contour_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> min_pixel_;
 
+        cv::Mat output_image_;
         std::vector<std::tuple<cv::Point, int>> intersectionPoint_;
-
-        RangedParameter<double> min_area_, min_pixel_;
+        float angle_;
     };
 
 }  // namespace proc_image_processing

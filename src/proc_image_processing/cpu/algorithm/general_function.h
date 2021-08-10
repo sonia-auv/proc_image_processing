@@ -57,19 +57,19 @@ namespace proc_image_processing {
     // Features calculation
     float getResolutionRatio(float width, float height);
 
-    float getConvexityRatio(const contour_t &contour);
+    double getConvexityRatio(const contour_t &contour);
 
-    float getConvexHullArea(const contour_t &contour);
+    double getConvexHullArea(const contour_t &contour);
 
-    float getCircleIndex(float area, float perimeter);
+    double getCircleIndex(double area, double perimeter);
 
-    float getCircleIndex(const contour_t &contour);
+    double getCircleIndex(const contour_t &contour);
 
     // Receive a binary input and calculates the number of white pixel over the
     // total number of pixel in the upright rectangle
-    float getPercentFilled(const cv::Mat &image, const cv::Rect &rectangle);
+    double getPercentFilled(const cv::Mat &image, const cv::Rect &rectangle);
 
-    float getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle);
+    double getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle);
 
     cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle = true);
 

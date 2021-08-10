@@ -14,12 +14,12 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<CenterCoffinDetector>;
 
-        explicit CenterCoffinDetector(const GlobalParamHandler &globalParams)
+        explicit CenterCoffinDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-                  min_area_("Min_area", 100, 1, 10000, &parameters_),
-                  max_area_("Max_area", 1000, 1, 1000000, &parameters_) {
+                  debug_contour_("Debug contour", false, &parameters_),
+                  look_for_rectangle_("Look for rectangle", false, &parameters_),
+                  min_area_("Minimum area", 100, 1, 10000, &parameters_),
+                  max_area_("Maximum area", 1000, 1, 1000000, &parameters_) {
             setName("CenterCoffinDetector");
         }
 
@@ -42,12 +42,13 @@ namespace proc_image_processing {
             retrieveAllContours(image, contours);
             ObjectFullData::FullObjectPtrVec objVec;
             for (int i = 0; i < contours.size(); i++) {
-                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
-                if (object.get() == nullptr) {
-                    continue;
-                }
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
+                        output_image_,
+                        image,
+                        reinterpret_cast<Contour &&>(contours[i])
+                );
 
-                if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
+                if (object.get() == nullptr || object->getArea() < min_area_() || object->getArea() > max_area_()) {
                     continue;
                 }
 
@@ -107,9 +108,8 @@ namespace proc_image_processing {
 
     private:
         cv::Mat output_image_;
-
-        Parameter<bool> debug_contour_, look_for_rectangle_;
-
+        Parameter<bool> debug_contour_;
+        Parameter<bool> look_for_rectangle_;
         RangedParameter<double> min_area_, max_area_;
     };
 

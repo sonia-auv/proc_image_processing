@@ -188,31 +188,31 @@ namespace proc_image_processing {
         return std::min((height / width), (width / height)) * 100;
     }
 
-    float getConvexityRatio(const contour_t &contour) {
+    double getConvexityRatio(const contour_t &contour) {
         if (contour.size() <= 2) return -1;
-        float convexHullArea = getConvexHullArea(contour);
+        auto convexHullArea = getConvexHullArea(contour);
         if (convexHullArea == 0) return 0;
         return (cv::contourArea(contour) / convexHullArea) * 100;
     }
 
-    float getConvexHullArea(const contour_t &contour) {
+    double getConvexHullArea(const contour_t &contour) {
         if (contour.size() <= 2) return -1;
         contour_t convexHull;
         cv::convexHull(contour, convexHull, false, true);
         return cv::contourArea(convexHull, false);
     }
 
-    float getCircleIndex(float area, float perimeter) {
-        float radiusCircum = perimeter / (2 * M_PI);
-        float radiusArea = sqrt(area / (M_PI));
-        if (radiusCircum == 0 && radiusArea) return 0;
-        return radiusCircum > radiusArea ? radiusArea / radiusCircum
-                                         : radiusCircum / radiusArea;
+    double getCircleIndex(double area, double perimeter) {
+        auto circumference = perimeter / (2 * M_PI);
+        auto radiusArea = sqrt(area / (M_PI));
+        if (circumference == 0 && radiusArea == 0) return 0;
+        return circumference > radiusArea ? radiusArea / circumference : circumference / radiusArea;
     }
 
-    float getCircleIndex(const contour_t &contour) {
+    double getCircleIndex(const contour_t &contour) {
         return getCircleIndex(cv::contourArea(contour, false),
-                              cv::arcLength(contour, true));
+                              cv::arcLength(contour, true)
+        );
     }
 
     cv::Scalar getMeans(const contour_t &contour, const cv::Mat &image, bool middle) {
@@ -224,9 +224,12 @@ namespace proc_image_processing {
         cv::Mat matRoi;
         cv::Rect boundRect = cv::boundingRect(cv::Mat(contour));
         if (middle) {
-            cv::Rect roi((boundRect.x + 0.25 * boundRect.width),
-                         (boundRect.y + 0.25 * boundRect.height), 0.5 * boundRect.width,
-                         0.5 * boundRect.height);
+            cv::Rect roi(
+                    boundRect.x + 0.25 * boundRect.width,
+                    boundRect.y + 0.25 * boundRect.height,
+                    0.5 * boundRect.width,
+                    0.5 * boundRect.height
+            );
 
             matRoi = cv::Mat(opImage, roi);
         } else {
@@ -243,14 +246,21 @@ namespace proc_image_processing {
         // thanks to http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/
 
         cv::Mat rotated, rotationMat, originalOut;
-        cv::Mat returnImage = cv::Mat::zeros(rect.size.height, rect.size.width, image.type());
+        cv::Mat returnImage = cv::Mat::zeros(rect.size, image.type());
 
         // Gets the rotation matrix
         rotationMat = cv::getRotationMatrix2D(rect.center, rect.angle, 1.0);
 
         // perform the affine transformation
-        cv::warpAffine(image, rotated, rotationMat, image.size(), cv::INTER_LINEAR,
-                       cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
+        cv::warpAffine(
+                image,
+                rotated,
+                rotationMat,
+                image.size(),
+                cv::INTER_LINEAR,
+                cv::BORDER_CONSTANT,
+                cv::Scalar(0, 0, 0)
+        );
 
         // crop the resulting image
         cv::getRectSubPix(rotated, rect.size, rect.center, returnImage);
@@ -258,25 +268,21 @@ namespace proc_image_processing {
         return returnImage;
     }
 
-    float getPercentFilled(const cv::Mat &image, const cv::Rect &rectangle) {
+    double getPercentFilled(const cv::Mat &image, const cv::Rect &rectangle) {
         cv::Mat opImage;
         if (image.channels() > 1)
             cv::cvtColor(image, opImage, CV_BGR2GRAY);
         else
             image.copyTo(opImage);
 
-        float totalCount = rectangle.height * rectangle.width;
-        float whiteCount = cv::countNonZero(opImage(rectangle));
-        if (totalCount != 0) return ((whiteCount / totalCount) * 100);
-        return 0.0f;
+        auto totalCount = rectangle.height * rectangle.width;
+        auto whiteCount = cv::countNonZero(opImage(rectangle));
+        return totalCount != 0 ? (whiteCount / totalCount) * 100 : 0;
     }
 
-    float getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle) {
+    double getPercentFilled(const cv::Mat &image, const cv::RotatedRect &rectangle) {
         cv::Mat opImage;
-        if (image.channels() > 1)
-            cv::cvtColor(image, opImage, CV_BGR2GRAY);
-        else
-            image.copyTo(opImage);
+        image.channels() > 1 ? cv::cvtColor(image, opImage, CV_BGR2GRAY) : image.copyTo(opImage);
         // image to contain the rectangle drawn
         cv::Mat rotRectDraw = cv::Mat::zeros(opImage.size(), CV_8UC1);
         // Got the rotated rect and its points
@@ -292,22 +298,18 @@ namespace proc_image_processing {
         upRightRect.x = MIN(MAX(upRightRect.x, 0), image.size().width);
         upRightRect.y = MIN(MAX(upRightRect.y, 0), image.size().height);
 
-        upRightRect.width =
-                MIN(MAX(upRightRect.x + upRightRect.width, 0), image.size().width) -
-                upRightRect.x;
-        upRightRect.height =
-                MIN(MAX(upRightRect.y + upRightRect.height, 0), image.size().height) -
-                upRightRect.y;
+        upRightRect.width = MIN(MAX(upRightRect.x + upRightRect.width, 0), image.size().width) - upRightRect.x;
+        upRightRect.height = MIN(MAX(upRightRect.y + upRightRect.height, 0), image.size().height) - upRightRect.y;
 
         // Gets the ROI
         cv::Mat roiGray = opImage(upRightRect);
         cv::Mat roiRectGray = rotRectDraw(upRightRect);
 
-        float rotRectPix = cv::countNonZero(roiRectGray);
+        auto rotRectPix = cv::countNonZero(roiRectGray);
 
         cv::Mat notFilledPix;
         cv::subtract(roiRectGray, roiGray, notFilledPix);
-        float countNonZeroResult = cv::countNonZero(notFilledPix);
+        auto countNonZeroResult = cv::countNonZero(notFilledPix);
         return (1 - (countNonZeroResult / rotRectPix)) * 100;
     }
 
@@ -322,16 +324,14 @@ namespace proc_image_processing {
         // Rotation first for no real reason...
         switch (rotation) {
             case R_90:
-                rotationMat = cv::getRotationMatrix2D(
-                        cv::Point((in.cols) / 2, (in.rows) / 2), -90, 1.0);
+                rotationMat = cv::getRotationMatrix2D(cv::Point((in.cols) / 2, (in.rows) / 2), -90, 1.0);
                 cv::warpAffine(in, out, rotationMat, in.size(), cv::INTER_AREA);
                 break;
             case R_180:
                 cv::flip(in, out, -1);
                 break;
             case R_270:
-                rotationMat = cv::getRotationMatrix2D(
-                        cv::Point((in.cols) / 2, (in.rows) / 2), 90, 1.0);
+                rotationMat = cv::getRotationMatrix2D(cv::Point((in.cols) / 2, (in.rows) / 2), 90, 1.0);
                 cv::warpAffine(in, out, rotationMat, in.size(), cv::INTER_AREA);
                 break;
             case R_NONE:
@@ -356,7 +356,7 @@ namespace proc_image_processing {
     }
 
     void drawRectangle(cv::Point2f *pts, cv::Mat &image, const cv::Scalar &color) {
-        if (sizeof(pts) != 8 || image.data == nullptr) return;
+        if (image.data == nullptr) return;
 
         cv::line(image, pts[0], pts[1], color, 3);
         cv::line(image, pts[1], pts[2], color, 3);
@@ -371,9 +371,11 @@ namespace proc_image_processing {
         in.convertTo(temp, CV_16SC1);
         // pixel of value 1 become -254
         // pixel of value 250 become -5
-        cv::subtract(temp,
-                     cv::Mat(in.rows, in.cols, CV_16SC1, cv::Scalar(255, 255, 255)),
-                     temp);
+        cv::subtract(
+                temp,
+                cv::Mat(in.rows, in.cols, CV_16SC1, cv::Scalar(255, 255, 255)),
+                temp
+        );
 
         // Put back positive values
         cv::multiply(temp, cv::Mat::ones(temp.size(), CV_16SC1), temp, -1);
@@ -426,7 +428,7 @@ namespace proc_image_processing {
             cv::Vec3f A = longestVertices[j];
             cv::Vec3f B = -longestVertices[j + 1];
             cv::Vec3f C = A.cross(B);
-            float ninetyNorm = norm(C) / (norm(A) * norm(B));
+            auto ninetyNorm = norm(C) / (norm(A) * norm(B));
             // Do not check for negativity because inner contour runs
             // clockwise, so they always give negative.
             if (ninetyNorm >= ACCURACY_TABLE[accuracy]) trueSquareAngleCount++;
@@ -447,7 +449,8 @@ namespace proc_image_processing {
 
             for (int j = 2; j < 5; j++) {
                 double cosine = std::fabs(
-                        getAngleBetweenPoints(approx[j % 4], approx[j - 2], approx[j - 1]));
+                        getAngleBetweenPoints(approx[j % 4], approx[j - 2], approx[j - 1])
+                );
                 maxCosine = MAX(maxCosine, cosine);
             }
 
@@ -506,13 +509,12 @@ namespace proc_image_processing {
         cv::PCA pca;
         pcaAnalysis(pts, pca);
 
-        // Store the eigenvectors
-        std::vector<cv::Point2d> eigen_vecs(2);
+        std::vector<cv::Point2d> eigen_vector(2);
         for (int i = 0; i < 2; ++i) {
-            eigen_vecs[i] = cv::Point2d(pca.eigenvectors.at<double>(i, 0), pca.eigenvectors.at<double>(i, 1));
+            eigen_vector[i] = cv::Point2d(pca.eigenvectors.at<double>(i, 0), pca.eigenvectors.at<double>(i, 1));
         }
 
-        return eigen_vecs;
+        return eigen_vector;
     }
 
     double getAngleBetweenPoints(const cv::Point &pt1, const cv::Point &pt2, const cv::Point &pt0) {
@@ -537,17 +539,9 @@ namespace proc_image_processing {
     }
 
     float getMedian(std::vector<float> values) {
-        float median;
         size_t size = values.size();
-
         std::sort(values.begin(), values.end());
-
-        if (size % 2 == 0) {
-            median = (values[size / 2 - 1] + values[size / 2]) / 2;
-        } else {
-            median = values[size / 2];
-        }
-
+        auto median = size % 2 == 0 ? (values[size / 2 - 1] + values[size / 2]) / 2 : values[size / 2];
         return median;
     };
 

@@ -16,11 +16,18 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BilateralFilter>;
 
-        explicit BilateralFilter(const GlobalParamHandler &globalParams)
+        explicit BilateralFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   diameter_("Diameter", -100, 0, 100, &parameters_),
-                  sigma_color_("Sigm_color", 0, 0, 300, &parameters_),
-                  sigma_space_("Sigma_space", 0, 0, 300, &parameters_) {
+                  sigma_color_("Sigma color", 0, 0, 300, &parameters_,
+                               "Filter sigma in the color space. A larger value of the parameter means that "
+                               "farther colors within the pixel neighborhood (see sigmaSpace) will be mixed together, resulting "
+                               "in larger areas of semi-equal color."),
+                  sigma_space_("Sigma space", 0, 0, 300, &parameters_,
+                               "Filter sigma in the coordinate space. A larger value of the parameter means that "
+                               "farther pixels will influence each other as long as their colors are close enough (see sigmaColor "
+                               "). When d>0, it specifies the neighborhood size regardless of sigmaSpace. Otherwise, d is "
+                               "proportional to sigmaSpace.") {
             setName("BilateralFilter");
         }
 
@@ -35,8 +42,13 @@ namespace proc_image_processing {
          */
         void apply(cv::Mat &image) override {
             cv::Mat blurred;
-            cv::bilateralFilter(image, blurred, diameter_.getValue(),
-                                sigma_color_.getValue(), sigma_space_.getValue());
+            cv::bilateralFilter(
+                    image,
+                    blurred,
+                    diameter_.getValue(),
+                    sigma_color_.getValue(),
+                    sigma_space_.getValue()
+            );
 
             blurred.copyTo(image);
         }

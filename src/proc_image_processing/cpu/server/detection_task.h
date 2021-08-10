@@ -21,8 +21,11 @@ namespace proc_image_processing {
 
         static const std::string EXEC_TAG;
 
-        explicit DetectionTask(const std::string &topic_name, FilterChain::Ptr filter_chain,
-                               std::string execution_name);
+        explicit DetectionTask(
+                const std::string &topic_name,
+                FilterChain::Ptr filter_chain,
+                std::string execution_name
+        );
 
         ~DetectionTask() override;
 
@@ -93,7 +96,7 @@ namespace proc_image_processing {
 
         FilterChain::Ptr filterchain_;
 
-        GlobalParamHandler &param_handler_;
+        GlobalParameterHandler &param_handler_;
 
         std::mutex newest_image_mutex_;
 

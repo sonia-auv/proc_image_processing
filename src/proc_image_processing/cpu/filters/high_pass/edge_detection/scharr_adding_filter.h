@@ -13,14 +13,14 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ScharrAddingFilter>;
 
-        explicit ScharrAddingFilter(const GlobalParamHandler &globalParams)
+        explicit ScharrAddingFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  run_small_image_("Run_small_image", true, &parameters_,
+                  run_small_image_("Run small image", true, &parameters_,
                                    "Resize image to run on smaller image"),
-                  convert_to_uchar_("Convert_to_uchar", false, &parameters_),
+                  convert_to_uchar_("Convert to uchar", false, &parameters_),
                   delta_("Delta", 0, 0, 255, &parameters_),
                   scale_("Scale", 1, 0, 255, &parameters_),
-                  mean_multiplier_("Mean_multiplier", 1.0f, 0.0f, 10.0f, &parameters_),
+                  mean_factor_("Mean factor", 1.0f, 0.0f, 10.0f, &parameters_),
                   plane_blue_("Blue", false, &parameters_),
                   plane_green_("Green", false, &parameters_),
                   plane_red_("Red", false, &parameters_),
@@ -62,36 +62,40 @@ namespace proc_image_processing {
 
     private:
         cv::Mat getScharr(const cv::Mat &img) {
-            cv::Mat abs_x, scharrX, abs_y, scharrY, diff;
+            cv::Mat abs_x;
+            cv::Mat abs_y;
+            cv::Mat scharrX;
+            cv::Mat scharrY;
+            cv::Mat diff;
 
-            cv::Scharr(img, scharrX, CV_32F, 1, 0, scale_(), delta_(),
-                       cv::BORDER_REPLICATE);
-            cv::Scharr(img, scharrY, CV_32F, 0, 1, scale_(), delta_(),
-                       cv::BORDER_REPLICATE);
+            cv::Scharr(img, scharrX, CV_32F, 1, 0, scale_(), delta_(), cv::BORDER_REPLICATE);
+            cv::Scharr(img, scharrY, CV_32F, 0, 1, scale_(), delta_(), cv::BORDER_REPLICATE);
+
+            // TODO Is this an error? Shouldn'y we use abs_x and abs_y?
             cv::absdiff(scharrX, 0, scharrX);
             cv::absdiff(scharrY, 0, scharrY);
 
             cv::addWeighted(scharrX, 0.5, scharrY, 0.5, 0, diff, CV_32F);
 
             cv::Scalar mean = cv::mean(diff);
-            cv::threshold(diff, diff, (mean[0] * mean_multiplier_()), 0,
-                          CV_THRESH_TOZERO);
+            cv::threshold(diff, diff, (mean[0] * mean_factor_()), 0, CV_THRESH_TOZERO);
 
             return diff;
         }
 
-        // _run_small_image accelerate the pipeline by
-        // reducing the image size by two (in each direction)
-        // so that the scharr computation does not take to much time
-        // when multiple images.
-        Parameter<bool> run_small_image_, convert_to_uchar_;
-        // _mean_multiplier act as threshold for noise.
-        // When set, it remove everything under the mean to keep only
-        // proeminent contours.
-        RangedParameter<double> delta_, scale_, mean_multiplier_;
-        Parameter<bool> plane_blue_, plane_green_, plane_red_;
-        Parameter<bool> plane_hue_, plane_saturation_, plane_intensity_;
+        RangedParameter<double> delta_;
+        RangedParameter<double> scale_;
+        RangedParameter<double> mean_factor_;
+
+        Parameter<bool> convert_to_uchar_;
+        Parameter<bool> plane_blue_;
+        Parameter<bool> plane_green_;
+        Parameter<bool> plane_red_;
+        Parameter<bool> plane_hue_;
+        Parameter<bool> plane_saturation_;
+        Parameter<bool> plane_intensity_;
         Parameter<bool> plane_gray_;
+        Parameter<bool> run_small_image_;
     };
 
 }  // namespace proc_image_processing

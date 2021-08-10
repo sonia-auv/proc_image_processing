@@ -2,11 +2,6 @@ name: Factory Generator
 
 on:
   push:
-    branches:
-      - "feature/**"
-      - "develop"
-      - "master"
-      - "main"
 
 jobs:
   factory-generator:
@@ -14,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src/factory_generator
+        working-directory: factory_generator
     steps:
       - uses: actions/checkout@v2
 

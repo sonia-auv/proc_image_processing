@@ -12,13 +12,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<AdaptiveThresholdFilter>;
 
-        explicit AdaptiveThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit AdaptiveThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
-                  threshold_type_("Threshold_type", 0, 0, 1, &parameters_,
-                                  "0=BIN, 1=BIN_INV"),
+                  threshold_type_("Threshold type", 0, 0, 1, &parameters_, "0=BIN, 1=BIN_INV"),
                   _block_size("Size", 1, 1, 40, &parameters_),
-                  c_param_("C_param", 0.0f, -255.0f, 255.0f, &parameters_) {
+                  c_("C", 0.0f, -255.0f, 255.0f, &parameters_,
+                     "Constant subtracted from the mean or weighted mean.") {
             setName("AdaptiveThresholdFilter");
         }
 
@@ -31,13 +31,14 @@ namespace proc_image_processing {
             int size = _block_size() * 2 + 1;
             int method = method_() == 0 ? cv::ADAPTIVE_THRESH_GAUSSIAN_C : cv::ADAPTIVE_THRESH_MEAN_C;
             int type = threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
-            cv::adaptiveThreshold(image, image, 255, method, type, size, c_param_());
+            cv::adaptiveThreshold(image, image, 255, method, type, size, c_());
         }
 
     private:
-        RangedParameter<int> method_, threshold_type_, _block_size;
-
-        RangedParameter<double> c_param_;
+        RangedParameter<int> method_;
+        RangedParameter<int> threshold_type_;
+        RangedParameter<int> _block_size;
+        RangedParameter<double> c_;
     };
 
 }  // namespace proc_image_processing

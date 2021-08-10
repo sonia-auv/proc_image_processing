@@ -12,14 +12,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<MorphologyFilter>;
 
-        explicit MorphologyFilter(const GlobalParamHandler &globalParams)
+        explicit MorphologyFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  morph_type_("Morphology_type", 0, 0, 4, &parameters_,
+                  morph_type_("Morphology type", 0, 0, 4, &parameters_,
                               "0=Gradient, 1=TopHat, 2=BlackHat, 3=Opening, 4=Closing"),
-                  kernel_type_("Kernel_type", 0, 0, 2, &parameters_,
-                               "0=Rect, 1=Elipse, 2=Cross"),
+                  kernel_type_("Kernel type", 0, 0, 2, &parameters_, "0=Rect, 1=Elipse, 2=Cross"),
                   iteration_("Iteration", 1, 1, 20, &parameters_),
-                  kernel_size_("Kernel_size", 1, 1, 40, &parameters_),
+                  kernel_size_("Kernel size", 1, 1, 40, &parameters_),
                   anchor_(-1, -1) {
             setName("MorphologyFilter");
         }
@@ -78,7 +77,11 @@ namespace proc_image_processing {
         }
 
     private:
-        RangedParameter<int> morph_type_, kernel_type_, iteration_, kernel_size_;
+        RangedParameter<int> morph_type_;
+        RangedParameter<int> kernel_type_;
+        RangedParameter<int> iteration_;
+        RangedParameter<int> kernel_size_;
+
         const cv::Point anchor_;
     };
 

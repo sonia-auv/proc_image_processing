@@ -16,22 +16,20 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<HandleDetector>;
 
-        explicit HandleDetector(const GlobalParamHandler &globalParams)
+        explicit HandleDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  look_for_rectangle_("Look_for_Rectangle", false, &parameters_),
-                  disable_ratio_("disable_ratio_check", false, &parameters_),
-                  disable_angle_("disable_angle_check", false, &parameters_),
+                  debug_contour_("Debug contour", false, &parameters_),
+                  look_for_rectangle_("Look for rectangle", false, &parameters_),
+                  disable_ratio_("Disable ratio check", false, &parameters_),
+                  disable_angle_("Disable angle check", false, &parameters_),
                   id_("ID", "buoy", &parameters_),
                   spec_1_("spec1", "red", &parameters_),
                   spec_2_("spec2", "blue", &parameters_),
-                  min_area_("Min_area", 200, 0, 10000, &parameters_),
-                  targeted_ratio_("Ratio_target", 0.5f, 0.0f, 1.0f, &parameters_),
-                  difference_from_target_ratio_("Diff_from_ratio_target", 0.10f, 0.0f,
-                                                1.0f, &parameters_),
+                  min_area_("Minimum area", 200, 0, 10000, &parameters_),
+                  targeted_ratio_("Ratio target", 0.5f, 0.0f, 1.0f, &parameters_),
+                  difference_from_target_ratio_("Difference from ratio target", 0.10f, 0.0f, 1.0f, &parameters_),
                   targeted_angle_("angle_target", 0.0f, 0.0f, 90.0f, &parameters_),
-                  difference_from_target_angle_("Diff_from_angle_target", 30.0f, 0.0f,
-                                                90.0f, &parameters_),
+                  difference_from_target_angle_("Difference from angle target", 30.0f, 0.0f, 90.0f, &parameters_),
                   feature_factory_(5) {
             setName("HandleDetector");
             // Little goodies for cvs
@@ -48,8 +46,11 @@ namespace proc_image_processing {
                 }
             }
 
-            if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-            cv::Mat originalImage = global_params_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+
+            cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
@@ -59,7 +60,11 @@ namespace proc_image_processing {
             ObjectFullData::FullObjectPtrVec objVec;
             for (int i = 0; i < contours.size(); i++) {
                 ObjectFullData::Ptr object =
-                        std::make_shared<ObjectFullData>(originalImage, image, contours[i]);
+                        std::make_shared<ObjectFullData>(
+                                output_image_,
+                                image,
+                                reinterpret_cast<Contour &&>(contours[i])
+                        );;
                 if (object.get() == nullptr) {
                     continue;
                 }
@@ -114,8 +119,8 @@ namespace proc_image_processing {
                 target.setTarget(id_(), center.x, center.y, object->getWidth(),
                                  object->getHeight(), object->getRotRect().angle,
                                  image.rows, image.cols);
-                target.setSpecField1(spec_1_());
-                target.setSpecField2(spec_2_());
+                target.setSpecialField1(spec_1_());
+                target.setSpecialField2(spec_2_());
                 notify(target);
                 if (debug_contour_()) {
                     cv::circle(output_image_, objVec[0]->getCenterPoint(), 3,
@@ -129,13 +134,20 @@ namespace proc_image_processing {
 
     private:
         cv::Mat output_image_;
-        // Params
-        Parameter<bool> debug_contour_, look_for_rectangle_, disable_ratio_,
-                disable_angle_;
-        Parameter <std::string> id_, spec_1_, spec_2_;
-        RangedParameter<double> min_area_, targeted_ratio_,
-                difference_from_target_ratio_, targeted_angle_,
-                difference_from_target_angle_;
+
+        Parameter<bool> debug_contour_;
+        Parameter<bool> look_for_rectangle_;
+        Parameter<bool> disable_ratio_;
+        Parameter<bool> disable_angle_;
+        Parameter <std::string> id_;
+        Parameter <std::string> spec_1_;
+        Parameter <std::string> spec_2_;
+
+        RangedParameter<double> min_area_;
+        RangedParameter<double> targeted_ratio_;
+        RangedParameter<double> difference_from_target_ratio_;
+        RangedParameter<double> targeted_angle_;
+        RangedParameter<double> difference_from_target_angle_;
 
         ObjectFeatureFactory feature_factory_;
     };

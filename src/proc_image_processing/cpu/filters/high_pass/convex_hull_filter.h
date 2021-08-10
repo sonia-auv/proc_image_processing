@@ -12,11 +12,10 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<ConvexHullFilter>;
 
-        explicit ConvexHullFilter(const GlobalParamHandler &globalParams)
+        explicit ConvexHullFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   mode_("Mode", 0, 0, 3, &parameters_,
-                        "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, "
-                        "3=CV_RETR_TREE"),
+                        "0=CV_RETR_EXTERNAL,1=CV_RETR_LIST, 2=CV_RETR_CCOMP, 3=CV_RETR_TREE"),
                   method_("Method", 0, 0, 3, &parameters_,
                           "0=CV_CHAIN_APPROX_NONE, 1=CV_CHAIN_APPROX_SIMPLE, "
                           "2=CV_CHAIN_APPROX_TC89_L1, "

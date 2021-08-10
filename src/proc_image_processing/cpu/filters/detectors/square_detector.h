@@ -14,10 +14,10 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<SquareDetector>;
 
-        explicit SquareDetector(const GlobalParamHandler &globalParams)
+        explicit SquareDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   N("N", 100, 0, 100, &parameters_),
-                  thresh("threshold", 100, 0, 100, &parameters_) {
+                  thresh("Threshold", 100, 0, 100, &parameters_) {
             setName("SquareDetector");
         }
 
@@ -103,8 +103,9 @@ namespace proc_image_processing {
 
                 int n = (int) square.size();
                 //dont detect the border
-                if (p->x > 3 && p->y > 3)
+                if (p->x > 3 && p->y > 3) {
                     cv::polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 3, cv::LINE_AA);
+                }
             }
         }
 
@@ -120,7 +121,8 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        RangedParameter<int> N, thresh;
+        RangedParameter<int> N;
+        RangedParameter<int> thresh;
 
         const cv::Point anchor_;
     };

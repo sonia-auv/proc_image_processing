@@ -1,9 +1,9 @@
 import unittest
-from factory_generator_exception import FactoryGeneratorException
 from pathlib import Path
 from unittest import TestCase
 
 import tools
+from factory_generator_exception import FactoryGeneratorException
 
 
 class TestTools(TestCase):
@@ -45,12 +45,12 @@ class TestTools(TestCase):
     def test_validate_and_fix_path(self):
         # Assert success
         self.assertEqual(
-            Path(self.current_path_copy, "../../proc_image_processing").absolute(),
-            tools.validate_and_fix_path(Path("../proc_image_processing"))
+            Path(self.current_path_copy, "../../src/proc_image_processing").absolute(),
+            tools.validate_and_fix_path(Path("../src/proc_image_processing"))
         )
         self.assertEqual(
-            Path("../../../proc_image_processing"),
-            tools.validate_and_fix_path(Path("../../../proc_image_processing"))
+            Path("../../../src/proc_image_processing"),
+            tools.validate_and_fix_path(Path("../../../src/proc_image_processing"))
         )
 
         # Assert failures
@@ -91,10 +91,10 @@ class TestTools(TestCase):
     def test_validate_and_get_conf(self):
         conf = tools.validate_and_get_conf()
         self.assertTrue(isinstance(conf, dict))
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing'), conf["project-path"])
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/cpu/server'),
+        self.assertEqual(self.current_path_copy.joinpath('../../src/proc_image_processing'), conf["project-path"])
+        self.assertEqual(self.current_path_copy.joinpath('../../src/proc_image_processing/cpu/server'),
                          conf["factories"][0]["path"])
-        self.assertEqual(self.current_path_copy.joinpath('../../proc_image_processing/cpu/filters'),
+        self.assertEqual(self.current_path_copy.joinpath('../../src/proc_image_processing/cpu/filters'),
                          conf["factories"][0]["items-path"])
 
 

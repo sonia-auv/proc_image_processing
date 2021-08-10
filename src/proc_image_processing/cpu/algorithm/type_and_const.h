@@ -6,10 +6,10 @@
 
 namespace proc_image_processing {
 
-#define NEXT_CTR 0
-#define PREV_CTR 1
-#define FIRST_CHILD_CTR 2
-#define PARENT_CTR 3
+    constexpr int NEXT_CTR = 0;
+    constexpr int PREV_CTR = 1;
+    constexpr int FIRST_CHILD_CTR = 2;
+    constexpr int PARENT_CTR = 3;
 
     typedef std::vector<cv::Point> contour_t;
     typedef std::vector<contour_t> contourList_t;

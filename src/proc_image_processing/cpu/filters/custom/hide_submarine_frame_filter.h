@@ -12,16 +12,21 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<HideSubmarineFrameFilter>;
 
-        explicit HideSubmarineFrameFilter(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                  rotate_type_("Rotation_type", 0, 0, 3, &parameters_,
-                               "RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis"),
-                  prev_rot_value_(0) {
+        explicit HideSubmarineFrameFilter(const GlobalParameterHandler &globalParams) :
+                Filter(globalParams),
+                rotate_type_(
+                        "Rotation type",
+                        0,
+                        0,
+                        3,
+                        &parameters_,
+                        std::string("RotateFilter type: 0=NONE, 1=x axis, 2=y axis, 3=all axis")
+                ) {
             setName("HideSubmarineFrameFilter");
-            std::string mask_name =
-                    std::string(getenv("SONIA_WORKSPACE_ROOT")) +
-                    std::string("/ros/src/vision_server/config/bottom_mask.jpg");
-            bottom_mask_ = cv::imread(mask_name, CV_LOAD_IMAGE_GRAYSCALE);
+            // TODO Fix this hardcoded file that isn't part of the project
+            //std::string mask_name = std::string(getenv("SONIA_WORKSPACE_ROOT")) +
+            //                        std::string("/ros/src/vision_server/config/bottom_mask.jpg");
+            //bottom_mask_ = cv::imread(mask_name, CV_LOAD_IMAGE_GRAYSCALE);
         }
 
         ~HideSubmarineFrameFilter() override = default;
@@ -50,7 +55,7 @@ namespace proc_image_processing {
     private:
         RangedParameter<int> rotate_type_;
         cv::Mat bottom_mask_;
-        int prev_rot_value_;
+        int prev_rot_value_ = 0;
     };
 
 }  // namespace proc_image_processing

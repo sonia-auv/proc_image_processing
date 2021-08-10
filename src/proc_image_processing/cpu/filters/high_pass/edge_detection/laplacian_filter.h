@@ -12,9 +12,9 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<LaplacianFilter>;
 
-        explicit LaplacianFilter(const GlobalParamHandler &globalParams)
+        explicit LaplacianFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
+                  convert_to_uchar_("Convert to uchar", true, &parameters_),
                   delta_("Delta", 0, 0, 255, &parameters_),
                   scale_("Scale", 1, 0, 255, &parameters_),
                   size_("Size", 2, 1, 20, &parameters_) {
@@ -40,7 +40,8 @@ namespace proc_image_processing {
 
     private:
         Parameter<bool> convert_to_uchar_;
-        RangedParameter<double> delta_, scale_;
+        RangedParameter<double> delta_;
+        RangedParameter<double> scale_;
         RangedParameter<int> size_;
     };
 

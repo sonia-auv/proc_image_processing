@@ -12,12 +12,12 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<IntervalThresholdFilter>;
 
-        explicit IntervalThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit IntervalThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  type_("Threshold_type_", 1, 0, 5, &parameters_,
+                  type_("Threshold type", 1, 0, 5, &parameters_,
                         "0=BIN, 1=BIN_INV, 2=TRUNC, 3=TOZERO, 4=TOZERO_INV 5=OTSU"),
-                  min_1("Min_value_1", 100, 0, 255, &parameters_),
-                  min_2("Min_value_2", 100, 0, 255, &parameters_) {
+                  min_1("Minimum value 1", 100, 0, 255, &parameters_),
+                  min_2("Minimum value 2", 100, 0, 255, &parameters_) {
             setName("IntervalThresholdFilter");
         }
 
@@ -61,9 +61,13 @@ namespace proc_image_processing {
         }
 
     private:
-        cv::Mat image_1, image_2, image_out;
+        cv::Mat image_1;
+        cv::Mat image_2;
+        cv::Mat image_out;
 
-        RangedParameter<int> type_, min_1, min_2;
+        RangedParameter<int> type_;
+        RangedParameter<int> min_1;
+        RangedParameter<int> min_2;
     };
 
 }  // namespace proc_image_processing

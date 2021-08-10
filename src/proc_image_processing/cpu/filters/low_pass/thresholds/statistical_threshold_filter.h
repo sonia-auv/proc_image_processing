@@ -12,12 +12,11 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<StatisticalThresholdFilter>;
 
-        explicit StatisticalThresholdFilter(const GlobalParamHandler &globalParams)
+        explicit StatisticalThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  min_thresh_("Min_thresh", 0, 0, 255, &parameters_),
-                  mean_multiplier_("Mean_multiplier", 1, -10, 10, &parameters_),
-                  std_dev_multiplier_("Standard_deviation_multiplier", 1, -10, 10,
-                                      &parameters_) {
+                  min_thresh_("Minimum threshold", 0, 0, 255, &parameters_),
+                  mean_factor_("Mean factor", 1, -10, 10, &parameters_),
+                  std_dev_factor_("Standard deviation factor", 1, -10, 10, &parameters_) {
             setName("StatisticalThresholdFilter");
         }
 
@@ -33,14 +32,15 @@ namespace proc_image_processing {
             cv::Scalar mean, stdDev;
 
             cv::meanStdDev(image, mean, stdDev);
-            int thresh_val = mean[0] * mean_multiplier_() + stdDev[0] * std_dev_multiplier_();
+            int thresh_val = mean[0] * mean_factor_() + stdDev[0] * std_dev_factor_();
             thresh_val = thresh_val < min_thresh_() ? min_thresh_() : thresh_val;
             cv::threshold(image, image, thresh_val, 255, CV_THRESH_BINARY);
         }
 
     private:
         RangedParameter<int> min_thresh_;
-        RangedParameter<double> mean_multiplier_, std_dev_multiplier_;
+        RangedParameter<double> mean_factor_;
+        RangedParameter<double> std_dev_factor_;
     };
 
 }  // namespace proc_image_processing

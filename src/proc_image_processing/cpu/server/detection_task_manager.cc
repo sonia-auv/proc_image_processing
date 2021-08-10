@@ -9,7 +9,8 @@ namespace proc_image_processing {
     std::string DetectionTaskManager::StartDetectionTask(
             const std::string &topic_name,
             const FilterChain::Ptr &filter_chain,
-            const std::string &execution_name) {
+            const std::string &execution_name
+    ) {
         if (execution_name.empty()) {
             throw std::invalid_argument("The detection task name is not valid");
         }
@@ -23,8 +24,7 @@ namespace proc_image_processing {
         DetectionTask::Ptr task = getDetectionTask(execution_name);
 
         if (task == nullptr) {
-            task = std::make_shared<DetectionTask>(topic_name, filter_chain,
-                                                   execution_name);
+            task = std::make_shared<DetectionTask>(topic_name, filter_chain, execution_name);
             task->start();
             detection_tasks_.push_back(task);
         } else {
@@ -84,7 +84,7 @@ namespace proc_image_processing {
 
     DetectionTask::Ptr DetectionTaskManager::getDetectionTask(const std::string &execution_name) const {
         for (const auto &task : detection_tasks_) {
-            if (task->getName().compare(execution_name) == 0) {
+            if (task->getName() == execution_name) {
                 return task;
             }
         }

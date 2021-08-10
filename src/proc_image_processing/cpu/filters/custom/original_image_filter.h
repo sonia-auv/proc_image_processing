@@ -12,15 +12,14 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<OriginalImageFilter>;
 
-        explicit OriginalImageFilter(const GlobalParamHandler &globalParams)
-                : Filter(globalParams) {
+        explicit OriginalImageFilter(const GlobalParameterHandler &globalParams) : Filter(globalParams) {
             setName("OriginalImageFilter");
         }
 
         ~OriginalImageFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            image = global_params_.getOriginalImage();
+            image = global_param_handler_.getOriginalImage();
         }
     };
 

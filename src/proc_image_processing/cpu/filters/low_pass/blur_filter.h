@@ -18,11 +18,10 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BlurFilter>;
 
-        explicit BlurFilter(const GlobalParamHandler &globalParams)
+        explicit BlurFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  type_("Type", 2, 0, 3, &parameters_,
-                        "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
-                  kernel_size_("Kernel_size", 1, 0, 35, &parameters_),
+                  type_("Type", 2, 0, 3, &parameters_, "1=Blur, 2=GaussianBlur, 3=MedianBlur"),
+                  kernel_size_("Kernel size", 1, 0, 35, &parameters_),
                   anchor_(-1, -1) {
             setName("BlurFilter");
         }
@@ -49,8 +48,8 @@ namespace proc_image_processing {
         }
 
     private:
-        RangedParameter<int> type_, kernel_size_;
-
+        RangedParameter<int> type_;
+        RangedParameter<int> kernel_size_;
         const cv::Point anchor_;
     };
 

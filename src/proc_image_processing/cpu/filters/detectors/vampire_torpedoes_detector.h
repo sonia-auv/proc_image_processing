@@ -16,13 +16,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<VampireTorpedoesDetector>;
 
-        explicit VampireTorpedoesDetector(const GlobalParamHandler &globalParams)
+        explicit VampireTorpedoesDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  debug_contour_("Debug_contour", false, &parameters_),
-                  look_for_ellipse_("Look_for_Ellipse", false, &parameters_),
+                  debug_contour_("Debug contour", false, &parameters_),
+                  look_for_ellipse_("Look for ellipse", false, &parameters_),
                   look_for_heart_("Look_for_Heart", false, &parameters_),
-                  min_area_("Min_area", 5000, 1, 100000, &parameters_),
-                  max_area_("Max_area", 100000, 1, 1000000, &parameters_) {
+                  min_area_("Minimum area", 5000, 1, 100000, &parameters_),
+                  max_area_("Maximum area", 100000, 1, 1000000, &parameters_) {
             setName("VampireTorpedoesDetector");
         }
 
@@ -35,8 +35,10 @@ namespace proc_image_processing {
                 cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
             }
 
-            if (image.channels() != 1) cv::cvtColor(image, image, CV_BGR2GRAY);
-            //cv::Mat originalImage = global_params_.getOriginalImage();
+            if (image.channels() != 1) {
+                cv::cvtColor(image, image, CV_BGR2GRAY);
+            }
+            //cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
@@ -53,7 +55,8 @@ namespace proc_image_processing {
             ObjectFullData::FullObjectPtrVec objVec;
             //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
             for (int i = 0; i < contours.size(); i++) {
-                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image, contours[i]);
+                ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image,
+                                                                              reinterpret_cast<Contour &&>(contours[i]));
                 if (object.get() == nullptr) {
                     continue;
                 }
@@ -156,9 +159,12 @@ namespace proc_image_processing {
     private:
         cv::Mat output_image_;
 
-        Parameter<bool> debug_contour_, look_for_ellipse_, look_for_heart_;
+        Parameter<bool> debug_contour_;
+        Parameter<bool> look_for_ellipse_;
+        Parameter<bool> look_for_heart_;
 
-        RangedParameter<double> min_area_, max_area_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> max_area_;
     };
 
 }  // namespace proc_image_processing

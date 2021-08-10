@@ -12,9 +12,8 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<MissionTestFakeStringFilter>;
 
-        explicit MissionTestFakeStringFilter(const GlobalParamHandler &globalParams)
-                : Filter(globalParams),
-                  _string("String_to_return", "test", &parameters_) {
+        explicit MissionTestFakeStringFilter(const GlobalParameterHandler &globalParams)
+                : Filter(globalParams), _string("String to return", "test", &parameters_) {
             setName("MissionTestFakeStringFilter");
         }
 
@@ -25,6 +24,7 @@ namespace proc_image_processing {
         }
 
     private:
+        // TODO What is this param used for?!?
         Parameter <std::string> _string;
     };
 

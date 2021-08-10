@@ -12,15 +12,13 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<SobelFilter>;
 
-        explicit SobelFilter(const GlobalParamHandler &globalParams)
+        explicit SobelFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  convert_to_uchar_("Convert_to_uchar", true, &parameters_),
-                  use_pixel_intensity_correction_("use_pixel_intensity_correction", false,
-                                                  &parameters_),
+                  convert_to_uchar_("Convert to uchar", true, &parameters_),
+                  use_pixel_intensity_correction_("Pixel intensity correction", false, &parameters_),
                   delta_("Delta", 0, 0, 255, &parameters_),
                   scale_("Scale", 1, 0, 255, &parameters_),
-                  power_pixel_correction_("pixel_correction_power", 1, -10, 10,
-                                          &parameters_),
+                  power_pixel_correction_("Pixel correction power", 1, -10, 10, &parameters_),
                   size_("Size", 2, 1, 20, &parameters_) {
             setName("SobelFilter");
         }
@@ -33,10 +31,8 @@ namespace proc_image_processing {
             }
             cv::Mat sobelX, sobelY;
             int size = size_() * 2 + 1;
-            cv::Sobel(image, sobelX, CV_32F, 1, 0, size, scale_(), delta_(),
-                      cv::BORDER_DEFAULT);
-            cv::Sobel(image, sobelY, CV_32F, 0, 1, size, scale_(), delta_(),
-                      cv::BORDER_DEFAULT);
+            cv::Sobel(image, sobelX, CV_32F, 1, 0, size, scale_(), delta_(), cv::BORDER_DEFAULT);
+            cv::Sobel(image, sobelY, CV_32F, 0, 1, size, scale_(), delta_(), cv::BORDER_DEFAULT);
 
             cv::absdiff(sobelX, 0, sobelX);
             cv::absdiff(sobelY, 0, sobelY);
@@ -57,8 +53,11 @@ namespace proc_image_processing {
         }
 
     private:
-        Parameter<bool> convert_to_uchar_, use_pixel_intensity_correction_;
-        RangedParameter<double> delta_, scale_, power_pixel_correction_;
+        Parameter<bool> convert_to_uchar_;
+        Parameter<bool> use_pixel_intensity_correction_;
+        RangedParameter<double> delta_;
+        RangedParameter<double> scale_;
+        RangedParameter<double> power_pixel_correction_;
         RangedParameter<int> size_;
     };
 

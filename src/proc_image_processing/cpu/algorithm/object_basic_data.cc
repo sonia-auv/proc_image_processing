@@ -30,9 +30,9 @@ namespace proc_image_processing {
             cv::cvtColor(original_image_, gray, CV_BGR2GRAY);
             cv::cvtColor(original_image_, hsi, CV_BGR2HSV);
             // Set to zeros
-            for (int i = 0; i < 7; i++)
-                planes_[i] =
-                        cv::Mat::zeros(original_image_.rows, original_image_.cols, CV_8UC1);
+            for (int i = 0; i < 7; i++) {
+                planes_[i] = cv::Mat::zeros(original_image_.rows, original_image_.cols, CV_8UC1);
+            }
 
             cv::split(original_image_, &planes_[0]);
             cv::split(hsi, &planes_[3]);
