@@ -103,7 +103,7 @@ namespace proc_image_processing {
                 *this
         );
 
-        deep_network_service = nh_.serviceClient<sonia_common::ChangeNetwork>("/deep_detector/change_network");
+        deep_network_service = nh_.serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
     }
 
     VisionServer::~VisionServer() = default;
