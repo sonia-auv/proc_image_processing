@@ -8,11 +8,11 @@ namespace proc_image_processing {
                                  FilterChain::Ptr filter_chain,
                                  std::string execution_name)
             : detection_task_name_(std::move(execution_name)),
-              topic_name_(topic_name),
+              topic_name_(topic_name + "/compressed"),
               image_publisher_(),
               it_(ros::NodeHandle("~")),
               result_publisher_(),
-              image_provider_(topic_name),
+              image_provider_(topic_name + "/compressed"),
               filterchain_(std::move(filter_chain)),
               param_handler_(filterchain_->getParameterHandler()),
               returning_original_image_(false) {
