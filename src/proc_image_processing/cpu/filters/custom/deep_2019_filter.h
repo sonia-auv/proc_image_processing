@@ -29,7 +29,7 @@ namespace proc_image_processing {
                 wolf_("Wolf", true, &parameters_),
                 color_(0, 0, 0) {
             image_subscriber_ = ros::NodeHandle("~").subscribe(
-                    "/deep_detector/bounding_box",
+                    "/proc_detection/bounding_box",
                     100,
                     &Deep2019Filter::callbackBoundingBox,
                     this
