@@ -114,6 +114,7 @@ namespace proc_image_processing {
         // Prepare it to be always the same format
         if (!prepareForPublishing(image)) {
             ROS_ERROR("Detection task %s could not format image for client", detection_task_name_.c_str());
+            ROS_ERROR("The topic is the following %s", image_provider_.getTopic());
         }
         // publish it
         try {
