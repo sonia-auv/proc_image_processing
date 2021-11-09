@@ -1,0 +1,41 @@
+FROM alpine:latest as sonarcloud
+RUN apk add unzip wget
+WORKDIR /sonarcloud
+RUN wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip \
+    && unzip build-wrapper-linux-x86.zip \
+    && mv build-wrapper-linux-x86 build-wrapper
+RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip \
+    && unzip sonar-scanner-cli-4.6.2.2472-linux.zip \
+    && mv sonar-scanner-4.6.2.2472-linux sonar-scanner
+
+FROM ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest
+
+ARG SONAR_TOKEN=""
+
+ENV NODE_NAME=proc_image_processing
+ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
+ENV NODE_NAME=${NODE_NAME}
+ENV NODE_PATH=${SONIA_WS}/src/${NODE_NAME}
+ENV LAUNCH_FILE=${NODE_NAME}.launch
+ENV SCRIPT_DIR=${SONIA_WS}/scripts
+ENV ENTRYPOINT_FILE=sonia_entrypoint.sh
+ENV LAUNCH_ABSPATH=${NODE_PATH}/launch/${LAUNCH_FILE}
+ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
+
+USER root
+COPY --from=sonarcloud /sonarcloud/build-wrapper /sonarcloud/sonar-scanner /sonarcloud/
+
+WORKDIR ${NODE_PATH}
+COPY scripts/sonarcloud-build.sh .
+RUN chmod +x sonarcloud-build.sh
+COPY . .
+
+RUN /sonarcloud/build-wrapper-linux-x86-64 --out-dir bw-output ./sonarcloud-build.sh
+
+# ARGs invalidates caching when value is different
+ARG GITHUB_TOKEN=""
+ARG BRANCH="master"
+
+RUN export PATH="/sonarcloud/bin/:$PATH" && \
+    export GITHUB_TOKEN=${GITHUB_TOKEN} && \
+    sonar-scanner -Dsonar.branch.name=${BRANCH} -Dproject.settings=sonarcloud.properties -Dsonar.cfamily.threads=$(nproc) -Dsonar.login=${SONAR_TOKEN}

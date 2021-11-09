@@ -1,14 +1,14 @@
 name: simple_pipe45
 filters:
-  - name: Rotate
+  - name: RotateFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 0
-      - name: transpose
+      - name: Transpose
         value: 0
-      - name: Rotation_type
+      - name: Rotation type
         value: 3
-  - name: ImageCropper
+  - name: CropFilter
     parameters:
       - name: Enable
         value: 0
@@ -20,51 +20,51 @@ filters:
         value: 245
       - name: Y Reduction
         value: 17
-  - name: ContrastBrightness
+  - name: ContrastAndBrightnessFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 0
       - name: Contrast
         value: 1.400000
       - name: Brightness
         value: -134.000000
-  - name: SubtractAllPlanes
+  - name: SubtractAllPlanesFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 1
-      - name: Plane_1
+      - name: Plane 1
         value: 3
-      - name: Plane_2
+      - name: Plane 2
         value: 3
-      - name: Plane_3
+      - name: Plane 3
         value: 4
-      - name: Invert_plane_1
+      - name: Invert plane 1
         value: 0
-      - name: Invert_plane_2
+      - name: Invert plane 2
         value: 0
-      - name: Invert_plane_3
+      - name: Invert plane 3
         value: 0
-      - name: Weight_Plane_1
+      - name: Weight plane 1
         value: 2.000000
-      - name: Weight_Plane_2
+      - name: Weight plane 2
         value: 0.000000
-      - name: Weight_Plane_3
+      - name: Weight plane 3
         value: 2.000000
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Threshold_type
+      - name: Threshold type
         value: 0
-      - name: Max_value
+      - name: Maximum value
         value: 50
-  - name: Erode
+  - name: ErodeFilter
     parameters:
       - name: Enable
         value: 0
-      - name: Square_kernel
+      - name: Square kernel
         value: 1
-      - name: Kernel_type
+      - name: Kernel type
         value: 0
       - name: Width
         value: 3
@@ -72,29 +72,29 @@ filters:
         value: 1
       - name: Iteration
         value: 2
-  - name: Blurr
+  - name: BlurFilter
     parameters:
       - name: Enable
         value: 1
       - name: Type
         value: 2
-      - name: Kernel_size
+      - name: Kernel size
         value: 21
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Threshold_type
+      - name: Threshold type
         value: 0
-      - name: Max_value
+      - name: Maximum value
         value: 100
-  - name: PipeDetectorAngle
+  - name: PipeAngleDetector
     parameters:
       - name: Enable
         value: 1
-      - name: Debug_contour
+      - name: Debug contour
         value: 1
-      - name: Min_area
+      - name: Minimum area
         value: 1000.000000
-      - name: Min_pixel
+      - name: Minimum pixel
         value: 100.000000

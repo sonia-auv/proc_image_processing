@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  proc_image_processing:
+    container_name: proc_image_processing
+    restart: unless-stopped
+    image: sonia-auv/proc_image_processing:local-gpu
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BASE_IMAGE=ghcr.io/sonia-auv/sonia_common/sonia_common_cuda:x86-perception-latest
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    cap_add:
+      - SYS_PTRACE
+
+  clion_remote_env:
+    container_name: clion_gpu_remote_env
+    restart: unless-stopped
+    image: sonia-auv/proc_image_processing:local-clion-gpu
+    build:
+      context: .
+      dockerfile: Dockerfile.clion
+      args:
+        - MODE=-gpu
+    ports:
+      - 127.0.0.1:$CLION_SSH_PORT:22
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    environment:
+      - ROS_MASTER_URI=$ROS_MASTER_URI
+    cap_add:
+      - SYS_PTRACE
+    volumes:
+      - ./bags:/bags:ro

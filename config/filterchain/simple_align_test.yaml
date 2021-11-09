@@ -1,42 +1,42 @@
 name: simple_align_test
 filters:
-  - name: SubtractAllPlanes
+  - name: SubtractAllPlanesFilter
     parameters:
-      - name: enable
+      - name: Enable
         value: 1
-      - name: Plane_1
+      - name: Plane 1
         value: 5
-      - name: Plane_2
+      - name: Plane 2
         value: 4
-      - name: Plane_3
+      - name: Plane 3
         value: 0
-      - name: Invert_plane_1
+      - name: Invert plane 1
         value: 0
-      - name: Invert_plane_2
+      - name: Invert plane 2
         value: 0
-      - name: Invert_plane_3
+      - name: Invert plane 3
         value: 0
-      - name: Weight_Plane_1
+      - name: Weight plane 1
         value: 1.000000
-      - name: Weight_Plane_2
+      - name: Weight plane 2
         value: 1.000000
-      - name: Weight_Plane_3
+      - name: Weight plane 3
         value: 1.000000
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Threshold_type
+      - name: Threshold type
         value: 0
-      - name: Max_value
+      - name: Maximum value
         value: 150
-  - name: Dilate
+  - name: DilateFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Square_kernel
+      - name: Square kernel
         value: 1
-      - name: Kernel_type
+      - name: Kernel type
         value: 0
       - name: Width
         value: 2
@@ -44,13 +44,13 @@ filters:
         value: 2
       - name: Iteration
         value: 4
-  - name: Erode
+  - name: ErodeFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Square_kernel
+      - name: Square kernel
         value: 1
-      - name: Kernel_type
+      - name: Kernel type
         value: 0
       - name: Width
         value: 10
@@ -58,21 +58,21 @@ filters:
         value: 10
       - name: Iteration
         value: 1
-  - name: Blurr
+  - name: BlurFilter
     parameters:
       - name: Enable
         value: 1
       - name: Type
         value: 2
-      - name: Kernel_size
+      - name: Kernel size
         value: 8
-  - name: Dilate
+  - name: DilateFilter
     parameters:
       - name: Enable
         value: 0
-      - name: Square_kernel
+      - name: Square kernel
         value: 1
-      - name: Kernel_type
+      - name: Kernel type
         value: 0
       - name: Width
         value: 7
@@ -80,33 +80,33 @@ filters:
         value: 7
       - name: Iteration
         value: 4
-  - name: Blurr
+  - name: BlurFilter
     parameters:
       - name: Enable
         value: 0
       - name: Type
         value: 3
-      - name: Kernel_size
+      - name: Kernel size
         value: 17
-  - name: Threshold
+  - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
-      - name: Threshold_type
+      - name: Threshold type
         value: 0
-      - name: Max_value
+      - name: Maximum value
         value: 100
-  - name: VampireTorpidoesDetectorClose
+  - name: VampireTorpedoesCloseDetector
     parameters:
       - name: Enable
         value: 1
-      - name: Debug_contour
+      - name: Debug contour
         value: 1
-      - name: Look_for_Ellipse
+      - name: Look for ellipse
         value: 0
       - name: Look_for_Heart
         value: 0
-      - name: Min_area
+      - name: Minimum area
         value: 500.000000
-      - name: Max_area
+      - name: Maximum area
         value: 100000.000000

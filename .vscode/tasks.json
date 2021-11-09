@@ -6,8 +6,10 @@
         {
             "type": "catkin_make",
             "args": [
-                "--directory",
-                "/home/sonia/ros_sonia_ws"
+              "--directory",
+              "/home/sonia/ros_sonia_ws",
+              "--use-ninja",
+              "-DCMAKE_BUILD_TYPE=Debug"
             ],
             "group": {
                 "kind": "build",

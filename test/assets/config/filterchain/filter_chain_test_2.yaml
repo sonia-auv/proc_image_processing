@@ -1,0 +1,56 @@
+name: filter_chain_test_2
+filters:
+  - name: BilateralFilter
+    parameters:
+      - name: Enable
+        value: 0
+      - name: Diameter
+        value: -2
+      - name: Sigma color
+        value: 69
+      - name: Sigma space
+        value: 30
+  - name: BlurFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 1
+      - name: Kernel size
+        value: 12
+  - name: ConvexHullFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Mode
+        value: 2
+      - name: Method
+        value: 3
+  - name: BlurFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Type
+        value: 2
+      - name: Kernel size
+        value: 23
+  - name: ConvexHullFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Mode
+        value: 1
+      - name: Method
+        value: 2
+  - name: ConvexHullFilter
+    parameters:
+      - name: Enable
+        value: 1
+      - name: Mode
+        value: 2
+      - name: Method
+        value: 2
+  - name: EqualizeHistogramFilter
+    parameters:
+      - name: Enable
+        value: 1
