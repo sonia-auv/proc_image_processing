@@ -46,6 +46,11 @@ public:
         image_mutex_.unlock();
     }
 
+    inline std::string getTopic()
+    {
+        return topic_name_;
+    }
+
 private:
     std::string topic_name_;
     image_transport::ImageTransport it_;
