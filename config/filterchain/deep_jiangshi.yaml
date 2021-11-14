@@ -4,19 +4,21 @@ filters:
     parameters:
       - name: Enable
         value: 1
+      - name: Execution time
+        value: 0
       - name: Debug contour
         value: 1
-      - name: Bat
+      - name: vetalas
         value: 0
-      - name: Wolf
+      - name: draugr
         value: 0
-      - name: Vetalas
-        value: 0
-      - name: Draugr
-        value: 0
-      - name: Jiangshi
+      - name: jiangshi
         value: 1
-      - name: Answag
+      - name: answag
         value: 0
-      - name: Vampire
+      - name: vampire
+        value: 0
+      - name: bat
+        value: 0
+      - name: wolf
         value: 0
