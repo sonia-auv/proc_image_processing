@@ -4,6 +4,8 @@ filters:
     parameters:
       - name: Enable
         value: 0
+      - name: Execution time
+        value: 0
       - name: Transpose
         value: 0
       - name: Rotation type
@@ -11,6 +13,8 @@ filters:
   - name: CropFilter
     parameters:
       - name: Enable
+        value: 0
+      - name: Execution time
         value: 0
       - name: X Offset
         value: 281
@@ -23,6 +27,8 @@ filters:
   - name: ContrastAndBrightnessFilter
     parameters:
       - name: Enable
+        value: 1
+      - name: Execution time
         value: 0
       - name: Contrast
         value: 1.400000
@@ -32,42 +38,48 @@ filters:
     parameters:
       - name: Enable
         value: 1
-      - name: Plane 1
-        value: 3
-      - name: Plane 2
-        value: 3
-      - name: Plane 3
-        value: 4
+      - name: Execution time
+        value: 0
       - name: Invert plane 1
         value: 0
       - name: Invert plane 2
         value: 0
       - name: Invert plane 3
         value: 0
+      - name: Plane 1
+        value: 5
+      - name: Plane 2
+        value: 0
+      - name: Plane 3
+        value: 4
       - name: Weight plane 1
         value: 2.000000
       - name: Weight plane 2
-        value: 0.000000
+        value: 1.000000
       - name: Weight plane 3
         value: 2.000000
   - name: ThresholdFilter
     parameters:
       - name: Enable
         value: 1
+      - name: Execution time
+        value: 0
       - name: Threshold type
         value: 0
       - name: Maximum value
-        value: 50
+        value: 200
   - name: ErodeFilter
     parameters:
       - name: Enable
+        value: 0
+      - name: Execution time
         value: 0
       - name: Square kernel
         value: 1
       - name: Kernel type
         value: 0
       - name: Width
-        value: 3
+        value: 6
       - name: Height
         value: 1
       - name: Iteration
@@ -75,7 +87,9 @@ filters:
   - name: BlurFilter
     parameters:
       - name: Enable
-        value: 1
+        value: 0
+      - name: Execution time
+        value: 0
       - name: Type
         value: 2
       - name: Kernel size
@@ -84,14 +98,18 @@ filters:
     parameters:
       - name: Enable
         value: 1
+      - name: Execution time
+        value: 0
       - name: Threshold type
         value: 0
       - name: Maximum value
-        value: 100
+        value: 240
   - name: PipeAngleDetector
     parameters:
       - name: Enable
         value: 1
+      - name: Execution time
+        value: 0
       - name: Debug contour
         value: 1
       - name: Minimum area
