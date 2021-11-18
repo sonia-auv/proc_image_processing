@@ -56,6 +56,8 @@ namespace proc_image_processing {
             return std::make_unique<MissionTestFakeStringFilter>(gph);
         } else if (name == "MorphologyFilter") {
             return std::make_unique<MorphologyFilter>(gph);
+        } else if (name == "ObstacleDetector") {
+            return std::make_unique<ObstacleDetector>(gph);
         } else if (name == "OriginalImageFilter") {
             return std::make_unique<OriginalImageFilter>(gph);
         } else if (name == "PipeAngleDetector") {
@@ -127,6 +129,7 @@ namespace proc_image_processing {
                "LaplacianFilter;"
                "MissionTestFakeStringFilter;"
                "MorphologyFilter;"
+               "ObstacleDetector"
                "OriginalImageFilter;"
                "PipeAngleDetector;"
                "RemoveMaskFilter;"

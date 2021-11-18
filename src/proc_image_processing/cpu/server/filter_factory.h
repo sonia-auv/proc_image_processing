@@ -28,6 +28,7 @@
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/laplacian_filter.h>
 #include <proc_image_processing/cpu/filters/custom/mission_test_fake_string_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/morphology_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/obstacle_detector.h
 #include <proc_image_processing/cpu/filters/custom/original_image_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_angle_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/remove_mask_filter.h>
