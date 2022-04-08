@@ -56,10 +56,6 @@ if (CUDA_FOUND)
             "${proc_image_processing_CPU_SRC_DIR}/*.h"
     )
     set(main ${project_path}/${proc_image_processing_GPU_SRC_DIR}/main.cc)
-
-    # TODO fix major_edge_extractor implementation for GPU mode. Likely due to incompatibility.
-    list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
-    list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
 else ()
     message("##### - Using CPU mode, CUDA not found - #####")
 
@@ -75,6 +71,10 @@ else ()
     )
     set(main ${project_path}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
 endif (CUDA_FOUND)
+
+# TODO fix major_edge_extractor implementation for GPU mode. Likely due to incompatibility.
+list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.h)
+list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/algorithm/major_edge_extractor.cc)
 
 # Exclude mains
 list(REMOVE_ITEM proc_image_processing_SRC_FILES ${project_path}/${proc_image_processing_CPU_SRC_DIR}/main.cc)
