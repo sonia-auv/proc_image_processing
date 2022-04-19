@@ -13,7 +13,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/contrast_and_brightness_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/convex_hull_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/crop_filter.h>
-#include <proc_image_processing/cpu/filters/custom/deep_2019_filter.h>
+//#include <proc_image_processing/cpu/filters/custom/deep_2019_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/dilate_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/equalize_histogram_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/erode_filter.h>
