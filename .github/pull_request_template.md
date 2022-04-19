@@ -5,7 +5,7 @@ Give a brief description of the modifications
 
 ## Fixes
 Link all the related issues from the issue tracker
-- Closes: #
+- Closes #
 
 ## How has this been tested ?
 (If possible) describe the steps to test these modifications.
