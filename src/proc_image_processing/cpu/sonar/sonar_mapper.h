@@ -1,7 +1,7 @@
 #ifndef PROC_IMAGE_PROCESSING_RAW_MAP_H_
 #define PROC_IMAGE_PROCESSING_RAW_MAP_H_
 
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include <eigen3/Eigen/Geometry>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>

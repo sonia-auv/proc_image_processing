@@ -5,9 +5,17 @@
 #include <string>
 
 namespace proc_image_processing {
-    const std::string kRosNodeName = "/" + std::string(std::getenv("NODE_NAME"));
+    const std::string kRosNodeName = "/" + std::string(
+        std::getenv("NODE_NAME") ?
+        std::string("/") + std::getenv("NODE_NAME") :
+        "/proc_image_processing"
+    );
 
-    const std::string kProjectPath = std::string(std::getenv("NODE_PATH"));
+    const std::string kProjectPath = std::string(
+        std::getenv("NODE_PATH") ?
+        std::string("/") + std::getenv("NODE_PATH") :
+        std::getenv("HOME") + std::string("/ros_sonia_ws/src") + kRosNodeName
+    );
 
     const std::string kConfigPath = kProjectPath + std::string(
             std::getenv("NODE_CONFIG_PATH") ?
