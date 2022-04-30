@@ -3,6 +3,7 @@
 #ifndef PROC_IMAGE_PROCESSING_SIFT_MATCH_H
 #define PROC_IMAGE_PROCESSING_SIFT_MATCG_H
 
+#include <proc_image_processing/cpu/config.h>
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 #include "opencv2/core.hpp"
