@@ -3,6 +3,8 @@ name: Docker Image CI - Develop Branch
 on:
   push:
     branches: [develop]
+  schedule:
+    - cron: "12 0 * * *"
 
 jobs:
   build-ros-perception-x86-64:
