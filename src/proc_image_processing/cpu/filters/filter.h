@@ -9,6 +9,7 @@
 #include <ros/console.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/imgproc_c.h>
 #include <string>
 #include <vector>
 

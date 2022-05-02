@@ -37,9 +37,9 @@ namespace proc_image_processing {
 	else if(name == "CropFilter"){
 		return std::make_unique<CropFilter>(gph);
 	}
-	else if(name == "Deep2019Filter"){
-		return std::make_unique<Deep2019Filter>(gph);
-	}
+	//else if(name == "Deep2019Filter"){
+	//	return std::make_unique<Deep2019Filter>(gph);
+	//}
 	else if(name == "DilateFilter"){
 		return std::make_unique<DilateFilter>(gph);
 	}
