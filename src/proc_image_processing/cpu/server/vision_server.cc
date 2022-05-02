@@ -102,8 +102,6 @@ namespace proc_image_processing {
                 &VisionServer::callbackSetObserver,
                 *this
         );
-
-        //deep_network_service = nh_.serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
     }
 
     VisionServer::~VisionServer() = default;
@@ -124,10 +122,6 @@ namespace proc_image_processing {
                 FilterChain::Ptr filter_chain = filter_chain_mgr_.createFilterChain(req.filterchain_name);
 
                 res.response = detection_task_mgr_.StartDetectionTask(req.media_name, filter_chain, req.node_name);
-                // Commented while refactoring deep_detector
-                //sonia_common::ChangeNetwork network;
-                //network.request.task = req.filterchain_name;
-                //deep_network_service.call(network);
                 ROS_INFO("Starting topic: %s", res.response.c_str());
             }
             catch (const std::exception &e) {

@@ -10,6 +10,7 @@
 #include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <std_srvs/Trigger.h>
 #include <sonia_common/Detection.h>
 #include <sonia_common/DetectionArray.h>
 
@@ -22,11 +23,24 @@ namespace proc_image_processing {
         Filter(globalParams),
         nh_(ros::NodeHandle("proc_image_processing")),
         debug_contour_("Debug contour", true, &parameters_),
+        model_name_("Model Name", "test", &parameters_),
+        threshold_("Confidence Threshold", 50.0, 0.0, 100.0, &parameters_)
         color_(0, 0, 0) 
         {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepFilter::callbackBoundingBox, this);
-            detectionListing_ = ros::NodeHandle("~").advertiseService("/proc_image_processing/list_deep_color", )
+            //detectionListing_ = ros::NodeHandle("~").advertiseService("/proc_image_processing/list_deep_color", );
+            deep_network_service_ = nh_.serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
+            deep_network_stop_service_ = nh.serviceClient<std_srvs::Trigger>("/proc_detection/stop_topic");
             setName("DeepFilter");
+
+            sonia_common::ChangeNetwork network;
+            current_model_name_ = model_name_.getValue();
+            current_threshold_ = threshold_.getValue();
+
+            network.request.network_name = current_model_name_;
+            network.request.topic = req.media_name;
+            network.request.threshold = current_threshold_;
+            deep_network_service_.call(network);
 
             for(std::pair<std::string, cv::Scalar> pair: COLOR_MAP_DEEP_LEARNING)
             {
@@ -37,6 +51,11 @@ namespace proc_image_processing {
         ~DeepFilter() override 
         { 
             image_subscriber_.shutdown();
+
+            // stop the deep learning network
+            std_srvs::Trigger trigger;
+            deep_network_stop_service_.call(trigger);
+
             for(ObjectDesc desc: object_mapping_)
             {
                 delete desc.parameter;
@@ -48,6 +67,19 @@ namespace proc_image_processing {
             Target target;
             image_width_ = image.size().width;
             image_height_ = image.size().height;
+
+            // if the model name or the threshold change, call the change_network service
+            if(current_threshold_ != threshold_.getValue() || current_model_name_ != model_name_.getValue())
+            {
+                sonia_common::ChangeNetwork network;
+                current_model_name_ = model_name_.getValue();
+                current_threshold_ = threshold_.getValue();
+
+                network.request.network_name = current_model_name_;
+                network.request.topic = req.media_name;
+                network.request.threshold = current_threshold_;
+                deep_network_service_.call(network);
+            }
 
             for (sonia_common::Detection &object : bounding_box_) {
                 if(object_mapping_.contains(object.class_name.data))
@@ -120,6 +152,8 @@ namespace proc_image_processing {
         // TODO why do we need this here? Every other filters doesn't need a NodeHandle/Subscriber
         ros::Subscriber image_subscriber_;
         ros::ServiceServer detectionListing_;
+        ros::ServiceClient deep_network_service_;
+        ros::ServiceClient deep_network_stop_service_;
         ros::NodeHandle nh_;
 
         std::map<std::string, ObjectDesc> object_mapping_;
@@ -127,6 +161,13 @@ namespace proc_image_processing {
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
         Parameter<bool> debug_contour_;
+
+        std::string current_model_name_;
+        Parameter<std::string> model_name_;
+
+        double current_threshold_;
+        RangedParameter<double> threshold_;
+
         int image_width_{};
         int image_height_{};
 
