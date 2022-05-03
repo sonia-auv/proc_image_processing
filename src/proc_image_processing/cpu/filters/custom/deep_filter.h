@@ -13,6 +13,7 @@
 #include <std_srvs/Trigger.h>
 #include <sonia_common/Detection.h>
 #include <sonia_common/DetectionArray.h>
+#include <sonia_common/ChangeNetwork.h>
 
 namespace proc_image_processing {
     class DeepFilter : public Filter {
@@ -24,21 +25,22 @@ namespace proc_image_processing {
         nh_(ros::NodeHandle("proc_image_processing")),
         debug_contour_("Debug contour", true, &parameters_),
         model_name_("Model Name", "test", &parameters_),
+        topic_name_("Topic Name", "/provider_vision/camera_array/front/compressed", &parameters_),
         threshold_("Confidence Threshold", 50.0, 0.0, 100.0, &parameters_)
-        color_(0, 0, 0) 
         {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepFilter::callbackBoundingBox, this);
             //detectionListing_ = ros::NodeHandle("~").advertiseService("/proc_image_processing/list_deep_color", );
             deep_network_service_ = nh_.serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
-            deep_network_stop_service_ = nh.serviceClient<std_srvs::Trigger>("/proc_detection/stop_topic");
+            deep_network_stop_service_ = nh_.serviceClient<std_srvs::Trigger>("/proc_detection/stop_topic");
             setName("DeepFilter");
 
             sonia_common::ChangeNetwork network;
             current_model_name_ = model_name_.getValue();
+            current_topic_name_ = topic_name_.getValue();
             current_threshold_ = threshold_.getValue();
 
             network.request.network_name = current_model_name_;
-            network.request.topic = req.media_name;
+            network.request.topic = current_topic_name_;
             network.request.threshold = current_threshold_;
             deep_network_service_.call(network);
 
@@ -55,11 +57,6 @@ namespace proc_image_processing {
             // stop the deep learning network
             std_srvs::Trigger trigger;
             deep_network_stop_service_.call(trigger);
-
-            for(ObjectDesc desc: object_mapping_)
-            {
-                delete desc.parameter;
-            }
         }
 
         void apply(cv::Mat &image) override 
@@ -69,24 +66,27 @@ namespace proc_image_processing {
             image_height_ = image.size().height;
 
             // if the model name or the threshold change, call the change_network service
-            if(current_threshold_ != threshold_.getValue() || current_model_name_ != model_name_.getValue())
+            if(current_threshold_ != threshold_.getValue() || current_model_name_ != model_name_.getValue() || current_topic_name_ != topic_name_.getValue())
             {
                 sonia_common::ChangeNetwork network;
                 current_model_name_ = model_name_.getValue();
+                current_topic_name_ = topic_name_.getValue();
                 current_threshold_ = threshold_.getValue();
 
                 network.request.network_name = current_model_name_;
-                network.request.topic = req.media_name;
+                network.request.topic = current_topic_name_;
                 network.request.threshold = current_threshold_;
                 deep_network_service_.call(network);
             }
 
             for (sonia_common::Detection &object : bounding_box_) {
-                if(object_mapping_.contains(object.class_name.data))
+                std::string key = object.class_name;
+                
+                if(object_mapping_.contains(key))
                 {
-                    if(object_mapping_[object.class_name.data].parameter.getValue())
+                    if(object_mapping_[key].parameter.getValue())
                     {
-                        handleObject(target, object, image, object_mapping_[object.class_name.data].color_scalar);
+                        handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
                 }
                 else
@@ -95,26 +95,20 @@ namespace proc_image_processing {
                     if(object_mapping_.size() < color_keys_.size())
                     {
                         //take the next color
-                        ObjectDesc desc;
-                        desc.color_name = color_keys_[object_param_mapping_.size()];
-                        desc.color_scalar = COLOR_MAP_DEEP_LEARNING[color_keys_[object_param_mapping_.size()]];
-                        desc.parameter = new Parameter<bool>(object.class_name.data, true, &parameters_);
-                        object_mapping_[object.class_name.data] = desc;
+                        ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())), Parameter<bool>(key, true, &parameters_));
+                        object_mapping_[key] = desc;
 
-                        handleObject(target, object, image, object_mapping_[object.class_name.data].color_scalar);
+                        handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
 
                     // generate random color if there's isn't
                     else
                     {
                         srand(time(NULL));
-                        ObjectDesc desc;
-                        desc.color_name = "random";
-                        desc.color_scalar = cv::Scalar(rand()%255, rand()%255, rand()%255);
-                        desc.parameter = new Parameter<bool>(object.class_name.data, true, &parameters_);
-                        object_mapping_[object.class_name.data] = desc;
+                        ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), Parameter<bool>(key, true, &parameters_));
+                        object_mapping_[key] = desc;
 
-                        handleObject(target, object, image, object_mapping_[object.class_name.data].color_scalar);
+                        handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
                 }
             }
@@ -127,21 +121,29 @@ namespace proc_image_processing {
 
     private:
 
-        typedef struct
+        struct ObjectDesc
         {
+            ObjectDesc(){}
+            ObjectDesc(std::string color_name_, cv::Scalar color_scalar_, Parameter<bool> parameter_)
+            {
+                color_name = color_name_;
+                color_scalar = color_scalar_;
+                parameter = parameter_;
+            }
+
             std::string color_name;
             cv::Scalar color_scalar;
             Parameter<bool> parameter;
-        } ObjectDesc;
+        };
 
-        typedef struct
+        struct ObjectBoundingBox
         {
             int center_x;
             int center_y;
 
             int size_x;
             int size_y;
-        } ObjectBoundingBox;
+        };
 
         const int BBOX_INFO_RECT_HEIGHT = 30;
         const int BBOX_X_TOP_LEFT_CORRECTION = 5;
@@ -165,6 +167,9 @@ namespace proc_image_processing {
         std::string current_model_name_;
         Parameter<std::string> model_name_;
 
+        std::string current_topic_name_;
+        Parameter<std::string> topic_name_;
+
         double current_threshold_;
         RangedParameter<double> threshold_;
 
@@ -180,6 +185,7 @@ namespace proc_image_processing {
             bounding_box_ = msg->detected_object;
         }
 
+        /*
         bool DetectionListing(sonia_common::ListDeepColor::Request &req, sonia_common::ListDeepColor::Response &res)
         {
             std::string list = "";
@@ -193,14 +199,15 @@ namespace proc_image_processing {
 
             res.list = list;
         }
+        */
 
-        static inline ObjectBoundingBox normalizeBoundingBox(const sonia_common::Detection &object)
+        static inline ObjectBoundingBox normalizeBoundingBox(const sonia_common::Detection &object, const int image_width, const int image_height)
         {
             ObjectBoundingBox box;
-            box.size_x = (object.right - object.left)*image_width_;
-            box.size_y = (object.bottom - object.top)*image_height_;
-            box.center_x = (object.left*image_width_)+(box.size_x/2);
-            box.center_y = (object.top*image_height_)+(box.size_y/2);
+            box.size_x = (object.right - object.left)*image_width;
+            box.size_y = (object.bottom - object.top)*image_height;
+            box.center_x = (object.left*image_width)+(box.size_x/2);
+            box.center_y = (object.top*image_height)+(box.size_y/2);
             return box;
         }
 
@@ -230,7 +237,7 @@ namespace proc_image_processing {
 
             target.setCenter(vision_bounding_box_center_x, vision_bounding_box_center_y);
             target.setSize(box.size_x, box.size_y);
-            target.setSpecialField1(object.class_name.data);
+            target.setSpecialField1(object.class_name);
             target.setSpecialField2(convertFloatToString(object.confidence));
         }
 
@@ -262,18 +269,18 @@ namespace proc_image_processing {
         static inline std::string createTextBoundingBox(const sonia_common::Detection &object) 
         {
             std::stringstream ss;
-            ss << object.class_name.data << ":" << convertFloatToString(object.confidence) << "%";
+            ss << object.class_name << ":" << convertFloatToString(object.confidence) << "%";
             return ss.str();
         }
 
         inline void
         handleObject(Target &target, const sonia_common::Detection &object, cv::Mat &image, const cv::Scalar &color) 
         {
-            ObjectBoundingBox box = normalizeBoundingBox(object);
-            buildTarget(target, box);
+            ObjectBoundingBox box = normalizeBoundingBox(object, image_width_, image_height_);
+            buildTarget(target, object, box);
             if (debug_contour_()) 
             {
-                drawTarget(image, box, 10, color);
+                drawTarget(image, object, box, 10, color);
             }
             objects_.push_back(target);
         }

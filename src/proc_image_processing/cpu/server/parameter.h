@@ -19,6 +19,8 @@ namespace proc_image_processing {
 
         static const char SEPARATOR = '|';
 
+        Parameter();
+
         explicit Parameter(
                 std::string name, const Tp_ &value,
                 std::vector<ParameterInterface *> *vector = nullptr,
