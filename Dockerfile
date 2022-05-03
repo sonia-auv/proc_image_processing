@@ -1,4 +1,4 @@
-ARG BASE_IMAGE="ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-feature-ninjemys"
+ARG BASE_IMAGE="ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
 
 FROM ${BASE_IMAGE}
 
@@ -12,6 +12,7 @@ ENV NODE_NAME=proc_image_processing
 ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
 ENV NODE_NAME=${NODE_NAME}
 ENV NODE_PATH=${SONIA_WS}/src/${NODE_NAME}
+ENV NODE_CONFIG_PATH=${NODE_PATH}/config
 ENV LAUNCH_FILE=${NODE_NAME}.launch
 ENV SCRIPT_DIR=${SONIA_WS}/scripts
 ENV ENTRYPOINT_FILE=sonia_entrypoint.sh
