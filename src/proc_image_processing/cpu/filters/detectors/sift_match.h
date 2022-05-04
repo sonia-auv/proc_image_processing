@@ -89,28 +89,38 @@ namespace proc_image_processing {
             // detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
             // detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
             
-            // //-- Step 2: Matching descriptor vectors with a FLANN based matcher
-            // cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
-            // std::vector< std::vector<cv::DMatch> > knn_matches;
-            // matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
+            //-- Step 1-BIS: Detect the keypoints WITHOUT SURF Detector, compute the descriptors
+            // int minHessian = 400;
+            cv::Ptr<cv::KAZE> detector = cv::KAZE::create();
+            std::vector<cv::KeyPoint> keypoints1, keypoints2;
+            cv::Mat descriptors1, descriptors2;
+            detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
+            detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
+            
 
-            // //-- Filter matches using the Lowe's ratio test
-            // const float ratio_thresh = 0.7f;
-            // std::vector<cv::DMatch> good_matches;
-            // for (size_t i = 0; i < knn_matches.size(); i++)
-            // {
-            //     if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
-            //     {
-            //         good_matches.push_back(knn_matches[i][0]);
-            //     }
-            // }
 
-            // //-- Draw matches
-            // cv::Mat img_matches;
-            // cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
-            //      cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+            //-- Step 2: Matching descriptor vectors with a FLANN based matcher
+            cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+            std::vector< std::vector<cv::DMatch> > knn_matches;
+            matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
 
-            // img_matches.copyTo(output_image_);
+            //-- Filter matches using the Lowe's ratio test
+            const float ratio_thresh = 0.7f;
+            std::vector<cv::DMatch> good_matches;
+            for (size_t i = 0; i < knn_matches.size(); i++)
+            {
+                if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
+                {
+                    good_matches.push_back(knn_matches[i][0]);
+                }
+            }
+
+            //-- Draw matches
+            cv::Mat img_matches;
+            cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
+                 cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+
+            img_matches.copyTo(output_image_);
 
         }
 
