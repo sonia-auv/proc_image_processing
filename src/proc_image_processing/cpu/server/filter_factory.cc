@@ -183,6 +183,7 @@ namespace proc_image_processing {
 		"RotateFilter;"
 		"ScharrAddingFilter;"
 		"ScharrFilter;"
+		"SiftMatch;"
 		"SobelFilter;"
 		"SquareDetector;"
 		"StatisticalThresholdFilter;"
