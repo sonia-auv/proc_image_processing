@@ -28,10 +28,10 @@ namespace proc_image_processing {
         topic_name_("Topic Name", "/provider_vision/camera_array/front/compressed", &parameters_),
         threshold_("Confidence Threshold", 50.0, 0.0, 100.0, &parameters_)
         {
-            image_subscriber_ = ros::NodeHandle("~").subscribe("/deep_detector/bounding_box", 100, &DeepFilter::callbackBoundingBox, this);
+            image_subscriber_ = ros::NodeHandle("~").subscribe("/proc_detection/bounding_box", 100, &DeepFilter::callbackBoundingBox, this);
             //detectionListing_ = ros::NodeHandle("~").advertiseService("/proc_image_processing/list_deep_color", );
-            deep_network_service_ = nh_.serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
-            deep_network_stop_service_ = nh_.serviceClient<std_srvs::Trigger>("/proc_detection/stop_topic");
+            deep_network_service_ = ros::NodeHandle("~").serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
+            deep_network_stop_service_ = ros::NodeHandle("~").serviceClient<std_srvs::Trigger>("/proc_detection/stop_topic");
             setName("DeepFilter");
 
             sonia_common::ChangeNetwork network;
@@ -65,6 +65,8 @@ namespace proc_image_processing {
             image_width_ = image.size().width;
             image_height_ = image.size().height;
 
+            ROS_INFO("apply call");
+
             // if the model name or the threshold change, call the change_network service
             if(current_threshold_ != threshold_.getValue() || current_model_name_ != model_name_.getValue() || current_topic_name_ != topic_name_.getValue())
             {
@@ -81,12 +83,18 @@ namespace proc_image_processing {
 
             for (sonia_common::Detection &object : bounding_box_) {
                 std::string key = object.class_name;
+                ROS_INFO("apply item %s", key);
                 
                 if(object_mapping_.contains(key))
                 {
                     if(object_mapping_[key].parameter.getValue())
                     {
+                        ROS_INFO("found item and apply it %s", key);
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
+                    }
+                    else
+                    {
+                        ROS_INFO("found item and but dont apply it %s", key);
                     }
                 }
                 else
@@ -98,6 +106,8 @@ namespace proc_image_processing {
                         ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())), Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
 
+                        ROS_INFO("create a new objet %s with predefined color %s", key, desc.color_name);
+
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
 
@@ -107,6 +117,8 @@ namespace proc_image_processing {
                         srand(time(NULL));
                         ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
+
+                        ROS_INFO("create a new objet %s with random color", key, desc.color_name);
 
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }

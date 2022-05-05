@@ -320,7 +320,7 @@ namespace proc_image_processing {
     ) {
         // For now ignoring filter chain name, but when we will have multiple,
         // we will have to check the name and find the good filter chain
-        FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(req.execution);
+        FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name);
 
         if (filter_chain != nullptr) {
             res.result = res.SUCCESS;
@@ -331,7 +331,7 @@ namespace proc_image_processing {
         res.result = res.FAIL;
         ROS_ERROR(
                 "DetectionTask %s does not exist or does not use this filter chain: %s on get filters request",
-                req.execution.c_str(),
+                req.exec_name.c_str(),
                 req.filterchain.c_str()
         );
         return false;
