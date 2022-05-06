@@ -6,9 +6,13 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "/home/sonia/base_lib_ws/devel/include/**",
-                "/opt/ros/melodic/include/**",
-                "/usr/include/**"
+                "/opt/ros/${ROS_DISTRO}/include/**",
+                "/usr/lib/",
+                "/usr/include/**",
+                "${workspaceFolder}/src/**",
+                "/home/${USER}/ros_sonia_ws/devel/include/**",
+                "/usr/include/boost/hana/ext",
+                "/usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",
