@@ -89,13 +89,42 @@ namespace proc_image_processing {
             // detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
             // detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
             
-            // //-- Step 2: Matching descriptor vectors with a FLANN based matcher
+            //-- Step 1-BIS: Detect the keypoints WITHOUT SURF Detector, compute the descriptors
+            // int minHessian = 400;
+            cv::Ptr<cv::AKAZE> detector = cv::AKAZE::create();
+            std::vector<cv::KeyPoint> keypoints1, keypoints2;
+            cv::Mat descriptors1, descriptors2;
+            detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
+            detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
+            
+            if ( descriptors1.empty() ){
+                ROS_WARN("MatchFinder : 1st descriptor empty - Ref image");
+                image.copyTo(output_image_);
+                return; 
+            }
+            if ( descriptors2.empty() ){
+                ROS_WARN("MatchFinder : 2nd descriptor empty - camera image");
+                image.copyTo(output_image_);
+                return;
+            }
+            //Idk if this return are gonna help. It's to prevent an error of the matcher "no descriptors"
+
+            
+            //nothing happen because filters are not working
+
+            // -- Step test: Draw keypoints on the output . Make sure it's finding kp
+            cv::Mat img_kp;
+            cv::drawKeypoints(ref_image, keypoints2, img_kp);
+            img_kp.copyTo(output_image_);
+
+
+            //-- Step 2: Matching descriptor vectors with a FLANN based matcher
             // cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
             // std::vector< std::vector<cv::DMatch> > knn_matches;
             // matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
 
             // //-- Filter matches using the Lowe's ratio test
-            // const float ratio_thresh = 0.7f;
+            // const float ratio_thresh = 0.5f;
             // std::vector<cv::DMatch> good_matches;
             // for (size_t i = 0; i < knn_matches.size(); i++)
             // {
@@ -105,7 +134,7 @@ namespace proc_image_processing {
             //     }
             // }
 
-            // //-- Draw matches
+            //-- Draw matches
             // cv::Mat img_matches;
             // cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
             //      cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
