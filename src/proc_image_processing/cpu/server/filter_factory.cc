@@ -86,7 +86,7 @@ namespace proc_image_processing {
 		return std::make_unique<ObstacleDetector>(gph);
 	}
 	else if(name == "OrbSiftMatch"){
-		return std::make_unique<SiftMatch>(gph);
+		return std::make_unique<OrbSiftMatch>(gph);
 	}
 	else if(name == "OriginalImageFilter"){
 		return std::make_unique<OriginalImageFilter>(gph);
