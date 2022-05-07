@@ -85,6 +85,9 @@ namespace proc_image_processing {
 	else if(name == "ObstacleDetector"){
 		return std::make_unique<ObstacleDetector>(gph);
 	}
+	else if(name == "OrbSiftMatch"){
+		return std::make_unique<SiftMatch>(gph);
+	}
 	else if(name == "OriginalImageFilter"){
 		return std::make_unique<OriginalImageFilter>(gph);
 	}
@@ -177,6 +180,7 @@ namespace proc_image_processing {
 		"MissionTestFakeStringFilter;"
 		"MorphologyFilter;"
 		"ObstacleDetector;"
+		"OrbSiftMatch;"
 		"OriginalImageFilter;"
 		"PipeAngleDetector;"
 		"RemoveMaskFilter;"
