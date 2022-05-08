@@ -119,16 +119,35 @@ namespace proc_image_processing {
                 }
             }
 
+
+            // --- Draw only points
+            //Get the points that match
+            std::vector<cv::Point> matching_points;
+            for(size_t i = 0; i< good_matches.size(); i++){
+                matching_points.push_back(keypoints2[good_matches[i].trainIdx].pt);
+            }
+            //Draw the point on the image
+            cv::Mat img_keypoints;
+            image.copyTo(img_keypoints);
+            for(size_t i = 0; i< matching_points.size(); i++){
+                cv::circle(img_keypoints, matching_points[i], 3, cv::Scalar(220,20,220), 5);
+            }
+
             //-- Draw matches
             cv::Mat img_matches;
             cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
                  cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
-            img_matches.copyTo(output_image_);
 
             if (debug_contour_()) {
-                output_image_.copyTo(image);
+                img_matches.copyTo(output_image_); //Image to compare with
+            }else{
+                img_keypoints.copyTo(output_image_); // Just the points
             }
+
+            output_image_.copyTo(image);
+
+
 
         }
 
