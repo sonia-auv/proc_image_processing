@@ -10,13 +10,16 @@
 #include "opencv2/opencv_modules.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/features2d.hpp"
-//#include "opencv2/xfeatures2d.hpp"
+
+
+// Proposition: Au lieu d'avoir la détection d'un élément à la fois. Pourquoi ne pas faire tourner tous les éléments en même temps?
 
 namespace proc_image_processing {
 
     class SiftMatch : public Filter {
     public:
         using Ptr = std::shared_ptr<SiftMatch>;
+        cv::Ptr<cv::ORB> detector = cv::ORB::create();
 
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
@@ -33,40 +36,40 @@ namespace proc_image_processing {
             std::string path;
             switch(objective_()) {
                 case 0:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "GManGate" + kImagesExt;
                     break;
                 case 1:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "BootleggerGate" + kImagesExt;
                     break;
                 case 2:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "GManBadge" + kImagesExt;
                     break;
                 case 3:
                     path = kRefImagesPath + "BootleggerGun" + kImagesExt;
                     break;
                 case 4:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "GManPhone" + kImagesExt;
                     break;
                 case 5:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "GManNote" + kImagesExt;
                     break;
                 case 6:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "BootleggerBottle" + kImagesExt;
                     break;
                 case 7:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "BootleggerBarrel" + kImagesExt;
                     break;
                 case 8:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "GManTorpidoe" + kImagesExt;
                     break;
                 case 9:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "BootleggerTorpidoe" + kImagesExt;
                     break;
                 case 10:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "GManAxe" + kImagesExt;
                     break;
                 case 11:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "BootleggerDollar" + kImagesExt;
                     break;
                 default:
                     ROS_WARN("Wrong value in sift match filter");
@@ -81,67 +84,121 @@ namespace proc_image_processing {
                 ROS_WARN("Ref image is empty : %s",path);
             }
 
-            // //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
-            // int minHessian = 400;
-            // cv::Ptr<cv::SURF> detector = cv::SURF::create( minHessian );
-            // std::vector<cv::KeyPoint> keypoints1, keypoints2;
-            // cv::Mat descriptors1, descriptors2;
-            // detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
-            // detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
-            
-            //-- Step 1-BIS: Detect the keypoints WITHOUT SURF Detector, compute the descriptors
-            // int minHessian = 400;
-            cv::Ptr<cv::AKAZE> detector = cv::AKAZE::create();
-            std::vector<cv::KeyPoint> keypoints1, keypoints2;
-            cv::Mat descriptors1, descriptors2;
-            detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
-            detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
-            
-            if ( descriptors1.empty() ){
-                ROS_WARN("MatchFinder : 1st descriptor empty - Ref image");
-                image.copyTo(output_image_);
-                return; 
-            }
-            if ( descriptors2.empty() ){
-                ROS_WARN("MatchFinder : 2nd descriptor empty - camera image");
-                image.copyTo(output_image_);
-                return;
-            }
-            //Idk if this return are gonna help. It's to prevent an error of the matcher "no descriptors"
+            // Faire une liste avec les descriptors de chacune image de référence
+            // (même si plus tard j'ai plusieurs images, je mets tous les descriptors ensemble)
+            // Comparer l'image avec chacun des descriptors 
+            //Afficher l'ensemble des points qui matchent avec la bonne couleur. 
+
 
             
-            //nothing happen because filters are not working
 
-            // -- Step test: Draw keypoints on the output . Make sure it's finding kp
-            cv::Mat img_kp;
-            cv::drawKeypoints(ref_image, keypoints2, img_kp);
-            img_kp.copyTo(output_image_);
+            //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
+            std::pair<cv::Mat,std::vector<cv::KeyPoint>> descriptors_keypoints2 = calculate_descriptors_and_kp(image);
+            cv::Mat descriptors2 = descriptors_keypoints2.first;
+            std::vector<cv::KeyPoint> keypoints2 = descriptors_keypoints2.second;
+            //Là comme ça c'est plus long mais ça va surement s'arranger
+
+
+            //maintenant on va générer toutes les descriptors et keypoints des images de références
+            std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> descr_kp_ref;
+            descr_kp_ref = calculate_descr_kp_references();
+            std::vector<cv::Mat> ref_descriptors;
+            std::vector<std::vector<cv::KeyPoint>> ref_keypoints;
+            ref_descriptors = descr_kp_ref.first;
+            ref_keypoints = descr_kp_ref.second;
+
+            cv::Mat descriptors1 = ref_descriptors[objective_()];
+            std::vector<cv::KeyPoint> keypoints1 = ref_keypoints[objective_()];
+            //Je récupère un élément. Le but est de modifier le code proressivement mais en s'assurant qu'il fonctionne tout le temps
+
+
+
+
+
+            //pas encore modifié la suite
 
 
             //-- Step 2: Matching descriptor vectors with a FLANN based matcher
-            // cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
-            // std::vector< std::vector<cv::DMatch> > knn_matches;
-            // matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
+            cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+            std::vector< std::vector<cv::DMatch> > knn_matches;
+            matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
 
-            // //-- Filter matches using the Lowe's ratio test
-            // const float ratio_thresh = 0.5f;
-            // std::vector<cv::DMatch> good_matches;
-            // for (size_t i = 0; i < knn_matches.size(); i++)
-            // {
-            //     if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
-            //     {
-            //         good_matches.push_back(knn_matches[i][0]);
-            //     }
-            // }
+            //-- Filter matches using the Lowe's ratio test
+            const float ratio_thresh = 0.7f;
+            std::vector<cv::DMatch> good_matches;
+            for (size_t i = 0; i < knn_matches.size(); i++)
+            {
+                if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
+                {
+                    good_matches.push_back(knn_matches[i][0]);
+                }
+            }
 
-            //-- Draw matches
-            // cv::Mat img_matches;
-            // cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
-            //      cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
-            // img_matches.copyTo(output_image_);
+            // --- Draw only points
+            //Get the points that match
+            std::vector<cv::Point> matching_points;
+            for(size_t i = 0; i< good_matches.size(); i++){
+                matching_points.push_back(keypoints2[good_matches[i].trainIdx].pt);
+            }
+            //Draw the point on the image
+            cv::Mat img_keypoints;
+            image.copyTo(img_keypoints);
+            for(size_t i = 0; i< matching_points.size(); i++){
+                cv::circle(img_keypoints, matching_points[i], 3, cv::Scalar(220,20,220), 5);
+            }
 
+            img_keypoints.copyTo(output_image_); // Just the points
+            output_image_.copyTo(image);
         }
+    
+    //Fonction pour calculer les descripteurs pour une image 
+    std::pair<cv::Mat,std::vector<cv::KeyPoint>> calculate_descriptors_and_kp(cv::Mat image){
+        std::vector<cv::KeyPoint> keypoints;
+        cv::Mat descriptors;
+        detector->detectAndCompute(image,cv::noArray(),keypoints,descriptors);
+        descriptors.convertTo(descriptors,CV_32F);
+        return std::make_pair(descriptors,keypoints);
+    }
+
+    //Fonction pour calculer tous les descripteurs et keypoints des images de référence
+    std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> calculate_descr_kp_references(){
+        std::vector<cv::Mat> descriptors;
+        std::vector<std::vector<cv::KeyPoint>> keypoints;
+        
+
+
+        //List can be simplified when good data structures for images is chosen!!!!!!!!!
+        std::vector<std::string> list_paths({kRefImagesPath + "GManGate" + kImagesExt,
+                                    kRefImagesPath + "BootleggerGate" + kImagesExt,
+                                    kRefImagesPath + "GManBadge" + kImagesExt,
+                                    kRefImagesPath + "BootleggerGun" + kImagesExt,
+                                    kRefImagesPath + "GManPhone" + kImagesExt,
+                                    kRefImagesPath + "GManNote" + kImagesExt,
+                                    kRefImagesPath + "BootleggerBottle" + kImagesExt,
+                                    kRefImagesPath + "BootleggerBarrel" + kImagesExt,
+                                    kRefImagesPath + "GManTorpidoe" + kImagesExt,
+                                    kRefImagesPath + "BootleggerTorpidoe" + kImagesExt,
+                                    kRefImagesPath + "GManAxe" + kImagesExt,
+                                    kRefImagesPath + "BootleggerDollar" + kImagesExt
+        });
+        
+        for(size_t i = 0; i< list_paths.size(); i++){
+            std::pair<cv::Mat,std::vector<cv::KeyPoint>> descr_kp;
+            cv::Mat image_for_calculation = cv::imread(list_paths[i]);
+            descr_kp = calculate_descriptors_and_kp(image_for_calculation);
+
+            if(descr_kp.first.empty())
+            {
+                ROS_WARN("Ref image descriptors is empty for path : %s", list_paths[i]);
+            }
+
+            descriptors.push_back(descr_kp.first);
+            keypoints.push_back(descr_kp.second);
+        }
+
+        return std::make_pair(descriptors, keypoints);
+    }
 
     private:
         cv::Mat output_image_;
