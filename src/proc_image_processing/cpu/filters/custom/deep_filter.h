@@ -65,8 +65,6 @@ namespace proc_image_processing {
             image_width_ = image.size().width;
             image_height_ = image.size().height;
 
-            ROS_INFO("apply call");
-
             // if the model name or the threshold change, call the change_network service
             if(current_threshold_ != threshold_.getValue() || current_model_name_ != model_name_.getValue() || current_topic_name_ != topic_name_.getValue())
             {
@@ -83,18 +81,13 @@ namespace proc_image_processing {
 
             for (sonia_common::Detection &object : bounding_box_) {
                 std::string key = object.class_name;
-                ROS_INFO("apply item %s", key.c_str());
                 
                 if(object_mapping_.contains(key))
                 {
-                    if(object_mapping_[key].parameter.getValue())
+                    if(object_parameter_mapping_[key].getValue())
                     {
                         ROS_INFO("found item and apply it %s", key.c_str());
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
-                    }
-                    else
-                    {
-                        ROS_INFO("found item but dont apply it %s", key.c_str());
                     }
                 }
                 else
@@ -103,8 +96,9 @@ namespace proc_image_processing {
                     if(object_mapping_.size() < color_keys_.size())
                     {
                         //take the next color
-                        ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())), Parameter<bool>(key, true, &parameters_));
+                        ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())));
                         object_mapping_[key] = desc;
+                        object_parameter_mapping_[key] = Parameter<bool>(key, true, &parameters_);
 
                         ROS_INFO("create a new objet %s with predefined color %s", key.c_str(), desc.color_name.c_str());
 
@@ -115,8 +109,9 @@ namespace proc_image_processing {
                     else
                     {
                         srand(time(NULL));
-                        ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), Parameter<bool>(key, true, &parameters_));
+                        ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255));
                         object_mapping_[key] = desc;
+                        object_parameter_mapping_[key] = Parameter<bool>(key, true, &parameters_);
 
                         ROS_INFO("create a new objet %s with random color", key.c_str(), desc.color_name.c_str());
 
@@ -135,17 +130,15 @@ namespace proc_image_processing {
 
         struct ObjectDesc
         {
-            ObjectDesc(){}
-            ObjectDesc(std::string color_name_, cv::Scalar color_scalar_, Parameter<bool> parameter_)
+            ObjectDesc() {}
+            ObjectDesc(std::string color_name_, cv::Scalar color_scalar_)
             {
                 color_name = color_name_;
                 color_scalar = color_scalar_;
-                parameter = parameter_;
             }
 
             std::string color_name;
             cv::Scalar color_scalar;
-            Parameter<bool> parameter;
         };
 
         struct ObjectBoundingBox
@@ -171,6 +164,7 @@ namespace proc_image_processing {
         ros::NodeHandle nh_;
 
         std::map<std::string, ObjectDesc> object_mapping_;
+        std::map<std::string, Parameter<bool>> object_parameter_mapping_;
         std::vector<std::string> color_keys_;
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
