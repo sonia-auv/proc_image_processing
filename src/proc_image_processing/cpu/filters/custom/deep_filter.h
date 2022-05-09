@@ -83,18 +83,18 @@ namespace proc_image_processing {
 
             for (sonia_common::Detection &object : bounding_box_) {
                 std::string key = object.class_name;
-                ROS_INFO("apply item %s", key);
+                ROS_INFO("apply item %s", key.c_str());
                 
                 if(object_mapping_.contains(key))
                 {
                     if(object_mapping_[key].parameter.getValue())
                     {
-                        ROS_INFO("found item and apply it %s", key);
+                        ROS_INFO("found item and apply it %s", key.c_str());
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
                     else
                     {
-                        ROS_INFO("found item and but dont apply it %s", key);
+                        ROS_INFO("found item but dont apply it %s", key.c_str());
                     }
                 }
                 else
@@ -106,7 +106,7 @@ namespace proc_image_processing {
                         ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())), Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
 
-                        ROS_INFO("create a new objet %s with predefined color %s", key, desc.color_name);
+                        ROS_INFO("create a new objet %s with predefined color %s", key.c_str(), desc.color_name.c_str());
 
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
@@ -118,7 +118,7 @@ namespace proc_image_processing {
                         ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
 
-                        ROS_INFO("create a new objet %s with random color", key, desc.color_name);
+                        ROS_INFO("create a new objet %s with random color", key.c_str(), desc.color_name.c_str());
 
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
