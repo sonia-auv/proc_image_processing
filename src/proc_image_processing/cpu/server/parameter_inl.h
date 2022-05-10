@@ -97,9 +97,6 @@ namespace proc_image_processing {
     }  // namespace details
 
     template<class Tp_>
-    inline Parameter<Tp_>::Parameter() {}
-
-    template<class Tp_>
     inline Parameter<Tp_>::Parameter(
             std::string name, const Tp_ &value,
             std::vector<ParameterInterface *> *vector, std::string description)
