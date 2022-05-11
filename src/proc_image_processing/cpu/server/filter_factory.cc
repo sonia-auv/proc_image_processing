@@ -94,6 +94,9 @@ namespace proc_image_processing {
 	else if(name == "PipeAngleDetector"){
 		return std::make_unique<PipeAngleDetector>(gph);
 	}
+	else if(name == "PipeStraightDetector"){
+		return std::make_unique<PipeStraightDetector>(gph);
+	}
 	else if(name == "RemoveMaskFilter"){
 		return std::make_unique<RemoveMaskFilter>(gph);
 	}
@@ -183,6 +186,7 @@ namespace proc_image_processing {
 		"OrbSiftMatch;"
 		"OriginalImageFilter;"
 		"PipeAngleDetector;"
+		"PipeStraightDetector;"
 		"RemoveMaskFilter;"
 		"RotateFilter;"
 		"ScharrAddingFilter;"

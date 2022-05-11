@@ -32,6 +32,7 @@
 #include <proc_image_processing/cpu/filters/detectors/orb_sift_match.h>
 #include <proc_image_processing/cpu/filters/custom/original_image_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_angle_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/pipe_straight_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/remove_mask_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_adding_filter.h>
