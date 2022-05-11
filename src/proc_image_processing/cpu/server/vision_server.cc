@@ -240,7 +240,10 @@ namespace proc_image_processing {
                     auto parameters = filter_chain->getFilterParameters(extractFilterIndexFromUIName(req.filter));
                     std::vector<std::string> parameter_names;
                     for (const auto &parameter : parameters) {
-                        parameter_names.push_back(parameter->toString());
+                        if(parameters != nullptr)
+                        {
+                            parameter_names.push_back(parameter->toString());
+                        }
                     }
                     res.list = buildRosMessage(parameter_names);
                     return true;
