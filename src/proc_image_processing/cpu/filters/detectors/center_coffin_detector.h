@@ -18,8 +18,8 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
-                  min_area_("Minimum area", 100, 1, 10000, &parameters_),
-                  max_area_("Maximum area", 1000, 1, 1000000, &parameters_) {
+                  min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
+                  max_area_("Maximum area", 1000, 1, 1000000, &parameters_, "Max area") {
             setName("CenterCoffinDetector");
         }
 
@@ -60,7 +60,7 @@ namespace proc_image_processing {
                     if (debug_contour_()) {
                         cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                     }
-                    objective = "surface";
+                    objective = "center coffin";
                 }
                 objVec.push_back(object);
             }
