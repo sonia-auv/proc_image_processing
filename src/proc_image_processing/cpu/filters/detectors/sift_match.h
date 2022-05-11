@@ -1,7 +1,7 @@
 // FACTORY_GENERATOR_CLASS_NAME=SiftMatch
 
 #ifndef PROC_IMAGE_PROCESSING_SIFT_MATCH_H
-#define PROC_IMAGE_PROCESSING_SIFT_MATCG_H
+#define PROC_IMAGE_PROCESSING_SIFT_MATCH_H
 
 #include <proc_image_processing/cpu/config.h>
 #include <proc_image_processing/cpu/filters/filter.h>
