@@ -10,6 +10,7 @@
 #include "opencv2/opencv_modules.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/features2d.hpp"
+#include<string>
 
 
 // Proposition: Au lieu d'avoir la détection d'un élément à la fois. Pourquoi ne pas faire tourner tous les éléments en même temps?
@@ -97,12 +98,58 @@ namespace proc_image_processing {
 
 
             //maintenant on va générer toutes les descriptors et keypoints des images de références
-            std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> descr_kp_ref;
-            descr_kp_ref = calculate_descr_kp_references();
             std::vector<cv::Mat> ref_descriptors;
             std::vector<std::vector<cv::KeyPoint>> ref_keypoints;
+
+            std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> descr_kp_ref;
+            descr_kp_ref = calculate_descr_kp_references();
             ref_descriptors = descr_kp_ref.first;
             ref_keypoints = descr_kp_ref.second;
+            // //Mtn que j'ai toutes mes variables, il faut que je les enregistre dans ce document:
+            std::string descr_path = kConfigPath + "/descriptors/Keypoints.yml";
+
+
+    //Enregistrement des données dans des fichiers.yml
+
+            // cv::FileStorage fsWrite(descr_path, cv::FileStorage::WRITE);
+            // for(int i = 0; i< ref_keypoints.size();i++){
+            //     cv::write(fsWrite, "descriptors_" + std::to_string(i), ref_descriptors[i]);
+            //     cv::write(fsWrite, "keypoints_" + std::to_string(i), ref_keypoints[i]);
+            // }
+            // fsWrite.release();
+
+            //Devrait être pareil que la précédente mais ne fonctionne pas
+
+            // cv::FileStorage fsWrite(descr_path, cv::FileStorage::WRITE);
+            // for(int i = 0; i< ref_keypoints.size();i++){
+            //     fsWrite["descriptors_" + std::to_string(i)] << ref_descriptors[i];
+            //     fsWrite["keypoints_" + std::to_string(i)] << ref_keypoints[i];
+            // }
+            // fsWrite.release();
+
+
+    //Aucune des lignes pour lire ne fonctionnent
+
+            //J'ai généré les descriptors et je les ai enregistré dans un dossier, si je récupère les valeurs, je ne dois pas recalculer
+            // cv::FileStorage fsRead(descr_path, cv::FileStorage::READ);
+            // for(int i = 0; i< ref_keypoints.size();i++){
+            //     fsRead["descriptors_" + std::to_string(i)] >>  ref_descriptors[i];
+            //     fsRead["keypoints_" + std::to_string(i)] >>  ref_keypoints[i];
+            // }
+            // fsRead.release();
+
+
+            // cv::FileStorage fsRead;
+            // fsRead.open(descr_path, cv::FileStorage::READ);
+            // for(int i = 0; i< ref_keypoints.size();i++){
+            //     // ref_descriptors[i] = fsRead["descriptors_" + std::to_string(i)];
+            //     // ref_keypoints[i] = fsRead["keypoints_" + std::to_string(i)];
+            //     fsRead["descriptors_" + std::to_string(i)] >>  ref_descriptors[i];
+            //     fsRead["keypoints_" + std::to_string(i)] >>  ref_keypoints[i];
+            // }
+            // fsRead.release();
+
+//Fin du jeu avec les .yml
 
             cv::Mat descriptors1 = ref_descriptors[objective_()];
             std::vector<cv::KeyPoint> keypoints1 = ref_keypoints[objective_()];
@@ -166,24 +213,30 @@ namespace proc_image_processing {
 
 
         //List can be simplified when good data structures for images is chosen!!!!!!!!!
-        std::vector<std::string> list_paths({kRefImagesPath + "01_chooseSide_gman" + kImagesExt,
-                                    kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt,
-                                    kRefImagesPath + "02_makeGrade_badge" + kImagesExt,
-                                    kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt,
-                                    kRefImagesPath + "03_collecting_gman_white" + kImagesExt,
-                                    kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt,
-                                    kRefImagesPath + "04_shootout_gman_red" + kImagesExt,
-                                    kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt,
-                                    kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt,
-                                    kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt,
-                                    kRefImagesPath + "BootleggerGun.JPG"
-        });
+        // std::vector<std::string> old_list_paths({kRefImagesPath + "01_chooseSide_gman" + kImagesExt,
+        //                             kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt,
+        //                             kRefImagesPath + "02_makeGrade_badge" + kImagesExt,
+        //                             kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt,
+        //                             kRefImagesPath + "03_collecting_gman_white" + kImagesExt,
+        //                             kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt,
+        //                             kRefImagesPath + "04_shootout_gman_red" + kImagesExt,
+        //                             kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt,
+        //                             kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt,
+        //                             kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt,
+        //                             kRefImagesPath + "BootleggerGun.JPG"
+        // });
+
+        std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
+        "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
+        "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange"}); 
+        //BootleggerGun.jpg is removed because it's the same as 02_makeGrade_tommyGun
+
         
         for(size_t i = 0; i< list_paths.size(); i++){
             std::pair<cv::Mat,std::vector<cv::KeyPoint>> descr_kp;
-            cv::Mat image_for_calculation = cv::imread(list_paths[i]);
+            std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
+            cv::Mat image_for_calculation = cv::imread(complete_path);
             descr_kp = calculate_descriptors_and_kp(image_for_calculation);
-
             if(descr_kp.first.empty())
             {
                 ROS_WARN("Ref image descriptors is empty for path : %s", list_paths[i].c_str());
