@@ -23,7 +23,7 @@ namespace proc_image_processing {
 
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  objective_("Objective", 0, 0, 11, &parameters_, "0=G-Man Gate, 1=Bootlegger Gate, 2=G-Man Buoys, 3=Bootlegger Gun, 4=G-Man Phone, 5=G-Man Note, 6=Bootlegger Bottle, 7=Bootlegger Barrel, 8=G-Man Torpidoe, 9=Bootlegger Torpidoe, 10=G-Man Axe, 11=Bootlegger Dollar") {
+                  objective_("Objective", 0, 0, 10, &parameters_, "0=G-Man Gate, 1=Bootlegger Gate, 2=G-Man Buoys, 3=Bootlegger Gun, 4=G-Man Bin, 5=Bootlegger Bin, 6=G-Man Torpidoe, 7=Bootlegger Torpidoe, 8=G-Man Axe, 9=Bootlegger Dollar") {
             setName("SiftMatch");
         }
 
@@ -36,40 +36,37 @@ namespace proc_image_processing {
             std::string path;
             switch(objective_()) {
                 case 0:
-                    path = kRefImagesPath + "GManGate" + kImagesExt;
+                    path = kRefImagesPath + "01_chooseSide_gman" + kImagesExt;
                     break;
                 case 1:
-                    path = kRefImagesPath + "BootleggerGate" + kImagesExt;
+                    path = kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt;
                     break;
                 case 2:
-                    path = kRefImagesPath + "GManBadge" + kImagesExt;
+                    path = kRefImagesPath + "02_makeGrade_badge" + kImagesExt;
                     break;
                 case 3:
-                    path = kRefImagesPath + "BootleggerGun" + kImagesExt;
+                    path = kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt;
                     break;
                 case 4:
-                    path = kRefImagesPath + "GManPhone" + kImagesExt;
+                    path = kRefImagesPath + "03_collecting_gman_white" + kImagesExt;
                     break;
                 case 5:
-                    path = kRefImagesPath + "GManNote" + kImagesExt;
+                    path = kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt;
                     break;
                 case 6:
-                    path = kRefImagesPath + "BootleggerBottle" + kImagesExt;
+                    path = kRefImagesPath + "04_shootout_gman_red" + kImagesExt;
                     break;
                 case 7:
-                    path = kRefImagesPath + "BootleggerBarrel" + kImagesExt;
+                    path = kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt;
                     break;
                 case 8:
-                    path = kRefImagesPath + "GManTorpidoe" + kImagesExt;
+                    path = kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt;
                     break;
                 case 9:
-                    path = kRefImagesPath + "BootleggerTorpidoe" + kImagesExt;
+                    path = kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt;
                     break;
                 case 10:
-                    path = kRefImagesPath + "GManAxe" + kImagesExt;
-                    break;
-                case 11:
-                    path = kRefImagesPath + "BootleggerDollar" + kImagesExt;
+                    path = kRefImagesPath + "BootleggerGun.JPG";
                     break;
                 default:
                     ROS_WARN("Wrong value in sift match filter");
@@ -81,7 +78,7 @@ namespace proc_image_processing {
                 ROS_WARN("Provider vision image is empty");
             }
             if (ref_image.empty()) {
-                ROS_WARN("Ref image is empty : %s",path);
+                ROS_WARN("Ref image is empty : %s",path.c_str());
             }
 
             // Faire une liste avec les descriptors de chacune image de référence
@@ -169,18 +166,17 @@ namespace proc_image_processing {
 
 
         //List can be simplified when good data structures for images is chosen!!!!!!!!!
-        std::vector<std::string> list_paths({kRefImagesPath + "GManGate" + kImagesExt,
-                                    kRefImagesPath + "BootleggerGate" + kImagesExt,
-                                    kRefImagesPath + "GManBadge" + kImagesExt,
-                                    kRefImagesPath + "BootleggerGun" + kImagesExt,
-                                    kRefImagesPath + "GManPhone" + kImagesExt,
-                                    kRefImagesPath + "GManNote" + kImagesExt,
-                                    kRefImagesPath + "BootleggerBottle" + kImagesExt,
-                                    kRefImagesPath + "BootleggerBarrel" + kImagesExt,
-                                    kRefImagesPath + "GManTorpidoe" + kImagesExt,
-                                    kRefImagesPath + "BootleggerTorpidoe" + kImagesExt,
-                                    kRefImagesPath + "GManAxe" + kImagesExt,
-                                    kRefImagesPath + "BootleggerDollar" + kImagesExt
+        std::vector<std::string> list_paths({kRefImagesPath + "01_chooseSide_gman" + kImagesExt,
+                                    kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt,
+                                    kRefImagesPath + "02_makeGrade_badge" + kImagesExt,
+                                    kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt,
+                                    kRefImagesPath + "03_collecting_gman_white" + kImagesExt,
+                                    kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt,
+                                    kRefImagesPath + "04_shootout_gman_red" + kImagesExt,
+                                    kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt,
+                                    kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt,
+                                    kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt,
+                                    kRefImagesPath + "BootleggerGun.JPG"
         });
         
         for(size_t i = 0; i< list_paths.size(); i++){
@@ -190,7 +186,7 @@ namespace proc_image_processing {
 
             if(descr_kp.first.empty())
             {
-                ROS_WARN("Ref image descriptors is empty for path : %s", list_paths[i]);
+                ROS_WARN("Ref image descriptors is empty for path : %s", list_paths[i].c_str());
             }
 
             descriptors.push_back(descr_kp.first);

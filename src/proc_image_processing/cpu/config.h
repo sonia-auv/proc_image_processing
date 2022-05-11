@@ -5,7 +5,7 @@
 #include <string>
 
 namespace proc_image_processing {
-    const std::string kRosNodeName = "/" + std::string(
+    const std::string kRosNodeName = std::string(
         std::getenv("NODE_NAME") ?
         std::string("/") + std::getenv("NODE_NAME") :
         "/proc_image_processing"
@@ -18,9 +18,9 @@ namespace proc_image_processing {
     );
 
     const std::string kConfigPath = kProjectPath + std::string(
-            std::getenv("NODE_CONFIG_PATH") ?
-            std::string("/") + std::getenv("NODE_CONFIG_PATH") :
-            "/config"
+        std::getenv("NODE_CONFIG_PATH") ?
+        std::string("/") + std::getenv("NODE_CONFIG_PATH") :
+        "/config"
     );
 
     const std::string kFilterChainPath = kConfigPath + "/filterchain";
@@ -29,7 +29,7 @@ namespace proc_image_processing {
 
     const std::string kFilterChainExt = ".yaml";
     
-    const std::string kImagesExt = ".JPG";
+    const std::string kImagesExt = ".png";
 }; // namespace proc_image_processing
 
 #endif // PROC_IMAGE_PROCESSING_UTILS_CONFIG_H_
