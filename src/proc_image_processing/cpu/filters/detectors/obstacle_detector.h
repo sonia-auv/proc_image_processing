@@ -18,8 +18,8 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
-                  min_area_("Minimum area", 100, 1, 10000, &parameters_),
-                  max_area_("Maximum area", 1000, 1, 50000, &parameters_) {
+                  min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
+                  max_area_("Maximum area", 1000, 1, 50000, &parameters_, "Max area") {
             setName("ObstacleDetector");
         }
 
