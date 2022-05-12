@@ -54,9 +54,9 @@ namespace proc_image_processing {
         { 
             image_subscriber_.shutdown();
 
-            for (std::map<std::string, Parameter<bool>*>::iterator it = object_parameter_mapping_.begin(); it != object_parameter_mapping_.end(); it++)
+            for (std::map<std::string, ObjectDesc>::iterator it = object_mapping_.begin(); it != object_mapping_.end(); it++)
             {
-                delete it->second;
+                delete it->second.parameter;
             }
 
             // stop the deep learning network
@@ -89,7 +89,7 @@ namespace proc_image_processing {
                 
                 if(object_mapping_.contains(key))
                 {
-                    if(object_parameter_mapping_.at(key)->getValue())
+                    if(object_mapping_.at(key).parameter->getValue())
                     {
                         ROS_INFO("found item and apply it %s", key.c_str());
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
@@ -101,9 +101,8 @@ namespace proc_image_processing {
                     if(object_mapping_.size() < color_keys_.size())
                     {
                         //take the next color
-                        ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())));
+                        ObjectDesc desc(color_keys_[object_mapping_.size()], COLOR_MAP_DEEP_LEARNING.at(color_keys_.at(object_mapping_.size())), new Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
-                        object_parameter_mapping_.insert(std::pair<std::string, Parameter<bool>*>(key, new Parameter<bool>(key, true, &parameters_)));
 
                         ROS_INFO("create a new objet %s with predefined color %s", key.c_str(), desc.color_name.c_str());
 
@@ -114,9 +113,8 @@ namespace proc_image_processing {
                     else
                     {
                         srand(time(NULL));
-                        ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255));
+                        ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), new Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
-                        object_parameter_mapping_.insert(std::pair<std::string, Parameter<bool>*>(key, new Parameter<bool>(key, true, &parameters_)));
 
                         ROS_INFO("create a new objet %s with random color", key.c_str(), desc.color_name.c_str());
 
@@ -136,14 +134,16 @@ namespace proc_image_processing {
         struct ObjectDesc
         {
             ObjectDesc() {}
-            ObjectDesc(std::string color_name_, cv::Scalar color_scalar_)
+            ObjectDesc(std::string color_name_, cv::Scalar color_scalar_, Parameter<bool>* parameter_)
             {
                 color_name = color_name_;
                 color_scalar = color_scalar_;
+                parameter = parameter_;
             }
 
             std::string color_name;
             cv::Scalar color_scalar;
+            Parameter<bool>* parameter;
         };
 
         struct ObjectBoundingBox
@@ -169,7 +169,6 @@ namespace proc_image_processing {
         ros::NodeHandle nh_;
 
         std::map<std::string, ObjectDesc> object_mapping_;
-        std::map<std::string, Parameter<bool>*> object_parameter_mapping_;
         std::vector<std::string> color_keys_;
         std::vector<sonia_common::Detection> bounding_box_;
         std::vector<Target> objects_;
