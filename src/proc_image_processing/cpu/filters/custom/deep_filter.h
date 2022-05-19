@@ -87,7 +87,7 @@ namespace proc_image_processing {
             for (sonia_common::Detection &object : bounding_box_) {
                 std::string key = object.class_name;
                 
-                if(object_mapping_.contains(key))
+                if(object_mapping_.find(key) != object_mapping_.end())
                 {
                     if(object_mapping_.at(key).parameter->getValue())
                     {
@@ -161,7 +161,6 @@ namespace proc_image_processing {
         const cv::Scalar BBOX_INFO_TEXT_COLOR = cv::Scalar(255, 255, 255);
         const int BBOX_INFO_FONT = cv::FONT_HERSHEY_TRIPLEX;
 
-        // TODO why do we need this here? Every other filters doesn't need a NodeHandle/Subscriber
         ros::Subscriber image_subscriber_;
         ros::ServiceServer detectionListing_;
         ros::ServiceClient deep_network_service_;
