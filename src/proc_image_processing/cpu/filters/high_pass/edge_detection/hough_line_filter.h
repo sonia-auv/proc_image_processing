@@ -14,11 +14,11 @@ namespace proc_image_processing {
 
         explicit HoughLineFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
-                  theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),
-                  min_length_("Minimum length", 1, 0, 1000, &parameters_),
-                  max_gap_("Maximum gap", 1, 0, 1000, &parameters_),
-                  threshold_("Threshold", 1, 0, 1000, &parameters_) {
+                  rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_, "Rho"),
+                  theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_, "Theta"),
+                  min_length_("Minimum length", 1, 0, 1000, &parameters_, "Min length"),
+                  max_gap_("Maximum gap", 1, 0, 1000, &parameters_,"Max gap"),
+                  threshold_("Threshold", 1, 0, 1000, &parameters_, "Threshold") {
             setName("HoughLineFilter");
         }
 

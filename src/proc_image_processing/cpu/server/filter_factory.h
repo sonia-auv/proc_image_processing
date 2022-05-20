@@ -13,7 +13,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/contrast_and_brightness_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/convex_hull_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/crop_filter.h>
-//#include <proc_image_processing/cpu/filters/custom/deep_2019_filter.h>
+#include <proc_image_processing/cpu/filters/custom/deep_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/dilate_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/equalize_histogram_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/erode_filter.h>
@@ -29,12 +29,15 @@
 #include <proc_image_processing/cpu/filters/custom/mission_test_fake_string_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/morphology_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/obstacle_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/orb_sift_match.h>
 #include <proc_image_processing/cpu/filters/custom/original_image_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_angle_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/pipe_straight_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/remove_mask_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_adding_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/sift_match.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/sobel_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/square_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/statistical_threshold_filter.h>
