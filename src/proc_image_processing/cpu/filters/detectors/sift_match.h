@@ -13,8 +13,6 @@
 #include<string>
 
 
-// Proposition: Au lieu d'avoir la détection d'un élément à la fois. Pourquoi ne pas faire tourner tous les éléments en même temps?
-
 namespace proc_image_processing {
 
     class SiftMatch : public Filter {
@@ -33,83 +31,78 @@ namespace proc_image_processing {
         void apply(cv::Mat &image) override {
             //image.copyTo(output_image_);
 
-            cv::Mat ref_image;
-            std::string path;
-            switch(objective_()) {
-                case 0:
-                    path = kRefImagesPath + "01_chooseSide_gman" + kImagesExt;
-                    break;
-                case 1:
-                    path = kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt;
-                    break;
-                case 2:
-                    path = kRefImagesPath + "02_makeGrade_badge" + kImagesExt;
-                    break;
-                case 3:
-                    path = kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt;
-                    break;
-                case 4:
-                    path = kRefImagesPath + "03_collecting_gman_white" + kImagesExt;
-                    break;
-                case 5:
-                    path = kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt;
-                    break;
-                case 6:
-                    path = kRefImagesPath + "04_shootout_gman_red" + kImagesExt;
-                    break;
-                case 7:
-                    path = kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt;
-                    break;
-                case 8:
-                    path = kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt;
-                    break;
-                case 9:
-                    path = kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt;
-                    break;
-                case 10:
-                    path = kRefImagesPath + "BootleggerGun.JPG";
-                    break;
-                default:
-                    ROS_WARN("Wrong value in sift match filter");
-                    return;
-            }
+            // cv::Mat ref_image;
+            // std::string path;
+            // switch(objective_()) { // Code inutile
+            //     case 0:
+            //         path = kRefImagesPath + "01_chooseSide_gman" + kImagesExt;
+            //         break;
+            //     case 1:
+            //         path = kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt;
+            //         break;
+            //     case 2:
+            //         path = kRefImagesPath + "02_makeGrade_badge" + kImagesExt;
+            //         break;
+            //     case 3:
+            //         path = kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt;
+            //         break;
+            //     case 4:
+            //         path = kRefImagesPath + "03_collecting_gman_white" + kImagesExt;
+            //         break;
+            //     case 5:
+            //         path = kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt;
+            //         break;
+            //     case 6:
+            //         path = kRefImagesPath + "04_shootout_gman_red" + kImagesExt;
+            //         break;
+            //     case 7:
+            //         path = kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt;
+            //         break;
+            //     case 8:
+            //         path = kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt;
+            //         break;
+            //     case 9:
+            //         path = kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt;
+            //         break;
+            //     case 10:
+            //         path = kRefImagesPath + "BootleggerGun.JPG";
+            //         break;
+            //     default:
+            //         ROS_WARN("Wrong value in sift match filter");
+            //         return;
+            // }
 
-            ref_image = cv::imread(path);
-            if (image.empty()) {
-                ROS_WARN("Provider vision image is empty");
-            }
-            if (ref_image.empty()) {
-                ROS_WARN("Ref image is empty : %s",path.c_str());
-            }
-
-            // Faire une liste avec les descriptors de chacune image de référence
-            // (même si plus tard j'ai plusieurs images, je mets tous les descriptors ensemble)
-            // Comparer l'image avec chacun des descriptors 
-            //Afficher l'ensemble des points qui matchent avec la bonne couleur. 
-
-
+            // ref_image = cv::imread(path);
+            // if (image.empty()) {
+            //     ROS_WARN("Provider vision image is empty");
+            // }
+            // if (ref_image.empty()) {
+            //     ROS_WARN("Ref image is empty : %s",path.c_str());
+            // }
             
 
             //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
-            std::pair<cv::Mat,std::vector<cv::KeyPoint>> descriptors_keypoints2 = calculate_descriptors_and_kp(image);
-            cv::Mat descriptors2 = descriptors_keypoints2.first;
-            std::vector<cv::KeyPoint> keypoints2 = descriptors_keypoints2.second;
-            //Là comme ça c'est plus long mais ça va surement s'arranger
+            std::pair<cv::Mat,std::vector<cv::KeyPoint>> descriptors_keypoints = calculate_descriptors_and_kp(image);
+            cv::Mat im_descriptors = descriptors_keypoints.first;
+            std::vector<cv::KeyPoint> im_keypoints = descriptors_keypoints.second;
 
 
-            //maintenant on va générer toutes les descriptors et keypoints des images de références
+            //maintenant on va récupérer toutes les descriptors et keypoints des images de références
             std::vector<cv::Mat> ref_descriptors;
-            std::vector<std::vector<cv::KeyPoint>> ref_keypoints;
-
-            std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> descr_kp_ref;
-            descr_kp_ref = calculate_descr_kp_references();
-            ref_descriptors = descr_kp_ref.first;
-            ref_keypoints = descr_kp_ref.second;
-            // //Mtn que j'ai toutes mes variables, il faut que je les enregistre dans ce document:
+            std::vector<std::vector<cv::KeyPoint>> ref_keypoints; //pas utile les kp de référence
             std::string descr_path = kConfigPath + "/descriptors/Keypoints.yml";
 
 
-    //Enregistrement des données dans des fichiers.yml
+
+    //Décommenter les lignes qui suivent pour fabriquer les descripteurs de référence et les enregistrer dans le dossier
+    
+            //Je peux commenter les 4 lignes qui suivent si j'arrive à récupérer les descripteurs
+            // std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> descr_kp_ref;
+            // descr_kp_ref = calculate_descr_kp_references();
+            // ref_descriptors = descr_kp_ref.first;
+            // ref_keypoints = descr_kp_ref.second;
+
+        //Enregistrement des données dans des fichiers.yml
 
             // cv::FileStorage fsWrite(descr_path, cv::FileStorage::WRITE);
             // for(int i = 0; i< ref_keypoints.size();i++){
@@ -118,84 +111,97 @@ namespace proc_image_processing {
             // }
             // fsWrite.release();
 
-            //Devrait être pareil que la précédente mais ne fonctionne pas
 
-            // cv::FileStorage fsWrite(descr_path, cv::FileStorage::WRITE);
-            // for(int i = 0; i< ref_keypoints.size();i++){
-            //     fsWrite["descriptors_" + std::to_string(i)] << ref_descriptors[i];
-            //     fsWrite["keypoints_" + std::to_string(i)] << ref_keypoints[i];
-            // }
-            // fsWrite.release();
-
-
-    //Aucune des lignes pour lire ne fonctionnent
-
-            //J'ai généré les descriptors et je les ai enregistré dans un dossier, si je récupère les valeurs, je ne dois pas recalculer
-            // cv::FileStorage fsRead(descr_path, cv::FileStorage::READ);
-            // for(int i = 0; i< ref_keypoints.size();i++){
-            //     fsRead["descriptors_" + std::to_string(i)] >>  ref_descriptors[i];
-            //     fsRead["keypoints_" + std::to_string(i)] >>  ref_keypoints[i];
-            // }
-            // fsRead.release();
-
-
-            // cv::FileStorage fsRead;
-            // fsRead.open(descr_path, cv::FileStorage::READ);
-            // for(int i = 0; i< ref_keypoints.size();i++){
-            //     // ref_descriptors[i] = fsRead["descriptors_" + std::to_string(i)];
-            //     // ref_keypoints[i] = fsRead["keypoints_" + std::to_string(i)];
-            //     fsRead["descriptors_" + std::to_string(i)] >>  ref_descriptors[i];
-            //     fsRead["keypoints_" + std::to_string(i)] >>  ref_keypoints[i];
-            // }
-            // fsRead.release();
-
-//Fin du jeu avec les .yml
-
-            cv::Mat descriptors1 = ref_descriptors[objective_()];
-            std::vector<cv::KeyPoint> keypoints1 = ref_keypoints[objective_()];
-            //Je récupère un élément. Le but est de modifier le code proressivement mais en s'assurant qu'il fonctionne tout le temps
+    //Les lignes pour lire depuis les descripteurs.
+            //Il faudrait avoir ce code là ailleurs et garder ça en variable globale. 
+            //ça ne sert à rien d'aller les chercher à chaque instant 
 
 
 
+            cv::FileStorage fsRead;
+            fsRead.open(descr_path, cv::FileStorage::READ);
+            for(int i = 0; i< 10;i++){ // HARDCODED, nombre d'image de référence
+                cv::Mat temp_descriptor;
+                fsRead["descriptors_" + std::to_string(i)] >> temp_descriptor;   
+                ref_descriptors.push_back(temp_descriptor);
+
+                // std::vector<cv::KeyPoint> temp_kp;
+                // fsRead["keypoints_" + std::to_string(i)] >> temp_kp;  
+                // ref_keypoints.push_back(temp_kp);
+
+            }
+            fsRead.release();
 
 
-            //pas encore modifié la suite
-
-
-            //-- Step 2: Matching descriptor vectors with a FLANN based matcher
-            cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
-            std::vector< std::vector<cv::DMatch> > knn_matches;
-            matcher->knnMatch( descriptors1, descriptors2, knn_matches, 2 );
-
-            //-- Filter matches using the Lowe's ratio test
-            const float ratio_thresh = 0.7f;
-            std::vector<cv::DMatch> good_matches;
-            for (size_t i = 0; i < knn_matches.size(); i++)
+            if(im_descriptors.empty()) // si je n'ai pas de descripteurs, ça ne sert à rien de faire des calculs
             {
-                if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
-                {
-                    good_matches.push_back(knn_matches[i][0]);
+                ROS_WARN("No descriptors on the image");
+            }else{
+                cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+                
+                //-- Step 2: Matching descriptor vectors with a FLANN based matcher
+                std::vector<std::vector<cv::Point>> matching_points_list;
+                for(size_t i = 0; i< ref_descriptors.size(); i++){
+                    cv::Mat ref_descriptor = ref_descriptors[i];
+                    std::vector<std::vector<cv::DMatch>> knn_matches;
+                    matcher->knnMatch( ref_descriptor, im_descriptors, knn_matches, 2 );
+
+                    //-- Filter matches using the Lowe's ratio test
+                    const float ratio_thresh = 0.7f; // HARCODED
+                    std::vector<cv::DMatch> good_matches;
+                    for (size_t i = 0; i < knn_matches.size(); i++)
+                    {
+                        if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
+                        {
+                            good_matches.push_back(knn_matches[i][0]);
+                        }
+                    }
+
+                    //Get the points that match
+                    std::vector<cv::Point> matching_points;
+                    for(size_t i = 0; i< good_matches.size(); i++){
+                        matching_points.push_back(im_keypoints[good_matches[i].trainIdx].pt);
+                    }
+                    matching_points_list.push_back(matching_points);
                 }
-            }
 
 
-            // --- Draw only points
-            //Get the points that match
-            std::vector<cv::Point> matching_points;
-            for(size_t i = 0; i< good_matches.size(); i++){
-                matching_points.push_back(keypoints2[good_matches[i].trainIdx].pt);
-            }
-            //Draw the point on the image
-            cv::Mat img_keypoints;
-            image.copyTo(img_keypoints);
-            for(size_t i = 0; i< matching_points.size(); i++){
-                cv::circle(img_keypoints, matching_points[i], 3, cv::Scalar(220,20,220), 5);
-            }
 
-            img_keypoints.copyTo(output_image_); // Just the points
-            output_image_.copyTo(image);
+
+                //Liste des couleurs
+                std::vector<cv::Scalar> colors;
+                colors.push_back(cv::Scalar(200,200,200)); //"01_chooseSide_gman"
+                colors.push_back(cv::Scalar(205,00,00)); //"01_chooseSide_bootlegger"
+                colors.push_back(cv::Scalar(0,0,200)); //"02_makeGrade_badge"
+                colors.push_back(cv::Scalar(204,0,0)); //"02_makeGrade_tommyGun"
+                colors.push_back(cv::Scalar(200,200,200)); //"03_collecting_gman_white"
+                colors.push_back(cv::Scalar(200,200,200)); //"03_collecting_bootlegger_white"
+                colors.push_back(cv::Scalar(200,200,200)); //"04_shootout_gman_red"
+                colors.push_back(cv::Scalar(250,50,50)); //"04_shootout_bootlegger_red"
+                colors.push_back(cv::Scalar(200,200,200)); //"05_cashSmash_axe_orange"
+                colors.push_back(cv::Scalar(200,200,200)); //"05_cashSmash_dollar_orange"
+
+                //BGR d'après la doc
+
+
+                //Draw the point on the image
+                cv::Mat img_keypoints;
+                image.copyTo(img_keypoints);
+                for(size_t j = 0; j< matching_points_list.size(); j++){
+                    std::vector<cv::Point> matching_points = matching_points_list[j];
+                    for(size_t i = 0; i< matching_points.size(); i++){
+                        cv::circle(img_keypoints, matching_points[i], 3, colors[j], 5);
+                    }
+                }
+                img_keypoints.copyTo(output_image_); // Just the points
+                output_image_.copyTo(image);
+            }
+            
         }
     
+
+
+
     //Fonction pour calculer les descripteurs pour une image 
     std::pair<cv::Mat,std::vector<cv::KeyPoint>> calculate_descriptors_and_kp(cv::Mat image){
         std::vector<cv::KeyPoint> keypoints;
@@ -209,22 +215,6 @@ namespace proc_image_processing {
     std::pair<std::vector<cv::Mat>,std::vector<std::vector<cv::KeyPoint>>> calculate_descr_kp_references(){
         std::vector<cv::Mat> descriptors;
         std::vector<std::vector<cv::KeyPoint>> keypoints;
-        
-
-
-        //List can be simplified when good data structures for images is chosen!!!!!!!!!
-        // std::vector<std::string> old_list_paths({kRefImagesPath + "01_chooseSide_gman" + kImagesExt,
-        //                             kRefImagesPath + "01_chooseSide_bootlegger" + kImagesExt,
-        //                             kRefImagesPath + "02_makeGrade_badge" + kImagesExt,
-        //                             kRefImagesPath + "02_makeGrade_tommyGun" + kImagesExt,
-        //                             kRefImagesPath + "03_collecting_gman_white" + kImagesExt,
-        //                             kRefImagesPath + "03_collecting_bootlegger_white" + kImagesExt,
-        //                             kRefImagesPath + "04_shootout_gman_red" + kImagesExt,
-        //                             kRefImagesPath + "04_shootout_bootlegger_red" + kImagesExt,
-        //                             kRefImagesPath + "05_cashSmash_axe_orange" + kImagesExt,
-        //                             kRefImagesPath + "05_cashSmash_dollar_orange" + kImagesExt,
-        //                             kRefImagesPath + "BootleggerGun.JPG"
-        // });
 
         std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
         "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
