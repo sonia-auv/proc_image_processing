@@ -25,7 +25,7 @@ namespace proc_image_processing {
 
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  objective_("Objective", 0, 0, 10, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout, 5=CashSmash") {
+                  objective_("Objective", 0, 0, 10, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout, 5=CashSmash"){
             setName("SiftMatch");
             
 
@@ -52,10 +52,7 @@ namespace proc_image_processing {
                 // ref_keypoints.push_back(temp_kp);
 
             }
-            fsRead.release();
-
-
-             
+            fsRead.release();             
         }
 
 
@@ -71,9 +68,9 @@ namespace proc_image_processing {
             cv::Mat im_descriptors = descriptors_keypoints.first;
             std::vector<cv::KeyPoint> im_keypoints = descriptors_keypoints.second;
 
-            if(im_descriptors.empty()) // si je n'ai pas de descripteurs, ça ne sert à rien de faire des calculs
+            if(im_keypoints.size() < 2) // si je n'ai pas de descripteurs, ça ne sert à rien de faire des calculs
             {
-                ROS_WARN("No descriptors on the image");
+                //ROS_WARN("Less than 2 key points on the image");
                 return; 
             }
 
@@ -146,7 +143,6 @@ namespace proc_image_processing {
     
 
 
-
     //Fonction pour calculer les descripteurs pour une image 
     std::pair<cv::Mat,std::vector<cv::KeyPoint>> calculate_descriptors_and_kp(cv::Mat image){
         std::vector<cv::KeyPoint> keypoints;
@@ -165,6 +161,7 @@ namespace proc_image_processing {
         for(size_t i = 0; i< reference_descriptors.size(); i++){
             cv::Mat ref_descriptor = reference_descriptors[i];
             std::vector<std::vector<cv::DMatch>> knn_matches;
+            
             matcher->knnMatch( ref_descriptor, image_descriptors, knn_matches, 2 );
 
             //-- Filter matches using the Lowe's ratio test
