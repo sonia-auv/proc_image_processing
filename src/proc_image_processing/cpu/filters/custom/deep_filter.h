@@ -91,7 +91,6 @@ namespace proc_image_processing {
                 {
                     if(object_mapping_.at(key).parameter->getValue())
                     {
-                        ROS_INFO("found item and apply it %s", key.c_str());
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
                 }
