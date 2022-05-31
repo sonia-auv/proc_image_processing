@@ -12,6 +12,10 @@
 #include "opencv2/features2d.hpp"
 //#include "opencv4/opencv2/xfeatures2d.hpp"
 
+//still slow because calculate reference image each time. 
+//We need to implement the idea of the sift match if we want to use this filter correctly
+
+
 namespace proc_image_processing {
 
     class OrbSiftMatch : public Filter {
@@ -81,8 +85,7 @@ namespace proc_image_processing {
             }
 
             //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
-            //int minHessian = 400;
-            cv::Ptr<cv::ORB> detector = cv::ORB::create();
+            cv::Ptr<cv::ORB> detector = cv::ORB::create(500, 1.3f, 10);
             std::vector<cv::KeyPoint> keypoints1, keypoints2;
             cv::Mat descriptors1, descriptors2;
             detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
@@ -93,9 +96,9 @@ namespace proc_image_processing {
                 ROS_WARN("Ref image descriptors is empty");
                 return;
             }
-            if(descriptors2.empty())
+            if(keypoints2.size() < 2) // descriptors and keypoints have the same size
             {
-                ROS_WARN("Provider vision image descriptors is empty");
+                //ROS_WARN("Provider vision image descriptors is empty (or smaller than 2)");
                 return;
             }
             descriptors1.convertTo(descriptors1,CV_32F);
@@ -120,9 +123,11 @@ namespace proc_image_processing {
 
             // --- Draw only points
             //Get the points that match
-            std::vector<cv::Point> matching_points;
+            std::vector<cv::Point> matching_points; // old
+            // std::vector<cv::KeyPoint> matching_keypoints; // New
             for(size_t i = 0; i< good_matches.size(); i++){
                 matching_points.push_back(keypoints2[good_matches[i].trainIdx].pt);
+                // matching_keypoints.push_back(keypoints2[good_matches[i].trainIdx]);
             }
             //Draw the point on the image
             cv::Mat img_keypoints;
@@ -131,6 +136,9 @@ namespace proc_image_processing {
                 cv::circle(img_keypoints, matching_points[i], 3, cv::Scalar(220,20,220), 5);
             }
 
+            //Draw all keypoints (doesn't care what match)
+            // cv::drawKeypoints(image,keypoints2,img_keypoints,cv::Scalar(0,255,0),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+            
             //-- Draw matches
             cv::Mat img_matches;
             cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),

@@ -13,15 +13,42 @@
 #include<string>
 
 
+//New ideas to improve the efficiency
+//1) If there is an overlap between multiple image, keep the one with the greater rectangle (bcz more points)
+//Good idea but cache misère, it doesn't make it work better, it just look like it's better
+//2) TF-IDF idea
+//I compare the descriptors of all the reference images to find the descriptors that are specific to one image
+// I don't need to delete the others but the specific ones need to have more weight. 
+//This solution will reduce the number of different rectangle I will have. 
+//It's a start //https://www.kaggle.com/code/meuge672/tf-idf-and-knn-in-people-wikipedia-dataset/notebook
+
+//I think the algo I want is the opposite of "bigger cluster"
+// In that function I want the point in the center of a cluster.
+// I want to see the points that are far away from concurrent points. So I compare only to the points from others images
+// I can compare each descriptors to all ther others descriptors but O(n²) for lots of descriptors is not good.
+// How to give more power to big points?
+
+
+
+
+//Does ORB work well with out-plane rotation?
+
+
+
+
+
 namespace proc_image_processing {
 
     class SiftMatch : public Filter {
     public:
         using Ptr = std::shared_ptr<SiftMatch>;
-        cv::Ptr<cv::ORB> detector = cv::ORB::create();
+        cv::Ptr<cv::ORB> detector = cv::ORB::create(750, 1.2f, 16);
         std::vector<cv::Mat> ref_descriptors;
-        // std::vector<std::vector<cv::KeyPoint>> ref_keypoints; //pas utile les kp de référence
-        
+        std::vector<cv::Point> previous_means; 
+        //Note sur previous_mean. Lorsque je vais calculer mon cam_shift, je vais utiliser la valeur précédente de la moyenne.
+        //Si je suis sur deux valeurs, je prendrai les deux premiers éléments. 
+        //Sinon Je prends les 10 éléments.
+        //J'espère qu'il ne va pas y avoir d'overlap au moment du changement de paramètre entre 2 et 0
 
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
@@ -30,11 +57,11 @@ namespace proc_image_processing {
             
 
 
-
+            //All the "create reference_descriptors" should be in another file!!!!!!!!!!!!!!
             //Je constate que le code ici n'est effectué qu'une seule fois donc je met mon ouverture de fichier ici
             // Ce n'est peut-être pas le bon endroit
             std::string descr_path = kConfigPath + "/descriptors/Descriptors.yml";
-            create_reference_descriptors(descr_path); // Je peux le calculer à chaque fois mais je peux aussi le commenter pour gagner Quelques ms
+            // create_reference_descriptors(descr_path); // Je peux le calculer à chaque fois mais je peux aussi le commenter pour gagner Quelques ms
 
             //Lecture des infos depuis les descripteurs
 
@@ -51,8 +78,10 @@ namespace proc_image_processing {
                 // fsRead["keypoints_" + std::to_string(i)] >> temp_kp;  
                 // ref_keypoints.push_back(temp_kp);
 
+                //Fill the previous means with "0" value
+                previous_means.push_back(cv::Point(-1,-1)); 
             }
-            fsRead.release();             
+            fsRead.release();
         }
 
 
@@ -69,12 +98,10 @@ namespace proc_image_processing {
             cv::Mat im_descriptors = descriptors_keypoints.first;
             std::vector<cv::KeyPoint> im_keypoints = descriptors_keypoints.second;
 
-            if(im_keypoints.size() < 2) // si je n'ai pas de descripteurs, ça ne sert à rien de faire des calculs
-            {
-                //ROS_WARN("Less than 2 key points on the image");
+            if(im_keypoints.size() < 2){ // si je n'ai pas de descripteurs, ça ne sert à rien de faire des calculs
+                // ROS_WARN("Less than 2 key points on the image");
                 return; 
             }
-
 
             
             //-- Step 2: Matching descriptor vectors with a FLANN based matcher
@@ -135,6 +162,7 @@ namespace proc_image_processing {
                 for(size_t i = 0; i< matching_points.size(); i++){
                     cv::circle(img_keypoints, matching_points[i], 3, colors[j], 2);
                 }
+
             //Calcul de la moyenne 
                 //Methode 1, moyenne brute sur toutes les données
                 // cv::Point mean = mean_points(matching_points);
@@ -147,59 +175,84 @@ namespace proc_image_processing {
                 // }
 
                 //Methode 3, camshift. Permet d'avoir un rectangle à la fin. 
-                std::pair<cv::Point,int>  mean_lgth = camshift(matching_points);
+                std::pair<cv::Point,int>  mean_lgth = camshift(matching_points, j);
                 cv::Point mean_camshift = mean_lgth.first;
                 int lgth = mean_lgth.second;
-                if(mean_camshift.x > 0){
-
+                if(mean_camshift.x > 0){ // Verify the point exist
                     cv::Point left_up = mean_camshift - cv::Point(lgth/2, lgth/2);
                     cv::Point right_bottom = mean_camshift + cv::Point(lgth/2, lgth/2);
                     cv::rectangle(img_keypoints, left_up, right_bottom, colors[j], 2);
                 }
+                previous_means[j] = mean_camshift; // Sometimes the good value, sometimes -1
             }
             img_keypoints.copyTo(output_image_); // Just the points
             output_image_.copyTo(image);
-
-
-            //Pour trouver le point moyen, je peux utiliser MEANSHIFT. 
-            // Pour trouver un rectangle avec une orientation comme ils aimeraient bien, je peux utiliser CAMSHIFT
-            
         }
 
 
 
     //Fonction pour calculer le Camshift
-    std::pair<cv::Point,int> camshift(std::vector<cv::Point> point_list){
+    std::pair<cv::Point,int> camshift(std::vector<cv::Point> point_list, int index){
         int size = point_list.size();
         //Je ne cherche pas la moyenne si j'ai moins de 4 points parce que je considère que c'est du bruit
         if(size < 4){
             return std::make_pair(cv::Point(-1,-1), 0);
         }
-        // ROS_INFO_STREAM(point_list.size());
 
         //Rectangle de vision
         int length = 200; // Taille initiale grande pour réduire l'impact de points trop loin
-        cv::Point mean = point_list[0]; // starting value J'ESPERE QUE CA COPIE LA VALEUR ET CA CASSE PAS MA LISTE
+        std::vector<cv::Point> list_of_means;
         cv::Rect window;
-        cv::Point old_mean;
         
-        for(size_t i = 0; i< 5; i++){//Max 5 itérations
-            window = cv::Rect(mean.x - length/2, mean.y - length/2, length, length);
-            old_mean  = mean;
-            //Trouver les points qui sont dans mon rectangle 
-            std::vector<cv::Point> points_in_frame = points_inside_frame(window, point_list);
-            //Calculer la moyenne des points dedans
-            mean = mean_points(points_in_frame);
-            length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
-            if(cv::norm(mean-old_mean) < 5){ // Plus petit que 5 pixels en distance euclidienne
-                break;
+        cv::Point mean = previous_means[index]; 
+        if(mean.x >= 0){   
+            //Sol2 : Je fais un seul essai en prenant la valeur du mean sur l'image précédent comme base
+            //(lorsque je change mon "objective()", il va y avoir un overlap mais ça devrait se régler en quelques images)
+
+            cv::Point old_mean; // entre deux itérations
+            for(int i = 0; i< 8; i++){//Max 8 itérations
+                window = cv::Rect(mean.x - length/2, mean.y - length/2, length, length);
+                old_mean  = mean;
+                //Trouver les points qui sont dans mon rectangle 
+                std::vector<cv::Point> points_in_frame = points_inside_frame(window, point_list);
+                //Calculer la moyenne des points dedans
+                mean = mean_points(points_in_frame);
+                length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
+                if(cv::norm(mean-old_mean) < 5){ // Plus petit que 5 pixels en distance euclidienne
+                    break;
+                }
+            }
+            list_of_means.push_back(mean);
+        }else{
+
+            //Sol 1: Je fais plusieurs essais avec des valeurs aléatoires. En cas de non previous mean
+            for(int attempt = 0;  attempt< 5; attempt++){ // Valeur arbitraire
+                int random_index = std::rand() % point_list.size();
+                mean = point_list[random_index]; // starting value
+                cv::Point old_mean; // entre deux itérations
+                for(int i = 0; i< 8; i++){//Max 8 itérations
+                    window = cv::Rect(mean.x - length/2, mean.y - length/2, length, length);
+                    old_mean  = mean;
+                    //Trouver les points qui sont dans mon rectangle 
+                    std::vector<cv::Point> points_in_frame = points_inside_frame(window, point_list);
+                    //Calculer la moyenne des points dedans
+                    mean = mean_points(points_in_frame);
+                    length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
+                    if(cv::norm(mean-old_mean) < 5){ // Plus petit que 5 pixels en distance euclidienne
+                        break;
+                    }
+                }
+                list_of_means.push_back(mean);
             }
         }
-        return std::make_pair(mean,length);
+        //Mtn je veux récupérer le meilleur mean de ma liste    
+        cv::Point output_mean = bigger_cluster_point(list_of_means);
+
+        return std::make_pair(output_mean,length);
     }
 
 
-    //Fonction pour calculer le meanshift
+    //Fonction pour calculer le meanshift, version de base du camshift
     cv::Point mean_shift(std::vector<cv::Point> point_list){
         int size = point_list.size();
         //Je ne cherche pas la moyenne si j'ai moins de 4 points parce que je considère que c'est du bruit
@@ -208,7 +261,7 @@ namespace proc_image_processing {
         }
 
         //Rectangle de vision
-        int w = 300;
+        int w = 300; 
         int h = 200;
         cv::Point mean = point_list[0]; // starting value J'ESPERE QUE CA COPIE LA VALEUR ET CA CASSE PAS MA LISTE
         cv::Rect window;
@@ -228,28 +281,25 @@ namespace proc_image_processing {
         return mean;
     }
 
-    //Fonction pour trouver les points qui sont dans un rectangle
-    std::vector<cv::Point> points_inside_frame(cv::Rect window, std::vector<cv::Point> point_list){
-         std::vector<cv::Point> output_list;
-        for(size_t i = 0; i<point_list.size();i++){
-            cv::Point aPoint = point_list[i];
-            if(aPoint.x > window.x && aPoint.x < window.x + window.width && aPoint.y > window.y && aPoint.y < window.y + window.height){
-                output_list.push_back(aPoint);
+  
+
+
+    //Find the point in a cluster (the more neighbours it has, the better)
+    cv::Point bigger_cluster_point(std::vector<cv::Point> point_list){
+        //Expensive function, ok for small amount of points
+        std::vector<double> all_distances;
+        for(int i = 0; i<point_list.size();i++){
+            double total_dist;
+            for(int j = 0; j<point_list.size();j++){
+                if(i == j){continue;}
+                total_dist += sqdist(point_list[i],point_list[j]);
             }
+            all_distances.push_back(total_dist);
         }
-        return output_list;
+        return point_list[index_of_min(all_distances)];
     }
 
-    //Fonction pour calculer la moyenne d'un ensemble de points
-    cv::Point mean_points(std::vector<cv::Point> point_list){
-        cv::Point output;
-        int size = point_list.size();
-        for(int i = 0; i< size; i++){
-            output += point_list[i]/size;
-        }
-        return output;
-    }
-
+   
 
     //Fonction pour calculer les descripteurs et les keypoints pour une image 
     std::pair<cv::Mat,std::vector<cv::KeyPoint>> calculate_descriptors_and_kp(cv::Mat image){
@@ -302,51 +352,37 @@ namespace proc_image_processing {
         return matching_points_list;
     }
 
-    //Fonction pour calculer tous les descripteurs et keypoints des images de référence. Enregistre dans le fichier
+
+    //Calculate and save the descriptors of the reference images
     void create_reference_descriptors(std::string path){
         std::vector<cv::Mat> descriptors;
 
         std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
         "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
-        "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange"}); 
-        
+        "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange"}); //HARDCODED
+
+
         for(size_t i = 0; i< list_paths.size(); i++){
             std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
             cv::Mat image_for_calculation = cv::imread(complete_path);
 
-            //Code temporaire pour changer la taille
-            cv::Mat image_rescale;
-            int width = image_for_calculation.size().width;
-            int height = image_for_calculation.size().height;
+            cv::Mat descr;
+            descr = calculate_descriptors(image_for_calculation);
             
-            cv::Mat descr, descr_output;
-            descr_output = calculate_descriptors(image_for_calculation);
-
-            if(descr_output.empty()){//Petite vérification
+            //Enregistre l'image pour vérification
+            // std::pair<cv::Mat,std::vector<cv::KeyPoint>> descr_kp = calculate_descriptors_and_kp(image_for_calculation);
+            // cv::Mat image_kp;
+            // cv::drawKeypoints(image_for_calculation,descr_kp.second,image_kp,cv::Scalar(0,255,0),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+            // cv::imwrite(kRefImagesPath +"descr/" + list_paths[i] + "_1" + kImagesExt, image_kp);
+            
+            if(descr.empty()){//Petite vérification
                 ROS_WARN("Ref image descriptors is empty for path : %s", list_paths[i].c_str());
             }
 
-            // ORB should be scale invariant but it doesn't look like it so I do it by myself and it's working way better
-            for(int j = 2; j< 7; j += 2){
-                resize(image_for_calculation, image_rescale, cv::Size(width/j, height/j));
-                descr = calculate_descriptors(image_rescale);
-                cv::vconcat(descr_output, descr, descr_output);
-                
-
-                // //Draw points and save images for comparison
-                // std::pair<cv::Mat,std::vector<cv::KeyPoint>> descr_kp = calculate_descriptors_and_kp(image_rescale);
-                // cv::Mat image_kp;
-                // image_rescale.copyTo(image_kp);
-                // std::vector<cv::KeyPoint> kp_list = descr_kp.second;
-                // for(int k = 0; k< kp_list.size(); k++){
-                //     cv::circle(image_kp, kp_list[k].pt, 3, cv::Scalar(0,255,0), 1);
-                // }
-                // cv::imwrite(kRefImagesPath +"descr/" + list_paths[i] + "_" + std::to_string(j) + kImagesExt, image_kp);
-            }
-            descriptors.push_back(descr_output);
+            descriptors.push_back(descr);
         }
 
-
+        //Save the descriptors in the file
         cv::FileStorage fsWrite(path, cv::FileStorage::WRITE);
         cv::write(fsWrite, "indexes", list_paths);
         for(int i = 0; i< descriptors.size();i++){
@@ -357,6 +393,49 @@ namespace proc_image_processing {
         fsWrite.release();
     }
     
+
+
+    //General function that should probably go in another file
+
+     //Square distance between two points (no square root calculation)
+    double sqdist(cv::Point a, cv::Point b){
+        return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+    }
+
+    //Return index of smaller double in a vector
+    int index_of_min(std::vector<double> my_list){
+        int output_idx = 0; // valeur par défaut
+        double smaller = 1E+100;
+        for(int i = 0; i<my_list.size(); i++){
+            if(my_list[i] <= smaller){
+                output_idx = i;
+                smaller = my_list[i];
+            }
+        }
+        return output_idx;
+    }
+        //Calculate the mean value of some points
+    cv::Point mean_points(std::vector<cv::Point> point_list){
+        cv::Point output;
+        int size = point_list.size();
+        for(int i = 0; i< size; i++){
+            output += point_list[i]/size;
+        }
+        return output;
+    }
+
+      //Find the points inside a rectangle.
+    std::vector<cv::Point> points_inside_frame(cv::Rect window, std::vector<cv::Point> point_list){
+         std::vector<cv::Point> output_list;
+        for(size_t i = 0; i<point_list.size();i++){
+            cv::Point aPoint = point_list[i];
+            if(aPoint.x > window.x && aPoint.x < window.x + window.width && aPoint.y > window.y && aPoint.y < window.y + window.height){
+                output_list.push_back(aPoint);
+            }
+        }
+        return output_list;
+    }
+
     
 
 
