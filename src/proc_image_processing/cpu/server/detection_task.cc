@@ -134,7 +134,7 @@ namespace proc_image_processing {
         if (image.depth() != CV_8U) {
             image.convertTo(image, CV_8U);
         }
-        // Ensure 3 channel (RGB
+        // Ensure 3 channel (RGB)
         if (image.channels() == 1) {
             cv::cvtColor(image, image, CV_GRAY2BGR);
         }
