@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
 
         using Ptr = std::shared_ptr<SiftMatch>;
-        cv::Ptr<cv::ORB> detector = cv::ORB::create(700, 1.4f, 8);
+        cv::Ptr<cv::ORB> detector = cv::ORB::create(700, 1.3f, 8);
 
 
         explicit SiftCalculator(const GlobalParameterHandler &globalParams)
