@@ -13,7 +13,6 @@
 #include<string>
 
 
-
 // Define colors
 
 #define RED cv::Scalar(0,0,255)
@@ -25,8 +24,9 @@
 #define GREEN cv::Scalar(50,250,50)
 
 
-namespace proc_image_processing {
 
+
+namespace proc_image_processing {
     class SiftMatch : public Filter {
     public:
         using Ptr = std::shared_ptr<SiftMatch>;
@@ -39,6 +39,8 @@ namespace proc_image_processing {
         //Sinon Je prends les 10 éléments.
         //J'espère qu'il ne va pas y avoir d'overlap au moment du changement de paramètre entre 2 et 0
 
+
+        //Constructor
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   objective_("Objective", 0, 0, 4, &parameters_, "0=ALL, 1=ChooseSide&Shoutout, 2=MakeGrade, 3=Collecting, 4=CashSmash"){
@@ -49,9 +51,12 @@ namespace proc_image_processing {
         }
 
 
-
+        //Destructor
         ~SiftMatch() override = default;
 
+
+
+        //Principal function
         void apply(cv::Mat &image) override {
             //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
             std::pair<cv::Mat,std::vector<cv::KeyPoint>> descriptors_keypoints = calculate_descriptors_and_kp(image);
@@ -226,12 +231,20 @@ namespace proc_image_processing {
         }
 
 
-
-    //Fonction pour calculer le Camshift
+        //Fonction pour calculer le Camshift
     std::pair<cv::Point,int> camshift(vecPoint point_list, int index){
         int size = point_list.size();
+
         //Je ne cherche pas la moyenne si j'ai moins de 4 points parce que je considère que c'est du bruit
         if(size < 4) return std::make_pair(cv::Point(-1,-1), 0);
+        
+        //TO DO HERE
+        //Je dois m'assurer que ce sont des points différents et pas le même point.
+        //Dans le fond je dois supprimer les doublons
+        //Sinon j'ai une size >4 alors qu'en réalité c'est un seul point que j'ai en double pour différents keypoints de taille différentes
+
+
+
 
         //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD.
 
@@ -327,10 +340,18 @@ namespace proc_image_processing {
                 }
             }
 
+
+            
+            //When I get the point, I also make sure I don't have duplicates in the points (it happened sometimes)
+            std::set<int> s;
             //Get the points that match
             vecPoint matching_points;
             for(cv::DMatch aMatch : good_matches){
-                matching_points.push_back(image_keypoints[aMatch.trainIdx].pt);
+                int thisIndex = aMatch.trainIdx;
+                if(s.find(thisIndex) == s.end()){
+                    s.insert(thisIndex);
+                    matching_points.push_back(image_keypoints[thisIndex].pt);
+                }
             }
             matching_points_list.push_back(matching_points);
         }
@@ -384,7 +405,7 @@ namespace proc_image_processing {
     }
         //Calculate the mean value of some points
     cv::Point mean_points(vecPoint point_list){
-        cv::Point output;
+        cv::Point output = cv::Point(0,0);
         int size = point_list.size();
         if(size==0)return cv::Point(-1,-1);
         for(cv::Point p : point_list)
