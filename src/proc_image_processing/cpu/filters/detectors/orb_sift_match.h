@@ -15,6 +15,8 @@
 //still slow because calculate reference image each time. 
 //We need to implement the idea of the sift match if we want to use this filter correctly
 
+//This code is usefull for experiences
+
 
 namespace proc_image_processing {
 
@@ -83,12 +85,17 @@ namespace proc_image_processing {
             if (ref_image.empty()) {
                 ROS_WARN("Ref image is empty : %s",path.c_str());
             }
-
+            
+            cv::Mat smaller_ref;
+            int ratio = 4;
+            cv::Size smaller_size = cv::Size(ref_image.cols/ratio, ref_image.rows/ratio);
+            cv::resize(ref_image, smaller_ref, smaller_size, cv::INTER_LINEAR);
+            
             //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
             cv::Ptr<cv::ORB> detector = cv::ORB::create(500, 1.3f, 10);
             std::vector<cv::KeyPoint> keypoints1, keypoints2;
             cv::Mat descriptors1, descriptors2;
-            detector->detectAndCompute(ref_image,cv::noArray(),keypoints1,descriptors1);
+            detector->detectAndCompute(smaller_ref,cv::noArray(),keypoints1,descriptors1);
             detector->detectAndCompute(image,cv::noArray(),keypoints2,descriptors2);
 
             if(descriptors1.empty())
@@ -141,7 +148,7 @@ namespace proc_image_processing {
             
             //-- Draw matches
             cv::Mat img_matches;
-            cv::drawMatches( ref_image, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
+            cv::drawMatches( smaller_ref, keypoints1, image, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
                  cv::Scalar::all(-1), std::vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
 
@@ -156,6 +163,7 @@ namespace proc_image_processing {
 
 
         }
+
 
     private:
         cv::Mat output_image_;
