@@ -24,6 +24,10 @@
 #define GREEN cv::Scalar(50,250,50)
 
 
+// Créer un nouveau filtre pour isoler des rectangles
+// Canny Filter semble être un bon début
+
+
 
 
 namespace proc_image_processing {
@@ -237,15 +241,7 @@ namespace proc_image_processing {
 
         //Je ne cherche pas la moyenne si j'ai moins de 4 points parce que je considère que c'est du bruit
         if(size < 4) return std::make_pair(cv::Point(-1,-1), 0);
-        
-        //TO DO HERE
-        //Je dois m'assurer que ce sont des points différents et pas le même point.
-        //Dans le fond je dois supprimer les doublons
-        //Sinon j'ai une size >4 alors qu'en réalité c'est un seul point que j'ai en double pour différents keypoints de taille différentes
-
-
-
-
+    
         //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD.
 
         //Rectangle de vision
