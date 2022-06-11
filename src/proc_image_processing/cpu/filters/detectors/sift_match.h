@@ -35,7 +35,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<SiftMatch>;
         using vecPoint = std::vector<cv::Point>;
-        cv::Ptr<cv::ORB> detector = cv::ORB::create(700, 1.2f, 8);
+        cv::Ptr<cv::ORB> detector = cv::ORB::create(1000, 1.2f, 8);
         std::vector<cv::Mat> ref_descriptors;
         vecPoint previous_means; 
         //Note sur previous_mean. Lorsque je vais calculer mon cam_shift, je vais utiliser la valeur précédente de la moyenne.
@@ -47,11 +47,12 @@ namespace proc_image_processing {
         //Constructor
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  objective_("Objective", 0, 0, 4, &parameters_, "0=ALL, 1=ChooseSide&Shoutout, 2=MakeGrade, 3=Collecting, 4=CashSmash"){
+                  objective_("Objective", 0, 0, 5, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout,5=CashSmash"){
             setName("SiftMatch");
             
             //Lecture des infos depuis les descripteurs
-            load_descriptors(kConfigPath + "/descriptors/Descriptors_Pruned.yml");
+            // load_descriptors(kConfigPath + "/descriptors/Descriptors_Pruned.yml");
+            load_descriptors(kConfigPath + "/descriptors/Descriptors.yml");
         }
 
 
@@ -132,7 +133,7 @@ namespace proc_image_processing {
 
         // Images not merge
             switch(objective_()) {  
-                case 1: // Choose Side and Shoutout
+                case 1: // Choose Side 
                     temp_ref_descriptors.push_back(ref_descriptors[0]);
                     temp_ref_descriptors.push_back(ref_descriptors[1]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
@@ -147,7 +148,7 @@ namespace proc_image_processing {
                     temp_ref_descriptors.push_back(ref_descriptors[5]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
                     break;
-                case 4:
+                case 4: //Shoutout
                     temp_ref_descriptors.push_back(ref_descriptors[6]);
                     temp_ref_descriptors.push_back(ref_descriptors[7]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
@@ -225,10 +226,10 @@ namespace proc_image_processing {
             // }
 
             //Dessiner les rectangles restants
-            for(int i = 0; i<rectangles.size() ; i++){
-                if(rectangles[i].x < 0){continue;}
-                cv::rectangle(img_keypoints, rectangles[i], colors[i], 2);
-            }
+            // for(int i = 0; i<rectangles.size() ; i++){
+            //     if(rectangles[i].x < 0){continue;}
+            //     cv::rectangle(img_keypoints, rectangles[i], colors[i], 2);
+            // }
 
             img_keypoints.copyTo(output_image_); // Just the points
             output_image_.copyTo(image);

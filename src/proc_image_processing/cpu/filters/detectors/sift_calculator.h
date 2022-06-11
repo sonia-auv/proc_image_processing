@@ -16,7 +16,7 @@ namespace proc_image_processing {
     public:
 
         using Ptr = std::shared_ptr<SiftMatch>;
-        cv::Ptr<cv::ORB> detector = cv::ORB::create(700, 1.3f, 8);
+        cv::Ptr<cv::ORB> detector = cv::ORB::create(1000, 1.2f, 8);
 
 
         explicit SiftCalculator(const GlobalParameterHandler &globalParams)
@@ -27,6 +27,8 @@ namespace proc_image_processing {
             std::string complete_descr_path = kConfigPath + "/descriptors/Descriptors.yml";
             std::string descr_path = kConfigPath + "/descriptors/Descriptors_Pruned.yml"; // New with less descriptors
             
+
+            //In both cases, the descriptors are saved.
             create_reference_descriptors(complete_descr_path); // Je peux le calculer à chaque fois mais je peux aussi le commenter pour gagner Quelques ms
             remove_ambigous_descriptors(complete_descr_path, descr_path);
         
