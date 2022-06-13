@@ -23,10 +23,9 @@
 #define ORANGE cv::Scalar(0,128,255)
 #define GREEN cv::Scalar(50,250,50)
 
+//Verify what the size of the bottom camera is. If it's smaller than 400x600, I can reduce the reference image for bottom.
 
-// Créer un nouveau filtre pour isoler des rectangles
-// Canny Filter semble être un bon début
-
+//This code doesn't use any pointers as I don't know how they work.
 
 
 
@@ -50,7 +49,7 @@ namespace proc_image_processing {
                   objective_("Objective", 0, 0, 5, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout,5=CashSmash"){
             setName("SiftMatch");
             
-            //Lecture des infos depuis les descripteurs
+            //Reading descriptors from reference images
             // load_descriptors(kConfigPath + "/descriptors/Descriptors_Pruned.yml");
             load_descriptors(kConfigPath + "/descriptors/Descriptors.yml");
         }
@@ -68,7 +67,7 @@ namespace proc_image_processing {
             cv::Mat im_descriptors = descriptors_keypoints.first;
             std::vector<cv::KeyPoint> im_keypoints = descriptors_keypoints.second;
 
-            if(im_keypoints.size() < 2){ // si je n'ai pas de descripteurs, ça ne sert à rien de faire des calculs
+            if(im_keypoints.size() < 2){ // If not enough descriptors, no need to make calculation
                 // ROS_WARN("Less than 2 key points on the image");
                 return; 
             }
@@ -80,54 +79,55 @@ namespace proc_image_processing {
 
 
         //Images merge
-            // switch(objective_()) {  
-            //     case 1: // Choose Side and Shoutout
-            //         temp_ref_descriptors.push_back(ref_descriptors[0]);
-            //         temp_ref_descriptors.push_back(ref_descriptors[1]);
-            //         temp_ref_descriptors[0].push_back(ref_descriptors[6]); // j'ajoute les descripteurs à l'autre image pour combiner les deux ref semblables
-            //         temp_ref_descriptors[1].push_back(ref_descriptors[7]);
-            //         temp_ref_descriptors[0].push_back(ref_descriptors[3]);//Ajout du fusil pour aider
-            //         matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-            //         break;
-            //     case 2: // Make Grade
-            //         temp_ref_descriptors.push_back(ref_descriptors[2]);
-            //         temp_ref_descriptors.push_back(ref_descriptors[3]);
-            //         matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-            //         break;
-            //     case 3: // Collecting
-            //         temp_ref_descriptors.push_back(ref_descriptors[4]);
-            //         temp_ref_descriptors.push_back(ref_descriptors[5]);
-            //         matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-            //         break;
-            //     case 4: // Cash Shmash
-            //         temp_ref_descriptors.push_back(ref_descriptors[8]);
-            //         temp_ref_descriptors.push_back(ref_descriptors[9]);
-            //         matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-            //         break;
-            //     default:// Cas par défaut, on affiche tous les points 
-            //         temp_ref_descriptors.push_back(ref_descriptors[0]); //Gman
-            //         temp_ref_descriptors.push_back(ref_descriptors[1]); // Bootlegger
-            //         temp_ref_descriptors.push_back(ref_descriptors[2]); //Badge
-            //         temp_ref_descriptors[1].push_back(ref_descriptors[3]);//Ajout du fusil pour aider
-            //         temp_ref_descriptors.push_back(ref_descriptors[4]); //Collect gman
-            //         temp_ref_descriptors.push_back(ref_descriptors[5]); //Collect bootlegger
-            //         temp_ref_descriptors[0].push_back(ref_descriptors[6]); // gman
-            //         temp_ref_descriptors[1].push_back(ref_descriptors[7]); // Bootlegger
-            //         temp_ref_descriptors.push_back(ref_descriptors[8]); //Cash axe
-            //         temp_ref_descriptors.push_back(ref_descriptors[9]); // Cash dollar
-            //         matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-            // }
+        /*
+            switch(objective_()) {  
+                case 1: // Choose Side and Shoutout
+                    temp_ref_descriptors.push_back(ref_descriptors[0]);
+                    temp_ref_descriptors.push_back(ref_descriptors[1]);
+                    temp_ref_descriptors[0].push_back(ref_descriptors[6]); // j'ajoute les descripteurs à l'autre image pour combiner les deux ref semblables
+                    temp_ref_descriptors[1].push_back(ref_descriptors[7]);
+                    temp_ref_descriptors[0].push_back(ref_descriptors[3]);//Ajout du fusil pour aider
+                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    break;
+                case 2: // Make Grade
+                    temp_ref_descriptors.push_back(ref_descriptors[2]);
+                    temp_ref_descriptors.push_back(ref_descriptors[3]);
+                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    break;
+                case 3: // Collecting
+                    temp_ref_descriptors.push_back(ref_descriptors[4]);
+                    temp_ref_descriptors.push_back(ref_descriptors[5]);
+                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    break;
+                case 4: // Cash Shmash
+                    temp_ref_descriptors.push_back(ref_descriptors[8]);
+                    temp_ref_descriptors.push_back(ref_descriptors[9]);
+                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    break;
+                default:// Cas par défaut, on affiche tous les points 
+                    temp_ref_descriptors.push_back(ref_descriptors[0]); //Gman
+                    temp_ref_descriptors.push_back(ref_descriptors[1]); // Bootlegger
+                    temp_ref_descriptors.push_back(ref_descriptors[2]); //Badge
+                    temp_ref_descriptors[1].push_back(ref_descriptors[3]);//Ajout du fusil pour aider
+                    temp_ref_descriptors.push_back(ref_descriptors[4]); //Collect gman
+                    temp_ref_descriptors.push_back(ref_descriptors[5]); //Collect bootlegger
+                    temp_ref_descriptors[0].push_back(ref_descriptors[6]); // gman
+                    temp_ref_descriptors[1].push_back(ref_descriptors[7]); // Bootlegger
+                    temp_ref_descriptors.push_back(ref_descriptors[8]); //Cash axe
+                    temp_ref_descriptors.push_back(ref_descriptors[9]); // Cash dollar
+                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+            }
 
             // Color List for first case
-            // std::vector<cv::Scalar> colors; //BGR
-            // colors.push_back(RED); //"gman" 
-            // colors.push_back(BLUE); //"bootlegger" BLUE
-            // colors.push_back(YELLOW); //"badge" YELLOW
-            // colors.push_back(WHITE); //"collecting_gman_white" WHITE
-            // colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
-            // colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
-            // colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
-
+            std::vector<cv::Scalar> colors; //BGR
+            colors.push_back(RED); //"gman" 
+            colors.push_back(BLUE); //"bootlegger" BLUE
+            colors.push_back(YELLOW); //"badge" YELLOW
+            colors.push_back(WHITE); //"collecting_gman_white" WHITE
+            colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
+            colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
+            colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
+*/
 
 
 
@@ -158,7 +158,7 @@ namespace proc_image_processing {
                     temp_ref_descriptors.push_back(ref_descriptors[9]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
                     break;
-                default:// Cas par défaut, on affiche tous les points 
+                default:// Default case, points for all images are shown
                     matching_points_list = create_matcher_list(ref_descriptors, im_descriptors, im_keypoints);
             }
 
@@ -192,7 +192,7 @@ namespace proc_image_processing {
                     cv::circle(img_keypoints, matching_points[i], 3, colors[j], 2);
                 }
 
-             //Calcul de la moyenne 
+             //Mean Calculation
                 // I NEED A NEW ALGO TO HAVE A GOOD RECTANGLE
 
                 //camshift. Gives a Mean point and a rectangle 
@@ -205,57 +205,54 @@ namespace proc_image_processing {
                 }
                 previous_means[j] = mean_camshift; // Sometimes the good value, sometimes -1
             }
+            /*
+            // Filtrer les rectangles : Je supprime une zone si elle est plus petite qu'une autre et qu'il y a overlap
+            for(int i = rectangles.size()-1; i>=0 ; i--){
+                cv::Point middleI = (rectangles[i].tl() + rectangles[i].br())/2;
+                for(int j = rectangles.size()-1; j>=0 ; j--){
+                    if(i==j)continue;
+                    if(rectangles[j].x == -1)continue; //Le rectangle a déjà été traité
 
-            //Filtrer les rectangles : Je supprime une zone si elle est plus petite qu'une autre et qu'il y a overlap
-            // for(int i = rectangles.size()-1; i>=0 ; i--){
-            //     cv::Point middleI = (rectangles[i].tl() + rectangles[i].br())/2;
-            //     for(int j = rectangles.size()-1; j>=0 ; j--){
-            //         if(i==j)continue;
-            //         if(rectangles[j].x == -1)continue; //Le rectangle a déjà été traité
+                    cv::Point middleJ = (rectangles[j].tl() + rectangles[j].br())/2;
+                    if(rectangles[j].contains(middleI) && rectangles[j].width > rectangles[i].width){
+                        //Suppression J (je ne le retire pas mais je change sa valeur)
+                        rectangles[i].x = -1;
+                    }
+                    if(rectangles[i].contains(middleJ) && rectangles[i].width > rectangles[j].width){
+                        //Suppression I
+                        rectangles[j].x = -1;
+                    }
+                }
+            }
+            */
 
-            //         cv::Point middleJ = (rectangles[j].tl() + rectangles[j].br())/2;
-            //         if(rectangles[j].contains(middleI) && rectangles[j].width > rectangles[i].width){
-            //             //Suppression J (je ne le retire pas mais je change sa valeur)
-            //             rectangles[i].x = -1;
-            //         }
-            //         if(rectangles[i].contains(middleJ) && rectangles[i].width > rectangles[j].width){
-            //             //Suppression I
-            //             rectangles[j].x = -1;
-            //         }
-            //     }
-            // }
-
-            //Dessiner les rectangles restants
-            // for(int i = 0; i<rectangles.size() ; i++){
-            //     if(rectangles[i].x < 0){continue;}
-            //     cv::rectangle(img_keypoints, rectangles[i], colors[i], 2);
-            // }
+            // Dessiner les rectangles restants
+            for(int i = 0; i<rectangles.size() ; i++){
+                if(rectangles[i].x < 0){continue;}
+                cv::rectangle(img_keypoints, rectangles[i], colors[i], 2);
+            }
 
             img_keypoints.copyTo(output_image_); // Just the points
             output_image_.copyTo(image);
         }
 
 
-        //Fonction pour calculer le Camshift
+        //Camshift Calculation
     std::pair<cv::Point,int> camshift(vecPoint point_list, int index){
         int size = point_list.size();
 
-        //Je ne cherche pas la moyenne si j'ai moins de 4 points parce que je considère que c'est du bruit
+        // If not enough points, I don't consider the images is there.
         if(size < 4) return std::make_pair(cv::Point(-1,-1), 0);
     
         //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD.
 
-        //Rectangle de vision
-        int length = 200; // Taille initiale grande
+        int length = 200; // Initial Size for vision rectangle (in which we look for points)
         cv::Rect window;
         
         cv::Point mean = previous_means[index]; 
-        //Debug
-        // ROS_INFO_STREAM("previous mean  = " + std::to_string(mean.x) + "," + std::to_string(mean.y));
-        if(mean.x > 0){   
-            //Sol2 : Je fais un seul essai en prenant la valeur du mean sur l'image précédent comme base
-            //(lorsque je change mon "objective()", il va y avoir un overlap mais ça devrait se régler en quelques images)
-
+         if(mean.x > 0){   
+            //Sol2 : I take the old mean for a first value
+           
             cv::Point old_mean; // entre deux itérations
             for(int i = 0; i< 8; i++){//Max 8 itérations
                 window = cv::Rect(mean.x - length/2, mean.y - length/2, length, length);
@@ -271,29 +268,27 @@ namespace proc_image_processing {
                 }
             }
         }
-        if(mean.x <= 0 || length == 0){ // Je refais le test si je ne peux pas effectuer la continuité
+        if(mean.x <= 0 || length < 41){ // If I don't have previous mean/bad results, i try again from random points
             
             vecPoint list_of_means;
             std::vector<int> list_of_length;
 
-            //Sol 1: Je fais plusieurs essais avec des valeurs aléatoires. En cas de non previous mean
-            for(int attempt = 0;  attempt< 5; attempt++){ // Valeur arbitraire
+            //Sol 1: Multiple try from random values
+            for(int attempt = 0;  attempt< 5; attempt++){ // 5: arbitrary value
                 int random_index = std::rand() % point_list.size();
                 mean = point_list[random_index]; // starting value
-                cv::Point old_mean; // entre deux itérations
+                cv::Point old_mean;
                 for(int i = 0; i< 8; i++){//Max 8 itérations
                     window = cv::Rect(mean.x - length/2, mean.y - length/2, length, length);
                     old_mean  = mean;
-                    //Trouver les points qui sont dans mon rectangle 
                     vecPoint points_in_frame = points_inside_frame(window, point_list);
-                    //Calculer la moyenne des points dedans
                     mean = mean_points(points_in_frame);
                     length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
                      if(cv::norm(mean-old_mean) < 5 || length == 0 || mean.x == -1){ // Plus petit que 5 pixels en distance euclidienne
                         break;
                     }
                 }
-                if(length>0){
+                if(length>40){ // Bigger than smaller size. I really want to keep only the confident guesses : >= 4 points in the window
                     list_of_means.push_back(mean);
                     list_of_length.push_back(length);
                 }
@@ -371,7 +366,7 @@ namespace proc_image_processing {
         fsRead.release();
     }
 
-    //Fonction pour calculer les descripteurs et les keypoints pour une image 
+    
     std::pair<cv::Mat,std::vector<cv::KeyPoint>> calculate_descriptors_and_kp(cv::Mat image){
         std::vector<cv::KeyPoint> keypoints;
         cv::Mat descriptors;
@@ -381,7 +376,7 @@ namespace proc_image_processing {
     }
 
 
-    //General function that should probably go in another file
+    //General function 
 
      //Square distance between two points (no square root calculation)
     double sqdist(cv::Point a, cv::Point b){
