@@ -6,6 +6,7 @@
 #include <proc_image_processing/cpu/config.h>
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
+#include <proc_image_processing/cpu/server/target.h>
 #include "opencv2/core.hpp"
 #include "opencv2/opencv_modules.hpp"
 #include "opencv2/highgui.hpp"
@@ -24,6 +25,9 @@
 #define GREEN cv::Scalar(50,250,50)
 
 //Verify what the size of the bottom camera is. If it's smaller than 400x600, I can reduce the reference image for bottom.
+// We can add RANSAC to verify the keypoints. With this algo we can delete all the false positive. 
+
+
 
 //This code doesn't use any pointers as I don't know how they work.
 
@@ -37,6 +41,7 @@ namespace proc_image_processing {
         cv::Ptr<cv::ORB> detector = cv::ORB::create(1000, 1.2f, 8);
         std::vector<cv::Mat> ref_descriptors;
         vecPoint previous_means; 
+        std::vector<std::string> class_names;
         //Note sur previous_mean. Lorsque je vais calculer mon cam_shift, je vais utiliser la valeur précédente de la moyenne.
         //Si je suis sur deux valeurs, je prendrai les deux premiers éléments. 
         //Sinon Je prends les 10 éléments.
@@ -226,14 +231,39 @@ namespace proc_image_processing {
             }
             */
 
-            // Dessiner les rectangles restants
+            // Dessiner les rectangles
             for(int i = 0; i<rectangles.size() ; i++){
                 if(rectangles[i].x < 0){continue;}
-                cv::rectangle(img_keypoints, rectangles[i], colors[i], 2);
+                cv::Rect rectangle = rectangles[i];
+                cv::rectangle(img_keypoints, rectangle, colors[i], 2);
+
+                
+                // Envoyer la target à ROS:
+                // Construire un objet target
+                // Remplir cet objet
+                // Faire notify(target) pour qu'il soit gérer par les autres fonctions 
+                Target target;
+
+                // buildTarget
+                target.setCenter(rectangle.x, rectangle.y);
+                target.setSize(rectangle.width, rectangle.height);
+
+                int index;
+                //This condition should be the reserve of the switch case in the beginning
+                if(objective_() <= 0 || objective_() >= 6){
+                    index = i;
+                }else{
+                    index = (objective_()-1) * 2 + i;
+                }
+                std::string class_name = class_names[index];
+                target.setHeader(class_name);
+
+                notify(target);
             }
 
             img_keypoints.copyTo(output_image_); // Just the points
             output_image_.copyTo(image);
+
         }
 
 
@@ -362,6 +392,9 @@ namespace proc_image_processing {
 
             //Fill the previous means with "0" value
             previous_means.push_back(cv::Point(-1,-1)); 
+
+            //Save the name to send a ros msg
+            class_names.push_back(list_paths[i].substr(3));
         }
         fsRead.release();
     }
