@@ -245,7 +245,8 @@ namespace proc_image_processing {
                 Target target;
 
                 // buildTarget
-                target.setCenter(rectangle.x, rectangle.y);
+                
+                target.setCenter(rectangle.x - image.size().width/2,  image.size().height/2 - rectangle.y);
                 target.setSize(rectangle.width, rectangle.height);
 
                 int index;
