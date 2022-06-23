@@ -361,8 +361,6 @@ namespace proc_image_processing {
         FilterChainManager filter_chain_mgr_;
 
         DetectionTaskManager detection_task_mgr_;
-
-        ros::ServiceClient deep_network_service;
     };
 
     inline std::string VisionServer::buildRosMessage(const std::vector<std::string> &name_vec) {
