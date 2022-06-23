@@ -17,7 +17,7 @@ namespace proc_image_processing {
                   l2_gradiant_("L2 gradient", false, &parameters_),
                   thresh_one_("Threshold 1", 100, 0, 255, &parameters_),
                   thresh_two_("Threshold 2", 200, 0, 255, &parameters_),
-                  aperture_size_("Aperture size", 3, 0, 20, &parameters_) {
+                  aperture_size_("Aperture size", 3, 1, 3, &parameters_) {
             setName("CannyFilter");
         }
 
@@ -33,9 +33,9 @@ namespace proc_image_processing {
 
     private:
         Parameter<bool> l2_gradiant_;
+        RangedParameter<int> aperture_size_;
         RangedParameter<int> thresh_one_;
         RangedParameter<int> thresh_two_;
-        RangedParameter<int> aperture_size_;
     };
 
 }  // namespace proc_image_processing

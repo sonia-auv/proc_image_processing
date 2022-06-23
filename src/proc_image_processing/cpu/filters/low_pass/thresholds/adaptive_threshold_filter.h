@@ -14,8 +14,8 @@ namespace proc_image_processing {
 
         explicit AdaptiveThresholdFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  method_("Method", 0, 0, 1, &parameters_, "0=Gaussian 1=Mean"),
-                  threshold_type_("Threshold type", 0, 0, 1, &parameters_, "0=BIN, 1=BIN_INV"),
+                  method_("Method : false=Gaussian true=Mean", false, &parameters_),
+                  threshold_type_("Threshold type : false=BIN, true=BIN_INV", false, &parameters_),
                   _block_size("Size", 1, 1, 40, &parameters_),
                   c_("C", 0.0f, -255.0f, 255.0f, &parameters_,
                      "Constant subtracted from the mean or weighted mean.") {
@@ -29,14 +29,14 @@ namespace proc_image_processing {
                 cv::cvtColor(image, image, CV_BGR2GRAY);
             }
             int size = _block_size() * 2 + 1;
-            int method = method_() == 0 ? cv::ADAPTIVE_THRESH_GAUSSIAN_C : cv::ADAPTIVE_THRESH_MEAN_C;
-            int type = threshold_type_() == 0 ? cv::THRESH_BINARY : cv::THRESH_BINARY_INV;
+            int method = method_() ? cv::ADAPTIVE_THRESH_MEAN_C : cv::ADAPTIVE_THRESH_GAUSSIAN_C ;
+            int type = threshold_type_() ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY;
             cv::adaptiveThreshold(image, image, 255, method, type, size, c_());
         }
 
     private:
-        RangedParameter<int> method_;
-        RangedParameter<int> threshold_type_;
+        Parameter<bool> method_;
+        Parameter<bool> threshold_type_;
         RangedParameter<int> _block_size;
         RangedParameter<double> c_;
     };
