@@ -15,9 +15,9 @@ namespace proc_image_processing {
         explicit BoundingBoxFilter(const GlobalParameterHandler &globalParams) :
                 Filter(globalParams),
                 width_("Width", 0, 0, 600, &parameters_, "Width"),
-                heigth_("Height", 0, 0, 400, &parameters_, "Heigth"),
-                origin_x_("Origin X", 0, -600, 600, &parameters_, "Origin X"),
-                origin_y_("Origin Y", 0, -400, 400, &parameters_, "Origin Y"),
+                heigth_("Height", 0, 0, 600, &parameters_, "Heigth"),
+                origin_x_("Origin X", 0, -300, 300, &parameters_, "Origin X"),
+                origin_y_("Origin Y", 0, -300, 300, &parameters_, "Origin Y"),
                 thickness_("Thickness", 1, 1, 10, &parameters_, "Thickness") {
             setName("BoundingBoxFilter");
         }
@@ -27,7 +27,7 @@ namespace proc_image_processing {
         void apply(cv::Mat &image) override {
             //image.copyTo(output_image_);
 
-            cv::Rect rect(origin_x_(), origin_y_(), width_(), heigth_());
+            cv::Rect rect((image.cols/2)+origin_x_()-width_()/2, (image.rows/2)-origin_y_()-heigth_()/2, width_(), heigth_());
 
             cv::rectangle(image, rect, cv::Scalar(0,255,0), thickness_());
 
