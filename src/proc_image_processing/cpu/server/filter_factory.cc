@@ -19,6 +19,9 @@ namespace proc_image_processing {
 	else if(name == "BlurFilter"){
 		return std::make_unique<BlurFilter>(gph);
 	}
+	else if(name == "BoundingBoxFilter"){
+		return std::make_unique<BoundingBoxFilter>(gph);
+	}
 	else if(name == "CannyFilter"){
 		return std::make_unique<CannyFilter>(gph);
 	}
@@ -164,6 +167,7 @@ namespace proc_image_processing {
 		"BackgroundSubtractFilter;"
 		"BilateralFilter;"
 		"BlurFilter;"
+		"BoundingBoxFilter;"
 		"CannyFilter;"
 		"CenterCoffinDetector;"
 		"CLAHEFilter;"
