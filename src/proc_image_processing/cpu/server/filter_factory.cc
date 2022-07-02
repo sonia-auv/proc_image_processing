@@ -115,6 +115,9 @@ namespace proc_image_processing {
 	else if(name == "SiftMatch"){
 		return std::make_unique<SiftMatch>(gph);
 	}
+	else if(name == "SiftCalculator"){
+		return std::make_unique<SiftCalculator>(gph);
+	}
 	else if(name == "SobelFilter"){
 		return std::make_unique<SobelFilter>(gph);
 	}
@@ -196,6 +199,7 @@ namespace proc_image_processing {
 		"ScharrAddingFilter;"
 		"ScharrFilter;"
 		"SiftMatch;"
+		"SiftCalculator;"
 		"SobelFilter;"
 		"SquareDetector;"
 		"StatisticalThresholdFilter;"
