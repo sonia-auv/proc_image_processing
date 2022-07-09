@@ -38,22 +38,14 @@ namespace proc_image_processing {
             if (image.channels() != 1) {
                 cv::cvtColor(image, image, CV_BGR2GRAY);
             }
-            //cv::Mat originalImage = global_param_handler_.getOriginalImage();
 
             PerformanceEvaluator timer;
             timer.resetStartTime();
 
             contourList_t contours;
 
-            //retrieveContours(image, contours);
-            //std::cout << "Contours : " << contours.size() << std::endl;
-
-            //retrieveOuterContours(image, contours);
-            //std::cout << "Outer Contours : " << contours.size() << std::endl;
-
             retrieveAllContours(image, contours);
             ObjectFullData::FullObjectPtrVec objVec;
-            //std::cout << "All Contours : " << contours.size() << std::endl << std::endl;
             for (int i = 0; i < contours.size(); i++) {
                 ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
                         output_image_,
@@ -63,9 +55,6 @@ namespace proc_image_processing {
                 if (object.get() == nullptr) {
                     continue;
                 }
-
-                //AREA
-                // std::cout << object->getArea();
 
                 if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
                     continue;
@@ -86,8 +75,6 @@ namespace proc_image_processing {
 
                     if (look_for_ellipse_()) {
                         circleIndex = getCircleIndex(contours[i]);
-
-                        //std::cout << circleIndex << std::endl;
 
                         if (circleIndex < 0.7) {
                             continue;
