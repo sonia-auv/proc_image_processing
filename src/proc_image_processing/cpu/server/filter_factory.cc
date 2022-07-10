@@ -46,6 +46,9 @@ namespace proc_image_processing {
 	else if(name == "DilateFilter"){
 		return std::make_unique<DilateFilter>(gph);
 	}
+	else if(name == "EllipseDetector"){
+		return std::make_unique<EllipseDetector>(gph);
+	}
 	else if(name == "EqualizeHistogramFilter"){
 		return std::make_unique<EqualizeHistogramFilter>(gph);
 	}
@@ -176,6 +179,7 @@ namespace proc_image_processing {
 		"CropFilter;"
 		"Deep2019Filter;"
 		"DilateFilter;"
+		"EllipseDetector;"
 		"EqualizeHistogramFilter;"
 		"ErodeFilter;"
 		"FenceDetector;"
