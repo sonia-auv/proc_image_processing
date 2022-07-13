@@ -26,8 +26,8 @@ namespace proc_image_processing {
                   percent_filled_("Percent filled", 0, 0, 100, &parameters_),
                   circle_index_("Circle index", 0, 0, 1, &parameters_),
                   obstacle_("Target name", "", &parameters_),
-                  desc1_("Descriptor 1", "", &parameters_),
-                  desc2_("Descriptor 2", "", &parameters_) {
+                  desc_1_("Descriptor 1", "", &parameters_),
+                  desc_2_("Descriptor 2", "", &parameters_) {
             setName("EllipseDetector");
         }
 
@@ -35,6 +35,8 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             std::string objective;
+            std::string desc_1;
+            std::string desc_2;
             image.copyTo(output_image_);
             if (output_image_.channels() == 1) {
                 cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -96,6 +98,8 @@ namespace proc_image_processing {
                         }
 
                         objective = obstacle_();
+                        desc_1 = desc_1_();
+                        desc_2 = desc_2_();
                     }
 
                     if (look_for_heart_()) {
@@ -116,6 +120,8 @@ namespace proc_image_processing {
                         }
 
                         objective = obstacle_();
+                        desc_1 = desc_1_();
+                        desc_2 = desc_2_();
                     }
                 }
                 objVec.push_back(object);
@@ -130,23 +136,37 @@ namespace proc_image_processing {
             );
 
             if (!objVec.empty()) {
-                Target target;
-                ObjectFullData::Ptr object = objVec[0];
-                cv::Point center = object->getCenterPoint();
-                target.setTarget(
-                        objective,
-                        center.x,
-                        center.y,
-                        object->getWidth(),
-                        object->getHeight(),
-                        object->getRotRect().angle,
-                        image.rows,
-                        image.cols
-                );
-                notify(target);
-                if (debug_contour_()) {
-                    cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
+                try {
+                    Target target;
+                    ObjectFullData::Ptr object = objVec[0];
+                    cv::Point center = object->getCenterPoint();
+                    target.setTarget(
+                            objective,
+                            center.x,
+                            center.y,
+                            object->getWidth(),
+                            object->getHeight(),
+                            object->getRotRect().angle,
+                            image.rows,
+                            image.cols
+                    );
+                    
+                    // target.setHeader(objective);
+                    // target.setCenter(center);
+                    // target.setSize(object->getWidth(),object->getHeight());
+                    // target.setAngle(object->getRotRect().angle);
+                    target.setSpecialFields(desc_1,desc_2);
+                    
+                    notify(target);
+                    if (debug_contour_()) {
+                        cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);
+                    }
                 }
+                catch (...) {
+                    ROS_INFO("problem in ellipse");
+                    std::cout << "problem in ellipse";
+                }
+
             }
 
             if (debug_contour_()) {
@@ -162,8 +182,8 @@ namespace proc_image_processing {
         Parameter<bool> look_for_heart_;
 
         Parameter<std::string> obstacle_;
-        Parameter<std::string> desc1_;
-        Parameter<std::string> desc2_;
+        Parameter<std::string> desc_1_;
+        Parameter<std::string> desc_2_;
 
         RangedParameter<double> min_area_;
         RangedParameter<double> max_area_;

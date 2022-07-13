@@ -109,12 +109,6 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr object = objVec[0];
                 cv::Point center = object->getCenterPoint();
 
-                target.setHeader(objective);
-                target.setCenter(center);
-                target.setSize(object->getWidth(),object->getHeight());
-                target.setAngle(object->getRotRect().angle);
-                target.setSpecialFields(desc1,desc2);
-                
                 // target.setTarget(
                 //         objective,
                 //         center.x,
@@ -122,9 +116,16 @@ namespace proc_image_processing {
                 //         object->getWidth(),
                 //         object->getHeight(),
                 //         object->getRotRect().angle,
-                //         desc1,
-                //         desc2.
+                //         image.rows,
+                //         image.cols
                 // );
+
+                target.setHeader(objective);
+                target.setCenter(center);
+                target.setSize(object->getWidth(),object->getHeight());
+                target.setAngle(object->getRotRect().angle);
+                target.setSpecialFields(desc1,desc2);
+
                 notify(target);
                 if (debug_contour_()) {
                     cv::circle(output_image_, objVec[0]->getCenterPoint(), 3, CV_RGB(0, 255, 0), 3);

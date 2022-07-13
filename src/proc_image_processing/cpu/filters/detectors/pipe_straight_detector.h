@@ -63,6 +63,8 @@ namespace proc_image_processing {
                     continue;
                 }
 
+                Line lineFit = getLineOnPolygon(contours[i], output_image_.cols);
+
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                 }

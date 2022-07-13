@@ -1,7 +1,7 @@
-// FACTORY_GENERATOR_CLASS_NAME=CenterCoffinDetector
+// FACTORY_GENERATOR_CLASS_NAME=CenterDetector
 
-#ifndef PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
-#define PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
+#ifndef PROC_IMAGE_PROCESSING_CENTER_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_CENTER_DETECTOR_H
 
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
@@ -10,21 +10,21 @@
 
 namespace proc_image_processing {
 
-    class CenterCoffinDetector : public Filter {
+    class CenterDetector : public Filter {
     public:
-        using Ptr = std::shared_ptr<CenterCoffinDetector>;
+        using Ptr = std::shared_ptr<CenterDetector>;
 
-        explicit CenterCoffinDetector(const GlobalParameterHandler &globalParams)
+        explicit CenterDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
                   max_area_("Maximum area", 1000, 1, 1000000, &parameters_, "Max area"),
-                  target_name_("Target name", "", &parameters_, "Target") {
-            setName("CenterCoffinDetector");
+                  obstacle_("Target name", "", &parameters_, "Target") {
+            setName("CenterDetector");
         }
 
-        ~CenterCoffinDetector() override = default;
+        ~CenterDetector() override = default;
 
         void apply(cv::Mat &image) override {
             std::string objective;
@@ -61,7 +61,7 @@ namespace proc_image_processing {
                     if (debug_contour_()) {
                         cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                     }
-                    objective = target_name_();
+                    objective = obstacle_();
                 }
                 objVec.push_back(object);
             }
@@ -112,9 +112,9 @@ namespace proc_image_processing {
         Parameter<bool> debug_contour_;
         Parameter<bool> look_for_rectangle_;
         RangedParameter<double> min_area_, max_area_;
-        Parameter<std::string> target_name_;
+        Parameter<std::string> obstacle_;
     };
 
 }  // namespace proc_image_processing
 
-#endif  //PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
+#endif  //PROC_IMAGE_PROCESSING_CENTER_DETECTOR_H
