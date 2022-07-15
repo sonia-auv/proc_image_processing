@@ -29,10 +29,8 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             image.copyTo(output_image_);
-            if (debug_contour_()) {
-                if (output_image_.channels() == 1) {
-                    cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
-                }
+            if (debug_contour_() && output_image_.channels() == 1) {
+                cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
             }
 
             if (image.channels() != 1) {

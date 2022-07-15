@@ -46,7 +46,8 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
                         output_image_,
                         image,
-                        reinterpret_cast<Contour &&>(contours[i])
+                        //reinterpret_cast<Contour &&>(contours[i])
+                        Contour (contours[i])
                 );
 
                 if (object.get() == nullptr || object->getArea() < min_area_() || object->getArea() > max_area_()) {
@@ -111,7 +112,8 @@ namespace proc_image_processing {
         cv::Mat output_image_;
         Parameter<bool> debug_contour_;
         Parameter<bool> look_for_rectangle_;
-        RangedParameter<double> min_area_, max_area_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> max_area_;
         Parameter<std::string> obstacle_;
     };
 
