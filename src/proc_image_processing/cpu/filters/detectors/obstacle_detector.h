@@ -21,7 +21,7 @@ namespace proc_image_processing {
                   look_for_ellipse_("Look for ellipse", false, &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
                   max_area_("Maximum area", 1000, 1, 100000, &parameters_, "Max area"),
-                  circle_index_("Circle index", 0, 0, 1, &parameters_, "Circle index"),
+                  circle_index_("Circle index", 0, 0, 100, &parameters_, "Circle index"),
                   percent_filled_("Percent filled", 0, 0, 100, &parameters_, "Percent filled") {
             setName("ObstacleDetector");
         }
@@ -76,10 +76,10 @@ namespace proc_image_processing {
                     cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
 
-                    float circleIndex = getCircleIndex(contours[i]);
-                    float percentFilled = getPercentFilled(output_image_, box);
+                    double circleIndex = getCircleIndex(contours[i]);
+                    double percentFilled = getPercentFilled(output_image_, box);
                     
-                    if (circleIndex > circle_index_()) {
+                    if (circleIndex > circle_index_()/100) {
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
@@ -145,7 +145,7 @@ namespace proc_image_processing {
         Parameter<bool> look_for_ellipse_;
         RangedParameter<double> min_area_;
         RangedParameter<double> max_area_;
-        RangedParameter<double> circle_index_;
+        RangedParameter<int> circle_index_;
         RangedParameter<int> percent_filled_;
     };
 

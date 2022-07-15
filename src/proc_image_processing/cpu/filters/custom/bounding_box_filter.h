@@ -31,7 +31,11 @@ namespace proc_image_processing {
         }
 
     private:
-        RangedParameter<int> width_, heigth_, thickness_, origin_x_, origin_y_;
+        RangedParameter<int> width_;
+        RangedParameter<int> heigth_;
+        RangedParameter<int> origin_x_;
+        RangedParameter<int> origin_y_;
+        RangedParameter<int> thickness_;
     };
 
 }  // namespace proc_image_processing
