@@ -24,8 +24,8 @@ TEST(FilterFactoryTest, TestCreateInstance) {
     f = proc_image_processing::FilterFactory::createInstance("CannyFilter", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::CannyFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("CenterCoffinDetector", handler);
-    ASSERT_NE(dynamic_cast<proc_image_processing::CenterCoffinDetector *>(f.get()), nullptr);
+    f = proc_image_processing::FilterFactory::createInstance("CenterDetector", handler);
+    ASSERT_NE(dynamic_cast<proc_image_processing::CenterDetector *>(f.get()), nullptr);
 
     f = proc_image_processing::FilterFactory::createInstance("CLAHEFilter", handler);
     ASSERT_NE(dynamic_cast<proc_image_processing::CLAHEFilter *>(f.get()), nullptr);
@@ -148,7 +148,7 @@ TEST(FilterFactoryTest, TestGetFilters) {
             "BilateralFilter",
             "BlurFilter",
             "CannyFilter",
-            "CenterCoffinDetector",
+            "CenterDetector",
             "CLAHEFilter",
             "ContrastAndBrightnessFilter",
             "ConvexHullFilter",
