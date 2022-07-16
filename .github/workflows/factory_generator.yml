@@ -2,8 +2,6 @@ name: Factory Generator
 
 on:
   push:
-  schedule:
-    - cron: "12 0 * * *"
 
 jobs:
   factory-generator:

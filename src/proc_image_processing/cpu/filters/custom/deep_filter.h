@@ -115,7 +115,7 @@ namespace proc_image_processing {
                         ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), new Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
 
-                        ROS_INFO("create a new objet %s with random color", key.c_str(), desc.color_name.c_str());
+                        ROS_INFO("create a new objet %s with random color", key.c_str());
 
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
