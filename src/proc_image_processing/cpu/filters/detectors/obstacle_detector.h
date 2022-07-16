@@ -109,22 +109,24 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr object = objVec[0];
                 cv::Point center = object->getCenterPoint();
 
-                // target.setTarget(
-                //         objective,
-                //         center.x,
-                //         center.y,
-                //         object->getWidth(),
-                //         object->getHeight(),
-                //         object->getRotRect().angle,
-                //         image.rows,
-                //         image.cols
-                // );
+                target.setTarget(
+                        objective,
+                        center.x,
+                        center.y,
+                        object->getWidth(),
+                        object->getHeight(),
+                        object->getRotRect().angle,
+                        image.rows,
+                        image.cols,
+                        desc1,
+                        desc2
+                );
 
-                target.setHeader(objective);
-                target.setCenter(center);
-                target.setSize(object->getWidth(),object->getHeight());
-                target.setAngle(object->getRotRect().angle);
-                target.setSpecialFields(desc1,desc2);
+                // target.setHeader(objective);
+                // target.setCenter(center);
+                // target.setSize(object->getWidth(),object->getHeight());
+                // target.setAngle(object->getRotRect().angle);
+                // target.setSpecialFields(desc1,desc2);
 
                 notify(target);
                 if (debug_contour_()) {
