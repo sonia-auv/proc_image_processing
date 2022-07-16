@@ -19,6 +19,9 @@ namespace proc_image_processing {
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
                   look_for_ellipse_("Look for ellipse", false, &parameters_),
+                  objective_("Target name", "", &parameters_),
+                  desc1_("Description 1", "", &parameters_),
+                  desc2_("Description 2", "", &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
                   max_area_("Maximum area", 1000, 1, 100000, &parameters_, "Max area"),
                   circle_index_("Circle index", 0, 0, 100, &parameters_, "Circle index"),
@@ -61,14 +64,14 @@ namespace proc_image_processing {
 
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-                    objective = "obstacle";
+                    objective = objective_();
                 }
 
                 if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
                     if (debug_contour_()) {
                         cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
                     }
-                    desc1 = "rectangle";
+                    desc1 = desc1_();
                 }
 
                 if (look_for_ellipse_() && contours[i].size() >=5) {
@@ -85,10 +88,10 @@ namespace proc_image_processing {
                         }
 
                         if (percentFilled < percent_filled_()) {
-                           desc1 = "filled_ellipse";
+                           desc1 = desc1_();
                         }
                         else {
-                           desc1 = "empty_ellipse";
+                           desc1 = desc2_();
                         }
                     }
                 }
@@ -145,6 +148,9 @@ namespace proc_image_processing {
         Parameter<bool> debug_contour_;
         Parameter<bool> look_for_rectangle_;
         Parameter<bool> look_for_ellipse_;
+        Parameter<std::string> objective_;
+        Parameter<std::string> desc1_;
+        Parameter<std::string> desc2_;
         RangedParameter<double> min_area_;
         RangedParameter<double> max_area_;
         RangedParameter<int> circle_index_;
