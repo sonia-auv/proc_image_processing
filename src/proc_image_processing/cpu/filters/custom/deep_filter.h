@@ -24,7 +24,7 @@ namespace proc_image_processing {
         Filter(globalParams),
         nh_(ros::NodeHandle("proc_image_processing")),
         debug_contour_("Debug contour", true, &parameters_),
-        model_name_("Model Name", "test", &parameters_),
+        model_name_("Model Name", "@default", &parameters_),
         topic_name_("Topic Name", "/provider_vision/camera_array/front/compressed", &parameters_),
         threshold_("Confidence Threshold", 50.0, 0.0, 100.0, &parameters_)
         {
