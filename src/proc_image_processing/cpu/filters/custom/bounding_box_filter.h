@@ -25,18 +25,17 @@ namespace proc_image_processing {
         ~BoundingBoxFilter() override = default;
 
         void apply(cv::Mat &image) override {
-            //image.copyTo(output_image_);
-
             cv::Rect rect((image.cols/2)+origin_x_()-width_()/2, (image.rows/2)-origin_y_()-heigth_()/2, width_(), heigth_());
 
             cv::rectangle(image, rect, cv::Scalar(0,255,0), thickness_());
-
         }
 
     private:
-        RangedParameter<int> width_, heigth_, thickness_, origin_x_, origin_y_;
-
-        //cv::Mat output_image_;
+        RangedParameter<int> width_;
+        RangedParameter<int> heigth_;
+        RangedParameter<int> origin_x_;
+        RangedParameter<int> origin_y_;
+        RangedParameter<int> thickness_;
     };
 
 }  // namespace proc_image_processing
