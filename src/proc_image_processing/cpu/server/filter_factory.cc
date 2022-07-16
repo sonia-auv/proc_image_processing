@@ -19,6 +19,9 @@ namespace proc_image_processing {
 	else if(name == "BlurFilter"){
 		return std::make_unique<BlurFilter>(gph);
 	}
+	else if(name == "BoundingBoxFilter"){
+		return std::make_unique<BoundingBoxFilter>(gph);
+	}
 	else if(name == "CannyFilter"){
 		return std::make_unique<CannyFilter>(gph);
 	}
@@ -37,8 +40,8 @@ namespace proc_image_processing {
 	else if(name == "CropFilter"){
 		return std::make_unique<CropFilter>(gph);
 	}
-	else if(name == "Deep2019Filter"){
-		return std::make_unique<Deep2019Filter>(gph);
+	else if(name == "DeepFilter"){
+		return std::make_unique<DeepFilter>(gph);
 	}
 	else if(name == "DilateFilter"){
 		return std::make_unique<DilateFilter>(gph);
@@ -85,11 +88,17 @@ namespace proc_image_processing {
 	else if(name == "ObstacleDetector"){
 		return std::make_unique<ObstacleDetector>(gph);
 	}
+	else if(name == "OrbSiftMatch"){
+		return std::make_unique<OrbSiftMatch>(gph);
+	}
 	else if(name == "OriginalImageFilter"){
 		return std::make_unique<OriginalImageFilter>(gph);
 	}
 	else if(name == "PipeAngleDetector"){
 		return std::make_unique<PipeAngleDetector>(gph);
+	}
+	else if(name == "PipeStraightDetector"){
+		return std::make_unique<PipeStraightDetector>(gph);
 	}
 	else if(name == "RemoveMaskFilter"){
 		return std::make_unique<RemoveMaskFilter>(gph);
@@ -102,6 +111,12 @@ namespace proc_image_processing {
 	}
 	else if(name == "ScharrFilter"){
 		return std::make_unique<ScharrFilter>(gph);
+	}
+	else if(name == "SiftMatch"){
+		return std::make_unique<SiftMatch>(gph);
+	}
+	else if(name == "SiftCalculator"){
+		return std::make_unique<SiftCalculator>(gph);
 	}
 	else if(name == "SobelFilter"){
 		return std::make_unique<SobelFilter>(gph);
@@ -152,6 +167,7 @@ namespace proc_image_processing {
 		"BackgroundSubtractFilter;"
 		"BilateralFilter;"
 		"BlurFilter;"
+		"BoundingBoxFilter;"
 		"CannyFilter;"
 		"CenterCoffinDetector;"
 		"CLAHEFilter;"
@@ -174,12 +190,16 @@ namespace proc_image_processing {
 		"MissionTestFakeStringFilter;"
 		"MorphologyFilter;"
 		"ObstacleDetector;"
+		"OrbSiftMatch;"
 		"OriginalImageFilter;"
 		"PipeAngleDetector;"
+		"PipeStraightDetector;"
 		"RemoveMaskFilter;"
 		"RotateFilter;"
 		"ScharrAddingFilter;"
 		"ScharrFilter;"
+		"SiftMatch;"
+		"SiftCalculator;"
 		"SobelFilter;"
 		"SquareDetector;"
 		"StatisticalThresholdFilter;"

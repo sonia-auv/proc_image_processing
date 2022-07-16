@@ -325,7 +325,7 @@ namespace proc_image_processing {
          * Manages the ROS service get_filter_chain_filter_param.
          *
          * Here are the parameters of the service:
-         *  * execution_name Name of the running execution.
+         *  * exec_name Name of the running execution.
          *  * filter_chain_name Name of the filter_chain used by the execution.
          *  * filter_name Name of the filter used as the "cursor" of the observer.
          *
@@ -361,8 +361,6 @@ namespace proc_image_processing {
         FilterChainManager filter_chain_mgr_;
 
         DetectionTaskManager detection_task_mgr_;
-
-        ros::ServiceClient deep_network_service;
     };
 
     inline std::string VisionServer::buildRosMessage(const std::vector<std::string> &name_vec) {

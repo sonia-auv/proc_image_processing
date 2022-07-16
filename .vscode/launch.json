@@ -9,7 +9,7 @@
             "type": "ros",
             "request": "launch",
             "preLaunchTask": "build",
-            "target": "/home/sonia/ros_sonia_ws/src/proc_image_processing/launch/proc_image_processing.launch",
+            "target": "/home/${USER}/ros_sonia_ws/src/proc_image_processing/launch/proc_image_processing.launch",
         }
     ]
 }

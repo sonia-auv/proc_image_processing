@@ -102,8 +102,6 @@ namespace proc_image_processing {
                 &VisionServer::callbackSetObserver,
                 *this
         );
-
-        deep_network_service = nh_.serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
     }
 
     VisionServer::~VisionServer() = default;
@@ -124,9 +122,6 @@ namespace proc_image_processing {
                 FilterChain::Ptr filter_chain = filter_chain_mgr_.createFilterChain(req.filterchain_name);
 
                 res.response = detection_task_mgr_.StartDetectionTask(req.media_name, filter_chain, req.node_name);
-                sonia_common::ChangeNetwork network;
-                network.request.task = req.filterchain_name;
-                deep_network_service.call(network);
                 ROS_INFO("Starting topic: %s", res.response.c_str());
             }
             catch (const std::exception &e) {
@@ -235,28 +230,45 @@ namespace proc_image_processing {
     ) {
         res.list = "";
 
-        std::string execution_name(req.exec_name), filter_chain_name(req.filterchain);
-        FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(execution_name);
+        try
+        {
+            std::string execution_name(req.exec_name), filter_chain_name(req.filterchain);
+            FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(execution_name);
 
-        if (filter_chain != nullptr) {
-            try {
-                auto parameters = filter_chain->getFilterParameters(extractFilterIndexFromUIName(req.filter));
-                std::vector<std::string> parameter_names;
-                for (const auto &parameter : parameters) {
-                    parameter_names.push_back(parameter->toString());
+            if (filter_chain != nullptr) {
+                try {
+                    auto parameters = filter_chain->getFilterParameters(extractFilterIndexFromUIName(req.filter));
+                    std::vector<std::string> parameter_names;
+                    for (const auto &parameter : parameters) {
+                        if(parameter != nullptr)
+                        {
+                            parameter_names.push_back(parameter->toString());
+                        }
+                    }
+                    res.list = buildRosMessage(parameter_names);
+                    return true;
+                } catch (const std::exception &e) {
+                    ROS_ERROR("Cannot get filter parameters! Cause: %s", e.what());
+                    return false;
                 }
-                res.list = buildRosMessage(parameter_names);
-                return true;
-            } catch (const std::exception &e) {
-                ROS_ERROR("Cannot get filter parameters! Cause: %s", e.what());
-                return false;
             }
+            ROS_ERROR(
+                    "DetectionTask %s does not exist or does not use this filter chain: %s on get filter's param request.",
+                    execution_name.c_str(),
+                    filter_chain_name.c_str()
+            );
         }
-        ROS_ERROR(
-                "DetectionTask %s does not exist or does not use this filter chain: %s on get filter's param request.",
-                execution_name.c_str(),
-                filter_chain_name.c_str()
-        );
+        catch(const std::exception& e)
+        {
+            ROS_ERROR(
+                    "callbackGetFilterAllParam DetectionTask %s crash on %s request with the following exception %s",
+                    req.exec_name.c_str(),
+                    req.filterchain.c_str(),
+                    e.what()
+            );
+        }
+        
+        
         return false;
     }
 
@@ -323,22 +335,36 @@ namespace proc_image_processing {
             sonia_common::SetFilterchainFilterObserver::Request &req,
             sonia_common::SetFilterchainFilterObserver::Response &res
     ) {
-        // For now ignoring filter chain name, but when we will have multiple,
-        // we will have to check the name and find the good filter chain
-        FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(req.execution);
+        try
+        {
+            // For now ignoring filter chain name, but when we will have multiple,
+            // we will have to check the name and find the good filter chain
+            FilterChain::Ptr filter_chain = detection_task_mgr_.getFilterChainFromDetectionTask(req.exec_name);
 
-        if (filter_chain != nullptr) {
-            res.result = res.SUCCESS;
-            filter_chain->setObserver(extractFilterIndexFromUIName(req.filter));
-            return true;
+            if (filter_chain != nullptr) {
+                res.result = res.SUCCESS;
+                filter_chain->setObserver(extractFilterIndexFromUIName(req.filter));
+                return true;
+            }
+
+            res.result = res.FAIL;
+            ROS_ERROR(
+                    "DetectionTask %s does not exist or does not use this filter chain: %s on get filters request",
+                    req.exec_name.c_str(),
+                    req.filterchain.c_str()
+            );
         }
-
-        res.result = res.FAIL;
-        ROS_ERROR(
-                "DetectionTask %s does not exist or does not use this filter chain: %s on get filters request",
-                req.execution.c_str(),
-                req.filterchain.c_str()
-        );
+        catch(const std::exception& e)
+        {
+            ROS_ERROR(
+                    "callbackSetObserver DetectionTask %s crash on %s request with the following exception %s",
+                    req.exec_name.c_str(),
+                    req.filterchain.c_str(),
+                    e.what()
+            );
+        }
+        
+        
         return false;
     }
 

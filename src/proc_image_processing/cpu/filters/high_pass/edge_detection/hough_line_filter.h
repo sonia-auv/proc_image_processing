@@ -14,11 +14,12 @@ namespace proc_image_processing {
 
         explicit HoughLineFilter(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
-                  rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_),
-                  theta_("Theta", 1.0f, 0.0f, 1000.0f, &parameters_),
-                  min_length_("Minimum length", 1, 0, 1000, &parameters_),
-                  max_gap_("Maximum gap", 1, 0, 1000, &parameters_),
-                  threshold_("Threshold", 1, 0, 1000, &parameters_) {
+                  draw_on_original_("Draw on original image", false, &parameters_),
+                  rho_("Rho", 1.0f, 0.0f, 1000.0f, &parameters_, "Rho"),
+                  theta_("Theta - angle", 1, 0, 360, &parameters_, "Theta - angle"),
+                  min_length_("Minimum length", 1, 0, 1000, &parameters_, "Min length"),
+                  max_gap_("Maximum gap", 1, 0, 1000, &parameters_,"Max gap"),
+                  threshold_("Threshold", 1, 0, 1000, &parameters_, "Threshold") {
             setName("HoughLineFilter");
         }
 
@@ -34,29 +35,45 @@ namespace proc_image_processing {
                     image,
                     lines,
                     rho_(),
-                    theta_(),
+                    theta_() * CV_PI/180, 
                     threshold_(),
                     min_length_(),
                     max_gap_()
             );
 
+
+            
             cv::Mat drawing_image(image.rows, image.cols, CV_8UC3,
-                                  cv::Scalar::all(0));
+                                cv::Scalar::all(0));
+
+            if(draw_on_original_()){ // Draw on original image
+                drawing_image = global_param_handler_.getOriginalImage();
+            }
+
             for (const auto &line : lines) {
                 cv::line(
                         drawing_image,
                         cv::Point(line[0], line[1]),
                         cv::Point(line[2], line[3]),
-                        cv::Scalar(255, 255, 255),
-                        3
+                        cv::Scalar(0, 100, 255),
+                        2
                 );
             }
-            cv::cvtColor(drawing_image, image, CV_BGR2GRAY);
+
+            if(draw_on_original_()){
+                image = drawing_image;
+            }else{
+                cv::cvtColor(drawing_image, image, CV_BGR2GRAY);
+            }
+
         }
 
     private:
-        RangedParameter<double> rho_, theta_, min_length_, max_gap_;
-        RangedParameter<int> threshold_;
+        //Custom order of variable
+        Parameter<bool> draw_on_original_;
+        RangedParameter<double>  min_length_, max_gap_;
+        RangedParameter<int> threshold_, theta_;
+        RangedParameter<double> rho_;
     };
 
 }  // namespace proc_image_processing

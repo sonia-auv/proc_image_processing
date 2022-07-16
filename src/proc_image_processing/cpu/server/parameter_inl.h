@@ -3,7 +3,7 @@
 #endif
 
 #include <cxxabi.h>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include <cstdlib>
 #include <string>
 #include <utility>

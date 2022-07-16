@@ -114,7 +114,7 @@ namespace proc_image_processing {
         // Prepare it to be always the same format
         if (!prepareForPublishing(image)) {
             ROS_ERROR("Detection task %s could not format image for client", detection_task_name_.c_str());
-            ROS_ERROR("The topic is the following %s", image_provider_.getTopic());
+            ROS_ERROR("The topic is the following %s", image_provider_.getTopic().c_str());
         }
         // publish it
         try {
@@ -134,7 +134,7 @@ namespace proc_image_processing {
         if (image.depth() != CV_8U) {
             image.convertTo(image, CV_8U);
         }
-        // Ensure 3 channel (RGB
+        // Ensure 3 channel (RGB)
         if (image.channels() == 1) {
             cv::cvtColor(image, image, CV_GRAY2BGR);
         }
