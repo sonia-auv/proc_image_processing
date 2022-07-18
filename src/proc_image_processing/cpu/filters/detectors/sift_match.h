@@ -191,10 +191,12 @@ namespace proc_image_processing {
             cv::Mat img_keypoints;
             image.copyTo(img_keypoints);
             std::vector<cv::Rect> rectangles;
+            std::vector<int> rect_color_index;
             for(size_t j = 0; j< matching_points_list.size(); j++){
                 vecPoint matching_points = matching_points_list[j];
+                float circle_size = 3;// + matching_points_list.size() - j; // Different size for each color to find the mistakes    
                 for(size_t i = 0; i< matching_points.size(); i++){
-                    cv::circle(img_keypoints, matching_points[i], 3, colors[j], 2);
+                    cv::circle(img_keypoints, matching_points[i], circle_size, colors[j], 2);
                 }
 
              //Mean Calculation
@@ -207,10 +209,11 @@ namespace proc_image_processing {
                 cv::Size s = cv::Size(lgth, lgth);
                 if(mean_camshift.x > 0){ // Verify the point exist
                     rectangles.push_back(cv::Rect(mean_camshift - cv::Point(s/2), s));
+                    rect_color_index.push_back(j);
                 }
                 previous_means[j] = mean_camshift; // Sometimes the good value, sometimes -1
             }
-            /*
+            
             // Filtrer les rectangles : Je supprime une zone si elle est plus petite qu'une autre et qu'il y a overlap
             for(int i = rectangles.size()-1; i>=0 ; i--){
                 cv::Point middleI = (rectangles[i].tl() + rectangles[i].br())/2;
@@ -229,14 +232,13 @@ namespace proc_image_processing {
                     }
                 }
             }
-            */
+            
 
             // Dessiner les rectangles
             for(int i = 0; i<rectangles.size() ; i++){
                 if(rectangles[i].x < 0){continue;}
                 cv::Rect rectangle = rectangles[i];
-                cv::rectangle(img_keypoints, rectangle, colors[i], 2);
-
+                cv::rectangle(img_keypoints, rectangle, colors[rect_color_index[i]], 2); 
                 
                 // Envoyer la target à ROS:
                 // Construire un objet target
@@ -252,7 +254,7 @@ namespace proc_image_processing {
                 int index;
                 //This condition should be the reserve of the switch case in the beginning
                 if(objective_() <= 0 || objective_() >= 6){
-                    index = i;
+                    index = rect_color_index[i];
                 }else{
                     index = (objective_()-1) * 2 + i;
                 }
@@ -293,14 +295,14 @@ namespace proc_image_processing {
                 //Calculer la moyenne des points dedans
                 mean = mean_points(points_in_frame);
                 length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
-
+                
                 if(cv::norm(mean-old_mean) < 5 || length == 0 || mean.x == -1){ // Plus petit que 5 pixels en distance euclidienne
                     break;
                 }
             }
         }
         if(mean.x <= 0 || length < 41){ // If I don't have previous mean/bad results, i try again from random points
-            
+        //if(true){  
             vecPoint list_of_means;
             std::vector<int> list_of_length;
 
@@ -319,7 +321,7 @@ namespace proc_image_processing {
                         break;
                     }
                 }
-                if(length>40){ // Bigger than smaller size. I really want to keep only the confident guesses : >= 4 points in the window
+                if(length > 40){ // Bigger than smaller size. I really want to keep only the confident guesses : >= 4 points in the window
                     list_of_means.push_back(mean);
                     list_of_length.push_back(length);
                 }
@@ -338,6 +340,8 @@ namespace proc_image_processing {
         if(length == 0){ // If camshift didn't gives a point
             return std::make_pair(cv::Point(-1,-1), 0);
         }
+        //DEBUG
+        //ROS_INFO_STREAM("Index " + std::to_string(index) + "; length: " + std::to_string(length) + " bcz " + std::to_string(length/40 * length/40) + " points");
         return std::make_pair(mean,length);
     }
 
