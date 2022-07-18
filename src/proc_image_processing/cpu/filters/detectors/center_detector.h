@@ -46,8 +46,7 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(
                         output_image_,
                         image,
-                        //reinterpret_cast<Contour &&>(contours[i])
-                        Contour (contours[i])
+                        reinterpret_cast<Contour &&>(contours[i])
                 );
 
                 if (object.get() == nullptr || object->getArea() < min_area_() || object->getArea() > max_area_()) {
