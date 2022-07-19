@@ -40,6 +40,7 @@ namespace proc_image_processing {
         using vecPoint = std::vector<cv::Point>;
         cv::Ptr<cv::ORB> detector = cv::ORB::create(1000, 1.2f, 8);
         std::vector<cv::Mat> ref_descriptors;
+        std::vector<std::vector<cv::KeyPoint>> ref_keypoints;
         vecPoint previous_means; 
         std::vector<std::string> class_names;
         //Note sur previous_mean. Lorsque je vais calculer mon cam_shift, je vais utiliser la valeur précédente de la moyenne.
@@ -51,6 +52,7 @@ namespace proc_image_processing {
         //Constructor
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
+                show_points_("Show_points", false, &parameters_),
                   objective_("Objective", 0, 0, 5, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout,5=CashSmash"){
             setName("SiftMatch");
             
@@ -191,10 +193,14 @@ namespace proc_image_processing {
             cv::Mat img_keypoints;
             image.copyTo(img_keypoints);
             std::vector<cv::Rect> rectangles;
+            std::vector<int> rect_color_index;
             for(size_t j = 0; j< matching_points_list.size(); j++){
                 vecPoint matching_points = matching_points_list[j];
-                for(size_t i = 0; i< matching_points.size(); i++){
-                    cv::circle(img_keypoints, matching_points[i], 3, colors[j], 2);
+                if(show_points_()){
+                    float circle_size = 3;// + matching_points_list.size() - j; // Different size for each color to find the mistakes    
+                    for(size_t i = 0; i< matching_points.size(); i++){
+                        cv::circle(img_keypoints, matching_points[i], circle_size, colors[j], 2);
+                    }
                 }
 
              //Mean Calculation
@@ -207,10 +213,11 @@ namespace proc_image_processing {
                 cv::Size s = cv::Size(lgth, lgth);
                 if(mean_camshift.x > 0){ // Verify the point exist
                     rectangles.push_back(cv::Rect(mean_camshift - cv::Point(s/2), s));
+                    rect_color_index.push_back(j);
                 }
                 previous_means[j] = mean_camshift; // Sometimes the good value, sometimes -1
             }
-            /*
+            
             // Filtrer les rectangles : Je supprime une zone si elle est plus petite qu'une autre et qu'il y a overlap
             for(int i = rectangles.size()-1; i>=0 ; i--){
                 cv::Point middleI = (rectangles[i].tl() + rectangles[i].br())/2;
@@ -229,14 +236,13 @@ namespace proc_image_processing {
                     }
                 }
             }
-            */
+            
 
             // Dessiner les rectangles
             for(int i = 0; i<rectangles.size() ; i++){
                 if(rectangles[i].x < 0){continue;}
                 cv::Rect rectangle = rectangles[i];
-                cv::rectangle(img_keypoints, rectangle, colors[i], 2);
-
+                cv::rectangle(img_keypoints, rectangle, colors[rect_color_index[i]], 2); 
                 
                 // Envoyer la target à ROS:
                 // Construire un objet target
@@ -252,7 +258,7 @@ namespace proc_image_processing {
                 int index;
                 //This condition should be the reserve of the switch case in the beginning
                 if(objective_() <= 0 || objective_() >= 6){
-                    index = i;
+                    index = rect_color_index[i];
                 }else{
                     index = (objective_()-1) * 2 + i;
                 }
@@ -275,7 +281,7 @@ namespace proc_image_processing {
         // If not enough points, I don't consider the images is there.
         if(size < 4) return std::make_pair(cv::Point(-1,-1), 0);
     
-        //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD.
+        //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD. It's ok it's working
 
         int length = 200; // Initial Size for vision rectangle (in which we look for points)
         cv::Rect window;
@@ -293,14 +299,14 @@ namespace proc_image_processing {
                 //Calculer la moyenne des points dedans
                 mean = mean_points(points_in_frame);
                 length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
-
+                
                 if(cv::norm(mean-old_mean) < 5 || length == 0 || mean.x == -1){ // Plus petit que 5 pixels en distance euclidienne
                     break;
                 }
             }
         }
         if(mean.x <= 0 || length < 41){ // If I don't have previous mean/bad results, i try again from random points
-            
+        //if(true){  
             vecPoint list_of_means;
             std::vector<int> list_of_length;
 
@@ -314,12 +320,12 @@ namespace proc_image_processing {
                     old_mean  = mean;
                     vecPoint points_in_frame = points_inside_frame(window, point_list);
                     mean = mean_points(points_in_frame);
-                    length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
+                    length = 40 * sqrt(points_in_frame.size()); // HARDCODED
                      if(cv::norm(mean-old_mean) < 5 || length == 0 || mean.x == -1){ // Plus petit que 5 pixels en distance euclidienne
                         break;
                     }
                 }
-                if(length>40){ // Bigger than smaller size. I really want to keep only the confident guesses : >= 4 points in the window
+                if(length > 40){ // Bigger than smaller size. I really want to keep only the confident guesses : >= 4 points in the window
                     list_of_means.push_back(mean);
                     list_of_length.push_back(length);
                 }
@@ -338,6 +344,8 @@ namespace proc_image_processing {
         if(length == 0){ // If camshift didn't gives a point
             return std::make_pair(cv::Point(-1,-1), 0);
         }
+        //DEBUG
+        //ROS_INFO_STREAM("Index " + std::to_string(index) + "; length: " + std::to_string(length) + " bcz " + std::to_string(length/40 * length/40) + " points");
         return std::make_pair(mean,length);
     }
 
@@ -382,14 +390,21 @@ namespace proc_image_processing {
     }
 
     void load_descriptors(std::string descr_path){
+        //Load descriptors and keypoints
         cv::FileStorage fsRead;
         std::vector<std::string> list_paths;
         fsRead.open(descr_path, cv::FileStorage::READ);
         fsRead["indexes"] >> list_paths;
         for(int i = 0; i< list_paths.size();i++){
+            //Load descriptors
             cv::Mat temp_descriptor;
             fsRead[list_paths[i].substr(3)] >> temp_descriptor;   
             ref_descriptors.push_back(temp_descriptor);
+
+            //Load keypoints
+            std::vector<cv::KeyPoint> temp_kp;
+            fsRead[list_paths[i].substr(3)+"_kp"] >> temp_kp;
+            ref_keypoints.push_back(temp_kp);
 
             //Fill the previous means with "0" value
             previous_means.push_back(cv::Point(-1,-1)); 
@@ -451,6 +466,7 @@ namespace proc_image_processing {
 
     private:
         cv::Mat output_image_;
+        Parameter<bool> show_points_;
         RangedParameter<int> objective_;
     };
 }  // namespace proc_image_processing
