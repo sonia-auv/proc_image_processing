@@ -252,7 +252,8 @@ namespace proc_image_processing {
 
                 // buildTarget
                 
-                target.setCenter(rectangle.x - image.size().width/2,  image.size().height/2 - rectangle.y);
+                //I CHANGED THE FORMULA HERE TO PUT THE CENTER, without testing
+                target.setCenter(rectangle.x - image.size().width/2 + rectangle.width/2,  image.size().height/2 - rectangle.y + rectangle.height/2);
                 target.setSize(rectangle.width, rectangle.height);
 
                 int index;
