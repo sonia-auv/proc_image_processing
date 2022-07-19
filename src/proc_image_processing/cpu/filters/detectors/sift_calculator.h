@@ -60,7 +60,7 @@ namespace proc_image_processing {
 
             std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
             "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
-            "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange"}); //HARDCODED
+            "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange","03_collecting_gman_white_small","03_collecting_bootlegger_white_small"}); //HARDCODED
 
 
             for(int i = 0; i< list_paths.size(); i++){
