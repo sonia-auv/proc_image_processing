@@ -7,7 +7,6 @@
 #include <memory>
 #include <sstream>
 #include <string>
-#include <string>
 #include <vector>
 
 namespace proc_image_processing {
@@ -20,7 +19,8 @@ namespace proc_image_processing {
         static const char SEPARATOR = '|';
 
         explicit Parameter(
-                std::string name, const Tp_ &value,
+                std::string name, 
+                const Tp_ &value,
                 std::vector<ParameterInterface *> *vector = nullptr,
                 std::string description = ""
         );
