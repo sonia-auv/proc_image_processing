@@ -30,8 +30,8 @@ namespace proc_image_processing {
 
             //In both cases, the descriptors are saved.
             create_reference_descriptors(complete_descr_path); // Je peux le calculer à chaque fois mais je peux aussi le commenter pour gagner Quelques ms
-            remove_ambigous_descriptors(complete_descr_path, descr_path);
-        
+            //remove_ambigous_descriptors(complete_descr_path, descr_path);//Should reduce the false positive
+                
 
         }
 
@@ -53,9 +53,10 @@ namespace proc_image_processing {
 
 
             
-        //Calculate and save the descriptors of the reference images
+        //Calculate and save the descriptors (and keypoints) of the reference images
         void create_reference_descriptors(std::string path){
             std::vector<cv::Mat> descriptors;
+            std::vector<std::vector<cv::KeyPoint>> keypoints;
 
             std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
             "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
@@ -66,13 +67,14 @@ namespace proc_image_processing {
                 std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
                 cv::Mat image_for_calculation = cv::imread(complete_path);
 
-                cv::Mat descr;
-                descr = calculate_descriptors(image_for_calculation);
                 
                 //Draw Keypoints on image for verification
                 std::pair<cv::Mat,std::vector<cv::KeyPoint>> descr_kp = calculate_descriptors_and_kp(image_for_calculation);
+                cv::Mat descr;
+                descr = descr_kp.first;
+                std::vector<cv::KeyPoint> kp = descr_kp.second;
                 cv::Mat image_kp;
-                cv::drawKeypoints(image_for_calculation,descr_kp.second,image_kp,cv::Scalar(0,255,0),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+                cv::drawKeypoints(image_for_calculation,kp,image_kp,cv::Scalar(0,255,0),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
                 cv::imwrite(kRefImagesPath +"descr/" + list_paths[i]  + kImagesExt, image_kp);
                 
                 if(descr.empty()){
@@ -80,13 +82,15 @@ namespace proc_image_processing {
                 }
 
                 descriptors.push_back(descr);
+                keypoints.push_back(kp);
             }
 
             //Save the descriptors in the file
             cv::FileStorage fsWrite(path, cv::FileStorage::WRITE);
             cv::write(fsWrite, "indexes", list_paths);
             for(int i = 0; i< descriptors.size();i++){
-                cv::write(fsWrite, list_paths[i].substr(3), descriptors[i]);
+                cv::write(fsWrite, list_paths[i].substr(3), descriptors[i]); // no suffix for back compatibility
+                cv::write(fsWrite, list_paths[i].substr(3)+"_kp", keypoints[i]);
             }
             fsWrite.release();
         }

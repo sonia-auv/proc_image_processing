@@ -40,6 +40,7 @@ namespace proc_image_processing {
         using vecPoint = std::vector<cv::Point>;
         cv::Ptr<cv::ORB> detector = cv::ORB::create(1000, 1.2f, 8);
         std::vector<cv::Mat> ref_descriptors;
+        std::vector<std::vector<cv::KeyPoint>> ref_keypoints;
         vecPoint previous_means; 
         std::vector<std::string> class_names;
         //Note sur previous_mean. Lorsque je vais calculer mon cam_shift, je vais utiliser la valeur précédente de la moyenne.
@@ -51,6 +52,7 @@ namespace proc_image_processing {
         //Constructor
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
+                show_points_("Show_points", false, &parameters_),
                   objective_("Objective", 0, 0, 5, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout,5=CashSmash"){
             setName("SiftMatch");
             
@@ -194,9 +196,11 @@ namespace proc_image_processing {
             std::vector<int> rect_color_index;
             for(size_t j = 0; j< matching_points_list.size(); j++){
                 vecPoint matching_points = matching_points_list[j];
-                float circle_size = 3;// + matching_points_list.size() - j; // Different size for each color to find the mistakes    
-                for(size_t i = 0; i< matching_points.size(); i++){
-                    cv::circle(img_keypoints, matching_points[i], circle_size, colors[j], 2);
+                if(show_points_()){
+                    float circle_size = 3;// + matching_points_list.size() - j; // Different size for each color to find the mistakes    
+                    for(size_t i = 0; i< matching_points.size(); i++){
+                        cv::circle(img_keypoints, matching_points[i], circle_size, colors[j], 2);
+                    }
                 }
 
              //Mean Calculation
@@ -277,7 +281,7 @@ namespace proc_image_processing {
         // If not enough points, I don't consider the images is there.
         if(size < 4) return std::make_pair(cv::Point(-1,-1), 0);
     
-        //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD.
+        //NEW FORMULA TO CALCULATE LENGTH OF RECTANGLE WOULD BE GOOD. It's ok it's working
 
         int length = 200; // Initial Size for vision rectangle (in which we look for points)
         cv::Rect window;
@@ -316,7 +320,7 @@ namespace proc_image_processing {
                     old_mean  = mean;
                     vecPoint points_in_frame = points_inside_frame(window, point_list);
                     mean = mean_points(points_in_frame);
-                    length = 40 * sqrt(points_in_frame.size()); // JE NE SUIS PAS SUR DE LA FORMULE + HARDCODED
+                    length = 40 * sqrt(points_in_frame.size()); // HARDCODED
                      if(cv::norm(mean-old_mean) < 5 || length == 0 || mean.x == -1){ // Plus petit que 5 pixels en distance euclidienne
                         break;
                     }
@@ -386,14 +390,21 @@ namespace proc_image_processing {
     }
 
     void load_descriptors(std::string descr_path){
+        //Load descriptors and keypoints
         cv::FileStorage fsRead;
         std::vector<std::string> list_paths;
         fsRead.open(descr_path, cv::FileStorage::READ);
         fsRead["indexes"] >> list_paths;
         for(int i = 0; i< list_paths.size();i++){
+            //Load descriptors
             cv::Mat temp_descriptor;
             fsRead[list_paths[i].substr(3)] >> temp_descriptor;   
             ref_descriptors.push_back(temp_descriptor);
+
+            //Load keypoints
+            std::vector<cv::KeyPoint> temp_kp;
+            fsRead[list_paths[i].substr(3)+"_kp"] >> temp_kp;
+            ref_keypoints.push_back(temp_kp);
 
             //Fill the previous means with "0" value
             previous_means.push_back(cv::Point(-1,-1)); 
@@ -455,6 +466,7 @@ namespace proc_image_processing {
 
     private:
         cv::Mat output_image_;
+        Parameter<bool> show_points_;
         RangedParameter<int> objective_;
     };
 }  // namespace proc_image_processing
