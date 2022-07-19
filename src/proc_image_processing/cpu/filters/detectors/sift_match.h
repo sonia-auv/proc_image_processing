@@ -23,6 +23,8 @@
 #define GRAY cv::Scalar(100,100,100)
 #define ORANGE cv::Scalar(0,128,255)
 #define GREEN cv::Scalar(50,250,50)
+#define PURPLE cv::Scalar(250,0,200)
+#define CYAN cv::Scalar(250,250,0)
 
 //Verify what the size of the bottom camera is. If it's smaller than 400x600, I can reduce the reference image for bottom.
 // We can add RANSAC to verify the keypoints. With this algo we can delete all the false positive. 
@@ -59,6 +61,8 @@ namespace proc_image_processing {
             //Reading descriptors from reference images
             // load_descriptors(kConfigPath + "/descriptors/Descriptors_Pruned.yml");
             load_descriptors(kConfigPath + "/descriptors/Descriptors.yml");
+            //DEBUG
+            ROS_INFO_STREAM("Il y a : " + std::to_string(ref_descriptors.size()) + " images de references");
         }
 
 
@@ -136,7 +140,8 @@ namespace proc_image_processing {
             colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
 */
 
-
+        //Color List for second case
+        std::vector<cv::Scalar> colors; //BGR
 
         // Images not merge
             switch(objective_()) {  
@@ -144,51 +149,56 @@ namespace proc_image_processing {
                     temp_ref_descriptors.push_back(ref_descriptors[0]);
                     temp_ref_descriptors.push_back(ref_descriptors[1]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(RED); //"gman" 
+                    colors.push_back(BLUE); //"bootlegger" BLUE
                     break;
                 case 2: // Make Grade
                     temp_ref_descriptors.push_back(ref_descriptors[2]);
                     temp_ref_descriptors.push_back(ref_descriptors[3]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(YELLOW); //"badge" YELLOW
+                    colors.push_back(BLUE); // "fusil"
                     break;
                 case 3: // Collecting
                     temp_ref_descriptors.push_back(ref_descriptors[4]);
                     temp_ref_descriptors.push_back(ref_descriptors[5]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(WHITE); //"collecting_gman_white" WHITE
+                    colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
                     break;
                 case 4: //Shoutout
                     temp_ref_descriptors.push_back(ref_descriptors[6]);
                     temp_ref_descriptors.push_back(ref_descriptors[7]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(RED); //"gman" 
+                    colors.push_back(BLUE); //"bootlegger" BLUE
                     break;
                 case 5: // Cash Shmash
                     temp_ref_descriptors.push_back(ref_descriptors[8]);
                     temp_ref_descriptors.push_back(ref_descriptors[9]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
+                    colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
                     break;
                 default:// Default case, points for all images are shown
                     matching_points_list = create_matcher_list(ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(RED); //"gman" 
+                    colors.push_back(BLUE); //"bootlegger" BLUE
+                    colors.push_back(YELLOW); //"badge" YELLOW
+                    colors.push_back(BLUE); // "fusil"
+                    colors.push_back(WHITE); //"collecting_gman_white" WHITE
+                    colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
+                    colors.push_back(RED); //"gman" 
+                    colors.push_back(BLUE); //"bootlegger" BLUE
+                    colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
+                    colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
+
             }
 
         
 
             
-            //Color List for second case
-            std::vector<cv::Scalar> colors; //BGR
-            colors.push_back(RED); //"gman" 
-            colors.push_back(BLUE); //"bootlegger" BLUE
-            colors.push_back(YELLOW); //"badge" YELLOW
-            colors.push_back(BLUE); // "fusil"
-            colors.push_back(WHITE); //"collecting_gman_white" WHITE
-            colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
-            colors.push_back(RED); //"gman" 
-            colors.push_back(BLUE); //"bootlegger" BLUE
-            colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
-            colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
-            colors.push_back(WHITE); //"collecting_gman_white" WHITE Small
-            colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY Small
-
-
-
+            
 
 
 
@@ -200,9 +210,9 @@ namespace proc_image_processing {
             for(size_t j = 0; j< matching_points_list.size(); j++){
                 vecPoint matching_points = matching_points_list[j];
                 if(show_points_()){
-                    float circle_size = 3;// + matching_points_list.size() - j; // Different size for each color to find the mistakes    
+                    
                     for(size_t i = 0; i< matching_points.size(); i++){
-                        cv::circle(img_keypoints, matching_points[i], circle_size, colors[j], 2);
+                        cv::circle(img_keypoints, matching_points[i], 3, colors[j], 2);
                     }
                 }
 
@@ -246,7 +256,11 @@ namespace proc_image_processing {
                 if(rectangles[i].x < 0){continue;}
                 cv::Rect rectangle = rectangles[i];
                 cv::rectangle(img_keypoints, rectangle, colors[rect_color_index[i]], 2); 
-                
+                //Point au centre du rectangle
+                cv::Point rect_center = cv::Point(rectangle.x + rectangle.width/2, rectangle.y + rectangle.height/2);
+                cv::circle(img_keypoints, rect_center,2, colors[rect_color_index[i]], 2);
+
+
                 // Envoyer la target à ROS:
                 // Construire un objet target
                 // Remplir cet objet

@@ -30,7 +30,7 @@ namespace proc_image_processing {
 
             //In both cases, the descriptors are saved.
             create_reference_descriptors(complete_descr_path); // Je peux le calculer à chaque fois mais je peux aussi le commenter pour gagner Quelques ms
-            //remove_ambigous_descriptors(complete_descr_path, descr_path);//Should reduce the false positive
+            remove_ambigous_descriptors(complete_descr_path, descr_path);//Should reduce the false positive
                 
 
         }
@@ -60,9 +60,8 @@ namespace proc_image_processing {
 
             std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
             "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
-            "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange","03_collecting_gman_white_small","03_collecting_bootlegger_white_small"}); //HARDCODED
-
-
+            "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange"}); //HARDCODED
+            
             for(int i = 0; i< list_paths.size(); i++){
                 std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
                 cv::Mat image_for_calculation = cv::imread(complete_path);
