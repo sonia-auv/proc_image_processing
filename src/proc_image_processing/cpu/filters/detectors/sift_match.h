@@ -184,6 +184,9 @@ namespace proc_image_processing {
             colors.push_back(BLUE); //"bootlegger" BLUE
             colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
             colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
+            colors.push_back(WHITE); //"collecting_gman_white" WHITE Small
+            colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY Small
+
 
 
 
