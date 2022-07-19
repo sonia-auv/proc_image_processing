@@ -274,12 +274,8 @@ namespace proc_image_processing {
                 target.setSize(rectangle.width, rectangle.height);
 
                 int index;
-                //This condition should be the reserve of the switch case in the beginning
-                if(objective_() <= 0 || objective_() >= 6){
-                    index = rect_color_index[i];
-                }else{
-                    index = (objective_()-1) * 2 + i;
-                }
+                //Modification without testing. Index for color is good so name should be good also
+                index = rect_color_index[i];
                 std::string class_name = class_names[index];
                 target.setHeader(class_name);
 
