@@ -17,10 +17,10 @@ namespace proc_image_processing {
         explicit ObstacleDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
-                  look_for_rectangle_("Look for rectangle", false, &parameters_),
+                  look_for_shape_("Look for shape", false, &parameters_),
                   look_for_ellipse_("Look for ellipse", false, &parameters_),
                   objective_("Target name", "", &parameters_),
-                  rectangle_desc_("Rectangle obstacle", "", &parameters_),
+                  shape_desc_("Shape obstacle", "", &parameters_),
                   empty_ellipse_("Empty ellipse obstacle", "", &parameters_),
                   filled_ellipse_("Filled ellipse obstacle", "", &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
@@ -67,12 +67,23 @@ namespace proc_image_processing {
                 }
 
                 //if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
-                if (look_for_rectangle_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ) < div_max_size_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength( contours[i], true ) > div_min_size_()) {
+                if (look_for_shape_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ) < div_max_size_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength( contours[i], true ) > div_min_size_()) {
                     if(debug_contour_()) 
                     {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2); 
+                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
                     }
-                    desc1 = rectangle_desc_();
+
+
+                    switch (sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ))
+                    {
+                    case :
+                        
+                        break;
+                    
+                    default:
+                        break;
+                    }
+                    desc1 = shape_desc_();
                 }
 
                 if (look_for_ellipse_() && contours[i].size() >=5) {
@@ -141,10 +152,10 @@ namespace proc_image_processing {
         cv::Mat output_image_;
 
         Parameter<bool> debug_contour_;
-        Parameter<bool> look_for_rectangle_;
+        Parameter<bool> look_for_shape_;
         Parameter<bool> look_for_ellipse_;
         Parameter<std::string> objective_;
-        Parameter<std::string> rectangle_desc_;
+        Parameter<std::string> shape_desc_;
         Parameter<std::string> empty_ellipse_;
         Parameter<std::string> filled_ellipse_;
         RangedParameter<double> min_area_;
