@@ -104,6 +104,7 @@ namespace proc_image_processing {
                 notify(target);
                 if (debug_contour_()) {
                     cv::circle(output_image_, target_center, 3, CV_RGB(0, 255, 0), 3);
+                    cv::circle(output_image_, target_center, distance/2, CV_RGB(0, 255, 0), 3);
                 }
             }
 
