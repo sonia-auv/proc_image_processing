@@ -58,9 +58,8 @@ namespace proc_image_processing {
             std::vector<cv::Mat> descriptors;
             std::vector<std::vector<cv::KeyPoint>> keypoints;
 
-            std::vector<std::string> list_paths({"01_chooseSide_gman","01_chooseSide_bootlegger", "02_makeGrade_badge",
-            "02_makeGrade_tommyGun","03_collecting_gman_white","03_collecting_bootlegger_white","04_shootout_gman_red",
-            "04_shootout_bootlegger_red","05_cashSmash_axe_orange","05_cashSmash_dollar_orange"}); //HARDCODED
+            std::vector<std::string> list_paths({"G-Man","Bootlegger", "Badge",
+            "Gun","Notepad","Whiskey","Axe","Dollar"}); //HARDCODED
             
             for(int i = 0; i< list_paths.size(); i++){
                 std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
@@ -88,8 +87,8 @@ namespace proc_image_processing {
             cv::FileStorage fsWrite(path, cv::FileStorage::WRITE);
             cv::write(fsWrite, "indexes", list_paths);
             for(int i = 0; i< descriptors.size();i++){
-                cv::write(fsWrite, list_paths[i].substr(3), descriptors[i]); // no suffix for back compatibility
-                cv::write(fsWrite, list_paths[i].substr(3)+"_kp", keypoints[i]);
+                cv::write(fsWrite, list_paths[i], descriptors[i]); // no suffix for back compatibility
+                cv::write(fsWrite, list_paths[i]+"_kp", keypoints[i]);
             }
             fsWrite.release();
         }
@@ -106,7 +105,7 @@ namespace proc_image_processing {
             fsRead["indexes"] >> list_paths;
             for(int i = 0; i< list_paths.size();i++){
                 cv::Mat temp_descriptor;
-                fsRead[list_paths[i].substr(3)] >> temp_descriptor;   
+                fsRead[list_paths[i]] >> temp_descriptor;   
                 source_descriptors.push_back(temp_descriptor);
             }
             fsRead.release();
@@ -160,7 +159,7 @@ namespace proc_image_processing {
             cv::FileStorage fsWrite(output_path, cv::FileStorage::WRITE);
             cv::write(fsWrite, "indexes", list_paths);
             for(int i = 0; i< new_descriptors.size();i++){
-                cv::write(fsWrite, list_paths[i].substr(3), new_descriptors[i]);
+                cv::write(fsWrite, list_paths[i], new_descriptors[i]);
             }
             fsWrite.release();
         }

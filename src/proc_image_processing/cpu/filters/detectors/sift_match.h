@@ -55,14 +55,14 @@ namespace proc_image_processing {
         explicit SiftMatch(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                 show_points_("Show_points", false, &parameters_),
-                  objective_("Objective", 0, 0, 5, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting, 4=Shoutout,5=CashSmash"){
+                  objective_("Objective", 0, 0, 4, &parameters_, "0=ALL, 1=ChooseSide, 2=MakeGrade, 3=Collecting,4=CashSmash"){
             setName("SiftMatch");
             
             //Reading descriptors from reference images
             // load_descriptors(kConfigPath + "/descriptors/Descriptors_Pruned.yml");
             load_descriptors(kConfigPath + "/descriptors/Descriptors.yml");
             //DEBUG
-            ROS_INFO_STREAM("Il y a : " + std::to_string(ref_descriptors.size()) + " images de references");
+            //ROS_INFO_STREAM("Il y a : " + std::to_string(ref_descriptors.size()) + " images de references");
         }
 
 
@@ -166,16 +166,9 @@ namespace proc_image_processing {
                     colors.push_back(WHITE); //"collecting_gman_white" WHITE
                     colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
                     break;
-                case 4: //Shoutout
+                case 4: // Cash Shmash
                     temp_ref_descriptors.push_back(ref_descriptors[6]);
                     temp_ref_descriptors.push_back(ref_descriptors[7]);
-                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-                    colors.push_back(RED); //"gman" 
-                    colors.push_back(BLUE); //"bootlegger" BLUE
-                    break;
-                case 5: // Cash Shmash
-                    temp_ref_descriptors.push_back(ref_descriptors[8]);
-                    temp_ref_descriptors.push_back(ref_descriptors[9]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
                     colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
                     colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
@@ -188,8 +181,6 @@ namespace proc_image_processing {
                     colors.push_back(BLUE); // "fusil"
                     colors.push_back(WHITE); //"collecting_gman_white" WHITE
                     colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
-                    colors.push_back(RED); //"gman" 
-                    colors.push_back(BLUE); //"bootlegger" BLUE
                     colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
                     colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
 
@@ -269,14 +260,11 @@ namespace proc_image_processing {
 
                 // buildTarget
                 
-                //I CHANGED THE FORMULA HERE TO PUT THE CENTER, without testing
                 target.setCenter(rectangle.x - image.size().width/2 + rectangle.width/2,  image.size().height/2 - rectangle.y - rectangle.height/2);
                 target.setSize(rectangle.width, rectangle.height);
 
-                int index;
-                //Modification without testing. Index for color is good so name should be good also
-                index = rect_color_index[i];
-                std::string class_name = class_names[index];
+                //THE NAME ARE NOT GOOD IF WE USE A SPECIFIC CATEGORY
+                std::string class_name = class_names[(std::max(0,objective_()-1))*2 + rect_color_index[i]];
                 target.setHeader(class_name);
 
                 notify(target);
@@ -412,19 +400,19 @@ namespace proc_image_processing {
         for(int i = 0; i< list_paths.size();i++){
             //Load descriptors
             cv::Mat temp_descriptor;
-            fsRead[list_paths[i].substr(3)] >> temp_descriptor;   
+            fsRead[list_paths[i]] >> temp_descriptor;   
             ref_descriptors.push_back(temp_descriptor);
 
             //Load keypoints
             std::vector<cv::KeyPoint> temp_kp;
-            fsRead[list_paths[i].substr(3)+"_kp"] >> temp_kp;
+            fsRead[list_paths[i]+"_kp"] >> temp_kp;
             ref_keypoints.push_back(temp_kp);
 
             //Fill the previous means with "0" value
             previous_means.push_back(cv::Point(-1,-1)); 
 
             //Save the name to send a ros msg
-            class_names.push_back(list_paths[i].substr(3));
+            class_names.push_back(list_paths[i]);
         }
         fsRead.release();
     }
