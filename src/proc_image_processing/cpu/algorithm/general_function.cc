@@ -389,7 +389,7 @@ namespace proc_image_processing {
         if (accuracy >= ACCURACY_TABLE_SIZE)
             accuracy = ACCURACY_TABLE_SIZE - 1;
 
-        // If not 4 points, cannot be a rectangle
+        // If less than 4 points, cannot be a rectangle
         if (contour.size() < 4) return false;
         int trueSquareAngleCount = 0;
 
