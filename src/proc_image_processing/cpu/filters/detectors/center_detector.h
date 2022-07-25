@@ -90,7 +90,8 @@ namespace proc_image_processing {
 
                 distance = std::sqrt(std::pow(center_1.x - center_2.x, 2) + std::pow(center_1.y - center_2.y, 2));
                 tangent = std::atan2(center_1.y - center_2.y, center_1.x - center_2.x);
-
+                
+                
                 target.setTarget(
                         objective,
                         target_center.x,
