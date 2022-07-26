@@ -24,7 +24,7 @@ namespace proc_image_processing {
         Filter(globalParams),
         nh_(ros::NodeHandle("proc_image_processing")),
         debug_contour_("Debug contour", true, &parameters_),
-        model_name_("Model Name", "test", &parameters_),
+        model_name_("Model Name", "@default", &parameters_),
         topic_name_("Topic Name", "/provider_vision/camera_array/front/compressed", &parameters_),
         threshold_("Confidence Threshold", 50.0, 0.0, 100.0, &parameters_)
         {
@@ -115,7 +115,7 @@ namespace proc_image_processing {
                         ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), new Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
 
-                        ROS_INFO("create a new objet %s with random color", key.c_str(), desc.color_name.c_str());
+                        ROS_INFO("create a new objet %s with random color", key.c_str());
 
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }

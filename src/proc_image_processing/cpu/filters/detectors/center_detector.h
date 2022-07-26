@@ -1,7 +1,7 @@
-// FACTORY_GENERATOR_CLASS_NAME=CenterCoffinDetector
+// FACTORY_GENERATOR_CLASS_NAME=CenterDetector
 
-#ifndef PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
-#define PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
+#ifndef PROC_IMAGE_PROCESSING_CENTER_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_CENTER_DETECTOR_H
 
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
@@ -10,20 +10,21 @@
 
 namespace proc_image_processing {
 
-    class CenterCoffinDetector : public Filter {
+    class CenterDetector : public Filter {
     public:
-        using Ptr = std::shared_ptr<CenterCoffinDetector>;
+        using Ptr = std::shared_ptr<CenterDetector>;
 
-        explicit CenterCoffinDetector(const GlobalParameterHandler &globalParams)
+        explicit CenterDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
-                  max_area_("Maximum area", 1000, 1, 1000000, &parameters_, "Max area") {
-            setName("CenterCoffinDetector");
+                  max_area_("Maximum area", 1000, 1, 1000000, &parameters_, "Max area"),
+                  obstacle_("Target name", "", &parameters_, "Target") {
+            setName("CenterDetector");
         }
 
-        ~CenterCoffinDetector() override = default;
+        ~CenterDetector() override = default;
 
         void apply(cv::Mat &image) override {
             std::string objective;
@@ -60,7 +61,7 @@ namespace proc_image_processing {
                     if (debug_contour_()) {
                         cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                     }
-                    objective = "center coffin";
+                    objective = obstacle_();
                 }
                 objVec.push_back(object);
             }
@@ -75,6 +76,8 @@ namespace proc_image_processing {
 
             if (objVec.size() > 1) {
                 Target target;
+                float distance = 0;
+                float tangent = 0;
                 ObjectFullData::Ptr object_1 = objVec[0];
                 ObjectFullData::Ptr object_2 = objVec[1];
 
@@ -85,19 +88,24 @@ namespace proc_image_processing {
                 target_center.x = (center_1.x + center_2.x) / 2;
                 target_center.y = (center_1.y + center_2.y) / 2;
 
+                distance = std::sqrt(std::pow(center_1.x - center_2.x, 2) + std::pow(center_1.y - center_2.y, 2));
+                tangent = std::atan2(center_1.y - center_2.y, center_1.x - center_2.x);
+                
+                
                 target.setTarget(
                         objective,
                         target_center.x,
                         target_center.y,
-                        object_1->getWidth(),
-                        object_1->getHeight(),
-                        object_1->getRotRect().angle,
+                        distance,
+                        distance,
+                        tangent,
                         image.rows,
                         image.cols
                 );
                 notify(target);
                 if (debug_contour_()) {
-                    cv::circle(output_image_, target_center, 100, CV_RGB(0, 255, 0), 3);
+                    cv::circle(output_image_, target_center, 3, CV_RGB(0, 255, 0), 3);
+                    cv::circle(output_image_, target_center, distance/2, CV_RGB(0, 255, 0), 3);
                 }
             }
 
@@ -110,9 +118,11 @@ namespace proc_image_processing {
         cv::Mat output_image_;
         Parameter<bool> debug_contour_;
         Parameter<bool> look_for_rectangle_;
-        RangedParameter<double> min_area_, max_area_;
+        RangedParameter<double> min_area_;
+        RangedParameter<double> max_area_;
+        Parameter<std::string> obstacle_;
     };
 
 }  // namespace proc_image_processing
 
-#endif  //PROC_IMAGE_PROCESSING_CENTER_COFFIN_DETECTOR_H
+#endif  //PROC_IMAGE_PROCESSING_CENTER_DETECTOR_H
