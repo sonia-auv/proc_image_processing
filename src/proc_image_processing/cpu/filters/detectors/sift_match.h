@@ -162,13 +162,17 @@ namespace proc_image_processing {
                 case 3: // Collecting
                     temp_ref_descriptors.push_back(ref_descriptors[4]);
                     temp_ref_descriptors.push_back(ref_descriptors[5]);
-                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
-                    colors.push_back(WHITE); //"collecting_gman_white" WHITE
-                    colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
-                    break;
-                case 4: // Cash Shmash
                     temp_ref_descriptors.push_back(ref_descriptors[6]);
                     temp_ref_descriptors.push_back(ref_descriptors[7]);
+                    matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
+                    colors.push_back(PURPLE); //Barrel
+                    colors.push_back(GRAY); //Whiskey
+                    colors.push_back(CYAN);//Phone 
+                    colors.push_back(WHITE);//Notepad
+                    break;
+                case 4: // Cash Shmash
+                    temp_ref_descriptors.push_back(ref_descriptors[8]);
+                    temp_ref_descriptors.push_back(ref_descriptors[9]);
                     matching_points_list = create_matcher_list(temp_ref_descriptors, im_descriptors, im_keypoints);
                     colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
                     colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
@@ -179,8 +183,10 @@ namespace proc_image_processing {
                     colors.push_back(BLUE); //"bootlegger" BLUE
                     colors.push_back(YELLOW); //"badge" YELLOW
                     colors.push_back(BLUE); // "fusil"
-                    colors.push_back(WHITE); //"collecting_gman_white" WHITE
-                    colors.push_back(GRAY); //"collecting_bootlegger_white" GRAY
+                    colors.push_back(PURPLE); //Barrel
+                    colors.push_back(GRAY); //Whiskey
+                    colors.push_back(CYAN);//Phone 
+                    colors.push_back(WHITE);//Notepad
                     colors.push_back(ORANGE); //"cashSmash_axe_orange" ORANGE
                     colors.push_back(GREEN); //"cashSmash_dollar_orange" GREEN
 
@@ -404,6 +410,7 @@ namespace proc_image_processing {
             ref_descriptors.push_back(temp_descriptor);
 
             //Load keypoints
+            //Not used
             std::vector<cv::KeyPoint> temp_kp;
             fsRead[list_paths[i]+"_kp"] >> temp_kp;
             ref_keypoints.push_back(temp_kp);
