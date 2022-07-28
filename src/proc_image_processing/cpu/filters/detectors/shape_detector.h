@@ -8,6 +8,11 @@
 #include <memory>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 
+//The purpose of this code is to be better than "Obstacle detector" on trapezes shapes
+// But finally obstacle detector was good enough so this one was left abandonned. 
+
+
+
 namespace proc_image_processing {
 
     class ShapeDetector : public Filter {
@@ -33,6 +38,7 @@ namespace proc_image_processing {
             std::string desc2 = "";
             double percentFilled;
             image.copyTo(output_image_);
+
             if (output_image_.channels() == 1) {
                 cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
             }
