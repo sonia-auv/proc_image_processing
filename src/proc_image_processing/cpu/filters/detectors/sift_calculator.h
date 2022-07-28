@@ -5,6 +5,7 @@
 
 #include <proc_image_processing/cpu/config.h>
 #include <proc_image_processing/cpu/filters/filter.h>
+#include <filesystem>
 #include "opencv2/features2d.hpp"
 
 //CREATE THIS FILTER TO UPDATE THE DESCRIPTORS
@@ -58,11 +59,19 @@ namespace proc_image_processing {
             std::vector<cv::Mat> descriptors;
             std::vector<std::vector<cv::KeyPoint>> keypoints;
 
-            std::vector<std::string> list_paths({"G-Man","Bootlegger", "Badge",
-            "Gun","Barrel","Whiskey","Phone","Notepad","Axe","Dollar"}); //HARDCODED
-            
-            for(int i = 0; i< list_paths.size(); i++){
-                std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
+            // std::vector<std::string> list_paths({"G-Man","Bootlegger", "Badge",
+            // "Gun","Barrel","Whiskey","Phone","Notepad","Axe","Dollar"}); //HARDCODED
+            std::vector<std::string> list_paths;
+
+            //Read and load images from folder.
+            for (const auto & entry : std::filesystem::directory_iterator(kConfigPath+"/ref_images")){
+                std::filesystem::path complete_path = entry.path();
+                if (complete_path.extension() != ".png") {
+                    continue;
+                }
+                std::string image_name = complete_path.filename();
+                list_paths.push_back(complete_path.stem());
+                
                 cv::Mat image_for_calculation = cv::imread(complete_path);
 
                 
@@ -73,10 +82,11 @@ namespace proc_image_processing {
                 std::vector<cv::KeyPoint> kp = descr_kp.second;
                 cv::Mat image_kp;
                 cv::drawKeypoints(image_for_calculation,kp,image_kp,cv::Scalar(0,255,0),cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-                cv::imwrite(kRefImagesPath +"descr/" + list_paths[i]  + kImagesExt, image_kp);
+                cv::imwrite(kRefImagesPath +"descr/" + image_name, image_kp);
                 
                 if(descr.empty()){
-                    ROS_WARN("Ref image descriptors is empty for path : %s", list_paths[i].c_str());
+                    ROS_WARN("Ref image descriptors is empty for path : %s", complete_path.string().c_str());
+                    //Transform the path to char* so we don't have warnings
                 }
 
                 descriptors.push_back(descr);
