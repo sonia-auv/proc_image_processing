@@ -39,6 +39,7 @@
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_adding_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/shape_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/sift_match.h>
 #include <proc_image_processing/cpu/filters/detectors/sift_calculator.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/sobel_filter.h>

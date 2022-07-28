@@ -1,7 +1,7 @@
 // FACTORY_GENERATOR_CLASS_NAME=ObstacleDetector
 
-#ifndef PROC_IMAGE_PROCESSING_OBSTACLE_DETECTOR_H
-#define PROC_IMAGE_PROCESSING_OBSTACLE_DETECTOR_H
+#ifndef PROC_IMAGE_PROCESSING_SHAPE_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_SHAPE_DETECTOR_H
 
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <cmath>
@@ -10,34 +10,28 @@
 
 namespace proc_image_processing {
 
-    class ObstacleDetector : public Filter {
+    class ShapeDetector : public Filter {
     public:
-        using Ptr = std::shared_ptr<ObstacleDetector>;
+        using Ptr = std::shared_ptr<ShapeDetector>;
 
-        explicit ObstacleDetector(const GlobalParameterHandler &globalParams)
+        explicit ShapeDetector(const GlobalParameterHandler &globalParams)
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
-                  look_for_rectangle_("Look for rectangle", false, &parameters_),
-                  look_for_ellipse_("Look for ellipse", false, &parameters_),
-                  objective_("Target name", "", &parameters_),
-                  rectangle_desc_("Rectangle obstacle", "", &parameters_),
-                  empty_ellipse_("Empty ellipse obstacle", "", &parameters_),
-                  filled_ellipse_("Filled ellipse obstacle", "", &parameters_),
+                  look_for_filled_("Look for filled", false, &parameters_),
+                  obstacle_("Obstacle", "", &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
                   max_area_("Maximum area", 1000, 1, 100000, &parameters_, "Max area"),
-                  circle_index_("Circle index", 0, 0, 100, &parameters_, "Circle index"),
-                  percent_filled_("Percent filled", 0, 0, 100, &parameters_, "Percent filled"),
-                  div_min_size_("Div min size", 0, 0, 1, &parameters_),
-                  div_max_size_("Div max size", 0, 0, 1, &parameters_) {
-            setName("ObstacleDetector");
+                  min_div_("Min div", 0.5, 0, 1, &parameters_, "Min div"),
+                  max_div_("Max div", 0.5, 0, 1, &parameters_, "Max div") {
+            setName("ShapeDetector");
         }
 
-        ~ObstacleDetector() override = default;
+        ~ShapeDetector() override = default;
 
         void apply(cv::Mat &image) override {
-            std::string objective;
             std::string desc1 = "";
             std::string desc2 = "";
+            double percentFilled;
             image.copyTo(output_image_);
             if (output_image_.channels() == 1) {
                 cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
@@ -63,19 +57,39 @@ namespace proc_image_processing {
 
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-                    objective = objective_();
+                }
+                
+
+                float area_on_length = sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true );
+
+
+                if (0.2 < area_on_length && area_on_length < 0.22) {
+                    desc1 = "Triangle";
                 }
 
-                //if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
-                if (look_for_rectangle_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ) < div_max_size_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength( contours[i], true ) > div_min_size_()) {
-                    if(debug_contour_()) 
-                    {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2); 
-                    }
-                    desc1 = rectangle_desc_();
+                if (0.245 < area_on_length && area_on_length < 0.248) {
+                    desc1 = "Rectangle";
                 }
 
-                if (look_for_ellipse_() && contours[i].size() >=5) {
+                if (0.14 < area_on_length && area_on_length < 0.15) {
+                    desc1 = "Star";
+                }
+
+                if (0.105 < area_on_length && area_on_length < 0.135) {
+                    desc1 = "Trapeze";
+                }
+
+                if (min_div_() < area_on_length && area_on_length < max_div_()) {
+                    desc1 = "Other";
+                    desc2 = std::to_string(area_on_length);
+                }
+                
+                if (debug_contour_() && desc1 != ""){
+                    cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2); 
+                }
+             
+
+                if (contours[i].size() >=5) {
                     cv::Mat pointfs;
                     cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
@@ -83,20 +97,23 @@ namespace proc_image_processing {
                     double circleIndex = getCircleIndex(contours[i]);
                     double percentFilled = getPercentFilled(output_image_, box);
                     
-                    if (circleIndex > circle_index_()/100) {
+                    if (circleIndex > 50) {
+                        desc1 = "Circle";
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        if (percentFilled > percent_filled_()) {
-                           desc2 = filled_ellipse_();
+                        if (percentFilled > 50) {
+                           desc1 = "Filled" + desc1;
                         }
                         else {
-                           desc2 = empty_ellipse_();
+                           desc1 = "Empty" + desc1;
                         }
+                        percentFilled = getPercentFilled(output_image_, box);
+                        desc2 = std::to_string(percentFilled);
                     }
                 }
-
+  
                 objVec.push_back(object);
             }
 
@@ -114,7 +131,7 @@ namespace proc_image_processing {
                 cv::Point center = object->getCenterPoint();
 
                 target.setTarget(
-                        objective,
+                        obstacle_(),
                         center.x,
                         center.y,
                         object->getWidth(),
@@ -141,20 +158,14 @@ namespace proc_image_processing {
         cv::Mat output_image_;
 
         Parameter<bool> debug_contour_;
-        Parameter<bool> look_for_rectangle_;
-        Parameter<bool> look_for_ellipse_;
-        Parameter<std::string> objective_;
-        Parameter<std::string> rectangle_desc_;
-        Parameter<std::string> empty_ellipse_;
-        Parameter<std::string> filled_ellipse_;
+        Parameter<bool> look_for_filled_;
+        Parameter<std::string> obstacle_;
         RangedParameter<double> min_area_;
         RangedParameter<double> max_area_;
-        RangedParameter<int> circle_index_;
-        RangedParameter<int> percent_filled_;
-        RangedParameter<double> div_min_size_;
-        RangedParameter<double> div_max_size_;
+        RangedParameter<double> max_div_;
+        RangedParameter<double> min_div_;
     };
 
 }  // namespace proc_image_processing
 
-#endif  //PROC_IMAGE_PROCESSING_OBSTACLE_DETECTOR_H
+#endif  //PROC_IMAGE_PROCESSING_SHAPE_DETECTOR_H
