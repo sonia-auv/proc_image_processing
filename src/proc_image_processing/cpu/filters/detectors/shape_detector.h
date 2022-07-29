@@ -27,6 +27,8 @@ namespace proc_image_processing {
                 : Filter(globalParams),
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_filled_("Look for filled", false, &parameters_),
+                  only_custom_("Show only custom area", false, &parameters_),
+                  inverse_selection_("Show the contours that doesn't match the selection. Only fot custom", false, &parameters_),
                   obstacle_("Obstacle", "", &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
                   max_area_("Maximum area", 1000, 1, 100000, &parameters_, "Max area"),
@@ -40,7 +42,6 @@ namespace proc_image_processing {
         void apply(cv::Mat &image) override {
             std::string desc1 = "";
             std::string desc2 = "";
-            double percentFilled;
             image.copyTo(output_image_);
 
             if (output_image_.channels() == 1) {
@@ -56,6 +57,8 @@ namespace proc_image_processing {
 
             contourList_t contours;
             
+            std::vector<int> custom_contour;
+            std::vector<int> custom_contour_inverse;
             retrieveAllContours(image, contours);
             ObjectFullData::FullObjectPtrVec objVec;
             for (int i = 0; i < contours.size(); i++) {
@@ -65,11 +68,15 @@ namespace proc_image_processing {
                     continue;
                 }
 
-                if (debug_contour_()) {
+                if (debug_contour_() && !only_custom_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
                 }
-                
 
+                //This shouldn't happen but it's a lifeguard
+                if(cv::contourArea(contours[i]) < 0 || cv::arcLength(contours[i], true) == 0){
+                    ROS_WARN("Contour Area < 0 under sqrt OR arcLength = 0 in denominator");
+                    continue;
+                }
                 float area_on_length = sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true );
 
                 if (0.2 < area_on_length && area_on_length < 0.22) {
@@ -93,38 +100,65 @@ namespace proc_image_processing {
                     desc2 = std::to_string(area_on_length);
                 }
                 
-                if (debug_contour_() && desc1 != ""){
-                    cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2); 
-                }
              
 
-                if (contours[i].size() >=5) {
-                    cv::Mat pointfs;
-                    cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
-                    cv::RotatedRect box = cv::fitEllipse(pointfs);
+                //THIS SECTION CREATE PROBLEM
 
-                    double circleIndex = getCircleIndex(contours[i]);
-                    double percentFilled = getPercentFilled(output_image_, box);
+                // if (contours[i].size() >=5) {
+                //     cv::Mat pointfs;
+                //     cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
+                //     cv::RotatedRect box = cv::fitEllipse(pointfs);
+
+                //     double circleIndex = getCircleIndex(contours[i]);
+                //     double percentFilled = getPercentFilled(output_image_, box);
                     
-                    if (circleIndex > 50) {
-                        desc1 = "Circle";
-                        if (debug_contour_()) {
-                            cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
-                        }
+                //     if (circleIndex > 50) {
+                //         desc1 = "Circle";
+                //         if (debug_contour_()) {
+                //             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
+                //         }
 
-                        if (percentFilled > 50) {
-                           desc1 = "Filled" + desc1;
-                        }
-                        else {
-                           desc1 = "Empty" + desc1;
-                        }
-                        percentFilled = getPercentFilled(output_image_, box);
-                        desc2 = std::to_string(percentFilled);
+                //         if (percentFilled > 50) {
+                //            desc1 = "Filled" + desc1;
+                //         }
+                //         else {
+                //            desc1 = "Empty" + desc1;
+                //         }
+                //         percentFilled = getPercentFilled(output_image_, box);
+                //         desc2 = std::to_string(percentFilled);
+                //     }
+                // }
+                
+                if (only_custom_()){
+                    if(desc1 == "Other"){
+                        custom_contour.push_back(i);
+                    }else{
+                        custom_contour_inverse.push_back(i);
                     }
+                }else{
+                    objVec.push_back(object);
                 }
-  
-                objVec.push_back(object);
             }
+
+
+            //Code only for the Custom section
+            //I need the separation from the other loop because I need to see all the elements first.
+            if(inverse_selection_()){
+                for (int i = 0; i < custom_contour_inverse.size(); i++){
+                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image,
+                                                                              reinterpret_cast<Contour &&>(contours[custom_contour_inverse[i]]));
+                    objVec.push_back(object);
+                    cv::drawContours(output_image_, contours, custom_contour_inverse[i], CV_RGB(0, 0, 255), 2); 
+                }
+            }else{
+                for (int i = 0; i < custom_contour.size(); i++){
+                    ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image,
+                                                                              reinterpret_cast<Contour &&>(contours[custom_contour[i]]));
+                    objVec.push_back(object); 
+                    cv::drawContours(output_image_, contours, custom_contour[i], CV_RGB(0, 0, 255), 2);
+                }
+            }
+
 
             std::sort(
                     objVec.begin(),
@@ -167,12 +201,14 @@ namespace proc_image_processing {
         cv::Mat output_image_;
 
         Parameter<bool> debug_contour_;
-        Parameter<bool> look_for_filled_;
+        Parameter<bool> look_for_filled_; //The code that use this create problems
+        Parameter<bool> only_custom_;
+        Parameter<bool> inverse_selection_;
         Parameter<std::string> obstacle_;
         RangedParameter<double> min_area_;
         RangedParameter<double> max_area_;
-        RangedParameter<double> max_div_;
         RangedParameter<double> min_div_;
+        RangedParameter<double> max_div_;
     };
 
 }  // namespace proc_image_processing
