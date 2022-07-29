@@ -11,6 +11,10 @@
 //The purpose of this code is to be better than "Obstacle detector" on trapezes shapes
 // But finally obstacle detector was good enough so this one was left abandonned. 
 
+//Nouvelle idée: On filtre l'image avec un "substract all planes", 5 3 0, Inverse sur 3. Puis param 3 1.
+// range threshold. 
+// Et enfin on met le filtre shape detector. Le but va être de trouver les rectangles. Puis prendre des paramètres différents pour justmeent pas trouver les rectangles mais le téléphone.
+
 
 
 namespace proc_image_processing {
@@ -67,7 +71,6 @@ namespace proc_image_processing {
                 
 
                 float area_on_length = sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true );
-
 
                 if (0.2 < area_on_length && area_on_length < 0.22) {
                     desc1 = "Triangle";
