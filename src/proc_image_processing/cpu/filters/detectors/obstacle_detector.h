@@ -74,7 +74,7 @@ namespace proc_image_processing {
                     }
 
 
-                    switch (sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ))
+                    /*switch (sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ))
                     {
                     case :
                         
@@ -83,7 +83,7 @@ namespace proc_image_processing {
                     default:
                         break;
                     }
-                    desc1 = shape_desc_();
+                    desc1 = shape_desc_();*/
                 }
 
                 if (look_for_ellipse_() && contours[i].size() >=5) {
