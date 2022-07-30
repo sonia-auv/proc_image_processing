@@ -78,7 +78,7 @@ namespace proc_image_processing {
                 int index = (wanted_index_() >= objVec.size())? objVec.size() -1 : wanted_index_();
                 ObjectFullData::Ptr object = objVec[index];
                 cv::Point center = object->getCenterPoint();
-
+                
                 target.setTarget(
                         objective,
                         center.x,
