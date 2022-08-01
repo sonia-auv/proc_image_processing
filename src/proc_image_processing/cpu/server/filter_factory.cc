@@ -177,7 +177,7 @@ namespace proc_image_processing {
 		"ContrastAndBrightnessFilter;"
 		"ConvexHullFilter;"
 		"CropFilter;"
-		"Deep2019Filter;"
+		"DeepFilter;"
 		"DilateFilter;"
 		"EllipseDetector;"
 		"EqualizeHistogramFilter;"

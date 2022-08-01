@@ -19,10 +19,16 @@ namespace proc_image_processing {
                   debug_contour_("Debug contour", false, &parameters_),
                   look_for_rectangle_("Look for rectangle", false, &parameters_),
                   look_for_ellipse_("Look for ellipse", false, &parameters_),
+                  objective_("Target name", "", &parameters_),
+                  rectangle_desc_("Rectangle obstacle", "", &parameters_),
+                  empty_ellipse_("Empty ellipse obstacle", "", &parameters_),
+                  filled_ellipse_("Filled ellipse obstacle", "", &parameters_),
                   min_area_("Minimum area", 100, 1, 10000, &parameters_, "Min area"),
                   max_area_("Maximum area", 1000, 1, 100000, &parameters_, "Max area"),
                   circle_index_("Circle index", 0, 0, 100, &parameters_, "Circle index"),
-                  percent_filled_("Percent filled", 0, 0, 100, &parameters_, "Percent filled") {
+                  percent_filled_("Percent filled", 0, 0, 100, &parameters_, "Percent filled"),
+                  div_min_size_("Div min size", 0, 0, 1, &parameters_),
+                  div_max_size_("Div max size", 0, 0, 1, &parameters_) {
             setName("ObstacleDetector");
         }
 
@@ -51,24 +57,22 @@ namespace proc_image_processing {
             for (int i = 0; i < contours.size(); i++) {
                 ObjectFullData::Ptr object = std::make_shared<ObjectFullData>(output_image_, image,
                                                                               reinterpret_cast<Contour &&>(contours[i]));
-                if (object.get() == nullptr) {
-                    continue;
-                }
-
-                if (object->getArea() < min_area_() || object->getArea() > max_area_()) {
+                if (object.get() == nullptr || object->getArea() < min_area_() || object->getArea() > max_area_()) {
                     continue;
                 }
 
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(255, 0, 0), 2);
-                    objective = "obstacle";
+                    objective = objective_();
                 }
 
-                if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
-                    if (debug_contour_()) {
-                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2);
+                //if (look_for_rectangle_() && isRectangle(contours[i], 20)) {
+                if (look_for_rectangle_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength(contours[i], true ) < div_max_size_() && sqrt(cv::contourArea(contours[i]))/cv::arcLength( contours[i], true ) > div_min_size_()) {
+                    if(debug_contour_()) 
+                    {
+                        cv::drawContours(output_image_, contours, i, CV_RGB(0, 0, 255), 2); 
                     }
-                    desc1 = "rectangle";
+                    desc1 = rectangle_desc_();
                 }
 
                 if (look_for_ellipse_() && contours[i].size() >=5) {
@@ -84,11 +88,11 @@ namespace proc_image_processing {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        if (percentFilled < percent_filled_()) {
-                           desc1 = "filled_ellipse";
+                        if (percentFilled > percent_filled_()) {
+                           desc2 = filled_ellipse_();
                         }
                         else {
-                           desc1 = "empty_ellipse";
+                           desc2 = empty_ellipse_();
                         }
                     }
                 }
@@ -109,22 +113,18 @@ namespace proc_image_processing {
                 ObjectFullData::Ptr object = objVec[0];
                 cv::Point center = object->getCenterPoint();
 
-                // target.setTarget(
-                //         objective,
-                //         center.x,
-                //         center.y,
-                //         object->getWidth(),
-                //         object->getHeight(),
-                //         object->getRotRect().angle,
-                //         image.rows,
-                //         image.cols
-                // );
-
-                target.setHeader(objective);
-                target.setCenter(center);
-                target.setSize(object->getWidth(),object->getHeight());
-                target.setAngle(object->getRotRect().angle);
-                target.setSpecialFields(desc1,desc2);
+                target.setTarget(
+                        objective,
+                        center.x,
+                        center.y,
+                        object->getWidth(),
+                        object->getHeight(),
+                        object->getRotRect().angle,
+                        image.rows,
+                        image.cols,
+                        desc1,
+                        desc2
+                );
 
                 notify(target);
                 if (debug_contour_()) {
@@ -143,10 +143,16 @@ namespace proc_image_processing {
         Parameter<bool> debug_contour_;
         Parameter<bool> look_for_rectangle_;
         Parameter<bool> look_for_ellipse_;
+        Parameter<std::string> objective_;
+        Parameter<std::string> rectangle_desc_;
+        Parameter<std::string> empty_ellipse_;
+        Parameter<std::string> filled_ellipse_;
         RangedParameter<double> min_area_;
         RangedParameter<double> max_area_;
         RangedParameter<int> circle_index_;
         RangedParameter<int> percent_filled_;
+        RangedParameter<double> div_min_size_;
+        RangedParameter<double> div_max_size_;
     };
 
 }  // namespace proc_image_processing
