@@ -1,7 +1,7 @@
 // FACTORY_GENERATOR_CLASS_NAME=ObstacleDetector
 
-#ifndef PROC_IMAGE_PROCESSING_OBSTACLE_BODY_DETECTOR_H
-#define PROC_IMAGE_PROCESSING_OBSTACLE_BODY_DETECTOR_H
+#ifndef PROC_IMAGE_PROCESSING_OBSTACLE_DETECTOR_H
+#define PROC_IMAGE_PROCESSING_OBSTACLE_DETECTOR_H
 
 #include <proc_image_processing/cpu/filters/filter.h>
 #include <cmath>
@@ -75,25 +75,27 @@ namespace proc_image_processing {
                     desc1 = rectangle_desc_();
                 }
 
+
+                //This section is a problem
                 if (look_for_ellipse_() && contours[i].size() >=5) {
                     cv::Mat pointfs;
                     cv::Mat(contours[i]).convertTo(pointfs, CV_32F);
                     cv::RotatedRect box = cv::fitEllipse(pointfs);
 
                     double circleIndex = getCircleIndex(contours[i]);
-                    double percentFilled = getPercentFilled(output_image_, box);
-                    
+                    //double percentFilled = getPercentFilled(output_image_, box); //This line generate an unknown error
+
                     if (circleIndex > circle_index_()/100) {
                         if (debug_contour_()) {
                             cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);
                         }
 
-                        if (percentFilled > percent_filled_()) {
-                           desc2 = filled_ellipse_();
-                        }
-                        else {
-                           desc2 = empty_ellipse_();
-                        }
+                        // if (percentFilled > percent_filled_()) {
+                        //    desc2 = filled_ellipse_();
+                        // }
+                        // else {
+                        //    desc2 = empty_ellipse_();
+                        // }
                     }
                 }
 

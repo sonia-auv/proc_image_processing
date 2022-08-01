@@ -11,6 +11,7 @@
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/canny_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/center_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/clahe_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/contour_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/contrast_and_brightness_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/convex_hull_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/crop_filter.h>
@@ -39,6 +40,7 @@
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_adding_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/scharr_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/shape_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/sift_match.h>
 #include <proc_image_processing/cpu/filters/detectors/sift_calculator.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/sobel_filter.h>
