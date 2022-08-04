@@ -59,7 +59,7 @@ namespace proc_image_processing {
             std::vector<std::vector<cv::KeyPoint>> keypoints;
 
             std::vector<std::string> list_paths({"G-Man","Bootlegger", "Badge",
-            "Gun","Notepad","Whiskey","Axe","Dollar"}); //HARDCODED
+            "Gun","Barrel","Whiskey","Phone","Notepad","Axe","Dollar"}); //HARDCODED
             
             for(int i = 0; i< list_paths.size(); i++){
                 std::string complete_path = kRefImagesPath + list_paths[i] + kImagesExt;
