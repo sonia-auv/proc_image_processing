@@ -5,6 +5,7 @@
 #include <proc_image_processing/cpu/filters/custom/accumulator_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/adaptive_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/background_subtract_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/bgr_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/blur_filter.h>
 #include <proc_image_processing/cpu/filters/custom/bounding_box_filter.h>

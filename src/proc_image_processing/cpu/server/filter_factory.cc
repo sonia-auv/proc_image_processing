@@ -13,6 +13,9 @@ namespace proc_image_processing {
 	else if(name == "BackgroundSubtractFilter"){
 		return std::make_unique<BackgroundSubtractFilter>(gph);
 	}
+	else if(name == "BGRFilter"){
+		return std::make_unique<BGRFilter>(gph);
+	}
 	else if(name == "BilateralFilter"){
 		return std::make_unique<BilateralFilter>(gph);
 	}
@@ -174,6 +177,7 @@ namespace proc_image_processing {
 	return "AccumulatorFilter;"
 		"AdaptiveThresholdFilter;"
 		"BackgroundSubtractFilter;"
+		"BGRFilter;"
 		"BilateralFilter;"
 		"BlurFilter;"
 		"BoundingBoxFilter;"
