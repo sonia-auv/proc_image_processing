@@ -84,6 +84,6 @@
         "/home/${USER}/base_lib_ws/devel/lib/python2.7/dist-packages",
         "/opt/ros/${ROS_DISTRO}/lib/python2.7/dist-packages"
     ],
-    "C_Cpp.errorSquiggles": "Disabled",
-    "ros.distro": "melodic"
+    "C_Cpp.errorSquiggles": "disabled",
+    "ros.distro": "noetic",
 }
