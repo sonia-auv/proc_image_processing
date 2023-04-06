@@ -1,3 +1,5 @@
+// FACTORY_GENERATOR_CLASS_NAME=BGRFilter
+
 #pragma once
 
 #include "proc_image_processing/cpu/filters/filter.h"
@@ -21,14 +23,15 @@ namespace proc_image_processing
 
         ~BGRFilter() override = default;
 
-        void apply(cv::Mat &image) override {
+        void apply(cv::Mat &image) override
+        {
             cv::Vec3b bgrPixel(m_blue(), m_green(), m_red());
-            
+
             int thresh = 40;
 
             cv::Scalar minBGR = cv::Scalar(bgrPixel.val[0] - thresh, bgrPixel.val[1] - thresh, bgrPixel.val[2] - thresh);
             cv::Scalar maxBGR = cv::Scalar(bgrPixel.val[0] + thresh, bgrPixel.val[1] + thresh, bgrPixel.val[2] + thresh);
- 
+
             cv::Mat maskBGR, resultBGR;
             cv::inRange(image, minBGR, maxBGR, maskBGR);
             cv::bitwise_and(image, image, resultBGR, maskBGR);
