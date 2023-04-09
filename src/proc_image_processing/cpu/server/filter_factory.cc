@@ -85,6 +85,9 @@ namespace proc_image_processing {
 	else if(name == "IntervalThresholdFilter"){
 		return std::make_unique<IntervalThresholdFilter>(gph);
 	}
+	else if(name == "LABFilter"){
+		return std::make_unique<LABFilter>(gph);
+	}
 	else if(name == "LaplacianFilter"){
 		return std::make_unique<LaplacianFilter>(gph);
 	}
@@ -201,6 +204,7 @@ namespace proc_image_processing {
 		"HSVThresholdFilter;"
 		"InRangeFilter;"
 		"IntervalThresholdFilter;"
+		"LABFilter;"
 		"LaplacianFilter;"
 		"MissionTestFakeStringFilter;"
 		"MorphologyFilter;"

@@ -29,6 +29,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/hsv_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/custom/in_range_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/interval_threshold_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/lab_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/laplacian_filter.h>
 #include <proc_image_processing/cpu/filters/custom/mission_test_fake_string_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/morphology_filter.h>
