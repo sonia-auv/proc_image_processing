@@ -7,6 +7,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/background_subtract_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bgr_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/colors/single_color_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/blur_filter.h>
 #include <proc_image_processing/cpu/filters/custom/bounding_box_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/canny_filter.h>
@@ -25,6 +26,7 @@
 #include <proc_image_processing/cpu/filters/detectors/gate_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/handle_detector.h>
 #include <proc_image_processing/cpu/filters/custom/hide_submarine_frame_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/hsv_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/hough_line_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/hsv_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/custom/in_range_filter.h>
@@ -57,6 +59,7 @@
 #include <proc_image_processing/cpu/filters/detectors/vampire_torpedoes_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/white_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/white_noise_removal_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/ycrcb_filter.h>
 // <FACTORY_GENERATOR_HEADER_INCLUDES/>
 #include <memory>
 #include <string>

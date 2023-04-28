@@ -14,6 +14,7 @@ namespace proc_image_processing
 
         explicit LABFilter(const GlobalParameterHandler &globalParams)
             : Filter(globalParams),
+              m_return_original("Return Original Image", false, &parameters_, "Returned filtered Image or return original with mask"),
               m_lightness("Lightness", 128.0, 0.0, 255.0, &parameters_, "Lightness (Intensity)"),
               m_alpha("Green - Magenta", 128.0, 0.0, 255.0, &parameters_, "olor component ranging from Green to Magenta"),
               m_beta("Blue - Yellow", 128.0, 0.0, 255.0, &parameters_, "color component ranging from Blue to Yellow"),
@@ -37,11 +38,19 @@ namespace proc_image_processing
 
             cv::Mat maskLAB, resultLAB;
             cv::inRange(labImage, minLAB, maxLAB, maskLAB);
-            cv::bitwise_and(labImage, labImage, resultLAB, maskLAB);
+            if (m_return_original())
+            {
+                cv::bitwise_and(image, image, resultLAB, maskLAB);
+            }
+            else
+            {
+                cv::bitwise_and(labImage, labImage, resultLAB, maskLAB);
+            }
             resultLAB.copyTo(image);
         }
 
     private:
+        Parameter<bool> m_return_original;
         RangedParameter<double> m_lightness;
         RangedParameter<double> m_alpha;
         RangedParameter<double> m_beta;
