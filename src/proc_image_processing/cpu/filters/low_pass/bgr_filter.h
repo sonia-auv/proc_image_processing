@@ -28,6 +28,11 @@ namespace proc_image_processing
 
         ~BGRFilter() override = default;
 
+        /**
+         * Apply the filter
+         * 
+         * @param image The image to apply the changes to.
+        */
         void apply(cv::Mat &image) override
         {
             cv::Vec3b pixels(m_blue(), m_green(), m_red());
@@ -51,6 +56,13 @@ namespace proc_image_processing
         }
 
     private:
+        /**
+         * @brief Apply filter using masked image.
+         * 
+         * @param originalImage Image to apply filter.
+         * @param filteredImage prefiltered image.
+         * @param pixels Mask.
+         */
         void applyFilter(cv::Mat &originalImage, cv::Mat &filteredImage, cv::Vec3b &pixels)
         {
             cv::Scalar min = getMinThreshold(pixels);
@@ -62,7 +74,6 @@ namespace proc_image_processing
             if (m_return_original())
             {
                 applyMask(originalImage, mask).copyTo(originalImage);
-
             }
             else
             {
@@ -70,6 +81,12 @@ namespace proc_image_processing
             }
         }
 
+        /**
+         * @brief Apply a LAB filter to an image.
+         * 
+         * @param image Image to apply filter.
+         * @param pixels Mask representing LAB filter.
+         */
         void applyLABFilter(cv::Mat &image, cv::Vec3b &pixels)
         {
             cv::Mat labImage;
@@ -84,6 +101,12 @@ namespace proc_image_processing
             applyFilter(image, labImage, labPixel);
         }
 
+        /**
+         * @brief Apply a YCrCb filter to an image.
+         * 
+         * @param image Image to apply filter.
+         * @param pixels Mask representing YCrCb filter.
+         */
         void applyYCrCbFilter(cv::Mat &image, cv::Vec3b &pixels)
         {
             cv::Mat ycbImage;
@@ -98,6 +121,12 @@ namespace proc_image_processing
             applyFilter(image, ycbImage, ycbPixel);
         }
 
+        /**
+         * @brief Apply a HSV filter to an image.
+         * 
+         * @param image Image to apply filter.
+         * @param pixels Mask representing HSV filter.
+         */
         void applyHSVFilter(cv::Mat &image, cv::Vec3b &pixels)
         {
             cv::Mat hsvImage;
@@ -112,16 +141,36 @@ namespace proc_image_processing
             applyFilter(image, hsvImage, hsvPixel);
         }
 
+        /**
+         * @brief Get the Min Threshold pixels.
+         * 
+         * @param pixels Pixels from image.
+         * @return cv::Scalar Min Pixel threshold values.
+         */
         cv::Scalar getMinThreshold(cv::Vec3b &pixels)
         {
             return cv::Scalar(pixels.val[0] - m_blue_thresh(), pixels.val[1] - m_green_thresh(), pixels.val[2] - m_red_thresh());
         }
 
+        /**
+         * @brief Get the Max Threshold pixels.
+         * 
+         * @param pixels Pixels from image.
+         * @return cv::Scalar Max Pixel threshold values.
+         */
         cv::Scalar getMaxThreshold(cv::Vec3b &pixels)
         {
             return cv::Scalar(pixels.val[0] + m_blue_thresh(), pixels.val[1] + m_green_thresh(), pixels.val[2] + m_red_thresh());
         }
 
+        /**
+         * @brief Get the Mask using thresholds.
+         * 
+         * @param image Image to get mask from.
+         * @param min Minimum pixel thresholds values.
+         * @param max Maximum pixel thresholds values.
+         * @return cv::Mat Generated Mask.
+         */
         cv::Mat getMask(cv::Mat &image, cv::Scalar min, cv::Scalar max)
         {
             cv::Mat mask;
@@ -129,6 +178,13 @@ namespace proc_image_processing
             return mask;
         }
 
+        /**
+         * @brief Apply a mask to an image.
+         * 
+         * @param image Original image
+         * @param mask Msak
+         * @return cv::Mat New image that is masked.
+         */
         cv::Mat applyMask(cv::Mat &image, cv::Mat mask)
         {
             cv::Mat result;
