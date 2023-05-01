@@ -57,7 +57,7 @@ jobs:
       - name: Enable Docker Daemon Experimental Features
         run: |
           sudo rm /etc/docker/daemon.json
-          echo '{"experimental": true , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
+          echo '{"experimental": false , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
           sudo service docker restart
           docker version
 
