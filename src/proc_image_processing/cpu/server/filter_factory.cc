@@ -25,11 +25,14 @@ namespace proc_image_processing {
 	else if(name == "CannyFilter"){
 		return std::make_unique<CannyFilter>(gph);
 	}
-	else if(name == "CenterCoffinDetector"){
-		return std::make_unique<CenterCoffinDetector>(gph);
+	else if(name == "CenterDetector"){
+		return std::make_unique<CenterDetector>(gph);
 	}
 	else if(name == "CLAHEFilter"){
 		return std::make_unique<CLAHEFilter>(gph);
+	}
+	else if(name == "ContourDetector"){
+		return std::make_unique<ContourDetector>(gph);
 	}
 	else if(name == "ContrastAndBrightnessFilter"){
 		return std::make_unique<ContrastAndBrightnessFilter>(gph);
@@ -45,6 +48,9 @@ namespace proc_image_processing {
 	}
 	else if(name == "DilateFilter"){
 		return std::make_unique<DilateFilter>(gph);
+	}
+	else if(name == "EllipseDetector"){
+		return std::make_unique<EllipseDetector>(gph);
 	}
 	else if(name == "EqualizeHistogramFilter"){
 		return std::make_unique<EqualizeHistogramFilter>(gph);
@@ -112,6 +118,9 @@ namespace proc_image_processing {
 	else if(name == "ScharrFilter"){
 		return std::make_unique<ScharrFilter>(gph);
 	}
+	else if(name == "ShapeDetector"){
+		return std::make_unique<ShapeDetector>(gph);
+	}
 	else if(name == "SiftMatch"){
 		return std::make_unique<SiftMatch>(gph);
 	}
@@ -169,13 +178,15 @@ namespace proc_image_processing {
 		"BlurFilter;"
 		"BoundingBoxFilter;"
 		"CannyFilter;"
-		"CenterCoffinDetector;"
+		"CenterDetector;"
 		"CLAHEFilter;"
+		"ContourDetector;"
 		"ContrastAndBrightnessFilter;"
 		"ConvexHullFilter;"
 		"CropFilter;"
-		"Deep2019Filter;"
+		"DeepFilter;"
 		"DilateFilter;"
+		"EllipseDetector;"
 		"EqualizeHistogramFilter;"
 		"ErodeFilter;"
 		"FenceDetector;"
@@ -198,6 +209,7 @@ namespace proc_image_processing {
 		"RotateFilter;"
 		"ScharrAddingFilter;"
 		"ScharrFilter;"
+		"ShapeDetector;"
 		"SiftMatch;"
 		"SiftCalculator;"
 		"SobelFilter;"

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>proc_image_processing</name>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
   <description>
     The vision_server package is responsible for acquiring the images from
     the cameras and applying filter and return information on those image.

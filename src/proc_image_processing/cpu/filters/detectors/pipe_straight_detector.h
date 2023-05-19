@@ -29,10 +29,8 @@ namespace proc_image_processing {
 
         void apply(cv::Mat &image) override {
             image.copyTo(output_image_);
-            if (debug_contour_()) {
-                if (output_image_.channels() == 1) {
-                    cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
-                }
+            if (debug_contour_() && output_image_.channels() == 1) {
+                cv::cvtColor(output_image_, output_image_, CV_GRAY2BGR);
             }
 
             if (image.channels() != 1) {
@@ -62,6 +60,8 @@ namespace proc_image_processing {
                 if (object->getArea() < min_area_()) {
                     continue;
                 }
+
+                Line lineFit = getLineOnPolygon(contours[i], output_image_.cols);
 
                 if (debug_contour_()) {
                     cv::drawContours(output_image_, contours, i, CV_RGB(0, 255, 0), 2);

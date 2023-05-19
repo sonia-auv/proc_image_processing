@@ -10,10 +10,10 @@
 #include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include <std_srvs/Trigger.h>
+#include <std_msgs/Empty.h>
 #include <sonia_common/Detection.h>
 #include <sonia_common/DetectionArray.h>
-#include <sonia_common/ChangeNetwork.h>
+#include <sonia_common/ChangeNetworkMsg.h>
 
 namespace proc_image_processing {
     class DeepFilter : public Filter {
@@ -24,25 +24,25 @@ namespace proc_image_processing {
         Filter(globalParams),
         nh_(ros::NodeHandle("proc_image_processing")),
         debug_contour_("Debug contour", true, &parameters_),
-        model_name_("Model Name", "test", &parameters_),
+        model_name_("Model Name", "@default", &parameters_),
         topic_name_("Topic Name", "/provider_vision/camera_array/front/compressed", &parameters_),
         threshold_("Confidence Threshold", 50.0, 0.0, 100.0, &parameters_)
         {
             image_subscriber_ = ros::NodeHandle("~").subscribe("/proc_detection/bounding_box", 100, &DeepFilter::callbackBoundingBox, this);
             //detectionListing_ = ros::NodeHandle("~").advertiseService("/proc_image_processing/list_deep_color", );
-            deep_network_service_ = ros::NodeHandle("~").serviceClient<sonia_common::ChangeNetwork>("/proc_detection/change_network");
-            deep_network_stop_service_ = ros::NodeHandle("~").serviceClient<std_srvs::Trigger>("/proc_detection/stop_topic");
+            deep_network_topic_ = ros::NodeHandle("~").advertise<sonia_common::ChangeNetworkMsg>("/proc_detection/change_network",1);
+            deep_network_stop_topic_ = ros::NodeHandle("~").advertise<std_msgs::Empty>("/proc_detection/stop_topic",1);
             setName("DeepFilter");
 
-            sonia_common::ChangeNetwork network;
+            sonia_common::ChangeNetworkMsg network;
             current_model_name_ = model_name_.getValue();
             current_topic_name_ = topic_name_.getValue();
             current_threshold_ = threshold_.getValue();
 
-            network.request.network_name = current_model_name_;
-            network.request.topic = current_topic_name_;
-            network.request.threshold = current_threshold_;
-            deep_network_service_.call(network);
+            network.network_name = current_model_name_;
+            network.topic = current_topic_name_;
+            network.threshold = current_threshold_;
+            deep_network_topic_.publish(network);
 
             for(std::pair<std::string, cv::Scalar> pair: COLOR_MAP_DEEP_LEARNING)
             {
@@ -60,8 +60,8 @@ namespace proc_image_processing {
             }
 
             // stop the deep learning network
-            std_srvs::Trigger trigger;
-            deep_network_stop_service_.call(trigger);
+            std_msgs::Empty empty;
+            deep_network_stop_topic_.publish(empty);
         }
 
         void apply(cv::Mat &image) override 
@@ -73,15 +73,15 @@ namespace proc_image_processing {
             // if the model name or the threshold change, call the change_network service
             if(current_threshold_ != threshold_.getValue() || current_model_name_ != model_name_.getValue() || current_topic_name_ != topic_name_.getValue())
             {
-                sonia_common::ChangeNetwork network;
+                sonia_common::ChangeNetworkMsg network;
                 current_model_name_ = model_name_.getValue();
                 current_topic_name_ = topic_name_.getValue();
                 current_threshold_ = threshold_.getValue();
 
-                network.request.network_name = current_model_name_;
-                network.request.topic = current_topic_name_;
-                network.request.threshold = current_threshold_;
-                deep_network_service_.call(network);
+                network.network_name = current_model_name_;
+                network.topic = current_topic_name_;
+                network.threshold = current_threshold_;
+                deep_network_topic_.publish(network);
             }
 
             for (sonia_common::Detection &object : bounding_box_) {
@@ -115,7 +115,7 @@ namespace proc_image_processing {
                         ObjectDesc desc("random", cv::Scalar(rand()%255, rand()%255, rand()%255), new Parameter<bool>(key, true, &parameters_));
                         object_mapping_[key] = desc;
 
-                        ROS_INFO("create a new objet %s with random color", key.c_str(), desc.color_name.c_str());
+                        ROS_INFO("create a new objet %s with random color", key.c_str());
 
                         handleObject(target, object, image, object_mapping_[key].color_scalar);
                     }
@@ -162,8 +162,8 @@ namespace proc_image_processing {
 
         ros::Subscriber image_subscriber_;
         ros::ServiceServer detectionListing_;
-        ros::ServiceClient deep_network_service_;
-        ros::ServiceClient deep_network_stop_service_;
+        ros::Publisher deep_network_topic_;
+        ros::Publisher deep_network_stop_topic_;
         ros::NodeHandle nh_;
 
         std::map<std::string, ObjectDesc> object_mapping_;
