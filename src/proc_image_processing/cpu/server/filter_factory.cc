@@ -136,6 +136,9 @@ namespace proc_image_processing {
 	else if(name == "SiftCalculator"){
 		return std::make_unique<SiftCalculator>(gph);
 	}
+		else if(name == "SimpleBlob"){
+		return std::make_unique<SimpleBlob>(gph);
+	}
 	else if(name == "SingleColorFilter"){
 		return std::make_unique<SingleColorFilter>(gph);
 	}
@@ -230,6 +233,7 @@ namespace proc_image_processing {
 		"ShapeDetector;"
 		"SiftMatch;"
 		"SiftCalculator;"
+		"SimpleBlob;"
 		"SingleColorFilter;"
 		"SobelFilter;"
 		"SquareDetector;"
