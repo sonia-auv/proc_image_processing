@@ -13,6 +13,9 @@ namespace proc_image_processing {
 	else if(name == "BackgroundSubtractFilter"){
 		return std::make_unique<BackgroundSubtractFilter>(gph);
 	}
+	else if(name == "BGRFilter"){
+		return std::make_unique<BGRFilter>(gph);
+	}
 	else if(name == "BilateralFilter"){
 		return std::make_unique<BilateralFilter>(gph);
 	}
@@ -73,6 +76,9 @@ namespace proc_image_processing {
 	else if(name == "HoughLineFilter"){
 		return std::make_unique<HoughLineFilter>(gph);
 	}
+	else if(name == "HSVFilter"){
+		return std::make_unique<HSVFilter>(gph);
+	}
 	else if(name == "HSVThresholdFilter"){
 		return std::make_unique<HSVThresholdFilter>(gph);
 	}
@@ -81,6 +87,9 @@ namespace proc_image_processing {
 	}
 	else if(name == "IntervalThresholdFilter"){
 		return std::make_unique<IntervalThresholdFilter>(gph);
+	}
+	else if(name == "LABFilter"){
+		return std::make_unique<LABFilter>(gph);
 	}
 	else if(name == "LaplacianFilter"){
 		return std::make_unique<LaplacianFilter>(gph);
@@ -127,6 +136,9 @@ namespace proc_image_processing {
 	else if(name == "SiftCalculator"){
 		return std::make_unique<SiftCalculator>(gph);
 	}
+	else if(name == "SingleColorFilter"){
+		return std::make_unique<SingleColorFilter>(gph);
+	}
 	else if(name == "SobelFilter"){
 		return std::make_unique<SobelFilter>(gph);
 	}
@@ -163,6 +175,9 @@ namespace proc_image_processing {
 	else if(name == "WhiteNoiseRemovalFilter"){
 		return std::make_unique<WhiteNoiseRemovalFilter>(gph);
 	}
+	else if(name == "YCrCbFilter"){
+		return std::make_unique<YCrCbFilter>(gph);
+	}
             // <FACTORY_GENERATOR_INSTANCE_CREATION/>
         else {
             return nullptr;
@@ -174,6 +189,7 @@ namespace proc_image_processing {
 	return "AccumulatorFilter;"
 		"AdaptiveThresholdFilter;"
 		"BackgroundSubtractFilter;"
+		"BGRFilter;"
 		"BilateralFilter;"
 		"BlurFilter;"
 		"BoundingBoxFilter;"
@@ -194,9 +210,11 @@ namespace proc_image_processing {
 		"HandleDetector;"
 		"HideSubmarineFrameFilter;"
 		"HoughLineFilter;"
+		"HSVFilter;"
 		"HSVThresholdFilter;"
 		"InRangeFilter;"
 		"IntervalThresholdFilter;"
+		"LABFilter;"
 		"LaplacianFilter;"
 		"MissionTestFakeStringFilter;"
 		"MorphologyFilter;"
@@ -212,6 +230,7 @@ namespace proc_image_processing {
 		"ShapeDetector;"
 		"SiftMatch;"
 		"SiftCalculator;"
+		"SingleColorFilter;"
 		"SobelFilter;"
 		"SquareDetector;"
 		"StatisticalThresholdFilter;"
@@ -223,7 +242,8 @@ namespace proc_image_processing {
 		"VampireTorpedoesCloseDetector;"
 		"VampireTorpedoesDetector;"
 		"WhiteFilter;"
-		"WhiteNoiseRemovalFilter";
+		"WhiteNoiseRemovalFilter;"
+		"YCrCbFilter";
         // <FACTORY_GENERATOR_ITEMS_LIST/>
     }
 
