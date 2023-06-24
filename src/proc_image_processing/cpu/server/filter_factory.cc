@@ -19,6 +19,9 @@ namespace proc_image_processing {
 	else if(name == "BilateralFilter"){
 		return std::make_unique<BilateralFilter>(gph);
 	}
+	else if(name == "BinBlobDetector"){
+		return std::make_unique<BinBlobDetector>(gph);
+	}
 	else if(name == "BlurFilter"){
 		return std::make_unique<BlurFilter>(gph);
 	}
@@ -136,7 +139,7 @@ namespace proc_image_processing {
 	else if(name == "SiftCalculator"){
 		return std::make_unique<SiftCalculator>(gph);
 	}
-		else if(name == "SimpleBlob"){
+	else if(name == "SimpleBlob"){
 		return std::make_unique<SimpleBlob>(gph);
 	}
 	else if(name == "SingleColorFilter"){
@@ -194,6 +197,7 @@ namespace proc_image_processing {
 		"BackgroundSubtractFilter;"
 		"BGRFilter;"
 		"BilateralFilter;"
+		"BinBlobDetector;"
 		"BlurFilter;"
 		"BoundingBoxFilter;"
 		"CannyFilter;"

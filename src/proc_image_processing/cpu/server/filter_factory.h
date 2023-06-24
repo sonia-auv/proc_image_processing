@@ -6,6 +6,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/thresholds/adaptive_threshold_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/background_subtract_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bgr_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/bin_blob_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/colors/single_color_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/blur_filter.h>
