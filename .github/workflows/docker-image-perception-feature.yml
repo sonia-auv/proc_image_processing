@@ -54,12 +54,6 @@ jobs:
       - name: Login to Github Package Registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Enable Docker Daemon Experimental Features
-        run: |
-          sudo rm /etc/docker/daemon.json
-          echo '{"experimental": true , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
-          sudo service docker restart
-          docker version
 
       - name: Install QEMU to be able to compile on X86 into ARM64
         run: |
@@ -121,12 +115,6 @@ jobs:
       - name: Login to Github Package Registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Enable Docker Daemon Experimental Features
-        run: |
-          sudo rm /etc/docker/daemon.json
-          echo '{"experimental": true , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
-          sudo service docker restart
-          docker version
 
       - name: Install QEMU to be able to compile on X86 into ARM64
         run: |
