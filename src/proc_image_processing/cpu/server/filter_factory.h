@@ -24,6 +24,7 @@
 #include <proc_image_processing/cpu/filters/transformations/erode_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/fence_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/gate_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/gate_blob_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/handle_detector.h>
 #include <proc_image_processing/cpu/filters/custom/hide_submarine_frame_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/hsv_filter.h>
