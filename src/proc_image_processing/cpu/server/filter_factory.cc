@@ -70,6 +70,9 @@ namespace proc_image_processing {
 	else if(name == "GateBlobDetector"){
 		return std::make_unique<GateBlobDetector>(gph);
 	}
+	else if(name == "GateSymbolDetector"){
+		return std::make_unique<GateSymbolDetector>(gph);
+	}
 	else if(name == "HandleDetector"){
 		return std::make_unique<HandleDetector>(gph);
 	}
@@ -214,6 +217,7 @@ namespace proc_image_processing {
 		"FenceDetector;"
 		"GateDetector;"
 		"GateBlobDetector;"
+		"GateSymbolDetector;"
 		"HandleDetector;"
 		"HideSubmarineFrameFilter;"
 		"HoughLineFilter;"
