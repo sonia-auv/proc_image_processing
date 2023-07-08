@@ -31,8 +31,8 @@ namespace proc_image_processing
         */
         void apply(cv::Mat &image) override
         {
-            cv::Scalar minr = cv::Scalar(0, 0, 255);
-            cv::Scalar maxr = cv::Scalar(0, 0, 255);
+            cv::Scalar minr = cv::Scalar(0, 0, 255-m_tol_red());
+            cv::Scalar maxr = cv::Scalar(m_tol_gb(), m_tol_gb(), 255);
 
             cv::Mat maskr;
             cv::inRange(image, minr, maxr, maskr);
