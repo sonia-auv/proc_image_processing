@@ -14,8 +14,10 @@ namespace proc_image_processing
 
         explicit GateBlobDetector(const GlobalParameterHandler &globalParams)
             : Filter(globalParams),
-              m_tol_red("Tol. red", 0, 0, 255, &parameters_,"Tolerance in the detection of red"),
-              m_tol_black("Tol. black", 0, 0, 255, &parameters_,"Tolerance in the detection of black")
+              m_tol_red("Tol. red", 0, 0, 255, &parameters_,"Tolerance of red in red detection"),
+              m_tol_gb("Tol. for other colors", 0, 0, 255, &parameters_, "Tolerance of green and blue in red detection"),
+              m_tol_black("Tol. black", 0, 0, 255, &parameters_,"Tolerance in the detection of black"),
+              m_debug("Debug state", 0, 0, 2, &parameters_, "0=NoDebug, 1=RedFilter, 2=BlackFilter")
         {
             setName("GateBlobDetector");
         }
@@ -29,8 +31,8 @@ namespace proc_image_processing
         */
         void apply(cv::Mat &image) override
         {
-            cv::Scalar minr = cv::Scalar(0, 0, 255-m_tol_red());
-            cv::Scalar maxr = cv::Scalar(m_tol_red(), m_tol_red(), 255);
+            cv::Scalar minr = cv::Scalar(0, 0, 255);
+            cv::Scalar maxr = cv::Scalar(0, 0, 255);
 
             cv::Mat maskr;
             cv::inRange(image, minr, maxr, maskr);
@@ -97,10 +99,25 @@ namespace proc_image_processing
 
             cv::drawKeypoints(image, keypointsb, image, cv::Scalar(0, 0, 0), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
             cv::drawKeypoints(image, keypointsr, image, cv::Scalar(0, 0, 255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+
+            switch (m_debug()) {
+            case 1:
+                image = maskr;
+                break;
+            case 2:
+                image = maskb;
+                break;
+            default:
+                break;
+            }
+
+               
         }
 
     private:
         RangedParameter<int> m_tol_red;
+        RangedParameter<int> m_tol_gb;
         RangedParameter<int> m_tol_black;
+        RangedParameter<int> m_debug;
     };
 }
