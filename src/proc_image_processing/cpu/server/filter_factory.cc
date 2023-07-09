@@ -2,7 +2,7 @@
 
 namespace proc_image_processing {
     std::unique_ptr<Filter>
-    FilterFactory::createInstance(const std::string_view &name, const GlobalParameterHandler &gph) {
+    FilterFactory::createInstance(const std::string_view &name, const GlobalParameterHandler &gph, ros::NodeHandle &nh_) {
         // <FACTORY_GENERATOR_INSTANCE_CREATION>
 	if(name == "AccumulatorFilter"){
 		return std::make_unique<AccumulatorFilter>(gph);
@@ -68,7 +68,7 @@ namespace proc_image_processing {
 		return std::make_unique<GateDetector>(gph);
 	}
 	else if(name == "GateBlobDetector"){
-		return std::make_unique<GateBlobDetector>(gph);
+		return std::make_unique<GateBlobDetector>(gph, nh_);
 	}
 	else if(name == "HandleDetector"){
 		return std::make_unique<HandleDetector>(gph);

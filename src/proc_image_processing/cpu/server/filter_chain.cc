@@ -4,21 +4,31 @@
 
 namespace proc_image_processing {
 
-    FilterChain::FilterChain(std::string name, const std::string &path)
+    // FilterChain::FilterChain(std::string name, const std::string &path)
+    //         : filepath_(path + "/" + name + kFilterChainExt),
+    //           name_(std::move(name)),
+    //           param_handler_(),
+    //           observer_index_(0) {
+    //     deserialize();
+    //     observer_index_ = filters_.size() - 1;
+    // }
+
+    FilterChain::FilterChain(std::string name, const std::string &path, ros::NodeHandle &nh_)
             : filepath_(path + "/" + name + kFilterChainExt),
               name_(std::move(name)),
               param_handler_(),
-              observer_index_(0) {
+              observer_index_(0),
+              nh_(nh_) {
         deserialize();
         observer_index_ = filters_.size() - 1;
     }
 
-    FilterChain::FilterChain(const FilterChain &filter_chain, const std::string &path)
-            : filepath_(path + "/" + filter_chain.name_ + "_copy" + kFilterChainExt),
-              name_(filter_chain.name_ + "_copy"),
-              filters_(filter_chain.getFilters()),
-              param_handler_(filter_chain.param_handler_),
-              observer_index_(filter_chain.observer_index_) {}
+    // FilterChain::FilterChain(const FilterChain &filter_chain, const std::string &path)
+    //         : filepath_(path + "/" + filter_chain.name_ + "_copy" + kFilterChainExt),
+    //           name_(filter_chain.name_ + "_copy"),
+    //           filters_(filter_chain.getFilters()),
+    //           param_handler_(filter_chain.param_handler_),
+    //           observer_index_(filter_chain.observer_index_) {}
 
     FilterChain::~FilterChain() = default;
 
@@ -201,7 +211,7 @@ namespace proc_image_processing {
     }
 
     void FilterChain::addFilter(const std::string &name) {
-        auto filter = Filter::Ptr(FilterFactory::createInstance(name, param_handler_));
+        auto filter = Filter::Ptr(FilterFactory::createInstance(name, param_handler_, nh_));
         if (filter != nullptr) {
             filters_.push_back(filter);
         } else {

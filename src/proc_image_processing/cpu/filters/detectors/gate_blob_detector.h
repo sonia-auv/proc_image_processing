@@ -4,6 +4,8 @@
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
+#include <ros/ros.h>
+#include <sonia_common/FilterchainTarget.h>
 
 namespace proc_image_processing
 {
@@ -12,14 +14,15 @@ namespace proc_image_processing
     public:
         using Ptr = std::shared_ptr<GateBlobDetector>;
 
-        explicit GateBlobDetector(const GlobalParameterHandler &globalParams)
-            : Filter(globalParams),
+        explicit GateBlobDetector(const GlobalParameterHandler &globalParams, ros::NodeHandle &nh_)
+            : Filter(globalParams, nh_),
               m_tol_red("Tol. red", 0, 0, 255, &parameters_,"Tolerance of red in red detection"),
               m_tol_gb("Tol. for other colors", 0, 0, 255, &parameters_, "Tolerance of green and blue in red detection"),
               m_tol_black("Tol. black", 0, 0, 255, &parameters_,"Tolerance in the detection of black"),
               m_debug("Debug state", 0, 0, 2, &parameters_, "0=NoDebug, 1=RedFilter, 2=BlackFilter")
         {
             setName("GateBlobDetector");
+            m_target_pub = this->nh_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/gate_target", 100);
         }
 
         ~GateBlobDetector() override = default;
@@ -111,6 +114,8 @@ namespace proc_image_processing
                 break;
             }
 
+
+
                
         }
 
@@ -119,5 +124,8 @@ namespace proc_image_processing
         RangedParameter<int> m_tol_gb;
         RangedParameter<int> m_tol_black;
         RangedParameter<int> m_debug;
+
+        ros::Publisher m_target_pub;
+
     };
 }

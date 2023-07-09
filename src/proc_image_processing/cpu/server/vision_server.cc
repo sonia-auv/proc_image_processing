@@ -119,7 +119,7 @@ namespace proc_image_processing {
                         req.filterchain_name.c_str(),
                         req.media_name.c_str()
                 );
-                FilterChain::Ptr filter_chain = filter_chain_mgr_.createFilterChain(req.filterchain_name);
+                FilterChain::Ptr filter_chain = filter_chain_mgr_.createFilterChain(req.filterchain_name, this->nh_);
 
                 res.response = detection_task_mgr_.StartDetectionTask(req.media_name, filter_chain, req.node_name);
                 ROS_INFO("Starting topic: %s", res.response.c_str());
