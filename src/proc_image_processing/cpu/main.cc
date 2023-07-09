@@ -8,10 +8,10 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "proc_image_processing");
 
     ros::NodeHandle nh("~");
-
-    proc_image_processing::VisionServer pv(nh);
-
     ros::NodeHandlePtr nhp(&nh);
+
+    proc_image_processing::VisionServer pv(nh, nhp);
+
     proc_image_processing::SubmarinePosition sp(nhp);
     proc_image_processing::SonarMapper sonarMapper(sp, nhp);
 

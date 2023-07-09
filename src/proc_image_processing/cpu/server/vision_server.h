@@ -43,7 +43,7 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<VisionServer>;
 
-        explicit VisionServer(const ros::NodeHandle &nh);
+        explicit VisionServer(const ros::NodeHandle &nh, ros::NodeHandlePtr nhp);
 
         ~VisionServer() override;
 
@@ -357,6 +357,8 @@ namespace proc_image_processing {
          * ros::NodeHandle on the different instance of the objects.
          */
         ros::NodeHandle nh_;
+
+        ros::NodeHandlePtr nhp_;
 
         FilterChainManager filter_chain_mgr_;
 

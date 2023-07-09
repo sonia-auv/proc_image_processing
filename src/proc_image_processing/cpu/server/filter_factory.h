@@ -81,7 +81,7 @@ namespace proc_image_processing {
         static std::unique_ptr<Filter> createInstance(
                 const std::string_view &name,
                 const GlobalParameterHandler &gph,
-                ros::NodeHandle &nh_
+                ros::NodeHandlePtr nhp
         );
 
         static std::string getFilters();

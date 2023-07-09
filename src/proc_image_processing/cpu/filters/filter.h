@@ -27,8 +27,8 @@ namespace proc_image_processing {
               parameters_() {
         }
 
-        explicit Filter(const GlobalParameterHandler &globalParams, ros::NodeHandle &nh)
-            : global_param_handler_(const_cast<GlobalParameterHandler &>(globalParams)), nh_(&nh),
+        explicit Filter(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp)
+            : global_param_handler_(const_cast<GlobalParameterHandler &>(globalParams)), nhp_(nhp),
             // enable_("Enable", false, &parameters_),
             // Explicit construction not needed here... Just reminder it exist.
             parameters_() {
@@ -69,7 +69,7 @@ namespace proc_image_processing {
         GlobalParameterHandler &global_param_handler_;
         std::vector<ParameterInterface *> parameters_;
         std::string name_;
-        ros::NodeHandle *nh_;
+        ros::NodeHandlePtr nhp_;
 
     private:
         virtual void apply(cv::Mat &image) = 0;

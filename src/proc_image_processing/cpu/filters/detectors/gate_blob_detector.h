@@ -14,15 +14,15 @@ namespace proc_image_processing
     public:
         using Ptr = std::shared_ptr<GateBlobDetector>;
 
-        explicit GateBlobDetector(const GlobalParameterHandler &globalParams, ros::NodeHandle &nh_)
-            : Filter(globalParams, nh_),
+        explicit GateBlobDetector(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp)
+            : Filter(globalParams, nhp),
               m_tol_red("Tol. red", 0, 0, 255, &parameters_,"Tolerance of red in red detection"),
               m_tol_gb("Tol. for other colors", 0, 0, 255, &parameters_, "Tolerance of green and blue in red detection"),
               m_tol_black("Tol. black", 0, 0, 255, &parameters_,"Tolerance in the detection of black"),
               m_debug("Debug state", 0, 0, 2, &parameters_, "0=NoDebug, 1=RedFilter, 2=BlackFilter")
         {
             setName("GateBlobDetector");
-            m_target_pub = this->nh_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/gate_target", 100);
+            m_target_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/gate_target", 100);
         }
 
         ~GateBlobDetector() override = default;

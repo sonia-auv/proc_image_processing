@@ -17,7 +17,7 @@ namespace proc_image_processing {
         using Ptr = std::shared_ptr<FilterChain>;
 
         //explicit FilterChain(std::string name, const std::string &path);
-        explicit FilterChain(std::string name, const std::string &path, ros::NodeHandle &nh_);
+        explicit FilterChain(std::string name, const std::string &path, ros::NodeHandlePtr nhp);
 
         /**
          * Instantiate a filter chain from another one. In other words, this is a copy constructor.
@@ -141,7 +141,7 @@ namespace proc_image_processing {
 
         std::string name_;
 
-        ros::NodeHandle &nh_;
+        ros::NodeHandlePtr nhp;
 
         GlobalParameterHandler param_handler_;
 

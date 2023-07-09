@@ -50,12 +50,12 @@ namespace proc_image_processing {
         );
     }
 
-    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filter_chain_name, ros::NodeHandle nh_) {
+    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filter_chain_name, ros::NodeHandlePtr nhp) {
         if (filterChainExists(filter_chain_name)) {
             auto filter_chain = std::make_shared<FilterChain>(
                     filter_chain_name,
                     kFilterChainPath,
-                    nh_
+                    nhp
             );
             running_filter_chains_.push_back(filter_chain);
             ROS_INFO("Filter chain %s is ready.", filter_chain_name.c_str());

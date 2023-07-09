@@ -13,12 +13,12 @@ namespace proc_image_processing {
     //     observer_index_ = filters_.size() - 1;
     // }
 
-    FilterChain::FilterChain(std::string name, const std::string &path, ros::NodeHandle &nh_)
+    FilterChain::FilterChain(std::string name, const std::string &path, ros::NodeHandlePtr nhp)
             : filepath_(path + "/" + name + kFilterChainExt),
               name_(std::move(name)),
               param_handler_(),
               observer_index_(0),
-              nh_(nh_) {
+              nhp(nhp) {
         deserialize();
         observer_index_ = filters_.size() - 1;
     }
@@ -211,7 +211,7 @@ namespace proc_image_processing {
     }
 
     void FilterChain::addFilter(const std::string &name) {
-        auto filter = Filter::Ptr(FilterFactory::createInstance(name, param_handler_, nh_));
+        auto filter = Filter::Ptr(FilterFactory::createInstance(name, param_handler_, nhp));
         if (filter != nullptr) {
             filters_.push_back(filter);
         } else {

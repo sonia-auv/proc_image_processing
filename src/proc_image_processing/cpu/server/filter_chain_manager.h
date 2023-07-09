@@ -47,7 +47,7 @@ namespace proc_image_processing {
          * \param nh_ ros::NodeHandle
          * \return FilterChain*
         */
-        FilterChain::Ptr createFilterChain(const std::string &filter_chain_name, ros::NodeHandle nh_);
+        FilterChain::Ptr createFilterChain(const std::string &filter_chain_name, ros::NodeHandlePtr nhp);
 
         /**
          * Pass through the list of all the filterchains and instanciate them

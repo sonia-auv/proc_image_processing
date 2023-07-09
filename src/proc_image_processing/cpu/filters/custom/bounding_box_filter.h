@@ -13,8 +13,8 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BoundingBoxFilter>;
 
-        explicit BoundingBoxFilter(const GlobalParameterHandler &globalParams) :
-                Filter(globalParams),
+        explicit BoundingBoxFilter(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp) :
+                Filter(globalParams, nhp),
                 width_("Width", 0, 0, 600, &parameters_, "Width"),
                 heigth_("Height", 0, 0, 600, &parameters_, "Heigth"),
                 origin_x_("Origin X", 0, -300, 300, &parameters_, "Origin X"),
@@ -24,7 +24,7 @@ namespace proc_image_processing {
                 center_heigth_("Center Height", 0, 0, 600, &parameters_, "Heigth"),
                 center_thickness_("Center Thickness", 1, 1, 10, &parameters_, "Thickness") {
             setName("BoundingBoxFilter");
-            m_box_pub = this->nh_->advertise<sonia_common::CenterShapeBoundingBox>("/proc_image_processing/gate_box", 100);
+            m_box_pub = this->nhp_->advertise<sonia_common::CenterShapeBoundingBox>("/proc_image_processing/gate_box", 100);
         }
 
         ~BoundingBoxFilter() override = default;
