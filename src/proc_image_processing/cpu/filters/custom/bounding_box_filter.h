@@ -25,11 +25,13 @@ namespace proc_image_processing {
                 center_thickness_("Center Thickness", 1, 1, 10, &parameters_, "Thickness") {
             setName("BoundingBoxFilter");
             m_box_pub = this->nh_->advertise<sonia_common::CenterShapeBoundingBox>("/proc_image_processing/gate_box", 100);
+            ROS_INFO("BoundingBox Filter Created Filter Created");
         }
 
         ~BoundingBoxFilter() override = default;
 
         void apply(cv::Mat &image) override {
+            ROS_INFO("Image aquired");
             cv::Rect rect((image.cols/2)+origin_x_()-width_()/2, (image.rows/2)-origin_y_()-heigth_()/2, width_(), heigth_());
             cv::Rect center_rect((image.cols/2)+origin_x_()-center_width_()/2, (image.rows/2)-origin_y_()-center_heigth_()/2, center_width_(), center_heigth_());
 
@@ -55,6 +57,7 @@ namespace proc_image_processing {
             box.shape = objt;
 
             m_box_pub.publish(box);
+            ROS_INFO("MSG Published");
         }
 
     private:
