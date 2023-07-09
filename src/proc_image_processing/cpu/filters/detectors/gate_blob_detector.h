@@ -83,19 +83,32 @@ namespace proc_image_processing
 
             double angle = 0.785;
             cv::Point vecteur;
+            double size;
+            geometry_msgs::Pose2D objet;
+            sonia_common::FilterchainTarget target;
 
             for(int i=0; i<2; i++) {
                 if(gate[i][1].size > 0) {
                     if(gate[i][0].pt.y < gate[i][1].pt.y) {
                         vecteur = cv::Point(gate[i][0].pt.x - gate[i][1].pt.x, gate[i][0].pt.y - gate[i][1].pt.y);
                         vecteur = cv::Point(cos(angle)*vecteur.x-sin(angle)*vecteur.y, sin(angle)*vecteur.x+cos(angle)*vecteur.y);
+                        size = sqrt(pow(vecteur.x, 2)+pow(vecteur.y, 2));
                         vecteur = cv::Point((int)(vecteur.x*1.6 + gate[i][1].pt.x), (int)(vecteur.y*1.6 + gate[i][1].pt.y));
+
+                        objet.x = vecteur.x;
+                        objet.y = vecteur.y;
+                        target.obj_ctr = objet;
+                        target.obj_size = size;
+                        m_target_pub.publish(target);
                     }else{
                         vecteur = cv::Point(gate[i][1].pt.x - gate[i][0].pt.x, gate[i][1].pt.y - gate[i][0].pt.y);
                         vecteur = cv::Point(cos(-angle)*vecteur.x-sin(-angle)*vecteur.y, sin(-angle)*vecteur.x+cos(-angle)*vecteur.y);
+                        size = sqrt(pow(vecteur.x, 2)+pow(vecteur.y, 2));
                         vecteur = cv::Point((int)(vecteur.x*1.6 + gate[i][0].pt.x), (int)(vecteur.y*1.6 + gate[i][0].pt.y));
-                    }
 
+                        //m_target_pub.publish(sonia_common::FilterchainTarget(geometry_msgs::Pose2D(vecteur.x, vecteur.y), size));
+                    }
+                    
                     cv::circle(image, vecteur, 8, cv::Scalar(0, 255, 0), CV_FILLED);
                 }
             }
@@ -113,10 +126,7 @@ namespace proc_image_processing
             default:
                 break;
             }
-
-
-
-               
+                           
         }
 
     private:

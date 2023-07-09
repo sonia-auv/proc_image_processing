@@ -5,6 +5,7 @@
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
+#include <sonia_common/CenterShapeBoundingBox.h>
 
 namespace proc_image_processing {
 
@@ -23,6 +24,7 @@ namespace proc_image_processing {
                 center_heigth_("Center Height", 0, 0, 600, &parameters_, "Heigth"),
                 center_thickness_("Center Thickness", 1, 1, 10, &parameters_, "Thickness") {
             setName("BoundingBoxFilter");
+            m_box_pub = this->nh_->advertise<sonia_common::CenterShapeBoundingBox>("/proc_image_processing/gate_box", 100);
         }
 
         ~BoundingBoxFilter() override = default;
@@ -33,6 +35,26 @@ namespace proc_image_processing {
 
             cv::rectangle(image, rect, cv::Scalar(0,255,0), thickness_());
             cv::rectangle(image, center_rect, cv::Scalar(255,0,0), center_thickness_());
+
+            sonia_common::CenterShapeBoundingBox box;
+            sonia_common::BoundingBox2D cntr;
+            sonia_common::BoundingBox2D objt;
+            geometry_msgs::Pose2D pose;
+
+            pose.x = image.cols/2;
+            pose.y = image.rows/2;
+            objt.center = pose;
+            objt.size_x = width_();
+            objt.size_y = heigth_();
+
+            cntr.center = pose;
+            objt.size_x = center_width_();
+            objt.size_y = center_heigth_();
+
+            box.center = cntr;
+            box.shape = objt;
+
+            m_box_pub.publish(box);
         }
 
     private:
@@ -45,6 +67,8 @@ namespace proc_image_processing {
         RangedParameter<int> center_width_;
         RangedParameter<int> center_heigth_;
         RangedParameter<int> center_thickness_;
+
+        ros::Publisher m_box_pub;
     };
 
 }  // namespace proc_image_processing
