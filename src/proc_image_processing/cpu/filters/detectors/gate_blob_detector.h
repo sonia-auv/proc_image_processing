@@ -22,7 +22,8 @@ namespace proc_image_processing
               m_debug("Debug state", 0, 0, 2, &parameters_, "0=NoDebug, 1=RedFilter, 2=BlackFilter")
         {
             setName("GateBlobDetector");
-            m_target_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/gate_target", 100);
+            m_left_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/gate_left_target", 100);
+            m_right_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/gate_right_target", 100);
         }
 
         ~GateBlobDetector() override = default;
@@ -99,14 +100,18 @@ namespace proc_image_processing
                         objet.y = vecteur.y;
                         target.obj_ctr = objet;
                         target.obj_size = size;
-                        m_target_pub.publish(target);
+                        m_left_pub.publish(target);
                     }else{
                         vecteur = cv::Point(gate[i][1].pt.x - gate[i][0].pt.x, gate[i][1].pt.y - gate[i][0].pt.y);
                         vecteur = cv::Point(cos(-angle)*vecteur.x-sin(-angle)*vecteur.y, sin(-angle)*vecteur.x+cos(-angle)*vecteur.y);
                         size = sqrt(pow(vecteur.x, 2)+pow(vecteur.y, 2));
                         vecteur = cv::Point((int)(vecteur.x*1.6 + gate[i][0].pt.x), (int)(vecteur.y*1.6 + gate[i][0].pt.y));
 
-                        //m_target_pub.publish(sonia_common::FilterchainTarget(geometry_msgs::Pose2D(vecteur.x, vecteur.y), size));
+                        objet.x = vecteur.x;
+                        objet.y = vecteur.y;
+                        target.obj_ctr = objet;
+                        target.obj_size = size;
+                        m_right_pub.publish(target);
                     }
                     
                     cv::circle(image, vecteur, 8, cv::Scalar(0, 255, 0), CV_FILLED);
@@ -135,7 +140,8 @@ namespace proc_image_processing
         RangedParameter<int> m_tol_black;
         RangedParameter<int> m_debug;
 
-        ros::Publisher m_target_pub;
+        ros::Publisher m_left_pub;
+        ros::Publisher m_right_pub;
 
     };
 }
