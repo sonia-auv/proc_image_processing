@@ -8,6 +8,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/bgr_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/colors/single_color_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/blob_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/blur_filter.h>
 #include <proc_image_processing/cpu/filters/custom/bounding_box_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/canny_filter.h>

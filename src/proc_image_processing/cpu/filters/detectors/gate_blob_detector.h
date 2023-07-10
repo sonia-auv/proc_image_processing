@@ -4,7 +4,6 @@
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
-#include <ros/ros.h>
 #include <sonia_common/FilterchainTarget.h>
 
 namespace proc_image_processing
