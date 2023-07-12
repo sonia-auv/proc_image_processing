@@ -118,6 +118,9 @@ namespace proc_image_processing {
 	else if(name == "PipeAngleDetector"){
 		return std::make_unique<PipeAngleDetector>(gph);
 	}
+	else if(name == "PipeDetector"){
+		return std::make_unique<PipeDetector>(gph, nhp);
+	}
 	else if(name == "PipeStraightDetector"){
 		return std::make_unique<PipeStraightDetector>(gph);
 	}
@@ -142,7 +145,7 @@ namespace proc_image_processing {
 	else if(name == "SiftCalculator"){
 		return std::make_unique<SiftCalculator>(gph);
 	}
-		else if(name == "SimpleBlob"){
+	else if(name == "SimpleBlob"){
 		return std::make_unique<SimpleBlob>(gph);
 	}
 	else if(name == "SingleColorFilter"){
@@ -233,6 +236,7 @@ namespace proc_image_processing {
 		"OrbSiftMatch;"
 		"OriginalImageFilter;"
 		"PipeAngleDetector;"
+		"PipeDetector;"
 		"PipeStraightDetector;"
 		"RemoveMaskFilter;"
 		"RotateFilter;"
