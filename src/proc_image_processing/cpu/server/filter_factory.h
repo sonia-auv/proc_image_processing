@@ -9,6 +9,7 @@
 #include <proc_image_processing/cpu/filters/detectors/bin_blob_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/bilateral_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/colors/single_color_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/blob_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/blur_filter.h>
 #include <proc_image_processing/cpu/filters/custom/bounding_box_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/edge_detection/canny_filter.h>
@@ -25,6 +26,7 @@
 #include <proc_image_processing/cpu/filters/transformations/erode_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/fence_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/gate_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/gate_blob_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/handle_detector.h>
 #include <proc_image_processing/cpu/filters/custom/hide_submarine_frame_filter.h>
 #include <proc_image_processing/cpu/filters/low_pass/hsv_filter.h>
@@ -40,6 +42,7 @@
 #include <proc_image_processing/cpu/filters/detectors/orb_sift_match.h>
 #include <proc_image_processing/cpu/filters/custom/original_image_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_angle_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/pipe_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_straight_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/remove_mask_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/rotate_filter.h>
@@ -80,7 +83,8 @@ namespace proc_image_processing {
         // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT
         static std::unique_ptr<Filter> createInstance(
                 const std::string_view &name,
-                const GlobalParameterHandler &gph
+                const GlobalParameterHandler &gph,
+                ros::NodeHandlePtr nhp
         );
 
         static std::string getFilters();

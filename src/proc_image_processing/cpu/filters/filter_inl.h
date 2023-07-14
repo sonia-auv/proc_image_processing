@@ -10,13 +10,6 @@
 
 namespace proc_image_processing {
 
-    inline Filter::Filter(const GlobalParameterHandler &globalParams)
-            : global_param_handler_(const_cast<GlobalParameterHandler &>(globalParams)),
-            // enable_("Enable", false, &parameters_),
-            // Explicit construction not needed here... Just reminder it exist.
-              parameters_() {
-    }
-
     inline std::string Filter::getName() { return name_; }
 
     inline const std::vector<ParameterInterface *> &Filter::getParameters() const { return parameters_; }

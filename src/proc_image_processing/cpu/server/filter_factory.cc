@@ -2,7 +2,7 @@
 
 namespace proc_image_processing {
     std::unique_ptr<Filter>
-    FilterFactory::createInstance(const std::string_view &name, const GlobalParameterHandler &gph) {
+    FilterFactory::createInstance(const std::string_view &name, const GlobalParameterHandler &gph, ros::NodeHandlePtr nhp) {
         // <FACTORY_GENERATOR_INSTANCE_CREATION>
 	if(name == "AccumulatorFilter"){
 		return std::make_unique<AccumulatorFilter>(gph);
@@ -21,12 +21,15 @@ namespace proc_image_processing {
 	}
 	else if(name == "BinBlobDetector"){
 		return std::make_unique<BinBlobDetector>(gph);
+  }
+	else if(name == "BlobDetector"){
+		return std::make_unique<BlobDetector>(gph, nhp);
 	}
 	else if(name == "BlurFilter"){
 		return std::make_unique<BlurFilter>(gph);
 	}
 	else if(name == "BoundingBoxFilter"){
-		return std::make_unique<BoundingBoxFilter>(gph);
+		return std::make_unique<BoundingBoxFilter>(gph, nhp);
 	}
 	else if(name == "CannyFilter"){
 		return std::make_unique<CannyFilter>(gph);
@@ -69,6 +72,9 @@ namespace proc_image_processing {
 	}
 	else if(name == "GateDetector"){
 		return std::make_unique<GateDetector>(gph);
+	}
+	else if(name == "GateBlobDetector"){
+		return std::make_unique<GateBlobDetector>(gph, nhp);
 	}
 	else if(name == "HandleDetector"){
 		return std::make_unique<HandleDetector>(gph);
@@ -114,6 +120,9 @@ namespace proc_image_processing {
 	}
 	else if(name == "PipeAngleDetector"){
 		return std::make_unique<PipeAngleDetector>(gph);
+	}
+	else if(name == "PipeDetector"){
+		return std::make_unique<PipeDetector>(gph, nhp);
 	}
 	else if(name == "PipeStraightDetector"){
 		return std::make_unique<PipeStraightDetector>(gph);
@@ -198,6 +207,7 @@ namespace proc_image_processing {
 		"BGRFilter;"
 		"BilateralFilter;"
 		"BinBlobDetector;"
+		"BlobDetector;"
 		"BlurFilter;"
 		"BoundingBoxFilter;"
 		"CannyFilter;"
@@ -214,6 +224,7 @@ namespace proc_image_processing {
 		"ErodeFilter;"
 		"FenceDetector;"
 		"GateDetector;"
+		"GateBlobDetector;"
 		"HandleDetector;"
 		"HideSubmarineFrameFilter;"
 		"HoughLineFilter;"
@@ -229,6 +240,7 @@ namespace proc_image_processing {
 		"OrbSiftMatch;"
 		"OriginalImageFilter;"
 		"PipeAngleDetector;"
+		"PipeDetector;"
 		"PipeStraightDetector;"
 		"RemoveMaskFilter;"
 		"RotateFilter;"
