@@ -19,6 +19,9 @@ namespace proc_image_processing {
 	else if(name == "BilateralFilter"){
 		return std::make_unique<BilateralFilter>(gph);
 	}
+	else if(name == "BinBlobDetector"){
+		return std::make_unique<BinBlobDetector>(gph);
+	}
 	else if(name == "BlobDetector"){
 		return std::make_unique<BlobDetector>(gph, nhp);
 	}
@@ -206,6 +209,7 @@ namespace proc_image_processing {
 		"BackgroundSubtractFilter;"
 		"BGRFilter;"
 		"BilateralFilter;"
+		"BinBlobDetector;"
 		"BlobDetector;"
 		"BlurFilter;"
 		"BoundingBoxFilter;"
