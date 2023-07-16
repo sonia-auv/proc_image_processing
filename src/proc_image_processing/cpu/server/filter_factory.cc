@@ -21,7 +21,7 @@ namespace proc_image_processing {
 	}
 	else if(name == "BinBlobDetector"){
 		return std::make_unique<BinBlobDetector>(gph);
-  }
+	}
 	else if(name == "BlobDetector"){
 		return std::make_unique<BlobDetector>(gph, nhp);
 	}
