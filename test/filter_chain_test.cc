@@ -7,7 +7,7 @@
 namespace fs = boost::filesystem;
 
 TEST(FilterChainTest, TestBaseFeatures) {
-    proc_image_processing::FilterChain fc1("filter_chain_test_1", proc_image_processing::kFilterChainPath);
+    proc_image_processing::FilterChain fc1("filter_chain_test_1", proc_image_processing::kFilterChainPath, ros::NodeHandlePtr);
     ASSERT_EQ(fc1.getName(), "filter_chain_test_1");
     fc1.setName("new_filter_chain_name");
     ASSERT_EQ(fc1.getName(), "new_filter_chain_name");
@@ -29,7 +29,7 @@ TEST(FilterChainTest, TestBaseFeatures) {
     ASSERT_EQ(fc1.getFilter(size_t(-1)), nullptr);
     ASSERT_EQ(fc1.getFilter(size_t(3)), nullptr);
 
-    proc_image_processing::FilterChain fc2("filter_chain_test_2", proc_image_processing::kFilterChainPath);
+    proc_image_processing::FilterChain fc2("filter_chain_test_2", proc_image_processing::kFilterChainPath, ros::NodeHandlePtr);
     ASSERT_EQ(fc2.getName(), "filter_chain_test_2");
     ASSERT_EQ(fc2.getFilters().size(), 7);
 
@@ -47,7 +47,7 @@ TEST(FilterChainTest, TestBaseFeatures) {
 }
 
 TEST(FilterChainTest, TestFilters) {
-    proc_image_processing::FilterChain fc("filter_chain_test_3", proc_image_processing::kFilterChainPath);
+    proc_image_processing::FilterChain fc("filter_chain_test_3", proc_image_processing::kFilterChainPath, ros::NodeHandlePtr);
 
     // Try with a bad filter
     ASSERT_THROW(fc.addFilter("bad_filter"), std::invalid_argument);
@@ -121,7 +121,7 @@ TEST(FilterChainTest, TestFilters) {
 }
 
 TEST(FilterChainTest, TestSerialization) {
-    proc_image_processing::FilterChain fc("filter_chain_test_3", proc_image_processing::kFilterChainPath);
+    proc_image_processing::FilterChain fc("filter_chain_test_3", proc_image_processing::kFilterChainPath, ros::NodeHandlePtr);
     fc.setName("filter_chain_test_3_modified");
     fc.addFilter("CLAHEFilter");
     fc.setFilepath(
@@ -137,7 +137,7 @@ TEST(FilterChainTest, TestSerialization) {
 
     // Load the modified file (no overwrite)
     proc_image_processing::FilterChain fcModified("filter_chain_test_3_modified",
-                                                  proc_image_processing::kFilterChainPath);
+                                                  proc_image_processing::kFilterChainPath, ros::NodeHandlePtr);
     ASSERT_TRUE(fcModified.containsFilter("CLAHEFilter"));
     ASSERT_EQ(fcModified.getFilters().size(), 5);
     fc.removeFilter(fc.getFilters().size() - 1);
@@ -146,7 +146,7 @@ TEST(FilterChainTest, TestSerialization) {
 
 TEST(FilterChainTest, TestApply) {
     fs::path current(proc_image_processing::kProjectPath + "/test");
-    proc_image_processing::FilterChain fc("filter_chain_test_4", proc_image_processing::kFilterChainPath);
+    proc_image_processing::FilterChain fc("filter_chain_test_4", proc_image_processing::kFilterChainPath, ros::NodeHandlePtr);
     auto src = cv::imread(
             (current / "assets/imgs/filter_chain_test/1.jpg").c_str(),
             cv::IMREAD_GRAYSCALE
