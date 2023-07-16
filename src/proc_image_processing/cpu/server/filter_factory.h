@@ -83,6 +83,11 @@ namespace proc_image_processing {
         // KEEPING A REFERENCE TO GlobalParamHandler. VERY IMPORTANT
         static std::unique_ptr<Filter> createInstance(
                 const std::string_view &name,
+                const GlobalParameterHandler &gph
+        );
+
+        static std::unique_ptr<Filter> createInstance(
+                const std::string_view &name,
                 const GlobalParameterHandler &gph,
                 ros::NodeHandlePtr nhp
         );
