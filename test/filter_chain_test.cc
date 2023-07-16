@@ -48,6 +48,7 @@ TEST(FilterChainTest, TestBaseFeatures) {
 }
 
 TEST(FilterChainTest, TestFilters) {
+    ros::NodeHandlePtr nhp;
     proc_image_processing::FilterChain fc("filter_chain_test_3", proc_image_processing::kFilterChainPath, nhp);
 
     // Try with a bad filter
@@ -122,6 +123,7 @@ TEST(FilterChainTest, TestFilters) {
 }
 
 TEST(FilterChainTest, TestSerialization) {
+    ros::NodeHandlePtr nhp;
     proc_image_processing::FilterChain fc("filter_chain_test_3", proc_image_processing::kFilterChainPath, nhp);
     fc.setName("filter_chain_test_3_modified");
     fc.addFilter("CLAHEFilter");
@@ -146,6 +148,7 @@ TEST(FilterChainTest, TestSerialization) {
 }
 
 TEST(FilterChainTest, TestApply) {
+    ros::NodeHandlePtr nhp;
     fs::path current(proc_image_processing::kProjectPath + "/test");
     proc_image_processing::FilterChain fc("filter_chain_test_4", proc_image_processing::kFilterChainPath, nhp);
     auto src = cv::imread(
