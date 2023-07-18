@@ -20,7 +20,7 @@ namespace proc_image_processing {
 		return std::make_unique<BilateralFilter>(gph);
 	}
 	else if(name == "BinBlobDetector"){
-		return std::make_unique<BinBlobDetector>(gph);
+		return std::make_unique<BinBlobDetector>(gph, nhp);
 	}
 	else if(name == "BlobDetector"){
 		return std::make_unique<BlobDetector>(gph, nhp);
@@ -77,7 +77,7 @@ namespace proc_image_processing {
 		return std::make_unique<GateBlobDetector>(gph, nhp);
 	}
 	else if(name == "GateSymbolDetector"){
-		return std::make_unique<GateSymbolDetector>(gph);
+		return std::make_unique<GateSymbolDetector>(gph, nhp);
 	}
 	else if(name == "HandleDetector"){
 		return std::make_unique<HandleDetector>(gph);

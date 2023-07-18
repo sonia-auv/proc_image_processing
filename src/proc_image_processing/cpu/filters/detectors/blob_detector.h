@@ -73,16 +73,20 @@ namespace proc_image_processing
             // Draw detected blobs as red circles.
             // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures the size of the circle corresponds to the size of blob
             cv::drawKeypoints( image, keypoints, image, cv::Scalar(0,0,255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS );
-            cv::circle(image, keypoints[0].pt, 8, cv::Scalar(0, 255, 0), CV_FILLED);
 
-            geometry_msgs::Pose2D objet;
-            sonia_common::FilterchainTarget target;
+            if(keypoints.size()>=1){
+                cv::circle(image, keypoints[0].pt, 8, cv::Scalar(0, 255, 0), CV_FILLED);
 
-            objet.x = keypoints[0].pt.x;
-            objet.y = keypoints[0].pt.y;
-            target.obj_ctr = objet;
-            target.obj_size = keypoints[0].size;
-            m_blob_pub.publish(target);
+                geometry_msgs::Pose2D objet;
+                sonia_common::FilterchainTarget target;
+
+                objet.x = keypoints[0].pt.x;
+                objet.y = keypoints[0].pt.y;
+                target.obj_ctr = objet;
+                target.obj_size = keypoints[0].size;
+                m_blob_pub.publish(target);
+            }
+            
         }
 
     private:

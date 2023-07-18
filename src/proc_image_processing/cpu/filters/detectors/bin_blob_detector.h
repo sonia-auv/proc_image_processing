@@ -2,13 +2,10 @@
 
 #pragma once
 
-#include <proc_image_processing/cpu/algorithm/general_function.h>
-#include <proc_image_processing/cpu/algorithm/object_full_data.h>
-#include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
-#include <proc_image_processing/cpu/algorithm/line.h>
 #include <proc_image_processing/cpu/filters/filter.h>
-#include <proc_image_processing/cpu/server/target.h>
 #include <memory>
+#include <sonia_common/FilterchainTarget.h>
+
 
 namespace proc_image_processing {
 
@@ -16,8 +13,8 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BinBlobDetector>;
 
-        explicit BinBlobDetector(const GlobalParameterHandler &globalParams)
-                : Filter(globalParams),
+        explicit BinBlobDetector(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp)
+                : Filter(globalParams, nhp),
               m_area_filter("Enable area filter", false, &parameters_,"Choose to filter by blob area or not"),
               m_area_min("Min Area", 0, 0, INT_MAX, &parameters_,"Area of the blob"),
               m_area_max("Max Area", INT_MAX, 0, INT_MAX, &parameters_,"Area of the blob"),
@@ -29,6 +26,7 @@ namespace proc_image_processing {
               m_conv_max("Max Convexity", 1, 0, 1, &parameters_,"Area of the Blob / Area of it’s convex hull")
         {
             setName("BinBlobDetector");
+            m_bin_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/bin_target", 100);
         }
 
 
@@ -68,29 +66,21 @@ namespace proc_image_processing {
             );
 
             if (blobs.size() >=2 ) {
-                Target target;
                 cv::KeyPoint object1 = blobs[0];
                 cv::KeyPoint object2 = blobs[1];
                 cv::Point center = (object1.pt + object2.pt) / 2;
-                target.setTarget("bin center",
-                                 center.x,
-                                 center.y,
-                                 1,
-                                 1,
-                                 0,
-                                 image.rows,
-                                 image.cols
-                );
-                notify(target);
 
-                cv::circle(
-                        image,
-                        center,
-                        3,
-                        CV_RGB(0, 255, 0),
-                        3
-                    );
+                cv::circle(image, center, 3, CV_RGB(0, 255, 0), CV_FILLED);
                 
+                geometry_msgs::Pose2D objet;
+                sonia_common::FilterchainTarget target;
+                cv::Point distance = object1.pt - object2.pt;
+
+                objet.x = center.x;
+                objet.y = center.y;
+                target.obj_ctr = objet;
+                target.obj_size = sqrt(distance.x^2+distance.y^2);
+                m_bin_pub.publish(target);
             }            
         }
 
@@ -105,6 +95,8 @@ namespace proc_image_processing {
         RangedParameter<double> m_iner_max;
         RangedParameter<double> m_conv_min;
         RangedParameter<double> m_conv_max;
+
+        ros::Publisher m_bin_pub;
     };
 
 }  // namespace proc_image_processing
