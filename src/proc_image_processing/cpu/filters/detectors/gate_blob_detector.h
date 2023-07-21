@@ -74,7 +74,7 @@ namespace proc_image_processing
                 gate[i][0] = keypointsb[i];
                 dif = 1300.0;
                 for(int j=0; j<keypointsr.size(); j++) {
-                    if(dif> abs(keypointsb[i].pt.x - keypointsr[j].pt.x)) {
+                    if(dif > abs(keypointsb[i].pt.x - keypointsr[j].pt.x) and abs(keypointsb[i].pt.x - keypointsr[j].pt.x) < 100) {
                         dif = abs(keypointsb[i].pt.x - keypointsr[j].pt.x);
                         gate[i][1] = keypointsr[j];
                     }
