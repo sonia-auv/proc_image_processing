@@ -6,6 +6,7 @@
 #include <memory>
 #include <sonia_common/FilterchainTarget.h>
 
+
 namespace proc_image_processing
 {
     class BlobDetector : public Filter
@@ -15,6 +16,7 @@ namespace proc_image_processing
 
         explicit BlobDetector(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp)
             : Filter(globalParams, nhp),
+              m_pub_name("Name of the target service", "blob_target", &parameters_),
               m_area_filter("Enable area filter", false, &parameters_,"Choose to filter by blob area or not"),
               m_area_min("Min Area", 0, 0, INT_MAX, &parameters_,"Area of the blob"),
               m_area_max("Max Area", INT_MAX, 0, INT_MAX, &parameters_,"Area of the blob"),
@@ -26,7 +28,6 @@ namespace proc_image_processing
               m_conv_max("Max Convexity", 1, 0, 1, &parameters_,"Area of the Blob / Area of it’s convex hull")
         {
             setName("BlobDetector");
-            m_blob_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/blob_target", 100);
         }
 
         ~BlobDetector() override = default;
@@ -38,6 +39,8 @@ namespace proc_image_processing
         */
         void apply(cv::Mat &image) override
         {
+            m_blob_pub = this->nhp_->advertise<sonia_common::FilterchainTarget>("/proc_image_processing/" + m_pub_name(), 100);
+
             cv::SimpleBlobDetector::Params params;
 
             params.filterByArea=m_area_filter();
@@ -90,6 +93,8 @@ namespace proc_image_processing
         }
 
     private:
+
+        Parameter<std::string> m_pub_name;
        
         Parameter<bool> m_area_filter;
         RangedParameter<int> m_area_min;
