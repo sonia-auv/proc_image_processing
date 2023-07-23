@@ -40,8 +40,8 @@ namespace proc_image_processing {
             sonia_common::BoundingBox2D cntr;
             geometry_msgs::Pose2D pose;
 
-            pose.x = image.cols/2;
-            pose.y = image.rows/2;
+            pose.x = image.cols/2 - origin_x_();
+            pose.y = image.rows/2 - origin_y_();
 
             cntr.center = pose;
             cntr.size_x = center_width_();
