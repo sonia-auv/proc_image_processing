@@ -40,39 +40,47 @@ namespace proc_image_processing
 
             cv::drawContours(image, contours, -1, cv::Scalar(0, 255, 0), 2);
 
-            for(int i=0; i <contours.size(); i++){
-                if(cv::contourArea(contours[i]) < 225000){
-                    cv:: RotatedRect rect = cv::minAreaRect(contours[i]);
-                    double angle = rect.angle;
-                    cv::Rect2f rect2 = rect.boundingRect2f();
+            
+            std::sort(
+                    contours.begin(),
+                    contours.end(),
+                    [](std::vector<cv::Point> a, std::vector<cv::Point> b) -> bool {
+                        return a.size() > b.size();
+                    }
+            );
+
+            if(contours.size() > 1){
+                cv:: RotatedRect rect = cv::minAreaRect(contours[1]);
+                double angle = rect.angle;
+                cv::Rect2f rect2 = rect.boundingRect2f();
                     
-                    if(rect2.width > rect2.height){
-                        angle = -(angle + 90);
-                    }
-
-                    if(angle > 45){
-                        angle = 90 - angle;
-                    }
-
-                    if(angle < -45){
-                        angle = angle + 90;
-                    }
-
-                    if(m_show_angle()){
-                        cv::putText(image, std::to_string((int)angle), rect.center, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0));
-                    }
-
-                    geometry_msgs::Pose2D objet;
-                    sonia_common::FilterchainTargetAngle target;
-
-                    objet.x = rect.center.x;
-                    objet.y = rect.center.y;
-                    target.obj_ctr = objet;
-                    target.obj_size = rect2.area();
-                    target.obj_angle = angle;
-                    m_pipe_pub.publish(target);
+                if(rect2.width > rect2.height){
+                    angle = -(angle + 90);
                 }
+
+                if(angle > 45){
+                    angle = 90 - angle;
+                }
+
+                if(angle < -45){
+                    angle = angle + 90;
+                }
+
+                if(m_show_angle()){
+                    cv::putText(image, std::to_string((int)angle), rect.center, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0));
+                }
+
+                geometry_msgs::Pose2D objet;
+                sonia_common::FilterchainTargetAngle target;
+
+                objet.x = rect.center.x;
+                objet.y = rect.center.y;
+                target.obj_ctr = objet;
+                target.obj_size = rect2.area();
+                target.obj_angle = angle;
+                m_pipe_pub.publish(target);
             }
+            
 
             
         }

@@ -25,6 +25,7 @@
 #include <proc_image_processing/cpu/filters/low_pass/equalize_histogram_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/erode_filter.h>
 #include <proc_image_processing/cpu/filters/detectors/fence_detector.h>
+#include <proc_image_processing/cpu/filters/detectors/gate_angle_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/gate_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/gate_blob_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/gate_symbol_detector.h>
