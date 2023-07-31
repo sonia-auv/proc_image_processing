@@ -2,7 +2,7 @@ name: Docker Image CI - Feature Branch
 
 on:
   push:
-    branches: [ feature/** ]
+    branches: [ feature/**, fix/** ]
 
 jobs:
   build-ros-perception-x86-64:
@@ -54,7 +54,7 @@ jobs:
       - name: Login to Github Package Registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
+          
       - name: Install QEMU to be able to compile on X86 into ARM64
         run: |
           sudo apt-get update
