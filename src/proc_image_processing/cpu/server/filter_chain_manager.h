@@ -41,12 +41,13 @@ namespace proc_image_processing {
 
         /**
          * If the filterchain exists, this method will create
-         * an ins
-         *
-         * \param filter_chain_name std::string
+         * an ins with the node handler
+         * 
+         * \param filter_chain_name std::string 
+         * \param nh_ ros::NodeHandle
          * \return FilterChain*
-         */
-        FilterChain::Ptr createFilterChain(const std::string &filter_chain_name);
+        */
+        FilterChain::Ptr createFilterChain(const std::string &filter_chain_name, ros::NodeHandlePtr nhp);
 
         /**
          * Pass through the list of all the filterchains and instanciate them

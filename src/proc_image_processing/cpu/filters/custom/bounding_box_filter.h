@@ -5,6 +5,7 @@
 
 #include "proc_image_processing/cpu/filters/filter.h"
 #include <memory>
+#include <sonia_common/BoundingBox2D.h>
 
 namespace proc_image_processing {
 
@@ -12,8 +13,8 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<BoundingBoxFilter>;
 
-        explicit BoundingBoxFilter(const GlobalParameterHandler &globalParams) :
-                Filter(globalParams),
+        explicit BoundingBoxFilter(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp) :
+                Filter(globalParams, nhp),
                 width_("Width", 0, 0, 600, &parameters_, "Width"),
                 heigth_("Height", 0, 0, 600, &parameters_, "Heigth"),
                 origin_x_("Origin X", 0, -300, 300, &parameters_, "Origin X"),
@@ -23,16 +24,30 @@ namespace proc_image_processing {
                 center_heigth_("Center Height", 0, 0, 600, &parameters_, "Heigth"),
                 center_thickness_("Center Thickness", 1, 1, 10, &parameters_, "Thickness") {
             setName("BoundingBoxFilter");
+            m_box_pub = this->nhp_->advertise<sonia_common::BoundingBox2D>("/proc_image_processing/gate_box", 100);
         }
 
         ~BoundingBoxFilter() override = default;
 
         void apply(cv::Mat &image) override {
+            ROS_INFO("Image aquired");
             cv::Rect rect((image.cols/2)+origin_x_()-width_()/2, (image.rows/2)-origin_y_()-heigth_()/2, width_(), heigth_());
             cv::Rect center_rect((image.cols/2)+origin_x_()-center_width_()/2, (image.rows/2)-origin_y_()-center_heigth_()/2, center_width_(), center_heigth_());
 
             cv::rectangle(image, rect, cv::Scalar(0,255,0), thickness_());
             cv::rectangle(image, center_rect, cv::Scalar(255,0,0), center_thickness_());
+
+            sonia_common::BoundingBox2D cntr;
+            geometry_msgs::Pose2D pose;
+
+            pose.x = image.cols/2 - origin_x_();
+            pose.y = image.rows/2 - origin_y_();
+
+            cntr.center = pose;
+            cntr.size_x = center_width_();
+            cntr.size_y = center_heigth_();
+
+            m_box_pub.publish(cntr);
         }
 
     private:
@@ -45,6 +60,8 @@ namespace proc_image_processing {
         RangedParameter<int> center_width_;
         RangedParameter<int> center_heigth_;
         RangedParameter<int> center_thickness_;
+
+        ros::Publisher m_box_pub;
     };
 
 }  // namespace proc_image_processing

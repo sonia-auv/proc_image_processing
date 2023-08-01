@@ -7,6 +7,7 @@
 #include <proc_image_processing/cpu/server/target.h>
 #include <proc_image_processing/cpu/algorithm/performance_evaluator.h>
 #include <ros/console.h>
+#include <ros/ros.h>
 #include <memory>
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc_c.h>
@@ -19,7 +20,19 @@ namespace proc_image_processing {
     public:
         using Ptr = std::shared_ptr<Filter>;
 
-        explicit Filter(const GlobalParameterHandler &globalParams);
+        explicit Filter(const GlobalParameterHandler &globalParams)
+            : global_param_handler_(const_cast<GlobalParameterHandler &>(globalParams)),
+            // enable_("Enable", false, &parameters_),
+            // Explicit construction not needed here... Just reminder it exist.
+              parameters_() {
+        }
+
+        explicit Filter(const GlobalParameterHandler &globalParams, ros::NodeHandlePtr nhp)
+            : global_param_handler_(const_cast<GlobalParameterHandler &>(globalParams)), nhp_(nhp),
+            // enable_("Enable", false, &parameters_),
+            // Explicit construction not needed here... Just reminder it exist.
+            parameters_() {
+        }
 
         virtual ~Filter() = default;
 
@@ -56,6 +69,7 @@ namespace proc_image_processing {
         GlobalParameterHandler &global_param_handler_;
         std::vector<ParameterInterface *> parameters_;
         std::string name_;
+        ros::NodeHandlePtr nhp_;
 
     private:
         virtual void apply(cv::Mat &image) = 0;

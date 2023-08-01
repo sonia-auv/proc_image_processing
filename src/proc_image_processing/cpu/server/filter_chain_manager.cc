@@ -50,24 +50,18 @@ namespace proc_image_processing {
         );
     }
 
-    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filter_chain_name) {
+    FilterChain::Ptr FilterChainManager::createFilterChain(const std::string &filter_chain_name, ros::NodeHandlePtr nhp) {
         if (filterChainExists(filter_chain_name)) {
             auto filter_chain = std::make_shared<FilterChain>(
                     filter_chain_name,
-                    kFilterChainPath
+                    kFilterChainPath,
+                    nhp
             );
             running_filter_chains_.push_back(filter_chain);
             ROS_INFO("Filter chain %s is ready.", filter_chain_name.c_str());
             return filter_chain;
         }
         throw std::invalid_argument("Could not find the given filter chain");
-    }
-
-    const std::vector<FilterChain::Ptr> &FilterChainManager::createAllFilterChains() {
-        for (const auto &filter_chain : getFilterChainsNames()) {
-            createFilterChain(filter_chain);
-        }
-        return getRunningFilterChains();
     }
 
     void FilterChainManager::stopFilterChain(const FilterChain::Ptr &filter_chain) {

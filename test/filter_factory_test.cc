@@ -5,138 +5,139 @@
 TEST(FilterFactoryTest, TestCreateInstance) {
     proc_image_processing::GlobalParameterHandler handler;
     std::shared_ptr<proc_image_processing::Filter> f;
+    ros::NodeHandlePtr nhp;
 
-    f = proc_image_processing::FilterFactory::createInstance("AccumulatorFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("AccumulatorFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::AccumulatorFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("AdaptiveThresholdFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("AdaptiveThresholdFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::AdaptiveThresholdFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("BackgroundSubtractFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("BackgroundSubtractFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::BackgroundSubtractFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("BilateralFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("BilateralFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::BilateralFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("BlurFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("BlurFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::BlurFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("CannyFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("CannyFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::CannyFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("CenterDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("CenterDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::CenterDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("CLAHEFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("CLAHEFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::CLAHEFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("ContrastAndBrightnessFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("ContrastAndBrightnessFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::ContrastAndBrightnessFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("ConvexHullFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("ConvexHullFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::ConvexHullFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("CropFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("CropFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::CropFilter *>(f.get()), nullptr);
 
     // TODO breaks the CI (hangs)
-    // f = proc_image_processing::FilterFactory::createInstance("Deep2019Filter", handler);
+    // f = proc_image_processing::FilterFactory::createInstance("Deep2019Filter", handler, nhp);
     // ASSERT_NE(dynamic_cast<proc_image_processing::Deep2019Filter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("DilateFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("DilateFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::DilateFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("EqualizeHistogramFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("EqualizeHistogramFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::EqualizeHistogramFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("ErodeFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("ErodeFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::ErodeFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("FenceDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("FenceDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::FenceDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("GateDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("GateDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::GateDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("HandleDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("HandleDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::HandleDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("HideSubmarineFrameFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("HideSubmarineFrameFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::HideSubmarineFrameFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("HoughLineFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("HoughLineFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::HoughLineFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("HSVThresholdFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("HSVThresholdFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::HSVThresholdFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("InRangeFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("InRangeFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::InRangeFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("IntervalThresholdFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("IntervalThresholdFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::IntervalThresholdFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("LaplacianFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("LaplacianFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::LaplacianFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("MissionTestFakeStringFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("MissionTestFakeStringFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::MissionTestFakeStringFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("MorphologyFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("MorphologyFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::MorphologyFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("OriginalImageFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("OriginalImageFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::OriginalImageFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("PipeAngleDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("PipeAngleDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::PipeAngleDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("RemoveMaskFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("RemoveMaskFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::RemoveMaskFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("RotateFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("RotateFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::RotateFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("ScharrAddingFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("ScharrAddingFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::ScharrAddingFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("ScharrFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("ScharrFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::ScharrFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("SobelFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("SobelFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::SobelFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("SquareDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("SquareDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::SquareDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("StatisticalThresholdFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("StatisticalThresholdFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::StatisticalThresholdFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("SubtractAllPlanesFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("SubtractAllPlanesFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::SubtractAllPlanesFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("SubtractPlaneAdderFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("SubtractPlaneAdderFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::SubtractPlaneAdderFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("TestFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("TestFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::TestFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("ThresholdFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("ThresholdFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::ThresholdFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("VampireBodyDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("VampireBodyDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::VampireBodyDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("VampireTorpedoesCloseDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("VampireTorpedoesCloseDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::VampireTorpedoesCloseDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("VampireTorpedoesDetector", handler);
+    f = proc_image_processing::FilterFactory::createInstance("VampireTorpedoesDetector", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::VampireTorpedoesDetector *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("WhiteFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("WhiteFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::WhiteFilter *>(f.get()), nullptr);
 
-    f = proc_image_processing::FilterFactory::createInstance("WhiteNoiseRemovalFilter", handler);
+    f = proc_image_processing::FilterFactory::createInstance("WhiteNoiseRemovalFilter", handler, nhp);
     ASSERT_NE(dynamic_cast<proc_image_processing::WhiteNoiseRemovalFilter *>(f.get()), nullptr);
 }
 
