@@ -64,13 +64,6 @@ namespace proc_image_processing {
         throw std::invalid_argument("Could not find the given filter chain");
     }
 
-    // const std::vector<FilterChain::Ptr> &FilterChainManager::createAllFilterChains() {
-    //     for (const auto &filter_chain : getFilterChainsNames()) {
-    //         createFilterChain(filter_chain);
-    //     }
-    //     return getRunningFilterChains();
-    // }
-
     void FilterChainManager::stopFilterChain(const FilterChain::Ptr &filter_chain) {
         auto instance = std::find(
                 running_filter_chains_.begin(),
