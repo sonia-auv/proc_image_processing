@@ -18,6 +18,7 @@
 #include <proc_image_processing/cpu/filters/detectors/contour_detector.h>
 #include <proc_image_processing/cpu/filters/low_pass/contrast_and_brightness_filter.h>
 #include <proc_image_processing/cpu/filters/high_pass/convex_hull_filter.h>
+#include <proc_image_processing/cpu/filters/detectors/corners_detector.h>
 #include <proc_image_processing/cpu/filters/transformations/crop_filter.h>
 #include <proc_image_processing/cpu/filters/custom/deep_filter.h>
 #include <proc_image_processing/cpu/filters/transformations/dilate_filter.h>
@@ -43,6 +44,7 @@
 #include <proc_image_processing/cpu/filters/detectors/obstacle_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/orb_sift_match.h>
 #include <proc_image_processing/cpu/filters/custom/original_image_filter.h>
+#include <proc_image_processing/cpu/filters/low_pass/outline.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_angle_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_detector.h>
 #include <proc_image_processing/cpu/filters/detectors/pipe_straight_detector.h>

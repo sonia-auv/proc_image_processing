@@ -49,6 +49,9 @@ namespace proc_image_processing {
 	else if(name == "ConvexHullFilter"){
 		return std::make_unique<ConvexHullFilter>(gph);
 	}
+	else if(name == "CornersDetector"){
+		return std::make_unique<CornersDetector>(gph, nhp);
+	}
 	else if(name == "CropFilter"){
 		return std::make_unique<CropFilter>(gph);
 	}
@@ -123,6 +126,9 @@ namespace proc_image_processing {
 	}
 	else if(name == "OriginalImageFilter"){
 		return std::make_unique<OriginalImageFilter>(gph);
+	}
+	else if(name == "Outline"){
+		return std::make_unique<Outline>(gph);
 	}
 	else if(name == "PipeAngleDetector"){
 		return std::make_unique<PipeAngleDetector>(gph);
@@ -222,6 +228,7 @@ namespace proc_image_processing {
 		"ContourDetector;"
 		"ContrastAndBrightnessFilter;"
 		"ConvexHullFilter;"
+		"CornersDetector;"
 		"CropFilter;"
 		"DeepFilter;"
 		"DilateFilter;"
@@ -247,6 +254,7 @@ namespace proc_image_processing {
 		"ObstacleDetector;"
 		"OrbSiftMatch;"
 		"OriginalImageFilter;"
+		"Outline;"
 		"PipeAngleDetector;"
 		"PipeDetector;"
 		"PipeStraightDetector;"
