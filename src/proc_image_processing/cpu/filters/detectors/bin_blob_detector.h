@@ -7,6 +7,7 @@
 #include <sonia_common/FilterchainTarget.h>
 
 
+
 namespace proc_image_processing {
 
     class BinBlobDetector : public Filter {

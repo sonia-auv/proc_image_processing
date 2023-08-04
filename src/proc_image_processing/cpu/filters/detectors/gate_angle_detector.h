@@ -51,7 +51,7 @@ namespace proc_image_processing
                 double angle = rect.angle;
                 cv::Rect2f rect2 = rect.boundingRect2f();
 
-                cv::Point2f* points = new cv::Point2f();
+                cv::Point2f points[4];
                 rect.points(points);
 
                 try{
@@ -63,9 +63,6 @@ namespace proc_image_processing
                     }
                 }catch(std::exception e){}
                 
-
-                delete points;
-
                 geometry_msgs::Pose2D objet;
                 sonia_common::FilterchainTarget target;
 
